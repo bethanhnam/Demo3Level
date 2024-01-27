@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EndLine : MonoBehaviour
@@ -13,14 +14,17 @@ public class EndLine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-	private void OnCollisionEnter2D(Collision2D collision)
-	{
-		if(collision.gameObject.tag == "Iron")
+        if(InputManager.instance.numOfIronPlate <=0)
         {
-            Destroy(collision.gameObject);
-            InputManager.instance.numOfIronPlate--;
+            GameManager.instance.CheckLevel(); 
         }
+    }
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.gameObject.tag == "Iron")
+		{
+			Destroy(collision.gameObject);
+			InputManager.instance.numOfIronPlate--;
+		}
 	}
 }
