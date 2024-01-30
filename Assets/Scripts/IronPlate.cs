@@ -30,14 +30,7 @@ public class IronPlate : MonoBehaviour
 		checkHinge();
 	}
 
-	private void OnDrawGizmos()
-	{
-		foreach (var centerPoint in centerPoints)
-		{
-			Gizmos.color = Color.black;
-			Gizmos.DrawWireSphere(centerPoint, 0.2f);
-		}
-	}
+	
 	public void setPoint()
 	{
 		for (int i = 0; i < holes.Length; i++)
@@ -59,7 +52,7 @@ public class IronPlate : MonoBehaviour
 	public bool checkHitPoint(Vector2 holePosition)
 	{
 		result = false;
-		radius = holes[0].GetComponent<CircleCollider2D>().radius / 2;
+		radius = holes[0].GetComponent<CircleCollider2D>().radius / 4;
 		float reference = radius;
 		for (int i = 0; i < centerPoints.Length; i++)
 		{
@@ -72,22 +65,30 @@ public class IronPlate : MonoBehaviour
 		}
 		return result;
 	}
-	public bool checkNail( Vector2 holePosition)
+	private void OnDrawGizmos()
 	{
-		result = false;
-		radius = holes[0].GetComponent<CircleCollider2D>().radius / 2;
-		float reference = radius;
-		for (int i = 0; i < centerPoints.Length; i++)
+		foreach (var centerPoint in centerPoints)
 		{
-			float distance = Vector2.Distance(holePosition, centerPoints[i]);
-			if (distance < reference)
-			{
-				selectedhole = i;
-				result = true;
-			}
+			Gizmos.color = Color.black;
+			Gizmos.DrawWireSphere(centerPoint,radius );
 		}
-		return result;
 	}
+	//public bool checkNail( Vector2 holePosition)
+	//{
+	//	result = false;
+	//	radius = holes[0].GetComponent<CircleCollider2D>().radius / 2;
+	//	float reference = radius;
+	//	for (int i = 0; i < centerPoints.Length; i++)
+	//	{
+	//		float distance = Vector2.Distance(holePosition, centerPoints[i]);
+	//		if (distance < reference)
+	//		{
+	//			selectedhole = i;
+	//			result = true;
+	//		}
+	//	}
+	//	return result;
+	//}
 	private void checkHinge()
 	{
 		foreach(var hinge in hingeJoint2Ds)
@@ -109,5 +110,9 @@ public class IronPlate : MonoBehaviour
 		{
 			holes[i].GetComponent<NailDetector>().hingeJoint2D  = hingeJoint2Ds[i];
 		}
+	}
+	public HingeJoint2D GetHinge()
+	{
+		return hingeJoint2Ds[selectedHinge];
 	}
 }
