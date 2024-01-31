@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 	public bool endgame = false;
 	public LevelManager levelManager;
 	public int targetFPS = 30;
+	public int numOfTicket;
+	public bool deleting;
 
 	private void Start()
 	{
@@ -21,8 +23,6 @@ public class GameManager : MonoBehaviour
 		}
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = targetFPS;
-		// Load level from prefab
-		levelManager.LoadLevel(currentLevel);
 	}
 
 	private void Update()
@@ -51,5 +51,10 @@ public class GameManager : MonoBehaviour
 	{
 		checkLevel = 0;
 		levelManager.LoadLevel(currentLevel);
+	}
+	public void DeteleNail()
+	{
+		// dừng đồng hồ đếm lại
+		
 	}
 }

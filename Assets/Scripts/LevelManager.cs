@@ -11,6 +11,10 @@ public class LevelManager : MonoBehaviour
 
 	private void Start()
 	{
+		if (instance == null)
+		{
+			instance = this;
+		}
 		levelCount = levels.Count;
 	}
 	public void LoadLevel(int currentLevel)
@@ -21,7 +25,7 @@ public class LevelManager : MonoBehaviour
 		if (levelPrefab != null)
 		{
 			// Instantiate prefab as a new instance in the scene
-			GameObject levelInstance = Instantiate(levelPrefab);
+			GameObject levelInstance = Instantiate(levelPrefab,Vector2.zero,Quaternion.identity);
 
 			// Set the level instance as a child of a parent transform if needed
 			levelInstance.transform.SetParent(transform);

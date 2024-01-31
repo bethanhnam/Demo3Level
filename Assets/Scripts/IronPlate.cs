@@ -65,14 +65,15 @@ public class IronPlate : MonoBehaviour
 		}
 		return result;
 	}
-	private void OnDrawGizmos()
-	{
-		foreach (var centerPoint in centerPoints)
-		{
-			Gizmos.color = Color.black;
-			Gizmos.DrawWireSphere(centerPoint,radius );
-		}
-	}
+	//private void OnDrawGizmos()
+	//{
+	//	foreach (var centerPoint in centerPoints)
+	//	{
+	//		Gizmos.color = Color.black;
+	//		Gizmos.DrawWireSphere(centerPoint,radius );
+	//	}
+	//}
+
 	//public bool checkNail( Vector2 holePosition)
 	//{
 	//	result = false;

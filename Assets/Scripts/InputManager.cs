@@ -68,9 +68,14 @@ public class InputManager : MonoBehaviour
 		Ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		ironObjects = GameObject.FindGameObjectsWithTag("Iron");
 		numOfIronPlate = ironObjects.Length;
-
-		selectHole();
-
+		if (GameManager.instance.deleting != true)
+		{
+			selectHole();
+		}
+		else
+		{
+			selectDeteleNail();
+		}
 	}
 	//private void checkNails()
 	//{
@@ -135,15 +140,15 @@ public class InputManager : MonoBehaviour
 								//lấy nail
 								selectedNail = selectedHole.GetComponent<Hole>().getNail();
 								// animation select nail
-									selectNailPrefabAnimation = Instantiate(selectNailPrefab, new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), quaternion.identity, transform);
-									//highLight nail đang được chọn
-									selectNailPrefabAnimation.GetComponentInChildren<SpriteRenderer>().color = Color.green;
-									// tắt sprite của nail tại vị trí đang lấy
-									selectedNail.GetComponent<SpriteRenderer>().sprite = null;
-									// chạy animation lấy nail
-									selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetTrigger("Select");
+								selectNailPrefabAnimation = Instantiate(selectNailPrefab, new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), quaternion.identity, transform);
+								//highLight nail đang được chọn
+								selectNailPrefabAnimation.GetComponentInChildren<SpriteRenderer>().color = Color.green;
+								// tắt sprite của nail tại vị trí đang lấy
+								selectedNail.GetComponent<SpriteRenderer>().sprite = null;
+								// chạy animation lấy nail
+								selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetTrigger("Select");
 							}
-							
+
 							if (preHole == null)
 							{
 								if (selectedHole != preHole)
@@ -305,7 +310,7 @@ public class InputManager : MonoBehaviour
 			selectNailPrefabAnimation.transform.position = new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y + 0.1f);
 			selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetTrigger("Deselect");
 			//huy animation deselect;
-			Destroy(selectNailPrefabAnimation,0.2f);
+			Destroy(selectNailPrefabAnimation, 0.2f);
 			return true;
 		}
 		return false;
@@ -334,6 +339,32 @@ public class InputManager : MonoBehaviour
 				iron.GetComponent<IronPlate>().hingeJoint2Ds[i].anchor = new Vector2(iron.GetComponent<IronPlate>().holes[i].transform.localPosition.x, iron.GetComponent<IronPlate>().holes[i].transform.localPosition.y);
 				iron.GetComponent<IronPlate>().hingeJoint2Ds[i].connectedAnchor = Vector2.zero;
 			}
+		}
+	}
+	public void selectDeteleNail()
+	{
+		if (Input.GetMouseButtonDown(0))
+		{
+			RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(Ray, 0.2f, Vector3.forward, iNSelectionLayer);
+			if (cubeHit.Length > 0)
+			{
+				foreach (RaycastHit2D ray in cubeHit)
+				{
+					if (ray.collider.tag == "Hole")
+					{
+						//chọn hố
+						selectedHole = ray.collider.gameObject;
+						if (ray.collider.GetComponent<Hole>().CheckNail() == true)
+						{
+							selectedNail = selectedHole.GetComponent<Hole>().getNail();
+							NailManager.instance.DestroyNail(selectedNail);
+							selectedHole.GetComponent<Hole>().setNail(null);
+							GameManager.instance.deleting = false;
+						}
+					}
+				}
+			}
+
 		}
 	}
 	public void setResource()

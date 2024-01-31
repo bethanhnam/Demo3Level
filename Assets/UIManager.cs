@@ -7,7 +7,8 @@ public class UIManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public static UIManager instance;
-    public GameObject BlockRayCast;
+    public MenuPanel menuPanel;
+    public GamePlayPanel gamePlayPanel;
     void Start()
     {
         if(instance == null)
@@ -20,13 +21,5 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         
-    }
-    public void Block()
-    {
-        BlockRayCast.SetActive(true);
-    }
-    public void UnBlock()
-    {
-        BlockRayCast.SetActive(false);
     }
 }
