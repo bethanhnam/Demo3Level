@@ -6,6 +6,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class InputManager : MonoBehaviour
 {
@@ -68,14 +69,15 @@ public class InputManager : MonoBehaviour
 		Ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		ironObjects = GameObject.FindGameObjectsWithTag("Iron");
 		numOfIronPlate = ironObjects.Length;
-		if (GameManager.instance.deleting != true)
-		{
-			selectHole();
-		}
-		else
-		{
-			selectDeteleNail();
-		}
+		selectHole();
+		//if (GameManager.instance.deleting != true)
+		//{
+		//	selectHole();
+		//}
+		//else
+		//{
+		//	selectDeteleNail();
+		//}
 	}
 	//private void checkNails()
 	//{
@@ -202,10 +204,31 @@ public class InputManager : MonoBehaviour
 			}
 		}
 	}
+	public bool checkAllin()
+	{
+		bool allin = false;
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), 0.15f);
+		foreach (Collider2D collider in colliders)
+		{
+			if (collider.transform.tag == "Iron")
+			{
+				if (!collider.GetComponent<IronPlate>().checkHitPoint(selectedHole.transform.position))
+				{
+					allin = false;
+					return false;
+				}
+				else
+				{
+					allin = true;
+				}
+			}
+		}
+		return allin;
+	}
 	private void placeNail()
 	{
 		bool hasIron = false;
-		int Hole = 0;
+		
 		if (Input.GetMouseButtonDown(0))
 		{
 			Vector2 Ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -213,29 +236,20 @@ public class InputManager : MonoBehaviour
 
 			if (Hit.Length > 0)
 			{
-				for (int i = 0; i < Hit.Length; i++)
+				foreach (RaycastHit2D hit in Hit)
 				{
-					if (Hit[i].collider.tag == "Hole")
-					{
-						Hole = i;
-					}
-				}
-				Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), 0.15f);
-				foreach (Collider2D collider in colliders)
-				{
-					if (collider.transform.tag == "Iron")
+					if (hit.transform.tag == "Iron")
 					{
 						hasIron = true;
-						if (collider.GetComponent<IronPlate>().checkHitPoint(selectedHole.transform.position))
-						{
-							if (createNailInIron())
-							{
-								NailManager.instance.DestroyNail(selectedNail);
-								selectedNail = null;
+					}
+				}
+				if(hasIron && checkAllin())
+				{
+					if (createNailInIron())
+					{
+						NailManager.instance.DestroyNail(selectedNail);
+						selectedNail = null;
 
-							}
-
-						}
 					}
 				}
 				if (!hasIron)
@@ -254,6 +268,8 @@ public class InputManager : MonoBehaviour
 	{
 		if (selectedHole.GetComponent<Hole>().CheckNail() == false)
 		{
+			//tạo nail tại vị trí mới
+			StartCoroutine(SpawnNail());
 			if (preHingeJoint2D != null)
 			{
 				foreach (var hinge in preHingeJoint2D)
@@ -267,8 +283,7 @@ public class InputManager : MonoBehaviour
 				}
 				preHingeJoint2D.Clear();
 			}
-			//tạo nail tại vị trí mới
-			StartCoroutine(SpawnNail());
+			
 			// tạo animation deselect tại vị trí mới
 			selectNailPrefabAnimation.transform.position = new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y + 0.1f);
 			selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetTrigger("Deselect");

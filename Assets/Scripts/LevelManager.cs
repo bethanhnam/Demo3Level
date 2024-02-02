@@ -21,22 +21,26 @@ public class LevelManager : MonoBehaviour
 	{
 		// Load prefab of the new level
 		GameObject levelPrefab = levels[currentLevel];
+		SaveSystem.instance.SetLevel(currentLevel);
+		SaveSystem.instance.SaveData();
 
 		if (levelPrefab != null)
 		{
 			// Instantiate prefab as a new instance in the scene
-			GameObject levelInstance = Instantiate(levelPrefab,Vector2.zero,Quaternion.identity);
+			GameObject levelInstance = Instantiate(levelPrefab,Vector3.zero,Quaternion.identity);
 
 			// Set the level instance as a child of a parent transform if needed
 			levelInstance.transform.SetParent(transform);
 
 			// Store the reference to the new level instance
 			levelInstances.Add(levelInstance);
+			GameManager.instance.currentLevel = currentLevel;
 		}
 		else
 		{
 			Debug.LogError("Level prefab not found!");
 		}
+		//InputManager.instance.setHinge();
 	}
 
 	public void RemoveLevel(int prelevel)

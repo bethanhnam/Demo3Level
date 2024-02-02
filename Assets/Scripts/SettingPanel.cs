@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EndLine : MonoBehaviour
+public class SettingPanel : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -15,12 +15,18 @@ public class EndLine : MonoBehaviour
     {
         
     }
-	private void OnCollisionEnter2D(Collision2D collision)
-	{
-		if(collision.gameObject.tag == "Iron")
+    public void Open()
+    {
+        if (!this.gameObject.activeSelf)
         {
-            Destroy(collision.gameObject);
-            InputManager.instance.numOfIronPlate--;
+            this.gameObject.SetActive(true);
         }
+    }
+    public void Close()
+    {
+		if (this.gameObject.activeSelf)
+		{
+			this.gameObject.SetActive(false);
+		}
 	}
 }
