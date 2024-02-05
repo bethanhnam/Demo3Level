@@ -6,9 +6,10 @@ using UnityEngine;
 public class Level : MonoBehaviour
 {
 	public static Level instance;
-    public GameObject[] levels;
+	public StageManager stageManager;
 
-    public int stage = 0;
+
+	public int stage = 0;
 
 	private void Start()
 	{
@@ -17,15 +18,22 @@ public class Level : MonoBehaviour
 			instance = this;
 		}
 		LoadStage(stage);
+		UIManager.instance.gamePlayPanel.level.Lv1.sprite = UIManager.instance.gamePlayPanel.level.done;
+		UIManager.instance.gamePlayPanel.level.Lv2.sprite = UIManager.instance.gamePlayPanel.level.notDone;
 	}
 	public void CheckLevel()
 	{
-		StageManager.instance.RemoveLevel(stage);
-		UIManager.instance.chestPanel.Open();
-		if (stage >= levels.Length)
+		stageManager.RemoveLevel(stage);
+		if (stage >= stageManager.levels.Count)
 		{
-			GameManager.instance.LoadLevel();
-
+			UIManager.instance.chestPanel.Open();
+			UIManager.instance.gamePlayPanel.level.Lv1.sprite = UIManager.instance.gamePlayPanel.level.notDone;
+			UIManager.instance.gamePlayPanel.level.Lv2.sprite = UIManager.instance.gamePlayPanel.level.notDone;
+		}
+		else
+		{
+			LoadStage(stage);
+			UIManager.instance.gamePlayPanel.level.Lv2.sprite = UIManager.instance.gamePlayPanel.level.done;
 		}
 	}
 	public void LoadStage(int stage)
@@ -40,12 +48,8 @@ public class Level : MonoBehaviour
 		{
 
 		}
-		StageManager.instance.LoadStage(stage);
+		stageManager.LoadStage(stage);
+		this.stage++;
 
-	}
-	public void NextStage()
-	{
-		stage++;
-		LoadStage(stage);
 	}
 }

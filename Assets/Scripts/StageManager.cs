@@ -31,7 +31,6 @@ public class StageManager : MonoBehaviour
 
 			// Store the reference to the new level instance
 			levelInstances.Add(stageInstance);
-			Level.instance.stage = currentStage;
 		}
 		else
 		{

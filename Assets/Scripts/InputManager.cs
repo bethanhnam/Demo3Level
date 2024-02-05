@@ -42,6 +42,9 @@ public class InputManager : MonoBehaviour
 	public GameObject[] holeObjects;
 	//vi tri chuot
 	Vector2 Ray;
+
+	//
+	public NailManager nailManager;
 	//lưu tài nguyên sau từng chuyển động
 	public bool hasSave;
 
@@ -58,6 +61,7 @@ public class InputManager : MonoBehaviour
 	public List<Vector3> nailObjectsTransformBeforemove = new List<Vector3>();
 
 	public int numOfIronPlate;
+	
 	private void Awake()
 	{
 		iNSelectionLayer = LayerMask.GetMask("Hole");
@@ -66,9 +70,14 @@ public class InputManager : MonoBehaviour
 
 	}
 	// Start is called before the first frame update
+	
 	void Start()
 	{
 		if (instance == null)
+		{
+			instance = this;
+		}
+		if(instance !=this)
 		{
 			instance = this;
 		}
@@ -76,6 +85,7 @@ public class InputManager : MonoBehaviour
 		ironObjects = GameObject.FindGameObjectsWithTag("Iron");
 		numOfIronPlate = ironObjects.Length;
 		Invoke("setHinge", 0.5f);
+		nailManager = FindFirstObjectByType<NailManager>();
 	}
 
 	// Update is called once per frame
@@ -254,7 +264,7 @@ public class InputManager : MonoBehaviour
 		{
 			Vector2 Ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			RaycastHit2D[] Hit = Physics2D.CircleCastAll(Ray, 0.2f, Vector3.forward, placeLayer);
-			RaycastHit2D[] HitHole = Physics2D.CircleCastAll(Ray, 0.17f, Vector3.forward, placeLayer);
+			RaycastHit2D[] HitHole = Physics2D.CircleCastAll(Ray, 0.08f, Vector3.forward, placeLayer);
 			if (HitHole.Length > 0)
 			{
 				foreach (RaycastHit2D collider in HitHole)
@@ -280,7 +290,7 @@ public class InputManager : MonoBehaviour
 						if (createNailInIron())
 						{
 
-							NailManager.instance.DestroyNail(selectedNail);
+							nailManager.DestroyNail(selectedNail);
 							selectedNail = null;
 
 						}
@@ -289,7 +299,7 @@ public class InputManager : MonoBehaviour
 				{
 					if (createNail())
 					{
-						NailManager.instance.DestroyNail(selectedNail);
+						nailManager.DestroyNail(selectedNail);
 						selectedNail = null;
 					}
 				}
@@ -375,7 +385,7 @@ public class InputManager : MonoBehaviour
 	IEnumerator SpawnNail()
 	{
 		preNail = selectedNail;
-		newNail = NailManager.instance.PoolNail(selectedHole.transform.position);
+		newNail = nailManager.PoolNail(selectedHole.transform.position);
 		preHole.GetComponent<Hole>().setNail(null);
 		selectedHole.GetComponent<Hole>().setNail(selectedNail);
 		if (newNail != selectedNail)
@@ -385,7 +395,7 @@ public class InputManager : MonoBehaviour
 	IEnumerator SpawnNailInIron()
 	{
 		preNail = selectedNail;
-		newNail = NailManager.instance.PoolNail(selectedHole.transform.position);
+		newNail = nailManager.PoolNail(selectedHole.transform.position);
 		selectedIron.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 		selectedIron.GetComponent<Rigidbody2D>().angularVelocity = Vector3.zero.magnitude;
 		selectedIron.GetComponent<Collider2D>().isTrigger = true;
@@ -413,6 +423,7 @@ public class InputManager : MonoBehaviour
 						if (ray.collider.GetComponent<Hole>().CheckNail() == true)
 						{
 							holeToDetele = ray.collider.gameObject;
+							ClearData();
 							SaveGameObject();
 							nailToDetele = holeToDetele.GetComponent<Hole>().getNail();
 							SetPreHinge(nailToDetele, preHingeJoint2DToDetele);
@@ -430,7 +441,7 @@ public class InputManager : MonoBehaviour
 								}
 								preHingeJoint2DToDetele.Clear();
 							}
-							NailManager.instance.DestroyNail(nailToDetele);
+							nailManager.DestroyNail(nailToDetele);
 							GameManager.instance.deleting = false;
 							UIManager.instance.gamePlayPanel.ButtonOn();
 							hasDelete = true;
@@ -463,9 +474,9 @@ public class InputManager : MonoBehaviour
 				ironObjectsRotationBeforemove.Add(ironObjectsBeforemove[i].transform.rotation);
 
 			}
-			for (int i = 0; i < NailManager.instance.nails.Count; i++)
+			for (int i = 0; i < nailManager.nails.Count; i++)
 			{
-				nailObjectsBeforemove.Add(NailManager.instance.nails[i]);
+				nailObjectsBeforemove.Add(nailManager.nails[i]);
 
 			}
 			for (int i = 0; i < nailObjectsBeforemove.Count; i++)
@@ -538,7 +549,7 @@ public class InputManager : MonoBehaviour
 								}
 							}
 						}
-						NailManager.instance.DestroyNail(newNail);
+						nailManager.DestroyNail(newNail);
 						preNail.SetActive(true);
 						holeBeforeMove.GetComponent<Hole>().setNail(preNail);
 						preNail.GetComponent<Collider2D>().isTrigger = true;
@@ -594,6 +605,11 @@ public class InputManager : MonoBehaviour
 			ironObjectsRotationBeforemove.Clear();
 			ironObjectsBeforemove.Clear();
 			ironObjectsTransformBeforemove.Clear();
+
+			//mới add
+			HingeJointBeforeRemove.Clear();
+			nailsJointBeforemove.Clear();
+
 			preNail = null;
 			newNail = null;
 			hasSave = false;

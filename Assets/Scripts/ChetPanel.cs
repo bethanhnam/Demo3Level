@@ -40,6 +40,7 @@ public class ChetPanel : MonoBehaviour
 			this.gameObject.SetActive(false);
 			UIManager.instance.gamePlayPanel.backFromChestPanel = true;
 			UIManager.instance.gamePlayPanel.Open();
+			//GameManager.instance.LoadLevelFromUI();
 		}
 	}
 }

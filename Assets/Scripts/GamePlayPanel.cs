@@ -118,13 +118,18 @@ public class GamePlayPanel : MonoBehaviour
 						levelManager.levelInstances.Clear();
 					}
 				}
-				if(backFromChestPanel == true)
+				if (backFromChestPanel == true)
 				{
 					gameManager.currentLevel++;
 					UIManager.instance.gamePlayPanel.deteleNailPanel.hasUse = false;
 					UIManager.instance.gamePlayPanel.undoPanel.hasUse = false;
+					gameManager.LoadLevelFromUI();
+					backFromChestPanel = false;
 				}
-				gameManager.LoadLevelFromUI();
+				else
+				{
+					gameManager.LoadLevelFromUI();
+				}
 				backFromChestPanel = false;
 				Settimer();
 				backFromPause = false;

@@ -30,7 +30,6 @@ public class PausePanel : MonoBehaviour
 			UIManager.instance.gamePlayPanel.timer.TimerOn = true;
 			GameManager.instance.hasUI = false;
 			UIManager.instance.gamePlayPanel.backFromPause = true;
-			GameManager.instance.hasUI = false;
 			UIManager.instance.gamePlayPanel.Open();
 
 
@@ -40,5 +39,6 @@ public class PausePanel : MonoBehaviour
 	{
 		Close();
 		GameManager.instance.Replay();
+		UIManager.instance.gamePlayPanel.backFromPause = false;
 	}
 }
