@@ -13,15 +13,25 @@ public class GamePlayPanel : MonoBehaviour
 	public HintImgPanel hintImgPanel;
 	public Timer timer;
 	public LosePanel losePanel;
+	public UndoPanel undoPanel;
+	public HardLevel hardLevel;
 
 	public Button RelayButton;
 	public Button HintButton;
 	public Button DeteleNailButton;
+	public Button UndoButton;
 	//public LosePanel winPanel;
+
+	public DisplayLevel level;
+
 	public TextMeshProUGUI levelText;
 
 	public GameManager gameManager;
 	public LevelManager levelManager;
+
+	public bool isPause = false;
+	public bool backFromPause = false;
+	public bool backFromChestPanel = false;
 
 	private void Start()
 	{
@@ -29,18 +39,30 @@ public class GamePlayPanel : MonoBehaviour
 	}
 	private void Update()
 	{
-		levelText.text = GameManager.instance.currentLevel.ToString();
-		if(GameManager.instance.deleting == true)
+		
+		levelText.text = (GameManager.instance.currentLevel + 1 ).ToString();
+		if (undoPanel.hasUse)
 		{
-			RelayButton.interactable = false;
-			HintButton.interactable = false;
-			DeteleNailButton.interactable =false;
+			UndoButton.interactable = false;
 		}
 		else
+			try
+			{
+				if (InputManager.instance.hasSave)
+				{
+					UndoButton.interactable = true;
+				}
+				else
+				{
+					UndoButton.interactable = false;
+				}
+			}
+			catch
+			{
+			}
+		if (deteleNailPanel.hasUse)
 		{
-			RelayButton.interactable = true;
-			HintButton.interactable = true;
-			DeteleNailButton.interactable = true;
+			DeteleNailButton.interactable = false;
 		}
 	}
 	public void OpenPausePanel()
@@ -69,27 +91,72 @@ public class GamePlayPanel : MonoBehaviour
 		deteleNailPanel.Open();
 		timer.TimerOn = false;
 	}
+	public void OpenUndoPanel()
+	{
+		undoPanel.Open();
+		timer.TimerOn = false;
+	}
+	public void OpenHardPanel()
+	{
+		hardLevel.Open();
+	}
 	public void Open()
 	{
 		if (!this.gameObject.activeSelf)
 		{
+			isPause = false;
 			this.gameObject.SetActive(true);
 			levelManager.gameObject.SetActive(true);
 			gameManager.gameObject.SetActive(true) ;
-			Settimer();
+			if (backFromPause == false)
+			{
+				if (levelManager.transform.childCount > 0)
+				{
+					if (levelManager.transform.GetChild(0) != null)
+					{
+						Destroy(levelManager.transform.GetChild(0).gameObject);
+						levelManager.levelInstances.Clear();
+					}
+				}
+				if(backFromChestPanel == true)
+				{
+					gameManager.currentLevel++;
+					UIManager.instance.gamePlayPanel.deteleNailPanel.hasUse = false;
+					UIManager.instance.gamePlayPanel.undoPanel.hasUse = false;
+				}
+				gameManager.LoadLevelFromUI();
+				backFromChestPanel = false;
+				Settimer();
+				backFromPause = false;
+			}
 			timer.TimerOn = true;
 		}
 	}
+
+	public void ButtonOff()
+	{
+		RelayButton.interactable = false;
+		HintButton.interactable = false;
+		DeteleNailButton.interactable = false;
+		UndoButton.interactable = false;
+	}
+	public void ButtonOn()
+	{
+		RelayButton.interactable = true;
+		HintButton.interactable = true;
+		DeteleNailButton.interactable = true;
+	}
+
 	public void Close()
 	{
 		if (this.gameObject.activeSelf)
 		{
-			gameManager.gameObject.SetActive(false);
+			isPause = true;
 			levelManager.gameObject.SetActive(false);
+			gameManager.gameObject.SetActive(false);
 			this.gameObject.SetActive(false);
 			GameManager.instance.deleting = false;
 			timer.TimerOn = false;
-			timer.SetTimer(0);
 		}
 	}
 	public void Settimer()

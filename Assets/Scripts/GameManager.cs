@@ -11,10 +11,12 @@ public class GameManager : MonoBehaviour
 	public int checkLevel = 0;
 	public bool endgame = false;
 	public LevelManager levelManager;
-	public int targetFPS = 60;
-	public int numOfTicket;
+	
+	public int numOfBlueTicket;
+	public int numOfSilverTicket;
 	public bool deleting;
 	public bool hasUI;
+	public bool hasMove;
 
 	private void Start()
 	{
@@ -22,50 +24,36 @@ public class GameManager : MonoBehaviour
 		{
 			instance = this;
 		}
-		QualitySettings.vSyncCount = 0;
-		Application.targetFrameRate = targetFPS;
 		
+
 	}
 	private void OnEnable()
 	{
-		StartCoroutine(LoadLevel());
-	}
-	private void OnDisable()
-	{
-		if (LevelManager.instance.transform.GetChild(0) != null)
+		try
 		{
-			Destroy(LevelManager.instance.transform.GetChild(0).gameObject);
-			LevelManager.instance.levelInstances.Clear();
+			numOfBlueTicket = SaveSystem.instance.GetBlueTicket();
+			numOfSilverTicket = SaveSystem.instance.GetSilverTicket();
 		}
+		catch
+		{
+
+		};
 	}
 	private void Update()
 	{
-		
+
 	}
 	public void CheckLevel()
 	{
-			levelManager.RemoveLevel(currentLevel);
-			if (checkLevel == 0)
-			{
-				currentLevel++;
-				checkLevel++;
-				if (currentLevel >= levelManager.levelCount)
-				{
-					currentLevel = 0;
-					//hiện win pop
-					//Invoke("NextLevel",0.2f);
-					return;
+		levelManager.RemoveLevel(currentLevel);
+		UIManager.instance.chestPanel.Open();
+		if (currentLevel >= levelManager.levelCount)
+		{
+			currentLevel = 0;
+			//hiện win pop
+			return;
 
-				}
-				Invoke("NextLevel", 0.2f);
-			UIManager.instance.gamePlayPanel.Settimer();
 		}
-
-	}
-	public void NextLevel()
-	{
-		checkLevel = 0;
-		StartCoroutine(LoadLevel());
 	}
 	public void Replay()
 	{
@@ -77,13 +65,31 @@ public class GameManager : MonoBehaviour
 				LevelManager.instance.levelInstances.Clear();
 				StartCoroutine(LoadLevel());
 				UIManager.instance.gamePlayPanel.Settimer();
+				UIManager.instance.gamePlayPanel.deteleNailPanel.hasUse = false;
+				UIManager.instance.gamePlayPanel.undoPanel.hasUse = false;
 			}
 		}
-		
+
 	}
-	 public IEnumerator LoadLevel()
+	public void LoadLevelFromUI()
 	{
-		yield return new WaitForSeconds(0.3f);
-		levelManager.LoadLevel(currentLevel);
+		StartCoroutine(LoadLevel());
 	}
+	public IEnumerator LoadLevel()
+	{
+		UIManager.instance.gamePlayPanel.ButtonOff();
+		yield return new WaitForSeconds(0.5f);
+		UIManager.instance.gamePlayPanel.ButtonOn();
+		try
+		{
+			InputManager.instance.hasSave = false;
+		}
+		catch
+		{
+
+		}
+		levelManager.LoadLevel(currentLevel);
+
+	}
+
 }

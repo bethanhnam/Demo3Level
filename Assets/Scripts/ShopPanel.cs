@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class ShopPanel : MonoBehaviour
 {
+	public GameObject panel;
 	public void Open()
 	{
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
+			panel.transform.localPosition = new Vector2(0, -816.35f);
 		}
 	}
 	public void Close()

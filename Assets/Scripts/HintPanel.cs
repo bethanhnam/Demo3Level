@@ -6,10 +6,11 @@ public class HintPanel : MonoBehaviour
 {
 	public void UseTicket()
 	{
-		if (GameManager.instance.numOfTicket > 0)
+		if (GameManager.instance.numOfSilverTicket > 0)
 		{
 			this.Close();
-			GameManager.instance.numOfTicket--;
+			GameManager.instance.numOfSilverTicket--;
+			SaveSystem.instance.SetTiket(GameManager.instance.numOfSilverTicket, GameManager.instance.numOfSilverTicket);
 			UIManager.instance.gamePlayPanel.ShowHint();
 		}
 	}

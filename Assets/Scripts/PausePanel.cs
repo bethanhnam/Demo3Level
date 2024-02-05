@@ -8,12 +8,9 @@ public class PausePanel : MonoBehaviour
 	public void Home()
 	{
 		this.Close();
+		UIManager.instance.gamePlayPanel.backFromPause =false;
 		UIManager.instance.gamePlayPanel.Close();
 		UIManager.instance.menuPanel.Open();
-	}
-	public void Hint()
-	{
-
 	}
 	public void Open()
 	{
@@ -21,6 +18,8 @@ public class PausePanel : MonoBehaviour
 		{
 			this.gameObject.SetActive(true);
 			GameManager.instance.hasUI = true;
+			GameManager.instance.hasUI = true;
+			UIManager.instance.gamePlayPanel.Close();
 		}
 	}
 	public void Close()
@@ -30,6 +29,16 @@ public class PausePanel : MonoBehaviour
 			this.gameObject.SetActive(false);
 			UIManager.instance.gamePlayPanel.timer.TimerOn = true;
 			GameManager.instance.hasUI = false;
+			UIManager.instance.gamePlayPanel.backFromPause = true;
+			GameManager.instance.hasUI = false;
+			UIManager.instance.gamePlayPanel.Open();
+
+
 		}
+	}
+	public void Retry()
+	{
+		Close();
+		GameManager.instance.Replay();
 	}
 }

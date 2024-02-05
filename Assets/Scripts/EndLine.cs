@@ -19,7 +19,8 @@ public class EndLine : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "Iron")
 		{
-			Destroy(collision.gameObject);
+			//Destroy(collision.gameObject);
+			collision.gameObject.SetActive(false);
 			InputManager.instance.numOfIronPlate--;
 
 			if (InputManager.instance.numOfIronPlate <= 0)

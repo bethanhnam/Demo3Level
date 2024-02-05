@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class DeteleNailPanel : MonoBehaviour
 {
+	public bool hasUse;
 	public void UseTicket()
 	{
-		if (GameManager.instance.numOfTicket > 0)
+		if (GameManager.instance.numOfSilverTicket > 0)
 		{
 			this.Close();
-			GameManager.instance.numOfTicket--;
+			GameManager.instance.numOfSilverTicket--;
+			SaveSystem.instance.SetTiket(GameManager.instance.numOfSilverTicket, GameManager.instance.numOfSilverTicket);
+			hasUse = true;
+			GameManager.instance.deleting = true;
+			UIManager.instance.gamePlayPanel.ButtonOff();
 		}
 	}
 	public void WatchAd()
@@ -18,6 +23,8 @@ public class DeteleNailPanel : MonoBehaviour
 		this.Close();
 		//xoá nail(Đồng hồ đếm giờ dừng lại)
 		GameManager.instance.deleting = true;
+		hasUse = true;
+		UIManager.instance.gamePlayPanel.ButtonOff();
 	}
 	public void Open()
 	{

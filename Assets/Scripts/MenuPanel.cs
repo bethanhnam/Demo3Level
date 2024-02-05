@@ -21,6 +21,7 @@ public class MenuPanel : MonoBehaviour
 	}
 	public void OpenSettingPanel()
 	{
+		this.Close();
 		settingPanel.Open();
 	}
 	public void OpenDailyPanel()

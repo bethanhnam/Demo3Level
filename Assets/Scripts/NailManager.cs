@@ -42,7 +42,7 @@ public class NailManager : MonoBehaviour
 			
 			GameObject a = Instantiate(nailPrefab, new Vector2(InputManager.instance.selectedHole.transform.position.x, InputManager.instance.selectedHole.transform.position.y), quaternion.identity,transform);
 			nails.Add(a);
-			Debug.Log("add khi chua co j ");
+			
 			return a;
 		}
 		else
@@ -52,7 +52,7 @@ public class NailManager : MonoBehaviour
 			{
 				a = Instantiate(nailPrefab, new Vector2(InputManager.instance.selectedHole.transform.position.x, InputManager.instance.selectedHole.transform.position.y), quaternion.identity,transform);
 				nails.Add(a);
-				Debug.Log("add khi null ");
+				
 				return a;
 			}
 			else
@@ -60,7 +60,7 @@ public class NailManager : MonoBehaviour
 				a.transform.position = spawnPosition;
 				a.SetActive(true);
 				nails.Remove(a);
-				Debug.Log("add");
+				
 				return a;
 			}
 		}

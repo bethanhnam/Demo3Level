@@ -26,7 +26,8 @@ public class Timer : MonoBehaviour
 			if(TimeLeft > 0)
 			{
 				TimeLeft -= Time.deltaTime;
-				
+				TimerText.color = Color.white;
+
 			}
 			else
 			{

@@ -20,6 +20,7 @@ public class LosePanel : MonoBehaviour
 		// load ad 
 		Close();
 		UIManager.instance.gamePlayPanel.timer.SetTimer(61f);
+		
 	}
 	public void Replay()
     {
@@ -32,6 +33,7 @@ public class LosePanel : MonoBehaviour
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
+			UIManager.instance.gamePlayPanel.Close();
 		}
 	}
 	public void Close()
@@ -40,6 +42,8 @@ public class LosePanel : MonoBehaviour
 		{
 			this.gameObject.SetActive(false);
 			UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+			UIManager.instance.gamePlayPanel.backFromPause = true;
+			UIManager.instance.gamePlayPanel.Open();
 		}
 	}
 }
