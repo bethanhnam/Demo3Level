@@ -38,8 +38,6 @@ public class HintImgPanel : MonoBehaviour
 	}
 	public void LoadHint()
 	{
-		if (GameManager.instance.currentLevel <= hintImgs.Count){
-			hintImg.sprite = hintImgs[GameManager.instance.currentLevel];
-		}
+			hintImg.sprite = LevelManager.instance.levelInstances[0].GetComponent<Level>().stageManager.levelInstances[0].GetComponent<Stage>().hintImg;
 	}
 }

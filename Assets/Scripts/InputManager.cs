@@ -396,14 +396,18 @@ public class InputManager : MonoBehaviour
 	{
 		preNail = selectedNail;
 		newNail = nailManager.PoolNail(selectedHole.transform.position);
+		newNail.GetComponent<Collider2D>().isTrigger = true;
+		selectedIron.GetComponent<Collider2D>().isTrigger = true;
 		selectedIron.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 		selectedIron.GetComponent<Rigidbody2D>().angularVelocity = Vector3.zero.magnitude;
-		selectedIron.GetComponent<Collider2D>().isTrigger = true;
+		selectedIron.GetComponent<Rigidbody2D>().freezeRotation = true;
 		preHole.GetComponent<Hole>().setNail(null);
 		//GameManager.instance.hasMove = true;
 		selectedHole.GetComponent<Hole>().setNail(selectedNail);
-		yield return new WaitForSeconds(0.08f);
+		yield return new WaitForSeconds(0.1f);
 		selectedIron.GetComponent<Collider2D>().isTrigger = false;
+		selectedIron.GetComponent<Rigidbody2D>().freezeRotation = false;
+		newNail.GetComponent<Collider2D>().isTrigger = false;
 		if (newNail != selectedNail)
 			StartCoroutine(SetdefaultSprite(newNail));
 		yield return newNail;
