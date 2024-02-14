@@ -13,6 +13,7 @@ public class IronPlate : MonoBehaviour
 	[SerializeField] private float radius;
 	public int selectedHinge = 0;
 	public bool result;
+	public List<HingeJoint2D> joints = new List<HingeJoint2D>();
 
 
 
@@ -52,7 +53,7 @@ public class IronPlate : MonoBehaviour
 	public bool checkHitPoint(Vector2 holePosition)
 	{
 		result = false;
-		radius = holes[0].GetComponent<CircleCollider2D>().radius / 4;
+		radius = holes[0].GetComponent<CircleCollider2D>().radius / 32;
 		float reference = radius;
 		for (int i = 0; i < centerPoints.Length; i++)
 		{
@@ -60,6 +61,7 @@ public class IronPlate : MonoBehaviour
 			if (distance < reference)
 			{
 				selectedHinge = i;
+				//hingeJoint2Ds[selectedHinge].anchor = new Vector2(holePosition.x, holePosition.y);
 				result = true;
 			}
 		}
@@ -97,11 +99,29 @@ public class IronPlate : MonoBehaviour
 			if(hinge.connectedBody == null)
 			{
 				hinge.enabled = false;
+				joints.Remove(hinge);
 			}
 			else
 			{
 				hinge.enabled = true;
 				hinge.connectedAnchor = Vector2.zero;
+				hinge.autoConfigureConnectedAnchor = true;
+				if (!joints.Contains(hinge))
+				{
+					joints.Add(hinge);
+				}
+				
+			}
+		}
+		if (hingeJoint2Ds.Length >= 3)
+		{
+			if (joints.Count >= hingeJoint2Ds.Length - 1)
+			{
+				this.GetComponent<Rigidbody2D>().freezeRotation = true;
+			}
+			else
+			{
+				this.GetComponent<Rigidbody2D>().freezeRotation = false;
 			}
 		}
 	}

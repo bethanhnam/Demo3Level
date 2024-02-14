@@ -234,7 +234,7 @@ public class InputManager : MonoBehaviour
 	public bool checkAllin()
 	{
 		bool allin = false;
-		Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), 0.2f);
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), 0.1f);
 		foreach (Collider2D collider in colliders)
 		{
 			if (collider.transform.tag == "Iron")
@@ -264,7 +264,7 @@ public class InputManager : MonoBehaviour
 		{
 			Vector2 Ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			RaycastHit2D[] Hit = Physics2D.CircleCastAll(Ray, 0.2f, Vector3.forward, placeLayer);
-			RaycastHit2D[] HitHole = Physics2D.CircleCastAll(Ray, 0.08f, Vector3.forward, placeLayer);
+			RaycastHit2D[] HitHole = Physics2D.CircleCastAll(Ray, 0.1f, Vector3.forward, placeLayer);
 			if (HitHole.Length > 0)
 			{
 				foreach (RaycastHit2D collider in HitHole)
@@ -289,7 +289,11 @@ public class InputManager : MonoBehaviour
 					if (checkAllin())
 						if (createNailInIron())
 						{
+							foreach (var hinge in selectedIron.GetComponent<IronPlate>().hingeJoint2Ds)
+							{
 
+								hinge.autoConfigureConnectedAnchor = false;
+							}
 							nailManager.DestroyNail(selectedNail);
 							selectedNail = null;
 
@@ -401,6 +405,11 @@ public class InputManager : MonoBehaviour
 		selectedIron.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 		selectedIron.GetComponent<Rigidbody2D>().angularVelocity = Vector3.zero.magnitude;
 		selectedIron.GetComponent<Rigidbody2D>().freezeRotation = true;
+		foreach (var hinge in selectedIron.GetComponent<IronPlate>().hingeJoint2Ds)
+		{
+			
+				hinge.autoConfigureConnectedAnchor = true;
+		}
 		preHole.GetComponent<Hole>().setNail(null);
 		//GameManager.instance.hasMove = true;
 		selectedHole.GetComponent<Hole>().setNail(selectedNail);

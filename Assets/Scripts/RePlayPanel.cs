@@ -6,11 +6,11 @@ public class RePlayPanel : MonoBehaviour
 {
 	public void UseTicket()
 	{
-		if(GameManager.instance.numOfBlueTicket > 0)
+		if(GameManager.instance.goldenStar > 0)
 		{
 			this.Close();
-			GameManager.instance.numOfBlueTicket--;
-			SaveSystem.instance.SetTiket(GameManager.instance.numOfSilverTicket, GameManager.instance.numOfSilverTicket);
+			GameManager.instance.goldenStar--;
+			SaveSystem.instance.SetTiket(GameManager.instance.goldenStar, GameManager.instance.purpleStar);
 			GameManager.instance.Replay();
 		}
 	}

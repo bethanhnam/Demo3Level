@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     public ShopPanel shopPanel;
     public SettingPanel settingPanel;
     public ChetPanel chestPanel;
+    public Winpop winPanel;
 
     public TextMeshProUGUI[] purpleStar;
     public TextMeshProUGUI[] goldenStar;
@@ -35,11 +36,11 @@ public class UIManager : MonoBehaviour
     {
         foreach (var item in purpleStar)
         {
-            item.text = SaveSystem.instance.purpleStar.ToString();
+            item.text = this.GetComponent<SaveSystem>().purpleStar.ToString();
         }
 		foreach (var item in goldenStar)
 		{
-			item.text = SaveSystem.instance.goldenStar.ToString();
+			item.text = this.GetComponent<SaveSystem>().goldenStar.ToString();
 		}
     }
 	public void OpenSettingPanel()

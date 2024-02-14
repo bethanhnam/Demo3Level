@@ -7,11 +7,11 @@ public class UndoPanel : MonoBehaviour
 	public bool hasUse;
 	public void UseTicket()
 	{
-		if (GameManager.instance.numOfSilverTicket > 0)
+		if (GameManager.instance.goldenStar > 0)
 		{
-			GameManager.instance.numOfSilverTicket--;
+			GameManager.instance.goldenStar--;
 			hasUse = true;
-			SaveSystem.instance.SetTiket(GameManager.instance.numOfSilverTicket, GameManager.instance.numOfSilverTicket);
+			SaveSystem.instance.SetTiket(GameManager.instance.goldenStar, GameManager.instance.purpleStar);
 			InputManager.instance.Undo();
 			this.Close();
 		}

@@ -7,8 +7,7 @@ public class MenuPanel : MonoBehaviour
 {
 	public SettingPanel settingPanel;
 	public DailyPanel dailyPanel;
-	public BackGroundPanel backGroundPanel;
-	public SkinPanel skinPanel;
+	public NonAdsPanel nonAdsPanel;
 	public LevelManager levelManager;
 	public GameManager gameManager;
 
@@ -28,13 +27,9 @@ public class MenuPanel : MonoBehaviour
 	{
 		dailyPanel.Open();
 	}
-	public void OpenBackGroundPanel()
+	public void OpenNonAdsPanel()
 	{
-		backGroundPanel.Open();
-	}
-	public void OpenSkinPanel()
-	{
-		skinPanel.Open();
+		nonAdsPanel.Open();
 	}
 	public void OpenShopPanel()
 	{

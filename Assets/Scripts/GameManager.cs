@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
 	public bool endgame = false;
 	public LevelManager levelManager;
 	
-	public int numOfBlueTicket;
-	public int numOfSilverTicket;
+	public int purpleStar;
+	public int goldenStar;
 	public bool deleting;
 	public bool hasUI;
 	public bool hasMove;
@@ -24,15 +24,14 @@ public class GameManager : MonoBehaviour
 		{
 			instance = this;
 		}
-		
-
+		currentLevel = SaveSystem.instance.level;
 	}
 	private void OnEnable()
 	{
 		try
 		{
-			numOfBlueTicket = SaveSystem.instance.GetBlueTicket();
-			numOfSilverTicket = SaveSystem.instance.GetSilverTicket();
+			purpleStar = SaveSystem.instance.GetPurpleStar();
+			goldenStar = SaveSystem.instance.GetGoldenStar();
 		}
 		catch
 		{

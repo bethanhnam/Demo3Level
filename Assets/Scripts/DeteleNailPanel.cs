@@ -7,11 +7,11 @@ public class DeteleNailPanel : MonoBehaviour
 	public bool hasUse;
 	public void UseTicket()
 	{
-		if (GameManager.instance.numOfSilverTicket > 0)
+		if (GameManager.instance.purpleStar > 0)
 		{
 			this.Close();
-			GameManager.instance.numOfSilverTicket--;
-			SaveSystem.instance.SetTiket(GameManager.instance.numOfSilverTicket, GameManager.instance.numOfSilverTicket);
+			GameManager.instance.purpleStar--;
+			SaveSystem.instance.SetTiket(GameManager.instance.goldenStar, GameManager.instance.purpleStar);
 			hasUse = true;
 			GameManager.instance.deleting = true;
 			UIManager.instance.gamePlayPanel.ButtonOff();

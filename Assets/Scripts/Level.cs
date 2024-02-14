@@ -18,18 +18,22 @@ public class Level : MonoBehaviour
 		{
 			instance = this;
 		}
+		stage = 0;
 		LoadStage(stage);
 		UIManager.instance.gamePlayPanel.level.Lv1.sprite = UIManager.instance.gamePlayPanel.level.done;
 		UIManager.instance.gamePlayPanel.level.Lv2.sprite = UIManager.instance.gamePlayPanel.level.notDone;
 	}
 	public void CheckLevel()
 	{
+
 		stageManager.RemoveLevel(stage);
 		if (stage >= stageManager.levels.Count)
 		{
-			UIManager.instance.chestPanel.Open();
-			UIManager.instance.gamePlayPanel.level.Lv1.sprite = UIManager.instance.gamePlayPanel.level.notDone;
-			UIManager.instance.gamePlayPanel.level.Lv2.sprite = UIManager.instance.gamePlayPanel.level.notDone;
+			{
+				UIManager.instance.chestPanel.Open();
+				UIManager.instance.gamePlayPanel.level.Lv1.sprite = UIManager.instance.gamePlayPanel.level.notDone;
+				UIManager.instance.gamePlayPanel.level.Lv2.sprite = UIManager.instance.gamePlayPanel.level.notDone;
+			}
 		}
 		else
 		{
@@ -49,22 +53,26 @@ public class Level : MonoBehaviour
 		}
 		stageManager.LoadStage(stage);
 		this.stage++;
-		
+
 	}
-		IEnumerator LoadHardLevel()
-		{
-			UIManager.instance.gamePlayPanel.hardLevel.Open();
-			yield return new WaitForSeconds(1f);
-			UIManager.instance.gamePlayPanel.hardLevel.Close();
-			LoadStage(stage);
-			UIManager.instance.gamePlayPanel.level.Lv2.sprite = UIManager.instance.gamePlayPanel.level.done;
-		}
+	IEnumerator LoadHardLevel()
+	{
+		UIManager.instance.gamePlayPanel.hardLevel.Open();
+		yield return new WaitForSeconds(1f);
+		UIManager.instance.gamePlayPanel.hardLevel.Close();
+		LoadStage(stage);
+		UIManager.instance.gamePlayPanel.level.Lv2.sprite = UIManager.instance.gamePlayPanel.level.done;
+	}
 	public void ChangeLayer()
 	{
 		int layer = LayerMask.NameToLayer(layerName); // Chuyển đổi tên layer thành ID layer
 		if (layer != -1) // Kiểm tra xem layer có tồn tại không
 		{
-			stageManager.levelInstances[0].GetComponent<Stage>().holeToUnlock.gameObject.layer = layer; // Đặt layer cho GameObject
+			if (stageManager.levelInstances[0].GetComponent<Stage>().holeToUnlock.gameObject != null)
+			{
+				stageManager.levelInstances[0].GetComponent<Stage>().holeToUnlock.gameObject.layer = layer; // Đặt layer cho GameObject
+
+			}
 		}
 		else
 		{

@@ -15,6 +15,9 @@ public class GamePlayPanel : MonoBehaviour
 	public LosePanel losePanel;
 	public UndoPanel undoPanel;
 	public HardLevel hardLevel;
+	public ExtralHole extraHolePanel;
+	public BuyPurpleStar BuyPurpleStarPanel;
+	public BuyGoldenStar BuyGoldenStarPanel;
 
 	public Button RelayButton;
 	public Button HintButton;
@@ -100,6 +103,10 @@ public class GamePlayPanel : MonoBehaviour
 	{
 		hardLevel.Open();
 	}
+	public void OpenExtraHolePanel()
+	{
+		extraHolePanel.Open();
+	}
 	public void Open()
 	{
 		if (!this.gameObject.activeSelf)
@@ -171,5 +178,13 @@ public class GamePlayPanel : MonoBehaviour
 	public void OpenLosePanel()
 	{
 		losePanel.Open();
+	}
+	public void OpenPurpleStarShop()
+	{
+		BuyPurpleStarPanel.Open();
+	}
+	public void OpenGoldenStarShop()
+	{
+		BuyGoldenStarPanel.Open();
 	}
 }

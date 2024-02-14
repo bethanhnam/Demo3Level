@@ -25,7 +25,7 @@ public class EndLine : MonoBehaviour
 
 			if (InputManager.instance.numOfIronPlate <= 0)
 			{
-				Level.instance.CheckLevel();
+					Level.instance.CheckLevel();
 			}
 		}
 	}

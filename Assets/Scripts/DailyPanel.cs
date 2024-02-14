@@ -8,15 +8,15 @@ using UnityEngine.UI;
 public class DailyPanel : MonoBehaviour
 {
 	public Reward[] dayRewards;
-	public int lastDate;
+	public int lastDate=0;
 	[SerializeField]private int selectReward = 0;
 	[SerializeField] private Button claimButton;
 	[SerializeField] private TextMeshProUGUI timeLeft;
 
 	private void Start()
 	{
-		//get last claim time
-		lastDate = PlayerPrefs.GetInt("Days");
+		//get last claim time");
+		lastDate = SaveSystem.instance.days;
 		string lastTime = PlayerPrefs.GetString("LastClaimTime");
 		DateTime lastclaimTime;
 		if (!string.IsNullOrEmpty(lastTime))
@@ -40,7 +40,7 @@ public class DailyPanel : MonoBehaviour
 	}
 	private void Update()
 	{
-		for (int i = 0; i < lastDate; i++)
+		for (int i = 0; i < SaveSystem.instance.days; i++)
 		{
 			dayRewards[i].isClaim = true;
 		}
@@ -57,7 +57,7 @@ public class DailyPanel : MonoBehaviour
 		PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
 		ClaimGift();
 		dayRewards[lastDate].isClaim = true;
-		PlayerPrefs.SetInt("Days", lastDate+1);
+		SaveSystem.instance.days = lastDate+1;
 		SaveSystem.instance.purpleStar += dayRewards[lastDate].purpleStar;
 		SaveSystem.instance.goldenStar += dayRewards[lastDate].GoldenStar;
 		SaveSystem.instance.SaveData();

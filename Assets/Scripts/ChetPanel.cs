@@ -21,7 +21,7 @@ public class ChetPanel : MonoBehaviour
 		}
 		else
 		{
-
+			UIManager.instance.winPanel.Open();
 		}
 	}
 	// Update is called once per frame
@@ -38,9 +38,15 @@ public class ChetPanel : MonoBehaviour
 		if (this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(false);
-			UIManager.instance.gamePlayPanel.backFromChestPanel = true;
-			UIManager.instance.gamePlayPanel.Open();
-			//GameManager.instance.LoadLevelFromUI();
+			if (slider.value == slider.maxValue)
+			{
+				UIManager.instance.winPanel.Open();
+			}
+			else
+			{
+				UIManager.instance.gamePlayPanel.backFromChestPanel = true;
+				UIManager.instance.gamePlayPanel.Open();
+			}
 		}
 	}
 }

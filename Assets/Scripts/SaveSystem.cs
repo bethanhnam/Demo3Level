@@ -6,8 +6,8 @@ public class SaveSystem : MonoBehaviour
 {
     public static SaveSystem instance;
     public int level =0;
-    public int purpleStar = 0;
-    public int goldenStar = 0;
+    public int purpleStar = 10;
+    public int goldenStar = 10;
     public int days = 0;
 	private void Start()
 	{
@@ -15,35 +15,36 @@ public class SaveSystem : MonoBehaviour
         {
             instance = this;
         }
-        LoadData();
+		LoadData();
+        SaveData();
 	}
 	public void SaveData()
     {
-        PlayerPrefs.SetInt("BlueTicket", purpleStar);
-        PlayerPrefs.SetInt("SilverTicket", goldenStar);
+        PlayerPrefs.SetInt("PurpleStar", purpleStar);
+        PlayerPrefs.SetInt("GoldenStar", goldenStar);
         PlayerPrefs.SetInt("Level", level);
 		PlayerPrefs.SetInt("Days", days);
 	}
     public int LoadData()
     {
         level = PlayerPrefs.GetInt("Level");
-		purpleStar = PlayerPrefs.GetInt("BlueTicket");
-		goldenStar = PlayerPrefs.GetInt("SilverTicket");
+		purpleStar = PlayerPrefs.GetInt("PurpleStar");
+		goldenStar = PlayerPrefs.GetInt("GoldenStar");
 		days = PlayerPrefs.GetInt("Days");
 		return level;
     }
-    public int GetBlueTicket()
+    public int GetPurpleStar()
     {
         return purpleStar;
     }
-    public int GetSilverTicket()
+    public int GetGoldenStar()
     {
         return goldenStar;
     }
-    public void SetTiket(int blueTicket,int silverTicket)
+    public void SetTiket(int goldenStar,int purpleStar)
     {
-        this.purpleStar = blueTicket;
-        this.goldenStar = silverTicket;
+        this.goldenStar = goldenStar;
+        this.purpleStar = purpleStar;
     }
     public void SetLevel(int level)
     {
