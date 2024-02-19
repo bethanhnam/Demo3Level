@@ -45,6 +45,7 @@ public class ChetPanel : MonoBehaviour
 			else
 			{
 				UIManager.instance.gamePlayPanel.backFromChestPanel = true;
+				UIManager.instance.gamePlayPanel.backFromPause = false;
 				UIManager.instance.gamePlayPanel.Open();
 			}
 		}

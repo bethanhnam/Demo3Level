@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NailDetector : MonoBehaviour
@@ -27,6 +28,7 @@ public class NailDetector : MonoBehaviour
 				hingeJoint2D.enabled = true;
 				hingeJoint2D.connectedBody = collision.GetComponent<Rigidbody2D>();
 				hingeJoint2D.connectedAnchor = Vector2.zero;
+				
 			}
 		}
 	}

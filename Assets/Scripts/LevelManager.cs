@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
 		if (levelPrefab != null)
 		{
 			// Instantiate prefab as a new instance in the scene
-			GameObject levelInstance = Instantiate(levelPrefab,Vector3.zero,Quaternion.identity);
+			GameObject levelInstance = Instantiate(levelPrefab,levelPrefab.transform.position,Quaternion.identity);
 
 			// Set the level instance as a child of a parent transform if needed
 			levelInstance.transform.SetParent(transform);

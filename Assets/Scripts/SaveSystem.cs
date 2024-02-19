@@ -17,6 +17,7 @@ public class SaveSystem : MonoBehaviour
         }
 		LoadData();
         SaveData();
+        GameManager.instance.currentLevel = level;
 	}
 	public void SaveData()
     {

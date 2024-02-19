@@ -114,7 +114,7 @@ public class GamePlayPanel : MonoBehaviour
 			isPause = false;
 			this.gameObject.SetActive(true);
 			levelManager.gameObject.SetActive(true);
-			gameManager.gameObject.SetActive(true) ;
+			gameManager.gameObject.SetActive(true);
 			if (backFromPause == false)
 			{
 				if (levelManager.transform.childCount > 0)

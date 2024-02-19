@@ -14,6 +14,9 @@ public class IronPlate : MonoBehaviour
 	public int selectedHinge = 0;
 	public bool result;
 	public List<HingeJoint2D> joints = new List<HingeJoint2D>();
+	private Rigidbody2D rigidbody2D;
+	[SerializeField] private Vector3 centerOfMass;
+	private bool awake;
 
 
 
@@ -23,12 +26,16 @@ public class IronPlate : MonoBehaviour
 		centerPoints = new Vector3[holes.Length];
 		hingeJoint2Ds = GetComponents<HingeJoint2D>();
 		SetHingeJoint();
+		rigidbody2D  = this.GetComponent<Rigidbody2D>();	
 
 	}
-	private void Update()
+	private async void Update()
 	{
 		setPoint();
 		checkHinge();
+		rigidbody2D.centerOfMass = centerOfMass;
+		rigidbody2D.WakeUp();
+		awake = !rigidbody2D.IsSleeping();
 	}
 
 	
@@ -53,7 +60,7 @@ public class IronPlate : MonoBehaviour
 	public bool checkHitPoint(Vector2 holePosition)
 	{
 		result = false;
-		radius = holes[0].GetComponent<CircleCollider2D>().radius / 32;
+		radius = 0.02f;
 		float reference = radius;
 		for (int i = 0; i < centerPoints.Length; i++)
 		{
@@ -61,7 +68,6 @@ public class IronPlate : MonoBehaviour
 			if (distance < reference)
 			{
 				selectedHinge = i;
-				//hingeJoint2Ds[selectedHinge].anchor = new Vector2(holePosition.x, holePosition.y);
 				result = true;
 			}
 		}
@@ -74,6 +80,8 @@ public class IronPlate : MonoBehaviour
 			Gizmos.color = Color.black;
 			Gizmos.DrawWireSphere(centerPoint, radius);
 		}
+		Gizmos.color= Color.red;
+		Gizmos.DrawSphere(transform.position + transform.rotation * centerOfMass, 0.1f);
 	}
 
 	//public bool checkNail( Vector2 holePosition)
@@ -105,7 +113,7 @@ public class IronPlate : MonoBehaviour
 			{
 				hinge.enabled = true;
 				hinge.connectedAnchor = Vector2.zero;
-				hinge.autoConfigureConnectedAnchor = true;
+				//hinge.autoConfigureConnectedAnchor = true;
 				if (!joints.Contains(hinge))
 				{
 					joints.Add(hinge);
@@ -115,7 +123,7 @@ public class IronPlate : MonoBehaviour
 		}
 		if (hingeJoint2Ds.Length >= 3)
 		{
-			if (joints.Count >= hingeJoint2Ds.Length - 1)
+			if (joints.Count >= 2)
 			{
 				this.GetComponent<Rigidbody2D>().freezeRotation = true;
 			}
@@ -136,4 +144,5 @@ public class IronPlate : MonoBehaviour
 	{
 		return hingeJoint2Ds[selectedHinge];
 	}
+
 }

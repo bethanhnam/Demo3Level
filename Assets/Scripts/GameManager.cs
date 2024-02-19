@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
 		{
 			instance = this;
 		}
-		currentLevel = SaveSystem.instance.level;
 	}
 	private void OnEnable()
 	{

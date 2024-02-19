@@ -20,6 +20,7 @@ public class InputManager : MonoBehaviour
 	[SerializeField] private GameObject selectNailPrefabAnimation;
 	[SerializeField] private Sprite nailDefaulSprite;
 	// lay nail truoc va dang chon
+	public bool canSelect;
 	[SerializeField] private GameObject selectedNail;
 	[SerializeField] private GameObject preSelectedNail;
 	public GameObject newNail;
@@ -65,8 +66,8 @@ public class InputManager : MonoBehaviour
 	private void Awake()
 	{
 		iNSelectionLayer = LayerMask.GetMask("Hole");
-		placeLayer = LayerMask.GetMask("Hole", "IronLayer1", "IronLayer2", "IronLayer3");
-		IronLayer = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3");
+		placeLayer = LayerMask.GetMask("Hole", "IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "BothLayer");
+		IronLayer = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "BothLayer");
 
 	}
 	// Start is called before the first frame update
@@ -86,6 +87,7 @@ public class InputManager : MonoBehaviour
 		numOfIronPlate = ironObjects.Length;
 		Invoke("setHinge", 0.5f);
 		nailManager = FindFirstObjectByType<NailManager>();
+		canSelect = true;
 	}
 
 	// Update is called once per frame
@@ -105,7 +107,10 @@ public class InputManager : MonoBehaviour
 		{
 			if (GameManager.instance.deleting != true)
 			{
-				selectHole();
+				if (canSelect)
+				{
+					selectHole();
+				}
 			}
 			else
 			{
@@ -123,7 +128,7 @@ public class InputManager : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown(0))
 		{
-			RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(Ray, 0.2f, Vector3.forward, iNSelectionLayer);
+			RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(Ray, 0.3f, Vector3.forward, iNSelectionLayer);
 			if (cubeHit.Length > 0)
 			{
 				foreach (RaycastHit2D ray in cubeHit)
@@ -289,11 +294,6 @@ public class InputManager : MonoBehaviour
 					if (checkAllin())
 						if (createNailInIron())
 						{
-							foreach (var hinge in selectedIron.GetComponent<IronPlate>().hingeJoint2Ds)
-							{
-
-								hinge.autoConfigureConnectedAnchor = false;
-							}
 							nailManager.DestroyNail(selectedNail);
 							selectedNail = null;
 
@@ -405,11 +405,11 @@ public class InputManager : MonoBehaviour
 		selectedIron.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 		selectedIron.GetComponent<Rigidbody2D>().angularVelocity = Vector3.zero.magnitude;
 		selectedIron.GetComponent<Rigidbody2D>().freezeRotation = true;
-		foreach (var hinge in selectedIron.GetComponent<IronPlate>().hingeJoint2Ds)
-		{
+		//foreach (var hinge in selectedIron.GetComponent<IronPlate>().hingeJoint2Ds)
+		//{
 			
-				hinge.autoConfigureConnectedAnchor = true;
-		}
+		//		hinge.autoConfigureConnectedAnchor = true;
+		//}
 		preHole.GetComponent<Hole>().setNail(null);
 		//GameManager.instance.hasMove = true;
 		selectedHole.GetComponent<Hole>().setNail(selectedNail);
@@ -631,12 +631,22 @@ public class InputManager : MonoBehaviour
 	}
 	IEnumerator SetdefaultSprite(GameObject nail)
 	{
+		canSelect = false;
 		yield return new WaitForSeconds(0.3f);
+		canSelect = true;
 		try
 		{
 			nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
 		}
 		catch { }
+	}
+	private void setCanNotSelect()
+	{
+		canSelect = false;
+	}
+	private void setCanSelect()
+	{
+		canSelect = true;
 	}
 	private void OnDrawGizmos()
 	{
@@ -644,4 +654,5 @@ public class InputManager : MonoBehaviour
 		Gizmos.color = Color.green;
 		Gizmos.DrawWireSphere(mousePosition, 0.2f);
 	}
+	
 }
