@@ -15,9 +15,10 @@ public class IronPlate : MonoBehaviour
 	public bool result;
 	public List<HingeJoint2D> joints = new List<HingeJoint2D>();
 	private Rigidbody2D rigidbody2D;
-	[SerializeField] private Vector3 centerOfMass;
-	private bool awake;
-
+	[SerializeField] private Vector3 centerOfMass = new Vector3(-0.00154503f, 0.001582342f,0f);
+	[SerializeField] private Vector3 centerOfMass1;
+	//-0.02177252
+	//0.004291171
 
 
 	private void Start()
@@ -26,16 +27,16 @@ public class IronPlate : MonoBehaviour
 		centerPoints = new Vector3[holes.Length];
 		hingeJoint2Ds = GetComponents<HingeJoint2D>();
 		SetHingeJoint();
-		rigidbody2D  = this.GetComponent<Rigidbody2D>();	
+		rigidbody2D  = this.GetComponent<Rigidbody2D>();
+		centerOfMass1 = rigidbody2D.centerOfMass;
+		rigidbody2D.centerOfMass = centerOfMass;
 
 	}
 	private async void Update()
 	{
 		setPoint();
 		checkHinge();
-		rigidbody2D.centerOfMass = centerOfMass;
-		rigidbody2D.WakeUp();
-		awake = !rigidbody2D.IsSleeping();
+		
 	}
 
 	
@@ -60,7 +61,7 @@ public class IronPlate : MonoBehaviour
 	public bool checkHitPoint(Vector2 holePosition)
 	{
 		result = false;
-		radius = 0.02f;
+		radius = 0.015f;
 		float reference = radius;
 		for (int i = 0; i < centerPoints.Length; i++)
 		{
@@ -75,31 +76,17 @@ public class IronPlate : MonoBehaviour
 	}
 	private void OnDrawGizmos()
 	{
-		foreach (var centerPoint in centerPoints)
+		if (this.isActiveAndEnabled)
 		{
-			Gizmos.color = Color.black;
-			Gizmos.DrawWireSphere(centerPoint, radius);
+			foreach (var centerPoint in centerPoints)
+			{
+				Gizmos.color = Color.black;
+				Gizmos.DrawWireSphere(centerPoint, radius);
+			}
+			Gizmos.color = Color.red;
+			Gizmos.DrawSphere(transform.position + transform.rotation * centerOfMass, 0.1f);
 		}
-		Gizmos.color= Color.red;
-		Gizmos.DrawSphere(transform.position + transform.rotation * centerOfMass, 0.1f);
 	}
-
-	//public bool checkNail( Vector2 holePosition)
-	//{
-	//	result = false;
-	//	radius = holes[0].GetComponent<CircleCollider2D>().radius / 2;
-	//	float reference = radius;
-	//	for (int i = 0; i < centerPoints.Length; i++)
-	//	{
-	//		float distance = Vector2.Distance(holePosition, centerPoints[i]);
-	//		if (distance < reference)
-	//		{
-	//			selectedhole = i;
-	//			result = true;
-	//		}
-	//	}
-	//	return result;
-	//}
 	private void checkHinge()
 	{
 		foreach(var hinge in hingeJoint2Ds)

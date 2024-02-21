@@ -66,8 +66,8 @@ public class InputManager : MonoBehaviour
 	private void Awake()
 	{
 		iNSelectionLayer = LayerMask.GetMask("Hole");
-		placeLayer = LayerMask.GetMask("Hole", "IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "BothLayer");
-		IronLayer = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "BothLayer");
+		placeLayer = LayerMask.GetMask("Hole", "IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5","IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
+		IronLayer = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
 
 	}
 	// Start is called before the first frame update
@@ -85,7 +85,6 @@ public class InputManager : MonoBehaviour
 		holeObjects = GameObject.FindGameObjectsWithTag("Hole");
 		ironObjects = GameObject.FindGameObjectsWithTag("Iron");
 		numOfIronPlate = ironObjects.Length;
-		Invoke("setHinge", 0.5f);
 		nailManager = FindFirstObjectByType<NailManager>();
 		canSelect = true;
 	}
@@ -269,7 +268,7 @@ public class InputManager : MonoBehaviour
 		{
 			Vector2 Ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			RaycastHit2D[] Hit = Physics2D.CircleCastAll(Ray, 0.2f, Vector3.forward, placeLayer);
-			RaycastHit2D[] HitHole = Physics2D.CircleCastAll(Ray, 0.1f, Vector3.forward, placeLayer);
+			RaycastHit2D[] HitHole = Physics2D.CircleCastAll(Ray, 0.2f, Vector3.forward, placeLayer);
 			if (HitHole.Length > 0)
 			{
 				foreach (RaycastHit2D collider in HitHole)
@@ -650,9 +649,12 @@ public class InputManager : MonoBehaviour
 	}
 	private void OnDrawGizmos()
 	{
-		Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		Gizmos.color = Color.green;
-		Gizmos.DrawWireSphere(mousePosition, 0.2f);
+		if (this.isActiveAndEnabled)
+		{
+			Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Gizmos.color = Color.green;
+			Gizmos.DrawWireSphere(mousePosition, 0.2f);
+		}
 	}
-	
+
 }

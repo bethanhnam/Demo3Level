@@ -18,18 +18,17 @@ public class ToolMap : Editor
 		}
 	}
 
-	[MenuItem("Component/Clean")]
+	[MenuItem("Component/2Clean")]
 	public static void Button()
 	{
 		Transform obj = Selection.activeTransform;
 		obj.transform.localScale = new Vector3(1.53f, 1.53f, 1f);
 		Clean(obj);
-		GameObject a = (GameObject)PrefabUtility.InstantiatePrefab(Resources.Load("ObjjPrefab/NailsManager"), obj);
-		for (int i = 0; i < obj.childCount; i++)
+		for (int i = obj.childCount - 1; i >= 0; i--)
 		{
 			if (obj.GetChild(i).gameObject.name.Contains("Square"))
 			{
-				for (int j = 0; j < obj.GetChild(i).childCount; j++)
+				for (int j = obj.GetChild(i).childCount - 1; j >= 0; j--)
 				{
 					if (obj.GetChild(i).GetChild(j).gameObject.name.Contains("stroke_board#1"))
 					{
@@ -49,11 +48,11 @@ public class ToolMap : Editor
 			}
 		}
 	}
-	[MenuItem("Component/CleanHoleInIron")]
+	[MenuItem("Component/10CleanHoleInIron")]
 	public static void Button6()
 	{
 		Transform obj = Selection.activeTransform;
-		for (int i = 0; i < obj.childCount; i++)
+		for (int i = obj.childCount - 1; i >= 0; i--)
 		{
 			if (obj.GetChild(i).gameObject.name.Contains("HoleInIronLeft"))
 			{
@@ -62,28 +61,7 @@ public class ToolMap : Editor
 			}
 		}
 	}
-	[MenuItem("Component/CreateNail")]
-	public static void Button9()
-	{
-		Transform obj = Selection.activeTransform;
-		Transform nailsManager = GameObject.FindGameObjectWithTag("NailsManager").transform;
-		for (int i = 0; i < obj.childCount; i++)
-		{
-			if (obj.GetChild(i).gameObject.tag == "Iron")
-			{
-				for (int j = 0; j < obj.GetChild(i).childCount; j++)
-				{
-					Transform trs = obj.GetChild(j);
-					GameObject a = (GameObject)PrefabUtility.InstantiatePrefab(Resources.Load("ObjjPrefab/NailPrefab"), nailsManager);
-					a.transform.position = trs.position;
-					a.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("UI/In game/screw");
-					a.transform.SetSiblingIndex(trs.GetSiblingIndex());
-				}
-			}
-		}
-	}
-
-	[MenuItem("Component/ChangeMaterial")]
+	[MenuItem("Component/3ChangeMaterial")]
 	public static void Button1()
 	{
 		Transform obj = Selection.activeTransform;
@@ -98,29 +76,30 @@ public class ToolMap : Editor
 			}
 			if (obj.GetChild(i).gameObject.name.Contains("Square"))
 			{
+				Transform transform = obj.GetChild(i);
 				Sprite sprite = Resources.Load<Sprite>("UI/In game/Popup wood");
-				obj.GetChild(i).GetComponent<SpriteRenderer>().sprite = sprite;
-				obj.GetChild(i).transform.localScale = new Vector3(0.65f, 0.65f, 1f);
-				obj.GetChild(i).transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+				transform.GetComponent<SpriteRenderer>().sprite = sprite;
+				transform.transform.localScale = new Vector3(0.65f, 0.65f, 1f);
+				transform.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+				transform.transform.position = new Vector3(0, 0.79f, 0);
 				continue;
 			}
 		}
 	}
-	[MenuItem("Component/DeteleHole")]
+	[MenuItem("Component/1DeteleHole")]
 	public static void Button5()
 	{
 		Transform obj = Selection.activeTransform;
-		for (int i = 0; i < obj.childCount; i++)
+		for (int i = obj.childCount - 1; i >= 0; i--)
 		{
-
 			if (obj.GetChild(i).gameObject.name.Contains("Hole"))
 			{
-				UnityEngine.Object.DestroyImmediate(obj.GetChild(i).gameObject);
-				continue;
+				Transform transform = obj.GetChild(i);
+				UnityEngine.Object.DestroyImmediate(transform.gameObject);
 			}
 		}
 	}
-	[MenuItem("Component/CreateHole")]
+	[MenuItem("Component/4CreateHole")]
 	public static void Button2()
 	{
 		Transform obj = Selection.activeTransform;
@@ -144,10 +123,11 @@ public class ToolMap : Editor
 			}
 		}
 	}
-	[MenuItem("Component/HoleInSquareToSquare")]
+	[MenuItem("Component/5HoleInSquareToSquare")]
 	public static void Button3()
 	{
 		Transform obj = Selection.activeTransform;
+		GameObject a = (GameObject)PrefabUtility.InstantiatePrefab(Resources.Load("ObjjPrefab/NailsManager"), obj);
 		Transform square = GameObject.FindGameObjectWithTag("square").transform;
 		for (int j = 0; j < obj.childCount; j++)
 		{
@@ -159,7 +139,7 @@ public class ToolMap : Editor
 			}
 		}
 	}
-	[MenuItem("Component/CreateHoleInIron")]
+	[MenuItem("Component/6CreateHoleInIronAndNail")]
 	public static void Button7()
 	{
 		Transform obj = Selection.activeTransform;
@@ -169,7 +149,7 @@ public class ToolMap : Editor
 			if (obj.GetChild(j).gameObject.name.Contains("HoleInIronLeft"))
 			{
 				Transform transform = obj.GetChild(j);
-				RaycastHit2D[] HitHole = Physics2D.CircleCastAll(transform.position, 0.1f, Vector3.forward);
+				RaycastHit2D[] HitHole = Physics2D.CircleCastAll(transform.position, 0.01f, Vector3.forward);
 				if (HitHole.Length > 0)
 				{
 					foreach (RaycastHit2D collider in HitHole)
@@ -185,65 +165,183 @@ public class ToolMap : Editor
 							a.transform.position = transform.position;
 							a.transform.rotation = transform.rotation;
 							a.transform.localScale = transform.localScale;
-							a.transform.SetSiblingIndex(transform.GetSiblingIndex());
+							//a.transform.SetSiblingIndex(transform.GetSiblingIndex());
 							a.transform.SetParent(collider.transform);
 							collider.transform.rotation = oldRotat;
 							a.transform.position = transform.position;
 							GameObject c = (GameObject)PrefabUtility.InstantiatePrefab(Resources.Load("ObjjPrefab/NailPrefab"), obj);
 							c.transform.position = transform.position;
-							c.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("UI/In game/screw");
 							c.transform.SetParent(nailsManager);
-							continue;
 						}
 					}
 				}
-				//if (obj.GetChild(j).gameObject.tag == "Iron")
-				//{
-				//	obj.GetChild(j).transform.rotation = oldRotation[j];
-				//	continue;
-				//}
-
 			}
 		}
 	}
-	[MenuItem("Component/DeteleDupHole")]
-	public static void Button8()
+	[MenuItem("Component/7DeteleDupNail")]
+	public static void Button10()
+	{
+		Transform obj = Selection.activeTransform;
+		for (int j = obj.childCount - 1; j >= 1; j--)
+		{
+			if (obj.GetChild(j).gameObject.tag == "Nail")
+			{
+				if (obj.GetChild(j).gameObject.transform.position == obj.GetChild(j - 1).gameObject.transform.position)
+				{
+					UnityEngine.Object.DestroyImmediate(obj.GetChild(j).gameObject);
+				}
+			}
+		}
+	}
+	[MenuItem("Component/9DeteleDupHoleInIron")]
+	public static void Button14()
 	{
 		Transform obj = Selection.activeTransform;
 		for (int j = 0; j < obj.childCount; j++)
 		{
 			if (obj.GetChild(j).gameObject.tag == "Iron")
 			{
-				for (int i = 0; i < obj.GetChild(j).childCount; i++)
+				Transform transform = obj.GetChild(j).transform;
+				for (int i = obj.GetChild(j).childCount-1;i>=1; i--)
 				{
-					if (obj.GetChild(j).GetChild(i).transform.position == obj.GetChild(j).GetChild(i + 1).transform.position)
+					if (transform.GetChild(i).gameObject.transform.position == transform.GetChild(i - 1).gameObject.transform.position)
 					{
-						UnityEngine.Object.DestroyImmediate(obj.GetChild(j).GetChild(i).gameObject);
+						UnityEngine.Object.DestroyImmediate(transform.GetChild(i).gameObject);
 					}
 				}
 			}
 		}
 	}
-	//[MenuItem("Component/CreateHoleInIron")]
-	//public static void Button4()
-	//{
-	//	Transform obj = Selection.activeTransform;
-	//	for (int j = 0; j < obj.childCount; j++)
-	//	{
-	//		if (obj.GetChild(j).gameObject.name.Contains("HoleInSquare"))
-	//		{
-	//			Transform trs = obj.GetChild(i);
-	//			GameObject a = (GameObject)PrefabUtility.InstantiatePrefab(Resources.Load("ObjjPrefab/HoleInSquare"), obj);
-	//			a.transform.position = trs.position;
-	//			a.transform.rotation = trs.rotation;
-	//			a.transform.localScale = trs.localScale;
-	//			a.transform.SetSiblingIndex(trs.GetSiblingIndex());
-	//			Object.DestroyImmediate(trs.gameObject);
-	//			continue;
-	//		}
-	//	}
-	//}
+	[MenuItem("Component/8NailToHoleInSquare")]
+	public static void Button11()
+	{
+		Transform obj = Selection.activeTransform;
+		for (int j = 0; j < obj.childCount; j++)
+		{
+			if (obj.GetChild(j).gameObject.tag == "Hole")
+			{
+				Transform transform = obj.GetChild(j);
+				RaycastHit2D[] HitHole = Physics2D.CircleCastAll(transform.position, 0.1f, Vector3.forward);
+				if (HitHole.Length > 0)
+				{
+					foreach (RaycastHit2D collider in HitHole)
+					{
+						if (collider.transform.tag == "Nail")
+						{
+							transform.GetComponent<Hole>().Nail = collider.transform.gameObject;
+						}
+					}
+				}
+			}
+		}
+	}
+	[MenuItem("Component/11CreateHingeJoints")]
+	public static void Button12()
+	{
+		Transform obj = Selection.activeTransform;
+		GameObject c = (GameObject)PrefabUtility.InstantiatePrefab(Resources.Load("ObjjPrefab/InputManager"), obj);
+		for (int j = 0; j < obj.childCount; j++)
+		{
+			if (obj.GetChild(j).gameObject.name.Contains("Range"))
+			{
+				obj.GetChild(j).AddComponent<EndLine>();
+			}
+		}
+		obj.AddComponent<Stage>();
+		for (int j = 0; j < obj.childCount; j++)
+		{
+			if (obj.GetChild(j).gameObject.tag == "Iron")
+			{
+				obj.GetChild(j).GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+				obj.GetChild(j).GetComponent<Rigidbody2D>().angularDrag = 1f;
+				obj.GetChild(j).AddComponent<IronPlate>();
+				for (int i = 0; i < obj.GetChild(j).childCount - 1; i++)
+				{
+					obj.GetChild(j).AddComponent<HingeJoint2D>().autoConfigureConnectedAnchor = false;
+				}
+			}
+		}
+	}
+	[MenuItem("Component/12SetHingeJoints")]
+	public static void Button13()
+	{
+		Transform obj = Selection.activeTransform;
+		for (int j = 0; j < obj.childCount; j++)
+		{
+			if (obj.GetChild(j).gameObject.tag == "Iron")
+			{
+				HingeJoint2D[] allComponents = obj.GetChild(j).GetComponents<HingeJoint2D>();
+				for (int i = 0; i < obj.GetChild(j).childCount; i++)
+				{
+					Transform transform = obj.GetChild(j).GetChild(i);
+					RaycastHit2D[] HitHole = Physics2D.CircleCastAll(transform.position, 0.1f, Vector3.forward);
+					if (HitHole.Length > 0)
+					{
+						foreach (RaycastHit2D collider in HitHole)
+						{
+							if (collider.transform.tag == "Nail")
+							{
+								if (allComponents[i].connectedBody == null)
+								{
+									allComponents[i].connectedBody = collider.transform.gameObject.GetComponent<Rigidbody2D>();
+									allComponents[i].connectedAnchor = Vector2.zero;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	[MenuItem("Component/13caculate")]
+	public static void Button15()
+	{
+		Transform obj = Selection.activeTransform;
+		for (int j = 0; j < obj.childCount; j++)
+		{
+			if (obj.GetChild(j).gameObject.tag == "Iron")
+			{
+				HingeJoint2D[] allComponents = obj.GetChild(j).GetComponents<HingeJoint2D>();
+				for (int i = 0; i < allComponents.Length; i++)
+				{
+					Transform nailTransform = allComponents[i].connectedBody.transform;
+					allComponents[i].anchor = obj.GetChild(j).InverseTransformPoint(nailTransform.position);
+				}
+			}
+		}
+		for (int j = 0; j < obj.childCount; j++)
+		{
+			if (obj.GetChild(j).gameObject.tag == "NailsManager")
+			{
+				for (int i = 0; i < obj.GetChild(j).childCount; i++)
+				{
+					Transform transform = obj.GetChild(j).GetChild(i);
+					transform.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("UI/In game/screw");
+				}
+			}
+		}
+
+	}
 }
+//[MenuItem("Component/CreateHoleInIron")]
+//public static void Button4()
+//{
+//	Transform obj = Selection.activeTransform;
+//	for (int j = 0; j < obj.childCount; j++)
+//	{
+//		if (obj.GetChild(j).gameObject.name.Contains("HoleInSquare"))
+//		{
+//			Transform trs = obj.GetChild(i);
+//			GameObject a = (GameObject)PrefabUtility.InstantiatePrefab(Resources.Load("ObjjPrefab/HoleInSquare"), obj);
+//			a.transform.position = trs.position;
+//			a.transform.rotation = trs.rotation;
+//			a.transform.localScale = trs.localScale;
+//			a.transform.SetSiblingIndex(trs.GetSiblingIndex());
+//			Object.DestroyImmediate(trs.gameObject);
+//			continue;
+//		}
+//	}
+//}
 
 
 
