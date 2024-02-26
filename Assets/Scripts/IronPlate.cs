@@ -61,7 +61,7 @@ public class IronPlate : MonoBehaviour
 	public bool checkHitPoint(Vector2 holePosition)
 	{
 		result = false;
-		radius = 0.015f;
+		radius = 0.02f;
 		float reference = radius;
 		for (int i = 0; i < centerPoints.Length; i++)
 		{
@@ -74,19 +74,19 @@ public class IronPlate : MonoBehaviour
 		}
 		return result;
 	}
-	private void OnDrawGizmos()
-	{
-		if (this.isActiveAndEnabled)
-		{
-			foreach (var centerPoint in centerPoints)
-			{
-				Gizmos.color = Color.black;
-				Gizmos.DrawWireSphere(centerPoint, radius);
-			}
-			Gizmos.color = Color.red;
-			Gizmos.DrawSphere(transform.position + transform.rotation * centerOfMass, 0.1f);
-		}
-	}
+	//private void OnDrawGizmos()
+	//{
+	//	if (this.isActiveAndEnabled)
+	//	{
+	//		foreach (var centerPoint in centerPoints)
+	//		{
+	//			Gizmos.color = Color.black;
+	//			Gizmos.DrawWireSphere(centerPoint, radius);
+	//		}
+	//		Gizmos.color = Color.red;
+	//		Gizmos.DrawSphere(transform.position + transform.rotation * centerOfMass, 0.1f);
+	//	}
+	//}
 	private void checkHinge()
 	{
 		foreach(var hinge in hingeJoint2Ds)
