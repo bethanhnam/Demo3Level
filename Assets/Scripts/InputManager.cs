@@ -116,13 +116,24 @@ public class InputManager : MonoBehaviour
 				try
 				{
 					Destroy(selectNailPrefabAnimation);
-					StartCoroutine(SetdefaultSprite(selectedNail));
+					selectedNail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
 				}
 				catch (Exception e) { }
 				selectDeteleNail();
 			}
 		}
 	}
+
+	private void TurnNailsToRed(bool isOn )
+	{
+		for (int i = 0; i < nailManager.nails.Count; i++)
+		{
+			Transform transform = nailManager.nails[i].transform;
+			transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = isOn;
+			
+		}
+	}
+
 	private void selectHole()
 	{
 		if (Input.GetMouseButtonDown(0))
@@ -429,6 +440,7 @@ public class InputManager : MonoBehaviour
 	}
 	public void selectDeteleNail()
 	{
+		TurnNailsToRed(true);
 		if (Input.GetMouseButtonDown(0))
 		{
 			RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(Ray, 0.2f, Vector3.forward, iNSelectionLayer);
@@ -464,6 +476,7 @@ public class InputManager : MonoBehaviour
 							GameManager.instance.deleting = false;
 							UIManager.instance.gamePlayPanel.ButtonOn();
 							hasDelete = true;
+							TurnNailsToRed(false);
 						}
 					}
 				}

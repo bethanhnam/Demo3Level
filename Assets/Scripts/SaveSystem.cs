@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class SaveSystem : MonoBehaviour
@@ -9,30 +10,44 @@ public class SaveSystem : MonoBehaviour
     public int purpleStar = 10;
     public int goldenStar = 10;
     public int days = 0;
+    public float playTime = 0;
+    public bool playing;
+	private void Awake()
+	{
+		if (instance == null)
+		{
+			instance = this;
+		}
+		LoadData();
+		SaveData();
+        playing = true;
+	}
 	private void Start()
 	{
-		if(instance == null)
+		
+	}
+	private void Update()
+	{
+        if (playing == true)
         {
-            instance = this;
+            playTime += Time.deltaTime;
         }
-		LoadData();
-        SaveData();
-        GameManager.instance.currentLevel = level;
 	}
 	public void SaveData()
     {
-        PlayerPrefs.SetInt("PurpleStar", purpleStar);
+		PlayerPrefs.SetFloat("TimePlay", playTime);
+		PlayerPrefs.SetInt("PurpleStar", purpleStar);
         PlayerPrefs.SetInt("GoldenStar", goldenStar);
         PlayerPrefs.SetInt("Level", level);
 		PlayerPrefs.SetInt("Days", days);
 	}
-    public int LoadData()
+    public void LoadData()
     {
         level = PlayerPrefs.GetInt("Level");
 		purpleStar = PlayerPrefs.GetInt("PurpleStar");
 		goldenStar = PlayerPrefs.GetInt("GoldenStar");
 		days = PlayerPrefs.GetInt("Days");
-		return level;
+        playTime = PlayerPrefs.GetFloat("TimePlay");
     }
     public int GetPurpleStar()
     {

@@ -135,6 +135,8 @@ public class GamePlayPanel : MonoBehaviour
 				}
 				else
 				{
+					UIManager.instance.gamePlayPanel.deteleNailPanel.hasUse = false;
+					UIManager.instance.gamePlayPanel.undoPanel.hasUse = false;
 					gameManager.LoadLevelFromUI();
 				}
 				backFromChestPanel = false;

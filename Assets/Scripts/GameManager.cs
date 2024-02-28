@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 		{
 			instance = this;
 		}
+		currentLevel = SaveSystem.instance.level;
 	}
 	private void OnEnable()
 	{
@@ -41,18 +42,22 @@ public class GameManager : MonoBehaviour
 	{
 
 	}
-	public void CheckLevel()
+	private void OnApplicationQuit()
 	{
-		levelManager.RemoveLevel(currentLevel);
-		UIManager.instance.chestPanel.Open();
-		if (currentLevel >= levelManager.levelCount)
-		{
-			currentLevel = 0;
-			//hiện win pop
-			return;
-
-		}
+		SaveSystem.instance.SaveData();
 	}
+	//public void CheckLevel()
+	//{
+	//	levelManager.RemoveLevel(currentLevel);
+	//	UIManager.instance.chestPanel.Open();
+	//	if (currentLevel >= levelManager.levelCount)
+	//	{
+	//		currentLevel = 0;
+	//		//hiện win pop
+	//		return;
+
+	//	}
+	//}
 	public void Replay()
 	{
 		if (LevelManager.instance.transform.childCount > 0)

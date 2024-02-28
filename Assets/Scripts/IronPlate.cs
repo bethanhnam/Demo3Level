@@ -61,7 +61,7 @@ public class IronPlate : MonoBehaviour
 	public bool checkHitPoint(Vector2 holePosition)
 	{
 		result = false;
-		radius = 0.02f;
+		radius = 0.016f;
 		float reference = radius;
 		for (int i = 0; i < centerPoints.Length; i++)
 		{
