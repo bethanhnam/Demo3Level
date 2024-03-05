@@ -37,6 +37,7 @@ public class InputManager : MonoBehaviour
 	// cac layer mask
 	private LayerMask iNSelectionLayer;
 	private LayerMask IronLayer;
+	private LayerMask unSelectLayer;
 	private LayerMask placeLayer;
 	//lay tai nguyen
 	public GameObject[] ironObjects;
@@ -62,23 +63,24 @@ public class InputManager : MonoBehaviour
 	public List<Vector3> nailObjectsTransformBeforemove = new List<Vector3>();
 
 	public int numOfIronPlate;
-	
+
 	private void Awake()
 	{
 		iNSelectionLayer = LayerMask.GetMask("Hole");
-		placeLayer = LayerMask.GetMask("Hole", "IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5","IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
+		placeLayer = LayerMask.GetMask("Hole", "IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
 		IronLayer = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
+		unSelectLayer = LayerMask.GetMask("square", "IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
 
 	}
 	// Start is called before the first frame update
-	
+
 	void Start()
 	{
 		if (instance == null)
 		{
 			instance = this;
 		}
-		if(instance !=this)
+		if (instance != this)
 		{
 			instance = this;
 		}
@@ -122,15 +124,23 @@ public class InputManager : MonoBehaviour
 				selectDeteleNail();
 			}
 		}
+		else
+		{
+			if (selectNailPrefabAnimation)
+			{
+				Destroy(selectNailPrefabAnimation);
+				StartCoroutine(SetdefaultSpriteSameHole(selectedNail));
+			}
+		}
 	}
 
-	private void TurnNailsToRed(bool isOn )
+	private void TurnNailsToRed(bool isOn)
 	{
 		for (int i = 0; i < nailManager.nails.Count; i++)
 		{
 			Transform transform = nailManager.nails[i].transform;
 			transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = isOn;
-			
+
 		}
 	}
 
@@ -138,86 +148,142 @@ public class InputManager : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown(0))
 		{
-			RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(Ray, 0.3f, Vector3.forward, iNSelectionLayer);
-			if (cubeHit.Length > 0)
+			RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(Ray, 0.35f, Vector3.forward, Mathf.Infinity);
+			//RaycastHit2D[] cubeHit1 = Physics2D.CircleCastAll(Ray, 0.05f, Vector3.forward, Mathf.Infinity, ~iNSelectionLayer);
+			//if (cubeHit.Length > 0)
+			//{
+			//	foreach (RaycastHit2D ray in cubeHit)
+			//	{
+			//if (ray.collider.tag == "Hole")
+			//{
+			//List<GameObject> holes = new List<GameObject>();
+			//holes.Add(ray.collider.gameObject);
+			////chọn hố
+			//float [] Distances = new float[holes.Count];
+			//for (int i = 0; i < holes.Count; i++)
+			//{
+			//	Distances[i] = Vector2.Distance(holeObjects[i].transform.position, holes[i].transform.position);
+			//}
+			//for (int i = 0; i < holes.Count; i++)
+			//{
+			//	if (Distances[i] == Distances.Min())
+			//}
+			try
 			{
-				foreach (RaycastHit2D ray in cubeHit)
+				bool hasHole =false;
+				int hole=0;
+				for (int i = 0; i < cubeHit.Length; i++)
 				{
-					if (ray.collider.tag == "Hole")
-					{
-						//chọn hố
-						selectedHole = ray.collider.gameObject;
-						if (ray.collider.GetComponent<Hole>().CheckNail() == true)
-						{
-							if (selectedNail != null)
-							{
-
-								if (preSelectedNail != selectedNail)
-									preSelectedNail = selectedNail;
-							}
-							//khi click vào nail khác thì nail cũ chạy animation Deselect
-							if (selectNailPrefabAnimation != null)
-							{
-								//selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isSelected", false);
-								//selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isNotSelected", true);
-								selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetTrigger("Deselect");
-								
-								Destroy(selectNailPrefabAnimation, 0.33f);
-								try
-								{
-									StartCoroutine(SetdefaultSprite1(selectedNail));
-								}
-								catch (Exception e) { }
-								if (selectedNail != null && selectedNail != selectedHole.GetComponent<Hole>().getNail())
-								{
-									//lấy nail
-									selectedNail = selectedHole.GetComponent<Hole>().getNail();
-									// animation select nail
-									selectNailPrefabAnimation = Instantiate(selectNailPrefab, new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), quaternion.identity, transform);
-									////highLight nail đang được chọn
-									//selectNailPrefabAnimation.GetComponentInChildren<SpriteRenderer>().color = Color.green;
-									// tắt sprite của nail tại vị trí đang lấy
-									selectedNail.GetComponent<SpriteRenderer>().sprite = null;
-									// chạy animation lấy nail
-									selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isNotSelected", false);
-									selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isSelected", true);
-								}
-							}
-							//khi click vào nail khác thì nail mới chạy animation select
-							else
-							{
-								//lấy nail
-								selectedNail = selectedHole.GetComponent<Hole>().getNail();
-								// animation select nail
-								selectNailPrefabAnimation = Instantiate(selectNailPrefab, new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), quaternion.identity, transform);
-								//highLight nail đang được chọn
-								//selectNailPrefabAnimation.GetComponentInChildren<SpriteRenderer>().color = Color.green;
-								// tắt sprite của nail tại vị trí đang lấy
-								selectedNail.GetComponent<SpriteRenderer>().sprite = null;
-								// chạy animation lấy nail
-								selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isSelected", true);
-								selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isNotSelected", false);
-							}
-
-							if (preHole == null)
-							{
-								if (selectedHole != preHole)
-									preHole = selectedHole;
-							}
-							if (selectedNail != null)
-							{
-								preHole = selectedHole;
-							}
-							if (preSelectedNail != selectedNail)
-							{
-
-								preHingeJoint2D.Clear();
-							}
-
-						}
+					if (cubeHit[i].transform.gameObject.tag == "Hole") { 
+						hasHole = true;
+						hole = i;
 					}
 				}
+				if(hasHole != false)
+				{
+					selectedHole = cubeHit[hole].transform.gameObject;
+				}
+				else
+				{
+					selectedHole = null;
+				}
+				if (selectNailPrefabAnimation != null)
+				{
+					selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetTrigger("Deselect");
+
+					Destroy(selectNailPrefabAnimation, 0.33f);
+					try
+					{
+						StartCoroutine(SetdefaultSpriteSameHole(selectedNail));
+					}
+					catch (Exception e) { }
+				}
 			}
+			catch { }
+			if (selectedHole != null)
+			{
+				if (selectedHole.GetComponent<Hole>().CheckNail() == true)
+				{
+					if (selectedNail != null)
+					{
+
+						if (preSelectedNail != selectedNail)
+						{
+							preSelectedNail = selectedNail;
+						}
+					}
+					//khi click vào nail khác thì nail cũ chạy animation Deselect
+					if (selectNailPrefabAnimation != null)
+					{
+						//selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isSelected", false);
+						//selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isNotSelected", true);
+						selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetTrigger("Deselect");
+
+						Destroy(selectNailPrefabAnimation, 0.33f);
+						try
+						{
+							StartCoroutine(SetdefaultSpriteSameHole(selectedNail));
+						}
+						catch (Exception e) { }
+						if (selectedNail != null && selectedNail != selectedHole.GetComponent<Hole>().getNail())
+						{
+							//lấy nail
+							selectedNail = selectedHole.GetComponent<Hole>().getNail();
+							// animation select nail
+							selectNailPrefabAnimation = Instantiate(selectNailPrefab, new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), quaternion.identity, transform);
+							////highLight nail đang được chọn
+							//selectNailPrefabAnimation.GetComponentInChildren<SpriteRenderer>().color = Color.green;
+							// tắt sprite của nail tại vị trí đang lấy
+							selectedNail.GetComponent<SpriteRenderer>().sprite = null;
+							// chạy animation lấy nail
+							selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isNotSelected", false);
+							selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isSelected", true);
+						}
+					}
+					//khi click vào nail khác thì nail mới chạy animation select
+					else
+					{
+						//lấy nail
+						selectedNail = selectedHole.GetComponent<Hole>().getNail();
+						// animation select nail
+						
+						selectNailPrefabAnimation = Instantiate(selectNailPrefab, new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), quaternion.identity, transform);
+						if (selectedNail.transform.localScale == new Vector3(.65f, 0.65f, 1f))
+						{
+							selectNailPrefabAnimation.transform.GetChild(0).localScale = new Vector3(.7f, .7f, 1f);
+						}
+						if (selectedNail.transform.localScale == new Vector3(.8f, 0.8f, 1f))
+						{
+							selectNailPrefabAnimation.transform.GetChild(0).localScale = new Vector3(0.85f, 0.85f, 1f);
+						}
+						//highLight nail đang được chọn
+						//selectNailPrefabAnimation.GetComponentInChildren<SpriteRenderer>().color = Color.green;
+						// tắt sprite của nail tại vị trí đang lấy
+						selectedNail.GetComponent<SpriteRenderer>().sprite = null;
+						// chạy animation lấy nail
+						selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isNotSelected", false);
+						selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isSelected", true);
+					}
+
+					if (preHole == null)
+					{
+						if (selectedHole != preHole)
+							preHole = selectedHole;
+					}
+					if (selectedNail != null)
+					{
+						preHole = selectedHole;
+					}
+					if (preSelectedNail != selectedNail)
+					{
+						preHingeJoint2D.Clear();
+					}
+
+				}
+			}
+			//		}
+			//	}
+			//}
 			if (selectedNail != null && selectNailPrefabAnimation)
 			{
 				SetPreHinge(selectedNail, preHingeJoint2D);
@@ -254,7 +320,8 @@ public class InputManager : MonoBehaviour
 	public bool checkAllin()
 	{
 		bool allin = false;
-		Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), 0.1f);
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), 0.3f);
+
 		foreach (Collider2D collider in colliders)
 		{
 			if (collider.transform.tag == "Iron")
@@ -283,38 +350,35 @@ public class InputManager : MonoBehaviour
 		if (Input.GetMouseButtonDown(0))
 		{
 			Vector2 Ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			Collider2D[] Hit = Physics2D.OverlapCircleAll(new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), 0.1f);
-			Collider2D[] HitHole = Physics2D.OverlapCircleAll(new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), 0.1f);
-			//RaycastHit2D[] Hit = Physics2D.CircleCastAll(selectedHole.transform.position, 0.1f, Vector3.forward, placeLayer);
-			//RaycastHit2D[] HitHole = Physics2D.CircleCastAll(selectedHole.transform.position, 0.1f, Vector3.forward, placeLayer);
-			if (HitHole.Length > 0)
+			if (selectedHole != null)
 			{
-				foreach (Collider2D collider in HitHole)
+				Collider2D[] HitHole = Physics2D.OverlapCircleAll(new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), 0.1f);
+				if (HitHole.Length > 0)
 				{
-					if (collider.transform.tag == "Hole")
+					foreach (Collider2D collider in HitHole)
 					{
-						hasHole = true;
+						if (collider.transform.tag == "Hole")
+						{
+							hasHole = true;
+						}
 					}
 				}
-			}
-			if (Hit.Length > 0)
-			{
-				foreach (Collider2D hit in Hit)
+				if (selectedHole.GetComponent<Hole>().collider == true)
 				{
-					if (hit.transform.tag == "Iron")
-					{
-						hasIron = true;
-					}
+					hasIron = true;
 				}
 				if (hasIron)
 				{
-					if (checkAllin())
-						if (createNailInIron())
-						{
-							nailManager.DestroyNail(selectedNail);
-							selectedNail = null;
-
-						}
+					if (selectedHole.GetComponent<Hole>().collider == true)
+					{
+						if (checkAllin())
+							if (createNailInIron())
+							{
+								nailManager.DestroyNail(selectedNail);
+								selectedNail = null;
+								selectedHole = null;
+							}
+					}
 				}
 				if (!hasIron && hasHole)
 				{
@@ -322,9 +386,11 @@ public class InputManager : MonoBehaviour
 					{
 						nailManager.DestroyNail(selectedNail);
 						selectedNail = null;
+						selectedHole = null;
 					}
 				}
 			}
+			//}
 		}
 	}
 	public bool createNailInIron()
@@ -407,6 +473,7 @@ public class InputManager : MonoBehaviour
 	{
 		preNail = selectedNail;
 		newNail = nailManager.PoolNail(selectedHole.transform.position);
+		newNail.transform.localScale = preHole.GetComponent<Hole>().getNail().transform.localScale;
 		preHole.GetComponent<Hole>().setNail(null);
 		selectedHole.GetComponent<Hole>().setNail(selectedNail);
 		if (newNail != selectedNail)
@@ -417,25 +484,20 @@ public class InputManager : MonoBehaviour
 	{
 		preNail = selectedNail;
 		newNail = nailManager.PoolNail(selectedHole.transform.position);
+		newNail.transform.localScale = preHole.GetComponent<Hole>().getNail().transform.localScale;
 		newNail.GetComponent<Collider2D>().isTrigger = true;
 		selectedIron.GetComponent<Collider2D>().isTrigger = true;
 		selectedIron.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 		selectedIron.GetComponent<Rigidbody2D>().angularVelocity = Vector3.zero.magnitude;
 		selectedIron.GetComponent<Rigidbody2D>().freezeRotation = true;
-		//foreach (var hinge in selectedIron.GetComponent<IronPlate>().hingeJoint2Ds)
-		//{
-			
-		//		hinge.autoConfigureConnectedAnchor = true;
-		//}
 		preHole.GetComponent<Hole>().setNail(null);
-		//GameManager.instance.hasMove = true;
 		selectedHole.GetComponent<Hole>().setNail(selectedNail);
 		yield return new WaitForSeconds(0.1f);
 		selectedIron.GetComponent<Collider2D>().isTrigger = false;
 		selectedIron.GetComponent<Rigidbody2D>().freezeRotation = false;
 		newNail.GetComponent<Collider2D>().isTrigger = false;
 		if (newNail != selectedNail)
-			StartCoroutine(SetdefaultSprite(newNail));
+			StartCoroutine(SetdefaultSpriteInIron(newNail));
 		yield return newNail;
 	}
 	public void selectDeteleNail()
@@ -552,7 +614,7 @@ public class InputManager : MonoBehaviour
 					ironObjectsBeforemove[i].GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 					ironObjectsBeforemove[i].SetActive(true);
 				}
-				for(int i = 0;i < HingeJointBeforeRemove.Count; i++)
+				for (int i = 0; i < HingeJointBeforeRemove.Count; i++)
 				{
 					HingeJointBeforeRemove[i].connectedBody = nailsJointBeforemove[i].GetComponent<Rigidbody2D>();
 					HingeJointBeforeRemove[i].connectedAnchor = Vector2.zero;
@@ -659,7 +721,18 @@ public class InputManager : MonoBehaviour
 		}
 		catch { }
 	}
-	IEnumerator SetdefaultSprite1(GameObject nail)
+	IEnumerator SetdefaultSpriteInIron(GameObject nail)
+	{
+		canSelect = false;
+		yield return new WaitForSeconds(0.2f);
+		canSelect = true;
+		try
+		{
+			nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
+		}
+		catch { }
+	}
+	IEnumerator SetdefaultSpriteSameHole(GameObject nail)
 	{
 		canSelect = false;
 		yield return new WaitForSeconds(0.3f);
@@ -684,7 +757,7 @@ public class InputManager : MonoBehaviour
 		{
 			Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Gizmos.color = Color.green;
-			Gizmos.DrawWireSphere(mousePosition, 0.2f);
+			Gizmos.DrawWireSphere(mousePosition, 0.5f);
 		}
 	}
 

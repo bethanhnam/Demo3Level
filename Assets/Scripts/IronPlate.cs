@@ -15,7 +15,7 @@ public class IronPlate : MonoBehaviour
 	public bool result;
 	public List<HingeJoint2D> joints = new List<HingeJoint2D>();
 	private Rigidbody2D rigidbody2D;
-	[SerializeField] private Vector3 centerOfMass = new Vector3(-0.00154503f, 0.001582342f,0f);
+	[SerializeField] private Vector3 centerOfMass = new Vector3(-0.00177252f, 0.001291171f,0f);
 	[SerializeField] private Vector3 centerOfMass1;
 	//-0.02177252
 	//0.004291171
@@ -36,7 +36,6 @@ public class IronPlate : MonoBehaviour
 	{
 		setPoint();
 		checkHinge();
-		
 	}
 
 	
@@ -61,7 +60,7 @@ public class IronPlate : MonoBehaviour
 	public bool checkHitPoint(Vector2 holePosition)
 	{
 		result = false;
-		radius = 0.016f;
+		radius = 0.05f;
 		float reference = radius;
 		for (int i = 0; i < centerPoints.Length; i++)
 		{
@@ -108,18 +107,27 @@ public class IronPlate : MonoBehaviour
 				
 			}
 		}
-		if (hingeJoint2Ds.Length >= 3)
+		if (hingeJoint2Ds.Length >= 2)
 		{
 			if (joints.Count >= 2)
 			{
 				this.GetComponent<Rigidbody2D>().freezeRotation = true;
+				this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 			}
 			else
 			{
 				this.GetComponent<Rigidbody2D>().freezeRotation = false;
+				this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+				//StartCoroutine(UnFreeze());
 			}
 		}
 	}
+	//IEnumerator UnFreeze()
+	//{
+	//	yield return new WaitForSeconds(0.1f);
+	//	this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+	//	//rigidbody2D.AddTorque(10f);
+	//}
 	public void SetHingeJoint()
 	{
 		for(int i = 0;i<holes.Length;i++)

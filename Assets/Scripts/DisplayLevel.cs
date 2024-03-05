@@ -5,10 +5,9 @@ using UnityEngine.UI;
 
 public class DisplayLevel : MonoBehaviour
 {
-    public Sprite done;
-    public Sprite notDone;
-    public Image Lv1;
-    public Image Lv2;
+    public GameObject done;
+    public GameObject notDone;
+    public GameObject levelBar;
     // Start is called before the first frame update
     void Start()
     {

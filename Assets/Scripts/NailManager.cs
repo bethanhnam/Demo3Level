@@ -52,7 +52,7 @@ public class NailManager : MonoBehaviour
 			{
 				a = Instantiate(nailPrefab, new Vector2(InputManager.instance.selectedHole.transform.position.x, InputManager.instance.selectedHole.transform.position.y), quaternion.identity,transform);
 				nails.Add(a);
-				
+				a.GetComponent<SpriteRenderer>().sprite = null;
 				return a;
 			}
 			else
@@ -60,13 +60,15 @@ public class NailManager : MonoBehaviour
 				a.transform.position = spawnPosition;
 				a.SetActive(true);
 				nails.Remove(a);
-				
+				a.GetComponent<SpriteRenderer>().sprite = null;
 				return a;
 			}
 		}
+		
 	}
 	public void DestroyNail(GameObject nail) {
-        nail.SetActive(false);
+		nail.GetComponent<SpriteRenderer>().sprite = null;
+		nail.SetActive(false);
         nails.Add(nail);
     }
     

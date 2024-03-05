@@ -39,6 +39,7 @@ public class ExtralHole : MonoBehaviour
 		{
 			this.gameObject.SetActive(true);
 			GameManager.instance.hasUI = true;
+			UIManager.instance.gamePlayPanel.timer.TimerOn = false;
 		}
 	}
 	public void Close()

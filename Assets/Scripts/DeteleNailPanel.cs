@@ -12,7 +12,7 @@ public class DeteleNailPanel : MonoBehaviour
 			this.Close();
 			GameManager.instance.purpleStar--;
 			SaveSystem.instance.SetTiket(GameManager.instance.goldenStar, GameManager.instance.purpleStar);
-			hasUse = true;
+			//hasUse = true;
 			GameManager.instance.deleting = true;
 			UIManager.instance.gamePlayPanel.ButtonOff();
 		}
@@ -23,7 +23,7 @@ public class DeteleNailPanel : MonoBehaviour
 		this.Close();
 		//xoá nail(Đồng hồ đếm giờ dừng lại)
 		GameManager.instance.deleting = true;
-		hasUse = true;
+		//hasUse = true;
 		UIManager.instance.gamePlayPanel.ButtonOff();
 	}
 	public void Open()

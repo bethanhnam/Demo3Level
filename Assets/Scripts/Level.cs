@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Level : MonoBehaviour
 {
@@ -20,8 +21,9 @@ public class Level : MonoBehaviour
 		}
 		stage = 0;
 		LoadStage(stage);
-		UIManager.instance.gamePlayPanel.level.Lv1.sprite = UIManager.instance.gamePlayPanel.level.done;
-		UIManager.instance.gamePlayPanel.level.Lv2.sprite = UIManager.instance.gamePlayPanel.level.notDone;
+		UIManager.instance.gamePlayPanel.level.done.gameObject.SetActive(true);
+		UIManager.instance.gamePlayPanel.level.notDone.gameObject.SetActive(false);
+		UIManager.instance.gamePlayPanel.level.levelBar.gameObject.SetActive(false);
 	}
 	public void CheckLevel()
 	{
@@ -30,9 +32,12 @@ public class Level : MonoBehaviour
 		if (stage >= stageManager.levels.Count)
 		{
 			{
-				UIManager.instance.chestPanel.Open();
-				UIManager.instance.gamePlayPanel.level.Lv1.sprite = UIManager.instance.gamePlayPanel.level.notDone;
-				UIManager.instance.gamePlayPanel.level.Lv2.sprite = UIManager.instance.gamePlayPanel.level.notDone;
+				SaveSystem.instance.playingHard = false;
+				UIManager.instance.winPanel.Open();
+				UIManager.instance.gamePlayPanel.timer.TimerOn = false;
+				UIManager.instance.gamePlayPanel.level.done.gameObject.SetActive(true);
+				UIManager.instance.gamePlayPanel.level.notDone.gameObject.SetActive(true);
+				UIManager.instance.gamePlayPanel.level.levelBar.gameObject.SetActive(true);
 			}
 		}
 		else
@@ -57,11 +62,15 @@ public class Level : MonoBehaviour
 	}
 	IEnumerator LoadHardLevel()
 	{
+		SaveSystem.instance.playingHard = true;
 		UIManager.instance.gamePlayPanel.hardLevel.Open();
 		yield return new WaitForSeconds(1f);
 		UIManager.instance.gamePlayPanel.hardLevel.Close();
 		LoadStage(stage);
-		UIManager.instance.gamePlayPanel.level.Lv2.sprite = UIManager.instance.gamePlayPanel.level.done;
+		UIManager.instance.gamePlayPanel.level.done.gameObject.SetActive(true);
+		UIManager.instance.gamePlayPanel.level.notDone.gameObject.SetActive(true);
+		UIManager.instance.gamePlayPanel.level.levelBar.gameObject.SetActive(true);
+
 	}
 	public void ChangeLayer()
 	{

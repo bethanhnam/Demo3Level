@@ -40,11 +40,7 @@ public class GameManager : MonoBehaviour
 	}
 	private void Update()
 	{
-
-	}
-	private void OnApplicationQuit()
-	{
-		SaveSystem.instance.SaveData();
+		
 	}
 	//public void CheckLevel()
 	//{

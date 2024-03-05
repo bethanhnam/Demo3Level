@@ -102,10 +102,12 @@ public class GamePlayPanel : MonoBehaviour
 	public void OpenHardPanel()
 	{
 		hardLevel.Open();
+		timer.TimerOn = false;
 	}
 	public void OpenExtraHolePanel()
 	{
 		extraHolePanel.Open();
+		timer.TimerOn = false;
 	}
 	public void Open()
 	{
@@ -175,7 +177,7 @@ public class GamePlayPanel : MonoBehaviour
 	}
 	public void Settimer()
 	{
-		timer.SetTimer(121f);
+		timer.SetTimer(181f);
 	}
 	public void OpenLosePanel()
 	{
@@ -184,9 +186,11 @@ public class GamePlayPanel : MonoBehaviour
 	public void OpenPurpleStarShop()
 	{
 		BuyPurpleStarPanel.Open();
+		timer.TimerOn = false;
 	}
 	public void OpenGoldenStarShop()
 	{
 		BuyGoldenStarPanel.Open();
+		timer.TimerOn = false;
 	}
 }

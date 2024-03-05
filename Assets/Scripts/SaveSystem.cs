@@ -10,8 +10,8 @@ public class SaveSystem : MonoBehaviour
     public int purpleStar = 10;
     public int goldenStar = 10;
     public int days = 0;
-    public float playTime = 0;
-    public bool playing;
+    public float playHardTime = 0;
+    public bool playingHard;
 	private void Awake()
 	{
 		if (instance == null)
@@ -20,7 +20,6 @@ public class SaveSystem : MonoBehaviour
 		}
 		LoadData();
 		SaveData();
-        playing = true;
 	}
 	private void Start()
 	{
@@ -28,14 +27,13 @@ public class SaveSystem : MonoBehaviour
 	}
 	private void Update()
 	{
-        if (playing == true)
-        {
-            playTime += Time.deltaTime;
-        }
+		if (playingHard == true)
+		{
+			playHardTime += Time.deltaTime;
+		}
 	}
 	public void SaveData()
     {
-		PlayerPrefs.SetFloat("TimePlay", playTime);
 		PlayerPrefs.SetInt("PurpleStar", purpleStar);
         PlayerPrefs.SetInt("GoldenStar", goldenStar);
         PlayerPrefs.SetInt("Level", level);
@@ -47,7 +45,6 @@ public class SaveSystem : MonoBehaviour
 		purpleStar = PlayerPrefs.GetInt("PurpleStar");
 		goldenStar = PlayerPrefs.GetInt("GoldenStar");
 		days = PlayerPrefs.GetInt("Days");
-        playTime = PlayerPrefs.GetFloat("TimePlay");
     }
     public int GetPurpleStar()
     {

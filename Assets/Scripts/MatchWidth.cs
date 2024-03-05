@@ -19,7 +19,7 @@ public class MatchWidth : MonoBehaviour
 
 		if (windowAspect < targetAspect)
 		{
-			cam.orthographicSize = defaultOrhto * targetAspect / windowAspect;
+			cam.orthographicSize = defaultOrhto * (targetAspect / windowAspect);
 		}
 	}
 }

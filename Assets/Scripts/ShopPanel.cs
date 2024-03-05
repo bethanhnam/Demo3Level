@@ -8,6 +8,7 @@ public class ShopPanel : MonoBehaviour
 	{
 		if (!this.gameObject.activeSelf)
 		{
+			GameManager.instance.hasUI = true;
 			this.gameObject.SetActive(true);
 		}
 	}
@@ -15,12 +16,13 @@ public class ShopPanel : MonoBehaviour
 	{
 		if (this.gameObject.activeSelf)
 		{
+			GameManager.instance.hasUI = false;
 			this.gameObject.SetActive(false);
 		}
 	}
 	public void BackToMenu()
 	{
 		Close();
-		UIManager.instance.menuPanel.Open();
+		//UIManager.instance.menuPanel.Open();
 	}
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -8,20 +8,20 @@ public class ChetPanel : MonoBehaviour
 {
 	// Start is called before the first frame update
 	public int value =0;
-	public Slider slider;
+	public Slider[] slider = new Slider[2];
 	void Start()
 	{
-
 	}
 	private void OnEnable()
 	{
-		if (slider.value < slider.maxValue)
+		if (slider[0].value < slider[0].maxValue)
 		{
-			slider.value = SaveSystem.instance.level + 1;
+			slider[0].value = SaveSystem.instance.level + 1;	
+			slider[1].value = SaveSystem.instance.level;	
 		}
 		else
 		{
-			UIManager.instance.winPanel.Open();
+			
 		}
 	}
 	// Update is called once per frame
@@ -29,8 +29,16 @@ public class ChetPanel : MonoBehaviour
 	{
 		if (!this.gameObject.activeSelf)
 		{
-			this.gameObject.SetActive(true);
 			UIManager.instance.gamePlayPanel.Close();
+			this.gameObject.SetActive(true);
+
+		}
+		if (slider[0].value == slider[0].maxValue)
+		{
+			this.gameObject.SetActive(false);
+			UIManager.instance.congratPanel.Open();
+			slider[0].value = 0;
+			slider[1].value = 0;
 		}
 	}
 	public void Close()
@@ -38,9 +46,9 @@ public class ChetPanel : MonoBehaviour
 		if (this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(false);
-			if (slider.value == slider.maxValue)
+			if (slider[0].value == slider[0].maxValue)
 			{
-				UIManager.instance.winPanel.Open();
+				//UIManager.instance.congratPanel.Open();
 			}
 			else
 			{

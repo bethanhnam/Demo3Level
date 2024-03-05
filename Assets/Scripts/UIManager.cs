@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     public SettingPanel settingPanel;
     public ChetPanel chestPanel;
     public Winpop winPanel;
+    public CongratPanel congratPanel;
 
     public TextMeshProUGUI[] purpleStar;
     public TextMeshProUGUI[] goldenStar;

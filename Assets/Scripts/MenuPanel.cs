@@ -33,7 +33,7 @@ public class MenuPanel : MonoBehaviour
 	}
 	public void OpenShopPanel()
 	{
-		Close();
+		//Close();
 		UIManager.instance.shopPanel.Open();
 	}
 
