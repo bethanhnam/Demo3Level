@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine.UI;
 
 public class HintImgPanel : MonoBehaviour
 {
-
+	public RectTransform RectTransform;
 	public Image hintImg;
 	public List<Sprite> hintImgs = new List<Sprite>();
 
@@ -24,6 +25,7 @@ public class HintImgPanel : MonoBehaviour
 	{
 		if (!this.gameObject.activeSelf)
 		{
+			RectTransform.localPosition = Vector3.zero;
 			this.gameObject.SetActive(true);
 			GameManager.instance.hasUI = true;
 		}
@@ -32,8 +34,11 @@ public class HintImgPanel : MonoBehaviour
 	{
 		if (this.gameObject.activeSelf)
 		{
+			RectTransform.DOAnchorPos(new Vector2(0,-2900f),1f,false).SetEase(Ease.OutElastic).OnComplete(() => { 
 			this.gameObject.SetActive(false);
 			GameManager.instance.hasUI = false;
+				UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+			});
 		}
 	}
 	public void LoadHint()

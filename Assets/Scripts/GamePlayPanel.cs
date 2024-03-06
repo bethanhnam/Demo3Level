@@ -23,6 +23,8 @@ public class GamePlayPanel : MonoBehaviour
 	public Button HintButton;
 	public Button DeteleNailButton;
 	public Button UndoButton;
+
+	public RectTransform Blockpanel;
 	//public LosePanel winPanel;
 
 	public DisplayLevel level;
@@ -76,7 +78,11 @@ public class GamePlayPanel : MonoBehaviour
 	public void ShowHint()
 	{
 		hintImgPanel.Open();
-		hintImgPanel.LoadHint();
+		try
+		{
+			hintImgPanel.LoadHint();
+		}
+		catch { }
 		timer.TimerOn = false;
 	}
 	public void OpenReplayPanel()
@@ -168,8 +174,8 @@ public class GamePlayPanel : MonoBehaviour
 		if (this.gameObject.activeSelf)
 		{
 			isPause = true;
-			levelManager.gameObject.SetActive(false);
-			gameManager.gameObject.SetActive(false);
+			//levelManager.gameObject.SetActive(false);
+			//gameManager.gameObject.SetActive(false);
 			this.gameObject.SetActive(false);
 			GameManager.instance.deleting = false;
 			timer.TimerOn = false;

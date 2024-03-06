@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class ChetPanel : MonoBehaviour
 	// Start is called before the first frame update
 	public int value =0;
 	public Slider[] slider = new Slider[2];
+	public TextMeshProUGUI strikeScore;
 	void Start()
 	{
 	}
@@ -17,7 +19,8 @@ public class ChetPanel : MonoBehaviour
 		if (slider[0].value < slider[0].maxValue)
 		{
 			slider[0].value = SaveSystem.instance.level + 1;	
-			slider[1].value = SaveSystem.instance.level;	
+			slider[1].value = slider[0].value;	
+			strikeScore.text = slider[0].value.ToString();
 		}
 		else
 		{

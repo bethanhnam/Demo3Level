@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class LosePanel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+	public CanvasGroup canvasGroup;
+	public RectTransform Blockpanel;
+	// Start is called before the first frame update
+	void Start()
     {
         
     }
@@ -33,17 +36,29 @@ public class LosePanel : MonoBehaviour
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
+			Blockpanel.gameObject.SetActive(true);
 			UIManager.instance.gamePlayPanel.Close();
+			canvasGroup.alpha = 0;
+			canvasGroup.DOFade(1, .3f).OnComplete(() =>
+			{
+				Blockpanel.gameObject.SetActive(false);
+			});
+
 		}
 	}
 	public void Close()
 	{
 		if (this.gameObject.activeSelf)
 		{
-			this.gameObject.SetActive(false);
-			UIManager.instance.gamePlayPanel.timer.TimerOn = true;
-			UIManager.instance.gamePlayPanel.backFromPause = true;
-			UIManager.instance.gamePlayPanel.Open();
+			canvasGroup.alpha = 1;
+			canvasGroup.DOFade(0, .3f).OnComplete(() =>
+			{
+				Blockpanel.gameObject.SetActive(false);
+				this.gameObject.SetActive(false);
+				UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+				UIManager.instance.gamePlayPanel.backFromPause = true;
+				UIManager.instance.gamePlayPanel.Open();
+			});
 		}
 	}
 }

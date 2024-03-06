@@ -5,6 +5,7 @@
 //using UnityEditor.SceneManagement;
 //using UnityEngine;
 //using UnityEngine.SceneManagement;
+//using UnityEngine.UI;
 
 //public class ToolRebuildMap : Editor
 //{
@@ -299,6 +300,143 @@
 //			{
 //				Transform transform = obj.GetChild(j);
 //				transform.GetComponent<Rigidbody2D>().gravityScale = 2f;
+//			}
+//		}
+//	}
+//	[MenuItem("Services/changeNewImage")]
+//	public static void Button19()
+//	{
+//		Transform obj = Selection.activeTransform;
+//		for (int j = 0; j < obj.childCount; j++)
+//		{
+//			if (obj.GetChild(j).gameObject.tag == "square")
+//			{
+//				Transform transform = obj.GetChild(j);
+//				transform.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/Ingame (2)/Ingame/bg_board");
+//				transform.localPosition = new Vector3(0, -0.10810812f, 1f);
+//				for (int i = transform.childCount - 1; i >= 0; i--)
+//				{
+//					Transform transform1 = transform.GetChild(i);
+//					transform1.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/Ingame (2)/Ingame/Hole");
+//					if (transform1.childCount > 0)
+//					{
+//						transform1.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/Ingame (2)/Ingame/+ blue");
+//					}
+//				}
+//			}
+//		}
+//	}
+//	[MenuItem("Services/changeSquareLayer")]
+//	public static void Button22()
+//	{
+//		Transform obj = Selection.activeTransform;
+//		string layerName = "Default";
+//		int layerValue = LayerMask.NameToLayer(layerName);
+//		for (int j = 0; j < obj.childCount; j++)
+//		{
+//			for (int i = 0; i < obj.GetChild(j).childCount; i++)
+//			{
+//				if (obj.GetChild(j).GetChild(i).gameObject.tag == "square")
+//				{
+//					Transform transform = obj.GetChild(j).GetChild(i);
+//					transform.gameObject.layer = layerValue;
+
+//				}
+//			}
+//		}
+//	}
+//	[MenuItem("Services/changeNewMaterial")]
+//	public static void Button20()
+//	{
+//		Transform obj = Selection.activeTransform;
+//		string IronLayer1 = "IronLayer1";
+//		string IronLayer2 = "IronLayer2";
+//		string IronLayer3 = "IronLayer3";
+//		string IronLayer4 = "IronLayer4";
+//		string IronLayer5 = "IronLayer5";
+//		string IronLayer6 = "IronLayer6";
+//		string IronLayer7 = "IronLayer7";
+//		string IronLayer8 = "IronLayer8";
+//		string layer1vs2 = "layer1vs2";
+//		string layer1vs2vs3 = "layer1vs2vs3";
+//		string layer1vs2vs3vs4 = "layer1vs2vs3vs4";
+//		string layer1vs2vs3vs4vs5 = "layer1vs2vs3vs4vs5";
+//		List<int> list = new List<int>();
+//		int layerValue1 = LayerMask.NameToLayer(IronLayer1);
+//		int layerValue2 = LayerMask.NameToLayer(IronLayer2);
+//		int layerValue3 = LayerMask.NameToLayer(IronLayer3);
+//		int layerValue4 = LayerMask.NameToLayer(IronLayer4);
+//		int layerValue5 = LayerMask.NameToLayer(IronLayer5);
+//		int layerValue6 = LayerMask.NameToLayer(IronLayer6);
+//		int layerValue7 = LayerMask.NameToLayer(IronLayer7);
+//		int layerValue8 = LayerMask.NameToLayer(IronLayer8);
+//		int layerValue9 = LayerMask.NameToLayer(layer1vs2);
+//		int layerValue10 = LayerMask.NameToLayer(layer1vs2vs3);
+//		int layerValue11 = LayerMask.NameToLayer(layer1vs2vs3vs4);
+//		int layerValue12 = LayerMask.NameToLayer(layer1vs2vs3vs4vs5);
+//		list.Add(layerValue1);
+//		list.Add(layerValue2);
+//		list.Add(layerValue3);
+//		list.Add(layerValue4);
+//		list.Add(layerValue5);
+//		list.Add(layerValue6);
+//		list.Add(layerValue7);
+//		list.Add(layerValue8);
+//		list.Add(layerValue9);
+//		list.Add(layerValue10);
+//		list.Add(layerValue11);
+//		list.Add(layerValue12);
+//		for (int j = 0; j < obj.childCount; j++)
+//		{
+//			for (int i = 0; i < obj.GetChild(j).childCount; i++)
+//			{
+//				if (obj.GetChild(j).GetChild(i).gameObject.tag == "Iron")
+//				{
+//					Transform transform = obj.GetChild(j).GetChild(i);
+//					for (int k = 0; k < list.Count; k++)
+//						if (transform.gameObject.layer == list[k])
+//						{
+//							switch (k)
+//							{
+//								case 0:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1");
+//									break;
+//								case 1:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 1");
+//									break;
+//								case 2:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 2");
+//									break;
+//								case 3:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 3");
+//									break;
+//								case 4:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 4");
+//									break;
+//								case 5:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 5");
+//									break;
+//								case 6:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 6");
+//									break;
+//								case 7:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1");
+//									break;
+//								case 8:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 1");
+//									break;
+//								case 9:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 2");
+//									break;
+//								case 10:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 3");
+//									break;
+//								case 11:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 4");
+//									break;
+//							}
+//						}
+//				}
 //			}
 //		}
 //	}

@@ -63,7 +63,7 @@ public class Level : MonoBehaviour
 	IEnumerator LoadHardLevel()
 	{
 		SaveSystem.instance.playingHard = true;
-		UIManager.instance.gamePlayPanel.hardLevel.Open();
+		UIManager.instance.gamePlayPanel.OpenHardPanel();
 		yield return new WaitForSeconds(1f);
 		UIManager.instance.gamePlayPanel.hardLevel.Close();
 		LoadStage(stage);

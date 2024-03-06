@@ -4278,8 +4278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingPanel: {fileID: 4384162129143035695}
   dailyPanel: {fileID: 2205876463623026518}
-  backGroundPanel: {fileID: 2873122228933759974}
-  skinPanel: {fileID: 1113976704542063062}
+  nonAdsPanel: {fileID: 0}
   levelManager: {fileID: 0}
   gameManager: {fileID: 0}
 --- !u!1 &1019759707362450242
@@ -4814,7 +4813,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 0
-  slider: {fileID: 6948172640988238137}
+  slider:
+  - {fileID: 0}
 --- !u!1 &1146883493824247429
 GameObject:
   m_ObjectHideFlags: 0
@@ -6647,7 +6647,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8388599
 --- !u!114 &2379129859492908725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6666,6 +6666,8 @@ MonoBehaviour:
   shopPanel: {fileID: 8257502512217998478}
   settingPanel: {fileID: 4384162129143035695}
   chestPanel: {fileID: 5865386369069714453}
+  winPanel: {fileID: 0}
+  congratPanel: {fileID: 0}
   purpleStar:
   - {fileID: 4732408227812684256}
   - {fileID: 5043399715607680287}
@@ -6688,6 +6690,8 @@ MonoBehaviour:
   purpleStar: 0
   goldenStar: 0
   days: 0
+  playHardTime: 0
+  playingHard: 0
 --- !u!1 &1899698429759680042
 GameObject:
   m_ObjectHideFlags: 0
@@ -11693,8 +11697,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   done: {fileID: 21300000, guid: 77e1f99037da6964f85bb8c7334f5961, type: 3}
   notDone: {fileID: 21300000, guid: 50ade84e35a03d643991b4f715d7a042, type: 3}
-  Lv1: {fileID: 7385488320203369779}
-  Lv2: {fileID: 3520502856413127700}
+  levelBar: {fileID: 0}
 --- !u!1 &3328466363766152515
 GameObject:
   m_ObjectHideFlags: 0
@@ -15261,7 +15264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a7ff7a139553947b04357fa709b4a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panel: {fileID: 5603623809001011956}
 --- !u!1 &4323358580004367051
 GameObject:
   m_ObjectHideFlags: 0
@@ -24970,6 +24972,8 @@ MonoBehaviour:
   undoPanel: {fileID: 1691477383422040128}
   hardLevel: {fileID: 8941115180968502896}
   extraHolePanel: {fileID: 7023645784282684109}
+  BuyPurpleStarPanel: {fileID: 0}
+  BuyGoldenStarPanel: {fileID: 0}
   RelayButton: {fileID: 3557669569005579061}
   HintButton: {fileID: 1792147715846163760}
   DeteleNailButton: {fileID: 9015803314828726728}
