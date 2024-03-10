@@ -6,15 +6,19 @@ using UnityEngine;
 public class ShopPanel : MonoBehaviour
 {
 	public CanvasGroup canvasGroup;
+	public RectTransform Blockpanel;
 	public void Open()
 	{
 		if (!this.gameObject.activeSelf)
 		{
-			GameManager.instance.hasUI = true;
 			this.gameObject.SetActive(true);
+			Blockpanel.gameObject.SetActive(true);
+			GameManager.instance.hasUI = true;
+			AudioManager.instance.PlaySFX("OpenPopUp");
 			canvasGroup.alpha = 0;
 			canvasGroup.DOFade(1, 1f).OnComplete(() =>
 			{
+				Blockpanel.gameObject.SetActive(false);
 			});
 		}
 	}
@@ -22,11 +26,14 @@ public class ShopPanel : MonoBehaviour
 	{
 		if (this.gameObject.activeSelf)
 		{
+			Blockpanel.gameObject.SetActive(true);
 			canvasGroup.alpha = 1;
 			canvasGroup.DOFade(0, 1f).OnComplete(() =>
 			{
 				GameManager.instance.hasUI = false;
 				this.gameObject.SetActive(false);
+				AudioManager.instance.PlaySFX("ClosePopUp");
+				Blockpanel.gameObject.SetActive(false);
 			});
 			
 		}

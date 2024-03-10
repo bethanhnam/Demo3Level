@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using DG.Tweening;
 using UnityEngine.UI;
 
 public class DailyPanel : MonoBehaviour
@@ -10,8 +11,8 @@ public class DailyPanel : MonoBehaviour
 	public Reward[] dayRewards;
 	public int lastDate=0;
 	[SerializeField]private int selectReward = 0;
-	[SerializeField] private Button claimButton;
-	[SerializeField] private TextMeshProUGUI timeLeft;
+	public CanvasGroup canvasGroup;
+	public RectTransform Blockpanel;
 
 	private void Start()
 	{
@@ -30,55 +31,61 @@ public class DailyPanel : MonoBehaviour
 		//enable / disable claim button
 		if (DateTime.Today > lastclaimTime)
 		{
-			claimButton.interactable = true;
+			if (SaveSystem.instance.days < 7)
+			{
+				dayRewards[SaveSystem.instance.days].isActive = true;
+			}
 		}
-		else
-		{
-			claimButton.interactable = false;
-			timeLeft.text = GetTimeToNextClaim();
-		}
+
 	}
 	private void Update()
 	{
 		for (int i = 0; i < SaveSystem.instance.days; i++)
 		{
 			dayRewards[i].isClaim = true;
+			dayRewards[i].GetComponent<Button>().interactable = false;
 		}
-	}
-	private string GetTimeToNextClaim()
-	{
-		int hours = Mathf.FloorToInt((float)(DateTime.Today.AddDays(1) - DateTime.Now).TotalHours);
-		int minutes = Mathf.FloorToInt((float)(DateTime.Today.AddDays(1) - DateTime.Now).TotalMinutes) %60;
-		return (hours + " hours and " + minutes + " minutes left to claim next prize!");
+		
 	}
 	public void OnClaimButtinPressed()
 	{
-		dayRewards[lastDate].Active.gameObject.SetActive(true) ;
+		//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
 		PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
-		ClaimGift();
 		dayRewards[lastDate].isClaim = true;
 		SaveSystem.instance.days = lastDate+1;
 		SaveSystem.instance.purpleStar += dayRewards[lastDate].purpleStar;
 		SaveSystem.instance.goldenStar += dayRewards[lastDate].GoldenStar;
 		SaveSystem.instance.SaveData();
 	}
-	public void ClaimGift()
-	{
-		claimButton.interactable = false;
-		timeLeft.text = GetTimeToNextClaim();
-	}
 	public void Open()
 	{
 		if (!this.gameObject.activeSelf)
 		{
+			GameManager.instance.hasUI = true;
 			this.gameObject.SetActive(true);
+			Blockpanel.gameObject.SetActive(true);
+			AudioManager.instance.PlaySFX("OpenPopUp");
+			canvasGroup.alpha = 0;
+			canvasGroup.DOFade(1, 1f).OnComplete(() =>
+			{
+				Blockpanel.gameObject.SetActive(false);
+			});
 		}
 	}
 	public void Close()
 	{
 		if (this.gameObject.activeSelf)
 		{
-			this.gameObject.SetActive(false);
+			canvasGroup.alpha = 1;
+			Blockpanel.gameObject.SetActive(true);
+			canvasGroup.DOFade(0, 1f).OnComplete(() =>
+			{
+				GameManager.instance.hasUI = false;
+				this.gameObject.SetActive(false);
+				AudioManager.instance.PlaySFX("ClosePopUp");
+				Blockpanel.gameObject.SetActive(false);
+			});
 		}
+
 	}
 }

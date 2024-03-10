@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class HintImgPanel : MonoBehaviour
 {
 	public RectTransform RectTransform;
@@ -27,16 +28,19 @@ public class HintImgPanel : MonoBehaviour
 		{
 			RectTransform.localPosition = Vector3.zero;
 			this.gameObject.SetActive(true);
+			AudioManager.instance.PlaySFX("OpenPopUp");
 			GameManager.instance.hasUI = true;
+			UIManager.instance.gamePlayPanel.timer.TimerOn = false;
 		}
 	}
 	public void Close()
 	{
 		if (this.gameObject.activeSelf)
 		{
-			RectTransform.DOAnchorPos(new Vector2(0,-2900f),1f,false).SetEase(Ease.OutElastic).OnComplete(() => { 
+			RectTransform.DOAnchorPos(new Vector2(0,-2900f),.1f,false).SetEase(Ease.OutElastic).OnComplete(() => { 
 			this.gameObject.SetActive(false);
-			GameManager.instance.hasUI = false;
+				AudioManager.instance.PlaySFX("ClosePopUp");
+				GameManager.instance.hasUI = false;
 				UIManager.instance.gamePlayPanel.timer.TimerOn = true;
 			});
 		}

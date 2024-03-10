@@ -11,6 +11,10 @@ public class ChetPanel : MonoBehaviour
 	public int value =0;
 	public Slider[] slider = new Slider[2];
 	public TextMeshProUGUI strikeScore;
+	private void Awake()
+	{
+		
+	}
 	void Start()
 	{
 	}
@@ -18,7 +22,7 @@ public class ChetPanel : MonoBehaviour
 	{
 		if (slider[0].value < slider[0].maxValue)
 		{
-			slider[0].value = SaveSystem.instance.level + 1;	
+			slider[0].value = slider[0].value + 1;
 			slider[1].value = slider[0].value;	
 			strikeScore.text = slider[0].value.ToString();
 		}
@@ -34,6 +38,7 @@ public class ChetPanel : MonoBehaviour
 		{
 			UIManager.instance.gamePlayPanel.Close();
 			this.gameObject.SetActive(true);
+			AudioManager.instance.PlaySFX("OpenPopUp");
 
 		}
 		if (slider[0].value == slider[0].maxValue)
@@ -49,11 +54,8 @@ public class ChetPanel : MonoBehaviour
 		if (this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(false);
-			if (slider[0].value == slider[0].maxValue)
-			{
-				//UIManager.instance.congratPanel.Open();
-			}
-			else
+			AudioManager.instance.PlaySFX("ClosePopUp");
+			if (slider[0].value != slider[0].maxValue)
 			{
 				UIManager.instance.gamePlayPanel.backFromChestPanel = true;
 				UIManager.instance.gamePlayPanel.backFromPause = false;

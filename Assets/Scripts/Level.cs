@@ -57,6 +57,7 @@ public class Level : MonoBehaviour
 		{
 		}
 		stageManager.LoadStage(stage);
+		UIManager.instance.gamePlayPanel.hintPanel.hasUse = false;
 		this.stage++;
 
 	}

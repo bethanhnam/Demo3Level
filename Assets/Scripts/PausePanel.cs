@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class PausePanel : MonoBehaviour
 {
 	public RectTransform Blockpanel;
-	public RectTransform title;
-	public RectTransform homeButton;
-	public RectTransform retryButton;
+	//public RectTransform title;
+	//public RectTransform homeButton;
+	//public RectTransform retryButton;
 	public CanvasGroup canvasGroup;
 	public void Home()
 	{
-		this.Close();
-		UIManager.instance.gamePlayPanel.backFromPause =false;
+		this.gameObject.SetActive(false);
+		UIManager.instance.gamePlayPanel.backFromPause = false;
 		UIManager.instance.gamePlayPanel.Close();
+		GameManager.instance.hasUI = false;
+		canvasGroup.DOFade(0, .2f);
+		Blockpanel.gameObject.SetActive(false);
 		UIManager.instance.menuPanel.Open();
 	}
 	public void Open()
@@ -27,18 +31,17 @@ public class PausePanel : MonoBehaviour
 			Blockpanel.gameObject.SetActive(true);
 			GameManager.instance.hasUI = true;
 			UIManager.instance.gamePlayPanel.Close();
-			title.transform.localPosition = new Vector3(-13f, 1476f, 0);
-			retryButton.transform.localPosition = new Vector3(1324f, -36f, 0);
-			homeButton.transform.localPosition = new Vector3(-1400f, 144f, 0);
-			title.DOAnchorPos(new Vector3(-13f, -262f, 0), 0.3f, false).OnComplete(() =>
+			UIManager.instance.gamePlayPanel.timer.TimerOn = false;
+			this.GetComponent<CanvasGroup>().alpha = 0;
+			//title.transform.localPosition = new Vector3(-13, 640, 0);
+			//retryButton.transform.localPosition = new Vector3(1, -36, 0);
+			//homeButton.transform.localPosition = new Vector3(1, 144, 0);
+			this.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
+			this.GetComponent<RectTransform>().DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
 			{
-				homeButton.DOAnchorPos(new Vector3(1, 144, 0), .3f, false).OnComplete(() => {
-					retryButton.DOAnchorPos(new Vector3(1, -36, 0), .3f, false).OnComplete(() =>
-					{
-						Blockpanel.gameObject.SetActive(false);
-					});
-				});
+				Blockpanel.gameObject.SetActive(false);
 			});
+
 		}
 	}
 	public void Close()
@@ -46,28 +49,23 @@ public class PausePanel : MonoBehaviour
 		if (this.gameObject.activeSelf)
 		{
 			Blockpanel.gameObject.SetActive(true);
-			canvasGroup.alpha = 1;
-				retryButton.DOAnchorPos(new Vector3(1324f, -36f, 0), .3f, false).OnComplete(() =>
-				{
-					homeButton.DOAnchorPos(new Vector3(-1400f, 144f, 0), .3f, false).OnComplete(() => {
-						title.DOAnchorPos(new Vector3(-13f, 1476f, 0), .1f, false).OnComplete(() =>
-						{
-							canvasGroup.DOFade(0, .2f);
-							Blockpanel.gameObject.SetActive(false);
-							this.gameObject.SetActive(false);
-							UIManager.instance.gamePlayPanel.timer.TimerOn = true;
-							GameManager.instance.hasUI = false;
-							UIManager.instance.gamePlayPanel.backFromPause = true;
-							UIManager.instance.gamePlayPanel.Open();
-						});
-					});
-				});
+			this.GetComponent<CanvasGroup>().DOFade(0, 0.1f);
+			this.GetComponent<RectTransform>().DOScale(new Vector3(.8f, .8f, 1), 0.1f).OnComplete(() =>
+			{
+				canvasGroup.DOFade(0, .2f);
+				Blockpanel.gameObject.SetActive(false);
+				this.gameObject.SetActive(false);
+				UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+				GameManager.instance.hasUI = false;
+				UIManager.instance.gamePlayPanel.backFromPause = true;
+				UIManager.instance.gamePlayPanel.Open();
+			});
 		}
 	}
 	public void Retry()
 	{
 		Close();
-		GameManager.instance.Replay();
+		GameManager.instance.Retry();
 		UIManager.instance.gamePlayPanel.backFromPause = false;
 	}
 }

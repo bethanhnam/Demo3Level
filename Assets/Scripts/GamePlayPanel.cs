@@ -24,7 +24,7 @@ public class GamePlayPanel : MonoBehaviour
 	public Button DeteleNailButton;
 	public Button UndoButton;
 
-	public RectTransform Blockpanel;
+	//public RectTransform Blockpanel;
 	//public LosePanel winPanel;
 
 	public DisplayLevel level;
@@ -46,11 +46,6 @@ public class GamePlayPanel : MonoBehaviour
 	{
 		
 		levelText.text = (GameManager.instance.currentLevel + 1 ).ToString();
-		if (undoPanel.hasUse)
-		{
-			UndoButton.interactable = false;
-		}
-		else
 			try
 			{
 				if (InputManager.instance.hasSave)
@@ -65,10 +60,6 @@ public class GamePlayPanel : MonoBehaviour
 			catch
 			{
 			}
-		if (deteleNailPanel.hasUse)
-		{
-			DeteleNailButton.interactable = false;
-		}
 	}
 	public void OpenPausePanel()
 	{
@@ -136,16 +127,14 @@ public class GamePlayPanel : MonoBehaviour
 				if (backFromChestPanel == true)
 				{
 					gameManager.currentLevel++;
-					UIManager.instance.gamePlayPanel.deteleNailPanel.hasUse = false;
-					UIManager.instance.gamePlayPanel.undoPanel.hasUse = false;
 					gameManager.LoadLevelFromUI();
 					backFromChestPanel = false;
+					EnableBoosterButton();
 				}
 				else
 				{
-					UIManager.instance.gamePlayPanel.deteleNailPanel.hasUse = false;
-					UIManager.instance.gamePlayPanel.undoPanel.hasUse = false;
 					gameManager.LoadLevelFromUI();
+					EnableBoosterButton();
 				}
 				backFromChestPanel = false;
 				Settimer();
@@ -154,7 +143,17 @@ public class GamePlayPanel : MonoBehaviour
 			timer.TimerOn = true;
 		}
 	}
-
+	public void EnableBoosterButton()
+	{
+		UIManager.instance.gamePlayPanel.rePlayPanel.numOfUsed = 1;
+		UIManager.instance.gamePlayPanel.hintPanel.numOfUsed = 1;
+		UIManager.instance.gamePlayPanel.undoPanel.numOfUsed = 1;
+		UIManager.instance.gamePlayPanel.deteleNailPanel.numOfUsed = 1;
+		UIManager.instance.gamePlayPanel.losePanel.watchAdButton.GetComponent<Button>().interactable = true;
+		UIManager.instance.gamePlayPanel.losePanel.hasUse = false;
+		UIManager.instance.gamePlayPanel.hintPanel.hasUse = false;
+		SaveSystem.instance.playHardTime = 0;
+	} 
 	public void ButtonOff()
 	{
 		RelayButton.interactable = false;

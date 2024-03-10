@@ -148,7 +148,8 @@ public class InputManager : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown(0))
 		{
-			RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(Ray, 0.35f, Vector3.forward, Mathf.Infinity);
+			//AudioManager.instance.PlaySFX("Click");
+			RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(Ray, 0.5f, Vector3.forward, Mathf.Infinity);
 			//RaycastHit2D[] cubeHit1 = Physics2D.CircleCastAll(Ray, 0.05f, Vector3.forward, Mathf.Infinity, ~iNSelectionLayer);
 			//if (cubeHit.Length > 0)
 			//{
@@ -170,16 +171,17 @@ public class InputManager : MonoBehaviour
 			//}
 			try
 			{
-				bool hasHole =false;
-				int hole=0;
+				bool hasHole = false;
+				int hole = 0;
 				for (int i = 0; i < cubeHit.Length; i++)
 				{
-					if (cubeHit[i].transform.gameObject.tag == "Hole") { 
+					if (cubeHit[i].transform.gameObject.tag == "Hole")
+					{
 						hasHole = true;
 						hole = i;
 					}
 				}
-				if(hasHole != false)
+				if (hasHole != false)
 				{
 					selectedHole = cubeHit[hole].transform.gameObject;
 				}
@@ -238,6 +240,7 @@ public class InputManager : MonoBehaviour
 							// chạy animation lấy nail
 							selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isNotSelected", false);
 							selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isSelected", true);
+							//AudioManager.instance.PlaySFX("PickUpScrew");
 						}
 					}
 					//khi click vào nail khác thì nail mới chạy animation select
@@ -246,16 +249,13 @@ public class InputManager : MonoBehaviour
 						//lấy nail
 						selectedNail = selectedHole.GetComponent<Hole>().getNail();
 						// animation select nail
-						
+
+						selectNailPrefab.transform.transform.localScale = new Vector3(selectedNail.transform.localScale.x + 0.1f, selectedNail.transform.localScale.y + 0.1f, 1f);
 						selectNailPrefabAnimation = Instantiate(selectNailPrefab, new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), quaternion.identity, transform);
-						if (selectedNail.transform.localScale == new Vector3(.65f, 0.65f, 1f))
-						{
-							selectNailPrefabAnimation.transform.GetChild(0).localScale = new Vector3(.7f, .7f, 1f);
-						}
-						if (selectedNail.transform.localScale == new Vector3(.8f, 0.8f, 1f))
-						{
-							selectNailPrefabAnimation.transform.GetChild(0).localScale = new Vector3(0.85f, 0.85f, 1f);
-						}
+						selectNailPrefabAnimation.transform.GetChild(0).GetChild(0).localScale = new Vector3(selectedNail.transform.localScale.x + 0.01f, selectedNail.transform.localScale.y + 0.01f, 1f);
+						Debug.Log(selectNailPrefabAnimation.transform.localScale);
+						Debug.Log(selectNailPrefabAnimation.transform.GetChild(0).GetChild(0).gameObject.name);
+						Debug.Log(selectNailPrefabAnimation.transform.GetChild(0).GetChild(0).localScale);
 						//highLight nail đang được chọn
 						//selectNailPrefabAnimation.GetComponentInChildren<SpriteRenderer>().color = Color.green;
 						// tắt sprite của nail tại vị trí đang lấy
@@ -294,18 +294,18 @@ public class InputManager : MonoBehaviour
 
 	private void SetPreHinge(GameObject nail, List<HingeJoint2D> preHingJoint)
 	{
-		RaycastHit2D[] HitIron = Physics2D.CircleCastAll(Ray, 0.1f, Vector3.forward, IronLayer);
+		Collider2D[] HitIron = Physics2D.OverlapCircleAll(nail.transform.position, 0.1f, IronLayer);
 		if (HitIron.Length > 0)
 		{
-			foreach (RaycastHit2D ray in HitIron)
+			foreach (Collider2D ray in HitIron)
 			{
-				if (ray.collider.tag == "Iron")
+				if (ray.transform.tag == "Iron")
 				{
-					selectedIron = ray.collider.gameObject;
-					for (int i = 0; i < ray.collider.GetComponent<IronPlate>().holes.Length; i++)
+					selectedIron = ray.transform.gameObject;
+					for (int i = 0; i < ray.transform.GetComponent<IronPlate>().holes.Length; i++)
 					{
-						var hole = ray.collider.GetComponent<IronPlate>().hingeJoint2Ds[i];
-						if (hole.connectedBody == nail.GetComponent<Rigidbody2D>())
+						var hole = ray.transform.GetComponent<IronPlate>().hingeJoint2Ds[i];
+						if (hole.connectedBody == nail.transform.GetComponent<Rigidbody2D>())
 						{
 							if (!preHingJoint.Contains(hole))
 							{
@@ -474,6 +474,7 @@ public class InputManager : MonoBehaviour
 		preNail = selectedNail;
 		newNail = nailManager.PoolNail(selectedHole.transform.position);
 		newNail.transform.localScale = preHole.GetComponent<Hole>().getNail().transform.localScale;
+		newNail.transform.localScale = new Vector3(selectedHole.transform.localScale.x + 0.01f, selectedHole.transform.localScale.y + 0.01f, 1f);
 		preHole.GetComponent<Hole>().setNail(null);
 		selectedHole.GetComponent<Hole>().setNail(selectedNail);
 		if (newNail != selectedNail)
@@ -485,6 +486,7 @@ public class InputManager : MonoBehaviour
 		preNail = selectedNail;
 		newNail = nailManager.PoolNail(selectedHole.transform.position);
 		newNail.transform.localScale = preHole.GetComponent<Hole>().getNail().transform.localScale;
+		newNail.transform.localScale = new Vector3(selectedHole.transform.localScale.x + 0.01f, selectedHole.transform.localScale.y + 0.01f, 1f);
 		newNail.GetComponent<Collider2D>().isTrigger = true;
 		selectedIron.GetComponent<Collider2D>().isTrigger = true;
 		selectedIron.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
@@ -659,6 +661,8 @@ public class InputManager : MonoBehaviour
 					{
 						nailToDetele.SetActive(true);
 						holeToDetele.GetComponent<Hole>().setNail(nailToDetele);
+						nailToDetele.GetComponent<Collider2D>().isTrigger = true;
+						nailToDetele.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
 
 					}
 					catch { }
@@ -713,7 +717,7 @@ public class InputManager : MonoBehaviour
 	IEnumerator SetdefaultSprite(GameObject nail)
 	{
 		canSelect = false;
-		yield return new WaitForSeconds(0.28f);
+		yield return new WaitForSeconds(0.3f);
 		canSelect = true;
 		try
 		{

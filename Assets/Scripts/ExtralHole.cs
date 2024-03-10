@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class ExtralHole : MonoBehaviour
 {
 	public string layerName = "Hole";
@@ -20,11 +21,12 @@ public class ExtralHole : MonoBehaviour
 	}
 	public void UseTicket()
 	{
-		if (GameManager.instance.goldenStar > 0)
+		if (GameManager.instance.GoldenStar > 0)
 		{
 			this.Close();
-			GameManager.instance.goldenStar--;
-			SaveSystem.instance.SetTiket(GameManager.instance.goldenStar, GameManager.instance.purpleStar);
+			GameManager.instance.GoldenStar--;
+			SaveSystem.instance.SetTiket(GameManager.instance.GoldenStar, GameManager.instance.PurpleStar);
+			SaveSystem.instance.SaveData();
 			Level.instance.ChangeLayer();
 			extraHoleButton.gameObject.SetActive(false);
 		}
@@ -42,15 +44,19 @@ public class ExtralHole : MonoBehaviour
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
+			AudioManager.instance.PlaySFX("OpenPopUp");
 			GameManager.instance.hasUI = true;
 			UIManager.instance.gamePlayPanel.timer.TimerOn = false;
 			Blockpanel.gameObject.SetActive(true);
 			panel.localRotation = Quaternion.identity;
-			panel.DOAnchorPos(new Vector3(-351, 479, 0), .5f, false).OnComplete(() =>
+			this.GetComponent<CanvasGroup>().alpha = 0;
+			panel.localPosition = new Vector3(-351, 479, 0);
+			panel.localScale = new Vector3(.8f, .8f, 0);
+			closeButton.localPosition = new Vector3(359.100006f, 275.600006f, 0);
+			this.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
+			panel.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
 			{
-				closeButton.DOAnchorPos(new Vector3(-71.5f, -207.8f, 0), .5f, false).OnComplete(() => {
-					Blockpanel.gameObject.SetActive(false);
-				});
+				Blockpanel.gameObject.SetActive(false);
 			});
 		}
 	}
@@ -59,13 +65,14 @@ public class ExtralHole : MonoBehaviour
 		if (this.gameObject.activeSelf)
 		{
 			Blockpanel.gameObject.SetActive(true);
-			closeButton.DOAnchorPos(new Vector2(552f, -105f), 1f, false).OnComplete(() =>
+			closeButton.DOAnchorPos(new Vector2(552f, -105f), .1f, false).OnComplete(() =>
 			{
-				panel.DORotate(new Vector3(0, 0, -10f), .3f, RotateMode.Fast).OnComplete(() =>
+				panel.DORotate(new Vector3(0, 0, -10f), 0.25f, RotateMode.Fast).OnComplete(() =>
 				{
-					panel.DOAnchorPos(new Vector2(panel.transform.position.x, -1467f), .3f, true).OnComplete(() =>
+					panel.DOAnchorPos(new Vector2(panel.transform.position.x, -1467f), 0.25f, true).OnComplete(() =>
 					{
 						this.gameObject.SetActive(false);
+						AudioManager.instance.PlaySFX("ClosePopUp");
 						GameManager.instance.hasUI = false;
 						UIManager.instance.gamePlayPanel.timer.TimerOn = true;
 						Blockpanel.gameObject.SetActive(false);

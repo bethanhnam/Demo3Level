@@ -345,6 +345,46 @@
 //			}
 //		}
 //	}
+//	public static Transform findSquare(Transform transform)
+//	{
+//		for (int i = transform.childCount - 1; i >= 0; i--)
+//		{
+//			if (transform.GetChild(i).CompareTag("square"))
+//			{
+//				return transform.GetChild(i);
+//			}
+//		}
+//		return null;
+//	}
+//	[MenuItem("Services/changeNailScale")]
+//	public static void Button23()
+//	{
+//		Transform obj = Selection.activeTransform;
+//		string layerName = "Default";
+//		int layerValue = LayerMask.NameToLayer(layerName);
+//		Transform transform1 = GameObject.FindGameObjectWithTag("square").transform;
+//		for (int j = 0; j < obj.childCount; j++)
+//		{
+//			if (obj.GetChild(j).gameObject.CompareTag("NailsManager"))
+//			{
+//				Transform transform = obj.GetChild(j);
+//				for (int k = 0; k < transform.childCount; k++)
+//				{
+//					transform.GetChild(k).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("UI/upscale ingame/Untitled-1_0000_Group-1-copy");
+//					transform.GetChild(k).localScale = new Vector3(transform1.GetChild(0).localScale.x + 0.01f, transform1.GetChild(0).localScale.y + 0.01f, 1f);
+//				}
+//			}
+//			if (obj.GetChild(j).gameObject.CompareTag("Iron"))
+//			{
+//				Transform transform2 = obj.GetChild(j);
+//				for (int k = 0; k < transform2.childCount; k++)
+//				{
+//					transform2.GetChild(k).localScale = new Vector3(transform1.GetChild(0).localScale.x / 2 + 0.01f, transform1.GetChild(0).localScale.y / 2 + 0.01f, 1f);
+//				}
+//			}
+//		}
+//	}
+
 //	[MenuItem("Services/changeNewMaterial")]
 //	public static void Button20()
 //	{
@@ -361,6 +401,7 @@
 //		string layer1vs2vs3 = "layer1vs2vs3";
 //		string layer1vs2vs3vs4 = "layer1vs2vs3vs4";
 //		string layer1vs2vs3vs4vs5 = "layer1vs2vs3vs4vs5";
+//		string BothLayer = "BothLayer";
 //		List<int> list = new List<int>();
 //		int layerValue1 = LayerMask.NameToLayer(IronLayer1);
 //		int layerValue2 = LayerMask.NameToLayer(IronLayer2);
@@ -374,6 +415,7 @@
 //		int layerValue10 = LayerMask.NameToLayer(layer1vs2vs3);
 //		int layerValue11 = LayerMask.NameToLayer(layer1vs2vs3vs4);
 //		int layerValue12 = LayerMask.NameToLayer(layer1vs2vs3vs4vs5);
+//		int BothLayerValue = LayerMask.NameToLayer(BothLayer);
 //		list.Add(layerValue1);
 //		list.Add(layerValue2);
 //		list.Add(layerValue3);
@@ -386,6 +428,8 @@
 //		list.Add(layerValue10);
 //		list.Add(layerValue11);
 //		list.Add(layerValue12);
+//		list.Add(layerValue12);
+//		list.Add(BothLayerValue);
 //		for (int j = 0; j < obj.childCount; j++)
 //		{
 //			for (int i = 0; i < obj.GetChild(j).childCount; i++)
@@ -399,10 +443,10 @@
 //							switch (k)
 //							{
 //								case 0:
-//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1");
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 5");
 //									break;
 //								case 1:
-//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 1");
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1");
 //									break;
 //								case 2:
 //									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 2");
@@ -414,16 +458,16 @@
 //									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 4");
 //									break;
 //								case 5:
-//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 5");
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 1");
 //									break;
 //								case 6:
-//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 6");
-//									break;
-//								case 7:
 //									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1");
 //									break;
-//								case 8:
+//								case 7:
 //									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 1");
+//									break;
+//								case 8:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1");
 //									break;
 //								case 9:
 //									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 2");
@@ -433,6 +477,12 @@
 //									break;
 //								case 11:
 //									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 4");
+//									break;
+//								case 12:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 4");
+//									break;
+//								default:
+//									transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 5");
 //									break;
 //							}
 //						}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,12 +12,15 @@ public class GameManager : MonoBehaviour
 	public int checkLevel = 0;
 	public bool endgame = false;
 	public LevelManager levelManager;
-	
-	public int purpleStar;
-	public int goldenStar;
+
+	private int purpleStar;
+	private int goldenStar;
 	public bool deleting;
 	public bool hasUI;
 	public bool hasMove;
+
+	public int GoldenStar { get => goldenStar; set => goldenStar = value; }
+	public int PurpleStar { get => purpleStar; set => purpleStar = value; }
 
 	private void Start()
 	{
@@ -26,7 +30,7 @@ public class GameManager : MonoBehaviour
 		}
 		currentLevel = SaveSystem.instance.level;
 	}
-	private void OnEnable()
+	private void Awake()
 	{
 		try
 		{
@@ -38,22 +42,14 @@ public class GameManager : MonoBehaviour
 
 		};
 	}
+	private void OnEnable()
+	{
+		
+	}
 	private void Update()
 	{
 		
 	}
-	//public void CheckLevel()
-	//{
-	//	levelManager.RemoveLevel(currentLevel);
-	//	UIManager.instance.chestPanel.Open();
-	//	if (currentLevel >= levelManager.levelCount)
-	//	{
-	//		currentLevel = 0;
-	//		//hiện win pop
-	//		return;
-
-	//	}
-	//}
 	public void Replay()
 	{
 		if (LevelManager.instance.transform.childCount > 0)
@@ -64,8 +60,21 @@ public class GameManager : MonoBehaviour
 				LevelManager.instance.levelInstances.Clear();
 				StartCoroutine(LoadLevel());
 				UIManager.instance.gamePlayPanel.Settimer();
-				UIManager.instance.gamePlayPanel.deteleNailPanel.hasUse = false;
-				UIManager.instance.gamePlayPanel.undoPanel.hasUse = false;
+			}
+		}
+
+	}
+	public void Retry()
+	{
+		if (LevelManager.instance.transform.childCount > 0)
+		{
+			if (LevelManager.instance.transform.GetChild(0) != null)
+			{
+				Destroy(LevelManager.instance.transform.GetChild(0).gameObject);
+				LevelManager.instance.levelInstances.Clear();
+				StartCoroutine(LoadLevel());
+				UIManager.instance.gamePlayPanel.Settimer();
+				UIManager.instance.gamePlayPanel.EnableBoosterButton();
 			}
 		}
 
@@ -77,7 +86,7 @@ public class GameManager : MonoBehaviour
 	public IEnumerator LoadLevel()
 	{
 		UIManager.instance.gamePlayPanel.ButtonOff();
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.4f);
 		UIManager.instance.gamePlayPanel.ButtonOn();
 		try
 		{

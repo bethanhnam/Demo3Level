@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class SettingPanel : MonoBehaviour
 {
 	public GameObject soundOn;
@@ -33,11 +34,14 @@ public class SettingPanel : MonoBehaviour
 			Blockpanel.gameObject.SetActive(true);
 			this.gameObject.SetActive(true);
 			panel.localRotation = Quaternion.identity;
-			panel.DOAnchorPos(new Vector3(-351, 479, 0), 1f, false).OnComplete(() =>
+			this.GetComponent<CanvasGroup>().alpha = 0;
+			panel.localPosition = new Vector3(-351, 479, 0);
+			panel.localScale = new Vector3(.8f, .8f, 0);
+			closeButton.localPosition = new Vector3(359.100006f, 275.600006f, 0);
+			this.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
+			panel.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
 			{
-				closeButton.DOAnchorPos(new Vector3(-71.5f, -207.8f, 0), .5f, false).OnComplete(() => {
-					Blockpanel.gameObject.SetActive(false);
-				});
+				Blockpanel.gameObject.SetActive(false);
 			});
 		}
 	}
@@ -46,11 +50,11 @@ public class SettingPanel : MonoBehaviour
 		if (this.gameObject.activeSelf)
 		{
 			Blockpanel.gameObject.SetActive(true);
-			closeButton.DOAnchorPos(new Vector2(552f, -105f), 1f, false).OnComplete(() =>
+			closeButton.DOAnchorPos(new Vector2(552f, -105f), .1f, false).OnComplete(() =>
 				{
-					panel.DORotate(new Vector3(0, 0, -10f), .3f, RotateMode.Fast).OnComplete(() =>
+					panel.DORotate(new Vector3(0, 0, -10f), 0.25f, RotateMode.Fast).OnComplete(() =>
 					{
-						panel.DOAnchorPos(new Vector2(panel.transform.position.x, -1467f), .5f, false).OnComplete(() =>
+						panel.DOAnchorPos(new Vector2(panel.transform.position.x, -1467f), 0.25f, false).OnComplete(() =>
 						{
 							this.gameObject.SetActive(false);
 							UIManager.instance.menuPanel.Open();
