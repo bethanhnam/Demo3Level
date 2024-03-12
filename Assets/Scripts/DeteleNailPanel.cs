@@ -11,7 +11,7 @@ public class DeteleNailPanel : MonoBehaviour
 	public RectTransform closeButton;
 	public RectTransform panel;
 	public RectTransform Blockpanel;
-	public int numOfUsed =1;
+	public int numOfUsed = 1;
 	public RectTransform watchAdButton;
 	public TextMeshProUGUI numOfUsedText;
 	private void Start()
@@ -35,17 +35,22 @@ public class DeteleNailPanel : MonoBehaviour
 	}
 	public void WatchAd()
 	{
-		//xem qu?ng cáo 
-		
-		//xoá nail(Đồng hồ đếm giờ dừng lại)
-		GameManager.instance.deleting = true;
-		UIManager.instance.gamePlayPanel.ButtonOff();
-		numOfUsed++;
-		this.Close();
+		AdsManager.instance.ShowRewardVideo(() =>
+		{
+			//xem qu?ng cáo 
+
+			//xoá nail(Đồng hồ đếm giờ dừng lại)
+			GameManager.instance.deleting = true;
+			UIManager.instance.gamePlayPanel.ButtonOff();
+			numOfUsed++;
+			this.Close();
+
+		});
+
 	}
 	private void Update()
 	{
-			numOfUsedText.text = (numOfUsed).ToString();
+		numOfUsedText.text = (numOfUsed).ToString();
 		if (numOfUsed == 1)
 		{
 			watchAdButton.GetComponent<Button>().interactable = true;
@@ -67,7 +72,7 @@ public class DeteleNailPanel : MonoBehaviour
 			panel.localRotation = Quaternion.identity;
 			panel.localPosition = new Vector3(-351, 479, 0);
 			panel.localScale = new Vector3(.8f, .8f, 1);
-			closeButton.localPosition = new Vector3(360, 276, 0);
+			closeButton.localPosition = new Vector3(364, 277.600006f, 0);
 			this.GetComponent<CanvasGroup>().alpha = 0;
 			this.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
 			panel.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>

@@ -17,6 +17,8 @@ public class PausePanel : MonoBehaviour
 		UIManager.instance.gamePlayPanel.backFromPause = false;
 		UIManager.instance.gamePlayPanel.Close();
 		GameManager.instance.hasUI = false;
+		GameManager.instance.gameObject.SetActive(false);
+		LevelManager.instance.gameObject.SetActive(false);
 		canvasGroup.DOFade(0, .2f);
 		Blockpanel.gameObject.SetActive(false);
 		UIManager.instance.menuPanel.Open();

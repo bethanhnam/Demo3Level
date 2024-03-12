@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour
 				Destroy(LevelManager.instance.transform.GetChild(0).gameObject);
 				LevelManager.instance.levelInstances.Clear();
 				StartCoroutine(LoadLevel());
+				SaveSystem.instance.playHardTime = 0;
+				SaveSystem.instance.playingHard = false;
 				UIManager.instance.gamePlayPanel.Settimer();
 			}
 		}
@@ -73,7 +75,9 @@ public class GameManager : MonoBehaviour
 				Destroy(LevelManager.instance.transform.GetChild(0).gameObject);
 				LevelManager.instance.levelInstances.Clear();
 				StartCoroutine(LoadLevel());
+				SaveSystem.instance.playingHard = false;
 				UIManager.instance.gamePlayPanel.Settimer();
+				UIManager.instance.gamePlayPanel.losePanel.watchAdButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/win/bttn_green");
 				UIManager.instance.gamePlayPanel.EnableBoosterButton();
 			}
 		}

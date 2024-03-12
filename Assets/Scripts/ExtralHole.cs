@@ -33,10 +33,13 @@ public class ExtralHole : MonoBehaviour
 	}
 	public void WatchAd()
 	{
-		// load ad 
-		this.Close();
-		Level.instance.ChangeLayer();
-		extraHoleButton.gameObject.SetActive(false);
+		AdsManager.instance.ShowRewardVideo(() =>
+		{
+			// load ad 
+			this.Close();
+			Level.instance.ChangeLayer();
+			extraHoleButton.gameObject.SetActive(false);
+		});
 		
 	}
 	public void Open()

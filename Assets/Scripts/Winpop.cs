@@ -18,9 +18,11 @@ public class Winpop : MonoBehaviour
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
-			AudioManager.instance.PlaySFX("WinPop");
+
+			AudioManager.instance.PlaySFX("Winpop");
 			blockPanel.gameObject.SetActive(true);
 			SaveSystem.instance.playingHard = false;
+			GameManager.instance.hasUI = true;
 			int minutes = Mathf.FloorToInt(SaveSystem.instance.playHardTime / 60);
 			int seconds = Mathf.FloorToInt(SaveSystem.instance.playHardTime % 60);
 			PlayTimeText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
@@ -41,14 +43,18 @@ public class Winpop : MonoBehaviour
 	{
 		if (this.gameObject.activeSelf)
 		{
-			blockPanel.gameObject.SetActive(true);
-			panel.GetComponent<CanvasGroup>().DOFade(0,0.5f).OnComplete(() =>
+			AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_win, () =>
 			{
-				
-				blockPanel.gameObject.SetActive(false);
-				this.gameObject.SetActive(false);
-				AudioManager.instance.PlaySFX("ClosePopUp");
-				UIManager.instance.chestPanel.Open();
+				blockPanel.gameObject.SetActive(true);
+				panel.GetComponent<CanvasGroup>().DOFade(0, 0.5f).OnComplete(() =>
+				{
+
+					blockPanel.gameObject.SetActive(false);
+					this.gameObject.SetActive(false);
+					AudioManager.instance.PlaySFX("ClosePopUp");
+					UIManager.instance.chestPanel.Open();
+					GameManager.instance.hasUI = false;
+				});
 			});
 		}
 	}

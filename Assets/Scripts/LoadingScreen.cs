@@ -4,39 +4,45 @@ using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.HDROutputUtils;
 
 public class LoadingScreen : MonoBehaviour
 {
 	public GameObject loadingScreen;
+	public Screen gamePlayScreen;
 	public Slider[] sliders;
-	public float progressDelta = 0.01f; // Điều chỉnh delta tại đây
 
 	public void LoadingScene(int sceneId)
 	{
 		StartCoroutine(LoadingSceneAsync(sceneId));
+		//StartCoroutine(changeSliderValue(sceneId));
 	}
 
 	IEnumerator LoadingSceneAsync(int sceneId)
 	{
+		yield return null;
 		AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
+		operation.allowSceneActivation = false;
 		loadingScreen.SetActive(true);
-		while (!operation.isDone)
+		while (sliders[0].value <= 0.9f && !operation.isDone)
 		{
-			float progressValue = Mathf.Clamp01(operation.progress / 0.9f);
-
-			// Điều chỉnh tốc độ tăng của giá trị
-			float targetValue = sliders[0].value + progressDelta;
-			sliders[0].value = Mathf.Clamp01(targetValue);
-
-			targetValue = sliders[1].value + progressDelta;
-			sliders[1].value = Mathf.Clamp01(targetValue);
-
+			if (sliders[0].value <= 1f)
+			{
+				sliders[0].value += 0.01f;
+				sliders[1].value += 0.01f;
+			}
+			if (operation.progress >= 0.9f && sliders[0].value >= 0.9f)
+			{
+				operation.allowSceneActivation = true;
+				RemoteConfigController.instance.Init();
+			}
 			yield return null;
 		}
+		yield return new WaitForSecondsRealtime(1f);
 	}
-
 	private void Start()
 	{
 		LoadingScene(1);
+
 	}
 }

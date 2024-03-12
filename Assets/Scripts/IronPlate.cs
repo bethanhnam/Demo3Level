@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Sirenix.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,12 +14,11 @@ public class IronPlate : MonoBehaviour
 	[SerializeField] private float radius;
 	public int selectedHinge = 0;
 	public bool result;
+	public bool isFrezze;
+	public bool hasAddForce;
 	public List<HingeJoint2D> joints = new List<HingeJoint2D>();
 	private Rigidbody2D rigidbody2D;
-	[SerializeField] private Vector3 centerOfMass = new Vector3(-0.00177252f, 0.001291171f,0f);
-	[SerializeField] private Vector3 centerOfMass1;
-	//-0.02177252
-	//0.004291171
+	[SerializeField] private Vector3 centerOfMass = new Vector3(-0.00077252f, 0.000291171f,0f);
 
 
 	private void Start()
@@ -28,11 +28,10 @@ public class IronPlate : MonoBehaviour
 		hingeJoint2Ds = GetComponents<HingeJoint2D>();
 		SetHingeJoint();
 		rigidbody2D  = this.GetComponent<Rigidbody2D>();
-		centerOfMass1 = rigidbody2D.centerOfMass;
 		rigidbody2D.centerOfMass = centerOfMass;
 
 	}
-	private async void Update()
+	private void Update()
 	{
 		setPoint();
 		checkHinge();
@@ -60,7 +59,7 @@ public class IronPlate : MonoBehaviour
 	public bool checkHitPoint(Vector2 holePosition)
 	{
 		result = false;
-		radius = 0.12f;
+		radius = 0.07f;
 		float reference = radius;
 		for (int i = 0; i < centerPoints.Length; i++)
 		{
@@ -111,23 +110,45 @@ public class IronPlate : MonoBehaviour
 		{
 			if (joints.Count >= 2)
 			{
-				this.GetComponent<Rigidbody2D>().freezeRotation = true;
-				this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+				if(!isFrezze)
+				StartCoroutine(Freeze());
 			}
 			else
 			{
-				this.GetComponent<Rigidbody2D>().freezeRotation = false;
-				this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-				//StartCoroutine(UnFreeze());
+
+				StartCoroutine(unFreeze());
+			}	
+		}
+		if (joints.IsNullOrEmpty())
+		{
+			if (!hasAddForce)
+			{
+				Vector3 movementDirection = this.rigidbody2D.velocity.normalized;
+
+				// Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude
+				Vector3 forceToAdd = movementDirection * 0.1f;
+
+				// Thêm lực vào Rigidbody
+				rigidbody2D.AddForce(forceToAdd, ForceMode2D.Impulse);
+				hasAddForce = true;
 			}
 		}
 	}
-	//IEnumerator UnFreeze()
-	//{
-	//	yield return new WaitForSeconds(0.1f);
-	//	this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-	//	//rigidbody2D.AddTorque(10f);
-	//}
+	IEnumerator Freeze()
+	{
+		yield return new WaitForSeconds(0.1f);
+		this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+		this.GetComponent<Rigidbody2D>().gravityScale = 1f;
+		isFrezze = true;
+	}
+	IEnumerator unFreeze()
+	{
+		yield return new WaitForSeconds(0.05f);
+		this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+		this.GetComponent<Rigidbody2D>().freezeRotation = false;
+		this.GetComponent<Rigidbody2D>().gravityScale = 1f;
+		isFrezze = false;
+	}
 	public void SetHingeJoint()
 	{
 		for(int i = 0;i<holes.Length;i++)

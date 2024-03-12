@@ -28,6 +28,12 @@ public class RemoteConfigController : MonoBehaviour
     private int value_impress_ads=1;
     [SerializeField]
     private int banner_type;
+    [SerializeField]
+    private string dataNetwork;
+    [SerializeField]
+    private string ads_config;
+    [SerializeField]
+    private int isShowOpenAds;
 
     //[SerializeField]
     //private string data_config;
@@ -81,8 +87,11 @@ public class RemoteConfigController : MonoBehaviour
     public string Ads_config_native { get => ads_config_native; set => ads_config_native = value; }
     public int Value_impress_ads { get => value_impress_ads; set => value_impress_ads = value; }
     public int Value_super_impression_ads { get => value_super_impression_ads; set => value_super_impression_ads = value; }
+	public string DataNetwork { get => dataNetwork; set => dataNetwork = value; }
+	public string Ads_config { get => ads_config; set => ads_config = value; }
+	public int IsShowOpenAds { get => isShowOpenAds; set => isShowOpenAds = value; }
 
-    public static RemoteConfigController GetInstance()
+	public static RemoteConfigController GetInstance()
     {
         if (instance == null)
         {
@@ -172,8 +181,17 @@ public class RemoteConfigController : MonoBehaviour
         try { banner_type = (int)GetValue("banner_type").DoubleValue; }
         catch { }
 
-        SaveValue();
+		try { dataNetwork = (string.IsNullOrEmpty(GetValue("dataNetwork").StringValue) ? dataNetwork: GetValue("dataNetwork").StringValue); }
+		catch { }
+		try { ads_config = (string.IsNullOrEmpty(GetValue("ads_config").StringValue) ? ads_config : GetValue("ads_config").StringValue); }
+		catch { }
+		try { isShowOpenAds = (int)GetValue("isShowOpenAds").DoubleValue; }
+		catch { }
+
+		SaveValue();
         isInit = true;
+
+        GetComponent<AdsManager>().StartInit(dataNetwork, ads_config);
     }
 
     public void SetDefaultValue()
@@ -202,6 +220,18 @@ public class RemoteConfigController : MonoBehaviour
         {
             PlayerPrefs.SetInt("banner_type", banner_type);
         }
+        if(PlayerPrefs.HasKey("dataNetwork"))
+        {
+            PlayerPrefs.SetString("dataNetwork", dataNetwork);
+        }
+        if(PlayerPrefs.HasKey("ads_config"))
+        {
+            PlayerPrefs.SetString("ads_config", ads_config);
+        }
+        if(PlayerPrefs.HasKey("isShowOpenAds"))
+        {
+            PlayerPrefs.SetInt("isShowOpenAds", isShowOpenAds);
+        }
     }
 
     public void LoadDefaultValue()
@@ -212,6 +242,9 @@ public class RemoteConfigController : MonoBehaviour
         value_super_impression_ads = PlayerPrefs.GetInt("value_super_impression_ads", value_super_impression_ads);
         value_impress_ads = PlayerPrefs.GetInt("value_impress_ads", value_impress_ads);
         banner_type = PlayerPrefs.GetInt("banner_type", banner_type);
+        dataNetwork = PlayerPrefs.GetString("dataNetwork", dataNetwork);
+        ads_config = PlayerPrefs.GetString("ads_config", ads_config);
+        isShowOpenAds = PlayerPrefs.GetInt("isShowOpenAds", isShowOpenAds);
 
     }
 
@@ -223,6 +256,9 @@ public class RemoteConfigController : MonoBehaviour
         PlayerPrefs.SetInt("value_super_impression_ads", value_super_impression_ads);
         PlayerPrefs.SetInt("value_impress_ads", value_impress_ads);
         PlayerPrefs.SetInt("banner_type", banner_type);
+        PlayerPrefs.SetString("dataNetwork", dataNetwork);
+        PlayerPrefs.SetString("ads_config", ads_config);
+        PlayerPrefs.SetInt("isShowOpenAds", isShowOpenAds);
         PlayerPrefs.Save();
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using Unity.VisualScripting.AssemblyQualifiedNameParser;
@@ -21,7 +22,7 @@ public class InputManager : MonoBehaviour
 	[SerializeField] private Sprite nailDefaulSprite;
 	// lay nail truoc va dang chon
 	public bool canSelect;
-	[SerializeField] private GameObject selectedNail;
+	[SerializeField] public GameObject selectedNail;
 	[SerializeField] private GameObject preSelectedNail;
 	public GameObject newNail;
 	public GameObject preNail;
@@ -44,7 +45,8 @@ public class InputManager : MonoBehaviour
 	public GameObject[] holeObjects;
 	//vi tri chuot
 	Vector2 Ray;
-
+	public Transform[] pointerPositions;
+	public GameObject clickEffect;
 	//
 	public NailManager nailManager;
 	//lưu tài nguyên sau từng chuyển động
@@ -61,7 +63,6 @@ public class InputManager : MonoBehaviour
 	public List<GameObject> nailObjectsBeforemove = new List<GameObject>();
 	public List<GameObject> nailsJointBeforemove = new List<GameObject>();
 	public List<Vector3> nailObjectsTransformBeforemove = new List<Vector3>();
-
 	public int numOfIronPlate;
 
 	private void Awake()
@@ -95,15 +96,11 @@ public class InputManager : MonoBehaviour
 	void Update()
 	{
 
+		
 		Ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		ironObjects = GameObject.FindGameObjectsWithTag("Iron");
 		numOfIronPlate = ironObjects.Length;
-		//selectHole();
-		//if (Input.GetKeyDown(KeyCode.K))
-		//{
-		//	Undo();
-		//}
-		//test
+		
 		if (!GameManager.instance.hasUI)
 		{
 			if (GameManager.instance.deleting != true)
@@ -148,27 +145,9 @@ public class InputManager : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown(0))
 		{
-			//AudioManager.instance.PlaySFX("Click");
 			RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(Ray, 0.5f, Vector3.forward, Mathf.Infinity);
-			//RaycastHit2D[] cubeHit1 = Physics2D.CircleCastAll(Ray, 0.05f, Vector3.forward, Mathf.Infinity, ~iNSelectionLayer);
-			//if (cubeHit.Length > 0)
-			//{
-			//	foreach (RaycastHit2D ray in cubeHit)
-			//	{
-			//if (ray.collider.tag == "Hole")
-			//{
-			//List<GameObject> holes = new List<GameObject>();
-			//holes.Add(ray.collider.gameObject);
-			////chọn hố
-			//float [] Distances = new float[holes.Count];
-			//for (int i = 0; i < holes.Count; i++)
-			//{
-			//	Distances[i] = Vector2.Distance(holeObjects[i].transform.position, holes[i].transform.position);
-			//}
-			//for (int i = 0; i < holes.Count; i++)
-			//{
-			//	if (Distances[i] == Distances.Min())
-			//}
+			var clickeffect = Instantiate(clickEffect, new Vector2(Ray.x,Ray.y),quaternion.identity);
+			Destroy(clickeffect, 0.2f);
 			try
 			{
 				bool hasHole = false;
@@ -184,9 +163,11 @@ public class InputManager : MonoBehaviour
 				if (hasHole != false)
 				{
 					selectedHole = cubeHit[hole].transform.gameObject;
+					AudioManager.instance.PlaySFX("PickUpScrew");
 				}
 				else
 				{
+					AudioManager.instance.PlaySFX("Click");
 					selectedHole = null;
 				}
 				if (selectNailPrefabAnimation != null)
@@ -240,7 +221,7 @@ public class InputManager : MonoBehaviour
 							// chạy animation lấy nail
 							selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isNotSelected", false);
 							selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isSelected", true);
-							//AudioManager.instance.PlaySFX("PickUpScrew");
+							
 						}
 					}
 					//khi click vào nail khác thì nail mới chạy animation select
@@ -319,9 +300,8 @@ public class InputManager : MonoBehaviour
 	}
 	public bool checkAllin()
 	{
-		bool allin = false;
-		Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), 0.3f);
-
+		bool allin = true;
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), 0.23f);
 		foreach (Collider2D collider in colliders)
 		{
 			if (collider.transform.tag == "Iron")
@@ -377,6 +357,7 @@ public class InputManager : MonoBehaviour
 								nailManager.DestroyNail(selectedNail);
 								selectedNail = null;
 								selectedHole = null;
+								
 							}
 					}
 				}
@@ -488,7 +469,6 @@ public class InputManager : MonoBehaviour
 		newNail.transform.localScale = preHole.GetComponent<Hole>().getNail().transform.localScale;
 		newNail.transform.localScale = new Vector3(selectedHole.transform.localScale.x + 0.01f, selectedHole.transform.localScale.y + 0.01f, 1f);
 		newNail.GetComponent<Collider2D>().isTrigger = true;
-		selectedIron.GetComponent<Collider2D>().isTrigger = true;
 		selectedIron.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 		selectedIron.GetComponent<Rigidbody2D>().angularVelocity = Vector3.zero.magnitude;
 		selectedIron.GetComponent<Rigidbody2D>().freezeRotation = true;

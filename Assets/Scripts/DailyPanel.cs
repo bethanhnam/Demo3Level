@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class DailyPanel : MonoBehaviour
 {
-	public Reward[] dayRewards;
+	public RewardDaily[] dayRewards;
 	public int lastDate=0;
 	[SerializeField]private int selectReward = 0;
 	public CanvasGroup canvasGroup;
@@ -51,11 +51,14 @@ public class DailyPanel : MonoBehaviour
 	{
 		//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
 		PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
-		dayRewards[lastDate].isClaim = true;
-		SaveSystem.instance.days = lastDate+1;
-		SaveSystem.instance.purpleStar += dayRewards[lastDate].purpleStar;
-		SaveSystem.instance.goldenStar += dayRewards[lastDate].GoldenStar;
-		SaveSystem.instance.SaveData();
+		dayRewards[lastDate].rewardImg.rectTransform.DOAnchorPos(UIManager.instance.menuPanel.dailyPanel.transform.InverseTransformPoint(dayRewards[lastDate].reciveRewardpoint.position), 1f).OnComplete(() =>
+		{
+			dayRewards[lastDate].isClaim = true;
+			SaveSystem.instance.days = lastDate + 1;
+			SaveSystem.instance.purpleStar += dayRewards[lastDate].purpleStar;
+			SaveSystem.instance.goldenStar += dayRewards[lastDate].GoldenStar;
+			SaveSystem.instance.SaveData();
+		});
 	}
 	public void Open()
 	{
@@ -66,7 +69,7 @@ public class DailyPanel : MonoBehaviour
 			Blockpanel.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("OpenPopUp");
 			canvasGroup.alpha = 0;
-			canvasGroup.DOFade(1, 1f).OnComplete(() =>
+			canvasGroup.DOFade(1, .3f).OnComplete(() =>
 			{
 				Blockpanel.gameObject.SetActive(false);
 			});
@@ -78,7 +81,7 @@ public class DailyPanel : MonoBehaviour
 		{
 			canvasGroup.alpha = 1;
 			Blockpanel.gameObject.SetActive(true);
-			canvasGroup.DOFade(0, 1f).OnComplete(() =>
+			canvasGroup.DOFade(0, .3f).OnComplete(() =>
 			{
 				GameManager.instance.hasUI = false;
 				this.gameObject.SetActive(false);

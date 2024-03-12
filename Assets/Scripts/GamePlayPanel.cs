@@ -23,6 +23,8 @@ public class GamePlayPanel : MonoBehaviour
 	public Button HintButton;
 	public Button DeteleNailButton;
 	public Button UndoButton;
+	public GameObject boosterButton;
+
 
 	//public RectTransform Blockpanel;
 	//public LosePanel winPanel;
@@ -44,6 +46,16 @@ public class GamePlayPanel : MonoBehaviour
 	}
 	private void Update()
 	{
+		if(GameManager.instance.currentLevel == 0)
+		{
+			boosterButton.gameObject.SetActive(false);	
+
+		}
+		else
+		{
+			boosterButton.gameObject.SetActive(true);
+
+		}
 		
 		levelText.text = (GameManager.instance.currentLevel + 1 ).ToString();
 			try
@@ -63,8 +75,11 @@ public class GamePlayPanel : MonoBehaviour
 	}
 	public void OpenPausePanel()
 	{
-		pausePanel.Open();
-		timer.TimerOn = false;
+		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.ingame_pause, () =>
+		{
+			pausePanel.Open();
+			timer.TimerOn = false;
+		});
 	}
 	public void ShowHint()
 	{

@@ -22,13 +22,18 @@ public class MenuPanel : MonoBehaviour
 	}
 	public void OpenSettingPanel()
 	{
-		settingPanel.Open();
-
+		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.menu_setting, () =>
+		{
+			settingPanel.Open();
+		});
 	}
 	public void OpenDailyPanel()
 	{
 
-		dailyPanel.Open();
+		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.menu_daily, () =>
+		{
+			dailyPanel.Open();
+		});
 
 	}
 	public void OpenNonAdsPanel()
@@ -38,8 +43,10 @@ public class MenuPanel : MonoBehaviour
 	}
 	public void OpenShopPanel()
 	{
-		UIManager.instance.shopPanel.Open();
-		
+		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.menu_shop, () =>
+		{
+			UIManager.instance.shopPanel.Open();
+		});
 	}
 
 	public void Open()

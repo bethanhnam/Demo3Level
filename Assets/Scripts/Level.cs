@@ -63,7 +63,7 @@ public class Level : MonoBehaviour
 	}
 	IEnumerator LoadHardLevel()
 	{
-		SaveSystem.instance.playingHard = true;
+		ClosePopUp();
 		UIManager.instance.gamePlayPanel.OpenHardPanel();
 		yield return new WaitForSeconds(1f);
 		UIManager.instance.gamePlayPanel.hardLevel.Close();
@@ -71,8 +71,18 @@ public class Level : MonoBehaviour
 		UIManager.instance.gamePlayPanel.level.done.gameObject.SetActive(true);
 		UIManager.instance.gamePlayPanel.level.notDone.gameObject.SetActive(true);
 		UIManager.instance.gamePlayPanel.level.levelBar.gameObject.SetActive(true);
+		SaveSystem.instance.playingHard = true;
 
 	}
+
+	private static void ClosePopUp()
+	{
+		UIManager.instance.gamePlayPanel.extraHolePanel.gameObject.SetActive(false);
+		UIManager.instance.gamePlayPanel.deteleNailPanel.gameObject.SetActive(false);
+		UIManager.instance.gamePlayPanel.rePlayPanel.gameObject.SetActive(false);
+		UIManager.instance.gamePlayPanel.undoPanel.gameObject.SetActive(false);
+	}
+
 	public void ChangeLayer()
 	{
 		int layer = LayerMask.NameToLayer(layerName); // Chuyển đổi tên layer thành ID layer

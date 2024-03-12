@@ -33,11 +33,13 @@ public class SettingPanel : MonoBehaviour
 		{
 			Blockpanel.gameObject.SetActive(true);
 			this.gameObject.SetActive(true);
+			AudioManager.instance.PlaySFX("OpenPopUp");
 			panel.localRotation = Quaternion.identity;
 			this.GetComponent<CanvasGroup>().alpha = 0;
+			GameManager.instance.hasUI = true;
 			panel.localPosition = new Vector3(-351, 479, 0);
 			panel.localScale = new Vector3(.8f, .8f, 0);
-			closeButton.localPosition = new Vector3(359.100006f, 275.600006f, 0);
+			closeButton.localPosition = new Vector3(364, 277.600006f, 0);
 			this.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
 			panel.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
 			{
@@ -59,6 +61,8 @@ public class SettingPanel : MonoBehaviour
 							this.gameObject.SetActive(false);
 							UIManager.instance.menuPanel.Open();
 							Blockpanel.gameObject.SetActive(false);
+							AudioManager.instance.PlaySFX("ClosePopUp");
+							GameManager.instance.hasUI = false;
 						});
 					});
 				});
@@ -68,21 +72,25 @@ public class SettingPanel : MonoBehaviour
 	{
 		soundOff.SetActive(false);
 		soundOn.SetActive(true);
+		AudioManager.instance.sfxSource.enabled = true;
 	}
 	public void SoundOff()
 	{
 		soundOn.SetActive(false);
 		soundOff.SetActive(true);
+		AudioManager.instance.sfxSource.enabled = false;
 	}
 	public void MusicOn()
 	{
 		musicOff.SetActive(false);
 		musicOn.SetActive(true);
+		AudioManager.instance.musicSource.enabled = true;
 	}
 	public void MusicOff()
 	{
 		musicOn.SetActive(false);
 		musicOff.SetActive(true);
+		AudioManager.instance.musicSource.enabled = false;
 	}
 	public void AlertOn()
 	{

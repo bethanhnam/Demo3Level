@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Hole : MonoBehaviour
 {
     public GameObject Nail;
     public bool collider;
+	public List<Collider2D> colliders1 = new List<Collider2D>();
     public GameObject getNail()
     {
         return Nail;
@@ -53,4 +55,17 @@ public class Hole : MonoBehaviour
 			Nail = collision.gameObject;
 		}
 	}
+	//public void CheckIron()
+	//{
+	//	Collider2D[] colliders = Physics2D.OverlapCircleAll(this.transform.localPosition, .2f);
+	//	foreach (Collider2D collider1 in colliders)
+	//	{
+	//		if (collider1.gameObject.tag == "Iron")
+	//		{
+	//			if (!colliders1.Contains(collider1)){
+	//				colliders1.Add(collider1);
+	//			}
+	//		}
+	//	}
+	//}
 }

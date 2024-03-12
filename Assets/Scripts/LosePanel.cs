@@ -5,6 +5,7 @@ using DG.Tweening;
 using System.Threading;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using System.Timers;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class LosePanel : MonoBehaviour
@@ -36,10 +37,16 @@ public class LosePanel : MonoBehaviour
 		// load ad 
 		if (!hasUse)
 		{
-			Close();
-			UIManager.instance.gamePlayPanel.timer.SetTimer(61f);
-			hasUse = true;
-			watchAdButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+			AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_lose, () =>
+			{
+				Close();
+				UIManager.instance.gamePlayPanel.timer.SetTimer(61f);
+				SaveSystem.instance.playingHard = true;
+				hasUse = true;
+				watchAdButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+				watchAdButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/win/bttn_grey");
+			});
+			
 		}
 		
 	}
@@ -55,9 +62,11 @@ public class LosePanel : MonoBehaviour
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
+			
 			AudioManager.instance.PlaySFX("LosePop");
 			Blockpanel.gameObject.SetActive(true);
 			GameManager.instance.hasUI = true;
+			SaveSystem.instance.playingHard = false;
 			UIManager.instance.gamePlayPanel.Close();
 			canvasGroup.alpha = 0;
 			canvasGroup.DOFade(1, .3f).OnComplete(() =>

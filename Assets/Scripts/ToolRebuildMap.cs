@@ -490,4 +490,23 @@
 //			}
 //		}
 //	}
+//	[MenuItem("Services/change")]
+//	public static void Button24()
+//	{
+//		Transform obj = Selection.activeTransform;
+//		string layerName = "Default";
+//		int layerValue = LayerMask.NameToLayer(layerName);
+//		for (int j = 0; j < obj.childCount; j++)
+//		{
+//			for (int i = 0; i < obj.GetChild(j).childCount; i++)
+//			{
+//				if (obj.GetChild(j).GetChild(i).gameObject.tag == "Iron")
+//				{
+//					Transform transform = obj.GetChild(j).GetChild(i);
+//					transform.GetComponent<Rigidbody2D>().angularDrag = 0.1f;
+
+//				}
+//			}
+//		}
+//	}
 //}

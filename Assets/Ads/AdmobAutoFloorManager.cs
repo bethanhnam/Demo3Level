@@ -333,7 +333,7 @@ public class AdmobAutoFloorManager : MonoBehaviour
         {
             Debug.Log("Showing Rw ad.");
             AdsControl.Instance.isShowingAds = true;
-            _rewardedAd.Show((GoogleMobileAds.Api.Reward rw) =>
+            _rewardedAd.Show((Reward rw) =>
             {
                 AdsControl.Instance.isGetReward = true;
             }

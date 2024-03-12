@@ -126,9 +126,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 1.5627263, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -172,7 +172,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -241,6 +241,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -397,9 +398,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 2.083635, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -443,7 +444,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -512,6 +513,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -634,6 +636,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hintImg: {fileID: 0}
   holeToUnlock: {fileID: 6535187884080482915}
+  pointer1: {fileID: 0}
+  pointer2: {fileID: 0}
+  pointer: {fileID: 0}
+  pointerPositions: []
 --- !u!1 &2585009741485565593
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,9 +766,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 1.302272, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -806,7 +812,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -875,6 +881,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -1029,9 +1036,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 1.5627263, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -1075,7 +1082,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -1144,6 +1151,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -1298,9 +1306,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 2.083635, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -1344,7 +1352,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -1413,6 +1421,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -1569,9 +1578,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 3.2296345, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -1615,7 +1624,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -1684,6 +1693,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -1865,9 +1875,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 1.8231808, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -1911,7 +1921,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -1980,6 +1990,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -2159,9 +2170,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 2.083635, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -2205,7 +2216,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -2274,6 +2285,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -2412,7 +2424,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -2553,6 +2565,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -2757,9 +2770,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 1.5627263, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -2803,7 +2816,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -2872,6 +2885,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -3028,9 +3042,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 2.3440895, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -3074,7 +3088,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -3143,6 +3157,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -3324,9 +3339,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 2.3440895, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -3370,7 +3385,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -3439,6 +3454,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -3763,9 +3779,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 2.083635, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -3809,7 +3825,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -3878,6 +3894,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -4057,9 +4074,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 1.8231808, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -4103,7 +4120,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -4172,6 +4189,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -4326,9 +4344,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 1.8231808, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -4372,7 +4390,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -4441,6 +4459,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -4766,9 +4785,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 1.5627263, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -4812,7 +4831,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -4881,6 +4900,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -5037,9 +5057,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 3.1254525, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -5083,7 +5103,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -5152,6 +5172,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -5331,9 +5352,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 1.302272, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -5377,7 +5398,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -5446,6 +5467,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}
@@ -5602,9 +5624,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
+    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2260869, y: 0.4695652}
+    oldSize: {x: 5.12, y: 1.08}
     newSize: {x: 2.604544, y: 0.43951684}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -5648,7 +5670,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 0.1
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -5717,6 +5739,7 @@ MonoBehaviour:
   radius: 0
   selectedHinge: 0
   result: 0
+  isFrezze: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
   centerOfMass1: {x: 0, y: 0, z: 0}

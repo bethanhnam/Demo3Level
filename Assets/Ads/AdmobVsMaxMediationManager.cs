@@ -557,7 +557,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
             else
             {
                 AdsControl.Instance.isShowingAds = true;
-                _rewardedAd.Show((GoogleMobileAds.Api.Reward rw) =>
+                _rewardedAd.Show((Reward rw) =>
                 {
                     AdsControl.Instance.isGetReward = true;
                 }
@@ -576,7 +576,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                 if (isInit && _rewardedAd != null && _rewardedAd.CanShowAd())
                 {
                     AdsControl.Instance.isShowingAds = true;
-                    _rewardedAd.Show((GoogleMobileAds.Api.Reward rw) =>
+                    _rewardedAd.Show((Reward rw) =>
                     {
                         AdsControl.Instance.isGetReward = true;
                     }
@@ -734,7 +734,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
         {
             Debug.Log("Showing Rw ad.");
             AdsControl.Instance.isShowingAds = true;
-            _rewardedAd.Show((GoogleMobileAds.Api.Reward rw) =>
+            _rewardedAd.Show((Reward rw) =>
             {
                 AdsControl.Instance.isGetReward = true;
             }
