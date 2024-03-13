@@ -58,6 +58,7 @@ public class DailyPanel : MonoBehaviour
 			SaveSystem.instance.purpleStar += dayRewards[lastDate].purpleStar;
 			SaveSystem.instance.goldenStar += dayRewards[lastDate].GoldenStar;
 			SaveSystem.instance.SaveData();
+			Invoke("Close", 1f);
 		});
 	}
 	public void Open()

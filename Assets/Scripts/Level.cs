@@ -64,9 +64,38 @@ public class Level : MonoBehaviour
 	IEnumerator LoadHardLevel()
 	{
 		ClosePopUp();
-		UIManager.instance.gamePlayPanel.OpenHardPanel();
+		if (GameManager.instance.currentLevel == 0)
+		{
+			if (stage == 1)
+			{
+				UIManager.instance.gamePlayPanel.OpenWelcomePanel();
+			}
+			else
+			{
+				UIManager.instance.gamePlayPanel.OpenHardPanel();
+			}
+		}
+		else
+		{
+			UIManager.instance.gamePlayPanel.OpenHardPanel();
+		}
 		yield return new WaitForSeconds(1f);
-		UIManager.instance.gamePlayPanel.hardLevel.Close();
+		if (GameManager.instance.currentLevel == 0)
+		{
+			if (stage == 1)
+			{
+				UIManager.instance.gamePlayPanel.welcomeLevel.Close();
+			}
+			else
+			{
+				UIManager.instance.gamePlayPanel.hardLevel.Close();
+			}
+		}
+		else
+		{
+			UIManager.instance.gamePlayPanel.hardLevel.Close();
+		}
+		
 		LoadStage(stage);
 		UIManager.instance.gamePlayPanel.level.done.gameObject.SetActive(true);
 		UIManager.instance.gamePlayPanel.level.notDone.gameObject.SetActive(true);

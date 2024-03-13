@@ -6,9 +6,9 @@ using UnityEngine;
 public class SaveSystem : MonoBehaviour
 {
     public static SaveSystem instance;
-    public int level =0;
-    public int purpleStar = 10;
-    public int goldenStar = 10;
+    public int level =13;
+    public int purpleStar;
+    public int goldenStar;
     public int days = 0;
     public float playHardTime = 0;
     public bool playingHard;
@@ -19,6 +19,7 @@ public class SaveSystem : MonoBehaviour
 			instance = this;
 		}
 		LoadData();
+        CreateData();
 		SaveData();
 	}
 	private void Start()
@@ -38,6 +39,12 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetInt("GoldenStar", goldenStar);
         PlayerPrefs.SetInt("Level", level);
 		PlayerPrefs.SetInt("Days", days);
+	}
+    public void CreateData()
+    {
+        purpleStar = 100;
+        goldenStar = 100;
+ 
 	}
     public void LoadData()
     {

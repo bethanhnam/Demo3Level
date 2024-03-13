@@ -22,6 +22,9 @@ public class CongratPanel : MonoBehaviour
 			claimPanel.gameObject.SetActive(false);
 			rewardImg.gameObject.SetActive(true);
 			rewardLight.gameObject.SetActive(false);
+			rewardOpen.gameObject.SetActive(false);
+			rewardOpen.localScale = Vector3.one;
+			rewardLight.localScale = Vector3.one;
 		}
 	}
 	public void Close()
@@ -38,6 +41,7 @@ public class CongratPanel : MonoBehaviour
 				SaveSystem.instance.purpleStar++;
 			}
 			SaveSystem.instance.SaveData();
+			rewardOpen.gameObject.SetActive(false);
 			this.gameObject.SetActive(false);
 			AudioManager.instance.PlaySFX("ClosePopUp");
 			UIManager.instance.gamePlayPanel.backFromChestPanel = true;
@@ -50,12 +54,17 @@ public class CongratPanel : MonoBehaviour
 		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_bonus, () =>
 		{
 			rewardLight.gameObject.SetActive(true);
-			rewardLight.GetComponent<CanvasGroup>().DOFade(1, 0.5f);
+			rewardLight.GetComponent<CanvasGroup>().DOFade(1, 0.6f);
 			rewardLight.DOScale(1.3f, 0.5f).OnComplete(() =>
 			{
 				rewardImg.gameObject.SetActive(false);
-				rewardLight.gameObject.SetActive(false);
-				claimPanel.gameObject.SetActive(true);
+				rewardOpen.gameObject.SetActive(true);
+				rewardOpen.DOScale(1.2f, 1f).OnComplete(() =>
+				{
+					rewardOpen.gameObject.SetActive(false);
+					rewardLight.gameObject.SetActive(false);
+					claimPanel.gameObject.SetActive(true);
+				});
 			});
 		});
 

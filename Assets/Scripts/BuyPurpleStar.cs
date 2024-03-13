@@ -24,9 +24,9 @@ public class BuyPurpleStar : MonoBehaviour
 	}
 	public void ExchangeStar()
 	{
-		if(SaveSystem.instance.goldenStar >= 5) {
-			SaveSystem.instance.goldenStar -= 5;
-			SaveSystem.instance.purpleStar += 5;
+		if(SaveSystem.instance.goldenStar >= 2) {
+			SaveSystem.instance.goldenStar -= 2;
+			SaveSystem.instance.purpleStar += 1;
 		}
 	}
 }

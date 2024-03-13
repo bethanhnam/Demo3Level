@@ -45,9 +45,9 @@ public class ChetPanel : MonoBehaviour
 		}
 		if (slider[0].value == slider[0].maxValue)
 		{
+			continueButton.gameObject.SetActive(false);
 			this.gameObject.SetActive(true);
 			StartCoroutine(waitForSlider());
-
 		}
 		else
 		{
@@ -80,7 +80,7 @@ public class ChetPanel : MonoBehaviour
 		UIManager.instance.congratPanel.Open();
 		slider[0].value = 0;
 		slider[1].value = 0;
-		continueButton.gameObject.SetActive(false);
+		
 		this.gameObject.SetActive(false);
 	}
 }

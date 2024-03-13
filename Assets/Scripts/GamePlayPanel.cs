@@ -1,6 +1,8 @@
+using Sirenix.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +17,7 @@ public class GamePlayPanel : MonoBehaviour
 	public LosePanel losePanel;
 	public UndoPanel undoPanel;
 	public HardLevel hardLevel;
+	public welcomeLevel welcomeLevel;
 	public ExtralHole extraHolePanel;
 	public BuyPurpleStar BuyPurpleStarPanel;
 	public BuyGoldenStar BuyGoldenStarPanel;
@@ -48,11 +51,19 @@ public class GamePlayPanel : MonoBehaviour
 	{
 		if(GameManager.instance.currentLevel == 0)
 		{
-			boosterButton.gameObject.SetActive(false);	
+			if (!levelManager.levelInstances.IsNullOrEmpty()){
+				if (levelManager.levelInstances[0].GetComponent<Level>().stage != 3)
+					boosterButton.gameObject.SetActive(false);
+				else
+				{
+					boosterButton.gameObject.SetActive(true);
+				}
+			}
 
 		}
 		else
 		{
+
 			boosterButton.gameObject.SetActive(true);
 
 		}
@@ -114,6 +125,11 @@ public class GamePlayPanel : MonoBehaviour
 	public void OpenHardPanel()
 	{
 		hardLevel.Open();
+		timer.TimerOn = false;
+	}
+	public void OpenWelcomePanel()
+	{
+		welcomeLevel.Open();
 		timer.TimerOn = false;
 	}
 	public void OpenExtraHolePanel()

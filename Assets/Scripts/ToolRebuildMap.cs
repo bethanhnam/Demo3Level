@@ -19,7 +19,7 @@
 //			{
 //				Transform transform = obj.GetChild(i).transform;
 //				transform.gameObject.tag = "square";
-//				transform.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("UI/upscale ingame/Untitled-1_0013_Layer-4");
+//				transform.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/Ingame (2)/Ingame/bg_board");
 //			}
 //			if (obj.GetChild(i).gameObject.tag == "Iron")
 //			{
@@ -509,4 +509,5 @@
 //			}
 //		}
 //	}
+
 //}

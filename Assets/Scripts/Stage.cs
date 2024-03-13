@@ -28,15 +28,19 @@ public class Stage : MonoBehaviour
 
 			if (InputManager.instance.selectedNail == null)
 			{
-				if (!hasSpawn)
+				if (this.pointer !=null)
 				{
-					pointer1 = Instantiate(pointer, pointerPositions[0].transform.position, Quaternion.identity, this.transform);
-					hasSpawn = true;
+					if (!hasSpawn)
+					{
+						pointer1 = Instantiate(pointer, pointerPositions[0].transform.position, Quaternion.identity, this.transform);
+						hasSpawn = true;
+					}
 				}
 			}
 			else
 			{
-				if (!hasSpawn1)
+				if (this.pointer != null)
+					if (!hasSpawn1)
 				{
 					Destroy(pointer1);
 					Instantiate(pointer, pointerPositions[1].transform.position, Quaternion.identity, this.transform);
