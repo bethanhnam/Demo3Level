@@ -34,11 +34,11 @@ public class CongratPanel : MonoBehaviour
 			var reward = Random.Range(0, 1);
 			if (reward == 0)
 			{
-				SaveSystem.instance.goldenStar++;
+				SaveSystem.instance.powerTicket++;
 			}
 			else
 			{
-				SaveSystem.instance.purpleStar++;
+				SaveSystem.instance.magicTiket++;
 			}
 			SaveSystem.instance.SaveData();
 			rewardOpen.gameObject.SetActive(false);

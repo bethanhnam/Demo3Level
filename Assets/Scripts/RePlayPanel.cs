@@ -20,11 +20,11 @@ public class RePlayPanel : MonoBehaviour
 	}
 	public void UseTicket()
 	{
-		if (SaveSystem.instance.goldenStar >= numOfUsed)
+		if (SaveSystem.instance.powerTicket >= numOfUsed)
 		{
 
-			SaveSystem.instance.goldenStar -= numOfUsed;
-			SaveSystem.instance.SetTiket(SaveSystem.instance.goldenStar, SaveSystem.instance.purpleStar);
+			SaveSystem.instance.powerTicket -= numOfUsed;
+			SaveSystem.instance.SetTiket(SaveSystem.instance.powerTicket, SaveSystem.instance.magicTiket);
 			SaveSystem.instance.SaveData();
 			numOfUsed++;
 			GameManager.instance.Replay();

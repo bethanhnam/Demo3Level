@@ -19,8 +19,8 @@ public class GamePlayPanel : MonoBehaviour
 	public HardLevel hardLevel;
 	public welcomeLevel welcomeLevel;
 	public ExtralHole extraHolePanel;
-	public BuyPurpleStar BuyPurpleStarPanel;
-	public BuyGoldenStar BuyGoldenStarPanel;
+	public BuymagicTiket BuymagicTiketPanel;
+	public BuypowerTicket BuypowerTicketPanel;
 
 	public Button RelayButton;
 	public Button HintButton;
@@ -219,14 +219,14 @@ public class GamePlayPanel : MonoBehaviour
 	{
 		losePanel.Open();
 	}
-	public void OpenPurpleStarShop()
+	public void OpenmagicTiketShop()
 	{
-		BuyPurpleStarPanel.Open();
+		BuymagicTiketPanel.Open();
 		timer.TimerOn = false;
 	}
-	public void OpenGoldenStarShop()
+	public void OpenpowerTicketShop()
 	{
-		BuyGoldenStarPanel.Open();
+		BuypowerTicketPanel.Open();
 		timer.TimerOn = false;
 	}
 }

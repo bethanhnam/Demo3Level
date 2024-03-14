@@ -63,7 +63,7 @@
 //		for (int j = 0; j < obj.childCount; j++)
 //		{
 //			Transform child = obj.GetChild(j);
-//			if (child.gameObject.CompareTag("Iron") && !child.gameObject.name.Contains("washer") && !child.gameObject.name.Contains("Solid"))
+//			if (child.gameObject.CompareTag("Iron") && !child.gameObject.name.Contains("washer") && !child.gameObject.name.Contains("Solid") && !child.gameObject.name.Contains("Solid_Circle_1") && !child.gameObject.name.Contains("Circle"))
 //			{
 //				try
 //				{
@@ -86,7 +86,7 @@
 //		Transform obj = Selection.activeTransform;
 //		for (int i = obj.childCount - 1; i >= 0; i--)
 //		{
-//			if (obj.GetChild(i).gameObject.tag == "Iron" && !obj.GetChild(i).gameObject.name.Contains("washer") && !obj.GetChild(i).gameObject.name.Contains("Solid"))
+//			if (obj.GetChild(i).gameObject.tag == "Iron" && !obj.GetChild(i).gameObject.name.Contains("washer") && !obj.GetChild(i).gameObject.name.Contains("Solid") && !obj.GetChild(i).gameObject.name.Contains("Solid_Circle_1") && !obj.GetChild(i).gameObject.name.Contains("Circle"))
 //			{
 //				List<Transform> transforms = new List<Transform>();
 //				for (int j = obj.GetChild(i).childCount - 1; j >= 0; j--)

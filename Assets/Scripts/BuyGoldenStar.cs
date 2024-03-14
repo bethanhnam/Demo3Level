@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuyGoldenStar : MonoBehaviour
+public class BuypowerTicket : MonoBehaviour
 {
 	public void Open()
 	{

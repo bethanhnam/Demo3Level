@@ -13,14 +13,14 @@ public class GameManager : MonoBehaviour
 	public bool endgame = false;
 	public LevelManager levelManager;
 
-	private int purpleStar;
-	private int goldenStar;
+	private int magicTiket;
+	private int powerTicket;
 	public bool deleting;
 	public bool hasUI;
 	public bool hasMove;
 
-	public int GoldenStar { get => goldenStar; set => goldenStar = value; }
-	public int PurpleStar { get => purpleStar; set => purpleStar = value; }
+	public int PowerTicket { get => powerTicket; set => powerTicket = value; }
+	public int MagicTiket { get => magicTiket; set => magicTiket = value; }
 
 	private void Start()
 	{
@@ -34,8 +34,8 @@ public class GameManager : MonoBehaviour
 	{
 		try
 		{
-			purpleStar = SaveSystem.instance.GetPurpleStar();
-			goldenStar = SaveSystem.instance.GetGoldenStar();
+			magicTiket = SaveSystem.instance.GetmagicTiket();
+			powerTicket = SaveSystem.instance.GetpowerTicket();
 		}
 		catch
 		{

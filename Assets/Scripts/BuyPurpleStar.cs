@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuyPurpleStar : MonoBehaviour
+public class BuymagicTiket : MonoBehaviour
 {
 
 	public void Open()
@@ -24,9 +24,9 @@ public class BuyPurpleStar : MonoBehaviour
 	}
 	public void ExchangeStar()
 	{
-		if(SaveSystem.instance.goldenStar >= 2) {
-			SaveSystem.instance.goldenStar -= 2;
-			SaveSystem.instance.purpleStar += 1;
+		if(SaveSystem.instance.powerTicket >= 2) {
+			SaveSystem.instance.powerTicket -= 2;
+			SaveSystem.instance.magicTiket += 1;
 		}
 	}
 }

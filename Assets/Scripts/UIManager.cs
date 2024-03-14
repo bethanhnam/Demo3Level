@@ -20,8 +20,8 @@ public class UIManager : MonoBehaviour
     public Winpop winPanel;
     public CongratPanel congratPanel;
 
-    public TextMeshProUGUI[] purpleStar;
-    public TextMeshProUGUI[] goldenStar;
+    public TextMeshProUGUI[] magicTiket;
+    public TextMeshProUGUI[] powerTicket;
     void Start()
     {
         if(instance == null)
@@ -35,13 +35,13 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (var item in purpleStar)
+        foreach (var item in magicTiket)
         {
-            item.text = this.GetComponent<SaveSystem>().purpleStar.ToString();
+            item.text = this.GetComponent<SaveSystem>().magicTiket.ToString();
         }
-		foreach (var item in goldenStar)
+		foreach (var item in powerTicket)
 		{
-			item.text = this.GetComponent<SaveSystem>().goldenStar.ToString();
+			item.text = this.GetComponent<SaveSystem>().powerTicket.ToString();
 		}
     }
 	public void OpenSettingPanel()
@@ -55,7 +55,7 @@ public class UIManager : MonoBehaviour
     }
 	public void BuyGoddenStar(Product product)
     {
-        SaveSystem.instance.goldenStar += (int)product.definition.payout.quantity;
+        SaveSystem.instance.powerTicket += (int)product.definition.payout.quantity;
         SaveSystem.instance.SaveData();
         SaveSystem.instance.LoadData();
 	}

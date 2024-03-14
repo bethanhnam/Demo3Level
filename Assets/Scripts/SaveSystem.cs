@@ -7,8 +7,8 @@ public class SaveSystem : MonoBehaviour
 {
     public static SaveSystem instance;
     public int level =13;
-    public int purpleStar;
-    public int goldenStar;
+    public int magicTiket;
+    public int powerTicket;
     public int days = 0;
     public float playHardTime = 0;
     public bool playingHard;
@@ -35,38 +35,43 @@ public class SaveSystem : MonoBehaviour
 	}
 	public void SaveData()
     {
-		PlayerPrefs.SetInt("PurpleStar", purpleStar);
-        PlayerPrefs.SetInt("GoldenStar", goldenStar);
+		PlayerPrefs.SetInt("magicTiket", magicTiket);
+        PlayerPrefs.SetInt("powerTicket", powerTicket);
         PlayerPrefs.SetInt("Level", level);
 		PlayerPrefs.SetInt("Days", days);
 	}
     public void CreateData()
     {
-        purpleStar = 100;
-        goldenStar = 100;
+        magicTiket = 100;
+        powerTicket = 100;
  
 	}
     public void LoadData()
     {
         level = PlayerPrefs.GetInt("Level");
-		purpleStar = PlayerPrefs.GetInt("PurpleStar");
-		goldenStar = PlayerPrefs.GetInt("GoldenStar");
+		magicTiket = PlayerPrefs.GetInt("magicTiket");
+		powerTicket = PlayerPrefs.GetInt("powerTicket");
 		days = PlayerPrefs.GetInt("Days");
     }
-    public int GetPurpleStar()
+    public int GetmagicTiket()
     {
-        return purpleStar;
+        return magicTiket;
     }
-    public int GetGoldenStar()
+    public int GetpowerTicket()
     {
-        return goldenStar;
+        return powerTicket;
     }
-    public void SetTiket(int goldenStar,int purpleStar)
+    public void SetTiket(int powerTicket,int magicTiket)
     {
-        this.goldenStar = goldenStar;
-        this.purpleStar = purpleStar;
+        this.powerTicket = powerTicket;
+        this.magicTiket = magicTiket;
     }
-    public void SetLevel(int level)
+	public void addTiket(int powerTicket1, int magicTiket1)
+	{
+		this.powerTicket += powerTicket1;
+		this.magicTiket += magicTiket1;
+	}
+	public void SetLevel(int level)
     {
         this.level = level;
     }

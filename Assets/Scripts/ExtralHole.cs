@@ -21,11 +21,11 @@ public class ExtralHole : MonoBehaviour
 	}
 	public void UseTicket()
 	{
-		if (GameManager.instance.GoldenStar > 0)
+		if (GameManager.instance.PowerTicket > 0)
 		{
 			this.Close();
-			GameManager.instance.GoldenStar--;
-			SaveSystem.instance.SetTiket(GameManager.instance.GoldenStar, GameManager.instance.PurpleStar);
+			GameManager.instance.PowerTicket--;
+			SaveSystem.instance.SetTiket(GameManager.instance.PowerTicket, GameManager.instance.MagicTiket);
 			SaveSystem.instance.SaveData();
 			Level.instance.ChangeLayer();
 			extraHoleButton.gameObject.SetActive(false);

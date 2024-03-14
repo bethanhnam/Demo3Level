@@ -55,8 +55,8 @@ public class DailyPanel : MonoBehaviour
 		{
 			dayRewards[lastDate].isClaim = true;
 			SaveSystem.instance.days = lastDate + 1;
-			SaveSystem.instance.purpleStar += dayRewards[lastDate].purpleStar;
-			SaveSystem.instance.goldenStar += dayRewards[lastDate].GoldenStar;
+			SaveSystem.instance.magicTiket += dayRewards[lastDate].magicTiket;
+			SaveSystem.instance.powerTicket += dayRewards[lastDate].powerTicket;
 			SaveSystem.instance.SaveData();
 			Invoke("Close", 1f);
 		});

@@ -21,11 +21,11 @@ public class HintPanel : MonoBehaviour
 	}
 	public void UseTicket()
 	{
-		if (SaveSystem.instance.purpleStar >= numOfUsed)
+		if (SaveSystem.instance.magicTiket >= numOfUsed)
 		{
 
-			SaveSystem.instance.purpleStar -= numOfUsed;
-			SaveSystem.instance.SetTiket(SaveSystem.instance.goldenStar, SaveSystem.instance.purpleStar);
+			SaveSystem.instance.magicTiket -= numOfUsed;
+			SaveSystem.instance.SetTiket(SaveSystem.instance.powerTicket, SaveSystem.instance.magicTiket);
 			SaveSystem.instance.SaveData();
 			numOfUsed++;
 			UIManager.instance.gamePlayPanel.ShowHint();

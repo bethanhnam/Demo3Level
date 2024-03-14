@@ -16,8 +16,8 @@ public class RewardDaily : MonoBehaviour
 
 	public bool isClaim = false;
 	public bool isActive = false;
-	public int purpleStar;
-	public int GoldenStar;
+	public int magicTiket;
+	public int powerTicket;
 
 	private void Start()
 	{

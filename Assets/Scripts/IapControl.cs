@@ -5,6 +5,7 @@ using System;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Security;
 using DG.Tweening;
+using Unity.Burst.Intrinsics;
 
 public class IapControl : MonoBehaviour, IStoreListener
 {
@@ -33,7 +34,7 @@ public class IapControl : MonoBehaviour, IStoreListener
     [SerializeField]
     private GameObject objFailPurchase;
 
-    private List<Action> actionUpdate;
+	public List<Action> actionUpdate;
 
     void Awake()
     {
@@ -53,13 +54,15 @@ public class IapControl : MonoBehaviour, IStoreListener
 
     void Update()
     {
-        if (actionUpdate != null && actionUpdate.Count > 0)
+		if (actionUpdate != null && actionUpdate.Count > 0)
         {
             for (int i = 0; i < actionUpdate.Count; i++)
             {
                 actionUpdate[i]();
-            }
-            actionUpdate.Clear();
+                Debug.Log(actionUpdate[i]);
+                actionUpdate.Remove(actionUpdate[i]);
+			}
+            //actionUpdate.Clear();
         }
     }
 
@@ -106,10 +109,11 @@ public class IapControl : MonoBehaviour, IStoreListener
             DOTween.Kill(rectTrsSuccessPurchase);
         }
 
-        rectTrsSuccessPurchase.anchoredPosition = new Vector2(0, 200);
-        rectTrsSuccessPurchase.DOAnchorPosY(-150, 0.3f).SetUpdate(true).OnComplete(() =>
+        rectTrsSuccessPurchase.anchoredPosition = new Vector2(0, 0);
+        rectTrsSuccessPurchase.DOAnchorPosY(1, 3f).SetUpdate(true).OnComplete(() =>
         {
-            rectTrsSuccessPurchase.DOAnchorPosY(200, 0.3f).SetUpdate(true).SetDelay(1.5f);
+			objSuccessPurchase.SetActive(false);
+			rectTrsSuccessPurchase.DOAnchorPosY(1000, 0.3f).SetUpdate(true).SetDelay(1.5f);
         });
     }
 
@@ -125,10 +129,11 @@ public class IapControl : MonoBehaviour, IStoreListener
             DOTween.Kill(rectTrsFailPurchase);
         }
 
-        rectTrsFailPurchase.anchoredPosition = new Vector2(0, 200);
-        rectTrsFailPurchase.DOAnchorPosY(-150, 0.3f).SetUpdate(true).OnComplete(() =>
+        rectTrsFailPurchase.anchoredPosition = new Vector2(0, 0);
+        rectTrsFailPurchase.DOAnchorPosY(1,3f).SetUpdate(true).OnComplete(() =>
         {
-            rectTrsFailPurchase.DOAnchorPosY(200, 0.3f).SetUpdate(true).SetDelay(1.5f);
+			objFailPurchase.SetActive(false);
+			rectTrsFailPurchase.DOAnchorPosY(1000, 0.3f).SetUpdate(true).SetDelay(1.5f);
         });
     }
 
@@ -148,13 +153,22 @@ public class IapControl : MonoBehaviour, IStoreListener
         var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
         builder.AddProduct(PackName.remove_ads.ToString(), ProductType.Consumable);
-        builder.AddProduct(PackName.ball_1.ToString(), ProductType.Consumable);
-        builder.AddProduct(PackName.ball_2.ToString(), ProductType.Consumable);
-        builder.AddProduct(PackName.ball_3.ToString(), ProductType.Consumable);
-        builder.AddProduct(PackName.ball_4.ToString(), ProductType.Consumable);
-        builder.AddProduct(PackName.ball_5.ToString(), ProductType.Consumable);
+        builder.AddProduct(PackName.magic_10.ToString(), ProductType.Consumable);
+        builder.AddProduct(PackName.magic_30.ToString(), ProductType.Consumable);
+        builder.AddProduct(PackName.magic_60.ToString(), ProductType.Consumable);
+        builder.AddProduct(PackName.magic_130.ToString(), ProductType.Consumable);
+        builder.AddProduct(PackName.magic_250.ToString(), ProductType.Consumable);
+        builder.AddProduct(PackName.magic_600.ToString(), ProductType.Consumable);
+        builder.AddProduct(PackName.power_15.ToString(), ProductType.Consumable);
+        builder.AddProduct(PackName.power_45.ToString(), ProductType.Consumable);
+        builder.AddProduct(PackName.power_90.ToString(), ProductType.Consumable);
+        builder.AddProduct(PackName.combo.ToString(), ProductType.Consumable);
+        builder.AddProduct(PackName.remove_ads_pack.ToString(), ProductType.Consumable);
+        builder.AddProduct(PackName.day_vip_3.ToString(), ProductType.Consumable);
+        builder.AddProduct(PackName.day_vip_7.ToString(), ProductType.Consumable);
+        builder.AddProduct(PackName.day_vip_30.ToString(), ProductType.Consumable);
         UnityPurchasing.Initialize(this, builder);
-    }
+	}
 
     private bool IsInitialized()
     {
@@ -380,10 +394,19 @@ public class IapControl : MonoBehaviour, IStoreListener
 public enum PackName
 {
     remove_ads,
-    ball_1,
-    ball_2,
-    ball_3,
-    ball_4,
-    ball_5
+    magic_10,
+	magic_30,
+	magic_60,
+	magic_130,
+	magic_250,
+	magic_600,
+    power_15,
+    power_45,
+    power_90,
+    combo,
+	remove_ads_pack,
+	day_vip_3,
+	day_vip_7,
+	day_vip_30
 }
 
