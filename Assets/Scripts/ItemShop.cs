@@ -10,6 +10,7 @@ public class ItemShop : MonoBehaviour
     public int powerTicket;
     public TextMeshProUGUI valueText;
     public TextMeshProUGUI PriceText;
+    public bool nonADS;
 
 
     public void ClickMe()
@@ -17,18 +18,22 @@ public class ItemShop : MonoBehaviour
         IapControl.Instance.BuyProductID(namePack, () =>
         {
             SaveSystem.instance.addTiket(this.powerTicket,this.magicTicket);
+            if (nonADS)
+            {
+                SaveSystem.instance.nonAds = 1;
+                SaveSystem.instance.SaveData();
+            }
             
         }); 
     }
 
     void Start()
     {
-        if (magicTicket > powerTicket)
+        if (magicTicket >0 && magicTicket > powerTicket)
         {
             valueText.text = magicTicket.ToString();
         }
-        else
-        {
+        else if(powerTicket > 0 && powerTicket > magicTicket) { 
             valueText.text = powerTicket.ToString();
         }
         PriceText.text = IapControl.Instance.getPrice(namePack);

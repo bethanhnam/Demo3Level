@@ -377,7 +377,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.1
+  m_AngularDrag: 0.05
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -406,7 +406,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: -0.0000011046316, y: -0.876667}
-  m_ConnectedAnchor: {x: 0, y: 0.00000036433622}
+  m_ConnectedAnchor: {x: -0.00000004554198, y: 0}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -612,10 +612,10 @@ GameObject:
   - component: {fileID: 6669940700021782769}
   - component: {fileID: 3599914483084009111}
   - component: {fileID: 7877823645677894645}
+  - component: {fileID: 2636297702098115359}
   - component: {fileID: 1845263004951666799}
   - component: {fileID: 6288528168999017475}
   - component: {fileID: 9070706021358816218}
-  - component: {fileID: 2636297702098115359}
   m_Layer: 10
   m_Name: Brass0.4
   m_TagString: Iron
@@ -706,7 +706,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.1
+  m_AngularDrag: 0.05
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
@@ -735,7 +735,32 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: -1.1217009, y: 0.00000047683716}
-  m_ConnectedAnchor: {x: -3.1711066, y: 0.000000091084054}
+  m_ConnectedAnchor: {x: 0.00000067048745, y: 0.00000018324515}
+  m_UseMotor: 0
+  m_Motor:
+    m_MotorSpeed: 0
+    m_MaximumMotorForce: 10000
+  m_UseLimits: 0
+  m_AngleLimits:
+    m_LowerAngle: 0
+    m_UpperAngle: 359
+--- !u!233 &2636297702098115359
+HingeJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2308167045012365923}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 2684409212238640466}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 0
+  m_Anchor: {x: 1.1217008, y: 0.00000047683716}
+  m_ConnectedAnchor: {x: -0.00000032032872, y: 0.00000009383818}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -845,31 +870,6 @@ MonoBehaviour:
   hasAddForce: 0
   joints: []
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
---- !u!233 &2636297702098115359
-HingeJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2308167045012365923}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 2684409212238640466}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_BreakAction: 3
-  m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: 1.1217008, y: 0.00000047683716}
-  m_ConnectedAnchor: {x: 3.1711066, y: 0.000000091084054}
-  m_UseMotor: 0
-  m_Motor:
-    m_MotorSpeed: 0
-    m_MaximumMotorForce: 10000
-  m_UseLimits: 0
-  m_AngleLimits:
-    m_LowerAngle: 0
-    m_UpperAngle: 359
 --- !u!1 &2949997072894348608
 GameObject:
   m_ObjectHideFlags: 0
@@ -1161,7 +1161,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.1
+  m_AngularDrag: 0.05
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:

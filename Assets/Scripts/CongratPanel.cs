@@ -61,6 +61,7 @@ public class CongratPanel : MonoBehaviour
 				rewardOpen.gameObject.SetActive(true);
 				rewardOpen.DOScale(1.2f, 1f).OnComplete(() =>
 				{
+					AudioManager.instance.PlaySFX("GetReward");
 					rewardOpen.gameObject.SetActive(false);
 					rewardLight.gameObject.SetActive(false);
 					claimPanel.gameObject.SetActive(true);

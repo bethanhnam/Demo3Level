@@ -84,7 +84,6 @@ public class AdsManager : MonoBehaviour
     void Start()
     {
         admobManager = GetComponent<AdmobManager>();
-
         StartCoroutine(WaitToLoadScene());
     }
 
@@ -118,11 +117,11 @@ public class AdsManager : MonoBehaviour
 
     public void ShowInterstial(AdsManager.PositionAds p, Action actionDone)
     {
-        //if (isRemoveAds)
-        //{
-        //    actionDone();
-        //    return;
-        //}
+        if (isRemoveAds)
+        {
+            actionDone();
+            return;
+        }
 
         Debug.Log("inter ads: " + p.ToString());
 

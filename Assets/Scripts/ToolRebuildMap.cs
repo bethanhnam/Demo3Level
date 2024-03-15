@@ -503,7 +503,7 @@
 //				if (obj.GetChild(j).GetChild(i).gameObject.tag == "Iron")
 //				{
 //					Transform transform = obj.GetChild(j).GetChild(i);
-//					transform.GetComponent<Rigidbody2D>().angularDrag = 0.1f;
+//					transform.GetComponent<Rigidbody2D>().angularDrag = 0.05f;
 
 //				}
 //			}

@@ -73,13 +73,14 @@ public class Level : MonoBehaviour
 			else
 			{
 				UIManager.instance.gamePlayPanel.OpenHardPanel();
+				AudioManager.instance.PlaySFX("Warning");
 			}
 		}
 		else
 		{
 			UIManager.instance.gamePlayPanel.OpenHardPanel();
 		}
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(1.5f);
 		if (GameManager.instance.currentLevel == 0)
 		{
 			if (stage == 1)

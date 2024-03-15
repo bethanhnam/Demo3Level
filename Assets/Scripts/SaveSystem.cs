@@ -6,12 +6,13 @@ using UnityEngine;
 public class SaveSystem : MonoBehaviour
 {
     public static SaveSystem instance;
-    public int level =13;
+    public int level;
     public int magicTiket;
     public int powerTicket;
     public int days = 0;
     public float playHardTime = 0;
     public bool playingHard;
+    public int nonAds =0;
 	private void Awake()
 	{
 		if (instance == null)
@@ -24,7 +25,10 @@ public class SaveSystem : MonoBehaviour
 	}
 	private void Start()
 	{
-		
+		if(nonAds > 0)
+        {
+            AdsManager.instance.isRemoveAds = true;
+        }
 	}
 	private void Update()
 	{
@@ -39,6 +43,7 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetInt("powerTicket", powerTicket);
         PlayerPrefs.SetInt("Level", level);
 		PlayerPrefs.SetInt("Days", days);
+		PlayerPrefs.SetInt("NonADS", nonAds);
 	}
     public void CreateData()
     {
@@ -52,7 +57,8 @@ public class SaveSystem : MonoBehaviour
 		magicTiket = PlayerPrefs.GetInt("magicTiket");
 		powerTicket = PlayerPrefs.GetInt("powerTicket");
 		days = PlayerPrefs.GetInt("Days");
-    }
+        nonAds = PlayerPrefs.GetInt("NonADS");
+	}
     public int GetmagicTiket()
     {
         return magicTiket;

@@ -171,6 +171,14 @@ public class GamePlayPanel : MonoBehaviour
 				Settimer();
 				backFromPause = false;
 			}
+			else
+			{
+				if (UIManager.instance.gamePlayPanel.pausePanel.isdeleting)
+				{
+					GameManager.instance.deleting = true;
+				}
+				UIManager.instance.gamePlayPanel.pausePanel.isdeleting = false;
+			}
 			timer.TimerOn = true;
 		}
 	}

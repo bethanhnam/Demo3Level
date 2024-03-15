@@ -48,7 +48,11 @@ public class GameManager : MonoBehaviour
 	}
 	private void Update()
 	{
-		
+		if(currentLevel >= LevelManager.instance.levelCount)
+		{
+			UIManager.instance.completePanel.Open();
+			
+		}
 	}
 	public void Replay()
 	{

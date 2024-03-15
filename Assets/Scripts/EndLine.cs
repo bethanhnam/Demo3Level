@@ -22,6 +22,7 @@ public class EndLine : MonoBehaviour
 			//Destroy(collision.gameObject);
 			collision.gameObject.SetActive(false);
 			InputManager.instance.numOfIronPlate--;
+			AudioManager.instance.PlaySFX("DropIron");
 
 			if (InputManager.instance.numOfIronPlate <= 0)
 			{

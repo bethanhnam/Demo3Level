@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     public ChetPanel chestPanel;
     public Winpop winPanel;
     public CongratPanel congratPanel;
+    public CompletePanel completePanel;
 
     public TextMeshProUGUI[] magicTiket;
     public TextMeshProUGUI[] powerTicket;

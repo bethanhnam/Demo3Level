@@ -1221,13 +1221,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structAds:
     configBanner:
-      isShow: 1
+      isShow: 0
       timeShow: 0
       levelUnlock: 0
   _appceptShowAds: 1
   isRemoveAds: 0
   lastTime: 0
-  noAds: {fileID: 0}
+  noAds: {fileID: 1600536806}
   popUpNoAdsRec: {fileID: 0}
   popUpNoAdsAlpha: {fileID: 0}
 --- !u!114 &1377675992
@@ -1244,7 +1244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsFetch: 0
   isInit: 0
-  isFetching: 1
+  isFetching: 0
   my_mediation: 
   ads_config_native: 
   banner_collab: 0
@@ -1286,6 +1286,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9958406}
+  - {fileID: 1600536807}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1496776476
@@ -1324,6 +1325,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1600536806
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1600536807}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1600536807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600536806}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1377675993}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1674965999
 GameObject:
   m_ObjectHideFlags: 0

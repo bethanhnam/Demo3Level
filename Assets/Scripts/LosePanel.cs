@@ -62,7 +62,6 @@ public class LosePanel : MonoBehaviour
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
-			
 			AudioManager.instance.PlaySFX("LosePop");
 			Blockpanel.gameObject.SetActive(true);
 			GameManager.instance.hasUI = true;
