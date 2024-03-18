@@ -1,3 +1,4 @@
+using Sirenix.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -20,13 +21,16 @@ public class EndLine : MonoBehaviour
 		if (collision.gameObject.tag == "Iron")
 		{
 			//Destroy(collision.gameObject);
-			collision.gameObject.SetActive(false);
-			InputManager.instance.numOfIronPlate--;
-			AudioManager.instance.PlaySFX("DropIron");
-
-			if (InputManager.instance.numOfIronPlate <= 0)
+			if (collision.GetComponent<IronPlate>().joints.IsNullOrEmpty())
 			{
+				collision.gameObject.SetActive(false);
+				InputManager.instance.numOfIronPlate--;
+				AudioManager.instance.PlaySFX("DropIron");
+
+				if (InputManager.instance.numOfIronPlate <= 0)
+				{
 					Level.instance.CheckLevel();
+				}
 			}
 		}
 	}

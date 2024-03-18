@@ -17,11 +17,13 @@ public class MenuPanel : MonoBehaviour
 	public RectTransform Blockpanel;
 	public void PlayGame()
 	{
+		AudioManager.instance.PlaySFX("Button");
 		Close();
 		UIManager.instance.gamePlayPanel.Open();
 	}
 	public void OpenSettingPanel()
 	{
+		AudioManager.instance.PlaySFX("Button");
 		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.menu_setting, () =>
 		{
 			settingPanel.Open();
@@ -29,7 +31,7 @@ public class MenuPanel : MonoBehaviour
 	}
 	public void OpenDailyPanel()
 	{
-
+		AudioManager.instance.PlaySFX("Button");
 		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.menu_daily, () =>
 		{
 			dailyPanel.Open();
@@ -38,11 +40,13 @@ public class MenuPanel : MonoBehaviour
 	}
 	public void OpenNonAdsPanel()
 	{
+		AudioManager.instance.PlaySFX("Button");
 		nonAdsPanel.Open();
 
 	}
 	public void OpenShopPanel()
 	{
+		AudioManager.instance.PlaySFX("Button");
 		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.menu_shop, () =>
 		{
 			UIManager.instance.shopPanel.Open();

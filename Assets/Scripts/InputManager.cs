@@ -472,12 +472,11 @@ public class InputManager : MonoBehaviour
 		newNail.transform.localScale = preHole.GetComponent<Hole>().getNail().transform.localScale;
 		newNail.transform.localScale = new Vector3(selectedHole.transform.localScale.x + 0.01f, selectedHole.transform.localScale.y + 0.01f, 1f);
 		newNail.GetComponent<Collider2D>().isTrigger = true;
-		selectedIron.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-		selectedIron.GetComponent<Rigidbody2D>().angularVelocity = Vector3.zero.magnitude;
-		selectedIron.GetComponent<Rigidbody2D>().freezeRotation = true;
+		//selectedIron.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+		//selectedIron.GetComponent<Rigidbody2D>().angularVelocity = Vector3.zero.magnitude;
+		//selectedIron.GetComponent<Rigidbody2D>().freezeRotation = true;
 		preHole.GetComponent<Hole>().setNail(null);
 		selectedHole.GetComponent<Hole>().setNail(selectedNail);
-	
 		yield return new WaitForSeconds(0.1f);
 		selectedIron.GetComponent<Collider2D>().isTrigger = false;
 		selectedIron.GetComponent<Rigidbody2D>().freezeRotation = false;
@@ -707,7 +706,10 @@ public class InputManager : MonoBehaviour
 		yield return new WaitForSeconds(0.3f);
 		canSelect = true;
 			Destroy(selectNailPrefabAnimation);
+		try
+		{
 			nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
+		}catch	(Exception e) { }
 	}
 	IEnumerator SetdefaultSpriteInIron(GameObject nail)
 	{
@@ -715,15 +717,23 @@ public class InputManager : MonoBehaviour
 		yield return new WaitForSeconds(0.2f);
 		canSelect = true;
 		Destroy(selectNailPrefabAnimation);
-		nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
+		try
+		{
+			nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
+		}
+		catch (Exception e) { }
 	}
-	IEnumerator SetdefaultSpriteSameHole(GameObject nail)
+		IEnumerator SetdefaultSpriteSameHole(GameObject nail)
 	{
 		canSelect = false;
 		yield return new WaitForSeconds(0.3f);
 		canSelect = true;
-		nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
-	}
+			try
+			{
+				nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
+			}
+			catch (Exception e) { }
+		}
 	private void setCanNotSelect()
 	{
 		canSelect = false;

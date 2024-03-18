@@ -16,6 +16,7 @@ public class draggingPiece : MonoBehaviour
 	public bool hasTutol = false;
 	public bool hasPointer = false;
 	public bool canCreate = true;
+	public Tween point;
 
 	private void Start()
 	{
@@ -31,9 +32,8 @@ public class draggingPiece : MonoBehaviour
 			{
 				canCreate = false;
 				PointerTutorial.Instance.Pointer.SetActive(true);
-				 PointerTutorial.Instance.Pointer.transform.DOMove(target.transform.position, 1f, false).OnComplete(() =>
+				point = PointerTutorial.Instance.Pointer.transform.DOMove(target.transform.position, 1f, false).OnComplete(() =>
 				{
-					canCreate = true;
 				});
 			}
 		}
@@ -46,6 +46,7 @@ public class draggingPiece : MonoBehaviour
 			{
 				if (!hasPointer)
 				{
+					if(!isDragging)
 					StartCoroutine(CreatePointer());
 				}
 			}
@@ -71,6 +72,10 @@ public class draggingPiece : MonoBehaviour
 			PointerTutorial.Instance.Pointer.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 1f, 1f);
 			hasPointer = true;
 		}
+		else
+		{
+			yield return null;
+		}
 	}
 	public void checkHitPoint(Vector2 piecePosition)
 	{
@@ -91,10 +96,7 @@ public class draggingPiece : MonoBehaviour
 			//this.GetComponent<Image>().SetNativeSize();
 			this.transform.position =defaultPosition;
 			if (hasTutol) {
-				hasPointer = false;
-				PointerTutorial.Instance.Pointer.transform.DOKill();
-				PointerTutorial.Instance.Pointer.SetActive(false);
-				PointerTutorial.Instance.Pointer.transform.localPosition = new Vector3(this.gameObject.transform.localPosition.x, this.gameObject.transform.localPosition.y +1f,1f);
+				hasPointer = false;	
 			}
 
 		}
@@ -102,14 +104,18 @@ public class draggingPiece : MonoBehaviour
 	private void OnMouseUp()
 	{
 		isDragging = false;
+		point.Kill();
 		if (!complete)
 			checkHitPoint(this.transform.position);
+		PointerTutorial.Instance.Pointer.SetActive(false);
+		canCreate = true;
 	}
 
 	private void OnMouseDrag()
 	{
 		if (isDragging)
 		{
+			StopCoroutine("CreatePointer");
 			transform.position = GetMouseWorldPosition() + offset;
 			this.GetComponent<SpriteRenderer>().sprite = targetSprite;
 			this.GetComponent<SpriteRenderer>().sortingOrder = 10;

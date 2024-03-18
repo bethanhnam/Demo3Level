@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour
 			{
 				Destroy(LevelManager.instance.transform.GetChild(0).gameObject);
 				LevelManager.instance.levelInstances.Clear();
+				UIManager.instance.gamePlayPanel.pausePanel.isdeleting = false;
 				StartCoroutine(LoadLevel());
 				SaveSystem.instance.playingHard = false;
 				UIManager.instance.gamePlayPanel.Settimer();

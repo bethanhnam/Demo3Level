@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CongratPanel : MonoBehaviour
 {
@@ -11,12 +12,24 @@ public class CongratPanel : MonoBehaviour
 	public RectTransform rewardOpen;
 	public RectTransform rewardStart;
 	public RectTransform claimPanel;
+	public RectTransform item;
 	public void Open()
 	{
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
+			var reward = Random.Range(0, 2);
+			if (reward == 0)
+			{
+				SaveSystem.instance.addTiket(1, 0);
+				item.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/congrat/ticket_blue_big");
+			}
+			else
+			{
 
+				item.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/congrat/ticket_purple_big");
+				SaveSystem.instance.addTiket(0, 1);
+			}
 			AudioManager.instance.PlaySFX("OpenPopUp");
 			rewardLight.GetComponent<CanvasGroup>().alpha = 0f;
 			claimPanel.gameObject.SetActive(false);
@@ -31,15 +44,6 @@ public class CongratPanel : MonoBehaviour
 	{
 		if (this.gameObject.activeSelf)
 		{
-			var reward = Random.Range(0, 1);
-			if (reward == 0)
-			{
-				SaveSystem.instance.powerTicket++;
-			}
-			else
-			{
-				SaveSystem.instance.magicTiket++;
-			}
 			SaveSystem.instance.SaveData();
 			rewardOpen.gameObject.SetActive(false);
 			this.gameObject.SetActive(false);

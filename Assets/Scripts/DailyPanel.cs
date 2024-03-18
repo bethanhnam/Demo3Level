@@ -12,6 +12,7 @@ public class DailyPanel : MonoBehaviour
 	public int lastDate=0;
 	[SerializeField]private int selectReward = 0;
 	public CanvasGroup canvasGroup;
+	public GameObject panelBoard;
 	public RectTransform Blockpanel;
 
 	private void Start()
@@ -51,12 +52,11 @@ public class DailyPanel : MonoBehaviour
 	{
 		//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
 		PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
-		dayRewards[lastDate].rewardImg.rectTransform.DOAnchorPos(UIManager.instance.menuPanel.dailyPanel.transform.InverseTransformPoint(dayRewards[lastDate].reciveRewardpoint.position), 1f).OnComplete(() =>
+		dayRewards[lastDate].rewardImg.rectTransform.DOAnchorPos(new Vector3(431.5f, 874f, 0), 1f).OnComplete(() =>
 		{
 			dayRewards[lastDate].isClaim = true;
 			SaveSystem.instance.days = lastDate + 1;
-			SaveSystem.instance.magicTiket += dayRewards[lastDate].magicTiket;
-			SaveSystem.instance.powerTicket += dayRewards[lastDate].powerTicket;
+			SaveSystem.instance.addTiket(dayRewards[lastDate].powerTicket, dayRewards[lastDate].magicTiket);
 			SaveSystem.instance.SaveData();
 			Invoke("Close", 1f);
 		});
@@ -67,12 +67,19 @@ public class DailyPanel : MonoBehaviour
 		{
 			GameManager.instance.hasUI = true;
 			this.gameObject.SetActive(true);
+			panelBoard.gameObject.SetActive(false);
+			panelBoard.transform.localScale = new Vector3(.9f, .9f, 1f);
 			Blockpanel.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("OpenPopUp");
 			canvasGroup.alpha = 0;
-			canvasGroup.DOFade(1, .3f).OnComplete(() =>
+			canvasGroup.DOFade(1, .3f);
+			panelBoard.gameObject.SetActive(true);
+			panelBoard.transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.2f).OnComplete(() =>
 			{
-				Blockpanel.gameObject.SetActive(false);
+				panelBoard.transform.DOScale(Vector3.one, 0.15f).OnComplete(() =>
+				{
+					Blockpanel.gameObject.SetActive(false);
+				});
 			});
 		}
 	}
@@ -89,6 +96,7 @@ public class DailyPanel : MonoBehaviour
 				AudioManager.instance.PlaySFX("ClosePopUp");
 				Blockpanel.gameObject.SetActive(false);
 			});
+			panelBoard.transform.DOScale(new Vector3(.9f, .9f, 1f), 0.3f);
 		}
 
 	}

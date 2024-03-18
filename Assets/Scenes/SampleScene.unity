@@ -6618,7 +6618,8 @@ MonoBehaviour:
   namePack: 0
   magicTicket: 0
   powerTicket: 0
-  valueText: {fileID: 0}
+  magicValueText: {fileID: 0}
+  powerValueText: {fileID: 0}
   PriceText: {fileID: 1056275638}
   nonADS: 1
 --- !u!114 &268650967
@@ -7036,6 +7037,7 @@ MonoBehaviour:
   rewardOpen: {fileID: 1055207294}
   rewardStart: {fileID: 0}
   claimPanel: {fileID: 869927700}
+  item: {fileID: 437466084}
 --- !u!114 &280291326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7049,7 +7051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.7529412}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.9490196}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9805,7 +9807,8 @@ MonoBehaviour:
   namePack: 3
   magicTicket: 60
   powerTicket: 0
-  valueText: {fileID: 1353192598}
+  magicValueText: {fileID: 1353192598}
+  powerValueText: {fileID: 0}
   PriceText: {fileID: 913438744}
   nonADS: 0
 --- !u!1 &430725669
@@ -12325,7 +12328,8 @@ MonoBehaviour:
   namePack: 11
   magicTicket: 10
   powerTicket: 5
-  valueText: {fileID: 0}
+  magicValueText: {fileID: 114682354}
+  powerValueText: {fileID: 1169218243}
   PriceText: {fileID: 1684278263}
   nonADS: 1
 --- !u!114 &599432154
@@ -14027,7 +14031,8 @@ MonoBehaviour:
   namePack: 1
   magicTicket: 10
   powerTicket: 0
-  valueText: {fileID: 157429858}
+  magicValueText: {fileID: 157429858}
+  powerValueText: {fileID: 0}
   PriceText: {fileID: 232978316}
   nonADS: 0
 --- !u!1 &729074207
@@ -16752,7 +16757,8 @@ MonoBehaviour:
   namePack: 5
   magicTicket: 250
   powerTicket: 0
-  valueText: {fileID: 1359852129}
+  magicValueText: {fileID: 1359852129}
+  powerValueText: {fileID: 0}
   PriceText: {fileID: 600388020}
   nonADS: 0
 --- !u!1 &878915421
@@ -19667,6 +19673,94 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 985405381}
   m_CullTransparentMesh: 1
+--- !u!1 &989471911
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 989471912}
+  - component: {fileID: 989471915}
+  - component: {fileID: 989471914}
+  - component: {fileID: 989471913}
+  m_Layer: 5
+  m_Name: BG (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &989471912
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989471911}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0001066, y: 1.0001066, z: 1.0001066}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2010974865}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -17, y: 239}
+  m_SizeDelta: {x: -188, y: -934}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &989471913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989471911}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 721e055815f216a4c8af3da48be0b640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &989471914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989471911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: ca73c5906b30f4a46891a8cb3b1a16de, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &989471915
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989471911}
+  m_CullTransparentMesh: 1
 --- !u!1 &995709343
 GameObject:
   m_ObjectHideFlags: 0
@@ -20570,7 +20664,8 @@ MonoBehaviour:
   namePack: 9
   magicTicket: 0
   powerTicket: 90
-  valueText: {fileID: 1594992601}
+  magicValueText: {fileID: 0}
+  powerValueText: {fileID: 1594992601}
   PriceText: {fileID: 1211153136}
   nonADS: 0
 --- !u!1 &1032105977
@@ -22951,7 +23046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.7529412}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.9490196}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -24501,7 +24596,8 @@ MonoBehaviour:
   namePack: 4
   magicTicket: 130
   powerTicket: 0
-  valueText: {fileID: 1178446766}
+  magicValueText: {fileID: 1178446766}
+  powerValueText: {fileID: 0}
   PriceText: {fileID: 1588088245}
   nonADS: 0
 --- !u!1 &1225647613
@@ -25619,7 +25715,8 @@ MonoBehaviour:
   namePack: 2
   magicTicket: 30
   powerTicket: 0
-  valueText: {fileID: 1959081184}
+  magicValueText: {fileID: 1959081184}
+  powerValueText: {fileID: 0}
   PriceText: {fileID: 1676097196}
   nonADS: 0
 --- !u!1 &1297609158
@@ -27938,7 +28035,8 @@ MonoBehaviour:
   namePack: 8
   magicTicket: 0
   powerTicket: 45
-  valueText: {fileID: 1756265291}
+  magicValueText: {fileID: 0}
+  powerValueText: {fileID: 1756265291}
   PriceText: {fileID: 22026190}
   nonADS: 0
 --- !u!1 &1406283103
@@ -28974,7 +29072,8 @@ MonoBehaviour:
   namePack: 7
   magicTicket: 0
   powerTicket: 15
-  valueText: {fileID: 2028264489}
+  magicValueText: {fileID: 0}
+  powerValueText: {fileID: 2028264489}
   PriceText: {fileID: 358177288}
   nonADS: 0
 --- !u!1 &1452122917
@@ -39523,6 +39622,7 @@ GameObject:
   - component: {fileID: 2010974867}
   - component: {fileID: 2010974866}
   - component: {fileID: 2010974868}
+  - component: {fileID: 2010974869}
   m_Layer: 5
   m_Name: nonADSPanel
   m_TagString: Untagged
@@ -39544,6 +39644,7 @@ RectTransform:
   m_Children:
   - {fileID: 1348935990}
   - {fileID: 785024244}
+  - {fileID: 989471912}
   m_Father: {fileID: 2951422426882891956}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -39601,6 +39702,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a72fd5f23a8d674184b623765cd98b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 2010974869}
+  panelBoard: {fileID: 1348935989}
+  Blockpanel: {fileID: 989471912}
+--- !u!225 &2010974869
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2010974864}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2012634251
 GameObject:
   m_ObjectHideFlags: 0
@@ -41191,7 +41307,8 @@ MonoBehaviour:
   namePack: 6
   magicTicket: 600
   powerTicket: 0
-  valueText: {fileID: 2078346246}
+  magicValueText: {fileID: 2078346246}
+  powerValueText: {fileID: 0}
   PriceText: {fileID: 1070515350}
   nonADS: 0
 --- !u!1 &2077972418
@@ -43597,6 +43714,7 @@ GameObject:
   - component: {fileID: 751594490125107551}
   - component: {fileID: 4276831007208751183}
   - component: {fileID: 5736021810046739358}
+  - component: {fileID: 5736021810046739359}
   m_Layer: 5
   m_Name: nonAdsButton
   m_TagString: Untagged
@@ -45469,7 +45587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.9490196}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -46567,6 +46685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Blockpanel: {fileID: 1579690280}
+  isdeleting: 0
   canvasGroup: {fileID: 9087304300737285973}
 --- !u!1 &1806575437033705041
 GameObject:
@@ -48700,7 +48819,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6768101074712585592, guid: b601983fbc9e37a47940174248282e96, type: 3}
       propertyPath: levels.Array.size
-      value: 24
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6768101074712585592, guid: b601983fbc9e37a47940174248282e96, type: 3}
       propertyPath: levels.Array.data[0]
@@ -48798,6 +48917,30 @@ PrefabInstance:
       propertyPath: levels.Array.data[23]
       value: 
       objectReference: {fileID: 2659335030387466096, guid: d0d811eb339b7ad4882bac2dc8f27435, type: 3}
+    - target: {fileID: 6768101074712585592, guid: b601983fbc9e37a47940174248282e96, type: 3}
+      propertyPath: levels.Array.data[24]
+      value: 
+      objectReference: {fileID: 2659335030387466096, guid: 2f6d976f7c43c8f41948f48deba45878, type: 3}
+    - target: {fileID: 6768101074712585592, guid: b601983fbc9e37a47940174248282e96, type: 3}
+      propertyPath: levels.Array.data[25]
+      value: 
+      objectReference: {fileID: 2659335030387466096, guid: 662fa1eec1d374641b4150b90af2ce61, type: 3}
+    - target: {fileID: 6768101074712585592, guid: b601983fbc9e37a47940174248282e96, type: 3}
+      propertyPath: levels.Array.data[26]
+      value: 
+      objectReference: {fileID: 2659335030387466096, guid: a6f15160a64929742882ab977a481a29, type: 3}
+    - target: {fileID: 6768101074712585592, guid: b601983fbc9e37a47940174248282e96, type: 3}
+      propertyPath: levels.Array.data[27]
+      value: 
+      objectReference: {fileID: 2659335030387466096, guid: 0725be4bb1f6e8944823afb3c70951cd, type: 3}
+    - target: {fileID: 6768101074712585592, guid: b601983fbc9e37a47940174248282e96, type: 3}
+      propertyPath: levels.Array.data[28]
+      value: 
+      objectReference: {fileID: 2659335030387466096, guid: 37d9bbdbdba4a5a43893dce7610d7af0, type: 3}
+    - target: {fileID: 6768101074712585592, guid: b601983fbc9e37a47940174248282e96, type: 3}
+      propertyPath: levels.Array.data[29]
+      value: 
+      objectReference: {fileID: 2659335030387466096, guid: 8c6696be1ef183c43b16af59e5d180f7, type: 3}
     - target: {fileID: 7731667179611138574, guid: b601983fbc9e37a47940174248282e96, type: 3}
       propertyPath: m_Name
       value: LevelManager
@@ -50182,7 +50325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.70980394}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.9490196}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -51836,7 +51979,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: sfxSounds.Array.size
-      value: 9
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: sfxSounds.Array.data[0].clip
@@ -51869,6 +52012,22 @@ PrefabInstance:
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: sfxSounds.Array.data[8].name
       value: GetReward
+      objectReference: {fileID: 0}
+    - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
+      propertyPath: sfxSounds.Array.data[9].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 77541c5775cb91d40a428e46e3739012, type: 3}
+    - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
+      propertyPath: sfxSounds.Array.data[9].name
+      value: Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
+      propertyPath: sfxSounds.Array.data[10].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 10b33e19be52fa344acbccc2ab75571a, type: 3}
+    - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
+      propertyPath: sfxSounds.Array.data[10].name
+      value: Coins
       objectReference: {fileID: 0}
     - target: {fileID: 8192706568883094618, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: Priority
@@ -52605,6 +52764,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &5736021810046739359
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133624931421049381}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9a8ba0925513d4d45a35bfdbeb271afb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &5780034631605980192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53736,6 +53916,7 @@ MonoBehaviour:
   lastDate: 0
   selectReward: 0
   canvasGroup: {fileID: 7703476488626757938}
+  panelBoard: {fileID: 3836693215157268257}
   Blockpanel: {fileID: 360727855}
 --- !u!114 &6452744519312742975
 MonoBehaviour:

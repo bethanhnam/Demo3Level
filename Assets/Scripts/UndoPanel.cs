@@ -23,8 +23,7 @@ public class UndoPanel : MonoBehaviour
 		if (SaveSystem.instance.powerTicket >= numOfUsed)
 		{
 
-			SaveSystem.instance.powerTicket -= numOfUsed;
-			SaveSystem.instance.SetTiket(SaveSystem.instance.powerTicket, SaveSystem.instance.magicTiket);
+			SaveSystem.instance.addTiket(-numOfUsed, 0);
 			SaveSystem.instance.SaveData();
 			numOfUsed++;
 			InputManager.instance.Undo();

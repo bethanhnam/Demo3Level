@@ -74,6 +74,7 @@ public class SaveSystem : MonoBehaviour
     }
 	public void addTiket(int powerTicket1, int magicTiket1)
 	{
+        AudioManager.instance.PlaySFX("Coins");
 		this.powerTicket += powerTicket1;
 		this.magicTiket += magicTiket1;
 	}

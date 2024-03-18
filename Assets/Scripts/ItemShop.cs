@@ -8,7 +8,8 @@ public class ItemShop : MonoBehaviour
     public PackName namePack;
     public int magicTicket;
     public int powerTicket;
-    public TextMeshProUGUI valueText;
+    public TextMeshProUGUI magicValueText;
+    public TextMeshProUGUI powerValueText;
     public TextMeshProUGUI PriceText;
     public bool nonADS;
 
@@ -29,12 +30,12 @@ public class ItemShop : MonoBehaviour
 
     void Start()
     {
-        if (magicTicket >0 && magicTicket > powerTicket)
+        if (magicTicket >0)
         {
-            valueText.text = magicTicket.ToString();
+            magicValueText.text = magicTicket.ToString();
         }
-        else if(powerTicket > 0 && powerTicket > magicTicket) { 
-            valueText.text = powerTicket.ToString();
+        else if(powerTicket > 0) {
+            powerValueText.text = powerTicket.ToString();
         }
         PriceText.text = IapControl.Instance.getPrice(namePack);
     }

@@ -86,6 +86,7 @@ public class GamePlayPanel : MonoBehaviour
 	}
 	public void OpenPausePanel()
 	{
+		AudioManager.instance.PlaySFX("Button");
 		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.ingame_pause, () =>
 		{
 			pausePanel.Open();

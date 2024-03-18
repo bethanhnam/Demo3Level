@@ -504,6 +504,9 @@
 //				{
 //					Transform transform = obj.GetChild(j).GetChild(i);
 //					transform.GetComponent<Rigidbody2D>().angularDrag = 0.05f;
+//					transform.GetComponent<Rigidbody2D>().useAutoMass = false;
+//					transform.GetComponent<Rigidbody2D>().mass = 1;
+
 
 //				}
 //			}

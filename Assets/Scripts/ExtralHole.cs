@@ -24,8 +24,7 @@ public class ExtralHole : MonoBehaviour
 		if (GameManager.instance.PowerTicket > 0)
 		{
 			this.Close();
-			GameManager.instance.PowerTicket--;
-			SaveSystem.instance.SetTiket(GameManager.instance.PowerTicket, GameManager.instance.MagicTiket);
+			SaveSystem.instance.addTiket(-1,0);
 			SaveSystem.instance.SaveData();
 			Level.instance.ChangeLayer();
 			extraHoleButton.gameObject.SetActive(false);

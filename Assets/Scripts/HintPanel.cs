@@ -24,8 +24,7 @@ public class HintPanel : MonoBehaviour
 		if (SaveSystem.instance.magicTiket >= numOfUsed)
 		{
 
-			SaveSystem.instance.magicTiket -= numOfUsed;
-			SaveSystem.instance.SetTiket(SaveSystem.instance.powerTicket, SaveSystem.instance.magicTiket);
+			SaveSystem.instance.addTiket(0, -numOfUsed);
 			SaveSystem.instance.SaveData();
 			numOfUsed++;
 			UIManager.instance.gamePlayPanel.ShowHint();
