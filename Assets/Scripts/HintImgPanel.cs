@@ -30,7 +30,7 @@ public class HintImgPanel : MonoBehaviour
 			this.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("OpenPopUp");
 			GameManager.instance.hasUI = true;
-			UIManager.instance.gamePlayPanel.timer.TimerOn = false;
+			UIManager.instance.DeactiveTime();
 		}
 	}
 	public void Close()
@@ -41,7 +41,7 @@ public class HintImgPanel : MonoBehaviour
 			this.gameObject.SetActive(false);
 				AudioManager.instance.PlaySFX("ClosePopUp");
 				GameManager.instance.hasUI = false;
-				UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+				 UIManager.instance.ActiveTime();
 			});
 		}
 	}

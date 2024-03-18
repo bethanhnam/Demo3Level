@@ -10,6 +10,7 @@ public class HardLevel : MonoBehaviour
 		{
 			this.gameObject.SetActive(true);
 			GameManager.instance.hasUI = true;
+			UIManager.instance.DeactiveTime();
 		}
 	}
 	public void Close()
@@ -17,7 +18,7 @@ public class HardLevel : MonoBehaviour
 		if (this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(false);
-			UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+			 UIManager.instance.ActiveTime();
 			GameManager.instance.hasUI = false;
 
 		}

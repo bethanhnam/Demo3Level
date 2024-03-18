@@ -52,7 +52,7 @@ public class DailyPanel : MonoBehaviour
 	{
 		//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
 		PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
-		dayRewards[lastDate].rewardImg.rectTransform.DOAnchorPos(new Vector3(431.5f, 874f, 0), 1f).OnComplete(() =>
+		dayRewards[lastDate].rewardImg.rectTransform.DOAnchorPos(new Vector3(431.5f, 874f, 0), 0.5f).OnComplete(() =>
 		{
 			dayRewards[lastDate].isClaim = true;
 			SaveSystem.instance.days = lastDate + 1;

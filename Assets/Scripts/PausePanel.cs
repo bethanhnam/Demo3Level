@@ -38,7 +38,7 @@ public class PausePanel : MonoBehaviour
 			Blockpanel.gameObject.SetActive(true);
 			GameManager.instance.hasUI = true;
 			UIManager.instance.gamePlayPanel.Close();
-			UIManager.instance.gamePlayPanel.timer.TimerOn = false;
+			UIManager.instance.DeactiveTime();
 			this.GetComponent<CanvasGroup>().alpha = 0;
 			//title.transform.localPosition = new Vector3(-13, 640, 0);
 			//retryButton.transform.localPosition = new Vector3(1, -36, 0);
@@ -62,8 +62,8 @@ public class PausePanel : MonoBehaviour
 				canvasGroup.DOFade(0, .2f);
 				Blockpanel.gameObject.SetActive(false);
 				this.gameObject.SetActive(false);
-				
-				UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+				SaveSystem.instance.playingHard =  true;
+				 UIManager.instance.ActiveTime();
 				GameManager.instance.hasUI = false;
 				UIManager.instance.gamePlayPanel.backFromPause = true;
 				UIManager.instance.gamePlayPanel.Open();

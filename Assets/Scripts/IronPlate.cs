@@ -18,7 +18,7 @@ public class IronPlate : MonoBehaviour
 	public bool hasAddForce;
 	public List<HingeJoint2D> joints = new List<HingeJoint2D>();
 	private Rigidbody2D rigidbody2D;
-	[SerializeField] private Vector3 centerOfMass = new Vector3(-0.00177252f, 0.001291171f, 0f);
+	[SerializeField] private Vector3 centerOfMass = new Vector3(-0.00177252f, -0.001291171f, 0f);
 
 
 	private void Start()
@@ -150,7 +150,7 @@ public class IronPlate : MonoBehaviour
 		yield return new WaitForSeconds(0.05f);
 		this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
 		this.GetComponent<Rigidbody2D>().freezeRotation = false;
-		this.GetComponent<Rigidbody2D>().gravityScale = 1.5f;
+		this.GetComponent<Rigidbody2D>().gravityScale = 2f;
 		isFrezze = false;
 	}
 	public void SetHingeJoint()

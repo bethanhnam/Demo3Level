@@ -64,7 +64,7 @@ public class RePlayPanel : MonoBehaviour
 			AudioManager.instance.PlaySFX("OpenPopUp");
 			GameManager.instance.hasUI = true;
 			panel.localRotation = Quaternion.identity;
-			UIManager.instance.gamePlayPanel.timer.TimerOn = false;
+			UIManager.instance.DeactiveTime();
 			this.GetComponent<CanvasGroup>().alpha = 0;
 			panel.localPosition = new Vector3(-351, 479, 0);
 			panel.localScale = new Vector3(.8f, .8f, 0);
@@ -91,7 +91,8 @@ public class RePlayPanel : MonoBehaviour
 						this.gameObject.SetActive(false);
 						AudioManager.instance.PlaySFX("ClosePopUp");
 						GameManager.instance.hasUI = false;
-						UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+						SaveSystem.instance.playingHard = true;
+						 UIManager.instance.ActiveTime();
 						Blockpanel.gameObject.SetActive(false);
 					});
 				});

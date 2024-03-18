@@ -36,6 +36,7 @@ public class ShopPanel : MonoBehaviour
 				Blockpanel.gameObject.SetActive(false);
 			});
 			
+			
 		}
 	}
 	public void BackToMenu()

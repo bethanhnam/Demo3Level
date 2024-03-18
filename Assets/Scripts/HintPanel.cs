@@ -73,7 +73,7 @@ public class HintPanel : MonoBehaviour
 				this.gameObject.SetActive(true);
 				AudioManager.instance.PlaySFX("OpenPopUp");
 				GameManager.instance.hasUI = true;
-				UIManager.instance.gamePlayPanel.timer.TimerOn = false;
+				UIManager.instance.DeactiveTime();
 				panel.localRotation = Quaternion.identity;
 				this.GetComponent<CanvasGroup>().alpha = 0;
 				panel.localPosition = new Vector3(-351, 479, 0);
@@ -101,7 +101,7 @@ public class HintPanel : MonoBehaviour
 					{
 						this.gameObject.SetActive(false);
 						AudioManager.instance.PlaySFX("ClosePopUp");
-						UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+						 UIManager.instance.ActiveTime();
 						GameManager.instance.hasUI = false;
 						Blockpanel.gameObject.SetActive(false);
 					});

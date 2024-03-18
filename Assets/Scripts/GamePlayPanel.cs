@@ -21,6 +21,7 @@ public class GamePlayPanel : MonoBehaviour
 	public ExtralHole extraHolePanel;
 	public BuymagicTiket BuymagicTiketPanel;
 	public BuypowerTicket BuypowerTicketPanel;
+	public Ratting rattingPanel;
 
 	public Button RelayButton;
 	public Button HintButton;
@@ -137,6 +138,11 @@ public class GamePlayPanel : MonoBehaviour
 	{
 		extraHolePanel.Open();
 		timer.TimerOn = false;
+	}
+	public void OpenRatingPanel()
+	{
+		UIManager.instance.DeactiveTime();
+		rattingPanel.Open();
 	}
 	public void Open()
 	{

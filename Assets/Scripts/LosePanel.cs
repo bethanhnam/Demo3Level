@@ -65,7 +65,7 @@ public class LosePanel : MonoBehaviour
 			AudioManager.instance.PlaySFX("LosePop");
 			Blockpanel.gameObject.SetActive(true);
 			GameManager.instance.hasUI = true;
-			SaveSystem.instance.playingHard = false;
+			UIManager.instance.DeactiveTime();
 			UIManager.instance.gamePlayPanel.Close();
 			canvasGroup.alpha = 0;
 			canvasGroup.DOFade(1, .3f).OnComplete(() =>
@@ -85,7 +85,7 @@ public class LosePanel : MonoBehaviour
 				Blockpanel.gameObject.SetActive(false);
 				this.gameObject.SetActive(false);
 				AudioManager.instance.PlaySFX("ClosePopUp");
-				UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+				 UIManager.instance.ActiveTime();
 				UIManager.instance.gamePlayPanel.backFromPause = true;
 				UIManager.instance.gamePlayPanel.Open();
 				GameManager.instance.hasUI = false;

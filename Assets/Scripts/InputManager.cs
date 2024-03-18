@@ -68,9 +68,9 @@ public class InputManager : MonoBehaviour
 	private void Awake()
 	{
 		iNSelectionLayer = LayerMask.GetMask("Hole");
-		placeLayer = LayerMask.GetMask("Hole", "IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
-		IronLayer = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
-		unSelectLayer = LayerMask.GetMask("square", "IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
+		placeLayer = LayerMask.GetMask("Hole", "IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2", "layer1vs2vs3", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
+		IronLayer = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2", "layer1vs2vs3", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
+		unSelectLayer = LayerMask.GetMask("square", "IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2", "layer1vs2vs3", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
 
 	}
 	// Start is called before the first frame update
@@ -167,7 +167,8 @@ public class InputManager : MonoBehaviour
 				}
 				else
 				{
-					AudioManager.instance.PlaySFX("Click");
+					if (cubeHit[0].transform.gameObject.layer != 5)
+						AudioManager.instance.PlaySFX("Click");
 					selectedHole = null;
 				}
 				if (selectNailPrefabAnimation != null)
@@ -403,16 +404,16 @@ public class InputManager : MonoBehaviour
 			selectNailPrefabAnimation.transform.position = new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y + 0.1f);
 			selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetTrigger("Deselect");
 			//huy animation deselect;
-			
-			try
-			{
-				Physics2D.IgnoreCollision(newNail.GetComponent<CircleCollider2D>(), selectedIron.GetComponent<BoxCollider2D>());
-			}
-			catch (Exception ex)
-			{
-				// Nếu có lỗi, in ra thông báo lỗi
-				Console.WriteLine("An error occurred: " + ex.Message);
-			}
+
+			//try
+			//{
+			//	Physics2D.IgnoreCollision(newNail.GetComponent<CircleCollider2D>(), selectedIron.GetComponent<Collider2D>());
+			//}
+			//catch (Exception ex)
+			//{
+			//	// Nếu có lỗi, in ra thông báo lỗi
+			//	Console.WriteLine("An error occurred: " + ex.Message);
+			//}
 			return true;
 		}
 		return false;
@@ -460,7 +461,6 @@ public class InputManager : MonoBehaviour
 		selectedHole.GetComponent<Hole>().setNail(selectedNail);
 		if (newNail != selectedNail)
 		{
-
 			StartCoroutine(SetdefaultSprite(newNail));
 		}
 		yield return newNail;
@@ -483,7 +483,7 @@ public class InputManager : MonoBehaviour
 		newNail.GetComponent<Collider2D>().isTrigger = false;
 		if (newNail != selectedNail)
 		{
-			
+
 			StartCoroutine(SetdefaultSpriteInIron(newNail));
 		}
 		yield return newNail;
@@ -705,11 +705,8 @@ public class InputManager : MonoBehaviour
 		canSelect = false;
 		yield return new WaitForSeconds(0.3f);
 		canSelect = true;
-			Destroy(selectNailPrefabAnimation);
-		try
-		{
-			nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
-		}catch	(Exception e) { }
+		Destroy(selectNailPrefabAnimation);
+		nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
 	}
 	IEnumerator SetdefaultSpriteInIron(GameObject nail)
 	{
@@ -717,23 +714,15 @@ public class InputManager : MonoBehaviour
 		yield return new WaitForSeconds(0.2f);
 		canSelect = true;
 		Destroy(selectNailPrefabAnimation);
-		try
-		{
-			nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
-		}
-		catch (Exception e) { }
+		nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
 	}
-		IEnumerator SetdefaultSpriteSameHole(GameObject nail)
+	IEnumerator SetdefaultSpriteSameHole(GameObject nail)
 	{
 		canSelect = false;
 		yield return new WaitForSeconds(0.3f);
 		canSelect = true;
-			try
-			{
-				nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
-			}
-			catch (Exception e) { }
-		}
+		nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
+	}
 	private void setCanNotSelect()
 	{
 		canSelect = false;

@@ -63,7 +63,7 @@ public class UndoPanel : MonoBehaviour
 			AudioManager.instance.PlaySFX("OpenPopUp");
 			GameManager.instance.hasUI = true;
 			panel.localRotation = Quaternion.identity;
-			UIManager.instance.gamePlayPanel.timer.TimerOn = false;
+			UIManager.instance.DeactiveTime();
 			panel.localPosition = new Vector3(-351, 479, 0);
 			panel.localScale = new Vector3(.8f, .8f, 1);
 			closeButton.localPosition = new Vector3(364, 277.600006f, 0);
@@ -89,8 +89,9 @@ public class UndoPanel : MonoBehaviour
 					{
 						this.gameObject.SetActive(false);
 						AudioManager.instance.PlaySFX("ClosePopUp");
-						UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+						 UIManager.instance.ActiveTime();
 						GameManager.instance.hasUI = false;
+						SaveSystem.instance.playingHard = true;
 						Blockpanel.gameObject.SetActive(false);
 					});
 				});

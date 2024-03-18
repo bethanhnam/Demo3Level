@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 			instance = this;
 		}
 		currentLevel = SaveSystem.instance.level;
+		AudioManager.instance.PlayMusic("Theme");
 	}
 	private void Awake()
 	{

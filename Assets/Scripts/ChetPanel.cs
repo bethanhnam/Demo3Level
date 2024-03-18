@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
-public class ChetPanel : MonoBehaviour
+public class ChestPanel : MonoBehaviour
 {
 	// Start is called before the first frame update
 	public int value = 0;
@@ -21,6 +21,7 @@ public class ChetPanel : MonoBehaviour
 	}
 	private void OnEnable()
 	{
+		
 		if (slider[0].value < slider[0].maxValue)
 		{
 			slider[0].value = slider[0].value + 1;

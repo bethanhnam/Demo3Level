@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     public Winpop winPanel;
     public CongratPanel congratPanel;
     public CompletePanel completePanel;
+   
 
     public TextMeshProUGUI[] magicTiket;
     public TextMeshProUGUI[] powerTicket;
@@ -54,6 +55,22 @@ public class UIManager : MonoBehaviour
         settingPanel.Close();
         this.menuPanel.Open();
     }
+    public void DeactiveTime()
+    {
+		gamePlayPanel.timer.TimerOn = false;
+		if (Level.instance.stage > 0)
+        {
+			SaveSystem.instance.playingHard = false;
+		}
+	}
+    public void ActiveTime()
+    {
+		gamePlayPanel.timer.TimerOn = true;
+		if (Level.instance.stage > 0)
+		{
+			SaveSystem.instance.playingHard = true;
+		}
+	}
 	public void BuyGoddenStar(Product product)
     {
         SaveSystem.instance.powerTicket += (int)product.definition.payout.quantity;

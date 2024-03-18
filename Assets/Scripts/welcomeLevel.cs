@@ -9,6 +9,7 @@ public class welcomeLevel : MonoBehaviour
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
+			UIManager.instance.DeactiveTime();
 			GameManager.instance.hasUI = true;
 		}
 	}
@@ -17,7 +18,7 @@ public class welcomeLevel : MonoBehaviour
 		if (this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(false);
-			UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+			 UIManager.instance.ActiveTime();
 			GameManager.instance.hasUI = false;
 
 		}

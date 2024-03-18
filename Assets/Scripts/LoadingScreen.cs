@@ -44,6 +44,7 @@ public class LoadingScreen : MonoBehaviour
 	private void Start()
 	{
 		LoadingScene(1);
+		AudioManager.instance.PlayMusic("Loading");
 
 	}
 }

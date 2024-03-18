@@ -48,7 +48,7 @@ public class ExtralHole : MonoBehaviour
 			this.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("OpenPopUp");
 			GameManager.instance.hasUI = true;
-			UIManager.instance.gamePlayPanel.timer.TimerOn = false;
+			UIManager.instance.DeactiveTime();
 			Blockpanel.gameObject.SetActive(true);
 			panel.localRotation = Quaternion.identity;
 			this.GetComponent<CanvasGroup>().alpha = 0;
@@ -76,7 +76,8 @@ public class ExtralHole : MonoBehaviour
 						this.gameObject.SetActive(false);
 						AudioManager.instance.PlaySFX("ClosePopUp");
 						GameManager.instance.hasUI = false;
-						UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+						 UIManager.instance.ActiveTime();
+						SaveSystem.instance.playingHard = true;
 						Blockpanel.gameObject.SetActive(false);
 					});
 				});

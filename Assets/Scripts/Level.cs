@@ -32,12 +32,19 @@ public class Level : MonoBehaviour
 		if (stage >= stageManager.levels.Count)
 		{
 			{
-				SaveSystem.instance.playingHard = false;
-				UIManager.instance.winPanel.Open();
-				UIManager.instance.gamePlayPanel.timer.TimerOn = false;
-				UIManager.instance.gamePlayPanel.level.done.gameObject.SetActive(true);
-				UIManager.instance.gamePlayPanel.level.notDone.gameObject.SetActive(true);
-				UIManager.instance.gamePlayPanel.level.levelBar.gameObject.SetActive(true);
+				if (GameManager.instance.currentLevel == 2)
+				{
+					UIManager.instance.gamePlayPanel.OpenRatingPanel();
+				}
+				else
+				{
+					SaveSystem.instance.playingHard = false;
+					UIManager.instance.winPanel.Open();
+					UIManager.instance.DeactiveTime();
+					UIManager.instance.gamePlayPanel.level.done.gameObject.SetActive(true);
+					UIManager.instance.gamePlayPanel.level.notDone.gameObject.SetActive(true);
+					UIManager.instance.gamePlayPanel.level.levelBar.gameObject.SetActive(true);
+				}
 			}
 		}
 		else
@@ -59,6 +66,7 @@ public class Level : MonoBehaviour
 		stageManager.LoadStage(stage);
 		UIManager.instance.gamePlayPanel.hintPanel.hasUse = false;
 		this.stage++;
+		SaveSystem.instance.SaveData();
 
 	}
 	IEnumerator LoadHardLevel()
@@ -102,6 +110,7 @@ public class Level : MonoBehaviour
 		UIManager.instance.gamePlayPanel.level.notDone.gameObject.SetActive(true);
 		UIManager.instance.gamePlayPanel.level.levelBar.gameObject.SetActive(true);
 		SaveSystem.instance.playingHard = true;
+		SaveSystem.instance.playHardTime = 0;
 
 	}
 

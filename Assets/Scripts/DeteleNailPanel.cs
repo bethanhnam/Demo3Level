@@ -65,7 +65,7 @@ public class DeteleNailPanel : MonoBehaviour
 			Blockpanel.gameObject.SetActive(true);
 			this.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("OpenPopUp");
-			UIManager.instance.gamePlayPanel.timer.TimerOn = false;
+			UIManager.instance.DeactiveTime();
 			GameManager.instance.hasUI = true;
 			panel.localRotation = Quaternion.identity;
 			panel.localPosition = new Vector3(-351, 479, 0);
@@ -93,7 +93,8 @@ public class DeteleNailPanel : MonoBehaviour
 					{
 						this.gameObject.SetActive(false);
 						AudioManager.instance.PlaySFX("ClosePopUp");
-						UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+						 UIManager.instance.ActiveTime();
+						SaveSystem.instance.playingHard = true;
 						GameManager.instance.hasUI = false;
 						Blockpanel.gameObject.SetActive(false);
 					});

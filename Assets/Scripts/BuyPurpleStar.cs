@@ -18,7 +18,7 @@ public class BuymagicTiket : MonoBehaviour
 		if (this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(false);
-			UIManager.instance.gamePlayPanel.timer.TimerOn = true;
+			 UIManager.instance.ActiveTime();
 			GameManager.instance.hasUI = false;
 		}
 	}

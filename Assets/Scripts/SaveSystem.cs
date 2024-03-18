@@ -13,6 +13,7 @@ public class SaveSystem : MonoBehaviour
     public float playHardTime = 0;
     public bool playingHard;
     public int nonAds =0;
+    public int strike =0;
 	private void Awake()
 	{
 		if (instance == null)
@@ -44,6 +45,7 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetInt("Level", level);
 		PlayerPrefs.SetInt("Days", days);
 		PlayerPrefs.SetInt("NonADS", nonAds);
+		PlayerPrefs.SetInt("Strike", strike);
 	}
     public void CreateData()
     {
@@ -58,6 +60,7 @@ public class SaveSystem : MonoBehaviour
 		powerTicket = PlayerPrefs.GetInt("powerTicket");
 		days = PlayerPrefs.GetInt("Days");
         nonAds = PlayerPrefs.GetInt("NonADS");
+        strike = PlayerPrefs.GetInt("Strike");
 	}
     public int GetmagicTiket()
     {
