@@ -10,6 +10,7 @@ public class DeteleNailPanel : MonoBehaviour
 {
 	public RectTransform closeButton;
 	public RectTransform panel;
+	public rankpanel notEnoughpanel;
 	public RectTransform Blockpanel;
 	public int numOfUsed = 1;
 	public RectTransform watchAdButton;
@@ -30,6 +31,10 @@ public class DeteleNailPanel : MonoBehaviour
 			UIManager.instance.gamePlayPanel.ButtonOff();
 			this.Close();
 		}
+		else
+		{
+			notEnoughpanel.ShowDialog();
+		}
 	}
 	public void WatchAd()
 	{
@@ -48,7 +53,7 @@ public class DeteleNailPanel : MonoBehaviour
 	}
 	private void Update()
 	{
-		numOfUsedText.text = (numOfUsed).ToString();
+		numOfUsedText.text = ("X" +(numOfUsed).ToString());
 		if (numOfUsed == 1)
 		{
 			watchAdButton.GetComponent<Button>().interactable = true;

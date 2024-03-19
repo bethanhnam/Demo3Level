@@ -10,6 +10,7 @@ public class UndoPanel : MonoBehaviour
 {
 	public RectTransform closeButton;
 	public RectTransform panel;
+	public rankpanel notEnoughpanel;
 	public RectTransform Blockpanel;
 	public int numOfUsed = 1;
 	public RectTransform watchAdButton;
@@ -29,6 +30,10 @@ public class UndoPanel : MonoBehaviour
 			InputManager.instance.Undo();
 			this.Close();
 		}
+		else
+		{
+			notEnoughpanel.ShowDialog();
+		}
 	}
 	public void WatchAd()
 	{
@@ -44,7 +49,7 @@ public class UndoPanel : MonoBehaviour
 	}
 	private void Update()
 	{
-		numOfUsedText.text = (numOfUsed).ToString();
+		numOfUsedText.text = ("X" + (numOfUsed).ToString());
 		if (numOfUsed == 1)
 		{
 			watchAdButton.GetComponent<UnityEngine.UI.Button>().interactable = true;

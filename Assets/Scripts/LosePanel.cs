@@ -37,13 +37,13 @@ public class LosePanel : MonoBehaviour
 		// load ad 
 		if (!hasUse)
 		{
-			AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_lose, () =>
+			AdsManager.instance.ShowRewardVideo(() =>
 			{
 				Close();
 				UIManager.instance.gamePlayPanel.timer.SetTimer(61f);
 				SaveSystem.instance.playingHard = true;
 				hasUse = true;
-				watchAdButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+				watchAdButton.GetComponent<Button>().interactable = false;
 				watchAdButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/win/bttn_grey");
 			});
 			

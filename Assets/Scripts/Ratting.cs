@@ -20,6 +20,7 @@ public class Ratting : MonoBehaviour
 	public GameObject panelBoard;
 	public TextMeshProUGUI thanksText;
 	public TextMeshProUGUI notThanksText;
+	public TextMeshProUGUI rateLaterText;
 	public RectTransform Blockpanel;
 	public CanvasGroup canvasGroup;
 
@@ -30,6 +31,7 @@ public class Ratting : MonoBehaviour
 			instance = this;
 		}
 		canvasGroup = GetComponent<CanvasGroup>();
+		SetActiveStar(star.Count);
 	}
 	private void Update() {
 		for (int i = 0; i < star.Count; i++) {
@@ -44,7 +46,7 @@ public class Ratting : MonoBehaviour
 	public void SetActiveStar(int starIndex)
 	{
 		numOfRate = 0;
-		for (int i = 0; i <= starIndex; i++)
+		for (int i = 0; i < starIndex; i++)
 		{
 			star[i].GetComponent<Image>().color = new Color(
 			star[i].GetComponent<Image>().color.r,
@@ -90,13 +92,16 @@ public class Ratting : MonoBehaviour
 		if (this.gameObject.activeSelf)
 		{
 			Blockpanel.gameObject.SetActive(true);
-			panelBoard.GetComponent<RectTransform>().DOScale(new Vector3(1f, .1f, 1), 5f).OnComplete(() =>
-			{
-				Blockpanel.gameObject.SetActive(false);
-				this.gameObject.SetActive(false);
-				UIManager.instance.winPanel.Open();
-			});
+			StartCoroutine(DoAfterDelay());
 		}
+	}
+	IEnumerator DoAfterDelay()
+	{
+		yield return new WaitForSeconds(0.05f);
+		Blockpanel.gameObject.SetActive(false); 
+		this.gameObject.SetActive(false);
+		UIManager.instance.winPanel.Open();
+		
 	}
 	public void Rate()
 	{
@@ -105,14 +110,17 @@ public class Ratting : MonoBehaviour
 		{
 			// mo ra store
 			Review.Instance.OpenReview();
-			
+			//ratingBar.gameObject.SetActive(false);
+			//rateButton.gameObject.SetActive(false);
+			//notThanksText.gameObject.SetActive(true);
+			//rateLaterText.text = "Tap To Continue!";
 		}
 		else
 		{
 			ratingBar.gameObject.SetActive(false);
 			rateButton.gameObject.SetActive(false);
 			notThanksText.gameObject.SetActive(true);
-			Close();
+			rateLaterText.text = "Tap To Continue!";
 		}
 	}
 }

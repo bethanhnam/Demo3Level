@@ -15,7 +15,7 @@ public class rankpanel : MonoBehaviour
 	{
 
 	}
-	public void ShopDialog()
+	public void ShowDialog()
 	{
 		if (canShow)
 		{

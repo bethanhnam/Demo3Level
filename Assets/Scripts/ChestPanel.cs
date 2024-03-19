@@ -24,23 +24,21 @@ public class ChetPanel : MonoBehaviour
 	private void OnEnable()
 	{
 		slider[0].value = SaveSystem.instance.strike;
-		if (slider[0].value < slider[0].maxValue)
+		if ((Mathf.Round(slider[0].value) < slider[0].maxValue))
 		{
 			AudioManager.instance.PlaySFX("FillUpSlider");
-			slider[1].value = slider[0].value;
+			slider[1].value = (Mathf.Round(slider[0].value));
 			slider[0].DOValue(slider[0].value + 1, 1f);
+			strikeScore.text = (Mathf.Round(slider[0].value + 1)).ToString();
 			slider[1].DOValue(slider[1].value +1, .95f).OnComplete(() =>
 			{
-				slider[1].value = slider[0].value;
+				slider[1].value = (Mathf.Round(slider[0].value));
 				strikeScore.text =	(Mathf.Round(slider[0].value)).ToString();
-				SaveSystem.instance.strike = Mathf.RoundToInt((slider[0].value));
+				SaveSystem.instance.strike = Mathf.RoundToInt((slider[1].value));
 				SaveSystem.instance.SaveData();
+				CheckStrike();
 			});
 		} 
-		else
-		{
-
-		}
 	}
 	// Update is called once per frame
 	public void Open()
@@ -51,9 +49,12 @@ public class ChetPanel : MonoBehaviour
 			this.gameObject.SetActive(true);
 			GameManager.instance.hasUI = true;
 			AudioManager.instance.PlaySFX("OpenPopUp");
-
 		}
-		if (slider[0].value == slider[0].maxValue)
+		
+	}
+	public void CheckStrike()
+	{
+		if ((Mathf.Round(slider[0].value) == slider[0].maxValue))
 		{
 			continueButton.gameObject.SetActive(false);
 			this.gameObject.SetActive(true);
@@ -73,7 +74,7 @@ public class ChetPanel : MonoBehaviour
 			{
 				this.gameObject.SetActive(false);
 				AudioManager.instance.PlaySFX("ClosePopUp");
-				if (slider[0].value != slider[0].maxValue)
+				if ((Mathf.Round(slider[0].value) != slider[0].maxValue))
 				{
 					UIManager.instance.gamePlayPanel.backFromChestPanel = true;
 					UIManager.instance.gamePlayPanel.backFromPause = false;
@@ -87,11 +88,11 @@ public class ChetPanel : MonoBehaviour
 	IEnumerator waitForSlider()
 	{
 		yield return new WaitForSeconds(1f);
-		UIManager.instance.congratPanel.Open();
 		slider[0].value = 0;
 		slider[1].value = 0;
 		SaveSystem.instance.strike = (int)slider[0].value;
 		SaveSystem.instance.SaveData();
 		this.gameObject.SetActive(false);
+		UIManager.instance.congratPanel.Open();
 	}
 }

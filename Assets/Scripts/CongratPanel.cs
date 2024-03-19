@@ -13,6 +13,7 @@ public class CongratPanel : MonoBehaviour
 	public RectTransform rewardStart;
 	public RectTransform claimPanel;
 	public RectTransform item;
+	public RectTransform tapToOpen;
 	public void Open()
 	{
 		if (!this.gameObject.activeSelf)
@@ -34,6 +35,7 @@ public class CongratPanel : MonoBehaviour
 			rewardLight.GetComponent<CanvasGroup>().alpha = 0f;
 			claimPanel.gameObject.SetActive(false);
 			rewardImg.gameObject.SetActive(true);
+			tapToOpen.gameObject.SetActive(true);
 			rewardLight.gameObject.SetActive(false);
 			rewardOpen.gameObject.SetActive(false);
 			rewardOpen.localScale = Vector3.one;
@@ -57,6 +59,7 @@ public class CongratPanel : MonoBehaviour
 	{
 		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_bonus, () =>
 		{
+			tapToOpen.gameObject.SetActive(false );
 			rewardLight.gameObject.SetActive(true);
 			rewardLight.GetComponent<CanvasGroup>().DOFade(1, 0.6f);
 			rewardLight.DOScale(1.3f, 0.5f).OnComplete(() =>

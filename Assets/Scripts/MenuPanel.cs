@@ -15,6 +15,10 @@ public class MenuPanel : MonoBehaviour
 
 	public CanvasGroup canvasGroup;
 	public RectTransform Blockpanel;
+	private void Start()
+	{
+		AudioManager.instance.PlayMusic("MenuTheme");
+	}
 	public void PlayGame()
 	{
 		AudioManager.instance.PlaySFX("Button");
@@ -55,6 +59,7 @@ public class MenuPanel : MonoBehaviour
 
 	public void Open()
 	{
+		AudioManager.instance.PlayMusic("MenuTheme");
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);

@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour
 	{
 		// Load prefab of the new level
 		GameObject levelPrefab = levels[currentLevel];
-		SaveSystem.instance.SetLevel(currentLevel);
+		SaveSystem.instance.level = currentLevel;
 		SaveSystem.instance.SaveData();
 
 		if (levelPrefab != null)

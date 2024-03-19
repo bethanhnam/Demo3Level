@@ -52,13 +52,59 @@ public class DailyPanel : MonoBehaviour
 	{
 		//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
 		PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
-		dayRewards[lastDate].rewardImg.rectTransform.DOAnchorPos(new Vector3(431.5f, 874f, 0), 0.5f).OnComplete(() =>
+		if (dayRewards[lastDate].rewardImg.Length <= 1)
 		{
-			dayRewards[lastDate].isClaim = true;
-			SaveSystem.instance.days = lastDate + 1;
-			SaveSystem.instance.addTiket(dayRewards[lastDate].powerTicket, dayRewards[lastDate].magicTiket);
-			SaveSystem.instance.SaveData();
-			Invoke("Close", 1f);
+			dayRewards[lastDate].rewardImg[0].rectTransform.DOAnchorPos(new Vector3(431.5f, 874f, 0), 0.5f).OnComplete(() =>
+			{
+				dayRewards[lastDate].isClaim = true;
+				SaveSystem.instance.days = lastDate + 1;
+				SaveSystem.instance.addTiket(dayRewards[lastDate].powerTicket, dayRewards[lastDate].magicTiket);
+				SaveSystem.instance.SaveData();
+				//Invoke("Close", 1f);
+			});
+		}
+		else
+		{
+			dayRewards[lastDate].rewardImg[1].rectTransform.DOAnchorPos(new Vector3(431.5f, 874f, 0), 0.5f);
+			dayRewards[lastDate].rewardImg[0].rectTransform.DOAnchorPos(new Vector3(431.5f, 874f, 0), 0.5f).OnComplete(() =>
+			{
+				dayRewards[lastDate].isClaim = true;
+				SaveSystem.instance.days = lastDate + 1;
+				SaveSystem.instance.addTiket(dayRewards[lastDate].powerTicket, dayRewards[lastDate].magicTiket);
+				SaveSystem.instance.SaveData();
+				//Invoke("Close", 1f);
+			});
+		}
+	}
+	public void OnClaimButtinPressedX2()
+	{
+		AdsManager.instance.ShowRewardVideo(() =>
+		{
+			//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
+			PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
+			if (dayRewards[lastDate].rewardImg.Length <= 1)
+			{
+				dayRewards[lastDate].rewardImg[0].rectTransform.DOAnchorPos(new Vector3(431.5f, 874f, 0), 0.5f).OnComplete(() =>
+				{
+					dayRewards[lastDate].isClaim = true;
+					SaveSystem.instance.days = lastDate + 1;
+					SaveSystem.instance.addTiket(dayRewards[lastDate].powerTicket * 2, dayRewards[lastDate].magicTiket * 2);
+					SaveSystem.instance.SaveData();
+					//Invoke("Close", 1f);
+				});
+			}
+			else
+			{
+				dayRewards[lastDate].rewardImg[1].rectTransform.DOAnchorPos(new Vector3(431.5f, 874f, 0), 0.5f);
+				dayRewards[lastDate].rewardImg[0].rectTransform.DOAnchorPos(new Vector3(431.5f, 874f, 0), 0.5f).OnComplete(() =>
+				{
+					dayRewards[lastDate].isClaim = true;
+					SaveSystem.instance.days = lastDate + 1;
+					SaveSystem.instance.addTiket(dayRewards[lastDate].powerTicket * 2, dayRewards[lastDate].magicTiket * 2);
+					SaveSystem.instance.SaveData();
+					//Invoke("Close", 1f);
+				});
+			}
 		});
 	}
 	public void Open()

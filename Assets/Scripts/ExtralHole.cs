@@ -10,6 +10,7 @@ public class ExtralHole : MonoBehaviour
 	public ExtraHoleButton extraHoleButton;
 	public RectTransform closeButton;
 	public RectTransform panel;
+	public rankpanel notEnoughpanel;
 	public RectTransform Blockpanel;
 	private void Update()
 	{
@@ -21,13 +22,17 @@ public class ExtralHole : MonoBehaviour
 	}
 	public void UseTicket()
 	{
-		if (GameManager.instance.PowerTicket > 0)
+		if (SaveSystem.instance.magicTiket >= 1)
 		{
 			this.Close();
-			SaveSystem.instance.addTiket(-1,0);
+			SaveSystem.instance.addTiket(0,-1);
 			SaveSystem.instance.SaveData();
 			Level.instance.ChangeLayer();
 			extraHoleButton.gameObject.SetActive(false);
+		}
+		else
+		{
+			notEnoughpanel.ShowDialog();
 		}
 	}
 	public void WatchAd()

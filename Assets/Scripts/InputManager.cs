@@ -355,10 +355,7 @@ public class InputManager : MonoBehaviour
 						if (checkAllin())
 							if (createNailInIron())
 							{
-								nailManager.DestroyNail(selectedNail);
-								selectedNail = null;
-								selectedHole = null;
-
+								StartCoroutine(destroyNail());
 							}
 					}
 				}
@@ -366,14 +363,19 @@ public class InputManager : MonoBehaviour
 				{
 					if (createNail())
 					{
-						nailManager.DestroyNail(selectedNail);
-						selectedNail = null;
-						selectedHole = null;
+						StartCoroutine(destroyNail());
 					}
 				}
 			}
 			//}
 		}
+	}
+	IEnumerator destroyNail()
+	{
+		yield return new WaitForSeconds(0.01f);
+		nailManager.DestroyNail(selectedNail);
+		selectedNail = null;
+		selectedHole = null;
 	}
 	public bool createNailInIron()
 	{

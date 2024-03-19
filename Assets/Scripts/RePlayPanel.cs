@@ -10,6 +10,7 @@ public class RePlayPanel : MonoBehaviour
 {
 	public RectTransform closeButton;
 	public RectTransform panel;
+	public rankpanel notEnoughpanel;
 	public RectTransform Blockpanel;
 	public RectTransform watchAdButton;
 	public int numOfUsed =1;
@@ -30,6 +31,10 @@ public class RePlayPanel : MonoBehaviour
 			this.Close();
 			
 		}
+		else
+		{
+			notEnoughpanel.ShowDialog();
+		}
 	}
 	public void WatchAd()
 	{
@@ -45,7 +50,7 @@ public class RePlayPanel : MonoBehaviour
 	}
 	private void Update()
 	{
-			numOfUsedText.text = (numOfUsed).ToString();
+		numOfUsedText.text = ("X" + (numOfUsed).ToString());
 		if (numOfUsed == 1)
 		{
 			watchAdButton.GetComponent<Button>().interactable = true;

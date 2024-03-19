@@ -46,7 +46,7 @@ public class HintPanel : MonoBehaviour
 	}
 	private void Update()
 	{
-		numOfUsedText.text = (numOfUsed).ToString();
+		numOfUsedText.text = ("X" + (numOfUsed).ToString());
 		if (numOfUsed == 1)
 		{
 			watchAdButton.GetComponent<Button>().interactable = true;

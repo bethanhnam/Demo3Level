@@ -19,8 +19,6 @@ public class GameManager : MonoBehaviour
 	public bool hasUI;
 	public bool hasMove;
 
-	public int PowerTicket { get => powerTicket; set => powerTicket = value; }
-	public int MagicTiket { get => magicTiket; set => magicTiket = value; }
 
 	private void Start()
 	{
@@ -29,7 +27,7 @@ public class GameManager : MonoBehaviour
 			instance = this;
 		}
 		currentLevel = SaveSystem.instance.level;
-		AudioManager.instance.PlayMusic("Theme");
+		
 	}
 	private void Awake()
 	{

@@ -146,6 +146,7 @@ public class GamePlayPanel : MonoBehaviour
 	}
 	public void Open()
 	{
+		AudioManager.instance.PlayMusic("GamePlayTheme");
 		if (!this.gameObject.activeSelf)
 		{
 			isPause = false;
@@ -196,6 +197,7 @@ public class GamePlayPanel : MonoBehaviour
 		UIManager.instance.gamePlayPanel.undoPanel.numOfUsed = 1;
 		UIManager.instance.gamePlayPanel.deteleNailPanel.numOfUsed = 1;
 		UIManager.instance.gamePlayPanel.losePanel.watchAdButton.GetComponent<Button>().interactable = true;
+		UIManager.instance.gamePlayPanel.losePanel.watchAdButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/win/bttn_green");
 		UIManager.instance.gamePlayPanel.losePanel.hasUse = false;
 		UIManager.instance.gamePlayPanel.hintPanel.hasUse = false;
 		SaveSystem.instance.playHardTime = 0;
