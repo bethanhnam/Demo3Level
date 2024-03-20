@@ -14,6 +14,7 @@ public class ShopPanel : MonoBehaviour
 			this.gameObject.SetActive(true);
 			Blockpanel.gameObject.SetActive(true);
 			GameManager.instance.hasUI = true;
+			UIManager.instance.gamePlayPanel.timer.TimerOn = false;
 			AudioManager.instance.PlaySFX("OpenPopUp");
 			canvasGroup.alpha = 0;
 			canvasGroup.DOFade(1, .3f).OnComplete(() =>
@@ -32,8 +33,10 @@ public class ShopPanel : MonoBehaviour
 			{
 				GameManager.instance.hasUI = false;
 				this.gameObject.SetActive(false);
+				UIManager.instance.gamePlayPanel.timer.TimerOn = true;
 				AudioManager.instance.PlaySFX("ClosePopUp");
 				Blockpanel.gameObject.SetActive(false);
+
 			});
 			
 			

@@ -59,7 +59,6 @@ public class SettingPanel : MonoBehaviour
 						panel.DOAnchorPos(new Vector2(panel.transform.position.x, -1467f), 0.25f, false).OnComplete(() =>
 						{
 							this.gameObject.SetActive(false);
-							UIManager.instance.menuPanel.Open();
 							Blockpanel.gameObject.SetActive(false);
 							AudioManager.instance.PlaySFX("ClosePopUp");
 							GameManager.instance.hasUI = false;

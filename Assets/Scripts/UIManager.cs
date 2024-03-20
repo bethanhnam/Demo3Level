@@ -45,6 +45,7 @@ public class UIManager : MonoBehaviour
 		{
 			item.text = this.GetComponent<SaveSystem>().powerTicket.ToString();
 		}
+        
     }
 	public void OpenSettingPanel()
 	{

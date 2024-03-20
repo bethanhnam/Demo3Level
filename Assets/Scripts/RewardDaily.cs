@@ -41,7 +41,6 @@ public class RewardDaily : MonoBehaviour
 			{
 
 				panelImg.sprite = panelDefaultSprite;
-				this.GetComponent<Button>().interactable = false;
 			}
 		}
 		else
@@ -63,14 +62,12 @@ public class RewardDaily : MonoBehaviour
 			}
 			Color x =new Color(0xBB / 255f, 0x7B / 255f, 0x4C / 255f);
 			dayText.color = x;
-			this.GetComponent<Button>().interactable = false;
 			Deactive();
 		}
 	}
 	public void Active()
 	{
 		panelImg.sprite = panelChangeSprite;
-		this.GetComponent<Button>().interactable = true;
 	}
 	public void Deactive()
 	{

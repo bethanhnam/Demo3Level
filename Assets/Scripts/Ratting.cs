@@ -31,7 +31,7 @@ public class Ratting : MonoBehaviour
 			instance = this;
 		}
 		canvasGroup = GetComponent<CanvasGroup>();
-		SetActiveStar(star.Count);
+		SetActiveStar(star.Count-1);
 	}
 	private void Update() {
 		for (int i = 0; i < star.Count; i++) {
@@ -46,7 +46,7 @@ public class Ratting : MonoBehaviour
 	public void SetActiveStar(int starIndex)
 	{
 		numOfRate = 0;
-		for (int i = 0; i < starIndex; i++)
+		for (int i = 0; i <= starIndex; i++)
 		{
 			star[i].GetComponent<Image>().color = new Color(
 			star[i].GetComponent<Image>().color.r,
@@ -109,11 +109,12 @@ public class Ratting : MonoBehaviour
 		if(numOfRate >= 5)
 		{
 			// mo ra store
-			Review.Instance.OpenReview();
-			//ratingBar.gameObject.SetActive(false);
-			//rateButton.gameObject.SetActive(false);
-			//notThanksText.gameObject.SetActive(true);
-			//rateLaterText.text = "Tap To Continue!";
+			Review.Instance.OpenReview(() => {
+			ratingBar.gameObject.SetActive(false);
+			rateButton.gameObject.SetActive(false);
+			thanksText.gameObject.SetActive(true);
+			rateLaterText.text = "Tap To Continue!";
+			});
 		}
 		else
 		{

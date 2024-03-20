@@ -146,7 +146,7 @@ public class GamePlayPanel : MonoBehaviour
 	}
 	public void Open()
 	{
-		AudioManager.instance.PlayMusic("GamePlayTheme");
+		
 		if (!this.gameObject.activeSelf)
 		{
 			isPause = false;

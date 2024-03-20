@@ -90,6 +90,10 @@ public class InputManager : MonoBehaviour
 		numOfIronPlate = ironObjects.Length;
 		nailManager = FindFirstObjectByType<NailManager>();
 		canSelect = true;
+		//for(int i = 0;i<holeObjects.Length;i++)
+		//{
+		//	holeObjects[i].GetComponent<CircleCollider2D>().radius = ironObjects[0].GetComponent<IronPlate>().holes[0].GetComponent<CircleCollider2D>().radius;
+		//}
 	}
 
 	// Update is called once per frame
@@ -123,6 +127,7 @@ public class InputManager : MonoBehaviour
 		}
 		else
 		{
+			
 			if (selectNailPrefabAnimation)
 			{
 				Destroy(selectNailPrefabAnimation);
@@ -163,6 +168,7 @@ public class InputManager : MonoBehaviour
 				if (hasHole != false)
 				{
 					selectedHole = cubeHit[hole].transform.gameObject;
+					preHingeJoint2D.Clear();
 					AudioManager.instance.PlaySFX("PickUpScrew");
 				}
 				else
@@ -268,6 +274,7 @@ public class InputManager : MonoBehaviour
 			//}
 			if (selectedNail != null && selectNailPrefabAnimation)
 			{
+				
 				SetPreHinge(selectedNail, preHingeJoint2D);
 				placeNail();
 			}
@@ -276,7 +283,7 @@ public class InputManager : MonoBehaviour
 
 	private void SetPreHinge(GameObject nail, List<HingeJoint2D> preHingJoint)
 	{
-		Collider2D[] HitIron = Physics2D.OverlapCircleAll(nail.transform.position, 0.1f, IronLayer);
+		Collider2D[] HitIron = Physics2D.OverlapCircleAll(nail.transform.position, 0.3f, IronLayer);
 		if (HitIron.Length > 0)
 		{
 			foreach (Collider2D ray in HitIron)
@@ -331,6 +338,7 @@ public class InputManager : MonoBehaviour
 		if (Input.GetMouseButtonDown(0))
 		{
 			Vector2 Ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			SetPreHinge(selectedNail, preHingeJoint2D);
 			if (selectedHole != null)
 			{
 				Collider2D[] HitHole = Physics2D.OverlapCircleAll(new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), 0.1f);
@@ -387,17 +395,13 @@ public class InputManager : MonoBehaviour
 			SaveGameObject();
 			hasDelete = false;
 			//tạo nail tại vị trí mới
-			StartCoroutine(SpawnNailInIron());
 			if (preHingeJoint2D != null)
 			{
 				foreach (var hinge in preHingeJoint2D)
 				{
-					if (hinge != null)
-					{
 						hinge.connectedBody = null;
 						hinge.enabled = false;
 						hinge.connectedAnchor = Vector2.zero;
-					}
 				}
 				preHingeJoint2D.Clear();
 			}
@@ -405,6 +409,8 @@ public class InputManager : MonoBehaviour
 			// tạo animation deselect tại vị trí mới
 			selectNailPrefabAnimation.transform.position = new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y + 0.1f);
 			selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetTrigger("Deselect");
+			Destroy(selectNailPrefabAnimation,0.32f);
+			StartCoroutine(SpawnNailInIron());
 			//huy animation deselect;
 
 			//try
@@ -433,12 +439,9 @@ public class InputManager : MonoBehaviour
 			{
 				foreach (var preHinge in preHingeJoint2D)
 				{
-					if (preHinge != null)
-					{
 						preHinge.connectedBody = null;
 						preHinge.enabled = false;
 						preHinge.connectedAnchor = Vector2.zero;
-					}
 				}
 				preHingeJoint2D.Clear();
 			}
@@ -446,6 +449,7 @@ public class InputManager : MonoBehaviour
 			// tạo animation deselect tại vị trí mới
 			selectNailPrefabAnimation.transform.position = new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y + 0.1f);
 			selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetTrigger("Deselect");
+			Destroy(selectNailPrefabAnimation,0.32f);
 			StartCoroutine(SpawnNail());
 			//huy animation deselect;
 
@@ -707,7 +711,6 @@ public class InputManager : MonoBehaviour
 		canSelect = false;
 		yield return new WaitForSeconds(0.3f);
 		canSelect = true;
-		Destroy(selectNailPrefabAnimation);
 		nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
 	}
 	IEnumerator SetdefaultSpriteInIron(GameObject nail)
@@ -715,7 +718,7 @@ public class InputManager : MonoBehaviour
 		canSelect = false;
 		yield return new WaitForSeconds(0.2f);
 		canSelect = true;
-		Destroy(selectNailPrefabAnimation);
+		
 		nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
 	}
 	IEnumerator SetdefaultSpriteSameHole(GameObject nail)

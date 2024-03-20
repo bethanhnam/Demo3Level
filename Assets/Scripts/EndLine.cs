@@ -21,9 +21,8 @@ public class EndLine : MonoBehaviour
 		if (collision.gameObject.tag == "Iron")
 		{
 			//Destroy(collision.gameObject);
-			if (collision.GetComponent<IronPlate>().joints.IsNullOrEmpty())
-			{
-				collision.gameObject.SetActive(false);
+			collision.GetComponent<IronPlate>().joints.Clear();
+			collision.gameObject.SetActive(false);
 				InputManager.instance.numOfIronPlate--;
 				AudioManager.instance.PlaySFX("DropIron");
 
@@ -31,7 +30,6 @@ public class EndLine : MonoBehaviour
 				{
 					Level.instance.CheckLevel();
 				}
-			}
 		}
 	}
 }

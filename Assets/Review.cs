@@ -1,4 +1,5 @@
 using Google.Play.Review;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -12,20 +13,26 @@ public class Review : MonoBehaviour
 	// ...
 	PlayReviewInfo _playReviewInfo;
 
-	
-	
+
+
 	private void Start()
 	{
-		if(Instance == null)
+		if (Instance == null)
 		{
 			Instance = this;
 		}
 		_reviewManager = new ReviewManager();
 	}
-	public void OpenReview()
+	public void OpenReview(Action action)
 	{
-		StartCoroutine(review());
+#if UNITY_ANDROID
+		Application.OpenURL("market://details?id=com.wayfu.match.puzzle.crew");
+#else
+        Application.OpenURL("market://details?id=1644651720");
+#endif
+		action();
 	}
+
 	IEnumerator review()
 	{
 		yield return new WaitForSeconds(1f);

@@ -529,7 +529,25 @@
 //					BoxCollider2D boxCollider2D = transform.GetComponent<BoxCollider2D>();
 //					Object.DestroyImmediate(boxCollider2D);
 //					transform.AddComponent<BoxCollider2D>();
-//					transform.GetComponent<BoxCollider2D>().isTrigger = true;	
+//					transform.GetComponent<BoxCollider2D>().isTrigger = true;
+
+
+//				}
+//			}
+//		}
+//	}
+//	[MenuItem("Services/changeEndlinePosition")]
+//	public static void Button26()
+//	{
+//		Transform obj = Selection.activeTransform;
+//		for (int j = 0; j < obj.childCount; j++)
+//		{
+//			for (int i = 0; i < obj.GetChild(j).childCount; i++)
+//			{
+//				if (obj.GetChild(j).GetChild(i).gameObject.name.Contains("Range"))
+//				{
+//					Transform transform = obj.GetChild(j).GetChild(i);
+//					transform.position = new Vector3(transform.position.x, transform.position.y - 30, 1f);
 
 
 //				}

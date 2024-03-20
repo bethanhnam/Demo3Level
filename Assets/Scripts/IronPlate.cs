@@ -150,7 +150,7 @@ public class IronPlate : MonoBehaviour
 		yield return new WaitForSeconds(0.05f);
 		this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
 		this.GetComponent<Rigidbody2D>().freezeRotation = false;
-		this.GetComponent<Rigidbody2D>().gravityScale = 2f;
+		this.GetComponent<Rigidbody2D>().gravityScale = 1.2f;
 		isFrezze = false;
 	}
 	public void SetHingeJoint()

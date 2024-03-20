@@ -49,10 +49,10 @@ public class SaveSystem : MonoBehaviour
 	}
     public void CreateData()
     {
-        magicTiket = 10;
-        powerTicket = 10;
-        strike = 0;
-        days = 0;
+        magicTiket = 100;
+        powerTicket = 100;
+        //days = 6;
+        //level = 9;
  
 	}
     public void LoadData()

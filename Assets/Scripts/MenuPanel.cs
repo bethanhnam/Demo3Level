@@ -12,6 +12,7 @@ public class MenuPanel : MonoBehaviour
 	public NonAdsPanel nonAdsPanel;
 	public LevelManager levelManager;
 	public GameManager gameManager;
+	public bool isplaying;
 
 	public CanvasGroup canvasGroup;
 	public RectTransform Blockpanel;
@@ -19,11 +20,16 @@ public class MenuPanel : MonoBehaviour
 	{
 		AudioManager.instance.PlayMusic("MenuTheme");
 	}
+	private void Update()
+	{
+	}
 	public void PlayGame()
 	{
 		AudioManager.instance.PlaySFX("Button");
 		Close();
 		UIManager.instance.gamePlayPanel.Open();
+		isplaying = true;
+		AudioManager.instance.PlayMusic("GamePlayTheme");
 	}
 	public void OpenSettingPanel()
 	{
@@ -62,6 +68,7 @@ public class MenuPanel : MonoBehaviour
 		AudioManager.instance.PlayMusic("MenuTheme");
 		if (!this.gameObject.activeSelf)
 		{
+			isplaying = false;
 			this.gameObject.SetActive(true);
 			Blockpanel.gameObject.SetActive(true);
 			canvasGroup.alpha = 0;
