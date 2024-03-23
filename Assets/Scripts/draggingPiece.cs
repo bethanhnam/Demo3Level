@@ -84,11 +84,14 @@ public class draggingPiece : MonoBehaviour
 		float distance = Vector2.Distance(piecePosition, target.transform.position);
 		if (distance < reference)
 		{
+			point.Kill();
 			this.transform.position = target.transform.position;
 			this.GetComponent<Collider2D>().enabled = false;
 			complete = true;
 			extrascreen.Instance.completePieces++;
+			AudioManager.instance.PlaySFX("jigsaw");
 			extrascreen.Instance.CheckLevel();
+			
 		}
 		else
 		{

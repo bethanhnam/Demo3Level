@@ -10,7 +10,7 @@ public class CompletePanel : MonoBehaviour
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
-
+			PlayerPrefs.SetInt("HasComplete", 1);
 			AudioManager.instance.PlaySFX("Winpop");
 			claimPanel.gameObject.SetActive(true);
 		}

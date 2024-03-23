@@ -10,28 +10,19 @@ public class GamePlayPanel : MonoBehaviour
 {
 	public PausePanel pausePanel;
 	public RePlayPanel rePlayPanel;
-	public HintPanel hintPanel;
 	public DeteleNailPanel deteleNailPanel;
-	public HintImgPanel hintImgPanel;
 	public Timer timer;
 	public LosePanel losePanel;
 	public UndoPanel undoPanel;
 	public HardLevel hardLevel;
 	public welcomeLevel welcomeLevel;
 	public ExtralHole extraHolePanel;
-	public BuymagicTiket BuymagicTiketPanel;
-	public BuypowerTicket BuypowerTicketPanel;
 	public Ratting rattingPanel;
 
 	public Button RelayButton;
-	public Button HintButton;
 	public Button DeteleNailButton;
 	public Button UndoButton;
 	public GameObject boosterButton;
-
-
-	//public RectTransform Blockpanel;
-	//public LosePanel winPanel;
 
 	public DisplayLevel level;
 
@@ -94,24 +85,9 @@ public class GamePlayPanel : MonoBehaviour
 			timer.TimerOn = false;
 		});
 	}
-	public void ShowHint()
-	{
-		hintImgPanel.Open();
-		try
-		{
-			hintImgPanel.LoadHint();
-		}
-		catch { }
-		timer.TimerOn = false;
-	}
 	public void OpenReplayPanel()
 	{
 		rePlayPanel.Open();
-		timer.TimerOn = false;
-	}
-	public void OpenHintPanel()
-	{
-		hintPanel.Open();
 		timer.TimerOn = false;
 	}
 	public void OpenDeteleNailPanel()
@@ -146,73 +122,78 @@ public class GamePlayPanel : MonoBehaviour
 	}
 	public void Open()
 	{
-		
+		if(gameManager.currentLevel == levelManager.levelCount)
+		{
+			UIManager.instance.completePanel.Open();
+		}
+		else { 
 		if (!this.gameObject.activeSelf)
 		{
-			isPause = false;
+				isPause = false;
 			this.gameObject.SetActive(true);
 			levelManager.gameObject.SetActive(true);
 			gameManager.gameObject.SetActive(true);
-			if (backFromPause == false)
-			{
-				if (levelManager.transform.childCount > 0)
+			
+				if (backFromPause == false)
 				{
-					if (levelManager.transform.GetChild(0) != null)
+					if (levelManager.transform.childCount > 0)
 					{
-						Destroy(levelManager.transform.GetChild(0).gameObject);
-						levelManager.levelInstances.Clear();
+						if (levelManager.transform.GetChild(0) != null)
+						{
+							Destroy(levelManager.transform.GetChild(0).gameObject);
+							levelManager.levelInstances.Clear();
+						}
 					}
-				}
-				if (backFromChestPanel == true)
-				{
-					gameManager.currentLevel++;
-					gameManager.LoadLevelFromUI();
+					if (backFromChestPanel == true)
+					{
+						gameManager.LoadLevelFromUI();
+						backFromChestPanel = false;
+						EnableBoosterButton();
+					}
+					else
+					{
+						gameManager.LoadLevelFromUI();
+						EnableBoosterButton();
+					}
 					backFromChestPanel = false;
-					EnableBoosterButton();
+					Settimer();
+					backFromPause = false;
 				}
 				else
 				{
-					gameManager.LoadLevelFromUI();
-					EnableBoosterButton();
+					if (UIManager.instance.gamePlayPanel.pausePanel.isdeleting)
+					{
+						GameManager.instance.deleting = true;
+					}
+					UIManager.instance.gamePlayPanel.pausePanel.isdeleting = false;
 				}
-				backFromChestPanel = false;
-				Settimer();
-				backFromPause = false;
+				timer.TimerOn = true;
 			}
-			else
-			{
-				if (UIManager.instance.gamePlayPanel.pausePanel.isdeleting)
-				{
-					GameManager.instance.deleting = true;
-				}
-				UIManager.instance.gamePlayPanel.pausePanel.isdeleting = false;
-			}
-			timer.TimerOn = true;
 		}
 	}
 	public void EnableBoosterButton()
 	{
 		UIManager.instance.gamePlayPanel.rePlayPanel.numOfUsed = 1;
-		UIManager.instance.gamePlayPanel.hintPanel.numOfUsed = 1;
+
 		UIManager.instance.gamePlayPanel.undoPanel.numOfUsed = 1;
 		UIManager.instance.gamePlayPanel.deteleNailPanel.numOfUsed = 1;
 		UIManager.instance.gamePlayPanel.losePanel.watchAdButton.GetComponent<Button>().interactable = true;
 		UIManager.instance.gamePlayPanel.losePanel.watchAdButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/win/bttn_green");
 		UIManager.instance.gamePlayPanel.losePanel.hasUse = false;
-		UIManager.instance.gamePlayPanel.hintPanel.hasUse = false;
+
 		SaveSystem.instance.playHardTime = 0;
 	} 
 	public void ButtonOff()
 	{
 		RelayButton.interactable = false;
-		HintButton.interactable = false;
+
 		DeteleNailButton.interactable = false;
 		UndoButton.interactable = false;
 	}
 	public void ButtonOn()
 	{
 		RelayButton.interactable = true;
-		HintButton.interactable = true;
+
 		DeteleNailButton.interactable = true;
 	}
 
@@ -235,15 +216,5 @@ public class GamePlayPanel : MonoBehaviour
 	public void OpenLosePanel()
 	{
 		losePanel.Open();
-	}
-	public void OpenmagicTiketShop()
-	{
-		BuymagicTiketPanel.Open();
-		timer.TimerOn = false;
-	}
-	public void OpenpowerTicketShop()
-	{
-		BuypowerTicketPanel.Open();
-		timer.TimerOn = false;
 	}
 }

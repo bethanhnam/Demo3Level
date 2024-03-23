@@ -49,12 +49,12 @@ public class SaveSystem : MonoBehaviour
 	}
     public void CreateData()
     {
-        magicTiket = 100;
-        powerTicket = 100;
+        //magicTiket = 100;
+        //powerTicket = 100;
         //days = 6;
-        //level = 9;
- 
-	}
+        //strike = 4;
+
+    }
     public void LoadData()
     {
         level = PlayerPrefs.GetInt("Level");

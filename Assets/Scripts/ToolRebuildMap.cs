@@ -507,8 +507,7 @@
 //					transform.GetComponent<Rigidbody2D>().angularDrag = 0.05f;
 //					transform.GetComponent<Rigidbody2D>().useAutoMass = false;
 //					transform.GetComponent<Rigidbody2D>().mass = 1;
-
-
+//					transform.GetComponent<Rigidbody2D>().collisionDetectionMode = CollisionDetectionMode2D.Discrete;
 //				}
 //			}
 //		}
@@ -547,8 +546,8 @@
 //				if (obj.GetChild(j).GetChild(i).gameObject.name.Contains("Range"))
 //				{
 //					Transform transform = obj.GetChild(j).GetChild(i);
-//					transform.position = new Vector3(transform.position.x, transform.position.y - 30, 1f);
-
+//					transform.position = new Vector3(transform.position.x, transform.position.y-3, 1f);
+//					transform.localScale = new Vector3(20, 2, 1f);
 
 //				}
 //			}

@@ -15,6 +15,7 @@ public class reciveRewardPanel : MonoBehaviour
 	public TextMeshProUGUI singleRewardText;
 	public TextMeshProUGUI pairReward1Text;
 	public TextMeshProUGUI pairReward2Text;
+	public ParticleSystem particle;
 	private void OnEnable()
 	{
 		singleReward.localPosition = new Vector3(27, -13, 0);
@@ -22,8 +23,10 @@ public class reciveRewardPanel : MonoBehaviour
 	}
 	public void Show(int lastDate,int numOfReward,Action action)
 	{
+		particle.Play();
 		if (dailyReward.isClaim)
 		{
+			
 			if (numOfReward > 1)
 			{
 				singleReward.gameObject.SetActive(false);
@@ -73,6 +76,7 @@ public class reciveRewardPanel : MonoBehaviour
 			}
 		}
 		this.gameObject.SetActive(true);
+		
 		action();
 	}
 	public void Claim(int lastDate,Action action)
@@ -141,9 +145,6 @@ public class reciveRewardPanel : MonoBehaviour
 	}
 	public void Close()
 	{
-		this.gameObject.SetActive(false);
 		dailyReward.Close();
-		
-	
 	}
 }

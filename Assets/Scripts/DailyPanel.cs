@@ -169,6 +169,10 @@ public class DailyPanel : MonoBehaviour
 			Blockpanel.gameObject.SetActive(true);
 			canvasGroup.DOFade(0, .3f).OnComplete(() =>
 			{
+				if (reciveRewardPanel.gameObject.activeSelf)
+				{
+					reciveRewardPanel.gameObject.SetActive(false);
+				}
 				GameManager.instance.hasUI = false;
 				this.gameObject.SetActive(false);
 				AudioManager.instance.PlaySFX("ClosePopUp");

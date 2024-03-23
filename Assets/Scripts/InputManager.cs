@@ -283,10 +283,10 @@ public class InputManager : MonoBehaviour
 
 	private void SetPreHinge(GameObject nail, List<HingeJoint2D> preHingJoint)
 	{
-		Collider2D[] HitIron = Physics2D.OverlapCircleAll(nail.transform.position, 0.3f, IronLayer);
+		RaycastHit2D[] HitIron = Physics2D.CircleCastAll(nail.transform.position, 0.1f,Vector3.forward, IronLayer);
 		if (HitIron.Length > 0)
 		{
-			foreach (Collider2D ray in HitIron)
+			foreach (RaycastHit2D ray in HitIron)
 			{
 				if (ray.transform.tag == "Iron")
 				{
@@ -309,7 +309,7 @@ public class InputManager : MonoBehaviour
 	public bool checkAllin()
 	{
 		bool allin = true;
-		Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), 0.23f);
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), 0.17f);
 		foreach (Collider2D collider in colliders)
 		{
 			if (collider.transform.tag == "Iron")

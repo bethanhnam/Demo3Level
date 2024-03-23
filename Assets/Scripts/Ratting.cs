@@ -113,7 +113,9 @@ public class Ratting : MonoBehaviour
 			ratingBar.gameObject.SetActive(false);
 			rateButton.gameObject.SetActive(false);
 			thanksText.gameObject.SetActive(true);
-			rateLaterText.text = "Tap To Continue!";
+			rateLaterText.gameObject.SetActive(false);
+				Invoke("Close", 1f);
+			//rateLaterText.text = "Tap To Continue!";
 			});
 		}
 		else
@@ -121,7 +123,9 @@ public class Ratting : MonoBehaviour
 			ratingBar.gameObject.SetActive(false);
 			rateButton.gameObject.SetActive(false);
 			notThanksText.gameObject.SetActive(true);
-			rateLaterText.text = "Tap To Continue!";
+			rateLaterText.gameObject.SetActive(false);
+			Invoke("Close", 2f);
+			//rateLaterText.text = "Tap To Continue!";
 		}
 	}
 }

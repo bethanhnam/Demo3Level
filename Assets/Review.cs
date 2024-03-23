@@ -10,8 +10,10 @@ public class Review : MonoBehaviour
 	public static Review Instance { get; private set; }
 	// Create instance of ReviewManager
 	private ReviewManager _reviewManager;
+	
 	// ...
 	PlayReviewInfo _playReviewInfo;
+	bool isRun = false;
 
 
 
@@ -25,14 +27,20 @@ public class Review : MonoBehaviour
 	}
 	public void OpenReview(Action action)
 	{
+		if (isRun == true)
+		{
+			return;
+		}
+		else
+		{
 #if UNITY_ANDROID
-		Application.OpenURL("market://details?id=com.wayfu.match.puzzle.crew");
+			Application.OpenURL("market://details?id=com.wayfu.match.puzzle.crew");
 #else
         Application.OpenURL("market://details?id=1644651720");
 #endif
-		action();
+			action();
+		}
 	}
-
 	IEnumerator review()
 	{
 		yield return new WaitForSeconds(1f);
@@ -41,6 +49,7 @@ public class Review : MonoBehaviour
 		if (requestFlowOperation.Error != ReviewErrorCode.NoError)
 		{
 			// Log error. For example, using requestFlowOperation.Error.ToString().
+			isRun = false;
 			yield break;
 		}
 		_playReviewInfo = requestFlowOperation.GetResult();
@@ -50,8 +59,10 @@ public class Review : MonoBehaviour
 		if (launchFlowOperation.Error != ReviewErrorCode.NoError)
 		{
 			// Log error. For example, using requestFlowOperation.Error.ToString().
+			isRun = false;
 			yield break;
 		}
+		isRun = true;
 		// The flow has finished. The API does not indicate whether the user
 		// reviewed or not, or even whether the review dialog was shown. Thus, no
 		// matter the result, we continue our app flow.

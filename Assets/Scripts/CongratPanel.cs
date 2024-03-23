@@ -52,7 +52,8 @@ public class CongratPanel : MonoBehaviour
 			AudioManager.instance.PlaySFX("ClosePopUp");
 			UIManager.instance.gamePlayPanel.backFromChestPanel = true;
 			UIManager.instance.gamePlayPanel.backFromPause = false;
-			UIManager.instance.gamePlayPanel.Open();
+			
+				UIManager.instance.gamePlayPanel.Open();
 		}
 	}
 	public void TakeReward()

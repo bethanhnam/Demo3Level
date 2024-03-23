@@ -16,6 +16,8 @@ public class SettingPanel : MonoBehaviour
 	public RectTransform closeButton;
 	public RectTransform panel;
 	public RectTransform Blockpanel;
+	public CanvasGroup canvasGroup;
+	public GameObject panelBoard;
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -31,19 +33,21 @@ public class SettingPanel : MonoBehaviour
 	{
 		if (!this.gameObject.activeSelf)
 		{
-			Blockpanel.gameObject.SetActive(true);
-			this.gameObject.SetActive(true);
-			AudioManager.instance.PlaySFX("OpenPopUp");
-			panel.localRotation = Quaternion.identity;
-			this.GetComponent<CanvasGroup>().alpha = 0;
 			GameManager.instance.hasUI = true;
-			panel.localPosition = new Vector3(-351, 479, 0);
-			panel.localScale = new Vector3(.8f, .8f, 0);
-			closeButton.localPosition = new Vector3(364, 277.600006f, 0);
-			this.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
-			panel.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
+			this.gameObject.SetActive(true);
+			panelBoard.gameObject.SetActive(false);
+			panelBoard.transform.localScale = new Vector3(.9f, .9f, 1f);
+			Blockpanel.gameObject.SetActive(true);
+			AudioManager.instance.PlaySFX("OpenPopUp");
+			canvasGroup.alpha = 0;
+			canvasGroup.DOFade(1, .3f);
+			panelBoard.gameObject.SetActive(true);
+			panelBoard.transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.2f).OnComplete(() =>
 			{
-				Blockpanel.gameObject.SetActive(false);
+				panelBoard.transform.DOScale(Vector3.one, 0.15f).OnComplete(() =>
+				{
+					Blockpanel.gameObject.SetActive(false);
+				});
 			});
 		}
 	}
@@ -51,20 +55,16 @@ public class SettingPanel : MonoBehaviour
 	{
 		if (this.gameObject.activeSelf)
 		{
+			canvasGroup.alpha = 1;
 			Blockpanel.gameObject.SetActive(true);
-			closeButton.DOAnchorPos(new Vector2(552f, -105f), .1f, false).OnComplete(() =>
-				{
-					panel.DORotate(new Vector3(0, 0, -10f), 0.25f, RotateMode.Fast).OnComplete(() =>
-					{
-						panel.DOAnchorPos(new Vector2(panel.transform.position.x, -1467f), 0.25f, false).OnComplete(() =>
-						{
-							this.gameObject.SetActive(false);
-							Blockpanel.gameObject.SetActive(false);
-							AudioManager.instance.PlaySFX("ClosePopUp");
-							GameManager.instance.hasUI = false;
-						});
-					});
-				});
+			canvasGroup.DOFade(0, .3f).OnComplete(() =>
+			{
+				GameManager.instance.hasUI = false;
+				this.gameObject.SetActive(false);
+				AudioManager.instance.PlaySFX("ClosePopUp");
+				Blockpanel.gameObject.SetActive(false);
+			});
+			panelBoard.transform.DOScale(new Vector3(.9f, .9f, 1f), 0.3f);
 		}
 	}
 	public void SoundOn()

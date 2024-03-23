@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     public Winpop winPanel;
     public CongratPanel congratPanel;
     public CompletePanel completePanel;
+
    
 
     public TextMeshProUGUI[] magicTiket;

@@ -47,11 +47,7 @@ public class GameManager : MonoBehaviour
 	}
 	private void Update()
 	{
-		if(currentLevel >= LevelManager.instance.levelCount)
-		{
-			UIManager.instance.completePanel.Open();
-			
-		}
+		
 	}
 	public void Replay()
 	{
@@ -93,19 +89,18 @@ public class GameManager : MonoBehaviour
 	}
 	public IEnumerator LoadLevel()
 	{
-		UIManager.instance.gamePlayPanel.ButtonOff();
-		yield return new WaitForSeconds(0.4f);
-		UIManager.instance.gamePlayPanel.ButtonOn();
-		try
-		{
-			InputManager.instance.hasSave = false;
-		}
-		catch
-		{
+			UIManager.instance.gamePlayPanel.ButtonOff();
+			yield return new WaitForSeconds(0.4f);
+			UIManager.instance.gamePlayPanel.ButtonOn();
+			try
+			{
+				InputManager.instance.hasSave = false;
+			}
+			catch
+			{
 
-		}
-		levelManager.LoadLevel(currentLevel);
-
+			}
+			levelManager.LoadLevel(currentLevel);
 	}
 
 }

@@ -59,6 +59,10 @@ public class LosePanel : MonoBehaviour
 	}
 	public void Open()
 	{
+		if (UIManager.instance.winPanel.gameObject.activeSelf)
+		{
+			return;
+		}
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);

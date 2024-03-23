@@ -26,6 +26,7 @@ public class AdsManager : MonoBehaviour
     public float lastTime;
 
     public GameObject noAds;
+    public GameObject noAdsPanel;
     public RectTransform popUpNoAdsRec;
     public CanvasGroup popUpNoAdsAlpha;
 
@@ -160,9 +161,10 @@ public class AdsManager : MonoBehaviour
     {
         if(!noAds.activeSelf)
         {
+            noAdsPanel.SetActive(true);
             noAds.SetActive(true);
         }
-        popUpNoAdsAlpha.alpha = 0;
+        popUpNoAdsAlpha.alpha = 0; 
         popUpNoAdsAlpha.DOFade(1, 0.3f).SetEase(Ease.InOutBack);
         popUpNoAdsRec.localScale = Vector3.one * 3;
         popUpNoAdsRec.DOScale(Vector3.one, 0.3f).SetEase(Ease.InOutBack);
@@ -178,6 +180,7 @@ public class AdsManager : MonoBehaviour
     }
     public void DisableBlockAds()
     {
+        noAdsPanel.SetActive(false);
         noAds.SetActive(false);
     }
 

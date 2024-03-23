@@ -1,4 +1,5 @@
-﻿using DG.Tweening.Core.Easing;
+﻿using DG.Tweening;
+using DG.Tweening.Core.Easing;
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ public class extrascreen : MonoBehaviour
 	public int completePieces = 0;
 	public CanvasGroup canvasGroup;
 	public SpriteRenderer boardSprite;
+	public ParticleSystem particle;
+	public GameObject particles;
 	
 	private void Start()
 	{
@@ -32,7 +35,13 @@ public class extrascreen : MonoBehaviour
 			{
 				Debug.LogError("Invalid color format!"); // Xử lý trường hợp mã màu không hợp lệ
 			}
-			Invoke("NextLevel",1f);
+			
+			particle.Play();
+			AudioManager.instance.PlaySFX("Shining");
+			particles.transform.DOScale(new Vector3(3f, 3f, 1), 2f).OnComplete(() =>
+			{
+				Invoke("NextLevel", 1f);
+			});
 		}
 	}
 	private void NextLevel()
