@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 
 public class IronPlate : MonoBehaviour
@@ -27,8 +28,8 @@ public class IronPlate : MonoBehaviour
 		centerPoints = new Vector3[holes.Length];
 		hingeJoint2Ds = GetComponents<HingeJoint2D>();
 		SetHingeJoint();
-		rigidbody2D  = this.GetComponent<Rigidbody2D>();
-		
+		rigidbody2D = this.GetComponent<Rigidbody2D>();
+
 
 	}
 	private void Update()
@@ -63,7 +64,7 @@ public class IronPlate : MonoBehaviour
 	public bool checkHitPoint(Vector2 holePosition)
 	{
 		result = false;
-		radius = 0.1f;
+		radius = 0.05f;
 		float reference = radius;
 		for (int i = 0; i < centerPoints.Length; i++)
 		{
@@ -91,9 +92,9 @@ public class IronPlate : MonoBehaviour
 	//}
 	private void checkHinge()
 	{
-		foreach(var hinge in hingeJoint2Ds)
+		foreach (var hinge in hingeJoint2Ds)
 		{
-			if(hinge.connectedBody == null)
+			if (hinge.connectedBody == null)
 			{
 				hinge.enabled = false;
 				joints.Remove(hinge);
@@ -107,57 +108,80 @@ public class IronPlate : MonoBehaviour
 				{
 					joints.Add(hinge);
 				}
-				
+
 			}
 		}
-		if (hingeJoint2Ds.Length >= 2)
+		if (hingeJoint2Ds.Length > 0)
 		{
 			if (joints.Count >= 2)
 			{
-				if(!isFrezze)
-				StartCoroutine(Freeze());
+				if (!isFrezze)
+					StartCoroutine(Freeze());
 			}
 			else
 			{
-
 				StartCoroutine(unFreeze());
-			}	
+			}
 		}
 		if (joints.IsNullOrEmpty())
 		{
-			if (!hasAddForce)
+			if (this.GetComponent<Rigidbody2D>().isKinematic == true)
 			{
-				Vector3 movementDirection = this.rigidbody2D.velocity.normalized;
+				this.GetComponent<Rigidbody2D>().isKinematic = false;
+			}
+			else
+			{
+				if (InputManager.instance.hasBoom == false)
+				{
+					if (!hasAddForce)
+					{
+						Vector3 movementDirection = this.rigidbody2D.velocity.normalized;
 
-				// Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude
-				Vector3 forceToAdd = movementDirection * 0.2f;
+						// Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude
+						Vector3 forceToAdd = movementDirection * 0.2f;
 
-				// Thêm lực vào Rigidbody
-				rigidbody2D.AddForce(forceToAdd, ForceMode2D.Impulse);
-				hasAddForce = true;
+						// Thêm lực vào Rigidbody
+						rigidbody2D.AddForce(forceToAdd, ForceMode2D.Impulse);
+						hasAddForce = true;
+					}
+				}
 			}
 		}
 	}
 	IEnumerator Freeze()
 	{
 		yield return new WaitForSeconds(0.1f);
-		this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-		this.GetComponent<Rigidbody2D>().gravityScale = 1f;
-		isFrezze = true;
+		if (InputManager.instance.hasBoom)
+		{
+			yield return new WaitForSeconds(1f);
+			this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+			this.GetComponent<Rigidbody2D>().gravityScale = 1f;
+			isFrezze = true;
+		}
+		else
+		{
+			this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+			this.GetComponent<Rigidbody2D>().gravityScale = 1f;
+			isFrezze = true;
+		}
 	}
 	IEnumerator unFreeze()
 	{
 		yield return new WaitForSeconds(0.05f);
 		this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
 		this.GetComponent<Rigidbody2D>().freezeRotation = false;
+		if (this.GetComponent<Rigidbody2D>().angularDrag < 2)
+		{
+			this.GetComponent<Rigidbody2D>().angularDrag += 0.1f;
+		}
 		this.GetComponent<Rigidbody2D>().gravityScale = 1.2f;
 		isFrezze = false;
 	}
 	public void SetHingeJoint()
 	{
-		for(int i = 0;i<holes.Length;i++)
+		for (int i = 0; i < holes.Length; i++)
 		{
-			holes[i].GetComponent<NailDetector>().hingeJoint2D  = hingeJoint2Ds[i];
+			holes[i].GetComponent<NailDetector>().hingeJoint2D = hingeJoint2Ds[i];
 		}
 	}
 	public HingeJoint2D GetHinge()

@@ -8,6 +8,7 @@ public class PausePanel : MonoBehaviour
 {
 	public RectTransform Blockpanel;
 	public bool isdeleting;
+	public bool isdeletingIron;
 	//public RectTransform title;
 	//public RectTransform homeButton;
 	//public RectTransform retryButton;
@@ -34,6 +35,10 @@ public class PausePanel : MonoBehaviour
 			if (GameManager.instance.deleting)
 			{
 				isdeleting = true;
+			}
+			if (GameManager.instance.deletingIron)
+			{
+				isdeletingIron = true;
 			}
 			Blockpanel.gameObject.SetActive(true);
 			GameManager.instance.hasUI = true;

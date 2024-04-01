@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.UI;
 
 public class draggingPiece : MonoBehaviour
@@ -13,6 +14,7 @@ public class draggingPiece : MonoBehaviour
 	public Sprite defaultSprite;
 	public Vector3 defaultPosition;
 	public bool complete = false;
+	public bool hasComplete = false;
 	public bool hasTutol = false;
 	public bool hasPointer = false;
 	public bool canCreate = true;
@@ -59,8 +61,23 @@ public class draggingPiece : MonoBehaviour
 		}
 		if(complete)
 		{
-			PointerTutorial.Instance.Pointer.SetActive(false);
-			this.GetComponent<SpriteRenderer>().sortingOrder = 1;
+			if (hasComplete == false)
+			{
+				PointerTutorial.Instance.Pointer.SetActive(false);
+				this.transform.DOScale(1.05f, 0.2f).OnComplete(() =>
+				{
+					this.transform.DOScale(1f, 0.2f).OnComplete(() =>
+					{
+						this.GetComponent<SpriteRenderer>().material.SetFloat("_Add", 0.5f);
+						this.GetComponent<SpriteRenderer>().material.SetFloat("_Mul", 0.5f);
+			
+						this.GetComponent<SpriteRenderer>().material.DOFloat(1, "_Add", 2f);
+						this.GetComponent<SpriteRenderer>().material.DOFloat(1, "_Mul", 2f);
+						this.GetComponent<SpriteRenderer>().sortingOrder = 1;
+					});
+				});
+				hasComplete = true;
+			}
 		}
 	}
 	IEnumerator CreatePointer()

@@ -7,6 +7,7 @@ public class ShopPanel : MonoBehaviour
 {
 	public CanvasGroup canvasGroup;
 	public RectTransform Blockpanel;
+	public RestorePanel restorePanel;
 	public void Open()
 	{
 		if (!this.gameObject.activeSelf)

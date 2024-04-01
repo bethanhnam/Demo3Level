@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 	private int magicTiket;
 	private int powerTicket;
 	public bool deleting;
+	public bool deletingIron;
 	public bool hasUI;
 	public bool hasMove;
 
@@ -74,6 +75,7 @@ public class GameManager : MonoBehaviour
 				Destroy(LevelManager.instance.transform.GetChild(0).gameObject);
 				LevelManager.instance.levelInstances.Clear();
 				UIManager.instance.gamePlayPanel.pausePanel.isdeleting = false;
+				UIManager.instance.gamePlayPanel.pausePanel.isdeletingIron = false;
 				StartCoroutine(LoadLevel());
 				SaveSystem.instance.playingHard = false;
 				UIManager.instance.gamePlayPanel.Settimer();

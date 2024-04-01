@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -47,23 +48,41 @@ public class InputManager : MonoBehaviour
 	Vector2 Ray;
 	public Transform[] pointerPositions;
 	public GameObject clickEffect;
+	public GameObject pickUpEffect;
+	public GameObject pickUpEffect1;
+	public GameObject destroyNailEffect;
 	//
 	public NailManager nailManager;
 	//lưu tài nguyên sau từng chuyển động
 	public bool hasSave;
-
 	public bool hasDelete;
+	public bool hasBoom;
+	public bool outOfMoves = false;
+	public bool checkOutOfMoves = false;
+	public bool hasShowNotice = false;
+
+	public List<Hole> holeCollider = new List<Hole>();
+	public List<IronPlate> ironCollider = new List<IronPlate>();
+	public List<IronPlate> ignoreIronCollider = new List<IronPlate>();
+	public List<Sprite> ignoreColliderCheckSprite = new List<Sprite>();
+
 	GameObject nailToDetele;
 	GameObject holeToDetele;
+	public GameObject ironToDeteleNail;
 	[SerializeField] private GameObject holeBeforeMove;
 	[SerializeField] private GameObject holeBeToReturn;
 	public List<GameObject> ironObjectsBeforemove = new List<GameObject>();
 	public List<Vector3> ironObjectsTransformBeforemove = new List<Vector3>();
 	public List<Quaternion> ironObjectsRotationBeforemove = new List<Quaternion>();
 	public List<GameObject> nailObjectsBeforemove = new List<GameObject>();
+	public List<GameObject> nailObjectsBeforeBoom = new List<GameObject>();
 	public List<GameObject> nailsJointBeforemove = new List<GameObject>();
 	public List<Vector3> nailObjectsTransformBeforemove = new List<Vector3>();
+
+	public int numOfIronPlateCircle = 0;
 	public int numOfIronPlate;
+	public int numOfIronPlateCollider;
+	public int minLayer = 0;
 
 	private void Awake()
 	{
@@ -90,17 +109,27 @@ public class InputManager : MonoBehaviour
 		numOfIronPlate = ironObjects.Length;
 		nailManager = FindFirstObjectByType<NailManager>();
 		canSelect = true;
-		//for(int i = 0;i<holeObjects.Length;i++)
-		//{
-		//	holeObjects[i].GetComponent<CircleCollider2D>().radius = ironObjects[0].GetComponent<IronPlate>().holes[0].GetComponent<CircleCollider2D>().radius;
-		//}
+		numOfIronPlateCollider = numOfIronPlate;
+		foreach (var ironObject in ironObjects)
+		{
+			foreach (var sprite in ignoreColliderCheckSprite)
+			{
+				if (ironObject.GetComponent<SpriteRenderer>().sprite == sprite)
+				{
+					if (ironObject.GetComponent<IronPlate>().hingeJoint2Ds.Length <= 1)
+					{
+						ignoreIronCollider.Add(ironObject.GetComponent<IronPlate>());
+						numOfIronPlateCollider--;
+					}
+				}
+			}
+		}
+
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-
-
 		Ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		ironObjects = GameObject.FindGameObjectsWithTag("Iron");
 		numOfIronPlate = ironObjects.Length;
@@ -109,9 +138,16 @@ public class InputManager : MonoBehaviour
 		{
 			if (GameManager.instance.deleting != true)
 			{
-				if (canSelect)
+				if (GameManager.instance.deletingIron != true)
 				{
-					selectHole();
+					if (canSelect)
+					{
+						selectHole();
+					}
+				}
+				else
+				{
+					selectBoomNail();
 				}
 			}
 			else
@@ -127,12 +163,80 @@ public class InputManager : MonoBehaviour
 		}
 		else
 		{
-			
+
 			if (selectNailPrefabAnimation)
 			{
 				Destroy(selectNailPrefabAnimation);
 				StartCoroutine(SetdefaultSpriteSameHole(selectedNail));
 			}
+		}
+		if (ignoreIronCollider.Count > 0)
+		{
+			foreach (var iron in ignoreIronCollider)
+			{
+				if (iron.gameObject.activeSelf == false)
+				{
+					ignoreIronCollider.Remove(iron);
+				}
+			}
+		}
+		if (numOfIronPlate != 1)
+		{
+			foreach (var hole in holeObjects)
+			{
+				if (hole.GetComponent<Hole>().isOsccupied == true)
+				{
+					if (!holeCollider.Contains(hole.GetComponent<Hole>()))
+					{
+						holeCollider.Add(hole.GetComponent<Hole>());
+					}
+				}
+				else
+				{
+					holeCollider.Remove(hole.GetComponent<Hole>());
+				}
+			}
+
+
+			foreach (var iron in ironObjects)
+			{
+				if (iron.GetComponent<Rigidbody2D>().velocity == Vector2.zero)
+				{
+					if (!ironCollider.Contains(iron.GetComponent<IronPlate>()))
+					{
+						ironCollider.Add(iron.GetComponent<IronPlate>());
+					}
+				}
+				else
+				{
+					ironCollider.Remove(iron.GetComponent<IronPlate>());
+				}
+			}
+		}
+		if (holeCollider.Count == holeObjects.Length)
+		{
+			if (ironCollider.Count - ignoreIronCollider.Count == numOfIronPlateCollider)
+			{
+				if (hasShowNotice == false)
+				{
+					Invoke("ShowNotice", 1f);
+				}
+			}
+		}
+		else
+		{
+			numOfIronPlateCircle = 0;
+			hasShowNotice = false;
+			UIManager.instance.gamePlayPanel.noticePanel.gameObject.SetActive(false);
+		}
+	}
+
+	private void ShowNotice()
+	{
+		if (holeCollider.Count == holeObjects.Length)
+		{
+			UIManager.instance.gamePlayPanel.noticePanel.gameObject.SetActive(true);
+			hasShowNotice = true;
 		}
 	}
 
@@ -151,8 +255,7 @@ public class InputManager : MonoBehaviour
 		if (Input.GetMouseButtonDown(0))
 		{
 			RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(Ray, 0.5f, Vector3.forward, Mathf.Infinity);
-			var clickeffect = Instantiate(clickEffect, new Vector2(Ray.x, Ray.y), quaternion.identity);
-			Destroy(clickeffect, 0.2f);
+
 			try
 			{
 				bool hasHole = false;
@@ -168,13 +271,28 @@ public class InputManager : MonoBehaviour
 				if (hasHole != false)
 				{
 					selectedHole = cubeHit[hole].transform.gameObject;
+					try
+					{
+						if (Notice.Instance.gameObject.activeSelf)
+						{
+							StartCoroutine(DisappearNotice());
+						}
+					}
+					catch
+					{
+
+					}
 					preHingeJoint2D.Clear();
 					AudioManager.instance.PlaySFX("PickUpScrew");
 				}
 				else
 				{
 					if (cubeHit[0].transform.gameObject.layer != 5)
+					{
 						AudioManager.instance.PlaySFX("Click");
+					}
+					var clickeffect = Instantiate(clickEffect, new Vector2(Ray.x, Ray.y), quaternion.identity);
+					Destroy(clickeffect, 0.2f);
 					selectedHole = null;
 				}
 				if (selectNailPrefabAnimation != null)
@@ -228,7 +346,10 @@ public class InputManager : MonoBehaviour
 							// chạy animation lấy nail
 							selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isNotSelected", false);
 							selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isSelected", true);
-
+							var pickUpeffect = Instantiate(pickUpEffect, selectedNail.transform.position, quaternion.identity);
+							Destroy(pickUpeffect, 0.2f);
+							var pickUpeffect1 = Instantiate(pickUpEffect1, selectedNail.transform.position, quaternion.identity);
+							Destroy(pickUpeffect1, 0.4f);
 						}
 					}
 					//khi click vào nail khác thì nail mới chạy animation select
@@ -241,9 +362,6 @@ public class InputManager : MonoBehaviour
 						selectNailPrefab.transform.transform.localScale = new Vector3(selectedNail.transform.localScale.x + 0.1f, selectedNail.transform.localScale.y + 0.1f, 1f);
 						selectNailPrefabAnimation = Instantiate(selectNailPrefab, new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y), quaternion.identity, transform);
 						selectNailPrefabAnimation.transform.GetChild(0).GetChild(0).localScale = new Vector3(selectedNail.transform.localScale.x + 0.01f, selectedNail.transform.localScale.y + 0.01f, 1f);
-						Debug.Log(selectNailPrefabAnimation.transform.localScale);
-						Debug.Log(selectNailPrefabAnimation.transform.GetChild(0).GetChild(0).gameObject.name);
-						Debug.Log(selectNailPrefabAnimation.transform.GetChild(0).GetChild(0).localScale);
 						//highLight nail đang được chọn
 						//selectNailPrefabAnimation.GetComponentInChildren<SpriteRenderer>().color = Color.green;
 						// tắt sprite của nail tại vị trí đang lấy
@@ -251,6 +369,10 @@ public class InputManager : MonoBehaviour
 						// chạy animation lấy nail
 						selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isNotSelected", false);
 						selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetBool("isSelected", true);
+						var pickUpeffect = Instantiate(pickUpEffect, selectedNail.transform.position, quaternion.identity);
+						Destroy(pickUpeffect, 0.2f);
+						var pickUpeffect1 = Instantiate(pickUpEffect1, selectedNail.transform.position, quaternion.identity);
+						Destroy(pickUpeffect1, 0.4f);
 					}
 
 					if (preHole == null)
@@ -269,21 +391,24 @@ public class InputManager : MonoBehaviour
 
 				}
 			}
-			//		}
-			//	}
-			//}
 			if (selectedNail != null && selectNailPrefabAnimation)
 			{
-				
+
 				SetPreHinge(selectedNail, preHingeJoint2D);
 				placeNail();
 			}
 		}
 	}
 
+	IEnumerator DisappearNotice()
+	{
+		yield return new WaitForSeconds(1f);
+		Notice.Instance.DisableNotice();
+	}
+
 	private void SetPreHinge(GameObject nail, List<HingeJoint2D> preHingJoint)
 	{
-		RaycastHit2D[] HitIron = Physics2D.CircleCastAll(nail.transform.position, 0.1f,Vector3.forward, IronLayer);
+		RaycastHit2D[] HitIron = Physics2D.CircleCastAll(nail.transform.position, 0.1f, Vector3.forward, IronLayer);
 		if (HitIron.Length > 0)
 		{
 			foreach (RaycastHit2D ray in HitIron)
@@ -394,14 +519,15 @@ public class InputManager : MonoBehaviour
 			ClearData();
 			SaveGameObject();
 			hasDelete = false;
+			hasBoom = false;
 			//tạo nail tại vị trí mới
 			if (preHingeJoint2D != null)
 			{
 				foreach (var hinge in preHingeJoint2D)
 				{
-						hinge.connectedBody = null;
-						hinge.enabled = false;
-						hinge.connectedAnchor = Vector2.zero;
+					hinge.connectedBody = null;
+					hinge.enabled = false;
+					hinge.connectedAnchor = Vector2.zero;
 				}
 				preHingeJoint2D.Clear();
 			}
@@ -409,7 +535,7 @@ public class InputManager : MonoBehaviour
 			// tạo animation deselect tại vị trí mới
 			selectNailPrefabAnimation.transform.position = new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y + 0.1f);
 			selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetTrigger("Deselect");
-			Destroy(selectNailPrefabAnimation,0.32f);
+			Destroy(selectNailPrefabAnimation, 0.32f);
 			StartCoroutine(SpawnNailInIron());
 			//huy animation deselect;
 
@@ -435,13 +561,14 @@ public class InputManager : MonoBehaviour
 			ClearData();
 			SaveGameObject();
 			hasDelete = false;
+			hasBoom = false;
 			if (preHingeJoint2D != null)
 			{
 				foreach (var preHinge in preHingeJoint2D)
 				{
-						preHinge.connectedBody = null;
-						preHinge.enabled = false;
-						preHinge.connectedAnchor = Vector2.zero;
+					preHinge.connectedBody = null;
+					preHinge.enabled = false;
+					preHinge.connectedAnchor = Vector2.zero;
 				}
 				preHingeJoint2D.Clear();
 			}
@@ -449,7 +576,7 @@ public class InputManager : MonoBehaviour
 			// tạo animation deselect tại vị trí mới
 			selectNailPrefabAnimation.transform.position = new Vector2(selectedHole.transform.position.x, selectedHole.transform.position.y + 0.1f);
 			selectNailPrefabAnimation.GetComponentInChildren<Animator>().SetTrigger("Deselect");
-			Destroy(selectNailPrefabAnimation,0.32f);
+			Destroy(selectNailPrefabAnimation, 0.32f);
 			StartCoroutine(SpawnNail());
 			//huy animation deselect;
 
@@ -528,6 +655,8 @@ public class InputManager : MonoBehaviour
 								}
 								preHingeJoint2DToDetele.Clear();
 							}
+							var Destroyeffect1 = Instantiate(destroyNailEffect, nailToDetele.transform.position, quaternion.identity);
+							Destroy(Destroyeffect1, 0.5f);
 							nailManager.DestroyNail(nailToDetele);
 							GameManager.instance.deleting = false;
 							UIManager.instance.gamePlayPanel.ButtonOn();
@@ -539,6 +668,88 @@ public class InputManager : MonoBehaviour
 			}
 
 		}
+	}
+	public void selectBoomNail()
+	{
+		//TurnNailsToRed(true);
+		if (Input.GetMouseButtonDown(0))
+		{
+			Collider2D[] cubeHit = Physics2D.OverlapCircleAll(Ray, 0.1f, IronLayer);
+			if (cubeHit.Length > 0)
+			{
+				foreach (var cube in cubeHit)
+				{
+					Debug.Log(cube.gameObject.name);
+				}
+				int minLayerIndex = cubeHit[0].gameObject.layer; // Gán minLayerIndex bằng layer của phần tử đầu tiên
+				minLayer = 0;
+				for (int j = 1; j < cubeHit.Length; j++)
+				{
+					int currentLayerIndex = cubeHit[j].gameObject.layer; // Lấy layer của GameObject hiện tại
+
+					if (currentLayerIndex < minLayerIndex)
+					{
+						minLayer = j;
+						minLayerIndex = currentLayerIndex; // Nếu layer của GameObject hiện tại nhỏ hơn minLayerIndex, cập nhật minLayerIndex
+					}
+				}
+				if (cubeHit[minLayer].gameObject.tag == "Iron")
+				{
+					ironToDeteleNail = cubeHit[minLayer].gameObject;
+					Debug.Log(ironToDeteleNail.gameObject.name);
+					ClearData();
+					SaveGameObject();
+					hasDelete = false;
+					hasBoom = true;
+					ironToDeteleNail.GetComponent<Rigidbody2D>().isKinematic = true;
+					if (ironToDeteleNail.GetComponent<IronPlate>().hingeJoint2Ds.Length > 0)
+					{
+						for (int i = 0; i < ironToDeteleNail.GetComponent<IronPlate>().hingeJoint2Ds.Length; i++)
+						{
+							if (ironToDeteleNail.GetComponent<IronPlate>().hingeJoint2Ds[i].connectedBody != null)
+							{
+								if (!nailObjectsBeforeBoom.Contains(ironToDeteleNail.GetComponent<IronPlate>().hingeJoint2Ds[i].connectedBody.gameObject))
+								{
+									nailObjectsBeforeBoom.Add(ironToDeteleNail.GetComponent<IronPlate>().hingeJoint2Ds[i].connectedBody.gameObject);
+								}
+							}
+							if (ironToDeteleNail.GetComponent<IronPlate>().hingeJoint2Ds[i].connectedBody != null)
+							{
+								boomNailHingJoint(ironToDeteleNail.GetComponent<IronPlate>().hingeJoint2Ds[i].connectedBody.gameObject);
+							}
+						}
+					}
+					//var Destroyeffect1 = Instantiate(destroyNailEffect, nailToDetele.transform.position, quaternion.identity);
+					//Destroy(Destroyeffect1, 0.5f);
+					GameManager.instance.deletingIron = false;
+					UIManager.instance.gamePlayPanel.ButtonOn();
+				}
+			}
+		}
+	}
+	public void boomNailHingJoint(GameObject nail)
+	{
+		Collider2D[] cubeHit = Physics2D.OverlapCircleAll(nail.transform.position, 0.1f, IronLayer);
+		if (cubeHit.Length > 0)
+		{
+			foreach (var cube in cubeHit)
+			{
+				if (cube.gameObject.tag == "Iron")
+				{
+					for (int i = 0; i < cube.GetComponent<IronPlate>().hingeJoint2Ds.Length; i++)
+					{
+						if (nail.GetComponent<Rigidbody2D>() == cube.GetComponent<IronPlate>().hingeJoint2Ds[i].connectedBody)
+						{
+							//cube.GetComponent<Rigidbody2D>().isKinematic = true;
+							cube.GetComponent<IronPlate>().hingeJoint2Ds[i].enabled = false;
+							cube.GetComponent<IronPlate>().hingeJoint2Ds[i].connectedBody = null;
+							//cube.GetComponent<Rigidbody2D>().isKinematic = false;
+						}
+					}
+				}
+			}
+		}
+		NailManager.instance.DestroyNail(nail);
 	}
 	public void setResource()
 	{
@@ -592,13 +803,16 @@ public class InputManager : MonoBehaviour
 		{
 			//code cu
 			{
-
-				try
+				if (!hasBoom)
 				{
-					Destroy(selectNailPrefabAnimation);
-					StartCoroutine(SetdefaultSprite(selectedNail));
+					try
+					{
+						Destroy(selectNailPrefabAnimation);
+						StartCoroutine(SetdefaultSprite(selectedNail));
+					}
+
+					catch (Exception e) { }
 				}
-				catch (Exception e) { }
 				for (int i = 0; i < ironObjectsBeforemove.Count; i++)
 				{
 					ironObjectsBeforemove[i].transform.SetLocalPositionAndRotation(ironObjectsTransformBeforemove[i], ironObjectsRotationBeforemove[i]);
@@ -619,6 +833,14 @@ public class InputManager : MonoBehaviour
 				{
 					for (int i = 0; i < nailObjectsBeforemove.Count; i++)
 					{
+						if (hasBoom)
+						{
+							foreach (var nail in nailObjectsBeforeBoom)
+							{
+								nail.SetActive(true);
+								nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
+							}
+						}
 						nailObjectsBeforemove[i].transform.position = nailObjectsBeforemove[i].transform.position;
 						nailObjectsBeforemove[i].GetComponent<Collider2D>().isTrigger = true;
 					}
@@ -660,6 +882,7 @@ public class InputManager : MonoBehaviour
 					catch { }
 				}
 				hasDelete = false;
+				hasBoom = false;
 				Continute();
 			}
 		}
@@ -695,6 +918,7 @@ public class InputManager : MonoBehaviour
 			ironObjectsRotationBeforemove.Clear();
 			ironObjectsBeforemove.Clear();
 			ironObjectsTransformBeforemove.Clear();
+			nailObjectsBeforeBoom.Clear();
 
 			//mới add
 			HingeJointBeforeRemove.Clear();
@@ -713,12 +937,22 @@ public class InputManager : MonoBehaviour
 		canSelect = true;
 		nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
 	}
+	IEnumerator SetdefaultNailBoomSprite(List<GameObject> nail)
+	{
+		canSelect = false;
+		yield return new WaitForSeconds(0.3f);
+		canSelect = true;
+		foreach (var nailObj in nail)
+		{
+			nailObj.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
+		}
+	}
 	IEnumerator SetdefaultSpriteInIron(GameObject nail)
 	{
 		canSelect = false;
 		yield return new WaitForSeconds(0.2f);
 		canSelect = true;
-		
+
 		nail.GetComponent<SpriteRenderer>().sprite = nailDefaulSprite;
 	}
 	IEnumerator SetdefaultSpriteSameHole(GameObject nail)
@@ -736,14 +970,14 @@ public class InputManager : MonoBehaviour
 	{
 		canSelect = true;
 	}
-	private void OnDrawGizmos()
-	{
-		if (this.isActiveAndEnabled)
-		{
-			Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			Gizmos.color = Color.green;
-			Gizmos.DrawWireSphere(mousePosition, 0.5f);
-		}
-	}
+	//private void OnDrawGizmos()
+	//{
+	//	if (this.isActiveAndEnabled)
+	//	{
+	//		Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+	//		Gizmos.color = Color.green;
+	//		Gizmos.DrawWireSphere(mousePosition, 0.5f);
+	//	}
+	//}
 
 }

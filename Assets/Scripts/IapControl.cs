@@ -272,6 +272,7 @@ public class IapControl : MonoBehaviour, IStoreListener
 				  Application.platform == RuntimePlatform.OSXPlayer)
 		{
 			// ... begin restoring purchases
+			
 			Debug.Log("RestorePurchases started ...");
 
 			// Fetch the Apple store-specific subsystem.
@@ -282,6 +283,8 @@ public class IapControl : MonoBehaviour, IStoreListener
 			{
 				// The first phase of restoration. If no more responses are received on ProcessPurchase then 
 				// no purchases are available to be restored.
+				UIManager.instance.shopPanel.restorePanel.Open();
+				UIManager.instance.shopPanel.restorePanel.getText("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore.");
 				Debug.Log("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore.");
 			});
 		}
@@ -289,6 +292,8 @@ public class IapControl : MonoBehaviour, IStoreListener
 		else
 		{
 			// We are not running on an Apple device. No work is necessary to restore purchases.
+			UIManager.instance.shopPanel.restorePanel.Open();
+			UIManager.instance.shopPanel.restorePanel.getText("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform);
 			Debug.Log("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform);
 		}
 	}

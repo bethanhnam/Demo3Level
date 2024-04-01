@@ -23,7 +23,7 @@ public class reciveRewardPanel : MonoBehaviour
 	}
 	public void Show(int lastDate,int numOfReward,Action action)
 	{
-		particle.Play();
+		particle.gameObject.SetActive(true);
 		if (dailyReward.isClaim)
 		{
 			

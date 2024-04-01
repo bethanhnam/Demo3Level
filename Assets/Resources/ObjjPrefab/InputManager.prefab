@@ -63,9 +63,23 @@ MonoBehaviour:
   holeObjects: []
   pointerPositions: []
   clickEffect: {fileID: 9102525717985360279, guid: 06288574352895e4cb77c924b430e4fb, type: 3}
+  pickUpEffect: {fileID: 6511384514936467557, guid: ea0060767283a8f468820552843edf9c, type: 3}
+  pickUpEffect1: {fileID: 100000, guid: 131e2c466dc67954791fdf4eaa2bc35c, type: 3}
+  destroyNailEffect: {fileID: 100000, guid: b1fa824be34c4124e950e696abafaf3b, type: 3}
   nailManager: {fileID: 0}
   hasSave: 0
   hasDelete: 0
+  outOfMoves: 0
+  checkOutOfMoves: 0
+  hasShowNotice: 0
+  holeCollider: []
+  ironCollider: []
+  ignoreIronCollider: []
+  ignoreColliderCheckSprite:
+  - {fileID: 21300000, guid: b17ca9ebc38945c8b6da7efed436f064, type: 3}
+  - {fileID: 21300000, guid: 9b0f17a1cfd143a2a65bed44b8680b0d, type: 3}
+  - {fileID: 21300000, guid: 516a2373d1bd4a7d8eb5279b499517d6, type: 3}
+  - {fileID: 21300000, guid: 2febd8d800ae417d90c923e93ebd6215, type: 3}
   holeBeforeMove: {fileID: 0}
   holeBeToReturn: {fileID: 0}
   ironObjectsBeforemove: []
@@ -74,4 +88,6 @@ MonoBehaviour:
   nailObjectsBeforemove: []
   nailsJointBeforemove: []
   nailObjectsTransformBeforemove: []
+  numOfIronPlateCircle: 0
   numOfIronPlate: 0
+  numOfIronPlateCollider: 0

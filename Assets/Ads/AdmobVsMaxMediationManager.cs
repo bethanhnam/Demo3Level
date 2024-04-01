@@ -369,7 +369,8 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
         }
 
         isLoadingFAAdmob = true;
-        // Clean up the old ad before loading a new one.
+        //
+        // up the old ad before loading a new one.
         if (interstitialAd != null)
         {
             interstitialAd.Destroy();

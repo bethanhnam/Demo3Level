@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ExtraHoleButton : MonoBehaviour
 {
 	// Thêm một biến public để kéo và thả nút vào trong Inspector
+	public GameObject extraHole;
 	public Button myButton;
 
 	void Start()
@@ -15,7 +16,7 @@ public class ExtraHoleButton : MonoBehaviour
 		myButton.onClick.AddListener(MyFunction);
 	}
 
-	void MyFunction()
+	public void MyFunction()
 	{
 		UIManager.instance.gamePlayPanel.extraHolePanel.Open();
 	}

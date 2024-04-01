@@ -11,6 +11,7 @@ public class GamePlayPanel : MonoBehaviour
 	public PausePanel pausePanel;
 	public RePlayPanel rePlayPanel;
 	public DeteleNailPanel deteleNailPanel;
+	public BoomNail boomNailPanel;
 	public Timer timer;
 	public LosePanel losePanel;
 	public UndoPanel undoPanel;
@@ -18,10 +19,13 @@ public class GamePlayPanel : MonoBehaviour
 	public welcomeLevel welcomeLevel;
 	public ExtralHole extraHolePanel;
 	public Ratting rattingPanel;
+	public Notice noticePanel;
 
 	public Button RelayButton;
 	public Button DeteleNailButton;
 	public Button UndoButton;
+	public Button BoomButton;
+
 	public GameObject boosterButton;
 
 	public DisplayLevel level;
@@ -75,6 +79,7 @@ public class GamePlayPanel : MonoBehaviour
 			catch
 			{
 			}
+		
 	}
 	public void OpenPausePanel()
 	{
@@ -93,6 +98,11 @@ public class GamePlayPanel : MonoBehaviour
 	public void OpenDeteleNailPanel()
 	{
 		deteleNailPanel.Open();
+		timer.TimerOn = false;
+	}
+	public void OpenBoomNailPanel()
+	{
+		boomNailPanel.Open();
 		timer.TimerOn = false;
 	}
 	public void OpenUndoPanel()
@@ -165,7 +175,12 @@ public class GamePlayPanel : MonoBehaviour
 					{
 						GameManager.instance.deleting = true;
 					}
+					if (UIManager.instance.gamePlayPanel.pausePanel.isdeletingIron)
+					{
+						GameManager.instance.deletingIron = true;
+					}
 					UIManager.instance.gamePlayPanel.pausePanel.isdeleting = false;
+					UIManager.instance.gamePlayPanel.pausePanel.isdeletingIron = false;
 				}
 				timer.TimerOn = true;
 			}
@@ -186,14 +201,14 @@ public class GamePlayPanel : MonoBehaviour
 	public void ButtonOff()
 	{
 		RelayButton.interactable = false;
-
 		DeteleNailButton.interactable = false;
 		UndoButton.interactable = false;
+		BoomButton.interactable=false;
 	}
 	public void ButtonOn()
 	{
 		RelayButton.interactable = true;
-
+		BoomButton.interactable = true;
 		DeteleNailButton.interactable = true;
 	}
 
@@ -206,6 +221,7 @@ public class GamePlayPanel : MonoBehaviour
 			//gameManager.gameObject.SetActive(false);
 			this.gameObject.SetActive(false);
 			GameManager.instance.deleting = false;
+			GameManager.instance.deletingIron = false;
 			timer.TimerOn = false;
 		}
 	}

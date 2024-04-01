@@ -15,10 +15,26 @@ public class Winpop : MonoBehaviour
 	public RectTransform panel;
 	public void Open()
 	{
+		if(UIManager.instance.gamePlayPanel.extraHolePanel.gameObject.activeSelf)
+		{
+			UIManager.instance.gamePlayPanel.extraHolePanel.gameObject.SetActive(false);
+		}
+		if (UIManager.instance.gamePlayPanel.deteleNailPanel.gameObject.activeSelf)
+		{
+			UIManager.instance.gamePlayPanel.deteleNailPanel.gameObject.SetActive(false);
+		}
+		if (UIManager.instance.gamePlayPanel.rePlayPanel.gameObject.activeSelf)
+		{
+			UIManager.instance.gamePlayPanel.rePlayPanel.gameObject.SetActive(false);
+		}
+		if (UIManager.instance.gamePlayPanel.undoPanel.gameObject.activeSelf)
+		{
+			UIManager.instance.gamePlayPanel.undoPanel.gameObject.SetActive(false);
+		}
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
-
+			AudioManager.instance.musicSource.Stop();
 			AudioManager.instance.PlaySFX("Winpop");
 			blockPanel.gameObject.SetActive(true);
 			SaveSystem.instance.playingHard = false;
@@ -36,6 +52,7 @@ public class Winpop : MonoBehaviour
 				continueButton.DOAnchorPos(new Vector3(1.60000002f, 74f, 0), 0.5f, false);
 				PlayTimeRect.GetComponent<CanvasGroup>().alpha = 1;
 				blockPanel.gameObject.SetActive(false);
+				AudioManager.instance.musicSource.volume = 0.2f;
 			});
 		}
 	}
@@ -55,6 +72,7 @@ public class Winpop : MonoBehaviour
 					GameManager.instance.currentLevel++;
 					UIManager.instance.chestPanel.Open();
 					GameManager.instance.hasUI = false;
+					AudioManager.instance.musicSource.Play();
 				});
 			});
 		}

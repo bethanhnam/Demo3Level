@@ -13,13 +13,26 @@ public class extrascreen : MonoBehaviour
 	public int completePieces = 0;
 	public CanvasGroup canvasGroup;
 	public SpriteRenderer boardSprite;
-	public ParticleSystem particle;
+	public ParticleSystem[] particle;
 	public GameObject particles;
-	
+	public GameObject pickUpEffect1;
+	Vector2 Ray;
+
 	private void Start()
 	{
 		Instance = this; 
 		canvasGroup = GetComponent<CanvasGroup>();
+		
+		pickUpEffect1 = Resources.Load<GameObject>("UseablePartical/StarsYellow");
+	}
+	private void Update() 
+	{
+		Ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		if (Input.GetMouseButtonDown(0))
+		{
+			var pickUpeffect1 = Instantiate(pickUpEffect1, Ray, Quaternion.identity,this.transform);
+			Destroy(pickUpeffect1, 2f);
+		}
 	}
 	public void CheckLevel()
 	{
@@ -35,12 +48,13 @@ public class extrascreen : MonoBehaviour
 			{
 				Debug.LogError("Invalid color format!"); // Xử lý trường hợp mã màu không hợp lệ
 			}
-			
-			particle.Play();
+			particle[0].Play();
+			particle[1].Play();
+			particle[2].Play();
 			AudioManager.instance.PlaySFX("Shining");
-			particles.transform.DOScale(new Vector3(3f, 3f, 1), 2f).OnComplete(() =>
+			particles.transform.DOScale(new Vector3(1f, 1f, 1), 2f).OnComplete(() =>
 			{
-				Invoke("NextLevel", 1f);
+				Invoke("NextLevel", 3f);
 			});
 		}
 	}

@@ -7,6 +7,7 @@ using DG.Tweening;
 public class ExtralHole : MonoBehaviour
 {
 	public string layerName = "Hole";
+	public GameObject extraHole;
 	public ExtraHoleButton extraHoleButton;
 	public RectTransform closeButton;
 	public RectTransform panel;
@@ -28,6 +29,7 @@ public class ExtralHole : MonoBehaviour
 			SaveSystem.instance.addTiket(0,-1);
 			SaveSystem.instance.SaveData();
 			Level.instance.ChangeLayer();
+			extraHoleButton.extraHole.GetComponent<Hole>().extraHole = false;
 			extraHoleButton.gameObject.SetActive(false);
 		}
 		else
@@ -42,6 +44,7 @@ public class ExtralHole : MonoBehaviour
 			// load ad 
 			this.Close();
 			Level.instance.ChangeLayer();
+			extraHoleButton.extraHole.GetComponent<Hole>().extraHole = false;
 			extraHoleButton.gameObject.SetActive(false);
 		});
 		

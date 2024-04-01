@@ -22,7 +22,6 @@ public class NailDetector : MonoBehaviour
 	{
 		if (collision.tag == "Nail")
 		{
-			Debug.Log(collision.name);
 			if (hingeJoint2D.enabled == false)
 			{
 				hingeJoint2D.enabled = true;

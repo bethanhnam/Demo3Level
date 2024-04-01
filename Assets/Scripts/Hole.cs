@@ -1,3 +1,4 @@
+using Sirenix.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,16 +6,22 @@ using UnityEngine;
 
 public class Hole : MonoBehaviour
 {
-    public GameObject Nail;
-    public bool collider;
-	public List<Collider2D> colliders1 = new List<Collider2D>();
-    public GameObject getNail()
-    {
-        return Nail;
-    }
+	public GameObject Nail;
+	public bool extraHole;
+	public bool collider;
+	public bool isOsccupied;
+	private LayerMask IronLayer;
+	private void Start()
+	{
+		IronLayer = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2", "layer1vs2vs3", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
+	}
+	public GameObject getNail()
+	{
+		return Nail;
+	}
 	public bool CheckNail()
 	{
-		if(Nail != null)
+		if (Nail != null)
 		{
 			return true;
 		}
@@ -27,26 +34,71 @@ public class Hole : MonoBehaviour
 	}
 	private void Update()
 	{
-		if (this.CheckNail() == false)
+	
+		if (!extraHole)
 		{
-			Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(this.transform.position.x, this.transform.position.y), this.GetComponent<CircleCollider2D>().radius);
-			bool hasCollider = false;
-			foreach (Collider2D collider1 in colliders)
+			if (this.CheckNail() == false)
 			{
-				if (collider1.gameObject.tag == "Iron")
+				Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(this.transform.position.x, this.transform.position.y), 0.3f,IronLayer);
+				bool hasCollider = false;
+				if (colliders.IsNullOrEmpty())
+				{
+					isOsccupied = false;
+				}
+				else
 				{
 					hasCollider = true;
+					if (checkOsccupied(colliders))
+					{
+						isOsccupied = true;
+					}
+					else
+					{
+						isOsccupied = false;
+					}
 				}
-			}
-			if (hasCollider == false)
-			{
-				collider = false;
+				if (hasCollider == false)
+				{
+					collider = false;
+				}
+				else
+				{
+					collider = true;
+				}
 			}
 			else
 			{
-				collider = true;
+				if (!getNail().gameObject.activeSelf)
+				{
+					Nail = null;
+					isOsccupied = false;
+				}
+				else
+				{
+					isOsccupied = true;
+				}
 			}
 		}
+	}
+	public bool checkOsccupied(Collider2D[] colliders)
+	{
+		bool x = false;
+		foreach (Collider2D collider1 in colliders)
+		{
+			if (collider1.gameObject.tag == "Iron")
+			{
+				if (collider1.GetComponent<IronPlate>().checkHitPoint(this.transform.position) == true)
+				{
+					x = false;
+				}
+				else
+				{
+					x = true;
+					return true;
+				}
+			}
+		}
+		return x;
 	}
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
