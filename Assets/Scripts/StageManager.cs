@@ -45,9 +45,13 @@ public class StageManager : MonoBehaviour
 		// Check if there is a level at the specified index
 		if (prelevel >= 0)
 		{
-			GameObject levelToRemove = levelInstances[0];
-			levelInstances.Remove(levelToRemove);
-			Destroy(levelToRemove);
+			try
+			{
+				GameObject levelToRemove = levelInstances[0];
+				levelInstances.Remove(levelToRemove);
+				Destroy(levelToRemove);
+			}
+			catch { }
 		}
 	}
 	public int getLevel()

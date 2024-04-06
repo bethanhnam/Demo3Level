@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +11,17 @@ public class Level : MonoBehaviour
 	public static Level instance;
 	public StageManager stageManager;
 	public string layerName = "Hole";
-
-
+	public bool hasDone = false;
+	public Item Item;
 	public int stage = 0;
+	public GameObject itemObject;
+	public GameObject itemAppearParticle;
 
+	private void Awake()
+	{
+		itemObject = Resources.Load<GameObject>("ObjjPrefab/item");
+		itemAppearParticle = Resources.Load<GameObject>("ObjjPrefab/item");
+	}
 	private void Start()
 	{
 		if (instance == null)
@@ -27,24 +36,50 @@ public class Level : MonoBehaviour
 	}
 	public void CheckLevel()
 	{
-
 		stageManager.RemoveLevel(stage);
 		if (stage >= stageManager.levels.Count)
 		{
 			{
-				if (GameManager.instance.currentLevel == 2)
+				SaveSystem.instance.playingHard = false;
+				GameObject item = this.transform.GetChild(0).GetComponent<StageManager>().levels[0].GetComponent<Stage>().item;
+				var item1 = Instantiate(itemObject, item.transform.position,Quaternion.identity,this.transform);
+				item1.GetComponent<SpriteRenderer>().sprite = this.Item.itemImg;
+				item1.GetComponent<SpriteRenderer>().enabled = true;
+				//Vector3[] path = { new Vector3(item1.transform.position.x + 3, item1.transform.position.y + 5, 1), new Vector3(item1.transform.position.x + 2, item1.transform.position.y + 1, 1), new Vector3(item1.transform.position.x, item1.transform.position.y, 1) };
+				UIManager.instance.gamePlayPanel.boosterButton.gameObject.SetActive(false);
+				UIManager.instance.gamePlayPanel.blockImg.gameObject.SetActive(true);
+				//GameObject gameObject1 = Instantiate(gameObject,);
+				//itemAppearParticle.Play();
+				item1.transform.DOScale(1.5f, 0.5f).OnComplete(() =>
 				{
-					UIManager.instance.gamePlayPanel.OpenRatingPanel();
-				}
-				else
-				{
-					SaveSystem.instance.playingHard = false;
-					UIManager.instance.winPanel.Open();
-					UIManager.instance.DeactiveTime();
-					UIManager.instance.gamePlayPanel.level.done.gameObject.SetActive(true);
-					UIManager.instance.gamePlayPanel.level.notDone.gameObject.SetActive(true);
-					UIManager.instance.gamePlayPanel.level.levelBar.gameObject.SetActive(true);
-				}
+				//item1.transform.DOPath(path, 2f, PathType.CatmullRom)
+					item1.transform.DOScale(1, 0.3f).OnComplete(() =>
+					{
+						Destroy(item1);
+						UIManager.instance.gamePlayPanel.pausePanel.Home();
+						hasDone = true;
+						for (int i = 0; i < MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().playButtons.Length; i++)
+						{
+							if (GameManager.instance.currentLevel == MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().playButtons[i].GetComponent<LevelButton>().level)
+							{
+								MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().playButtons[i].GetComponent<LevelButton>().hasDone = true;
+								if (!MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().completeList.Contains(MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().playButtons[i].GetComponent<LevelButton>().gameObject))
+								{
+									MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().completeList.Add(MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().playButtons[i].GetComponent<LevelButton>().gameObject);
+								}
+								UIManager.instance.menuPanel.CreateItem(item1.GetComponent<SpriteRenderer>().sprite);
+								UIManager.instance.menuPanel.FixItem1();
+							}
+						}
+						UIManager.instance.DeactiveTime();
+						UIManager.instance.gamePlayPanel.level.done.gameObject.SetActive(true);
+						UIManager.instance.gamePlayPanel.level.notDone.gameObject.SetActive(true);
+						UIManager.instance.gamePlayPanel.level.levelBar.gameObject.SetActive(true);
+						UIManager.instance.gamePlayPanel.blockImg.gameObject.SetActive(false);
+
+					});
+				});
+
 			}
 		}
 		else
@@ -64,9 +99,8 @@ public class Level : MonoBehaviour
 		{
 		}
 		stageManager.LoadStage(stage);
-				this.stage++;
+		this.stage++;
 		SaveSystem.instance.SaveData();
-
 	}
 	IEnumerator LoadHardLevel()
 	{
@@ -103,7 +137,7 @@ public class Level : MonoBehaviour
 		{
 			UIManager.instance.gamePlayPanel.hardLevel.Close();
 		}
-		
+
 		LoadStage(stage);
 		UIManager.instance.gamePlayPanel.level.done.gameObject.SetActive(true);
 		UIManager.instance.gamePlayPanel.level.notDone.gameObject.SetActive(true);

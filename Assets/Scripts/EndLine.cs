@@ -20,7 +20,8 @@ public class EndLine : MonoBehaviour
 	{
 		if (InputManager.instance.numOfIronPlate <= 0)
 		{
-			if(hasnext == false)
+			GameManager.instance.hasDone = true;
+			if (hasnext == false)
 			StartCoroutine(loadNextLevel());
 		}
 	}
@@ -54,7 +55,7 @@ public class EndLine : MonoBehaviour
 	}
 	IEnumerator loadNextLevel()
 	{
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(.5f);
 		Level.instance.CheckLevel();
 		hasnext = true;
 

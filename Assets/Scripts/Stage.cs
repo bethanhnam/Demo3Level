@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class Stage : MonoBehaviour
 {
-	public Sprite hintImg;
     public GameObject holeToUnlock;
 	public GameObject pointer1;
 	public GameObject pointer2;
@@ -14,11 +13,16 @@ public class Stage : MonoBehaviour
 	public GameObject[] pointerPositions;
 	private bool hasSpawn = false;
 	private bool hasSpawn1 = false;
+	public Sprite itemImg;
+	public string itemName;
+	public GameObject item;
 	// Start is called before the first frame update
 	void Start()
     {
-        
-    }
+		item.GetComponent<SpriteRenderer>().sprite = Level.instance.Item.itemImg;
+		itemImg = Level.instance.Item.itemImg;
+		itemName = Level.instance.Item.itemName;
+	}
 
     // Update is called once per frame
     void Update()

@@ -31,6 +31,10 @@ public class reciveRewardPanel : MonoBehaviour
 			{
 				singleReward.gameObject.SetActive(false);
 				pairReward.gameObject.SetActive(true);
+				pairReward.transform.DOScale(1.3f, 0.5f).OnComplete(() =>
+				{
+					pairReward.DOScale(1, 0.3f);
+				});
 				pairReward1Text.text = ( "X" +dayRewards[lastDate].powerTicket).ToString();
 				pairReward2Text.text = ("X"+ dayRewards[lastDate].magicTiket).ToString();
 
@@ -40,6 +44,10 @@ public class reciveRewardPanel : MonoBehaviour
 				pairReward.gameObject.SetActive(false);
 				singleReward.GetComponent<Image>().sprite = dayRewards[lastDate].rewardImg[0].sprite;
 				singleReward.gameObject.SetActive(true);
+				singleReward.transform.DOScale(1.3f, 0.5f).OnComplete(() =>
+				{
+					singleReward.DOScale(1, 0.3f);
+				});
 				if (dayRewards[lastDate].powerTicket > 0)
 				{
 					singleRewardText.text = ("X" + dayRewards[lastDate].powerTicket).ToString();
@@ -56,6 +64,10 @@ public class reciveRewardPanel : MonoBehaviour
 			{
 				singleReward.gameObject.SetActive(false);
 				pairReward.gameObject.SetActive(true);
+				pairReward.transform.DOScale(1.3f, 0.5f).OnComplete(() =>
+				{
+					pairReward.DOScale(1, 0.3f);
+				});
 				pairReward1Text.text = ("X" + (dayRewards[lastDate].powerTicket * 2)).ToString();
 				pairReward2Text.text = ("X" + (dayRewards[lastDate].magicTiket * 2)).ToString();
 
@@ -65,6 +77,10 @@ public class reciveRewardPanel : MonoBehaviour
 				pairReward.gameObject.SetActive(false);
 				singleReward.gameObject.SetActive(true);
 				singleReward.GetComponent<Image>().sprite = dayRewards[lastDate].rewardImg[0].sprite;
+				singleReward.transform.DOScale(1.3f, 0.5f).OnComplete(() =>
+				{
+					singleReward.DOScale(1, 0.3f);
+				});
 				if (dayRewards[lastDate].powerTicket > 0)
 				{
 					singleRewardText.text = ("X" + (dayRewards[lastDate].powerTicket *2)).ToString();

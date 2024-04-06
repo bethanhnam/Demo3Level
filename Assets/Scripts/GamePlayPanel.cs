@@ -27,6 +27,9 @@ public class GamePlayPanel : MonoBehaviour
 	public Button BoomButton;
 
 	public GameObject boosterButton;
+	public Image bgImg;
+	public Image blockImg;
+	public GameObject bgImg1;
 
 	public DisplayLevel level;
 
@@ -41,33 +44,50 @@ public class GamePlayPanel : MonoBehaviour
 
 	private void Start()
 	{
-		
+
+	}
+	private void OnEnable()
+	{
+		bgImg1 = Instantiate(UIManager.instance.menuPanel.bgImg.transform.GetChild(0).gameObject,this.transform.position,Quaternion.identity,bgImg.transform);
+	}
+	private void OnDisable()
+	{
+		Destroy(bgImg1);
 	}
 	private void Update()
 	{
-		if(GameManager.instance.currentLevel == 0)
+		if (GameManager.instance.hasDone == false)
 		{
-			if (!levelManager.levelInstances.IsNullOrEmpty()){
-				if (levelManager.levelInstances[0].GetComponent<Level>().stage != 3)
-					boosterButton.gameObject.SetActive(false);
-				else
-				{
-					boosterButton.gameObject.SetActive(true);
-				}
-			}
-
+			boosterButton.gameObject.SetActive(true);
+			//if (GameManager.instance.currentLevel == 0)
+			//{
+			//	if (!levelManager.levelInstances.IsNullOrEmpty())
+			//	{
+			//		if (levelManager.levelInstances[0].GetComponent<Level>().stage != 2)
+			//			boosterButton.gameObject.SetActive(false);
+			//		else
+			//		{
+			//			boosterButton.gameObject.SetActive(true);
+			//		}
+			//	}
+			//}
+			//else
+			//{
+			//	boosterButton.gameObject.SetActive(true);
+			//}
 		}
 		else
 		{
-
-			boosterButton.gameObject.SetActive(true);
-
+			blockImg.gameObject.SetActive(true);
+			boosterButton.gameObject.SetActive(false);
 		}
-		
-		levelText.text = (GameManager.instance.currentLevel + 1 ).ToString();
-			try
+
+		levelText.text = (GameManager.instance.currentLevel + 1).ToString();
+		try
+		{
+			if (InputManager.instance.hasSave)
 			{
-				if (InputManager.instance.hasSave)
+				if (GameManager.instance.deleting == false && GameManager.instance.deletingIron == false)
 				{
 					UndoButton.interactable = true;
 				}
@@ -76,10 +96,15 @@ public class GamePlayPanel : MonoBehaviour
 					UndoButton.interactable = false;
 				}
 			}
-			catch
+			else
 			{
+				UndoButton.interactable = false;
 			}
-		
+		}
+		catch
+		{
+		}
+
 	}
 	public void OpenPausePanel()
 	{
@@ -132,58 +157,52 @@ public class GamePlayPanel : MonoBehaviour
 	}
 	public void Open()
 	{
-		if(gameManager.currentLevel == levelManager.levelCount)
-		{
-			UIManager.instance.completePanel.Open();
-		}
-		else { 
 		if (!this.gameObject.activeSelf)
 		{
-				isPause = false;
+			isPause = false;
 			this.gameObject.SetActive(true);
 			levelManager.gameObject.SetActive(true);
 			gameManager.gameObject.SetActive(true);
-			
-				if (backFromPause == false)
+
+			if (backFromPause == false)
+			{
+				if (levelManager.transform.childCount > 0)
 				{
-					if (levelManager.transform.childCount > 0)
+					if (levelManager.transform.GetChild(0) != null)
 					{
-						if (levelManager.transform.GetChild(0) != null)
-						{
-							Destroy(levelManager.transform.GetChild(0).gameObject);
-							levelManager.levelInstances.Clear();
-						}
+						Destroy(levelManager.transform.GetChild(0).gameObject);
+						levelManager.levelInstances.Clear();
 					}
-					if (backFromChestPanel == true)
-					{
-						gameManager.LoadLevelFromUI();
-						backFromChestPanel = false;
-						EnableBoosterButton();
-					}
-					else
-					{
-						gameManager.LoadLevelFromUI();
-						EnableBoosterButton();
-					}
+				}
+				if (backFromChestPanel == true)
+				{
+					gameManager.LoadLevelFromUI();
 					backFromChestPanel = false;
-					Settimer();
-					backFromPause = false;
+					EnableBoosterButton();
 				}
 				else
 				{
-					if (UIManager.instance.gamePlayPanel.pausePanel.isdeleting)
-					{
-						GameManager.instance.deleting = true;
-					}
-					if (UIManager.instance.gamePlayPanel.pausePanel.isdeletingIron)
-					{
-						GameManager.instance.deletingIron = true;
-					}
-					UIManager.instance.gamePlayPanel.pausePanel.isdeleting = false;
-					UIManager.instance.gamePlayPanel.pausePanel.isdeletingIron = false;
+					gameManager.LoadLevelFromUI();
+					EnableBoosterButton();
 				}
-				timer.TimerOn = true;
+				backFromChestPanel = false;
+				Settimer();
+				backFromPause = false;
 			}
+			else
+			{
+				if (UIManager.instance.gamePlayPanel.pausePanel.isdeleting)
+				{
+					GameManager.instance.deleting = true;
+				}
+				if (UIManager.instance.gamePlayPanel.pausePanel.isdeletingIron)
+				{
+					GameManager.instance.deletingIron = true;
+				}
+				UIManager.instance.gamePlayPanel.pausePanel.isdeleting = false;
+				UIManager.instance.gamePlayPanel.pausePanel.isdeletingIron = false;
+			}
+			timer.TimerOn = true;
 		}
 	}
 	public void EnableBoosterButton()
@@ -192,18 +211,19 @@ public class GamePlayPanel : MonoBehaviour
 
 		UIManager.instance.gamePlayPanel.undoPanel.numOfUsed = 1;
 		UIManager.instance.gamePlayPanel.deteleNailPanel.numOfUsed = 1;
+		UIManager.instance.gamePlayPanel.boomNailPanel.numOfUsed = 1;
 		UIManager.instance.gamePlayPanel.losePanel.watchAdButton.GetComponent<Button>().interactable = true;
 		UIManager.instance.gamePlayPanel.losePanel.watchAdButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/win/bttn_green");
 		UIManager.instance.gamePlayPanel.losePanel.hasUse = false;
 
 		SaveSystem.instance.playHardTime = 0;
-	} 
+	}
 	public void ButtonOff()
 	{
 		RelayButton.interactable = false;
 		DeteleNailButton.interactable = false;
 		UndoButton.interactable = false;
-		BoomButton.interactable=false;
+		BoomButton.interactable = false;
 	}
 	public void ButtonOn()
 	{

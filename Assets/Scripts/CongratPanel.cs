@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using DG.Tweening.Core.Easing;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -35,6 +36,7 @@ public class CongratPanel : MonoBehaviour
 			rewardLight.GetComponent<CanvasGroup>().alpha = 0f;
 			claimPanel.gameObject.SetActive(false);
 			rewardImg.gameObject.SetActive(true);
+			
 			tapToOpen.gameObject.SetActive(true);
 			rewardLight.gameObject.SetActive(false);
 			rewardOpen.gameObject.SetActive(false);
@@ -52,8 +54,20 @@ public class CongratPanel : MonoBehaviour
 			AudioManager.instance.PlaySFX("ClosePopUp");
 			UIManager.instance.gamePlayPanel.backFromChestPanel = true;
 			UIManager.instance.gamePlayPanel.backFromPause = false;
-			
-				UIManager.instance.gamePlayPanel.Open();
+			if (SaveSystem.instance.level == MenuLevelManager.instance.levelCount)
+			{
+				UIManager.instance.completePanel.Open();
+				MenuLevelManager.instance.RemoveLevel(SaveSystem.instance.level);
+				
+			}
+			else
+			{
+				SaveSystem.instance.level++;
+				PlayerPrefs.SetInt("hasFlip", 0);
+				UIManager.instance.gamePlayPanel.pausePanel.Home();
+				MenuLevelManager.instance.RemoveLevel(SaveSystem.instance.level);
+				MenuLevelManager.instance.LoadLevel(SaveSystem.instance.level);
+			}
 		}
 	}
 	public void TakeReward()

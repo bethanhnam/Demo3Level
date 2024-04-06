@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 	public bool deletingIron;
 	public bool hasUI;
 	public bool hasMove;
+	public bool hasDone;
 
 
 	private void Start()
@@ -27,8 +28,6 @@ public class GameManager : MonoBehaviour
 		{
 			instance = this;
 		}
-		currentLevel = SaveSystem.instance.level;
-		
 	}
 	private void Awake()
 	{
@@ -104,5 +103,8 @@ public class GameManager : MonoBehaviour
 			}
 			levelManager.LoadLevel(currentLevel);
 	}
-
+	public void SetCurrentLevel(int level)
+	{
+		currentLevel = level;
+	}
 }

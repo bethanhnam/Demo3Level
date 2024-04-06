@@ -170,16 +170,20 @@ public class InputManager : MonoBehaviour
 				StartCoroutine(SetdefaultSpriteSameHole(selectedNail));
 			}
 		}
-		if (ignoreIronCollider.Count > 0)
+		try
 		{
-			foreach (var iron in ignoreIronCollider)
+			if (ignoreIronCollider.Count > 0)
 			{
-				if (iron.gameObject.activeSelf == false)
+				foreach (var iron in ignoreIronCollider)
 				{
-					ignoreIronCollider.Remove(iron);
+					if (iron.gameObject.activeSelf == false)
+					{
+						ignoreIronCollider.Remove(iron);
+					}
 				}
 			}
 		}
+		catch { }
 		if (numOfIronPlate != 1)
 		{
 			foreach (var hole in holeObjects)
@@ -677,10 +681,6 @@ public class InputManager : MonoBehaviour
 			Collider2D[] cubeHit = Physics2D.OverlapCircleAll(Ray, 0.1f, IronLayer);
 			if (cubeHit.Length > 0)
 			{
-				foreach (var cube in cubeHit)
-				{
-					Debug.Log(cube.gameObject.name);
-				}
 				int minLayerIndex = cubeHit[0].gameObject.layer; // Gán minLayerIndex bằng layer của phần tử đầu tiên
 				minLayer = 0;
 				for (int j = 1; j < cubeHit.Length; j++)
@@ -696,7 +696,6 @@ public class InputManager : MonoBehaviour
 				if (cubeHit[minLayer].gameObject.tag == "Iron")
 				{
 					ironToDeteleNail = cubeHit[minLayer].gameObject;
-					Debug.Log(ironToDeteleNail.gameObject.name);
 					ClearData();
 					SaveGameObject();
 					hasDelete = false;

@@ -70,7 +70,7 @@ public class Winpop : MonoBehaviour
 					this.gameObject.SetActive(false);
 					AudioManager.instance.PlaySFX("ClosePopUp");
 					GameManager.instance.currentLevel++;
-					UIManager.instance.chestPanel.Open();
+					//UIManager.instance.chestPanel.Open();
 					GameManager.instance.hasUI = false;
 					AudioManager.instance.musicSource.Play();
 				});

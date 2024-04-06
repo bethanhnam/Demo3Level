@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
     public GamePlayPanel gamePlayPanel;
     public ShopPanel shopPanel;
     public SettingPanel settingPanel;
-    public ChetPanel chestPanel;
+   
     public Winpop winPanel;
     public CongratPanel congratPanel;
     public CompletePanel completePanel;
