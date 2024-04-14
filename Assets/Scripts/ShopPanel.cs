@@ -52,4 +52,13 @@ public class ShopPanel : MonoBehaviour
 		});
 		//UIManager.instance.menuPanel.Open();
 	}
+	public void ExchangeTicket()
+	{
+		if(SaveSystem.instance.powerTicket >= 2)
+		{
+			SaveSystem.instance.powerTicket -=2;
+			SaveSystem.instance.magicTiket += 1;
+			SaveSystem.instance.SaveData();
+		}
+	}
 }

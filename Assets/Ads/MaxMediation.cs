@@ -36,8 +36,18 @@ public class MaxMediation : MonoBehaviour
                     InitializeBannerAds();
                     AdsControl.Instance.isCanShowBanner = true;
                 }
-                AdsControl.Instance.ManagerExistingPrivacySettings();
-            };
+#if UNITY_IOS
+            // check with iOS to see if the user has accepted or declined tracking
+           var status = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
+				if (status == ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED)
+				{
+					AdsControl.Instance.ManagerExistingPrivacySettings();
+				}
+#else
+				AdsControl.Instance.ManagerExistingPrivacySettings();
+				Debug.Log("Unity iOS Support: App Tracking Transparency status not checked, because the platform is not iOS.");
+#endif
+			};
 
             MaxSdk.SetSdkKey(maxSDK);
             MaxSdk.InitializeSdk();

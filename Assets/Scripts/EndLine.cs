@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using DG.Tweening;
 
 public class EndLine : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class EndLine : MonoBehaviour
 	public bool ignoreIronCollider = false;
 	public GameObject partical;
 	public bool hasnext =false;
+	public bool hasfade =false;
 	void Start()
 	{
 		partical = Resources.Load<GameObject>("UseablePartical/paperFireWork 1");
@@ -21,6 +23,27 @@ public class EndLine : MonoBehaviour
 		if (InputManager.instance.numOfIronPlate <= 0)
 		{
 			GameManager.instance.hasDone = true;
+			if (hasfade == false)
+			{
+				var extraHole = Level.instance.transform.GetChild(0).GetChild(0).GetComponent<Stage>().holeToUnlock;
+				var square = Level.instance.transform.GetChild(0).GetChild(0).GetComponent<Stage>().Square;
+				var color1 = new Color(0, 0, 0, 0);
+				square.GetComponent<SpriteRenderer>().DOColor(color1, .5f);
+				for (int i = 0; i < square.transform.childCount - 1; i++)
+				{
+					var hole = square.transform.GetChild(i);
+					SpriteRenderer sprite = hole.GetComponent<SpriteRenderer>();
+					sprite.DOColor(color1, .5f);
+				}
+				extraHole.transform.GetChild(0).transform.gameObject.SetActive(false);
+				for(int i = 0;i< NailManager.instance.nails.Count; i++)
+				{
+					NailManager.instance.nails[i].GetComponent<SpriteRenderer>().DOColor(color1, .5f);
+				}
+				Color color = new Color(1, 1, 1, 1);
+				Level.instance.transform.GetChild(0).GetChild(0).GetComponent<Stage>().item.GetComponent<SpriteRenderer>().DOColor(color, 0.5f);
+				hasfade = true;
+			}
 			if (hasnext == false)
 			StartCoroutine(loadNextLevel());
 		}

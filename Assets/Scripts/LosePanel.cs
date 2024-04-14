@@ -91,6 +91,7 @@ public class LosePanel : MonoBehaviour
 				AudioManager.instance.PlaySFX("ClosePopUp");
 				 UIManager.instance.ActiveTime();
 				UIManager.instance.gamePlayPanel.backFromPause = true;
+				UIManager.instance.gamePlayPanel.GetComponent<CanvasGroup>().alpha = 1;
 				UIManager.instance.gamePlayPanel.Open();
 				GameManager.instance.hasUI = false;
 			});

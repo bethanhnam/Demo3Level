@@ -134,7 +134,7 @@ public class AdsManager : MonoBehaviour
 
         if (StructAds.StructAds.ContainsKey(p.ToString()))
         {
-            if (StructAds.StructAds[p.ToString()].IsShow)
+            if (StructAds.StructAds[p.ToString()].IsShow && StructAds.ConfigBanner.LevelUnlock <= SaveSystem.instance.level)
             {
                 if (Time.time - lastTime > StructAds.StructAds[p.ToString()].TimeShow)
                 {

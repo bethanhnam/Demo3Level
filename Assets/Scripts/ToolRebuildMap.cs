@@ -313,7 +313,7 @@
 //			if (obj.GetChild(j).gameObject.tag == "square")
 //			{
 //				Transform transform = obj.GetChild(j);
-//				transform.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/Ingame (2)/Ingame/bg_board");
+//				transform.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Story 1 - 2/bar/bar (2)");
 //				transform.localPosition = new Vector3(0, -0.10810812f, 1f);
 //				for (int i = transform.childCount - 1; i >= 0; i--)
 //				{

@@ -54,19 +54,21 @@ public class CongratPanel : MonoBehaviour
 			AudioManager.instance.PlaySFX("ClosePopUp");
 			UIManager.instance.gamePlayPanel.backFromChestPanel = true;
 			UIManager.instance.gamePlayPanel.backFromPause = false;
-			if (SaveSystem.instance.level == MenuLevelManager.instance.levelCount)
+			SaveSystem.instance.menuLevel++;
+			SaveSystem.instance.SaveData();
+			if (SaveSystem.instance.menuLevel == MenuLevelManager.instance.levelCount)
 			{
 				UIManager.instance.completePanel.Open();
-				MenuLevelManager.instance.RemoveLevel(SaveSystem.instance.level);
+				MenuLevelManager.instance.RemoveLevel(SaveSystem.instance.menuLevel);
 				
 			}
 			else
 			{
-				SaveSystem.instance.level++;
 				PlayerPrefs.SetInt("hasFlip", 0);
 				UIManager.instance.gamePlayPanel.pausePanel.Home();
-				MenuLevelManager.instance.RemoveLevel(SaveSystem.instance.level);
-				MenuLevelManager.instance.LoadLevel(SaveSystem.instance.level);
+				MenuLevelManager.instance.RemoveLevel(SaveSystem.instance.menuLevel);
+				PlayerPrefs.SetInt("HasComplete", 0);
+				MenuLevelManager.instance.LoadLevel(SaveSystem.instance.menuLevel);
 			}
 		}
 	}
@@ -89,6 +91,10 @@ public class CongratPanel : MonoBehaviour
 					claimPanel.gameObject.SetActive(true);
 				});
 			});
+			UIManager.instance.menuPanel.slider[0].value = 0;
+			UIManager.instance.menuPanel.slider[1].value = 0;
+			SaveSystem.instance.strike = (int)UIManager.instance.menuPanel.slider[0].value;
+			SaveSystem.instance.SaveData();
 		});
 
 	}

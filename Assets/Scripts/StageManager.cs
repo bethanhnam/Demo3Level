@@ -25,18 +25,20 @@ public class StageManager : MonoBehaviour
 		{
 			// Instantiate prefab as a new instance in the scene
 			GameObject stageInstance = Instantiate(levelPrefab, new Vector2(-0.06f, 0.675f), Quaternion.identity);
-
+			stageInstance.GetComponent<Stage>().ChangeSize(Level.instance.Item.itemImg);
+			Level.instance.scale = stageInstance.GetComponent<Stage>().returnScale();
 			// Set the level instance as a child of a parent transform if needed
 			stageInstance.transform.SetParent(transform);
-
 			// Store the reference to the new level instance
 			levelInstances.Add(stageInstance);
 			UIManager.instance.gamePlayPanel.Settimer();
+			
 		}
 		else
 		{
 			Debug.LogError("Level prefab not found!");
 		}
+		
 		//InputManager.instance.setHinge();
 	}
 

@@ -1,10 +1,11 @@
-﻿using DG.Tweening;
+﻿
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class Level : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class Level : MonoBehaviour
 	public int stage = 0;
 	public GameObject itemObject;
 	public GameObject itemAppearParticle;
+	public Vector3 scale;
+	public Transform transformFixImg;
 
 	private void Awake()
 	{
@@ -30,9 +33,6 @@ public class Level : MonoBehaviour
 		}
 		stage = 0;
 		LoadStage(stage);
-		UIManager.instance.gamePlayPanel.level.done.gameObject.SetActive(true);
-		UIManager.instance.gamePlayPanel.level.notDone.gameObject.SetActive(false);
-		UIManager.instance.gamePlayPanel.level.levelBar.gameObject.SetActive(false);
 	}
 	public void CheckLevel()
 	{
@@ -41,44 +41,6 @@ public class Level : MonoBehaviour
 		{
 			{
 				SaveSystem.instance.playingHard = false;
-				GameObject item = this.transform.GetChild(0).GetComponent<StageManager>().levels[0].GetComponent<Stage>().item;
-				var item1 = Instantiate(itemObject, item.transform.position,Quaternion.identity,this.transform);
-				item1.GetComponent<SpriteRenderer>().sprite = this.Item.itemImg;
-				item1.GetComponent<SpriteRenderer>().enabled = true;
-				//Vector3[] path = { new Vector3(item1.transform.position.x + 3, item1.transform.position.y + 5, 1), new Vector3(item1.transform.position.x + 2, item1.transform.position.y + 1, 1), new Vector3(item1.transform.position.x, item1.transform.position.y, 1) };
-				UIManager.instance.gamePlayPanel.boosterButton.gameObject.SetActive(false);
-				UIManager.instance.gamePlayPanel.blockImg.gameObject.SetActive(true);
-				//GameObject gameObject1 = Instantiate(gameObject,);
-				//itemAppearParticle.Play();
-				item1.transform.DOScale(1.5f, 0.5f).OnComplete(() =>
-				{
-				//item1.transform.DOPath(path, 2f, PathType.CatmullRom)
-					item1.transform.DOScale(1, 0.3f).OnComplete(() =>
-					{
-						Destroy(item1);
-						UIManager.instance.gamePlayPanel.pausePanel.Home();
-						hasDone = true;
-						for (int i = 0; i < MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().playButtons.Length; i++)
-						{
-							if (GameManager.instance.currentLevel == MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().playButtons[i].GetComponent<LevelButton>().level)
-							{
-								MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().playButtons[i].GetComponent<LevelButton>().hasDone = true;
-								if (!MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().completeList.Contains(MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().playButtons[i].GetComponent<LevelButton>().gameObject))
-								{
-									MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().completeList.Add(MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().playButtons[i].GetComponent<LevelButton>().gameObject);
-								}
-								UIManager.instance.menuPanel.CreateItem(item1.GetComponent<SpriteRenderer>().sprite);
-								UIManager.instance.menuPanel.FixItem1();
-							}
-						}
-						UIManager.instance.DeactiveTime();
-						UIManager.instance.gamePlayPanel.level.done.gameObject.SetActive(true);
-						UIManager.instance.gamePlayPanel.level.notDone.gameObject.SetActive(true);
-						UIManager.instance.gamePlayPanel.level.levelBar.gameObject.SetActive(true);
-						UIManager.instance.gamePlayPanel.blockImg.gameObject.SetActive(false);
-
-					});
-				});
 
 			}
 		}
@@ -86,6 +48,79 @@ public class Level : MonoBehaviour
 		{
 			StartCoroutine(LoadHardLevel());
 		}
+	}
+	public void CreateItemAndMove()
+	{
+		itemObject.transform.localScale = Level.instance.transform.GetChild(0).GetComponent<StageManager>().levels[0].GetComponent<Stage>().item.transform.localScale;
+		GameObject item = this.transform.GetChild(0).GetComponent<StageManager>().levels[0].GetComponent<Stage>().item;
+		this.transform.GetChild(0).GetChild(0).GetComponent<Stage>().item.gameObject.SetActive(false);
+		var item1 = Instantiate(itemObject, Vector3.zero, Quaternion.identity, Level.instance.transform);
+		foreach (var character in MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().characters)
+		{
+			character.SetActive(false);
+		}
+		UIManager.instance.menuPanel.menuFrame.gameObject.SetActive(false);
+		UIManager.instance.menuPanel.settingButton.gameObject.SetActive(false);
+		UIManager.instance.menuPanel.noAdsButton.gameObject.SetActive(false);
+		UIManager.instance.menuPanel.magicBar.gameObject.SetActive(false);
+		UIManager.instance.menuPanel.powerBar.gameObject.SetActive(false);
+		//var gameobj = Instantiate(ParticlesManager.instance.ItemAppearlParticleObject, item1.transform.position, Quaternion.identity, this.transform);
+		//ParticleSystem particleSystem = gameobj.transform.GetChild(0).GetComponent<ParticleSystem>();
+		//var shape = particleSystem.shape;
+		//shape.sprite = this.Item.itemImg;
+		//Destroy(gameobj, 0.3f);
+		Color color = new Color(1, 1, 1, 0.5f);
+		item1.GetComponent<Image>().color = color;
+		item1.GetComponent<SpriteRenderer>().sprite = this.Item.itemImg;
+		item1.GetComponent<Image>().sprite = this.Item.itemImg;
+		item1.GetComponent<Image>().enabled = true;
+		item1.GetComponent<Image>().SetNativeSize();
+		item1.transform.localScale = scale;
+		Color color1 = new Color(1, 1, 1, 1);
+		item1.GetComponent<Image>().DOColor(color1, 0.29f);
+		UIManager.instance.gamePlayPanel.pausePanel.HomeFormComplete();
+		UIManager.instance.menuPanel.blockImg.gameObject.SetActive(true);
+		UIManager.instance.menuPanel.blockImg.GetComponent<CanvasGroup>().alpha = 0.6f;
+		//SetHasdone(MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().currentStage);
+		float targetAspect = 9.0f / 16.0f;
+		float windowAspect = (float)Screen.width / (float)Screen.height;
+		var s = DOTween.Sequence();
+		s.Append(item1.transform.DOScale(new Vector3(1.5f * (targetAspect / windowAspect), 1.5f * (targetAspect / windowAspect), 1), 0.5f));
+		s.AppendInterval(0.2f);
+		s.OnComplete(() =>
+		{
+			Level.instance.SetHasdone(MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().currentStage);
+			SaveSystem.instance.strike = Mathf.RoundToInt((UIManager.instance.menuPanel.slider[0].value + 1));
+			SaveSystem.instance.SaveData();
+			UIManager.instance.DeactiveTime();
+			UIManager.instance.gamePlayPanel.blockImg.gameObject.SetActive(false);
+			UIManager.instance.menuPanel.MoveItem1(item1, MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().currentStage, transformFixImg);
+		});
+	}
+	public void SetHasdone(int stage)
+	{
+		int length = 0;
+		length = MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().listPlayButtons[stage].Length;
+		for (int i = 0; i < length; i++)
+		{
+			var buttons = MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().listPlayButtons[stage];
+			var currentLevel = buttons[i].GetComponent<LevelButton>().level;
+			if (GameManager.instance.currentLevel == currentLevel)
+			{
+				buttons[i].GetComponent<LevelButton>().hasDone = true;
+				transformFixImg = buttons[i].GetComponent<LevelButton>().fixedImg.transform;
+
+				buttons[i].GetComponent<LevelButton>().gameObject.SetActive(false);
+
+				if (!MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().completeList.Contains(buttons[i].GetComponent<LevelButton>().gameObject))
+				{
+					MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().completeList.Add(buttons[i].GetComponent<LevelButton>().gameObject);
+					MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().unCompleteList.Remove(buttons[i].GetComponent<LevelButton>().gameObject);
+					
+				}
+			}
+		}
+
 	}
 	public void LoadStage(int stage)
 	{
@@ -139,9 +174,6 @@ public class Level : MonoBehaviour
 		}
 
 		LoadStage(stage);
-		UIManager.instance.gamePlayPanel.level.done.gameObject.SetActive(true);
-		UIManager.instance.gamePlayPanel.level.notDone.gameObject.SetActive(true);
-		UIManager.instance.gamePlayPanel.level.levelBar.gameObject.SetActive(true);
 		SaveSystem.instance.playingHard = true;
 		SaveSystem.instance.playHardTime = 0;
 

@@ -18,12 +18,35 @@ public class PausePanel : MonoBehaviour
 		this.gameObject.SetActive(false);
 		UIManager.instance.gamePlayPanel.backFromPause = false;
 		UIManager.instance.gamePlayPanel.Close();
+		UIManager.instance.menuPanel.Open();
 		GameManager.instance.hasUI = false;
 		GameManager.instance.gameObject.SetActive(false);
+		canvasGroup.DOFade(0, 0.5f).OnComplete(() => { 
 		LevelManager.instance.gameObject.SetActive(false);
-		canvasGroup.DOFade(0, .2f);
 		Blockpanel.gameObject.SetActive(false);
-		UIManager.instance.menuPanel.Open();
+		});
+	}
+	public void HomeFormComplete()
+	{
+		this.gameObject.SetActive(false);
+		UIManager.instance.gamePlayPanel.backFromPause = false;
+		Sequence sequence = DOTween.Sequence();
+		UIManager.instance.gamePlayPanel.GetComponent<CanvasGroup>().alpha = 1;
+		sequence.Append(UIManager.instance.gamePlayPanel.GetComponent<CanvasGroup>().DOFade(0, .3f));
+		sequence.OnComplete(() =>
+		{
+			GameManager.instance.deleting = false;
+			GameManager.instance.deletingIron = false;
+			UIManager.instance.gamePlayPanel.gameObject.SetActive(false);
+			UIManager.instance.gamePlayPanel.timer.TimerOn = false;
+			GameManager.instance.hasUI = false;
+			GameManager.instance.gameObject.SetActive(false);
+			UIManager.instance.menuPanel.Open();
+			canvasGroup.DOFade(0, 1f).OnComplete(() => {
+				Blockpanel.gameObject.SetActive(false);
+			});
+		});
+		
 	}
 	public void Open()
 	{
@@ -71,6 +94,7 @@ public class PausePanel : MonoBehaviour
 				 UIManager.instance.ActiveTime();
 				GameManager.instance.hasUI = false;
 				UIManager.instance.gamePlayPanel.backFromPause = true;
+				UIManager.instance.gamePlayPanel.GetComponent<CanvasGroup>().alpha = 1;
 				UIManager.instance.gamePlayPanel.Open();
 			});
 		}

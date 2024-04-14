@@ -1,8 +1,10 @@
+using DG.Tweening;
 using Sirenix.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,7 +31,6 @@ public class GamePlayPanel : MonoBehaviour
 	public GameObject boosterButton;
 	public Image bgImg;
 	public Image blockImg;
-	public GameObject bgImg1;
 
 	public DisplayLevel level;
 
@@ -41,23 +42,16 @@ public class GamePlayPanel : MonoBehaviour
 	public bool isPause = false;
 	public bool backFromPause = false;
 	public bool backFromChestPanel = false;
+	public bool hasDoFade = false;
 
-	private void Start()
+	private void Awake()
 	{
-
-	}
-	private void OnEnable()
-	{
-		bgImg1 = Instantiate(UIManager.instance.menuPanel.bgImg.transform.GetChild(0).gameObject,this.transform.position,Quaternion.identity,bgImg.transform);
-	}
-	private void OnDisable()
-	{
-		Destroy(bgImg1);
 	}
 	private void Update()
 	{
 		if (GameManager.instance.hasDone == false)
 		{
+			blockImg.gameObject.SetActive(false);
 			boosterButton.gameObject.SetActive(true);
 			//if (GameManager.instance.currentLevel == 0)
 			//{
@@ -79,6 +73,19 @@ public class GamePlayPanel : MonoBehaviour
 		else
 		{
 			blockImg.gameObject.SetActive(true);
+			if (Level.instance.hasDone == false)
+			{
+				Level.instance.hasDone = true;
+				UIManager.instance.DeactiveTime();
+				if(losePanel.gameObject.activeSelf)
+				{
+					losePanel.gameObject.SetActive(false);
+				}
+				//hasDoFade = true;
+				UIManager.instance.gamePlayPanel.blockImg.GetComponent<CanvasGroup>().alpha = 0;
+				Level.instance.CreateItemAndMove();
+				UIManager.instance.gamePlayPanel.blockImg.GetComponent<CanvasGroup>().DOFade(0.5f, 0.2f);
+			}
 			boosterButton.gameObject.SetActive(false);
 		}
 
@@ -159,6 +166,7 @@ public class GamePlayPanel : MonoBehaviour
 	{
 		if (!this.gameObject.activeSelf)
 		{
+			
 			isPause = false;
 			this.gameObject.SetActive(true);
 			levelManager.gameObject.SetActive(true);
@@ -223,12 +231,12 @@ public class GamePlayPanel : MonoBehaviour
 		RelayButton.interactable = false;
 		DeteleNailButton.interactable = false;
 		UndoButton.interactable = false;
-		BoomButton.interactable = false;
+		//BoomButton.interactable = false;
 	}
 	public void ButtonOn()
 	{
 		RelayButton.interactable = true;
-		BoomButton.interactable = true;
+		//BoomButton.interactable = true;
 		DeteleNailButton.interactable = true;
 	}
 
@@ -239,10 +247,14 @@ public class GamePlayPanel : MonoBehaviour
 			isPause = true;
 			//levelManager.gameObject.SetActive(false);
 			//gameManager.gameObject.SetActive(false);
-			this.gameObject.SetActive(false);
+			this.GetComponent<CanvasGroup>().alpha = 1;
+			this.GetComponent<CanvasGroup>().DOFade(0, .4f).OnComplete(() =>
+			{
 			GameManager.instance.deleting = false;
 			GameManager.instance.deletingIron = false;
+			this.gameObject.SetActive(false);
 			timer.TimerOn = false;
+			});
 		}
 	}
 	public void Settimer()

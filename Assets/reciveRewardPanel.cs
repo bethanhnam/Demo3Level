@@ -101,6 +101,7 @@ public class reciveRewardPanel : MonoBehaviour
 		PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
 		if (dayRewards[lastDate].rewardImg.Length <= 1)
 		{
+			var trail = Instantiate(ParticlesManager.instance.StarTrailParticleObject, Vector3.zero, Quaternion.identity,singleReward.transform);
 			singleReward.DOAnchorPos(new Vector3(693, 1130, 0), 0.5f).OnComplete(() =>
 			{
 			
@@ -109,6 +110,7 @@ public class reciveRewardPanel : MonoBehaviour
 				SaveSystem.instance.addTiket(dayRewards[lastDate].powerTicket, dayRewards[lastDate].magicTiket);
 				SaveSystem.instance.SaveData();
 				singleReward.gameObject.SetActive(false);
+				Destroy(trail);
 				Close();
 			});
 		}
@@ -133,6 +135,7 @@ public class reciveRewardPanel : MonoBehaviour
 		PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
 		if (dayRewards[lastDate].rewardImg.Length <= 1)
 		{
+			var trail = Instantiate(ParticlesManager.instance.StarTrailParticleObject, Vector3.zero, Quaternion.identity, singleReward.transform);
 			singleReward.DOAnchorPos(new Vector3(693, 1130, 0), 0.5f).OnComplete(() =>
 			{
 				
@@ -141,6 +144,7 @@ public class reciveRewardPanel : MonoBehaviour
 				SaveSystem.instance.addTiket(dayRewards[lastDate].powerTicket * 2, dayRewards[lastDate].magicTiket * 2);
 				SaveSystem.instance.SaveData();
 				singleReward.gameObject.SetActive(false);
+				Destroy(trail);
 				Close();
 			});
 		}

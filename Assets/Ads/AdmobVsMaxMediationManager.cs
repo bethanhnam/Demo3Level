@@ -4,6 +4,8 @@ using UnityEngine;
 using com.adjust.sdk;
 using GoogleMobileAds.Api;
 using System;
+using Unity.Advertisement.IosSupport.Components;
+using Unity.Advertisement.IosSupport;
 
 public class AdmobVsMaxMediationManager : MonoBehaviour
 {
@@ -46,13 +48,21 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                     InitializeBannerAds();
                     AdsControl.Instance.isCanShowBanner = true;
                 }
-                AdsControl.Instance.ManagerExistingPrivacySettings();
+#if UNITY_IOS
+            // check with iOS to see if the user has accepted or declined tracking
+           var status = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
+				if (status == ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED)
+				{
+					AdsControl.Instance.ManagerExistingPrivacySettings();
+				}
+#else
+				AdsControl.Instance.ManagerExistingPrivacySettings();
+				Debug.Log("Unity iOS Support: App Tracking Transparency status not checked, because the platform is not iOS.");
+#endif
             };
-
             MaxSdk.SetSdkKey(maxSDK);
             MaxSdk.InitializeSdk();
         }
-
         valueAdd = _valueadd;
 
         listManualIDFA = _structIDsFA;

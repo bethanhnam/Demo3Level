@@ -8,6 +8,7 @@ public class LevelButton : MonoBehaviour
     public int level;
     public bool hasDone;
 	public GameObject fixedImg;
+	public GameObject unfixedImg;
 	private void Update()
 	{
 		if (hasDone)

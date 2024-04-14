@@ -55,16 +55,15 @@ public class LoadingScreen : MonoBehaviour
 		AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
 		operation.allowSceneActivation = false;
 		loadingScreen.SetActive(true);
-		while (sliders[1].value <= 0.9f && !operation.isDone)
+		while (sliders[0].value <= 0.9f && !operation.isDone)
 		{
-			if (sliders[1].value <= 0.9f)
+			if (sliders[0].value <= 0.9f)
 			{
-				var x = 375.69f / 548.76f;
-				sliders[0].value += 0.01f;
-				sliders[1].value -= 0.01f * x;
+				sliders[0].value += 0.015f;
 			}
-			if (operation.progress >= 0.9f && sliders[1].value <= 0)
+			if (operation.progress >= 0.9f && sliders[0].value ==0.9f)
 			{
+				yield return new WaitForSecondsRealtime(1f);
 				operation.allowSceneActivation = true;
 				RemoteConfigController.instance.Init();
 			}

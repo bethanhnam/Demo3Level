@@ -143,6 +143,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5efba1256d2aa944394fdf5ae5b99d62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ignoreIronCollider: 0
+  partical: {fileID: 0}
+  hasnext: 0
+  hasfade: 0
 --- !u!1 &2179853400025213899
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,7 +527,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ca73c5906b30f4a46891a8cb3b1a16de, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6386f3532075f444f932c93d485498b4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -582,7 +586,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.82, y: 11.27}
+    oldSize: {x: 9.08, y: 11.58}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1184,12 +1188,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 493b5c4a70b7c7a479f41c5ab4bbc4ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hintImg: {fileID: 0}
   holeToUnlock: {fileID: 0}
   pointer1: {fileID: 0}
   pointer2: {fileID: 0}
   pointer: {fileID: 0}
   pointerPositions: []
+  itemImg: {fileID: 0}
+  itemName: 
+  item: {fileID: 0}
+  Square: {fileID: 0}
 --- !u!1 &8076205393226050504
 GameObject:
   m_ObjectHideFlags: 0

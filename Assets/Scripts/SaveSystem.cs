@@ -7,6 +7,7 @@ public class SaveSystem : MonoBehaviour
 {
     public static SaveSystem instance;
     public int level;
+    public int menuLevel;
     public int magicTiket;
     public int powerTicket;
     public int days = 0;
@@ -43,18 +44,18 @@ public class SaveSystem : MonoBehaviour
 		PlayerPrefs.SetInt("magicTiket", magicTiket);
         PlayerPrefs.SetInt("powerTicket", powerTicket);
         PlayerPrefs.SetInt("Level", level);
+        PlayerPrefs.SetInt("MenuLevel", menuLevel);
 		PlayerPrefs.SetInt("Days", days);
 		PlayerPrefs.SetInt("NonADS", nonAds);
 		PlayerPrefs.SetInt("Strike", strike);
 	}
     public void CreateData()
     {
-        magicTiket = 100;
-        powerTicket = 100;
     }
     public void LoadData()
     {
         level = PlayerPrefs.GetInt("Level");
+        menuLevel = PlayerPrefs.GetInt("MenuLevel");
 		magicTiket = PlayerPrefs.GetInt("magicTiket");
 		powerTicket = PlayerPrefs.GetInt("powerTicket");
 		days = PlayerPrefs.GetInt("Days");
@@ -82,6 +83,6 @@ public class SaveSystem : MonoBehaviour
 	}
 	public void SetLevel(int level)
     {
-        this.level = level;
+        this.menuLevel = level;
     }
 }
