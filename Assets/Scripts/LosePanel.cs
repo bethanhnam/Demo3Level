@@ -11,13 +11,12 @@ using System.Timers;
 public class LosePanel : MonoBehaviour
 {
 	public CanvasGroup canvasGroup;
-	public RectTransform Blockpanel;
 	public bool hasUse = false;
-	public RectTransform watchAdButton;
+	public Button watchAdButton;
 	// Start is called before the first frame update
 	void Start()
     {
-		watchAdButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
+		watchAdButton.interactable = true;
 	}
 
     // Update is called once per frame
@@ -25,11 +24,11 @@ public class LosePanel : MonoBehaviour
     {
 		if (hasUse)
 		{
-			watchAdButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+			watchAdButton.interactable = false;
 		}
 		else
 		{
-			watchAdButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
+			watchAdButton.interactable = true;
 		}
     }
     public void WatchAd()
@@ -40,10 +39,11 @@ public class LosePanel : MonoBehaviour
 			AdsManager.instance.ShowRewardVideo(() =>
 			{
 				Close();
-				UIManager.instance.gamePlayPanel.timer.SetTimer(61f);
-				SaveSystem.instance.playingHard = true;
+				GamePlayPanelUIManager.Instance.timer.SetTimer(61f);
+				GamePlayPanelUIManager.Instance.ActiveTime();
+				GamePlayPanelUIManager.Instance.Appear();
 				hasUse = true;
-				watchAdButton.GetComponent<Button>().interactable = false;
+				watchAdButton.interactable = false;
 				watchAdButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/win/bttn_grey");
 			});
 			
@@ -53,13 +53,16 @@ public class LosePanel : MonoBehaviour
 	public void Replay()
     {
 		// load ad 
-		Close();
-		GameManager.instance.Retry();
-		hasUse = false;
+		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_lose, () =>
+		{
+			Close();
+			GameManagerNew.Instance.Replay();
+			hasUse = false;
+		}, null);
 	}
 	public void Open()
 	{
-		if (UIManager.instance.winPanel.gameObject.activeSelf)
+		if (UIManagerNew.Instance.WinUI.gameObject.activeSelf)
 		{
 			return;
 		}
@@ -67,14 +70,10 @@ public class LosePanel : MonoBehaviour
 		{
 			this.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("LosePop");
-			Blockpanel.gameObject.SetActive(true);
-			GameManager.instance.hasUI = true;
-			UIManager.instance.DeactiveTime();
-			UIManager.instance.gamePlayPanel.Close();
 			canvasGroup.alpha = 0;
 			canvasGroup.DOFade(1, .3f).OnComplete(() =>
 			{
-				Blockpanel.gameObject.SetActive(false);
+				
 			});
 
 		}
@@ -86,14 +85,8 @@ public class LosePanel : MonoBehaviour
 			canvasGroup.alpha = 1;
 			canvasGroup.DOFade(0, .3f).OnComplete(() =>
 			{
-				Blockpanel.gameObject.SetActive(false);
 				this.gameObject.SetActive(false);
 				AudioManager.instance.PlaySFX("ClosePopUp");
-				 UIManager.instance.ActiveTime();
-				UIManager.instance.gamePlayPanel.backFromPause = true;
-				UIManager.instance.gamePlayPanel.GetComponent<CanvasGroup>().alpha = 1;
-				UIManager.instance.gamePlayPanel.Open();
-				GameManager.instance.hasUI = false;
 			});
 		}
 	}

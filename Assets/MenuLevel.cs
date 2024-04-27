@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,276 +9,355 @@ using UnityEngine.Video;
 
 public class MenuLevel : MonoBehaviour
 {
-	public int x;
-	public int level;
-	public int currentStage = 0;
-	public Image menuImg;
-	public Sprite completeImg;
-	public Button[] playButtons;
-	public Button[] playButtons1;
-	public Button[] playButtons2;
-	public int numOfButtons =0 ;
-	public List<Button[]> listPlayButtons = new List<Button[]>();
+	//public int x;
+	//public int level;
+	//public int currentStage = 0;
+	//public Image menuImg;
+	//public Sprite completeImg;
+	//public Button[] playButtons;
+	//public Button[] playButtons1;
+	//public Button[] playButtons2;
+	//public Button[] currentPlayButtons;
+	//public int numOfButtons = 0;
+	//public List<Button[]> listPlayButtons = new List<Button[]>();
 
-	public GameObject[] characters;
-	public GameObject[] itemPositions;
-	public GameObject[] itemPositions1;
-	public GameObject[] itemPositions2;
-	public GameObject[] targetItemPositions;
-	public List<GameObject> completeList = new List<GameObject>();
-	public List<GameObject> unCompleteList = new List<GameObject>();
-	public int stageLeft;
-	public bool hasDone = false;
-	public bool hasChange = false;
-	public bool hasChangelv1 = false;
-	public bool hasChangelv2 = false;
-	private void Start()
-	{
-		listPlayButtons.Add(playButtons);
-		listPlayButtons.Add(playButtons1);
-		listPlayButtons.Add(playButtons2);
-		for (int i = 0; i < playButtons.Length; i++)
-		{
-			if (!unCompleteList.Contains(playButtons[i].gameObject))
-			{
-				unCompleteList.Add(playButtons[i].gameObject);
-			}
-		}
-		UIManager.instance.menuPanel.slider[0].maxValue = playButtons.Length + playButtons1.Length + playButtons2.Length;
-		UIManager.instance.menuPanel.slider[1].maxValue = playButtons.Length + playButtons1.Length + playButtons2.Length;
-		UIManager.instance.menuPanel.slider[2].maxValue = playButtons.Length + playButtons1.Length + playButtons2.Length;
-		UIManager.instance.menuPanel.slider[2].value = playButtons.Length + playButtons1.Length + playButtons2.Length;
-		UIManager.instance.menuPanel.maxScore.text = UIManager.instance.menuPanel.slider[0].maxValue.ToString();
-		numOfButtons = playButtons.Length + playButtons1.Length + playButtons2.Length;
-	}
-	
-	private void Update()
-	{
-		SetPlayerPrefs(0);
-		if (completeList.Count == UIManager.instance.menuPanel.slider[0].maxValue)
-		{
-			PlayButton.instance.GetComponent<Button>().interactable = false;
-			hasDone = true;
-		}
-		//if (hasChangelv1 == true)
-		//{
-		//	if (hasChangelv2 == false)
-		//	{
-		//		if (completeList.Count == playButtons1.Length)
-		//		{
-		//			for (int i = 0; i < playButtons1.Length; i++)
-		//			{
-		//				PlayerPrefs.DeleteKey(i.ToString());
-		//			}
-		//			for (int j = 0; j < playButtons2.Length; j++)
-		//			{
-		//				playButtons2[j].gameObject.SetActive(true);
-		//				itemPositions2[j].gameObject.SetActive(true);
-		//			}
-		//			hasChangelv2 = true;
-		//			currentStage++;
-		//		}
+	//public GameObject[] characters;
+	//public GameObject[] itemPositions;
+	//public GameObject[] itemPositions1;
+	//public GameObject[] itemPositions2;
+	//public GameObject[] targetItemPositions;
+	//public List<GameObject> completeList = new List<GameObject>();
+	//public List<GameObject> unCompleteList = new List<GameObject>();
+	//public int stageLeft;
+	//public bool hasDone = false;
+	//public bool hasChange = false;
+	//public bool justOpen = false;
+	//public bool hasChangelv1 = false;
+	//public bool hasChangelv2 = false;
+	//private void Awake()
+	//{
+	//	numOfButtons = playButtons.Length + playButtons1.Length + playButtons2.Length;
+	//}
+	//private void Start()
+	//{
+	//	listPlayButtons.Add(playButtons);
+	//	listPlayButtons.Add(playButtons1);
+	//	listPlayButtons.Add(playButtons2);
+	//	for (int i = 0; i < playButtons.Length; i++)
+	//	{
+	//		if (!unCompleteList.Contains(playButtons[i].gameObject))
+	//		{
+	//			unCompleteList.Add(playButtons[i].gameObject);
+	//		}
+	//	}
+	//	UIManager.instance.menuPanel.slider[0].maxValue = LevelManager.instance.levelInstances[0].GetComponent<PictureUIManager>().Stage.Length;
+	//	UIManager.instance.menuPanel.maxScore.text = UIManager.instance.menuPanel.slider[0].maxValue.ToString();
+	//	if (PlayerPrefs.HasKey("CurrentStage"))
+	//	{
+	//		currentStage = PlayerPrefs.GetInt("CurrentStage");
+	//	}
+	//	else
+	//	{
+	//		currentStage = 0;
+	//	}
+	//	if (PlayerPrefs.GetInt("HasChangeLv2") == 1)
+	//	{
+	//		UnLockLevel1(playButtons2);
+	//		LockLevel(playButtons1);
+	//		LockLevel(playButtons);
+	//	}
+	//	else if (PlayerPrefs.GetInt("HasChangeLv1") == 1)
+	//	{
+	//		UnLockLevel1(playButtons1);
+	//		LockLevel(playButtons);
+	//	}
+	//	else
+	//	{
+	//		UnLockLevel1(playButtons);
+	//	}
 
-		//	}
-		//}
-		//else if (hasChangelv1 == false)
-		//{
-		//	if (completeList.Count == playButtons.Length)
-		//	{
-		//		for (int i = 0; i < playButtons.Length; i++)
-		//		{
-		//			PlayerPrefs.DeleteKey(i.ToString());
-		//		}
-		//		for (int j = 0; j < playButtons1.Length; j++)
-		//		{
-		//			playButtons1[j].gameObject.SetActive(true);
-		//			itemPositions1[j].gameObject.SetActive(true);
-		//		}
-		//		hasChangelv1 = true;
-		//		currentStage++;
-		//	}
-		//}
-		//if (hasChangelv2)
-		//{
-		//	SetPlayerPrefs(2);
-		//}
-		//else if (hasChangelv1)
-		//{
-		//	SetPlayerPrefs(1);
-		//}
-		//else
-		//{
-		//	SetPlayerPrefs(0);
-		//}
-		
-	}
-	private void SetPlayerPrefs(int currentStage)
-	{
-		Button[] array = listPlayButtons[currentStage];
-		for (int i = 0; i < array.Length; i++)
-		{
-			if (!PlayerPrefs.HasKey(i.ToString())) { 
-				if (array[i].GetComponent<LevelButton>().hasDone)
-				{
-					PlayerPrefs.SetInt(i.ToString(), 1);
-					MenuLevelManager.instance.hasChecked = false;
-				}
-			}
-			
-		}
-	}
-	private void OnEnable()
-	{
-		if (hasChange == false)
-		{
-			if (SaveSystem.instance.strike >= numOfButtons)
-			{
+	//}
 
-				try
-				{
-					UIManager.instance.menuPanel.bgImg.transform.GetChild(0).GetComponent<Image>().sprite = completeImg;
-					UIManager.instance.menuPanel.CheckStrike();
-					hasChange = true;
-				}
-				catch
-				{
+	//private void Update()
+	//{
+	//	checkStage1();
+	//	if (completeList.Count == numOfButtons)
+	//	{
+	//		PlayButton.instance.GetComponent<Button>().interactable = false;
+	//		hasDone = true;
+	//		PlayerPrefs.SetInt("HasDone", 1);
+	//	}
+	//	if (SaveSystem.instance.menuLevel == 1)
+	//	{
+	//		if (hasChangelv1 == true)
+	//		{
+	//			if (hasChangelv2 == false)
+	//			{
+	//				if (completeList.Count == playButtons1.Length)
+	//				{
+	//					hasChangelv2 = true;
+	//					for (int i = 0; i < playButtons1.Length; i++)
+	//					{
+	//						PlayerPrefs.DeleteKey(i.ToString());
+	//						UnityEngine.Debug.Log("detele " + i.ToString());
+	//					}
+	//					ShowStageItem(playButtons2);
+	//					PlayerPrefs.SetInt("HasChangeLv2", 1);
+	//					PlayerPrefs.SetInt("CurrentStage", 2);
+	//				}
 
-				}
-			}
-		}
-		UnLockLevel();
-		//if (hasChangelv2)
-		//{
-		//	UnLockLevel1(2);
-		//	for (int i = 0; i < 2; i++)
-		//	{
-		//		LockLevel(i);
-		//	}
-		//}
-		//else if (hasChangelv1)
-		//{
-		//	UnLockLevel1(1);
-		//	for (int i = 0; i < 1; i++)
-		//	{
-		//		LockLevel(i);
-		//	}
-		//}
-		//else
-		//{
-		//	UnLockLevel1(0);
-		//}
+	//			}
+	//		}
+	//		else if (hasChangelv1 == false)
+	//		{
+	//			if (completeList.Count == playButtons.Length)
+	//			{
+	//				hasChangelv1 = true;
+	//				for (int i = 0; i < playButtons.Length; i++)
+	//				{
+	//					PlayerPrefs.DeleteKey(i.ToString());
+	//					UnityEngine.Debug.Log("detele " + i.ToString());
+	//				}
+	//				ShowStageItem(playButtons1);
+	//				PlayerPrefs.SetInt("HasChangeLv1", 1);
+	//				PlayerPrefs.SetInt("CurrentStage", 1);
 
-	}
+	//			}
+	//		}
+	//	}
+	//	if (PlayerPrefs.GetInt("HasChangeLv2") == 1)
+	//	{
+	//		SetPlayerPrefs(playButtons2);
+	//	}
+	//	else if (PlayerPrefs.GetInt("HasChangeLv1") == 1)
+	//	{
+	//		SetPlayerPrefs(playButtons1);
+	//	}
+	//	else
+	//	{
+	//		SetPlayerPrefs(playButtons);
+	//	}
+	//}
 
-	
+	//private void ShowStageItem(Button[] buttons)
+	//{
+	//	StartCoroutine(loadItem(playButtons1));
+	//}
+	//IEnumerator loadItem(Button[] buttons)
+	//{
+	//	yield return new WaitForSeconds(7);
+	//	for (int j = 0; j < buttons.Length; j++)
+	//	{
+	//		buttons[j].gameObject.SetActive(true);
+	//		itemPositions1[j].gameObject.SetActive(true);
+	//	}
+	//}
 
-	private void UnLockLevel1(int level)
-	{
-		try
-		{
-			Button[] array = listPlayButtons[level];
-			for (int i = 0; i < array.Length; i++)
-			{
-				if (array[i] != null)
-				{
-					if (PlayerPrefs.HasKey(i.ToString()))
-					{
-						if (PlayerPrefs.GetInt(i.ToString()) == 1)
-						{
-							array[i].gameObject.SetActive(false);
-							if (array[i].GetComponent<LevelButton>().fixedImg != null)
-							{
-								array[i].GetComponent<LevelButton>().unfixedImg.SetActive(false);
-								array[i].GetComponent<LevelButton>().fixedImg.SetActive(true);
-								try
-								{
-									if (!completeList.Contains(array[i].gameObject))
-									{
-										completeList.Add(array[i].gameObject);
-									}
-								}
-								catch { }
-								if (unCompleteList.Contains(completeList[i]))
-								{
-									unCompleteList.Remove(completeList[i]);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		catch { };
-	}
-	private void UnLockLevel()
-	{
-		try
-		{
-			for (int i = 0; i < playButtons.Length; i++)
-			{
-				if (playButtons[i] != null)
-				{
-					if (PlayerPrefs.HasKey(i.ToString()))
-					{
-						if (PlayerPrefs.GetInt(i.ToString()) == 1)
-						{
-							playButtons[i].gameObject.SetActive(false);
-							if (playButtons[i].GetComponent<LevelButton>().fixedImg != null)
-							{
-								playButtons[i].GetComponent<LevelButton>().unfixedImg.SetActive(false);
-								playButtons[i].GetComponent<LevelButton>().fixedImg.SetActive(true);
-								try
-								{
-									if (!completeList.Contains(playButtons[i].gameObject))
-									{
-										completeList.Add(playButtons[i].gameObject);
-									}
-								}
-								catch { }
-								if (unCompleteList.Contains(playButtons[i].gameObject))
-								{
-									unCompleteList.Remove(playButtons[i].gameObject);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		catch { };
-		
-	}
-	private void LockLevel(int level)
-	{
-		Button[] array = listPlayButtons[level];
-		for (int i = 0; i < array.Length; i++)
-		{
-			if (array[i] != null)
-			{
-				array[i].gameObject.SetActive(false);
-				if (array[i].GetComponent<LevelButton>().fixedImg != null)
-				{
-					array[i].GetComponent<LevelButton>().unfixedImg.SetActive(false);
-					array[i].GetComponent<LevelButton>().fixedImg.SetActive(true);
-					try
-					{
-						if (!completeList.Contains(array[i].gameObject))
-						{
-							completeList.Add(array[i].gameObject);
-						}
-					}
-					catch { }
-				}
-			}
-		}
-	}
-	public void NextLevel()
-	{
-		StartCoroutine(nextLevel());
-	}
-	IEnumerator nextLevel()
-	{
-		yield return new WaitForSeconds(2);
-		UIManager.instance.menuPanel.CheckStrike();
-	}
+	//public void checkStage()
+	//{
+	//	if (PlayerPrefs.GetInt("HasChangeLv2") == 1)
+	//	{
+	//		currentPlayButtons = playButtons2;
+	//		for (int j = 0; j < playButtons2.Length; j++)
+	//		{
+	//			playButtons2[j].gameObject.SetActive(true);
+	//			itemPositions2[j].gameObject.SetActive(true);
+	//		}
+	//	}
+	//	if (PlayerPrefs.GetInt("HasChangeLv1") == 1)
+	//		{
+	//			currentPlayButtons = playButtons1;
+	//			for (int j = 0; j < playButtons1.Length; j++)
+	//			{
+	//				playButtons1[j].gameObject.SetActive(true);
+	//				itemPositions1[j].gameObject.SetActive(true);
+					
+	//			}
+	//		}	
+	//	else
+	//		{
+	//			currentPlayButtons = playButtons;
+	//		}
+	//}
+	//public void checkStage1()
+	//{
+	//	if (PlayerPrefs.GetInt("HasChangeLv2") == 1)
+	//	{
+	//		currentPlayButtons = playButtons2;
+	//	}
+	//	if (PlayerPrefs.GetInt("HasChangeLv1") == 1)
+	//	{
+	//		currentPlayButtons = playButtons1;
+	//	}
+	//	else
+	//	{
+	//		currentPlayButtons = playButtons;
+	//	}
+	//}
+	//private void SetPlayerPrefs(Button[] buttons)
+	//{
+	//	for (int i = 0; i < buttons.Length; i++)
+	//	{
+	//		if (!PlayerPrefs.HasKey(i.ToString()))
+	//		{
+	//			if (buttons[i].GetComponent<LevelButton>().hasDone)
+	//			{
+	//				PlayerPrefs.SetInt(i.ToString(), 1);
+	//				UnityEngine.Debug.Log(i.ToString());
+	//				MenuLevelManager.instance.hasChecked = false;
+	//			}
+	//		}
+
+	//	}
+	//}
+	//private void OnEnable()
+	//{
+	//	checkStage();
+	//	StartCoroutine(checkReturn());
+	//	if (PlayerPrefs.GetInt("HasChangeLv2") == 1)
+	//	{
+	//		UnLockLevel1(playButtons2);
+	//		LockLevel(playButtons1);
+	//		LockLevel(playButtons);
+	//	}
+	//	else if (PlayerPrefs.GetInt("HasChangeLv1") == 1)
+	//	{
+	//		UnLockLevel1(playButtons1);
+	//		LockLevel(playButtons);
+	//	}
+	//	else
+	//	{
+	//		UnLockLevel1(playButtons);
+	//	}
+
+	//}
+
+
+	//IEnumerator checkReturn()
+	//{
+	//	yield return new WaitForSeconds(1);
+	//	if (UIManager.instance.menuPanel.Completing == false)
+	//	{
+	//		if (hasChange == false)
+	//		{
+	//			if (SaveSystem.instance.strike >= numOfButtons)
+	//			{
+	//				try
+	//				{
+	//					UIManager.instance.menuPanel.ChangeImgDoneLevel();
+	//				}
+	//				catch
+	//				{
+
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+	//private void UnLockLevel1(Button[] button)
+	//{
+	//	try
+	//	{
+	//		for (int i = 0; i < button.Length; i++)
+	//		{
+	//			if (PlayerPrefs.HasKey(i.ToString()))
+	//			{
+	//				if (PlayerPrefs.GetInt(i.ToString()) == 1)
+	//				{
+	//					button[i].gameObject.SetActive(false);
+	//					if (button[i].GetComponent<LevelButton>().fixedImg != null)
+	//					{
+	//						button[i].GetComponent<LevelButton>().unfixedImg.SetActive(false);
+	//						button[i].GetComponent<LevelButton>().fixedImg.SetActive(true);
+	//						try
+	//						{
+	//							if (!completeList.Contains(button[i].gameObject))
+	//							{
+	//								completeList.Add(button[i].gameObject);
+	//							}
+	//						}
+	//						catch { }
+	//						if (unCompleteList.Contains(completeList[i]))
+	//						{
+	//							unCompleteList.Remove(completeList[i]);
+	//						}
+	//					}
+
+	//				}
+	//			}
+	//		}
+	//	}
+	//	catch { };
+	//}
+	//private void UnLockLevel()
+	//{
+	//	try
+	//	{
+	//		for (int i = 0; i < playButtons.Length; i++)
+	//		{
+	//			if (playButtons[i] != null)
+	//			{
+	//				if (PlayerPrefs.HasKey(i.ToString()))
+	//				{
+	//					if (PlayerPrefs.GetInt(i.ToString()) == 1)
+	//					{
+	//						playButtons[i].gameObject.SetActive(false);
+	//						if (playButtons[i].GetComponent<LevelButton>().fixedImg != null)
+	//						{
+	//							playButtons[i].GetComponent<LevelButton>().unfixedImg.SetActive(false);
+	//							playButtons[i].GetComponent<LevelButton>().fixedImg.SetActive(true);
+	//							try
+	//							{
+	//								if (!completeList.Contains(playButtons[i].gameObject))
+	//								{
+	//									completeList.Add(playButtons[i].gameObject);
+	//								}
+	//							}
+	//							catch { }
+	//							if (unCompleteList.Contains(playButtons[i].gameObject))
+	//							{
+	//								unCompleteList.Remove(playButtons[i].gameObject);
+	//							}
+	//						}
+	//					}
+	//				}
+	//			}
+	//		}
+	//	}
+	//	catch { };
+
+	//}
+	//private void LockLevel(Button[] buttons)
+	//{
+
+	//	for (int i = 0; i < buttons.Length; i++)
+	//	{
+	//		if (buttons[i] != null)
+	//		{
+	//			buttons[i].gameObject.SetActive(false);
+	//			if (buttons[i].GetComponent<LevelButton>().fixedImg != null)
+	//			{
+	//				buttons[i].GetComponent<LevelButton>().unfixedImg.SetActive(false);
+	//				buttons[i].GetComponent<LevelButton>().fixedImg.SetActive(true);
+	//				try
+	//				{
+	//					if (!completeList.Contains(buttons[i].gameObject))
+	//					{
+	//						completeList.Add(buttons[i].gameObject);
+	//					}
+	//				}
+	//				catch { }
+	//			}
+	//		}
+	//	}
+	//}
+	//public void NextLevel()
+	//{
+	//	StartCoroutine(nextLevel());
+	//}
+	//IEnumerator nextLevel()
+	//{
+	//	yield return new WaitForSeconds(2);
+	//	UIManager.instance.menuPanel.CheckStrike();
+	//}
 }

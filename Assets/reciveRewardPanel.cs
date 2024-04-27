@@ -104,7 +104,7 @@ public class reciveRewardPanel : MonoBehaviour
 			var trail = Instantiate(ParticlesManager.instance.StarTrailParticleObject, Vector3.zero, Quaternion.identity,singleReward.transform);
 			singleReward.DOAnchorPos(new Vector3(693, 1130, 0), 0.5f).OnComplete(() =>
 			{
-			
+				AudioManager.instance.PlaySFX("GetReward");
 				dayRewards[lastDate].isClaim = true;
 				SaveSystem.instance.days = lastDate + 1;
 				SaveSystem.instance.addTiket(dayRewards[lastDate].powerTicket, dayRewards[lastDate].magicTiket);
@@ -118,7 +118,7 @@ public class reciveRewardPanel : MonoBehaviour
 		{
 			pairReward.DOAnchorPos(new Vector3(693, 1130, 0), 0.5f).OnComplete(() =>
 			{
-				
+				AudioManager.instance.PlaySFX("GetReward");
 				dayRewards[lastDate].isClaim = true;
 				SaveSystem.instance.days = lastDate + 1;
 				SaveSystem.instance.addTiket(dayRewards[lastDate].powerTicket, dayRewards[lastDate].magicTiket);

@@ -21,10 +21,12 @@ public class CompletePanel : MonoBehaviour
 		{
 			claimPanel.gameObject.SetActive(true);
 			this.gameObject.SetActive(false);
-			SaveSystem.instance.menuLevel = MenuLevelManager.instance.levelCount - 1 ;
+			//SaveSystem.instance.menuLevel = MenuLevelManager.instance.levelCount - 1 ;
 			SaveSystem.instance.SaveData();
+			PlayerPrefs.DeleteKey("HasChangeLv1");
+			PlayerPrefs.DeleteKey("HasChangeLv2");
 			UIManager.instance.gamePlayPanel.pausePanel.Home();
-			MenuLevelManager.instance.Start();
+			//MenuLevelManager.instance.Start();
 		}
 	}
 }

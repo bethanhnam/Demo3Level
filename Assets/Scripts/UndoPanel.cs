@@ -11,7 +11,6 @@ public class UndoPanel : MonoBehaviour
 	public RectTransform closeButton;
 	public RectTransform panel;
 	public rankpanel notEnoughpanel;
-	public RectTransform Blockpanel;
 	public int numOfUsed = 1;
 	public RectTransform watchAdButton;
 	public TextMeshProUGUI numOfUsedText;
@@ -27,7 +26,7 @@ public class UndoPanel : MonoBehaviour
 			SaveSystem.instance.addTiket(-numOfUsed, 0);
 			SaveSystem.instance.SaveData();
 			numOfUsed++;
-			InputManager.instance.Undo();
+			Stage.Instance.Undo();
 			this.Close();
 		}
 		else
@@ -40,7 +39,7 @@ public class UndoPanel : MonoBehaviour
 		AdsManager.instance.ShowRewardVideo(() =>
 		{
 			//xem qu?ng cáo 
-			InputManager.instance.Undo();
+			Stage.Instance.Undo();
 			numOfUsed++;
 			this.Close();
 
@@ -63,12 +62,10 @@ public class UndoPanel : MonoBehaviour
 	{
 		if (!this.gameObject.activeSelf)
 		{
-			Blockpanel.gameObject.SetActive(true);
 			this.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("OpenPopUp");
-			GameManager.instance.hasUI = true;
 			panel.localRotation = Quaternion.identity;
-			UIManager.instance.DeactiveTime();
+			//UIManager.instance.DeactiveTime();
 			panel.localPosition = new Vector3(-351, 479, 0);
 			panel.localScale = new Vector3(.8f, .8f, 1);
 			closeButton.localPosition = new Vector3(364, 277.600006f, 0);
@@ -76,7 +73,7 @@ public class UndoPanel : MonoBehaviour
 			this.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
 			panel.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
 			{
-				Blockpanel.gameObject.SetActive(false);
+				GamePlayPanelUIManager.Instance.Close();
 			});
 
 		}
@@ -85,7 +82,6 @@ public class UndoPanel : MonoBehaviour
 	{
 		if (this.gameObject.activeSelf)
 		{
-			Blockpanel.gameObject.SetActive(true);
 			closeButton.DOAnchorPos(new Vector2(552f, -105f), .1f, false).OnComplete(() =>
 			{
 				panel.DORotate(new Vector3(0, 0, -10f), 0.25f, RotateMode.Fast).OnComplete(() =>
@@ -94,10 +90,8 @@ public class UndoPanel : MonoBehaviour
 					{
 						this.gameObject.SetActive(false);
 						AudioManager.instance.PlaySFX("ClosePopUp");
-						 UIManager.instance.ActiveTime();
-						GameManager.instance.hasUI = false;
-						SaveSystem.instance.playingHard = true;
-						Blockpanel.gameObject.SetActive(false);
+						GamePlayPanelUIManager.Instance.ActiveTime();
+						GamePlayPanelUIManager.Instance.Appear();
 					});
 				});
 			});

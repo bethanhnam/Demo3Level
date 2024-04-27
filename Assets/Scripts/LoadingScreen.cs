@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DG.Tweening;
 using static UnityEngine.Rendering.HDROutputUtils;
 
 public class LoadingScreen : MonoBehaviour
@@ -13,6 +14,9 @@ public class LoadingScreen : MonoBehaviour
 	public GameObject loadingScreen;
 	public Screen gamePlayScreen;
 	public Slider[] sliders;
+
+	[SerializeField]
+	private CanvasGroup cv;
 
 	//public void LoadingScene(int sceneId)
 	//{
@@ -66,6 +70,12 @@ public class LoadingScreen : MonoBehaviour
 				yield return new WaitForSecondsRealtime(1f);
 				operation.allowSceneActivation = true;
 				RemoteConfigController.instance.Init();
+				cv.DOFade(0, 0.3f).OnComplete(() =>
+				{
+					Destroy(this.gameObject);
+					GameManagerNew.Instance.InitStartGame();
+				//	UIManager.instance.menuPanel.ActiveUIStart();
+				});
 			}
 			yield return null;
 		}
@@ -73,8 +83,9 @@ public class LoadingScreen : MonoBehaviour
 	}
 	private void Start()
 	{
+		DontDestroyOnLoad(this.gameObject);
 		LoadingScene(1);
 		AudioManager.instance.PlayMusic("Loading");
-
+		Application.targetFrameRate = 60;
 	}
 }

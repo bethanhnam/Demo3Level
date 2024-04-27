@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using com.adjust.sdk;
+using Unity.Advertisement.IosSupport;
 using UnityEngine;
 
 public class MaxMediation : MonoBehaviour
@@ -22,8 +23,12 @@ public class MaxMediation : MonoBehaviour
         idRWMax = _idRWMax;
         idBNMax = _idBnMax;
         idOpenAds = _idOpenAds;
+#if UNITY_IOS
+		Debug.Log("Unity iOS Support: Requesting iOS App Tracking Transparency native dialog.");
 
-        if (!initMax)
+		ATTrackingStatusBinding.RequestAuthorizationTracking();
+#endif
+		if (!initMax)
         {
             initMax = true;
             MaxSdkCallbacks.OnSdkInitializedEvent += sdkConfiguration =>
@@ -37,6 +42,7 @@ public class MaxMediation : MonoBehaviour
                     AdsControl.Instance.isCanShowBanner = true;
                 }
 #if UNITY_IOS
+
             // check with iOS to see if the user has accepted or declined tracking
            var status = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
 				if (status == ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED)
@@ -53,7 +59,7 @@ public class MaxMediation : MonoBehaviour
             MaxSdk.InitializeSdk();
         }
     }
-    #region Open Ads ----------------------------------------------------
+	#region Open Ads ----------------------------------------------------
     private int openAdsRetryAttempt;
 
     private void InitOpenAds()
@@ -131,9 +137,9 @@ public class MaxMediation : MonoBehaviour
             // MaxSdk.LoadAppOpenAd(idOpenAds);
         }
     }
-    #endregion Open Ads -------------------------------
+	#endregion Open Ads -------------------------------
 
-    #region Interstitial Ad Methods---------------------------------------------------------------------
+	#region Interstitial Ad Methods---------------------------------------------------------------------
     private int interstitialRetryAttempt;
 
     private double faValue;
@@ -177,14 +183,16 @@ public class MaxMediation : MonoBehaviour
     {
         Debug.Log("Interstitial failed to display with error code: " + errorInfo.Code);
         AdsControl.Instance.isShowingAds = false;
-        LoadInterstitial();
+		AdsManager.instance.CallCloseFA();
+		LoadInterstitial();
     }
 
     private void OnInterstitialDismissedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
     {
         Debug.Log("Interstitial dismissed");
         AdsControl.Instance.isShowingAds = false;
-        LoadInterstitial();
+		AdsManager.instance.CallCloseFA();
+		LoadInterstitial();
     }
 
     private void OnInterstitialRevenuePaidEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -228,9 +236,9 @@ public class MaxMediation : MonoBehaviour
 
         return -1;
     }
-    #endregion Interstitial Ad Methods---------------------------------------------------------------------
+	#endregion Interstitial Ad Methods---------------------------------------------------------------------
 
-    #region Rewarded Ad Methods----------------------------------------------------------------
+	#region Rewarded Ad Methods----------------------------------------------------------------
     private int rewardedRetryAttempt;
 
     private double rwValue;
@@ -349,9 +357,9 @@ public class MaxMediation : MonoBehaviour
 
         return -1;
     }
-    #endregion Rewarded Ad Methods----------------------------------------------------------------
+	#endregion Rewarded Ad Methods----------------------------------------------------------------
 
-    #region Banner Ad Methods-------------------------------------------------------
+	#region Banner Ad Methods-------------------------------------------------------
     private bool isShowingBanner = false;
 
     private void InitializeBannerAds()
@@ -409,5 +417,5 @@ public class MaxMediation : MonoBehaviour
             MaxSdk.HideBanner(idBNMax);
         }
     }
-    #endregion Banner Ad Methods-------------------------------------------------------
+	#endregion Banner Ad Methods-------------------------------------------------------
 }

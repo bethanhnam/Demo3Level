@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: 3792861564885974682}
   - component: {fileID: 1914866052183584841}
   - component: {fileID: 5759123402259282904}
+  - component: {fileID: 1109576482168724963}
   m_Layer: 2
   m_Name: ExtraHole
   m_TagString: Hole
@@ -292,6 +293,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1109576482168724963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3409128850634631544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a9673042b04ab4cb5cf81e808adf2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  extraHole: {fileID: 3409128850634631544}
+  myButton: {fileID: 8584247639020967751}
 --- !u!1 &5718663058633528100
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,7 +439,6 @@ GameObject:
   - component: {fileID: 4709506258301219191}
   - component: {fileID: 2374511345951655385}
   - component: {fileID: 8584247639020967751}
-  - component: {fileID: 2302139976374863946}
   m_Layer: 5
   m_Name: UnlockButton
   m_TagString: Untagged
@@ -534,7 +548,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2302139976374863946}
+      - m_Target: {fileID: 1109576482168724963}
         m_TargetAssemblyTypeName: ExtraHoleButton, Assembly-CSharp
         m_MethodName: MyFunction
         m_Mode: 1
@@ -546,17 +560,3 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2302139976374863946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7191483100605785988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8a9673042b04ab4cb5cf81e808adf2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  extraHole: {fileID: 3409128850634631544}
-  myButton: {fileID: 8584247639020967751}

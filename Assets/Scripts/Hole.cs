@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Hole : MonoBehaviour
 {
-	public GameObject Nail;
+	public NailControl Nail;
 	public bool extraHole;
 	public bool collider;
 	public bool isOsccupied;
@@ -15,7 +15,7 @@ public class Hole : MonoBehaviour
 	{
 		IronLayer = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2", "layer1vs2vs3", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
 	}
-	public GameObject getNail()
+	public NailControl getNail()
 	{
 		return Nail;
 	}
@@ -28,10 +28,17 @@ public class Hole : MonoBehaviour
 		else return false;
 
 	}
-	public void setNail(GameObject nail)
+	public void setNail(NailControl nail)
 	{
 		Nail = nail;
 	}
+	public void RemoveNail() {
+		if (Nail!=null)
+		{
+			Nail = null;
+		}
+	}
+
 	private void Update()
 	{
 	
@@ -39,7 +46,7 @@ public class Hole : MonoBehaviour
 		{
 			if (this.CheckNail() == false)
 			{
-				Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(this.transform.position.x, this.transform.position.y), 0.3f,IronLayer);
+				Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(this.transform.position.x, this.transform.position.y), 0.1f,IronLayer);
 				bool hasCollider = false;
 				if (colliders.IsNullOrEmpty())
 				{
@@ -100,13 +107,7 @@ public class Hole : MonoBehaviour
 		}
 		return x;
 	}
-	private void OnTriggerEnter2D(Collider2D collision)
-	{
-		if (collision.gameObject.tag == "Nail")
-		{
-			Nail = collision.gameObject;
-		}
-	}
+	
 	//public void CheckIron()
 	//{
 	//	Collider2D[] colliders = Physics2D.OverlapCircleAll(this.transform.localPosition, .2f);

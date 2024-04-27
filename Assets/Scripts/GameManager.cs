@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 	public bool hasMove;
 	public bool hasDone;
 
-
+	public LevelButton currentLevelButton;
 	private void Start()
 	{
 		if (instance == null)
@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour
 	}
 	private void Update()
 	{
-		
 	}
 	public void Replay()
 	{
@@ -91,7 +90,7 @@ public class GameManager : MonoBehaviour
 	public IEnumerator LoadLevel()
 	{
 			UIManager.instance.gamePlayPanel.ButtonOff();
-			yield return new WaitForSeconds(0.4f);
+			yield return new WaitForSeconds(0);
 			UIManager.instance.gamePlayPanel.ButtonOn();
 			try
 			{
@@ -107,4 +106,5 @@ public class GameManager : MonoBehaviour
 	{
 		currentLevel = level;
 	}
+
 }

@@ -159,14 +159,16 @@ public class AdmobManualManager : MonoBehaviour
         ad.OnAdFullScreenContentOpened += () =>
         {
             Debug.Log("Interstitial ad full screen content opened.");
-        };
+		AdsManager.instance.CallCloseFA();
+		};
         ad.OnAdFullScreenContentClosed += () =>
         {
             Debug.Log("Interstitial ad full screen content closed.");
             AdsControl.Instance.isShowingAds = false;
             CallLoadFA();
+			AdsManager.instance.CallCloseFA();
 
-        };
+		};
         ad.OnAdFullScreenContentFailed += (AdError error) =>
         {
             Debug.LogError("Interstitial ad failed to open full screen content " +

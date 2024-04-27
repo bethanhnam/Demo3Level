@@ -47,6 +47,10 @@ public class GamePlayPanel : MonoBehaviour
 	private void Awake()
 	{
 	}
+	private void OnEnable()
+	{
+		AudioManager.instance.PlayMusic("GamePlayTheme");
+	}
 	private void Update()
 	{
 		if (GameManager.instance.hasDone == false)
@@ -73,19 +77,25 @@ public class GamePlayPanel : MonoBehaviour
 		else
 		{
 			blockImg.gameObject.SetActive(true);
-			if (Level.instance.hasDone == false)
-			{
-				Level.instance.hasDone = true;
-				UIManager.instance.DeactiveTime();
-				if(losePanel.gameObject.activeSelf)
-				{
-					losePanel.gameObject.SetActive(false);
-				}
-				//hasDoFade = true;
-				UIManager.instance.gamePlayPanel.blockImg.GetComponent<CanvasGroup>().alpha = 0;
-				Level.instance.CreateItemAndMove();
-				UIManager.instance.gamePlayPanel.blockImg.GetComponent<CanvasGroup>().DOFade(0.5f, 0.2f);
-			}
+			//if (Level.instance.hasDone == false)
+			//{
+				
+			//	Level.instance.hasDone = true;
+			//	//Level.instance.SetHasdone(MenuLevelManager.instance.levelInstances[0].GetComponent<MenuLevel>().currentStage);
+			//	UIManager.instance.DeactiveTime();
+			//	if (losePanel.gameObject.activeSelf)
+			//	{
+			//		losePanel.gameObject.SetActive(false);
+			//	}
+			//	//hasDoFade = true;
+			//	UIManager.instance.gamePlayPanel.blockImg.GetComponent<CanvasGroup>().alpha = 0;
+			//	//Level.instance.transform.GetChild(0).GetChild(0).GetComponent<Stage>().item.gameObject.SetActive(false);
+			//	AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_chest,null, () =>
+			//	{
+			//		Level.instance.CreateItemAndMove();
+			//		UIManager.instance.gamePlayPanel.blockImg.GetComponent<CanvasGroup>().DOFade(0.5f, 0.2f);
+			//	});
+			//}
 			boosterButton.gameObject.SetActive(false);
 		}
 
@@ -115,12 +125,8 @@ public class GamePlayPanel : MonoBehaviour
 	}
 	public void OpenPausePanel()
 	{
-		AudioManager.instance.PlaySFX("Button");
-		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.ingame_pause, () =>
-		{
 			pausePanel.Open();
 			timer.TimerOn = false;
-		});
 	}
 	public void OpenReplayPanel()
 	{
@@ -166,7 +172,7 @@ public class GamePlayPanel : MonoBehaviour
 	{
 		if (!this.gameObject.activeSelf)
 		{
-			
+			DisplayPopUp();
 			isPause = false;
 			this.gameObject.SetActive(true);
 			levelManager.gameObject.SetActive(true);
@@ -231,13 +237,36 @@ public class GamePlayPanel : MonoBehaviour
 		RelayButton.interactable = false;
 		DeteleNailButton.interactable = false;
 		UndoButton.interactable = false;
-		//BoomButton.interactable = false;
+		BoomButton.interactable = false;
 	}
 	public void ButtonOn()
 	{
 		RelayButton.interactable = true;
-		//BoomButton.interactable = true;
+		BoomButton.interactable = true;
 		DeteleNailButton.interactable = true;
+	}
+	public void DisplayPopUp()
+	{
+		if (UIManager.instance.gamePlayPanel.pausePanel.gameObject.activeSelf)
+		{
+			UIManager.instance.gamePlayPanel.pausePanel.gameObject.SetActive(false);
+		}
+		if (UIManager.instance.gamePlayPanel.deteleNailPanel.gameObject.activeSelf)
+		{
+			UIManager.instance.gamePlayPanel.deteleNailPanel.gameObject.SetActive(false);
+		}
+		if (UIManager.instance.gamePlayPanel.rePlayPanel.gameObject.activeSelf)
+		{
+			UIManager.instance.gamePlayPanel.rePlayPanel.gameObject.SetActive(false);
+		}
+		if (UIManager.instance.gamePlayPanel.undoPanel.gameObject.activeSelf)
+		{
+			UIManager.instance.gamePlayPanel.undoPanel.gameObject.SetActive(false);
+		}
+		if (UIManager.instance.gamePlayPanel.extraHolePanel.gameObject.activeSelf)
+		{
+			UIManager.instance.gamePlayPanel.extraHolePanel.gameObject.SetActive(false);
+		}
 	}
 
 	public void Close()
@@ -247,6 +276,7 @@ public class GamePlayPanel : MonoBehaviour
 			isPause = true;
 			//levelManager.gameObject.SetActive(false);
 			//gameManager.gameObject.SetActive(false);
+			
 			this.GetComponent<CanvasGroup>().alpha = 1;
 			this.GetComponent<CanvasGroup>().DOFade(0, .4f).OnComplete(() =>
 			{

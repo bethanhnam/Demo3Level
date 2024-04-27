@@ -11,9 +11,6 @@ public class DailyPanel : MonoBehaviour
 	public RewardDaily[] dayRewards;
 	public int lastDate=0;
 	[SerializeField]private int selectReward = 0;
-	public CanvasGroup canvasGroup;
-	public GameObject panelBoard;
-	public RectTransform Blockpanel;
 	public Button claim;
 	public Button claimX2;
 	public bool isClaim;
@@ -29,7 +26,7 @@ public class DailyPanel : MonoBehaviour
 	private void checkDay()
 	{
 		//get last claim time");
-		lastDate = SaveSystem.instance.days;
+		lastDate = DailyRWManager.instance.days;
 		string lastTime = PlayerPrefs.GetString("LastClaimTime");
 		DateTime lastclaimTime;
 		if (!string.IsNullOrEmpty(lastTime))
@@ -43,9 +40,9 @@ public class DailyPanel : MonoBehaviour
 		//enable / disable claim button
 		if (DateTime.Today > lastclaimTime)
 		{
-			if (SaveSystem.instance.days < 7)
+			if (DailyRWManager.instance.days < 7)
 			{
-				dayRewards[SaveSystem.instance.days].isActive = true;
+				dayRewards[DailyRWManager.instance.days].isActive = true;
 				claim.interactable = true;
 				claim.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = Color.white;
 				claimX2.interactable = true;
@@ -67,16 +64,13 @@ public class DailyPanel : MonoBehaviour
 			claimX2.interactable = false;
 		}
 	}
-
-	private void Update()
+	private void OnEnable()
 	{
-		for (int i = 0; i < SaveSystem.instance.days; i++)
+		for (int i = 0; i < DailyRWManager.instance.days; i++)
 		{
 			dayRewards[i].isClaim = true;
 		}
 		checkDay();
-
-
 	}
 	public void OnClaimButtinPressed()
 	{
@@ -117,28 +111,6 @@ public class DailyPanel : MonoBehaviour
 		
 		checkDay();
 	}
-	public void Open()
-	{
-		if (!this.gameObject.activeSelf)
-		{
-			GameManager.instance.hasUI = true;
-			this.gameObject.SetActive(true);
-			panelBoard.gameObject.SetActive(false);
-			panelBoard.transform.localScale = new Vector3(.9f, .9f, 1f);
-			Blockpanel.gameObject.SetActive(true);
-			AudioManager.instance.PlaySFX("OpenPopUp");
-			canvasGroup.alpha = 0;
-			canvasGroup.DOFade(1, .3f);
-			panelBoard.gameObject.SetActive(true);
-			panelBoard.transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.2f).OnComplete(() =>
-			{
-				panelBoard.transform.DOScale(Vector3.one, 0.15f).OnComplete(() =>
-				{
-					Blockpanel.gameObject.SetActive(false);
-				});
-			});
-		}
-	}
 	public void Claim()
 	{
 		if (isClaim)
@@ -161,24 +133,19 @@ public class DailyPanel : MonoBehaviour
 		reciveRewardPanel.Close();
 		isClaimX2 = false;
 	}
+	public void Open()
+	{
+			AudioManager.instance.PlaySFX("OpenPopUp");
+	}
 	public void Close()
 	{
 		if (this.gameObject.activeSelf)
 		{
-			canvasGroup.alpha = 1;
-			Blockpanel.gameObject.SetActive(true);
-			canvasGroup.DOFade(0, .3f).OnComplete(() =>
-			{
 				if (reciveRewardPanel.gameObject.activeSelf)
 				{
 					reciveRewardPanel.gameObject.SetActive(false);
 				}
-				GameManager.instance.hasUI = false;
-				this.gameObject.SetActive(false);
 				AudioManager.instance.PlaySFX("ClosePopUp");
-				Blockpanel.gameObject.SetActive(false);
-			});
-			panelBoard.transform.DOScale(new Vector3(.9f, .9f, 1f), 0.3f);
 		}
 
 	}

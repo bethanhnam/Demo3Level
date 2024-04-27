@@ -15,7 +15,6 @@ public class SettingPanel : MonoBehaviour
 	public GameObject alertOff;
 	public RectTransform closeButton;
 	public RectTransform panel;
-	public RectTransform Blockpanel;
 	public CanvasGroup canvasGroup;
 	public GameObject panelBoard;
 	// Start is called before the first frame update
@@ -33,11 +32,9 @@ public class SettingPanel : MonoBehaviour
 	{
 		if (!this.gameObject.activeSelf)
 		{
-			GameManager.instance.hasUI = true;
 			this.gameObject.SetActive(true);
 			panelBoard.gameObject.SetActive(false);
 			panelBoard.transform.localScale = new Vector3(.9f, .9f, 1f);
-			Blockpanel.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("OpenPopUp");
 			canvasGroup.alpha = 0;
 			canvasGroup.DOFade(1, .3f);
@@ -46,7 +43,7 @@ public class SettingPanel : MonoBehaviour
 			{
 				panelBoard.transform.DOScale(Vector3.one, 0.15f).OnComplete(() =>
 				{
-					Blockpanel.gameObject.SetActive(false);
+
 				});
 			});
 		}
@@ -56,13 +53,11 @@ public class SettingPanel : MonoBehaviour
 		if (this.gameObject.activeSelf)
 		{
 			canvasGroup.alpha = 1;
-			Blockpanel.gameObject.SetActive(true);
 			canvasGroup.DOFade(0, .3f).OnComplete(() =>
 			{
-				GameManager.instance.hasUI = false;
 				this.gameObject.SetActive(false);
 				AudioManager.instance.PlaySFX("ClosePopUp");
-				Blockpanel.gameObject.SetActive(false);
+				UIManagerNew.Instance.ButtonMennuManager.Appear();
 			});
 			panelBoard.transform.DOScale(new Vector3(.9f, .9f, 1f), 0.3f);
 		}

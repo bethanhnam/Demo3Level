@@ -1,6 +1,7 @@
 ﻿using Sirenix.Utilities;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -18,7 +19,9 @@ public class IronPlate : MonoBehaviour
 	public bool isFrezze;
 	public bool hasAddForce;
 	public List<HingeJoint2D> joints = new List<HingeJoint2D>();
+	public List<NailControl> nailControls = new List<NailControl>();
 	private Rigidbody2D rigidbody2D;
+	private Collider2D collider2D;
 	[SerializeField] private Vector3 centerOfMass = new Vector3(-0.00177252f, -0.001291171f, 0f);
 
 
@@ -29,6 +32,7 @@ public class IronPlate : MonoBehaviour
 		hingeJoint2Ds = GetComponents<HingeJoint2D>();
 		SetHingeJoint();
 		rigidbody2D = this.GetComponent<Rigidbody2D>();
+		collider2D = GetComponent<Collider2D>();
 
 
 	}
@@ -36,13 +40,42 @@ public class IronPlate : MonoBehaviour
 	{
 		setPoint();
 		checkHinge();
+		//CheckPosition();
 	}
 	private void FixedUpdate()
 	{
 		rigidbody2D.centerOfMass = centerOfMass;
 	}
 
-
+	public void SetNai()
+	{
+		for(int i = 0; i < holes.Length; i++)
+		{
+			if(holes[i].GetComponent<NailDetector>().hingeJoint2D != null)
+			{
+				if(holes[i].GetComponent<NailDetector>().Nail !=null)
+				AddNail(holes[i].GetComponent<NailDetector>().Nail);
+			}
+		}
+	}
+	public void AddNail(NailControl nailControl)
+	{
+		if (!nailControls.Contains(nailControl))
+		{
+				nailControls.Add(nailControl);
+		}
+	}
+	public void ClearNailControl()
+	{
+		nailControls.Clear();
+	}
+	public void RemoveHoleInIron(NailControl nailControl)
+	{
+		if (nailControls.Contains(nailControl))
+		{
+			nailControls.Remove(nailControl);
+		}
+	}
 	public void setPoint()
 	{
 		for (int i = 0; i < holes.Length; i++)
@@ -90,7 +123,7 @@ public class IronPlate : MonoBehaviour
 	//		Gizmos.DrawSphere(transform.position + transform.rotation * centerOfMass, 0.1f);
 	//	}
 	//}
-	private void checkHinge()
+	public void checkHinge()
 	{
 		foreach (var hinge in hingeJoint2Ds)
 		{
@@ -125,14 +158,12 @@ public class IronPlate : MonoBehaviour
 		}
 		if (joints.IsNullOrEmpty())
 		{
-			if (this.GetComponent<Rigidbody2D>().isKinematic == true)
+			if (rigidbody2D.isKinematic == true)
 			{
-				this.GetComponent<Rigidbody2D>().isKinematic = false;
+				rigidbody2D.isKinematic = false;
 			}
 			else
 			{
-				if (InputManager.instance.hasBoom == false)
-				{
 					if (!hasAddForce)
 					{
 						Vector3 movementDirection = this.rigidbody2D.velocity.normalized;
@@ -144,37 +175,26 @@ public class IronPlate : MonoBehaviour
 						rigidbody2D.AddForce(forceToAdd, ForceMode2D.Impulse);
 						hasAddForce = true;
 					}
-				}
 			}
 		}
 	}
 	IEnumerator Freeze()
 	{
 		yield return new WaitForSeconds(0.1f);
-		if (InputManager.instance.hasBoom)
-		{
-			yield return new WaitForSeconds(1f);
-			this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-			this.GetComponent<Rigidbody2D>().gravityScale = 1f;
-			isFrezze = true;
-		}
-		else
-		{
-			this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-			this.GetComponent<Rigidbody2D>().gravityScale = 1f;
-			isFrezze = true;
-		}
+		rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+		rigidbody2D.gravityScale = 1f;
+		isFrezze = true;
 	}
 	IEnumerator unFreeze()
 	{
 		yield return new WaitForSeconds(0.05f);
-		this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-		this.GetComponent<Rigidbody2D>().freezeRotation = false;
-		if (this.GetComponent<Rigidbody2D>().angularDrag < 2)
+		rigidbody2D.constraints = RigidbodyConstraints2D.None;
+		rigidbody2D.freezeRotation = false;
+		if (rigidbody2D.angularDrag < 2)
 		{
-			this.GetComponent<Rigidbody2D>().angularDrag += 0.1f;
+			rigidbody2D.angularDrag += 0.1f;
 		}
-		this.GetComponent<Rigidbody2D>().gravityScale = 1.2f;
+		rigidbody2D.gravityScale = 1.2f;
 		isFrezze = false;
 	}
 	public void SetHingeJoint()
@@ -188,5 +208,39 @@ public class IronPlate : MonoBehaviour
 	{
 		return hingeJoint2Ds[selectedHinge];
 	}
+	public void SetTrigger(bool set)
+	{
+		collider2D.isTrigger = set;
+	}
+	//public void CheckPosition()
+	//{
+	//	if (this.gameObject.activeSelf == true)
+	//	{
+	//		var endline = GameObject.FindFirstObjectByType<EndLine>();
+	//		if (this.transform.position.y < endline.transform.position.y)
+	//		{
+	//			//Destroy(collision.gameObject);
+	//			this.gameObject.SetActive(false);
+	//			//InputManager.instance.numOfIronPlate--;
+	//			var partical1 = Instantiate(endline.GetComponent<EndLine>().partical, this.transform.position, Quaternion.identity);
+	//			Destroy(partical1, 1f);
+	//			for (int i = 0; i < InputManager.instance.ignoreIronCollider.Count; i++)
+	//			{
+	//				if (this.GetComponent<IronPlate>() == InputManager.instance.ignoreIronCollider[i])
+	//				{
+	//					endline.GetComponent<EndLine>().ignoreIronCollider = true;
+	//					goto ignoreCollider;
+	//				}
+	//			}
+	//			if (endline.GetComponent<EndLine>().ignoreIronCollider == false)
+	//			{
+	//				InputManager.instance.numOfIronPlateCollider--;
+	//			}
+	//		}
+	//		ignoreCollider:
+	//		endline.GetComponent<EndLine>().ignoreIronCollider = false;
+	//		//AudioManager.instance.PlaySFX("DropIron");
+	//	}
+	//}
 
 }

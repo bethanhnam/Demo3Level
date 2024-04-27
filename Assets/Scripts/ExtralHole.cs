@@ -7,19 +7,12 @@ using DG.Tweening;
 public class ExtralHole : MonoBehaviour
 {
 	public string layerName = "Hole";
-	public GameObject extraHole;
 	public ExtraHoleButton extraHoleButton;
 	public RectTransform closeButton;
 	public RectTransform panel;
 	public rankpanel notEnoughpanel;
-	public RectTransform Blockpanel;
 	private void Update()
 	{
-		try
-		{
-			extraHoleButton = FindFirstObjectByType<ExtraHoleButton>();
-		}
-		catch { }
 	}
 	public void UseTicket()
 	{
@@ -28,9 +21,9 @@ public class ExtralHole : MonoBehaviour
 			this.Close();
 			SaveSystem.instance.addTiket(0,-1);
 			SaveSystem.instance.SaveData();
-			Level.instance.ChangeLayer();
-			extraHoleButton.extraHole.GetComponent<Hole>().extraHole = false;
-			extraHoleButton.gameObject.SetActive(false);
+			Stage.Instance.ChangeLayer();
+			Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
+			Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
 		}
 		else
 		{
@@ -43,9 +36,9 @@ public class ExtralHole : MonoBehaviour
 		{
 			// load ad 
 			this.Close();
-			Level.instance.ChangeLayer();
-			extraHoleButton.extraHole.GetComponent<Hole>().extraHole = false;
-			extraHoleButton.gameObject.SetActive(false);
+			Stage.Instance.ChangeLayer();
+			Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
+			Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
 		});
 		
 	}
@@ -55,9 +48,7 @@ public class ExtralHole : MonoBehaviour
 		{
 			this.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("OpenPopUp");
-			GameManager.instance.hasUI = true;
-			UIManager.instance.DeactiveTime();
-			Blockpanel.gameObject.SetActive(true);
+			//UIManager.instance.DeactiveTime();
 			panel.localRotation = Quaternion.identity;
 			this.GetComponent<CanvasGroup>().alpha = 0;
 			panel.localPosition = new Vector3(-351, 479, 0);
@@ -66,7 +57,7 @@ public class ExtralHole : MonoBehaviour
 			this.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
 			panel.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
 			{
-				Blockpanel.gameObject.SetActive(false);
+				GamePlayPanelUIManager.Instance.Close();
 			});
 		}
 	}
@@ -74,7 +65,6 @@ public class ExtralHole : MonoBehaviour
 	{
 		if (this.gameObject.activeSelf)
 		{
-			Blockpanel.gameObject.SetActive(true);
 			closeButton.DOAnchorPos(new Vector2(552f, -105f), .1f, false).OnComplete(() =>
 			{
 				panel.DORotate(new Vector3(0, 0, -10f), 0.25f, RotateMode.Fast).OnComplete(() =>
@@ -83,10 +73,8 @@ public class ExtralHole : MonoBehaviour
 					{
 						this.gameObject.SetActive(false);
 						AudioManager.instance.PlaySFX("ClosePopUp");
-						GameManager.instance.hasUI = false;
-						 UIManager.instance.ActiveTime();
-						SaveSystem.instance.playingHard = true;
-						Blockpanel.gameObject.SetActive(false);
+						GamePlayPanelUIManager.Instance.ActiveTime();
+						GamePlayPanelUIManager.Instance.Appear();
 					});
 				});
 			});

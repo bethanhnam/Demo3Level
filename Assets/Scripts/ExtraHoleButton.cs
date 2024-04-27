@@ -11,13 +11,10 @@ public class ExtraHoleButton : MonoBehaviour
 
 	void Start()
 	{
-		myButton = this.GetComponent<Button>();
-		// Gắn sự kiện cho nút khi bắt đầu game
-		myButton.onClick.AddListener(MyFunction);
 	}
 
 	public void MyFunction()
 	{
-		UIManager.instance.gamePlayPanel.extraHolePanel.Open();
+		GamePlayPanelUIManager.Instance.OpenExtraHolePanel();
 	}
 }

@@ -62,7 +62,7 @@ public class Timer : MonoBehaviour
 				TimerOn = false;
 				Debug.Log("Time is Up !");
 				// hien pop lose
-				UIManager.instance.gamePlayPanel.losePanel.Open();
+				GamePlayPanelUIManager.Instance.OpenLosePanel();
 				TimeLeft = 0;
 				TimerText.color = Color.red;
 			}

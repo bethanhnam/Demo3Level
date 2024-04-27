@@ -100,7 +100,10 @@ public class Ratting : MonoBehaviour
 		yield return new WaitForSeconds(0.05f);
 		Blockpanel.gameObject.SetActive(false); 
 		this.gameObject.SetActive(false);
-		UIManager.instance.congratPanel.Open();
+		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_chest, () =>
+		{
+			UIManager.instance.congratPanel.Open();
+		}, null);
 
 	}
 	public void Rate()

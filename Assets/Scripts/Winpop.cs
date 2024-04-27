@@ -74,7 +74,7 @@ public class Winpop : MonoBehaviour
 					GameManager.instance.hasUI = false;
 					AudioManager.instance.musicSource.Play();
 				});
-			});
+			},null);
 		}
 	}
 }

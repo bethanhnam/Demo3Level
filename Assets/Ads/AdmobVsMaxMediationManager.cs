@@ -48,7 +48,10 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                     InitializeBannerAds();
                     AdsControl.Instance.isCanShowBanner = true;
                 }
+
 #if UNITY_IOS
+            //call ATT
+            ATTrackingStatusBinding.RequestAuthorizationTracking();
             // check with iOS to see if the user has accepted or declined tracking
            var status = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
 				if (status == ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED)
@@ -239,13 +242,15 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
     {
         Debug.Log("Interstitial failed to display with error code: " + errorInfo.Code);
         AdsControl.Instance.isShowingAds = false;
-        LoadInterstitial();
+		AdsManager.instance.CallCloseFA();
+		LoadInterstitial();
     }
 
     private void OnInterstitialDismissedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
     {
         Debug.Log("Interstitial dismissed");
         AdsControl.Instance.isShowingAds = false;
+        AdsManager.instance.CallCloseFA();
         LoadInterstitial();
     }
 
@@ -440,14 +445,18 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
         {
             Debug.Log("Interstitial ad full screen content closed.");
             AdsControl.Instance.isShowingAds = false;
-            StartCoroutine(CalLoadInter());
+			AdsManager.instance.CallCloseFA();
+
+			StartCoroutine(CalLoadInter());
         };
         ad.OnAdFullScreenContentFailed += (AdError error) =>
         {
             Debug.LogError("Interstitial ad failed to open full screen content " +
                            "with error : " + error);
             AdsControl.Instance.isShowingAds = false;
-            StartCoroutine(CalLoadInter());
+			AdsManager.instance.CallCloseFA();
+
+			StartCoroutine(CalLoadInter());
         };
     }
 

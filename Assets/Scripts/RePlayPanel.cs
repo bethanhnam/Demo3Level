@@ -11,10 +11,12 @@ public class RePlayPanel : MonoBehaviour
 	public RectTransform closeButton;
 	public RectTransform panel;
 	public rankpanel notEnoughpanel;
-	public RectTransform Blockpanel;
 	public RectTransform watchAdButton;
 	public int numOfUsed =1;
 	public TextMeshProUGUI numOfUsedText;
+
+
+
 	private void Start()
 	{
 		numOfUsed = 1;
@@ -27,8 +29,7 @@ public class RePlayPanel : MonoBehaviour
 			SaveSystem.instance.addTiket(-numOfUsed, 0);
 			SaveSystem.instance.SaveData();
 			numOfUsed++;
-			GameManager.instance.Replay();
-			this.Close();
+			this.CloseToReplay();
 			
 		}
 		else
@@ -41,8 +42,7 @@ public class RePlayPanel : MonoBehaviour
 		// load ad 
 		AdsManager.instance.ShowRewardVideo(() =>
 		{
-			this.Close();
-			GameManager.instance.Replay();
+			this.CloseToReplay();
 			numOfUsed++;
 		});
 		
@@ -64,12 +64,10 @@ public class RePlayPanel : MonoBehaviour
 	{
 		if (!this.gameObject.activeSelf)
 		{
-			Blockpanel.gameObject.SetActive(true);
 			this.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("OpenPopUp");
-			GameManager.instance.hasUI = true;
 			panel.localRotation = Quaternion.identity;
-			UIManager.instance.DeactiveTime();
+			//UIManager.instance.DeactiveTime();
 			this.GetComponent<CanvasGroup>().alpha = 0;
 			panel.localPosition = new Vector3(-351, 479, 0);
 			panel.localScale = new Vector3(.8f, .8f, 0);
@@ -77,7 +75,7 @@ public class RePlayPanel : MonoBehaviour
 			this.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
 			panel.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
 			{
-				Blockpanel.gameObject.SetActive(false);
+				GamePlayPanelUIManager.Instance.Close();
 			});
 			
 		}
@@ -86,7 +84,6 @@ public class RePlayPanel : MonoBehaviour
 	{
 		if (this.gameObject.activeSelf)
 		{
-			Blockpanel.gameObject.SetActive(true);
 			closeButton.DOAnchorPos(new Vector2(552f, -105f), .1f, false).OnComplete(() =>
 			{
 				panel.DORotate(new Vector3(0, 0, -10f), 0.25f, RotateMode.Fast).OnComplete(() =>
@@ -95,10 +92,28 @@ public class RePlayPanel : MonoBehaviour
 					{
 						this.gameObject.SetActive(false);
 						AudioManager.instance.PlaySFX("ClosePopUp");
-						GameManager.instance.hasUI = false;
-						SaveSystem.instance.playingHard = true;
-						 UIManager.instance.ActiveTime();
-						Blockpanel.gameObject.SetActive(false);
+						GamePlayPanelUIManager.Instance.ActiveTime();
+						GamePlayPanelUIManager.Instance.AppearForReOpen();
+					});
+				});
+			});
+		}
+	}
+	public void CloseToReplay()
+	{
+		if (this.gameObject.activeSelf)
+		{
+			closeButton.DOAnchorPos(new Vector2(552f, -105f), .1f, false).OnComplete(() =>
+			{
+				panel.DORotate(new Vector3(0, 0, -10f), 0.25f, RotateMode.Fast).OnComplete(() =>
+				{
+					panel.DOAnchorPos(new Vector2(panel.transform.position.x, -1467f), 0.25f, false).OnComplete(() =>
+					{
+						this.gameObject.SetActive(false);
+						AudioManager.instance.PlaySFX("ClosePopUp");
+						//UIManager.instance.ActiveTime();
+						GamePlayPanelUIManager.Instance.AppearForReOpen();
+						GameManagerNew.Instance.Replay();
 					});
 				});
 			});

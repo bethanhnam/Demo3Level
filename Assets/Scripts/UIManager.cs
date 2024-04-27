@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
 	
     // Start is called before the first frame update
     public static UIManager instance;
-    public MenuPanel menuPanel;
+    //public MenuPanel menuPanel;
     public GamePlayPanel gamePlayPanel;
     public ShopPanel shopPanel;
     public SettingPanel settingPanel;
@@ -50,28 +50,23 @@ public class UIManager : MonoBehaviour
     }
 	public void OpenSettingPanel()
 	{
-		settingPanel.Open();
+        AdsManager.instance.ShowInterstial(AdsManager.PositionAds.menu_setting, () =>
+        {
+            settingPanel.Open();
+        }, null);
 	}
     public void CloseSettingPanel()
     {
         settingPanel.Close();
-        this.menuPanel.Open();
+        //this.menuPanel.Open();
     }
     public void DeactiveTime()
     {
 		gamePlayPanel.timer.TimerOn = false;
-		if (Level.instance.stage > 0)
-        {
-			SaveSystem.instance.playingHard = false;
-		}
 	}
     public void ActiveTime()
     {
 		gamePlayPanel.timer.TimerOn = true;
-		if (Level.instance.stage > 0)
-		{
-			SaveSystem.instance.playingHard = true;
-		}
 	}
 	public void BuyGoddenStar(Product product)
     {

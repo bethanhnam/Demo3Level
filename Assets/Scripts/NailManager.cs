@@ -7,8 +7,8 @@ using UnityEngine;
 public class NailManager : MonoBehaviour
 {
     public static NailManager instance;
-    public List<GameObject> nails = new List<GameObject>();
-    public GameObject nailPrefab;
+    public List<NailControl> nails = new List<NailControl>();
+    public NailControl nailPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +16,7 @@ public class NailManager : MonoBehaviour
         {
             instance = this;
         }
-		nails = GetAllChildObjects(this.transform);
+		//nails = GetAllChildObjects(this.transform);
     }
 
     // Update is called once per frame
@@ -24,33 +24,33 @@ public class NailManager : MonoBehaviour
     {
         
     }
-	private List<GameObject> GetAllChildObjects(Transform parent)
-	{
-		List<GameObject> childObjects = new List<GameObject>(parent.childCount);
+	//private List<NailControl> GetAllChildObjects(Transform parent)
+	//{
+	//	List<NailControl> childObjects = new List<NailControl>(parent.childCount);
 
-		for (int i = 0; i < parent.childCount; i++)
-		{
-			childObjects.Add(parent.GetChild(i).gameObject);
-		}
+	//	for (int i = 0; i < parent.childCount; i++)
+	//	{
+	//		childObjects.Add(parent.GetChild(i));
+	//	}
 
-		return childObjects;
-	}
-	public GameObject PoolNail(Vector2 spawnPosition)
+	//	return childObjects;
+	//}
+	public NailControl PoolNail(Vector2 spawnPosition)
 	{
 		if (nails.Count <= 0)
 		{
 			
-			GameObject a = Instantiate(nailPrefab, new Vector2(InputManager.instance.selectedHole.transform.position.x, InputManager.instance.selectedHole.transform.position.y), quaternion.identity,transform);
+			NailControl a = Instantiate(nailPrefab, spawnPosition, quaternion.identity,transform);
 			nails.Add(a);
 			
 			return a;
 		}
 		else
 		{
-			GameObject a = nails.Where(t => !t.activeSelf).FirstOrDefault();
+			NailControl a = nails.Where(t => !t.gameObject.activeSelf).FirstOrDefault();
 			if (a == null)
 			{
-				a = Instantiate(nailPrefab, new Vector2(InputManager.instance.selectedHole.transform.position.x, InputManager.instance.selectedHole.transform.position.y), quaternion.identity,transform);
+				a = Instantiate(nailPrefab, spawnPosition, quaternion.identity,transform);
 				nails.Add(a);
 				a.GetComponent<SpriteRenderer>().sprite = null;
 				return a;
@@ -58,7 +58,7 @@ public class NailManager : MonoBehaviour
 			else
 			{
 				a.transform.position = spawnPosition;
-				a.SetActive(true);
+				a.gameObject.SetActive(true);
 				nails.Remove(a);
 				a.GetComponent<SpriteRenderer>().sprite = null;
 				return a;
@@ -66,9 +66,8 @@ public class NailManager : MonoBehaviour
 		}
 		
 	}
-	public void DestroyNail(GameObject nail) {
-		nail.GetComponent<SpriteRenderer>().sprite = null;
-		nail.SetActive(false);
+	public void DestroyNail(NailControl nail) {
+		nail.gameObject.SetActive(false);
         nails.Add(nail);
     }
     

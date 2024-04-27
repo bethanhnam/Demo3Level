@@ -34,10 +34,7 @@ public class SaveSystem : MonoBehaviour
 	}
 	private void Update()
 	{
-		if (playingHard == true)
-		{
-			playHardTime += Time.deltaTime;
-		}
+
 	}
 	public void SaveData()
     {
@@ -51,7 +48,9 @@ public class SaveSystem : MonoBehaviour
 	}
     public void CreateData()
     {
-    }
+        magicTiket = 1000;
+        powerTicket = 1000;
+	}
     public void LoadData()
     {
         level = PlayerPrefs.GetInt("Level");
@@ -80,6 +79,7 @@ public class SaveSystem : MonoBehaviour
         AudioManager.instance.PlaySFX("Coins");
 		this.powerTicket += powerTicket1;
 		this.magicTiket += magicTiket1;
+        SaveData();
 	}
 	public void SetLevel(int level)
     {
