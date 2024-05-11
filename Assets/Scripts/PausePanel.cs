@@ -14,9 +14,9 @@ public class PausePanel : MonoBehaviour
 	{
 		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.ingame_pause, () =>
 		{
+			GameManagerNew.Instance.PictureUIManager.Open();
 			this.gameObject.SetActive(false);
 			Stage.Instance.ResetBooster();
-			GameManagerNew.Instance.PictureUIManager.Open();
 			UIManagerNew.Instance.ButtonMennuManager.Appear();
 			canvasGroup.DOFade(0, 0.5f).OnComplete(() =>
 			{
@@ -28,9 +28,9 @@ public class PausePanel : MonoBehaviour
 	{
 		if (!this.gameObject.activeSelf)
 		{
-
 			this.gameObject.SetActive(true);
 			canvasGroup.alpha = 1;
+			canvasGroup.blocksRaycasts = false;
 			if (Stage.Instance.isDeteleting)
 			{
 				isdeleting = true;
@@ -40,11 +40,11 @@ public class PausePanel : MonoBehaviour
 			//	isdeletingIron = true;
 			//}
 			//UIManager.instance.DeactiveTime();
-			this.GetComponent<CanvasGroup>().alpha = 0;
-			this.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
+			canvasGroup.alpha = 0;
+			canvasGroup.DOFade(1, 0.1f);
 			this.GetComponent<RectTransform>().DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
 			{
-				
+				ActiveCVGroup();
 			});
 
 		}
@@ -62,6 +62,8 @@ public class PausePanel : MonoBehaviour
 				GamePlayPanelUIManager.Instance.ActiveTime();
 				//UIManager.instance.ActiveTime();
 				//UIManager.instance.gamePlayPanel.backFromPause = true;
+				GamePlayPanelUIManager.Instance.Appear();
+				GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
 			});
 			
 		}
@@ -72,10 +74,16 @@ public class PausePanel : MonoBehaviour
 		{
 			Close();
 			Stage.Instance.ResetBooster();
-			GamePlayPanelUIManager.Instance.AppearForReOpen();
-			GameManagerNew.Instance.Replay();
+			GameManagerNew.Instance.Retry();
 			//UIManager.instance.gamePlayPanel.backFromPause = false;
 		},null);
 		
+	}
+	public void ActiveCVGroup()
+	{
+		if (!canvasGroup.blocksRaycasts)
+		{
+			canvasGroup.blocksRaycasts = true;
+		}
 	}
 }

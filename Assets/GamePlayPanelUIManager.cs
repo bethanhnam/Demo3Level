@@ -28,23 +28,47 @@ public class GamePlayPanelUIManager : MonoBehaviour
 
 	//time
 	public Timer timer;
-	private void Start()
+
+	//notice
+	public Notice notice;
+	private void Awake()
 	{
 		Instance = this;
 	}
-	private void OnEnable()
+	private void Start()
 	{
-		levelText.text = DataLevelManager.Instance.GetLevel().ToString();
 		AudioManager.instance.PlayMusic("GamePlayTheme");
+	}
+	public int TakeLevelText()
+	{
+		int level = 0;
+		for (int i = 0; i < DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item.Length;i++) {
+			if(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[i].Level.ToString() == GameManagerNew.Instance.CurrentLevel.ToString())
+			{
+				level = DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[i].Id;
+			}
+			else
+			{
+				level = DataLevelManager.Instance.GetLevel();
+			}
+		}
+		return level;
+	}
+	public void setText(int level)
+	{ 
+		if( level != 0)
+		{
+			levelText.text = level.ToString();
+		}
+        else
+        {
+			levelText.text = DataLevelManager.Instance.GetLevel().ToString();
+        }
 	}
 	public void Appear()
 	{
-		if (!gameObject.activeSelf)
-		{
-			gameObject.SetActive(true);
-		}
+		gameObject.SetActive(true);
 		cvButton.blocksRaycasts = false;
-		GameManagerNew.Instance.CloseLevel(true);
 		ActiveTime();
 		animButton.Play(appearButton, 0, 0);
 	}
@@ -55,7 +79,6 @@ public class GamePlayPanelUIManager : MonoBehaviour
 			gameObject.SetActive(true);
 		}
 		cvButton.blocksRaycasts = false;
-		GameManagerNew.Instance.CloseLevel(true);
 		Settimer(181);
 		ActiveTime();
 		animButton.Play(appearButton, 0, 0);
@@ -67,14 +90,14 @@ public class GamePlayPanelUIManager : MonoBehaviour
 			gameObject.SetActive(true);
 		}
 		cvButton.blocksRaycasts = false;
-		GameManagerNew.Instance.CloseLevelForReopen(true);
+		//GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
 		ActiveTime();
 		animButton.Play(appearButton, 0, 0);
 	}
 
-	public void Close()
+	public void Close(bool _destroy = false)
 	{
-		GameManagerNew.Instance.CloseLevel(false);
+		GameManagerNew.Instance.CloseLevel(_destroy);
 		cvButton.blocksRaycasts = false;
 		animButton.Play(disappearButton);
 	}
@@ -98,30 +121,35 @@ public class GamePlayPanelUIManager : MonoBehaviour
 
 	public void OpenReplayPanel()
 	{
+		
 		DeactiveTime();
-		Close();
+		//Close();
 		UIManagerNew.Instance.RePlayPanel.Open();
 	}
 	public void OpenDetelePanel()
 	{
+		
 		DeactiveTime();
-		Close();
+		//Close();
 		UIManagerNew.Instance.DeteleNailPanel.Open();
 	}
 	public void OpenExtraHolePanel()
 	{
+		
 		DeactiveTime();
-		Close();
+		//Close();
 		UIManagerNew.Instance.ExtralHolePanel.Open();
 	}
 	public void OpenUndoPanel()
 	{
+		
 		DeactiveTime();
-		Close();
+		//Close();
 		UIManagerNew.Instance.UndoPanel.Open();
 	}
 	public void OpenPausePanel()
 	{
+		
 		DeactiveTime();
 		Close();
 		UIManagerNew.Instance.PausePanel.Open();
@@ -142,7 +170,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
 	{
 		ReplayButton.interactable = false;
 		DeteleButton.interactable = false;
-		UndoButton.interactable = false;
+		UndoButton.	interactable = false;
 	}
 	public void ButtonOn()
 	{
@@ -161,5 +189,18 @@ public class GamePlayPanelUIManager : MonoBehaviour
 	public void ActiveTime()
 	{
 		timer.TimerOn = true;
+	}
+	public void ShowNotice(bool status)
+	{
+		if (status)
+		{
+			notice.canAppear = true;
+			notice.NoticeAppear();
+		}
+		else
+		{
+			notice.canAppear = false;
+			notice.NoticeDisappear();
+		}
 	}
 }

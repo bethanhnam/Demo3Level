@@ -6,7 +6,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using DG.Tweening;
 using static UnityEngine.Rendering.HDROutputUtils;
 
 public class LoadingScreen : MonoBehaviour
@@ -67,14 +66,17 @@ public class LoadingScreen : MonoBehaviour
 			}
 			if (operation.progress >= 0.9f && sliders[0].value ==0.9f)
 			{
-				yield return new WaitForSecondsRealtime(1f);
+				yield return new WaitForSecondsRealtime(0.3f);
 				operation.allowSceneActivation = true;
 				RemoteConfigController.instance.Init();
 				cv.DOFade(0, 0.3f).OnComplete(() =>
 				{
-					Destroy(this.gameObject);
 					GameManagerNew.Instance.InitStartGame();
-				//	UIManager.instance.menuPanel.ActiveUIStart();
+					if (RemoteConfigController.instance.IsShowOpenAds == 1)
+					{
+						AdsControl.Instance.ShowOpenAds();
+					}
+					Destroy(this.gameObject);
 				});
 			}
 			yield return null;

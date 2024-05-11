@@ -410,7 +410,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: -0.0000011046316, y: -0.876667}
-  m_ConnectedAnchor: {x: 0.00000036433582, y: 0.00000072867243}
+  m_ConnectedAnchor: {x: 0.00000036433582, y: 0.0000009108405}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -453,6 +453,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
 --- !u!1 &2203584934932126976
 GameObject:
@@ -596,7 +598,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.82, y: 11.27}
+    oldSize: {x: 9.08, y: 11.58}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -874,6 +876,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
 --- !u!1 &2949997072894348608
 GameObject:
@@ -944,6 +948,33 @@ MonoBehaviour:
   - {fileID: 7577322806129082693}
   - {fileID: 4208361834900407732}
   - {fileID: 9070706021358816218}
+  numOfIronPlates: 0
+  curNail: {fileID: 0}
+  curHole: {fileID: 0}
+  nailDetectors: []
+  selectedIrons: []
+  preHole: {fileID: 0}
+  layerName: Hole
+  holeToDetele: {fileID: 0}
+  nailToDetele: {fileID: 0}
+  isDeteleting: 0
+  hasDelete: 0
+  HingeJointBeforeRemove: []
+  holeToUndo: {fileID: 0}
+  holeBeforeUndo: {fileID: 0}
+  nailToUndo: {fileID: 0}
+  holeBeforeMove: {fileID: 0}
+  holeBeToReturn: {fileID: 0}
+  hasSave: 0
+  ironObjectsBeforemove: []
+  ironObjectsTransformBeforemove: []
+  ironObjectsRotationBeforemove: []
+  nailObjectsBeforemove: []
+  nailObjectsBeforeBoom: []
+  nailsJointBeforemove: []
+  nailObjectsTransformBeforemove: []
+  numOfHoleNotAvailable: []
+  checked1: 0
 --- !u!1 &4381774143470819599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,7 +1049,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
+  m_Color: {r: 255, g: 255, b: 255, a: 0.5}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1334,6 +1365,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: 0.001291171, z: 0}
 --- !u!1001 &477432562783366196
 PrefabInstance:
@@ -1549,6 +1582,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2092071075578003848, guid: 3d104409bb4c22946bbeb9edcf536f5f, type: 3}
+      propertyPath: nailPrefab
+      value: 
+      objectReference: {fileID: 1370789141722224381, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
     - target: {fileID: 4808604705324682345, guid: 3d104409bb4c22946bbeb9edcf536f5f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.43463877

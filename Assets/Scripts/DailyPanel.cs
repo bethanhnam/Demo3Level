@@ -16,6 +16,7 @@ public class DailyPanel : MonoBehaviour
 	public bool isClaim;
 	public bool isClaimX2;
 	public reciveRewardPanel reciveRewardPanel;
+	public CanvasGroup canvasGroup;
 
 	private void Start()
 	{
@@ -64,13 +65,16 @@ public class DailyPanel : MonoBehaviour
 			claimX2.interactable = false;
 		}
 	}
+	private void Update()
+	{
+		checkDay();
+	}
 	private void OnEnable()
 	{
 		for (int i = 0; i < DailyRWManager.instance.days; i++)
 		{
 			dayRewards[i].isClaim = true;
 		}
-		checkDay();
 	}
 	public void OnClaimButtinPressed()
 	{
@@ -87,13 +91,12 @@ public class DailyPanel : MonoBehaviour
 			reciveRewardPanel.Show(lastDate, 2, () => {
 			});
 		}
-		
-		checkDay();
 	}
 	public void OnClaimButtinPressedX2()
 	{
 		AdsManager.instance.ShowRewardVideo(() =>
 		{
+			FirebaseAnalyticsControl.Instance.LogEventX2Reward(1);
 			//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
 			PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
 			isClaimX2 = true;
@@ -108,8 +111,6 @@ public class DailyPanel : MonoBehaviour
 				});
 			}
 		});
-		
-		checkDay();
 	}
 	public void Claim()
 	{
@@ -135,7 +136,8 @@ public class DailyPanel : MonoBehaviour
 	}
 	public void Open()
 	{
-			AudioManager.instance.PlaySFX("OpenPopUp");
+		AudioManager.instance.PlaySFX("OpenPopUp");
+
 	}
 	public void Close()
 	{

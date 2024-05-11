@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,10 @@ public class PictureUIManager : MonoBehaviour
 	[SerializeField]
 	private CanvasGroup canvasGroup;
 
+	public SkeletonGraphic[] characters;
+
+
+	public String[] animationStage = { "idle_sad", "sad-happy", "happy", "idle_happy" };
 	public ItemInStage[] Stage { get => stage; set => stage = value; }
 	public int Level { get => level; set => level = value; }
 
@@ -71,6 +76,7 @@ public class PictureUIManager : MonoBehaviour
 						{
 							if (!stage[i].ObjBtn[j].activeSelf)
 							{
+								stage[i].ObjBtn[j].transform.localScale = new Vector2(0.8f, 0.8f);
 								stage[i].ObjBtn[j].SetActive(true);
 							}
 						}
@@ -126,7 +132,7 @@ public class PictureUIManager : MonoBehaviour
 					{
 						if (stage[i].ObjLock[j].activeSelf)
 						{
-							stage[i].ObjLock[j].SetActive(false);
+							stage[i].ObjLock[j].SetActive(true);
 						}
 					}
 
@@ -141,20 +147,50 @@ public class PictureUIManager : MonoBehaviour
 			}
 		}
 	}
+	public void ChangeReaction(float time, int i, bool loop)
+	{
+		StartCoroutine(ChangeReaction1(time, i, loop));
+	}
+	IEnumerator ChangeReaction1(float time, int i, bool loop)
+	{
+		yield return new WaitForSeconds(time);
+		if (characters != null)
+		{
+			foreach (var character in characters)
+			{
+				character.AnimationState.SetAnimation(0, animationStage[i], loop);
+			}
+		}
+	}
+	public void HiddenButton()
+	{
+		for (int j = 0; j < stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn.Length; j++)
+		{
+			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].SetActive(false);
+		}
+	}
+	public void DisplayButton()
+	{
+		for (int j = 0; j < stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn.Length; j++)
+		{
+			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.localScale = Vector3.zero;
+			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.DOScale(0.8f, 0.3f);
+			//stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].SetActive(true);
+		}
+	}
 	public void ChangeItem(GameObject obj)
 	{
-		obj.transform.DOScale(1.05f, 0.2f).OnComplete(() =>
-		{
-			obj.transform.DOScale(0.95f, 0.2f).OnComplete(() =>
-			{
-				obj.transform.DOScale(1f, 0.1f);
-			});
-		});
+		int bouncingImage = Animator.StringToHash("FixedObjBouncing");
+		obj.GetComponent<Animator>().Play(bouncingImage);
 	}
 
 	public void Close()
 	{
 		canvasGroup.blocksRaycasts = false;
+		for (int i = 0;i < characters.Length;i++)
+		{
+			characters[i].gameObject.SetActive(false);
+		}
 		canvasGroup.DOFade(0, 0.3f).OnComplete(() =>
 		{
 			gameObject.SetActive(false);
@@ -162,14 +198,162 @@ public class PictureUIManager : MonoBehaviour
 	}
 	public void Open()
 	{
-		canvasGroup.blocksRaycasts = true;
+		for (int i = 0; i < characters.Length; i++)
+		{
+			characters[i].gameObject.SetActive(true);
+		}
+		gameObject.SetActive(true);
 		canvasGroup.DOFade(1, 0.3f).OnComplete(() =>
 		{
-			gameObject.SetActive(true);
+			
+			canvasGroup.blocksRaycasts = true;
 		});
 	}
-}
+	public void ChangeItemOnly(int _level)
+	{
+		level = _level;
+		if (level >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+		{
+			level = 0;
+		}
 
+		for (int i = 0; i < stage.Length; i++)
+		{
+			if (i < DataLevelManager.Instance.DataLevel.Data[level].IndexStage)
+			{
+				for (int j = 0; j < stage[i].ObjBtn.Length; j++)
+				{
+					if (stage[i].ObjBtn[j].activeSelf)
+					{
+						stage[i].ObjBtn[j].SetActive(false);
+					}
+				}
+
+				for (int j = 0; j < stage[i].ObjLock.Length; j++)
+				{
+					if (stage[i].ObjLock[j].activeSelf)
+					{
+						stage[i].ObjLock[j].SetActive(false);
+					}
+				}
+
+				for (int j = 0; j < stage[i].ObjunLock.Length; j++)
+				{
+					if (!stage[i].ObjunLock[j].activeSelf)
+					{
+						stage[i].ObjunLock[j].SetActive(true);
+					}
+				}
+			}
+			else
+			{
+				if (i == DataLevelManager.Instance.DataLevel.Data[level].IndexStage)
+				{
+					//for (int j = 0; j < stage[i].ObjBtn.Length; j++)
+					//{
+					//	if (DataLevelManager.Instance.DataLevel.Data[level].Stage[i].DataItmeLevel[j].IsUnlock)
+					//	{
+					//		if (stage[i].ObjBtn[j].activeSelf)
+					//		{
+					//			stage[i].ObjBtn[j].SetActive(false);
+					//		}
+					//	}
+					//	else
+					//	{
+					//		if (!stage[i].ObjBtn[j].activeSelf)
+					//		{
+					//			stage[i].ObjBtn[j].SetActive(true);
+					//		}
+					//	}
+					//}
+
+					for (int j = 0; j < stage[i].ObjLock.Length; j++)
+					{
+						if (DataLevelManager.Instance.DataLevel.Data[level].Stage[i].DataItmeLevel[j].IsUnlock)
+						{
+							if (stage[i].ObjLock[j].activeSelf)
+							{
+								stage[i].ObjLock[j].SetActive(false);
+							}
+						}
+						else
+						{
+							if (!stage[i].ObjLock[j].activeSelf)
+							{
+								stage[i].ObjLock[j].SetActive(true);
+							}
+						}
+					}
+
+					for (int j = 0; j < stage[i].ObjunLock.Length; j++)
+					{
+						if (DataLevelManager.Instance.DataLevel.Data[level].Stage[i].DataItmeLevel[j].IsUnlock)
+						{
+							if (!stage[i].ObjunLock[j].activeSelf)
+							{
+								stage[i].ObjunLock[j].SetActive(true);
+							}
+						}
+						else
+						{
+							if (stage[i].ObjunLock[j].activeSelf)
+							{
+								stage[i].ObjunLock[j].SetActive(false);
+							}
+						}
+					}
+				}
+				else
+				{
+					for (int j = 0; j < stage[i].ObjBtn.Length; j++)
+					{
+						if (stage[i].ObjBtn[j].activeSelf)
+						{
+							stage[i].ObjBtn[j].SetActive(false);
+						}
+					}
+
+					for (int j = 0; j < stage[i].ObjLock.Length; j++)
+					{
+						if (stage[i].ObjLock[j].activeSelf)
+						{
+							stage[i].ObjLock[j].SetActive(true);
+						}
+					}
+
+					for (int j = 0; j < stage[i].ObjunLock.Length; j++)
+					{
+						if (stage[i].ObjunLock[j].activeSelf)
+						{
+							stage[i].ObjunLock[j].SetActive(false);
+						}
+					}
+				}
+			}
+		}
+		StartCoroutine(NormalInit());
+	}
+	IEnumerator NormalInit()
+	{
+		yield return new WaitForSeconds(1f);
+		Init(level);
+		DisplayButton();
+		UIManagerNew.Instance.ButtonMennuManager.Appear();
+		GameManagerNew.Instance.CheckSliderValue();
+	}
+
+	public Vector3 GetCurrentPosItem()
+	{
+		return stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock[GameManagerNew.Instance.Level].transform.position;
+	}
+	public void DisableCharacter()
+	{
+		foreach(var character in characters)
+		{
+			character.gameObject.SetActive(false);
+		}
+	}
+}
 [Serializable]
 public class ItemInStage
 {

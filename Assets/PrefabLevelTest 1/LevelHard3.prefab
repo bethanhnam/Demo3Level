@@ -394,6 +394,7 @@ MonoBehaviour:
   hasAddForce: 0
   joints: []
   nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00077252, y: 0.000291171, z: 0}
 --- !u!233 &7863400752531350362
 HingeJoint2D:
@@ -538,7 +539,30 @@ MonoBehaviour:
   numOfIronPlates: 0
   curNail: {fileID: 0}
   curHole: {fileID: 0}
+  nailDetectors: []
+  selectedIrons: []
   preHole: {fileID: 0}
+  layerName: Hole
+  holeToDetele: {fileID: 0}
+  nailToDetele: {fileID: 0}
+  isDeteleting: 0
+  hasDelete: 0
+  HingeJointBeforeRemove: []
+  holeToUndo: {fileID: 0}
+  holeBeforeUndo: {fileID: 0}
+  nailToUndo: {fileID: 0}
+  holeBeforeMove: {fileID: 0}
+  holeBeToReturn: {fileID: 0}
+  hasSave: 0
+  ironObjectsBeforemove: []
+  ironObjectsTransformBeforemove: []
+  ironObjectsRotationBeforemove: []
+  nailObjectsBeforemove: []
+  nailObjectsBeforeBoom: []
+  nailsJointBeforemove: []
+  nailObjectsTransformBeforemove: []
+  numOfHoleNotAvailable: []
+  checked1: 0
 --- !u!1 &3575254686524299554
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,6 +810,7 @@ MonoBehaviour:
   hasAddForce: 0
   joints: []
   nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00077252, y: 0.000291171, z: 0}
 --- !u!233 &8749969925972249250
 HingeJoint2D:
@@ -1084,6 +1109,7 @@ MonoBehaviour:
   hasAddForce: 0
   joints: []
   nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00077252, y: 0.000291171, z: 0}
 --- !u!233 &1157308058544946771
 HingeJoint2D:
@@ -1382,6 +1408,7 @@ MonoBehaviour:
   hasAddForce: 0
   joints: []
   nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00077252, y: 0.000291171, z: 0}
 --- !u!233 &5630508483573857094
 HingeJoint2D:
@@ -1507,7 +1534,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c718571c9ca77d5408da0c9e54b3b225, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 255, g: 255, b: 255, a: 0.5}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1665,7 +1692,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.82, y: 11.27}
+    oldSize: {x: 9.08, y: 11.58}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -2123,6 +2150,7 @@ MonoBehaviour:
   hasAddForce: 0
   joints: []
   nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00077252, y: 0.000291171, z: 0}
 --- !u!1 &7631099702772439667
 GameObject:
@@ -2371,6 +2399,7 @@ MonoBehaviour:
   hasAddForce: 0
   joints: []
   nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00077252, y: 0.000291171, z: 0}
 --- !u!233 &4134450407629551453
 HingeJoint2D:
@@ -2669,6 +2698,7 @@ MonoBehaviour:
   hasAddForce: 0
   joints: []
   nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00077252, y: 0.000291171, z: 0}
 --- !u!233 &6260578754998432752
 HingeJoint2D:
@@ -5021,6 +5051,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NailsManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2092071075578003848, guid: 3d104409bb4c22946bbeb9edcf536f5f, type: 3}
+      propertyPath: nailPrefab
+      value: 
+      objectReference: {fileID: 1370789141722224381, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
     - target: {fileID: 4808604705324682345, guid: 3d104409bb4c22946bbeb9edcf536f5f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.43463877

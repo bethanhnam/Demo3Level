@@ -1,9 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
+using UnityEditor;
+using TMPro;
 
 public class ItemMoveControl : MonoBehaviour
 {
@@ -18,45 +20,85 @@ public class ItemMoveControl : MonoBehaviour
 
 	public RectTransform RectTransform { get => rectTransform; set => rectTransform = value; }
 
-	public void Init(Vector3 pos, Sprite spr, Vector3 _scale, Vector3 targetAnchor)
+	private Vector3 startPos;
+	private Vector3 endPos;
+	private Vector3 stepPos;
+
+	[SerializeField]
+	private float startTime;
+	[SerializeField]
+	private float timeMove;
+	[SerializeField]
+	private float baseTimeMove;
+
+	private bool isMove;
+	private Action a;
+
+	private void Update()
 	{
+		if (isMove)
+		{
+			transform.position = SmoothPath(startPos, stepPos, endPos, (Time.time - startTime) / timeMove);
+			if (Time.time>= startTime+timeMove)
+			{
+				isMove = false;
+				if (a!=null)
+				{
+					a();
+					a = null;
+				}
+			}
+		}
+	}
+
+	public void MoveToFix(Vector3 pos, Vector3 targetAnchor, Sprite spr, Action action)
+	{
+
 		if (!gameObject.activeSelf)
 		{
 			gameObject.SetActive(true);
 		}
-		AudioManager.instance.PlaySFX("Winpop");
 		img.sprite = spr;
-		img.SetNativeSize();
-
 		transform.position = pos;
-		transform.localScale = _scale/2f;
+		transform.localScale = Vector3.one;
 
-		Color c = Color.white;
-		c.a = 0.5f;
-
-		img.color = c;
-		img.DOFade(1, 0.3f);
-
-		Vector3 targetScale = _scale / 1.1f;
-		transform.DOScale(targetScale, 0.8f).SetEase(Ease.InQuad);
-		transform.DOPath(new Vector3[] { transform.position, new Vector3(-2, Mathf.Min(transform.position.y, targetAnchor.y) - 1f), targetAnchor }, 0.4f, PathType.CatmullRom).SetEase(Ease.InQuad);
-
-		//transform.DOScale(targetScale+ new Vector3(0.05f,0.05f,0), 0.5f).OnComplete(() =>
-		//{
-		//	transform.DOScale(targetScale - new Vector3(0.01f, 0.01f, 0), 0.3f).OnComplete(() =>
-		//	{
-		//		transform.DOScale(targetScale, 0.3f);
-		//	});
-		//});
-	}
-	public void MoveToFix(Vector3 _scale, Vector3 targetAnchor,Action action)
-	{
-		Vector3 targetScale = _scale;
-		transform.DOScale(targetScale, 0.8f).SetEase(curveScale);
-
-		transform.DOPath(new Vector3[] { transform.position, targetAnchor }, 0.6f, PathType.CatmullRom).SetEase(Ease.InQuad).OnComplete(() =>
+		Vector3 _direction = (pos - targetAnchor).normalized;
+		float _distance = Vector3.Distance(targetAnchor, pos);
+		if (_distance < 4)
 		{
-			action();
-		});
+			_distance = 4;
+		}
+
+		timeMove = baseTimeMove * _distance;
+		Debug.Log(timeMove);
+
+		Vector3 targetScale = transform.localScale / 4f;
+		transform.DOScale(targetScale, timeMove).SetEase(curveScale);
+
+		Vector3 p1 = pos + _direction * (_distance / 3f);
+		Vector3 centrPos = (pos + targetAnchor) / 2f;
+		Vector3 d2 = Vector3.Cross(_direction, Vector3.forward);
+		//	Vector3 stepPos = pos + new Vector3(1, 1,pos.z);
+		stepPos = p1 + d2 * (_distance/ 3f);
+		startPos = pos;
+		endPos = targetAnchor;
+
+		startTime = Time.time;
+		a = action;
+		isMove = true;
 	}
+
+	[SerializeField]
+	private int SmoothingLength;
+
+	[SerializeField]
+	private LineRenderer lineRenderer;
+
+	[SerializeField]
+	private LineRenderer lineRenderer1;
+	private Vector3 SmoothPath(Vector3 v, Vector3 v1, Vector3 v2, float _deltaTime)
+	{
+		return v1 + Mathf.Pow((1 - _deltaTime), 2) * (v - v1) + (_deltaTime * _deltaTime) * (v2 - v1);
+	}
+	
 }

@@ -407,7 +407,6 @@ public class InputManager : MonoBehaviour
 	IEnumerator DisappearNotice()
 	{
 		yield return new WaitForSeconds(1f);
-		Notice.Instance.DisableNotice();
 	}
 
 	private void SetPreHinge(GameObject nail, List<HingeJoint2D> preHingJoint)

@@ -21,7 +21,6 @@ public class Ratting : MonoBehaviour
 	public TextMeshProUGUI thanksText;
 	public TextMeshProUGUI notThanksText;
 	public TextMeshProUGUI rateLaterText;
-	public RectTransform Blockpanel;
 	public CanvasGroup canvasGroup;
 
 	private void Start()
@@ -75,14 +74,9 @@ public class Ratting : MonoBehaviour
 		{
 			this.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("LosePop");
-			Blockpanel.gameObject.SetActive(true);
-			GameManager.instance.hasUI = true;
-			UIManager.instance.DeactiveTime();
-			UIManager.instance.gamePlayPanel.Close();
 			canvasGroup.alpha = 0;
 			canvasGroup.DOFade(1, .3f).OnComplete(() =>
 			{
-				Blockpanel.gameObject.SetActive(false);
 			});
 
 		}
@@ -91,18 +85,28 @@ public class Ratting : MonoBehaviour
 	{
 		if (this.gameObject.activeSelf)
 		{
-			Blockpanel.gameObject.SetActive(true);
 			StartCoroutine(DoAfterDelay());
 		}
 	}
 	IEnumerator DoAfterDelay()
 	{
-		yield return new WaitForSeconds(0.05f);
-		Blockpanel.gameObject.SetActive(false); 
+		yield return new WaitForSeconds(0.05f); 
 		this.gameObject.SetActive(false);
 		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_chest, () =>
 		{
-			UIManager.instance.congratPanel.Open();
+			GameManagerNew.Instance.CompleteLevelAfterReward();
+			//GameManagerNew.Instance.PictureUIManager.DisableCharacter();
+			//Destroy(GameManagerNew.Instance.PictureUIManager.gameObject);
+			//LevelManagerNew.Instance.NetxtLevel();
+			//GameManagerNew.Instance.PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, GameManagerNew.Instance.parPic);
+			//GameManagerNew.Instance.PictureUIManager.Init(LevelManagerNew.Instance.LevelBase.Level);
+			//GameManagerNew.Instance.ScalePicForDevices(GameManagerNew.Instance.PictureUIManager.transform.gameObject);
+			//UIManagerNew.Instance.ButtonMennuManager.Appear();
+			//UIManagerNew.Instance.ChestSLider.SetMaxValue(GameManagerNew.Instance.PictureUIManager);
+			//UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
+			//GameManagerNew.Instance.SetCompletImg();
+			//GameManagerNew.Instance.SetCompleteStory();
+			//Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
 		}, null);
 
 	}

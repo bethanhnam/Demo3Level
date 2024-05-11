@@ -698,9 +698,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 0
-  hasDone: 0
-  fixedImg: {fileID: 373282269426791084}
-  unfixedImg: {fileID: 7015997519872822764}
 --- !u!1 &773822218167026626
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,9 +902,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 3
-  hasDone: 0
-  fixedImg: {fileID: 2737664224198265081}
-  unfixedImg: {fileID: 2055185133215954307}
 --- !u!1 &1450932961807058466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1819,9 +1813,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 1
-  hasDone: 0
-  fixedImg: {fileID: 4799152968754361370}
-  unfixedImg: {fileID: 9119008759737178112}
 --- !u!1 &3510758194444459591
 GameObject:
   m_ObjectHideFlags: 0
@@ -2397,9 +2388,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 2
-  hasDone: 0
-  fixedImg: {fileID: 314974239950895646}
-  unfixedImg: {fileID: 3225929325040043139}
 --- !u!1 &6026840399314358274
 GameObject:
   m_ObjectHideFlags: 0
@@ -2914,7 +2902,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 495938334329941573}
-  - component: {fileID: 4032148594548793133}
+  - component: {fileID: 7227112152415597359}
+  - component: {fileID: 1988330831787994152}
   m_Layer: 0
   m_Name: MenuLevel
   m_TagString: Untagged
@@ -2942,7 +2931,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4032148594548793133
+--- !u!114 &7227112152415597359
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2951,46 +2940,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 7127725823789585064}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ecf188d37463174980976cc9e87a871, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c80bbb741d0a4d4baeb6e4383822a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 0
-  level: 1
-  currentStage: 0
-  menuImg: {fileID: 1905243588571363328}
-  completeImg: {fileID: 21300000, guid: 1cd26a7124ea39f4ebfe1227923ab0f5, type: 3}
-  playButtons:
-  - {fileID: 1250151028949449519}
-  - {fileID: 5114879920235961367}
-  - {fileID: 5744688111969308731}
-  - {fileID: 2168588550030090587}
-  playButtons1: []
-  playButtons2: []
-  currentPlayButtons: []
-  numOfButtons: 0
-  characters:
-  - {fileID: 85302982593564821}
-  - {fileID: 6312489797995834564}
-  itemPositions:
-  - {fileID: 3997606155569679387}
-  - {fileID: 432165529740589872}
-  - {fileID: 2550116627995843311}
-  - {fileID: 2854642220247712897}
-  itemPositions1: []
-  itemPositions2: []
-  targetItemPositions:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  completeList: []
-  unCompleteList: []
-  stageLeft: 0
-  hasDone: 0
-  hasChange: 0
-  justOpen: 0
-  hasChangelv1: 0
-  hasChangelv2: 0
+  stage:
+  - objLock: []
+    objunLock: []
+    objBtn: []
+  canvasGroup: {fileID: 0}
+--- !u!225 &1988330831787994152
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7127725823789585064}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7313099793210408854
 GameObject:
   m_ObjectHideFlags: 0

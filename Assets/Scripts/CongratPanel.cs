@@ -15,22 +15,21 @@ public class CongratPanel : MonoBehaviour
 	public RectTransform claimPanel;
 	public RectTransform item;
 	public RectTransform tapToOpen;
+
+	public int typeOfReward;
 	public void Open()
 	{
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
-			var reward = Random.Range(0, 2);
-			if (reward == 0)
+			typeOfReward = Random.Range(0, 2);
+			if (typeOfReward == 0)
 			{
-				SaveSystem.instance.addTiket(1, 0);
 				item.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/congrat/ticket_blue_big");
 			}
 			else
 			{
-
 				item.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/congrat/ticket_purple_big");
-				SaveSystem.instance.addTiket(0, 1);
 			}
 			AudioManager.instance.PlaySFX("OpenPopUp");
 			rewardLight.GetComponent<CanvasGroup>().alpha = 0f;
@@ -52,9 +51,6 @@ public class CongratPanel : MonoBehaviour
 			rewardOpen.gameObject.SetActive(false);
 			this.gameObject.SetActive(false);
 			AudioManager.instance.PlaySFX("ClosePopUp");
-			UIManager.instance.gamePlayPanel.backFromChestPanel = true;
-			UIManager.instance.gamePlayPanel.backFromPause = false;
-			SaveSystem.instance.menuLevel++;
 			SaveSystem.instance.SaveData();
 			//if (SaveSystem.instance.menuLevel == MenuLevelManager.instance.levelCount)
 			//{
@@ -72,7 +68,7 @@ public class CongratPanel : MonoBehaviour
 			//}
 		}
 	}
-	public void TakeReward()
+	public void OpenTakeRewardPanel()
 	{
 		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_bonus, () =>
 		{
@@ -91,10 +87,24 @@ public class CongratPanel : MonoBehaviour
 					claimPanel.gameObject.SetActive(true);
 				});
 			});
-			//UIManager.instance.menuPanel.slider[0].value = 0;
-			//SaveSystem.instance.strike = (int)UIManager.instance.menuPanel.slider[0].value;
-			SaveSystem.instance.SaveData();
 		},null);
 
+	}
+	public void TakeReward()
+	{
+		if (typeOfReward == 0)
+		{
+			SaveSystem.instance.addTiket(1, 0);
+		}
+		else
+		{
+			SaveSystem.instance.addTiket(0, 1);
+		}
+		SaveSystem.instance.SaveData();
+	}
+	public void ComPleteImgViaButton()
+	{
+		GameManagerNew.Instance.CompleteImgAppearViaButton();
+		Close();
 	}
 }

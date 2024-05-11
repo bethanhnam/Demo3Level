@@ -128,9 +128,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 1.9083008, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -246,6 +246,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &3321343077154569865
 HingeJoint2D:
@@ -423,9 +425,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 2.2899609, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -541,6 +543,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &7449229494515187027
 HingeJoint2D:
@@ -693,9 +697,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 2.5625753, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -811,6 +815,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &8075061931571203540
 HingeJoint2D:
@@ -965,9 +971,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 3.3258963, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -1083,6 +1089,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &4609185415191174696
 HingeJoint2D:
@@ -1159,7 +1167,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2161106563764099687}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.63503987, y: 0.28814894, z: -2.1210446}
   m_LocalScale: {x: 1.85, y: 1.85, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1201,10 +1209,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holeToUnlock: {fileID: 8796290937909252928}
-  pointer1: {fileID: 0}
-  pointer2: {fileID: 0}
-  pointer: {fileID: 0}
-  pointerPositions: []
+  sprRenderItem: {fileID: 0}
+  Square: {fileID: 0}
+  holes: []
+  nailControls: []
+  ironPlates: []
+  numOfIronPlates: 0
+  curNail: {fileID: 0}
+  curHole: {fileID: 0}
+  nailDetectors: []
+  selectedIrons: []
+  preHole: {fileID: 0}
+  layerName: Hole
+  holeToDetele: {fileID: 0}
+  nailToDetele: {fileID: 0}
+  isDeteleting: 0
+  hasDelete: 0
+  HingeJointBeforeRemove: []
+  holeToUndo: {fileID: 0}
+  holeBeforeUndo: {fileID: 0}
+  nailToUndo: {fileID: 0}
+  holeBeforeMove: {fileID: 0}
+  holeBeToReturn: {fileID: 0}
+  hasSave: 0
+  ironObjectsBeforemove: []
+  ironObjectsTransformBeforemove: []
+  ironObjectsRotationBeforemove: []
+  nailObjectsBeforemove: []
+  nailObjectsBeforeBoom: []
+  nailsJointBeforemove: []
+  nailObjectsTransformBeforemove: []
+  numOfHoleNotAvailable: []
+  checked1: 0
 --- !u!1 &2823067073126324638
 GameObject:
   m_ObjectHideFlags: 0
@@ -1331,9 +1367,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 2.2899609, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -1449,6 +1485,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &7994035873523576920
 HingeJoint2D:
@@ -1601,9 +1639,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 2.3990068, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -1719,6 +1757,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &642792422103709306
 HingeJoint2D:
@@ -1871,9 +1911,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 2.7261438, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -1964,6 +2004,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &6333772934090414139
 HingeJoint2D:
@@ -2161,6 +2203,7 @@ MonoBehaviour:
   ignoreIronCollider: 0
   partical: {fileID: 0}
   hasnext: 0
+  hasfade: 0
 --- !u!1 &4666859693080466751
 GameObject:
   m_ObjectHideFlags: 0
@@ -2287,9 +2330,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 1.9083008, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -2405,6 +2448,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &3885193775106505197
 HingeJoint2D:
@@ -2557,9 +2602,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 2.7261438, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -2675,6 +2720,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &4295191128925048752
 HingeJoint2D:
@@ -2827,9 +2874,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 3.8711247, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -2945,6 +2992,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &2584111731005067300
 HingeJoint2D:
@@ -3101,9 +3150,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 5.6158566, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -3219,6 +3268,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &8631186409620589097
 HingeJoint2D:
@@ -3421,9 +3472,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 2.3990068, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -3539,6 +3590,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &2089181599764462673
 HingeJoint2D:
@@ -3693,9 +3746,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 3.543987, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -3811,6 +3864,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &7776240546527733428
 HingeJoint2D:
@@ -3988,9 +4043,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 2.5625753, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -4106,6 +4161,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &742846663548006286
 HingeJoint2D:
@@ -4260,9 +4317,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 3.3258963, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -4378,6 +4435,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &1009588990261468752
 HingeJoint2D:
@@ -4557,9 +4616,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 3.543987, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -4675,6 +4734,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &3572018716889710317
 HingeJoint2D:
@@ -4854,9 +4915,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 2.7261438, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -4972,6 +5033,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &2655708022639311466
 HingeJoint2D:
@@ -5119,7 +5182,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ca73c5906b30f4a46891a8cb3b1a16de, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a01627713c180f946aaed98e69e808e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5178,7 +5241,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.82, y: 11.27}
+    oldSize: {x: 9.08, y: 11.58}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -5315,9 +5378,9 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0.10869565, y: 0.10869565, z: 0.10869565, w: 0.10869565}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 1.08}
+    oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 2.7261438, y: 0.5175414}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -5433,6 +5496,8 @@ MonoBehaviour:
   isFrezze: 0
   hasAddForce: 0
   joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &8875337730905462814
 HingeJoint2D:
@@ -11636,6 +11701,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NailsManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2092071075578003848, guid: 3d104409bb4c22946bbeb9edcf536f5f, type: 3}
+      propertyPath: nailPrefab
+      value: 
+      objectReference: {fileID: 1370789141722224381, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
     - target: {fileID: 4808604705324682345, guid: 3d104409bb4c22946bbeb9edcf536f5f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.43463877

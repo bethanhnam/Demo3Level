@@ -107,11 +107,24 @@ public class DataLevelManager : MonoBehaviour
 				return i;
 			}
 		}
-
 		return 0;
 	}
+	//public int GetLevelText()
+	//{
+	//	for (int i = 0; i < dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].Stage[dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].DataItmeLevel.Length; i++)
+	//	{
+	//		if (!dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].Stage[dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].DataItmeLevel[i].IsUnlock)
+	//		{
+	//			return dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].Stage[dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].DataItmeLevel[i].Id;
+	//		}
+	//	}
+
+	//	return 0;
+	//}
 	public void SetLevelDone(int i)
 	{
+		FirebaseAnalyticsControl.Instance.LogEventGamePlayWin(DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[GameManagerNew.Instance.Level].Id);
+		
 		dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].Stage[dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].DataItmeLevel[i].IsUnlock = true;
 		LevelManagerNew.Instance.LevelBase.CountLevelWin += 1;
 		SaveData();

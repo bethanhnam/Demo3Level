@@ -9,6 +9,7 @@ public class ParticlesManager : MonoBehaviour
 	public GameObject StarParticleObject;
 	public GameObject ItemAppearlParticleObject;
 	public GameObject pickUpStartParticle;
+	public GameObject characterReactionParticle;
 	private void Start()
 	{
 		DontDestroyOnLoad(this.transform);

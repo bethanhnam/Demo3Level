@@ -335,15 +335,20 @@
 //		int layerValue = LayerMask.NameToLayer(layerName);
 //		for (int j = 0; j < obj.childCount; j++)
 //		{
-//			for (int i = 0; i < obj.GetChild(j).childCount; i++)
+//			if (obj.GetChild(j).GetComponent<Stage>().sprRenderItem != null)
 //			{
-//				if (obj.GetChild(j).GetChild(i).gameObject.tag == "square")
-//				{
-//					Transform transform = obj.GetChild(j).GetChild(i);
-//					transform.gameObject.layer = layerValue;
+//				obj.GetChild(j).GetComponent<Stage>().sprRenderItem.color = new Color(255, 255, 255, 0.5f);
+//				//for (int i = 0; i < obj.GetChild(j).childCount; i++)
+//				//{
+//				//	if (obj.GetChild(j).GetChild(i).gameObject.tag == "square")
+//				//	{
+//				//		Transform transform = obj.GetChild(j).GetChild(i);
+//				//		transform.gameObject.layer = layerValue;
 
-//				}
+//				//	}
+//				//}
 //			}
+
 //		}
 //	}
 //	public static Transform findSquare(Transform transform)
@@ -525,12 +530,12 @@
 //				if (obj.GetChild(j).GetChild(i).gameObject.tag == "square")
 //				{
 //					Transform transform = obj.GetChild(j).GetChild(i);
-//					BoxCollider2D boxCollider2D = transform.GetComponent<BoxCollider2D>();
-//					Object.DestroyImmediate(boxCollider2D);
-//					transform.AddComponent<BoxCollider2D>();
-//					transform.GetComponent<BoxCollider2D>().isTrigger = true;
+//					//BoxCollider2D boxCollider2D = transform.GetComponent<BoxCollider2D>();
+//					//Object.DestroyImmediate(boxCollider2D);
+//					//transform.AddComponent<BoxCollider2D>();
+//					//transform.GetComponent<BoxCollider2D>().isTrigger = true;
 
-
+//					transform.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Story 1 - 2/bar/bar (2)");
 //				}
 //			}
 //		}

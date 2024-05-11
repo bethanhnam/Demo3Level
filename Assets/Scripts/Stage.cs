@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using JetBrains.Annotations;
+using Sirenix.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,17 +18,20 @@ public class Stage : MonoBehaviour
 	// Start is called before the first frame update
 
 	[SerializeField]
-	private Hole[] holes;
+	public Hole[] holes;
 	[SerializeField]
-	private NailControl[] nailControls;
+	public NailControl[] nailControls;
 	[SerializeField]
-	private IronPlate[] ironPlates;
+	public IronPlate[] ironPlates;
 	[SerializeField]
 	public int numOfIronPlates;
 	[SerializeField]
 	private NailControl curNail;
 	[SerializeField]
 	private Hole curHole;
+	[SerializeField]
+	public List<NailDetector> nailDetectors = new List<NailDetector>();
+	public List<IronPlate> selectedIrons = new List<IronPlate>();
 	[SerializeField]
 	private Hole preHole;
 
@@ -59,17 +63,68 @@ public class Stage : MonoBehaviour
 	public List<NailControl> nailsJointBeforemove = new List<NailControl>();
 	public List<Vector3> nailObjectsTransformBeforemove = new List<Vector3>();
 
+	//notice 
+	public List<Hole> numOfHoleNotAvailable = new List<Hole>();
+	public bool checked1 = false;
+
+	//
+	public Vector3 targetScale;
 	private void Start()
 	{
 		Instance = this;
 		ClearData();
+		numOfIronPlates = ironPlates.Length;
+	}
+	private void OnEnable()
+	{
+		try
+		{
+			if (GamePlayPanelUIManager.Instance.gameObject.activeSelf == false)
+			{
+				GamePlayPanelUIManager.Instance.Appear();
+			}
+		}
+		catch
+		{
 
+		}
+		Instance = this;
+		resetData();
+		//if(GamePlayPanelUIManager.Instance.gameObject.activeSelf == false)
+		//{
+		//	
+		//}
 	}
 	public void Init(int level)
 	{
+		gameObject.SetActive(true);
+		Vector3 targetSclae = transform.localScale;
+		transform.localScale = Vector3.one;
+		transform.DOScale(GameManagerNew.Instance.TargetScale, 0.3f);
 		ChangeSize(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[level].SprItem);
+		GamePlayPanelUIManager.Instance.ShowNotice(false);
 	}
-	
+	public Vector3 setTargetScale(GameObject gameObject)
+	{
+		targetScale = gameObject.transform.localScale;
+		return gameObject.transform.localScale;
+	}
+	public void Close(bool isDes)
+	{
+		transform.DOScale(Vector3.one, 0.2f).OnComplete(() =>
+		{
+			if (isDes)
+			{
+				Destroy(this.gameObject);
+			}
+			else
+			{
+				gameObject.SetActive(false);
+			}
+		});
+
+	}
+
 	public void ChangeSize(Sprite sprite)
 	{
 		Vector2 sizeSprite = sprite.rect.size;
@@ -83,7 +138,7 @@ public class Stage : MonoBehaviour
 
 	private void Update()
 	{
-		numOfIronPlates = GameObject.FindGameObjectsWithTag("Iron").Length;
+
 		if (Input.GetMouseButtonDown(0))
 		{
 			if (isDeteleting)
@@ -96,6 +151,8 @@ public class Stage : MonoBehaviour
 				Click();
 			}
 		}
+		Hack();
+		check1();
 	}
 	public void Click()
 	{
@@ -103,11 +160,27 @@ public class Stage : MonoBehaviour
 
 		RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(posMouse, 0.5f, Vector3.forward, Mathf.Infinity);
 
+		if (!nailDetectors.IsNullOrEmpty())
+		{
+			nailDetectors.Clear();
+		}
+		if (!selectedIrons.IsNullOrEmpty())
+		{
+			selectedIrons.Clear();
+		}
+		for (int i = 0; i < cubeHit.Length; i++)
+		{
+			if (cubeHit[i].transform.gameObject.tag == "Iron")
+			{
+				selectedIrons.Add(cubeHit[i].transform.GetComponent<IronPlate>());
+			}
+		}
 		for (int i = 0; i < cubeHit.Length; i++)
 		{
 			if (cubeHit[i].transform.gameObject.tag == "Hole")
 			{
 				curHole = cubeHit[i].collider.gameObject.GetComponent<Hole>();
+				setHoleInIron(curHole.transform.position);
 				if (curHole.CheckNail() && curNail != curHole.getNail())
 				{
 					curNail = curHole.getNail();
@@ -126,12 +199,15 @@ public class Stage : MonoBehaviour
 
 		if (curHole != null)
 		{
+			//neu tu bam vao cai dinh hien co
 			if (curHole == preHole)
 			{
 				preHole = null;
+				curHole = null;
 				if (curNail != null)
 				{
 					curNail.Unselect();
+					curNail = null;
 				}
 
 
@@ -159,18 +235,35 @@ public class Stage : MonoBehaviour
 				}
 				else
 				{
-					if (curNail != null && curHole.isOsccupied == false)
+					if (curNail != null && curHole.isOsccupied == false && CheckHoleIsAvailable())
 					{
 						// continue code
 						SaveGameObject();
-						curNail.SetTrigger();
+						//curNail.SetTrigger();
 						curNail.SetNewPos(curHole.transform.position);
+						if (!nailDetectors.IsNullOrEmpty())
+						{
+							foreach (var nail in nailDetectors)
+							{
+								nail.hingeJoint2D.connectedBody = curNail.rigidbody2D;
+								nail.Nail = curNail;
+							}
+						}
+						if (!selectedIrons.IsNullOrEmpty())
+						{
+							foreach (var iron in selectedIrons)
+							{
+								iron.ResetHingeJoint();
+							}
+						}
 						curNail.RemoveHinge();
 						curHole.setNail(curNail);
 						preHole.setNail(null);
 						curNail = null;
-						
-
+						curHole = null;
+						nailDetectors.Clear();
+						selectedIrons.Clear();
+						hasDelete = false;
 					}
 				}
 			}
@@ -194,25 +287,52 @@ public class Stage : MonoBehaviour
 		//preHingeJoint2D.Clear();
 		//AudioManager.instance.PlaySFX("PickUpScrew");
 	}
+	public void setHoleInIron(Vector3 pos)
+	{
+		RaycastHit2D[] nailDetectorHits = Physics2D.CircleCastAll(pos, 0.1f, Vector3.forward, Mathf.Infinity);
+		for (int i = 0; i < nailDetectorHits.Length; i++)
+		{
+			if (nailDetectorHits[i].transform.gameObject.tag == "HoleInIron")
+			{
+				nailDetectors.Add(nailDetectorHits[i].transform.GetComponent<NailDetector>());
+			}
+		}
+	}
+	public bool CheckHoleIsAvailable()
+	{
+		bool allin = true;
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(curHole.transform.position,0.1f);
+		foreach (Collider2D collider in colliders)
+		{
+			if (collider.transform.tag == "Iron")
+			{
+				if (collider.GetComponent<IronPlate>().hingeJoint2Ds.Length > 0)
+				{
+					if (!collider.GetComponent<IronPlate>().checkHitPoint(curHole.transform.position))
+					{
+						allin = false;
+						return false;
+					}
+					else
+					{
+						allin = true;
+					}
+				}
+			}
+		}
+		return allin;
+	}
 	public void CheckDoneLevel()
 	{
 		if (numOfIronPlates <= 0)
 		{
 			AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_win, () =>
 			{
-				UIManagerNew.Instance.GamePlayPanel.Close();
-				GameManagerNew.Instance.ItemMoveControl.Init(sprRenderItem.transform.position, sprRenderItem.sprite, sprRenderItem.transform.localScale, UIManagerNew.Instance.WinUI.PosImage.transform.position);
-				if (!sprRenderItem.gameObject.activeSelf)
-				{
-					sprRenderItem.gameObject.SetActive(false);
-				}
-				transform.DOScale(Vector3.zero, 0.3f).OnComplete(() =>
-				{
-					Destroy(this.gameObject);
-				});
+				//UIManagerNew.Instance.GamePlayPanel.Close();
+				//GameManagerNew.Instance.ItemMoveControl.Init(sprRenderItem.transform.position, sprRenderItem.sprite, sprRenderItem.transform.localScale, UIManagerNew.Instance.WinUI.PosImage.transform.position);
 				DataLevelManager.Instance.SetLevelDone(GameManagerNew.Instance.Level);
-				UIManagerNew.Instance.WinUI.Appear();
-			},null);
+				UIManagerNew.Instance.CompleteUI.Appear(sprRenderItem.sprite);
+			}, null);
 		}
 	}
 	public void selectDeteleNail()
@@ -240,7 +360,7 @@ public class Stage : MonoBehaviour
 						nailToDetele.gameObject.SetActive(false);
 						setDeteleting(false);
 						hasDelete = true;
-						
+
 					}
 					//var Destroyeffect1 = Instantiate(destroyNailEffect, nailToDetele.transform.position, quaternion.identity);
 					//Destroy(Destroyeffect1, 0.5f);
@@ -258,7 +378,7 @@ public class Stage : MonoBehaviour
 	}
 	public void setDeteleting(bool status)
 	{
-		if(status == true)
+		if (status == true)
 		{
 			GamePlayPanelUIManager.Instance.ButtonOff();
 		}
@@ -277,7 +397,7 @@ public class Stage : MonoBehaviour
 			//code đoạn này ngu vl
 			ClearData();
 			SavePreData();
-			
+
 
 		}
 		hasSave = true;
@@ -291,7 +411,8 @@ public class Stage : MonoBehaviour
 		holeToUndo = preHole;
 		foreach (var iron in ironPlates)
 		{
-			ironObjectsBeforemove.Add(iron);
+			if (iron.gameObject.activeSelf)
+				ironObjectsBeforemove.Add(iron);
 		}
 		for (int i = 0; i < ironObjectsBeforemove.Count; i++)
 		{
@@ -299,16 +420,31 @@ public class Stage : MonoBehaviour
 			ironObjectsRotationBeforemove.Add(ironObjectsBeforemove[i].transform.rotation);
 
 		}
-		for (int i = 0; i < nailControls.Length; i++)
+		if (nailObjectsBeforemove.IsNullOrEmpty())
 		{
-			nailObjectsBeforemove.Add(nailControls[i]);
+			for (int i = 0; i < nailControls.Length; i++)
+			{
+				nailObjectsBeforemove.Add(nailControls[i]);
 
+			}
+			for (int i = 0; i < nailControls.Length; i++)
+			{
+				nailObjectsTransformBeforemove.Add(nailObjectsBeforemove[i].transform.position);
+			}
 		}
-		for (int i = 0; i < nailControls.Length; i++)
+		else
 		{
-			nailObjectsTransformBeforemove.Add(nailObjectsBeforemove[i].transform.position);
+			for (int i = 0; i < nailObjectsBeforemove.Count; i++)
+			{
+				nailObjectsBeforemove.Add(nailObjectsBeforemove[i]);
+
+			}
+			for (int i = 0; i < nailObjectsBeforemove.Count; i++)
+			{
+				nailObjectsTransformBeforemove.Add(nailObjectsBeforemove[i].transform.position);
+			}
 		}
-		foreach (var iron in ironPlates)
+		foreach (var iron in ironObjectsBeforemove)
 		{
 			foreach (var hinge in iron.hingeJoint2Ds)
 			{
@@ -342,7 +478,7 @@ public class Stage : MonoBehaviour
 					{
 						foreach (var hinge in iron.hingeJoint2Ds)
 						{
-							if (hinge.connectedBody == nailToUndo.gameObject.GetComponent<Rigidbody2D>())
+							if (hinge.connectedBody != null)
 							{
 								hinge.connectedBody = null;
 								hinge.connectedAnchor = Vector2.zero;
@@ -374,6 +510,18 @@ public class Stage : MonoBehaviour
 
 	private void RestoreDeteleData()
 	{
+		foreach (var iron in ironObjectsBeforemove)
+		{
+			foreach (var hinge in iron.hingeJoint2Ds)
+			{
+				if (hinge.connectedBody != null)
+				{
+					hinge.connectedBody = null;
+					hinge.connectedAnchor = Vector2.zero;
+					hinge.enabled = false;
+				}
+			}
+		}
 		nailToDetele.gameObject.SetActive(true);
 		holeToDetele.setNail(nailToDetele);
 		nailToDetele.collider2D.isTrigger = true;
@@ -402,6 +550,7 @@ public class Stage : MonoBehaviour
 		{
 			nailToDetele.collider2D.isTrigger = false;
 		}
+		numOfIronPlates = ironObjectsBeforemove.Count;
 		ClearData();
 
 	}
@@ -415,8 +564,6 @@ public class Stage : MonoBehaviour
 			ironObjectsBeforemove.Clear();
 			ironObjectsTransformBeforemove.Clear();
 			nailObjectsBeforeBoom.Clear();
-
-
 
 			//mới add
 			HingeJointBeforeRemove.Clear();
@@ -448,15 +595,95 @@ public class Stage : MonoBehaviour
 		curNail = null;
 		curHole = null;
 		preHole = null;
+		Debug.Log(numOfHoleNotAvailable.Count);
+		numOfHoleNotAvailable.Clear();
+		Debug.Log(numOfHoleNotAvailable.Count);
 	}
 	public void ResetBooster()
 	{
 		UIManagerNew.Instance.DeteleNailPanel.numOfUsed = 1;
 		UIManagerNew.Instance.UndoPanel.numOfUsed = 1;
 		UIManagerNew.Instance.RePlayPanel.numOfUsed = 1;
+		UIManagerNew.Instance.LosePanel.hasUse = false;
+		DeactiveDeleting();
+	}
+	public void Hack()
+	{
+		if (Input.GetKeyDown(KeyCode.J))
+		{
+			foreach (var nail in nailControls)
+			{
+				Destroy(nail.gameObject);
+			}
+		}
+	}
+	public void check1()
+	{
+		foreach (var hole in holes)
+		{
+			if (hole.isOsccupied == true)
+			{
+				if (!numOfHoleNotAvailable.Contains(hole))
+				{
+					numOfHoleNotAvailable.Add(hole);
+				}
+			}
+			else
+			{
+				if (numOfHoleNotAvailable.Contains(hole))
+				{
+					numOfHoleNotAvailable.Remove(hole);
+				}
+			}
+		}
+		if (holes.Length != 0 && numOfHoleNotAvailable.Count == holes.Length)
+		{
+			Debug.Log(numOfHoleNotAvailable.Count);
+			if (checked1 == false)
+			{
+				checked1 = true;
+				Invoke("ShowNotice", 1f);
+			}
+
+		}
+		else
+		{
+			GamePlayPanelUIManager.Instance.ShowNotice(false);
+			checked1 = false;
+		}
+	}
+	//	//if (holeCollider.Count == holeObjects.Length)
+	//	//{
+	//	//	if (ironCollider.Count - ignoreIronCollider.Count == numOfIronPlateCollider)
+	//	//	{
+	//	//		if (hasShowNotice == false)
+	//	//		{
+	//	//			Invoke("ShowNotice", 1f);
+	//	//		}
+	//	//	}
+	//	//}
+	//	//else
+	//	//{
+	//	//	numOfIronPlateCircle = 0;
+	//	//	hasShowNotice = false;
+	//	//	UIManager.instance.gamePlayPanel.noticePanel.gameObject.SetActive(false);
+	//	//}
+	//}
+
+	private void ShowNotice()
+	{
+		if (numOfHoleNotAvailable.Count == holes.Length)
+		{
+			GamePlayPanelUIManager.Instance.ShowNotice(true);
+			checked1 = false;
+		}
+	}
+	public void DeactiveDeleting()
+	{
 		if (isDeteleting)
 		{
 			isDeteleting = false;
 		}
 	}
+
 }

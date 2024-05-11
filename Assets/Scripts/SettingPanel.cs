@@ -55,9 +55,9 @@ public class SettingPanel : MonoBehaviour
 			canvasGroup.alpha = 1;
 			canvasGroup.DOFade(0, .3f).OnComplete(() =>
 			{
+				UIManagerNew.Instance.ButtonMennuManager.Appear();
 				this.gameObject.SetActive(false);
 				AudioManager.instance.PlaySFX("ClosePopUp");
-				UIManagerNew.Instance.ButtonMennuManager.Appear();
 			});
 			panelBoard.transform.DOScale(new Vector3(.9f, .9f, 1f), 0.3f);
 		}

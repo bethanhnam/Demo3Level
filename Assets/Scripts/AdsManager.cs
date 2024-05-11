@@ -85,12 +85,12 @@ public class AdsManager : MonoBehaviour
 	void Start()
 	{
 		admobManager = GetComponent<AdmobManager>();
-		StartCoroutine(WaitToLoadScene());
+		//StartCoroutine(WaitToLoadScene());
 	}
 
 	IEnumerator WaitToLoadScene()
 	{
-		yield return new WaitForSecondsRealtime(6.5f);
+		yield return new WaitForSecondsRealtime(6f);
 		if (RemoteConfigController.instance.IsShowOpenAds == 1)
 		{
 			AdsControl.Instance.ShowOpenAds();
@@ -244,7 +244,7 @@ public class AdsManager : MonoBehaviour
 			{
 				if (RemoteConfigController.instance.IsShowOpenAds == 1)
 				{
-					//AdsControl.Instance.ShowOpenAds();
+					AdsControl.Instance.ShowOpenAds();
 				}
 			}
 		}

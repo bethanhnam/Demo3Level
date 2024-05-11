@@ -36,7 +36,7 @@ public class Review : MonoBehaviour
 #if UNITY_ANDROID
 			Application.OpenURL("market://details?id=com.wayfu.match.puzzle.crew");
 #else
-        //Application.OpenURL("market://details?id=1644651720");
+        Application.OpenURL("market://details?id=6480027761");
 #endif
 			action();
 		}

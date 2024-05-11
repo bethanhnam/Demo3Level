@@ -60,9 +60,7 @@ public class LevelManagerNew : MonoBehaviour
 	{
 		if(levelBase.Level+1 >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
 		{
-			DataLevelManager.Instance.ResetData();
-			levelBase.CountLevelWin = 0;
-			SaveData();
+			UIManagerNew.Instance.ButtonMennuManager.OpenCompletePanel();
 		}
 		else
 		{
@@ -72,10 +70,15 @@ public class LevelManagerNew : MonoBehaviour
 		}
 		
 	}
+	public void ResetLevel()
+	{
+		DataLevelManager.Instance.ResetData();
+		levelBase.CountLevelWin = 0;
+		SaveData();
+	}
 	public void NextStage()
 	{
 		DataLevelManager.Instance.DataLevel.Data[levelBase.Level].IndexStage++;
-		levelBase.CountLevelWin = 0;
 		SaveData();
 		DataLevelManager.Instance.SaveData();
 	}

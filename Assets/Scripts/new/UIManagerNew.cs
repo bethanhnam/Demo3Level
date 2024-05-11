@@ -34,11 +34,21 @@ public class UIManagerNew : MonoBehaviour
 	[SerializeField]
 	private GamePlayPanelUIManager gamePlayPanel;
 	[SerializeField]
+	private RestorePanel restorePanel;
+	[SerializeField]
 	private WinUI winUI;
 	[SerializeField]
 	private ChestSLider chestSLider;
 	[SerializeField]
 	private Image completeImg;
+	[SerializeField]
+	private CompleteUI completeUI;
+	[SerializeField]
+	private Ratting rattingPanel;
+	[SerializeField]
+	private CongratPanel congratPanel;
+	[SerializeField]
+	private CompletePanel completePanel;
 
 	public TextMeshProUGUI[] powerTexts;
 	public TextMeshProUGUI[] magicTexts;
@@ -58,6 +68,11 @@ public class UIManagerNew : MonoBehaviour
 	public Image CompleteImg { get => completeImg; set => completeImg = value; }
 	public NonAdsPanel NonAdsPanel { get => nonAdsPanel; set => nonAdsPanel = value; }
 	public ShopPanel ShopPanel { get => shopPanel; set => shopPanel = value; }
+	public RestorePanel RestorePanel { get => restorePanel; set => restorePanel = value; }
+	public CompleteUI CompleteUI { get => completeUI; }
+	public Ratting RattingPanel { get => rattingPanel; set => rattingPanel = value; }
+	public CongratPanel CongratPanel { get => congratPanel; set => congratPanel = value; }
+	public CompletePanel CompletePanel { get => completePanel; set => completePanel = value; }
 
 	private void Awake()
 	{

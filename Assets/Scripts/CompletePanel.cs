@@ -10,23 +10,25 @@ public class CompletePanel : MonoBehaviour
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
-			PlayerPrefs.SetInt("HasComplete", 1);
 			AudioManager.instance.PlaySFX("Winpop");
 			claimPanel.gameObject.SetActive(true);
+			LevelManagerNew.Instance.ResetLevel();
+			
 		}
 	}
 	public void Close()
 	{
 		if (this.gameObject.activeSelf)
 		{
-			claimPanel.gameObject.SetActive(true);
+			claimPanel.gameObject.SetActive(false);
+			GameManagerNew.Instance.RecreatePicAfterCompleteGame();
 			this.gameObject.SetActive(false);
-			//SaveSystem.instance.menuLevel = MenuLevelManager.instance.levelCount - 1 ;
 			SaveSystem.instance.SaveData();
-			PlayerPrefs.DeleteKey("HasChangeLv1");
-			PlayerPrefs.DeleteKey("HasChangeLv2");
-			UIManager.instance.gamePlayPanel.pausePanel.Home();
-			//MenuLevelManager.instance.Start();
+			if(UIManagerNew.Instance.CongratPanel.gameObject.activeSelf == true)
+			{
+				UIManagerNew.Instance.CongratPanel.Close();
+			}
+			
 		}
 	}
 }

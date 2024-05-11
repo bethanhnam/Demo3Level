@@ -87,22 +87,14 @@ public class NailControl : MonoBehaviour
 
 		for (int i = 0; i < cubeHit.Length; i++)
 		{
-			if (cubeHit[i].transform.gameObject.tag == "Iron")
+			if (cubeHit[i].transform.gameObject.tag == "HoleInIron")
 			{
-				var holes = cubeHit[i].transform.GetComponent<IronPlate>().holes;
-				cubeHit[i].transform.GetComponent<IronPlate>().SetNai();
-				if (!ironPlates.Contains(cubeHit[i].transform.GetComponent<IronPlate>()))
-				{
-					ironPlates.Add(cubeHit[i].transform.GetComponent<IronPlate>());
-				}
-				for (int j =0; j< holes.Length; j++)
-				{
-					if(holes[j].GetComponent<NailDetector>().Nail == this)
+				var holes = cubeHit[i].transform.GetComponent<NailDetector>();
+				if(holes.Nail == this)
 					{
-						SetHoleInIron(holes[j].GetComponent<NailDetector>());
-						SetHingeJoint(holes[j].GetComponent<NailDetector>().hingeJoint2D);
+						SetHoleInIron(holes);
+						SetHingeJoint(holes.hingeJoint2D);
 					}
-				}
 			}
 		}
 	}
@@ -113,11 +105,6 @@ public class NailControl : MonoBehaviour
 			hinge.connectedBody = null;
 			hinge.enabled = false;
 			hinge.connectedAnchor = Vector2.zero;
-		}
-		for(int i = 0; i < hingeJoint2Ds.Count; i++)
-		{
-			hingeJoint2Ds[i].connectedBody = null;
-			hingeJoint2Ds[i].enabled = false;
 		}
 		hingeJoint2Ds.Clear();
 		holeInIronControllers.Clear();

@@ -7,7 +7,8 @@ public class Notice : MonoBehaviour
 {
 	public static Notice Instance;
 	public GameObject noticeDes;
-	public Vector2 defaultPos = new Vector2(1531f, 0);
+	public GameObject noticeImg;
+	public GameObject defaultPos;
 	public bool canAppear = true;
 
 	private void Start()
@@ -16,30 +17,61 @@ public class Notice : MonoBehaviour
 		{
 			Instance = this;
 		}
+		canAppear = true;
 	}
 	private void OnEnable()
 	{
-		canAppear = true;
-		NoticeAppear();
+
 	}
 	public void NoticeAppear()
 	{
 		if (canAppear)
 		{
-			canAppear = false;
-			this.gameObject.SetActive(true);
-			gameObject.transform.DOMove(noticeDes.transform.position, 0.3f).OnComplete(() =>
+			if (noticeImg.gameObject.activeSelf == false)
 			{
-			
-			});
+				canAppear = false;
+				this.gameObject.SetActive(true);
+				gameObject.transform.DOMove(noticeDes.transform.position, 0.3f).OnComplete(() =>
+				{
+					try
+					{
+						if (gameObject.activeSelf == true)
+						{
+							StartCoroutine(DisableNotice());
+						}
+					}
+					catch { }
+				});
+			}
 		}
 	}
-
-	public void DisableNotice()
+	public void NoticeAppearViaButton()
 	{
-		this.gameObject.SetActive(false);
-		this.gameObject.transform.localPosition = defaultPos;
-		canAppear = true;
-		InputManager.instance.hasShowNotice = false;
+		this.gameObject.SetActive(true);
+		gameObject.transform.DOMove(noticeDes.transform.position, 0.3f).OnComplete(() =>
+			{
+				try
+				{
+					if (gameObject.activeSelf == true)
+					{
+						StartCoroutine(DisableNotice());
+					}
+				}
+				catch { }
+			});
 	}
+IEnumerator DisableNotice()
+{
+	yield return new WaitForSeconds(1f);
+	noticeImg.SetActive(true);
+	this.gameObject.SetActive(false);
+	this.gameObject.transform.localPosition = defaultPos.transform.position;
+	canAppear = true;
+}
+public void NoticeDisappear()
+{
+	this.gameObject.SetActive(false);
+	noticeImg.SetActive(false);
+	canAppear = true;
+}
 }

@@ -20,7 +20,7 @@ public class IronPlate : MonoBehaviour
 	public bool hasAddForce;
 	public List<HingeJoint2D> joints = new List<HingeJoint2D>();
 	public List<NailControl> nailControls = new List<NailControl>();
-	private Rigidbody2D rigidbody2D;
+	public Rigidbody2D rigidbody2D1;
 	private Collider2D collider2D;
 	[SerializeField] private Vector3 centerOfMass = new Vector3(-0.00177252f, -0.001291171f, 0f);
 
@@ -31,20 +31,20 @@ public class IronPlate : MonoBehaviour
 		centerPoints = new Vector3[holes.Length];
 		hingeJoint2Ds = GetComponents<HingeJoint2D>();
 		SetHingeJoint();
-		rigidbody2D = this.GetComponent<Rigidbody2D>();
+		rigidbody2D1 = this.GetComponent<Rigidbody2D>();
 		collider2D = GetComponent<Collider2D>();
 
 
 	}
 	private void Update()
 	{
-		setPoint();
 		checkHinge();
+		setPoint();
 		//CheckPosition();
 	}
 	private void FixedUpdate()
 	{
-		rigidbody2D.centerOfMass = centerOfMass;
+		rigidbody2D1.centerOfMass = centerOfMass;
 	}
 
 	public void SetNai()
@@ -125,6 +125,7 @@ public class IronPlate : MonoBehaviour
 	//}
 	public void checkHinge()
 	{
+		
 		foreach (var hinge in hingeJoint2Ds)
 		{
 			if (hinge.connectedBody == null)
@@ -136,7 +137,7 @@ public class IronPlate : MonoBehaviour
 			{
 				hinge.enabled = true;
 				hinge.connectedAnchor = Vector2.zero;
-				//hinge.autoConfigureConnectedAnchor = true;
+				//hinge.anchor = this.transform.InverseTransformPoint(hinge.connectedBody.transform.position);
 				if (!joints.Contains(hinge))
 				{
 					joints.Add(hinge);
@@ -158,44 +159,46 @@ public class IronPlate : MonoBehaviour
 		}
 		if (joints.IsNullOrEmpty())
 		{
-			if (rigidbody2D.isKinematic == true)
+			if (rigidbody2D1.isKinematic == true)
 			{
-				rigidbody2D.isKinematic = false;
+				rigidbody2D1.isKinematic = false;
 			}
 			else
 			{
 					if (!hasAddForce)
 					{
-						Vector3 movementDirection = this.rigidbody2D.velocity.normalized;
+						Vector3 movementDirection = this.rigidbody2D1.velocity.normalized;
 
 						// Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude
 						Vector3 forceToAdd = movementDirection * 0.2f;
 
 						// Thêm lực vào Rigidbody
-						rigidbody2D.AddForce(forceToAdd, ForceMode2D.Impulse);
+						rigidbody2D1.AddForce(forceToAdd, ForceMode2D.Impulse);
 						hasAddForce = true;
-					}
+					} 
 			}
 		}
 	}
 	IEnumerator Freeze()
 	{
 		yield return new WaitForSeconds(0.1f);
-		rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
-		rigidbody2D.gravityScale = 1f;
+		rigidbody2D1.freezeRotation = true;
+		rigidbody2D1.constraints = RigidbodyConstraints2D.FreezeAll;
+		rigidbody2D1.gravityScale = 1f;
 		isFrezze = true;
 	}
 	IEnumerator unFreeze()
 	{
 		yield return new WaitForSeconds(0.05f);
-		rigidbody2D.constraints = RigidbodyConstraints2D.None;
-		rigidbody2D.freezeRotation = false;
-		if (rigidbody2D.angularDrag < 2)
-		{
-			rigidbody2D.angularDrag += 0.1f;
-		}
-		rigidbody2D.gravityScale = 1.2f;
 		isFrezze = false;
+		rigidbody2D1.constraints = RigidbodyConstraints2D.None;
+		rigidbody2D1.freezeRotation = false;
+		if (rigidbody2D1.angularDrag < 2)
+		{
+			rigidbody2D1.angularDrag += 0.05f;
+		}
+		rigidbody2D1.gravityScale = 1.1f;
+
 	}
 	public void SetHingeJoint()
 	{
@@ -211,6 +214,10 @@ public class IronPlate : MonoBehaviour
 	public void SetTrigger(bool set)
 	{
 		collider2D.isTrigger = set;
+	}
+	public void ResetHingeJoint()
+	{
+		checkHinge();
 	}
 	//public void CheckPosition()
 	//{

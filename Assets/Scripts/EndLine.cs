@@ -63,8 +63,8 @@ public class EndLine : MonoBehaviour
 			Stage.Instance.numOfIronPlates--;
 			AudioManager.instance.PlaySFX("DropIron");
 			Stage.Instance.CheckDoneLevel();
-			//var partical1 = Instantiate(partical, collision.transform.position, Quaternion.identity);
-			//Destroy(partical1, 1f);
+			var partical1 = Instantiate(partical, collision.transform.position, Quaternion.identity);
+			Destroy(partical1, 1f);
 			//for (int i = 0; i < InputManager.instance.ignoreIronCollider.Count; i++)
 			//{
 			//	if (collision.GetComponent<IronPlate>() == InputManager.instance.ignoreIronCollider[i])
@@ -79,7 +79,7 @@ public class EndLine : MonoBehaviour
 			//}
 		}
 		//ignoreCollider:
-		ignoreIronCollider = false;
+		//ignoreIronCollider = false;
 	}
 
 	IEnumerator loadNextLevel()

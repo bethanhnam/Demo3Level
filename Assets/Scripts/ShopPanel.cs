@@ -12,6 +12,7 @@ public class ShopPanel : MonoBehaviour
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
+			FirebaseAnalyticsControl.Instance.LogEventShopPanelAccessSuccessfully(1);
 			if (GameManagerNew.Instance.CurrentLevel != null)
 			{
 				GamePlayPanelUIManager.Instance.DeactiveTime();
@@ -57,7 +58,9 @@ public class ShopPanel : MonoBehaviour
 				AudioManager.instance.PlaySFX("ClosePopUp");
 
 			});
-			GamePlayPanelUIManager.Instance.AppearForReOpen();
+			GamePlayPanelUIManager.Instance.ActiveTime();
+			GamePlayPanelUIManager.Instance.Appear();
+			GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
 		}
 	}
 	public void ExchangeTicket()

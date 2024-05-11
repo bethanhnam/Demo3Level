@@ -48,8 +48,8 @@ public class SaveSystem : MonoBehaviour
 	}
     public void CreateData()
     {
-        magicTiket = 1000;
-        powerTicket = 1000;
+        //magicTiket = 1000;
+        //powerTicket = 1000;
 	}
     public void LoadData()
     {
