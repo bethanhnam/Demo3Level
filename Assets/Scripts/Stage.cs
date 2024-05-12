@@ -151,7 +151,7 @@ public class Stage : MonoBehaviour
 				Click();
 			}
 		}
-		Hack();
+		//Hack();
 		check1();
 	}
 	public void Click()
@@ -607,16 +607,16 @@ public class Stage : MonoBehaviour
 		UIManagerNew.Instance.LosePanel.hasUse = false;
 		DeactiveDeleting();
 	}
-	public void Hack()
-	{
-		if (Input.GetKeyDown(KeyCode.J))
-		{
-			foreach (var nail in nailControls)
-			{
-				Destroy(nail.gameObject);
-			}
-		}
-	}
+	//public void Hack()
+	//{
+	//	if (Input.GetKeyDown(KeyCode.J))
+	//	{
+	//		foreach (var nail in nailControls)
+	//		{
+	//			Destroy(nail.gameObject);
+	//		}
+	//	}
+	//}
 	public void check1()
 	{
 		foreach (var hole in holes)
