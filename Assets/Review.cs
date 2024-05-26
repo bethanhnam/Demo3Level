@@ -31,9 +31,9 @@ public class Review : MonoBehaviour
 #if UNITY_ANDROID
 			Application.OpenURL("market://details?id=com.wayfu.match.puzzle.crew");
 #else
-        Application.OpenURL("market://details?id=6480027761");
+        Application.OpenURL("https://apps.apple.com/us/app/screw-story-pin-master/id6480027761");
 #endif
-			action();
+            action();
 		}
 	}
 }

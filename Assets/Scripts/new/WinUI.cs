@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,24 +14,15 @@ public class WinUI : MonoBehaviour
 	[SerializeField]
 	private TextMeshProUGUI TimeText;
 
-	[SerializeField]
-	private Animator animImage;
-	[SerializeField]
-	private Image imgPic;
-
-	private int appearButton = Animator.StringToHash("appear");
-	private int appear = Animator.StringToHash("appear");
+    private int appearButton = Animator.StringToHash("appear");
 	private int disappearButton = Animator.StringToHash("Disappear");
-
-	private int appearImage = Animator.StringToHash("appear");
-	private int idleImage = Animator.StringToHash("idle");
 
 	[SerializeField]
 	private RectTransform posImage;
 
 	public RectTransform PosImage { get => posImage; }
 
-	public void Appear(Sprite spr)
+	public void Appear()
 	{
 		if (!gameObject.activeSelf)
 		{
@@ -38,17 +30,15 @@ public class WinUI : MonoBehaviour
 		}
 		cvButton.blocksRaycasts = false;
 		animButton.Play(appearButton, 0, 0);
-		//imgPic.transform.localScale = Vector3.zero;
-		imgPic.sprite = spr;
-		animImage.Play(appear);
-		displayTime();
+		//displayTime();
 		DisplayPicture();
-	}
+		RecivedRw();
+
+    }
 
 	public void Close()
 	{
 		cvButton.blocksRaycasts = false;
-		animImage.Play(idleImage);
 		animButton.Play(disappearButton);
 	}
 
@@ -77,25 +67,25 @@ public class WinUI : MonoBehaviour
 	{
 		GameManagerNew.Instance.PictureUIManager.HiddenButton();
 		GameManagerNew.Instance.PictureUIManager.Open();
-	}
 
+	}
+	public void RecivedRw()
+	{
+		SaveSystem.instance.addCoin(10);
+		SaveSystem.instance.addStar(1);
+		SaveSystem.instance.SaveData();
+	}
+	public void MoveToAddRW()
+	{
+
+	}
 	public void ContinueBT()
 	{
-		UIManagerNew.Instance.WinUI.Deactive();
-		GameManagerNew.Instance.ItemMoveControl.MoveToFix(UIManagerNew.Instance.WinUI.imgPic.transform.position, GameManagerNew.Instance.PictureUIManager.GetCurrentPosItem(),imgPic.sprite, () =>
-			{
-				GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, 1, false);
-				UIManagerNew.Instance.ButtonMennuManager.DiactiveCVGroup();
-				GameManagerNew.Instance.CreateParticleEF();
-				GameManagerNew.Instance.ItemMoveControl.gameObject.SetActive(false);
-				GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
-				GameManagerNew.Instance.PictureUIManager.ChangeItem(GameManagerNew.Instance.PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock[GameManagerNew.Instance.Level]);
-				AudioManager.instance.PlayMusic("MenuTheme");
-				UIManagerNew.Instance.ChestSLider.ChangeValue(() =>
-				{
-					GameManagerNew.Instance.SetCompleteStory();
-				});
-			});
+		//Deactive();
 		UIManagerNew.Instance.WinUI.Close();
-	}
+		UIManagerNew.Instance.ButtonMennuManager.DiactiveCVGroup();
+		AudioManager.instance.PlayMusic("MenuTheme");	
+        GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
+		UIManagerNew.Instance.ButtonMennuManager.OpenRW();
+    }
 }

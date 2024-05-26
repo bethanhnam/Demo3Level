@@ -13,7 +13,7 @@ public class Hole : MonoBehaviour
 	private LayerMask IronLayer;
 	private void Start()
 	{
-		IronLayer = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2", "layer1vs2vs3", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
+		IronLayer = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "IronLayer9", "BothLayer", "layer1vs2", "layer1vs2vs3", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
 	}
 	public NailControl getNail()
 	{
@@ -96,13 +96,13 @@ public class Hole : MonoBehaviour
 			{
 				if (collider1.GetComponent<IronPlate>().checkHitPoint(this.transform.position) == true)
 				{
-					x = false;
-				}
+                    x = false;
+                }
 				else
 				{
-					x = true;
-					return true;
-				}
+                    x = true;
+                    return true;
+                }
 			}
 		}
 		return x;

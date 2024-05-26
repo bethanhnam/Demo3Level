@@ -71,12 +71,11 @@ public class RePlayPanel : MonoBehaviour
 			this.gameObject.SetActive(true);
 			canvasGroup.blocksRaycasts = false;
 			AudioManager.instance.PlaySFX("OpenPopUp");
-			panel.localRotation = Quaternion.identity;
-			//UIManager.instance.DeactiveTime();
+			//panel.localRotation = Quaternion.identity;
 			canvasGroup.alpha = 0;
-			panel.localPosition = new Vector3(-351, 479, 0);
-			panel.localScale = new Vector3(.8f, .8f, 0);
-			closeButton.localPosition = new Vector3(364, 277.600006f, 0);
+			//panel.localPosition = new Vector3(-351, 479, 0);
+			//panel.localScale = new Vector3(.8f, .8f, 0);
+			//closeButton.localPosition = new Vector3(364, 277.600006f, 0);
 			canvasGroup.DOFade(1, 0.1f);
 			panel.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
 			{
@@ -91,24 +90,35 @@ public class RePlayPanel : MonoBehaviour
 		if (this.gameObject.activeSelf)
 		{
 			canvasGroup.blocksRaycasts = false;
-			closeButton.DOAnchorPos(new Vector2(552f, -105f), .1f, false).OnComplete(() =>
-			{
-				panel.DORotate(new Vector3(0, 0, -10f), 0.25f, RotateMode.Fast).OnComplete(() =>
-				{
-					panel.DOAnchorPos(new Vector2(panel.transform.position.x, -1467f), 0.25f, false).OnComplete(() =>
-					{
-						this.gameObject.SetActive(false);
-						AudioManager.instance.PlaySFX("ClosePopUp");
-						GamePlayPanelUIManager.Instance.ActiveTime();
-						GamePlayPanelUIManager.Instance.Appear();
-						GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-						
-						ActiveCVGroup();
+            //closeButton.DOAnchorPos(new Vector2(552f, -105f), .1f, false).OnComplete(() =>
+            //{
+            //	panel.DORotate(new Vector3(0, 0, -10f), 0.25f, RotateMode.Fast).OnComplete(() =>
+            //	{
+            //		panel.DOAnchorPos(new Vector2(panel.transform.position.x, -1467f), 0.25f, false).OnComplete(() =>
+            //		{
+            //			this.gameObject.SetActive(false);
+            //			AudioManager.instance.PlaySFX("ClosePopUp");
+            //			GamePlayPanelUIManager.Instance.ActiveTime();
+            //			GamePlayPanelUIManager.Instance.Appear();
+            //			GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
 
-					});
-				});
+            //			ActiveCVGroup();
+
+            //		});
+            //	});
+            //});
+            canvasGroup.DOFade(0, 0.1f);
+            panel.DOScale(new Vector3(0.8f, 0.8f, 0), 0.1f).OnComplete(() =>
+            {
+                this.gameObject.SetActive(false);
+				AudioManager.instance.PlaySFX("ClosePopUp");
+				GamePlayPanelUIManager.Instance.ActiveTime();
+				GamePlayPanelUIManager.Instance.Appear();
+				GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+
+				ActiveCVGroup();
 			});
-		}
+        }
 	}
 	public void CloseToReplay()
 	{

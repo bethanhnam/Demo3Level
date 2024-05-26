@@ -15,6 +15,8 @@ public class SaveSystem : MonoBehaviour
     public bool playingHard;
     public int nonAds =0;
     public int strike =0;
+    public int coin;
+    public int star;
 	private void Awake()
 	{
 		if (instance == null)
@@ -45,12 +47,17 @@ public class SaveSystem : MonoBehaviour
 		PlayerPrefs.SetInt("Days", days);
 		PlayerPrefs.SetInt("NonADS", nonAds);
 		PlayerPrefs.SetInt("Strike", strike);
+		PlayerPrefs.SetInt("Coin", coin);
+		PlayerPrefs.SetInt("Star", star);
 	}
     public void CreateData()
     {
-        //magicTiket = 1000;
-        //powerTicket = 1000;
-	}
+        magicTiket = 1000;
+        powerTicket = 1000;
+        coin = 1000;
+        star = 50;
+        days = 6;
+    }
     public void LoadData()
     {
         level = PlayerPrefs.GetInt("Level");
@@ -60,6 +67,8 @@ public class SaveSystem : MonoBehaviour
 		days = PlayerPrefs.GetInt("Days");
         nonAds = PlayerPrefs.GetInt("NonADS");
         strike = PlayerPrefs.GetInt("Strike");
+        coin = PlayerPrefs.GetInt("Coin");
+        star = PlayerPrefs.GetInt("Star");
 	}
     public int GetmagicTiket()
     {
@@ -85,4 +94,13 @@ public class SaveSystem : MonoBehaviour
     {
         this.menuLevel = level;
     }
+    public void addCoin(int coin)
+    {
+        this.coin += coin;
+    }
+    public void addStar(int star)
+    {
+        this.star += star;
+    }
+
 }

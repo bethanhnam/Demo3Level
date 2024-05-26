@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.AccessControl;
@@ -40,7 +42,7 @@ public class UIManagerNew : MonoBehaviour
 	[SerializeField]
 	private ChestSLider chestSLider;
 	[SerializeField]
-	private Image completeImg;
+	private CompletePicImg completeImg;
 	[SerializeField]
 	private CompleteUI completeUI;
 	[SerializeField]
@@ -49,9 +51,16 @@ public class UIManagerNew : MonoBehaviour
 	private CongratPanel congratPanel;
 	[SerializeField]
 	private CompletePanel completePanel;
+	[SerializeField]
+	private NotEnoughStar notEnoughStarPanel;
+    [SerializeField]
+    private FixItemUI fixItemUI;
 
-	public TextMeshProUGUI[] powerTexts;
+    public TextMeshProUGUI[] powerTexts;
 	public TextMeshProUGUI[] magicTexts;
+	public TextMeshProUGUI[] coinTexts;
+	public TextMeshProUGUI[] starTexts;
+	public TextMeshProUGUI playBTLevelTexts;
 
 	public ButtonMennuManager ButtonMennuManager { get => buttonMennuManager; }
 	public DailyRWUI DailyRWUI { get => dailyRWUI; }
@@ -65,7 +74,7 @@ public class UIManagerNew : MonoBehaviour
 	public ExtralHole ExtralHolePanel { get => extralHolePanel; set => extralHolePanel = value; }
 	public LosePanel LosePanel { get => losePanel; set => losePanel = value; }
 	public ChestSLider ChestSLider { get => chestSLider; set => chestSLider = value; }
-	public Image CompleteImg { get => completeImg; set => completeImg = value; }
+	public CompletePicImg CompleteImg { get => completeImg; set => completeImg = value; }
 	public NonAdsPanel NonAdsPanel { get => nonAdsPanel; set => nonAdsPanel = value; }
 	public ShopPanel ShopPanel { get => shopPanel; set => shopPanel = value; }
 	public RestorePanel RestorePanel { get => restorePanel; set => restorePanel = value; }
@@ -73,21 +82,31 @@ public class UIManagerNew : MonoBehaviour
 	public Ratting RattingPanel { get => rattingPanel; set => rattingPanel = value; }
 	public CongratPanel CongratPanel { get => congratPanel; set => congratPanel = value; }
 	public CompletePanel CompletePanel { get => completePanel; set => completePanel = value; }
+    public FixItemUI FixItemUI { get => fixItemUI; set => fixItemUI = value; }
+    public NotEnoughStar NotEnoughStarPanel { get => notEnoughStarPanel; set => notEnoughStarPanel = value; }
 
-	private void Awake()
+    private void Awake()
 	{
 		Instance = this;
 	}
 	private void Update()
 	{
-		LoadTicket(SaveSystem.instance.magicTiket, SaveSystem.instance.powerTicket);
+		LoadData(SaveSystem.instance.magicTiket, SaveSystem.instance.powerTicket,SaveSystem.instance.coin,SaveSystem.instance.star);
 	}
-	public void LoadTicket(int magicTiket,int powerTicket)
+	public void LoadData(int magicTiket,int powerTicket,int coin,int star)
 	{
 		for (int i = 0;i < magicTexts.Length;i++)
 		{
 			magicTexts[i].SetText(magicTiket.ToString());
 			powerTexts[i].SetText(powerTicket.ToString());
 		}
-	}
+		for(int j = 0; j < coinTexts.Length;j++)
+		{
+			coinTexts[j].SetText(coin.ToString());
+		}
+        for (int k = 0; k < starTexts.Length; k++)
+        {
+            starTexts[k].SetText(star.ToString());
+        }
+    }
 }

@@ -31,8 +31,6 @@ public class RestorePanel : MonoBehaviour
 			{
 				this.gameObject.SetActive(false);
 				AudioManager.instance.PlaySFX("ClosePopUp");
-				GameManager.instance.hasUI = false;
-				SaveSystem.instance.playingHard = true;
 			});
 		}
 	}

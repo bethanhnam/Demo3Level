@@ -34,16 +34,16 @@ public class IapControl : MonoBehaviour, IStoreListener
 	[SerializeField]
 	private GameObject objFailPurchase;
 	[SerializeField]
-	[Sirenix.OdinInspector.ShowInInspector]
-	public List<Action> actionUpdate;
-	public List<string> actionUpdatesstr;
+	//[Sirenix.OdinInspector.ShowInInspector]
+	//public List<Action> actionUpdate;
+	//public List<string> actionUpdatesstr;
 	public bool isReady = false;
 
 	void Awake()
 	{
 		DontDestroyOnLoad(gameObject);
-		actionUpdate = new List<Action>();
-		actionUpdatesstr = new List<string>();
+		//actionUpdate = new List<Action>();
+		//actionUpdatesstr = new List<string>();
 		Instance = this;
 	}
 
@@ -58,18 +58,18 @@ public class IapControl : MonoBehaviour, IStoreListener
 
 	void Update()
 	{
-		if (actionUpdate != null && actionUpdate.Count > 0)
-		{
-			for (int i = 0; i < actionUpdate.Count; i++)
-			{
-				Debug.Log(actionUpdatesstr[i]);
-				actionUpdate[i]();
-			}
-			Debug.Log(actionUpdate.Count);
-			actionUpdate.Clear();
-			//actionUpdatesstr.Clear();
-			Debug.Log(actionUpdate.Count);
-		}
+		//if (actionUpdate != null && actionUpdate.Count > 0)
+		//{
+		//	for (int i = 0; i < actionUpdate.Count; i++)
+		//	{
+		//		Debug.Log(actionUpdatesstr[i]);
+		//		actionUpdate[i]();
+		//	}
+		//	Debug.Log(actionUpdate.Count);
+		//	actionUpdate.Clear();
+		//	//actionUpdatesstr.Clear();
+		//	Debug.Log(actionUpdate.Count);
+		//}
 	}
 
 	private void ActiveLoadingPurchase()
@@ -160,7 +160,7 @@ public class IapControl : MonoBehaviour, IStoreListener
 
 		var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
-		builder.AddProduct(PackName.remove_ads.ToString(), ProductType.Consumable);
+		builder.AddProduct(PackName.remove_ads1.ToString(), ProductType.Consumable);
 		builder.AddProduct(PackName.magic_10.ToString(), ProductType.Consumable);
 		builder.AddProduct(PackName.magic_30.ToString(), ProductType.Consumable);
 		builder.AddProduct(PackName.magic_60.ToString(), ProductType.Consumable);
@@ -195,15 +195,15 @@ public class IapControl : MonoBehaviour, IStoreListener
 			if (product != null && product.availableToPurchase)
 			{
 				Debug.Log(string.Format("Purchasing product asychronously: '{0}'", product.definition.id));
-				actionUpdate.Add(ActiveLoadingPurchase);
-				actionUpdatesstr.Add("ActiveLoadingPurchase");
+				//actionUpdate.Add(ActiveLoadingPurchase);
+				//actionUpdatesstr.Add("ActiveLoadingPurchase");
 				m_StoreController.InitiatePurchase(product);
 			}
 			else
 			{
 				Debug.Log("BuyProductID: FAIL. Not purchasing product, either is not found or is not available for purchase");
-				actionUpdate.Add(ActivePurchaseFaill);
-				actionUpdatesstr.Add("ActivePurchaseFaill");
+				//actionUpdate.Add(ActivePurchaseFaill);
+				//actionUpdatesstr.Add("ActivePurchaseFaill");
 			}
 		}
 		else
@@ -231,8 +231,8 @@ public class IapControl : MonoBehaviour, IStoreListener
 				InitializePurchasing();
 			}
 
-			actionUpdate.Add(ActivePurchaseFaill);
-			actionUpdatesstr.Add("ActivePurchaseFaill");
+			//actionUpdate.Add(ActivePurchaseFaill);
+			//actionUpdatesstr.Add("ActivePurchaseFaill");
 		}
 	}
 
@@ -350,12 +350,12 @@ public class IapControl : MonoBehaviour, IStoreListener
 		if (validPurchase)
 		{
 			Debug.Log(args.purchasedProduct.definition.id + "..succeed");
-			Debug.Log(actionUpdatesstr);
-			Debug.Log(actionUpdatesstr.Count);
-			actionUpdatesstr.Add("action");
-			actionUpdate.Add(action);
-			actionUpdatesstr.Add("ActivePurchaseSuccess");
-			actionUpdate.Add(ActivePurchaseSuccess);
+			//Debug.Log(actionUpdatesstr);
+			//Debug.Log(actionUpdatesstr.Count);
+			//actionUpdatesstr.Add("action");
+			//actionUpdate.Add(action);
+			//actionUpdatesstr.Add("ActivePurchaseSuccess");
+			//actionUpdate.Add(ActivePurchaseSuccess);
 
 
 			//if (args.purchasedProduct.definition.id == "remove_ads")
@@ -375,18 +375,18 @@ public class IapControl : MonoBehaviour, IStoreListener
 
 			//FirebaseControl.instance.LogEventIAP3days(0);
 		}
-		actionUpdate.Add(DeactiveLoadingPurchase);
-		actionUpdatesstr.Add("DeactiveLoadingPurchase");
-		Debug.Log(actionUpdate.Count);
+		//actionUpdate.Add(DeactiveLoadingPurchase);
+		//actionUpdatesstr.Add("DeactiveLoadingPurchase");
+		//Debug.Log(actionUpdate.Count);
 		return PurchaseProcessingResult.Complete;
 	}
 	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
 	{
 		// A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 
 		// this reason with the user to guide their troubleshooting actions.
-		actionUpdate.Add(DeactiveLoadingPurchase);
-		actionUpdatesstr.Add("DeactiveLoadingPurchase");
-		Debug.Log(actionUpdate.Count);
+		//actionUpdate.Add(DeactiveLoadingPurchase);
+		//actionUpdatesstr.Add("DeactiveLoadingPurchase");
+		//Debug.Log(actionUpdate.Count);
 		Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
 
 		//Tracker.LogEvent(new Feature_IAP_FAIL()
@@ -430,7 +430,7 @@ public class IapControl : MonoBehaviour, IStoreListener
 
 public enum PackName
 {
-	remove_ads,
+    remove_ads1,
 	magic_10,
 	magic_30,
 	magic_60,

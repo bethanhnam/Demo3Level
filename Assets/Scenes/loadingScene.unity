@@ -341,6 +341,86 @@ MonoBehaviour:
   mode: 0
   sampleRatio: {x: 1440, y: 1920}
   playAwake: 1
+--- !u!1 &257283569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 257283571}
+  - component: {fileID: 257283570}
+  m_Layer: 0
+  m_Name: NotificationController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &257283570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257283569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e79623c3dbd4e4bb1872e7392922f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  txtDes:
+  - Can you conquer the intricate challenges and become the ultimate puzzle master?
+  - Test your logic and problem-solving skills in this addictive brain teaser.
+  - Every twist and turn leads to a new challenge!
+  - Solve complex puzzles, earn rewards, and showcase your mastery in Wood Nuts &
+    Bolts!
+  - Complete levels, achieve milestones, and revel in the satisfaction of mastering
+    Wood Nuts & Bolts Puzzle!
+  - Challenge yourself to solve puzzles faster and more efficiently!
+  - Wood Nuts & Bolts Puzzle is not just a game; it's a brain workout.
+  - Assemble and disassemble virtual nuts and bolts.
+  - Embark on a journey of discovery and puzzle-solving fun!
+  - Brace yourself for mind-bending puzzles that will keep you hooked on Wood Nuts
+    & Bolts!
+  - Every level in Wood Nuts & Bolts Puzzle holds a mystery. Unlock new challenges
+    and unravel the enigma!
+  - Stay tuned for fresh challenges and exciting twists in Wood Nuts & Bolts Puzzle!
+  - Log in daily for exclusive puzzles. Start your day with a mental workout in Wood
+    Nuts & Bolts!
+  - Made a wrong move? No worries! Utilize the undo feature and perfect your strategy
+    in Wood Nuts & Bolts Puzzle!
+  txtTitle:
+  - 'Engage your brain '
+  - Challenge Accepted!
+  - '"Colorful Conundrum!'
+  - Puzzle Prodigy!
+  - Celebrate Success!
+  - Time to Tinker!
+  - Boost Your IQ!
+  - Crafty Challenges!
+  - Game On!
+  - 'Mind-Bending Madness! '
+  - Unlock Secrets!
+  - Alert! New Levels Unveiled
+  - Daily Dose of Puzzles!
+  - Undo Feature!
+--- !u!4 &257283571
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257283569}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &280035581
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,8 +766,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fedbb185cef966443a38458d17a6af9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  days: 0
-  nonAds: 0
 --- !u!1 &940720782
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,6 +863,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ba20ed1408891d458a018a930c3c5ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stageList:
+  - {fileID: 2588423461583360284, guid: 4a325ddd3b3769541ad5092506e93cd7, type: 3}
+  - {fileID: 2790624992716800376, guid: 7ea45d85f07187d4f9776f0f96781112, type: 3}
+  - {fileID: 8692991978341419027, guid: 246d3df4547d7924395be32539579a00, type: 3}
+  - {fileID: 8287485829030353617, guid: 385ac8e534fea134888b32800ede6e98, type: 3}
+  stage: 0
 --- !u!1 &1010024785
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,6 +1020,8 @@ MonoBehaviour:
   playingHard: 0
   nonAds: 0
   strike: 0
+  coin: 0
+  star: 0
 --- !u!4 &1219911462 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 415478, guid: a3267720e82aa41c1a05ab29824902b4, type: 3}
@@ -951,7 +1037,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 644828189805653846, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: m_Volume
-      value: 0.4
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4709010455630014267, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -995,7 +1081,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: sfxSounds.Array.size
-      value: 15
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: musicSounds.Array.size
@@ -1012,7 +1098,7 @@ PrefabInstance:
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: sfxSounds.Array.data[9].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 10b33e19be52fa344acbccc2ab75571a, type: 3}
+      objectReference: {fileID: 8300000, guid: 4c9f3cfcb15684942a16dc5db18554d5, type: 3}
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: sfxSounds.Array.data[9].name
       value: Coins
@@ -1060,15 +1146,23 @@ PrefabInstance:
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: sfxSounds.Array.data[15].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 17f3ab444e4f2ff45a3f96b264dff46f, type: 3}
+      objectReference: {fileID: 8300000, guid: a979a97006cbfff4aafe773c7f5d17c7, type: 3}
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: sfxSounds.Array.data[15].name
-      value: Shining
+      value: PushNail
+      objectReference: {fileID: 0}
+    - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
+      propertyPath: sfxSounds.Array.data[16].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 87bb4faa3ecba694da90aee4b067155f, type: 3}
+    - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
+      propertyPath: sfxSounds.Array.data[16].name
+      value: ItemAppear
       objectReference: {fileID: 0}
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: musicSounds.Array.data[0].clip
       value: 
-      objectReference: {fileID: 8300000, guid: e1f49c740e1d8844d8abdaee7d5a9457, type: 3}
+      objectReference: {fileID: 8300000, guid: ee407a2cb3486f34cadff7366656067c, type: 3}
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: musicSounds.Array.data[0].name
       value: MenuTheme
@@ -1084,14 +1178,14 @@ PrefabInstance:
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: musicSounds.Array.data[2].clip
       value: 
-      objectReference: {fileID: 8300000, guid: ee407a2cb3486f34cadff7366656067c, type: 3}
+      objectReference: {fileID: 8300000, guid: 6ccaea4cf2e671e4aa20a3a6003dfd0c, type: 3}
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: musicSounds.Array.data[2].name
       value: GamePlayTheme
       objectReference: {fileID: 0}
     - target: {fileID: 8192706568883094618, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: m_Volume
-      value: 0.3
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 8979782646643045785, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: m_Name
@@ -1741,7 +1835,6 @@ MonoBehaviour:
   datatPictureScriptTableObjects:
   - {fileID: 11400000, guid: c47882f44d3e3c646979ca5141c2d742, type: 2}
   - {fileID: 11400000, guid: 4506d66440feaac4eb180b9fb86e4bfb, type: 2}
-  - {fileID: 11400000, guid: 43b4b6627a1a8cb4c871340b6ea910c2, type: 2}
 --- !u!4 &1697723447
 Transform:
   m_ObjectHideFlags: 0
@@ -1756,6 +1849,55 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 144111223}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1698873502
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1698873504}
+  - component: {fileID: 1698873503}
+  m_Layer: 0
+  m_Name: Unity-RecorderBindings
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1698873503
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698873502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a24bc7e8573847adbdf1198360b3c794, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_References:
+    m_Keys:
+    - 6091c7a3885c47542b711f4b1e6461a0
+    m_Values:
+    - {fileID: 434113434}
+--- !u!4 &1698873504
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698873502}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1712261028
 GameObject:
@@ -2789,3 +2931,5 @@ SceneRoots:
   - {fileID: 1261546334}
   - {fileID: 144111223}
   - {fileID: 1048155220}
+  - {fileID: 257283571}
+  - {fileID: 1698873504}

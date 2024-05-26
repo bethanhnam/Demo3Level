@@ -17,7 +17,9 @@ public class UndoPanel : MonoBehaviour
 	public RectTransform watchAdButton;
 	public TextMeshProUGUI numOfUsedText;
 	public CanvasGroup canvasGroup;
-	private void Start()
+
+    public bool isLock = false;
+    private void Start()
 	{
 		canvasGroup = GetComponent<CanvasGroup>();
 		numOfUsed = 1;
@@ -26,7 +28,8 @@ public class UndoPanel : MonoBehaviour
 	{
 		if (SaveSystem.instance.powerTicket >= numOfUsed)
 		{
-			numOfUse++;
+            ShowTutor();
+            numOfUse++;
 			FirebaseAnalyticsControl.Instance.LogEventUndoUsed(numOfUse);
 
 			SaveSystem.instance.addTiket(-numOfUsed, 0);
@@ -44,8 +47,9 @@ public class UndoPanel : MonoBehaviour
 	{
 		AdsManager.instance.ShowRewardVideo(() =>
 		{
-			//xem qu?ng cáo 
-			numOfUseByAds++;
+			ShowTutor();
+            //xem qu?ng cáo 
+            numOfUseByAds++;
 			FirebaseAnalyticsControl.Instance.LogEventUndoReplayByAds(numOfUseByAds);
 
 			numOfUse++;
@@ -58,30 +62,46 @@ public class UndoPanel : MonoBehaviour
 		});
 
 	}
-	private void Update()
-	{
-		numOfUsedText.text = ("X" + (numOfUsed).ToString());
-		if (numOfUsed == 1)
-		{
-			watchAdButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
-		}
-		else
-		{
-			watchAdButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
-		}
-	}
-	public void Open()
+    public void CheckNumOfUse()
+    {
+        numOfUsedText.text = ("X" + (numOfUsed).ToString());
+        if (!isLock)
+        {
+            if (numOfUsed == 1)
+            {
+                Interactable();
+            }
+            else
+            {
+                Uniteractable();
+            }
+        }
+    }
+    public void LockOrUnlock(bool status)
+    {
+        isLock = status;
+    }
+    public void Uniteractable()
+    {
+        watchAdButton.GetComponent<Button>().interactable = false;
+    }
+    public void Interactable()
+    {
+        watchAdButton.GetComponent<Button>().interactable = true;
+    }
+    public void Open()
 	{
 		if (!this.gameObject.activeSelf)
 		{
-			this.gameObject.SetActive(true);
+            OffPoiter();
+            this.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("OpenPopUp");
-			panel.localRotation = Quaternion.identity;
+			//panel.localRotation = Quaternion.identity;
 			canvasGroup.blocksRaycasts = false;
 			//UIManager.instance.DeactiveTime();
-			panel.localPosition = new Vector3(-351, 479, 0);
-			panel.localScale = new Vector3(.8f, .8f, 1);
-			closeButton.localPosition = new Vector3(364, 277.600006f, 0);
+			//panel.localPosition = new Vector3(-351, 479, 0);
+			//panel.localScale = new Vector3(.8f, .8f, 1);
+			//closeButton.localPosition = new Vector3(364, 277.600006f, 0);
 			canvasGroup.alpha = 0;
 			canvasGroup.DOFade(1, 0.1f);
 			panel.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
@@ -89,6 +109,7 @@ public class UndoPanel : MonoBehaviour
 				ActiveCVGroup();
 				GamePlayPanelUIManager.Instance.Close();
 			});
+            CheckNumOfUse();
 
 		}
 	}
@@ -97,23 +118,35 @@ public class UndoPanel : MonoBehaviour
 		if (this.gameObject.activeSelf)
 		{
 			canvasGroup.blocksRaycasts = false;
-			closeButton.DOAnchorPos(new Vector2(552f, -105f), .1f, false).OnComplete(() =>
-			{
-				panel.DORotate(new Vector3(0, 0, -10f), 0.25f, RotateMode.Fast).OnComplete(() =>
-				{
-					panel.DOAnchorPos(new Vector2(panel.transform.position.x, -1467f), 0.25f, false).OnComplete(() =>
-					{
-						this.gameObject.SetActive(false);
-						AudioManager.instance.PlaySFX("ClosePopUp");
-						GamePlayPanelUIManager.Instance.ActiveTime();
-						GamePlayPanelUIManager.Instance.Appear();
-						GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+			//closeButton.DOAnchorPos(new Vector2(552f, -105f), .1f, false).OnComplete(() =>
+			//{
+			//	panel.DORotate(new Vector3(0, 0, -10f), 0.25f, RotateMode.Fast).OnComplete(() =>
+			//	{
+			//		panel.DOAnchorPos(new Vector2(panel.transform.position.x, -1467f), 0.25f, false).OnComplete(() =>
+			//		{
+			//			this.gameObject.SetActive(false);
+			//			AudioManager.instance.PlaySFX("ClosePopUp");
+			//			GamePlayPanelUIManager.Instance.ActiveTime();
+			//			GamePlayPanelUIManager.Instance.Appear();
+			//			GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
 						
-						ActiveCVGroup();
-					});
-				});
-			});
-		}
+			//			ActiveCVGroup();
+			//		});
+			//	});
+			//});
+   //         canvasGroup.DOFade(0, 0.1f);
+            panel.DOScale(new Vector3(0.8f, 0.8f, 0), 0.1f).OnComplete(() =>
+            {
+                this.gameObject.SetActive(false);
+                AudioManager.instance.PlaySFX("ClosePopUp");
+                GamePlayPanelUIManager.Instance.ActiveTime();
+                GamePlayPanelUIManager.Instance.Appear();
+                GamePlayPanelUIManager.Instance.ShowPoiterAgain1();
+                GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+
+                ActiveCVGroup();
+            });
+        }
 	}
 	public void ActiveCVGroup()
 	{
@@ -122,4 +155,21 @@ public class UndoPanel : MonoBehaviour
 			canvasGroup.blocksRaycasts = true;
 		}
 	}
+    public void ShowTutor()
+    {
+        if (Stage.Instance.isTutor)
+        {
+            GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(false);
+            GamePlayPanelUIManager.Instance.ActiveBlackPic(false);
+			GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
+            Stage.Instance.isTutor = false;
+        }
+    }
+    public void OffPoiter()
+    {
+        if (Stage.Instance.isTutor)
+        {
+            GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(false);
+        }
+    }
 }

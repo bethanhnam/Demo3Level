@@ -31,28 +31,19 @@ public class GamePlayPanelUIManager : MonoBehaviour
 
 	//notice
 	public Notice notice;
-	private void Awake()
+
+	//boosterbar
+	public BoosterBar boosterBar;
+
+    //blackPic
+    public Image blackPic;
+    private void Awake()
 	{
 		Instance = this;
 	}
 	private void Start()
 	{
 		AudioManager.instance.PlayMusic("GamePlayTheme");
-	}
-	public int TakeLevelText()
-	{
-		int level = 0;
-		for (int i = 0; i < DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item.Length;i++) {
-			if(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[i].Level.ToString() == GameManagerNew.Instance.CurrentLevel.ToString())
-			{
-				level = DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[i].Id;
-			}
-			else
-			{
-				level = DataLevelManager.Instance.GetLevel();
-			}
-		}
-		return level;
 	}
 	public void setText(int level)
 	{ 
@@ -65,7 +56,10 @@ public class GamePlayPanelUIManager : MonoBehaviour
 			levelText.text = DataLevelManager.Instance.GetLevel().ToString();
         }
 	}
-	public void Appear()
+    private void OnEnable()
+    {
+    }
+    public void Appear()
 	{
 		gameObject.SetActive(true);
 		cvButton.blocksRaycasts = false;
@@ -203,4 +197,20 @@ public class GamePlayPanelUIManager : MonoBehaviour
 			notice.NoticeDisappear();
 		}
 	}
+	public void ActiveBlackPic(bool status)
+	{
+		blackPic.gameObject.SetActive(status);
+	}
+	public void ShowPoiterAgain1()
+	{
+		StartCoroutine(ShowPoiterAgain());
+	}
+    IEnumerator ShowPoiterAgain()
+    {
+        yield return new WaitForSeconds(1f);
+        if (Stage.Instance.isTutor)
+        {
+            GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
+        }
+    }
 }

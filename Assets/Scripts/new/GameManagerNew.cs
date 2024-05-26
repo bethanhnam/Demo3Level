@@ -53,19 +53,18 @@ public class GameManagerNew : MonoBehaviour
 		Instance = this;
 		iNSelectionLayer1 = LayerMask.GetMask("Hole");
 		iNSelectionLayer1 = LayerMask.GetMask("Hole");
-		IronLayer12 = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "BothLayer", "layer1vs2", "layer1vs2vs3", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
+		IronLayer12 = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "IronLayer9", "BothLayer", "layer1vs2", "layer1vs2vs3", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
 	}
-
-	public void InitStartGame()
+    public void InitStartGame()
 	{
 		PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
 		ScalePicForDevices(PictureUIManager.transform.gameObject);
-		PictureUIManager.Init(LevelManagerNew.Instance.LevelBase.Level);
-		UIManagerNew.Instance.ButtonMennuManager.Appear();
+		PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
+		//UIManagerNew.Instance.ButtonMennuManager.Appear();
 		UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
-		UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
-		SetCompletImg();
-		SetCompleteStory();
+        UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
+		UIManagerNew.Instance.ChestSLider.CreateMarker();
+        SetCompletImg();
 		Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
 		Bg.SetActive(true);
 	}
@@ -82,7 +81,7 @@ public class GameManagerNew : MonoBehaviour
 	}
 	public void ScaleForDevices(GameObject obj)
 	{
-		float targetAspect = 9.0f / 16.0f;
+		float targetAspect = 9.0f / 18.0f;
 		float windowAspect = (float)Screen.width / (float)Screen.height;
 
 		if (windowAspect < targetAspect)
@@ -94,19 +93,47 @@ public class GameManagerNew : MonoBehaviour
 
 	public void CreateLevel(int _level)
 	{
-		Level = _level;
-		CurrentLevel = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[Level].Level, new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
-		ScaleForDevices(CurrentLevel.transform.gameObject);
-		SetTargetScale(currentLevel.gameObject);
-		UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
-		GamePlayPanelUIManager.Instance.setText(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[Level].Id);
-		CurrentLevel.Init(Level);
-		CurrentLevel.ResetBooster();
-		PictureUIManager.Close();
-		AudioManager.instance.PlayMusic("GamePlayTheme");
-		FirebaseAnalyticsControl.Instance.LogEventGamePlayAccessSuccessfully(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[Level].Id);
+		//Level = _level;
+		//CurrentLevel = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[Level].Level, new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
+		//ScaleForDevices(CurrentLevel.transform.gameObject);
+		//SetTargetScale(currentLevel.gameObject);
+		//UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
+		//GamePlayPanelUIManager.Instance.setText(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[Level].Id);
+		//CurrentLevel.Init(Level);
+		//CurrentLevel.ResetBooster();
+		//PictureUIManager.Close();
+		//AudioManager.instance.PlayMusic("GamePlayTheme");
+		//FirebaseAnalyticsControl.Instance.LogEventGamePlayAccessSuccessfully(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[Level].Id);
+
+		if (CheckLevelStage())
+		{
+            UIManagerNew.Instance.ButtonMennuManager.OpenCompletePanel();
+        }
+		else
+		{
+			CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[LevelManagerNew.Instance.stage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
+			ScaleForDevices(CurrentLevel.transform.gameObject);
+			SetTargetScale(currentLevel.gameObject);
+			UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
+			GamePlayPanelUIManager.Instance.setText(LevelManagerNew.Instance.stage + 1);
+			CurrentLevel.Init(Level);
+			CurrentLevel.ResetBooster();
+			PictureUIManager.Close();
+			AudioManager.instance.PlayMusic("GamePlayTheme");
+		}
+		//FirebaseAnalyticsControl.Instance.LogEventGamePlayAccessSuccessfully(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[Level].Id);
 	}
-	public Vector3 ScalelevelForDevices(GameObject obj)
+	public bool CheckLevelStage()
+	{
+		bool status =false;
+		if (LevelManagerNew.Instance.stage >= LevelManagerNew.Instance.stageList.Count)
+		{
+			status = true;
+		}
+            //show popup
+        return status;
+    }
+    public Vector3 ScalelevelForDevices(GameObject obj)
 	{
 		float targetAspect = 9.0f / 16.0f;
 		float windowAspect = (float)Screen.width / (float)Screen.height;
@@ -129,7 +156,7 @@ public class GameManagerNew : MonoBehaviour
 		ReOpenLevel(() =>
 		{
 			GamePlayPanelUIManager.Instance.Settimer(181);
-			CurrentLevel = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[Level].Level, new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
+			CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[LevelManagerNew.Instance.stage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
 			currentLevel.resetData();
 			Stage.Instance.DeactiveDeleting();
 			GamePlayPanelUIManager.Instance.ShowNotice(false);
@@ -145,7 +172,7 @@ public class GameManagerNew : MonoBehaviour
 		ReOpenLevel(() =>
 		{
 			GamePlayPanelUIManager.Instance.Settimer(181);
-			CurrentLevel = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[Level].Level, new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
+			CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[LevelManagerNew.Instance.stage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
 			currentLevel.resetData();
 			GamePlayPanelUIManager.Instance.ShowNotice(false);
 			Stage.Instance.ResetBooster();
@@ -161,10 +188,6 @@ public class GameManagerNew : MonoBehaviour
 	}
 	public void CloseLevel(bool status)
 	{
-		if (status == true)
-		{
-			pictureUIManager.DisableCharacter();
-		}
 		CurrentLevel.Close(status);
 
 	}
@@ -210,7 +233,7 @@ public class GameManagerNew : MonoBehaviour
 	}
 	public void BackToMenu()
 	{
-		PictureUIManager.Init(LevelManagerNew.Instance.LevelBase.Level);
+		PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
 		PictureUIManager.Open();
 		UIManagerNew.Instance.ButtonMennuManager.Appear();
 		UIManagerNew.Instance.GamePlayPanel.Close();
@@ -257,7 +280,8 @@ public class GameManagerNew : MonoBehaviour
 	}
 	public void SetCompleteStory()
 	{
-		var winStrike = 0;
+        
+        var winStrike = 0;
 		if (DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage >= 1)
 		{
 			for (int i = 0; i <= DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage; i++)
@@ -271,16 +295,13 @@ public class GameManagerNew : MonoBehaviour
 		}
 		if (LevelManagerNew.Instance.LevelBase.CountLevelWin == winStrike)
 		{
-			if (DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage + 1 == PictureUIManager.Stage.Length)
+            if (DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage + 1 == PictureUIManager.Stage.Length)
 			{
-				CheckSliderValue();
+                CheckSliderValueAndDisplay();
 			}
 			else
 			{
-				StartCoroutine(NextStage(() =>
-				{
-					//UIManagerNew.Instance.ButtonMennuManager.Appear();
-				}));
+				StartCoroutine(NextStage());
 			}
 		}
 		else
@@ -290,7 +311,8 @@ public class GameManagerNew : MonoBehaviour
 			{
 				CompleteImgDisappear();
 			}
-		}
+            UIManagerNew.Instance.ButtonMennuManager.ActiveCVGroup();
+        }
 	}
 	private void CreateCharacterParticleEF(Vector3 position, MeshRenderer mesh)
 	{
@@ -300,101 +322,143 @@ public class GameManagerNew : MonoBehaviour
 		//shape.meshRenderer = SkeletonGraphic.;
 		Destroy(gameobj, 1f);
 	}
-	public void CompleteImgAppearViaButton()
+	public void CompleteImgAppearViaButton(Action action)
 	{
-		StartCoroutine(CompleteImgAppear());
+        StartCoroutine(CompleteImgAppear(action));
 	}
-	IEnumerator CompleteImgAppear()
+	IEnumerator CompleteImgAppear(Action action)
 	{
-		pictureUIManager.ChangeReaction(0, 2, false);
-		yield return new WaitForSeconds(1f);
-		foreach (var character in pictureUIManager.characters)
+        pictureUIManager.ChangeReaction(0, 2, false);
+		yield return new WaitForSeconds(0.5f);
+        AudioManager.instance.PlaySFX("Shining");
+		AudioManager.instance.musicSource.Stop();
+        foreach (var character in pictureUIManager.characters)
 		{
 			character.transform.SetParent(UIManagerNew.Instance.CompleteImg.transform);
 			CreateCharacterParticleEF(character.transform.position + new Vector3(0,1.5f,1), character.transform.GetComponent<MeshRenderer>());
 		}
 		pictureUIManager.ChangeReaction(0, 3, true);
 		AudioManager.instance.musicSource.Play();
+        //.Instance.CompleteImg.changeColor();
 		UIManagerNew.Instance.CompleteImg.gameObject.SetActive(true);
 		UIManagerNew.Instance.CompleteImg.GetComponent<CanvasGroup>().alpha = 0;
 		UIManagerNew.Instance.CompleteImg.GetComponent<CanvasGroup>().DOFade(1, 1f);
 		UIManagerNew.Instance.ButtonMennuManager.Close();
-	}
+        yield return new WaitForSeconds(0.2f);
+		action();
+    }
 	public void CompleteImgDisappear()
 	{
 		UIManagerNew.Instance.CompleteImg.GetComponent<CanvasGroup>().alpha = 1;
 		UIManagerNew.Instance.CompleteImg.GetComponent<CanvasGroup>().DOFade(0, 0.1f).OnComplete(() =>
 		{
-			UIManagerNew.Instance.CompleteImg.gameObject.SetActive(false);
+			UIManagerNew.Instance.CompleteImg.Disablepic();
 			AudioManager.instance.musicSource.Play();
 		});
 	}
 	public void SetCompletImg()
 	{
-		UIManagerNew.Instance.CompleteImg.sprite = DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Completeimg;
-		UIManagerNew.Instance.CompleteImg.SetNativeSize();
+		UIManagerNew.Instance.CompleteImg.completeImg.sprite = DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Completeimg;
+		UIManagerNew.Instance.CompleteImg.completeImg.SetNativeSize();
 		ScalePicForDevices(UIManagerNew.Instance.CompleteImg.transform.gameObject);
 	}
-	IEnumerator NextStage(Action action)
+	IEnumerator NextStage()
 	{
 		yield return new WaitForSeconds(1);
-		LevelManagerNew.Instance.NextStage();
-		UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
+        pictureUIManager.ChangeReaction(0, 0, true);
+        LevelManagerNew.Instance.NextPicStage();
+        UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
 		UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
-		PictureUIManager.Init(LevelManagerNew.Instance.LevelBase.Level);
-		action();
+        //UIManagerNew.Instance.ChestSLider.CreateMarker();
+        
+		PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
 	}
 	public void NextLevelPicture()
 	{
-		//if (LevelManagerNew.Instance.LevelBase.Level == 0)
-		//{
-		//	UIManagerNew.Instance.ButtonMennuManager.OpenRattingPanel();
-		//}
-		//else
-		//{
-			pictureUIManager.DisableCharacter();
+        
+        if (LevelManagerNew.Instance.LevelBase.Level == 0)
+		{
+            UIManagerNew.Instance.ButtonMennuManager.OpenRattingPanel();
+		}
+		else
+		{
+            pictureUIManager.DisableCharacter();
 			CompleteLevelAfterReward();
-		//}
+		}
 	}
 	public void CompleteLevelAfterReward()
 	{
+        pictureUIManager.DisableCharacter();
 		Destroy(PictureUIManager.gameObject);
-		LevelManagerNew.Instance.NetxtLevel();
+        LevelManagerNew.Instance.NetxtLevel();
 		PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
-		PictureUIManager.Init(LevelManagerNew.Instance.LevelBase.Level);
-		ScalePicForDevices(PictureUIManager.transform.gameObject);
+		PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
+        AudioManager.instance.musicSource.Play();
+        ScalePicForDevices(PictureUIManager.transform.gameObject);
 		UIManagerNew.Instance.ButtonMennuManager.Appear();
 		UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
-		UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
-		SetCompletImg();
+        UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
+        UIManagerNew.Instance.ChestSLider.CreateMarker();
+        SetCompletImg();
 		SetCompleteStory();
-		UIManagerNew.Instance.CongratPanel.TakeReward();
+		//UIManagerNew.Instance.CongratPanel.takeRewardData();
 		Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
 	}
 	public void RecreatePicAfterCompleteGame()
 	{
 		Destroy(PictureUIManager.gameObject);
-		PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
-		PictureUIManager.Init(LevelManagerNew.Instance.LevelBase.Level);
-		ScalePicForDevices(PictureUIManager.transform.gameObject);
+        PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
+		PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
+        AudioManager.instance.musicSource.Play();
+        ScalePicForDevices(PictureUIManager.transform.gameObject);
 		UIManagerNew.Instance.ButtonMennuManager.Appear();
 		UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
 		UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
-		SetCompletImg();
+        UIManagerNew.Instance.ChestSLider.CreateMarker();
+        SetCompletImg();
 		SetCompleteStory();
-		UIManagerNew.Instance.CongratPanel.TakeReward();
+		//UIManagerNew.Instance.CongratPanel.takeRewardData();
 		Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
 	}
-	public void CheckSliderValue()
+	public bool CheckSliderValueAndDisplay()
 	{
-		if (UIManagerNew.Instance.ChestSLider.mySlider.value == UIManagerNew.Instance.ChestSLider.mySlider.maxValue)
+		var result = false;
+        if (UIManagerNew.Instance.ChestSLider.currentValue == UIManagerNew.Instance.ChestSLider.maxValue1)
 		{
-			StartCoroutine(DisPlayPresent());
+            UIManagerNew.Instance.ButtonMennuManager.DiactiveCVGroup();
+            result = true;
+            StartCoroutine(DisPlayPresent());
 		}
+		return result;
 	}
+	public bool CheckSliderValue()
+	{
+        var result = false;
+        if (UIManagerNew.Instance.ChestSLider.currentValue == UIManagerNew.Instance.ChestSLider.maxValue1)
+        {
+            result = true;
+        }
+        return result;
+    }
 	IEnumerator DisPlayPresent()
 	{
-		yield return new WaitForSeconds(1f);
-		UIManagerNew.Instance.ButtonMennuManager.DisPlayPresent();
+        yield return new WaitForSeconds(1f);
+        UIManagerNew.Instance.ButtonMennuManager.DisPlayPresent();
+	}
+	public void CheckStarValue(int numOfStar,Transform des)
+	{
+		if (SaveSystem.instance.star - numOfStar >= 0)
+		{
+			SaveSystem.instance.star -= numOfStar;
+			SaveSystem.instance.SaveData();
+			GameManagerNew.Instance.pictureUIManager.DisableCV();
+			UIManagerNew.Instance.ButtonMennuManager.starMove.CreateStar(des.position, (() => {
+				DataLevelManager.Instance.SetLevelDone(Level);
+			}),numOfStar);
+		}
+		else
+		{
+			UIManagerNew.Instance.ButtonMennuManager.OpenNotEnoughStar();
+		}
 	}
 }

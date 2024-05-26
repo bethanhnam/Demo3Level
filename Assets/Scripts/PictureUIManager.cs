@@ -22,8 +22,9 @@ public class PictureUIManager : MonoBehaviour
 	public String[] animationStage = { "idle_sad", "sad-happy", "happy", "idle_happy" };
 	public ItemInStage[] Stage { get => stage; set => stage = value; }
 	public int Level { get => level; set => level = value; }
+    public CanvasGroup CanvasGroup { get => canvasGroup; set => canvasGroup = value; }
 
-	public void Init(int _level)
+    public void Init(int _level)
 	{
 		level = _level;
 		if (level >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
@@ -69,16 +70,16 @@ public class PictureUIManager : MonoBehaviour
 						{
 							if (stage[i].ObjBtn[j].activeSelf)
 							{
-								stage[i].ObjBtn[j].SetActive(false);
+                                stage[i].ObjBtn[j].SetActive(false);
 							}
 						}
 						else
 						{
 							if (!stage[i].ObjBtn[j].activeSelf)
 							{
-								stage[i].ObjBtn[j].transform.localScale = new Vector2(0.8f, 0.8f);
 								stage[i].ObjBtn[j].SetActive(true);
-							}
+								stage[i].ObjBtn[j].transform.localScale = Vector3.zero;
+                            }
 						}
 					}
 
@@ -146,7 +147,9 @@ public class PictureUIManager : MonoBehaviour
 				}
 			}
 		}
-	}
+		SetStarText();
+
+    }
 	public void ChangeReaction(float time, int i, bool loop)
 	{
 		StartCoroutine(ChangeReaction1(time, i, loop));
@@ -173,11 +176,20 @@ public class PictureUIManager : MonoBehaviour
 	{
 		for (int j = 0; j < stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn.Length; j++)
 		{
-			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.localScale = Vector3.zero;
-			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.DOScale(0.8f, 0.3f);
-			//stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].SetActive(true);
-		}
-	}
+            stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.localScale = Vector3.zero;
+			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.DOScale(1f, 0.3f);
+        }
+		SetStarText();
+
+    }
+	public void SetStarText()
+	{
+        for (int j = 0; j < stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn.Length; j++)
+        {
+            var starText = DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[j].Star;
+            stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].GetComponent<LevelButton>().SetStarText(starText);
+        }
+    }
 	public void ChangeItem(GameObject obj)
 	{
 		int bouncingImage = Animator.StringToHash("FixedObjBouncing");
@@ -186,12 +198,12 @@ public class PictureUIManager : MonoBehaviour
 
 	public void Close()
 	{
-		canvasGroup.blocksRaycasts = false;
+		CanvasGroup.blocksRaycasts = false;
 		for (int i = 0;i < characters.Length;i++)
 		{
 			characters[i].gameObject.SetActive(false);
 		}
-		canvasGroup.DOFade(0, 0.3f).OnComplete(() =>
+		CanvasGroup.DOFade(0, 0.3f).OnComplete(() =>
 		{
 			gameObject.SetActive(false);
 		});
@@ -203,13 +215,23 @@ public class PictureUIManager : MonoBehaviour
 			characters[i].gameObject.SetActive(true);
 		}
 		gameObject.SetActive(true);
-		canvasGroup.DOFade(1, 0.3f).OnComplete(() =>
+		CanvasGroup.DOFade(1, 0.3f).OnComplete(() =>
 		{
 			
-			canvasGroup.blocksRaycasts = true;
+			CanvasGroup.blocksRaycasts = true;
 		});
 	}
-	public void ChangeItemOnly(int _level)
+	public void DisableCV()
+	{
+		canvasGroup.blocksRaycasts = false;
+		canvasGroup.interactable = false;
+	}
+    public void EnableCV()
+    {
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.interactable = true;
+    }
+    public void ChangeItemOnly(int _level)
 	{
 		level = _level;
 		if (level >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
@@ -338,8 +360,14 @@ public class PictureUIManager : MonoBehaviour
 		yield return new WaitForSeconds(1f);
 		Init(level);
 		DisplayButton();
-		UIManagerNew.Instance.ButtonMennuManager.Appear();
-		GameManagerNew.Instance.CheckSliderValue();
+		if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
+		{
+			UIManagerNew.Instance.ButtonMennuManager.Appear();
+		}
+		if (!GameManagerNew.Instance.CheckSliderValueAndDisplay())
+		{
+            UIManagerNew.Instance.ButtonMennuManager.ActiveCVGroup();
+        }
 	}
 
 	public Vector3 GetCurrentPosItem()
@@ -350,7 +378,7 @@ public class PictureUIManager : MonoBehaviour
 	{
 		foreach(var character in characters)
 		{
-			character.gameObject.SetActive(false);
+			Destroy(character.gameObject);
 		}
 	}
 }

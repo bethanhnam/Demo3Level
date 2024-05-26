@@ -71,6 +71,7 @@ public class LoadingScreen : MonoBehaviour
 				cv.DOFade(0, 0.3f).OnComplete(() =>
 				{
 					GameManagerNew.Instance.InitStartGame();
+					UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
 					if (RemoteConfigController.instance.IsShowOpenAds == 1)
 					{
 						AdsControl.Instance.ShowOpenAds();
@@ -86,7 +87,7 @@ public class LoadingScreen : MonoBehaviour
 	{
 		DontDestroyOnLoad(this.gameObject);
 		LoadingScene(1);
-		AudioManager.instance.PlayMusic("Loading");
+		//AudioManager.instance.PlayMusic("Loading");
 		Application.targetFrameRate = 60;
 	}
 }

@@ -14,9 +14,13 @@ public class LevelManagerNew : MonoBehaviour
 
 	public LevelBase LevelBase { get => levelBase; set => levelBase = value; }
 
-	private void Awake()
+	public List<Stage> stageList = new List<Stage>();
+
+	public int stage;
+    private void Awake()
 	{
 		Instance = this;
+		stage = PlayerPrefs.GetInt("stage");
 	}
 
 	public void Init()
@@ -76,13 +80,38 @@ public class LevelManagerNew : MonoBehaviour
 		levelBase.CountLevelWin = 0;
 		SaveData();
 	}
-	public void NextStage()
+	public void NextPicStage()
 	{
 		DataLevelManager.Instance.DataLevel.Data[levelBase.Level].IndexStage++;
 		SaveData();
 		DataLevelManager.Instance.SaveData();
 	}
-	
+	public int GetStage()
+	{
+		if(stage > stageList.Count)
+		{
+			stage = stageList.Count - 1;
+		}
+		return stage;
+	}
+	public void SaveStage()
+	{
+		PlayerPrefs.SetInt("stage", stage);
+	}
+	public int NextStage()
+	{
+        if (stage + 1 > stageList.Count)
+        {
+            stage = stageList.Count - 1;
+        }
+		else
+		{
+			stage++;
+		}
+        SaveStage();
+		Debug.Log(stage);
+        return stage;
+    }
 }
 
 [Serializable]

@@ -20,6 +20,7 @@ public class RewardDaily : MonoBehaviour
 	public bool isActive = false;
 	public int magicTiket;
 	public int powerTicket;
+	public int gold;
 
 	private void Start()
 	{

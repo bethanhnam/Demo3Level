@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using DG.Tweening;
 
 public class NailControl : MonoBehaviour
 {
@@ -43,8 +44,9 @@ public class NailControl : MonoBehaviour
 
 	public void SetNewPos(Vector3 pos)
 	{
-		transform.position = pos;
-		anim.Play(unSelect, 0, 0);
+		AudioManager.instance.PlaySFX("PushNail");
+        transform.position = pos;
+        anim.Play(unSelect, 0, 0);
 	}
 
 	public void Unselect() { 

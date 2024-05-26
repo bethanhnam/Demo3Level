@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static ItemPicture;
 
 [CreateAssetMenu(menuName = "ScriptableObjects / Data Picture")]
 public class DatatPictureScriptTableObject : ScriptableObject
@@ -10,9 +11,12 @@ public class DatatPictureScriptTableObject : ScriptableObject
 	private Stage1[] stage;
 	[SerializeField]
 	private PictureUIManager pictureUIManager;
+	[SerializeField]
+    private Rw[] presentA;
 
-	public Stage1[] Stage { get => stage; }
+    public Stage1[] Stage { get => stage; }
 	public PictureUIManager PictureUIManager { get => pictureUIManager; }
+    public Rw[] PresentA { get => presentA; set => presentA = value; }
 }
 
 [Serializable]
@@ -31,13 +35,13 @@ public class ItemPicture : IComparable<ItemPicture>
 	[SerializeField]
 	private int id;
 	[SerializeField]
-	private Stage level;
+	private int star;
 	[SerializeField]
 	private Sprite sprItem;
 
 	public int Id { get => id; }
-	public Stage Level { get => level; }
-	public Sprite SprItem { get => sprItem;  }
+	public int Star { get => star; }
+	public Sprite SprItem { get => sprItem; }
 
 	public int CompareTo(ItemPicture other)
 	{
@@ -54,5 +58,20 @@ public class ItemPicture : IComparable<ItemPicture>
 			else
 				return 0;
 		}
+	}
+	[Serializable]
+	public class Rw
+	{
+		public string name;
+		public int value;
+		public type type;
+		public Sprite rwSprite;
+	}
+	public enum type
+	{
+		gold,
+		typea,
+		typeb,
+		typec
 	}
 }

@@ -31,7 +31,7 @@ public class Notice : MonoBehaviour
 			{
 				canAppear = false;
 				this.gameObject.SetActive(true);
-				gameObject.transform.DOMove(noticeDes.transform.position, 0.3f).OnComplete(() =>
+				gameObject.transform.DOMove(noticeDes.transform.position, 0.1f).OnComplete(() =>
 				{
 					try
 					{
@@ -47,18 +47,24 @@ public class Notice : MonoBehaviour
 	}
 	public void NoticeAppearViaButton()
 	{
-		this.gameObject.SetActive(true);
-		gameObject.transform.DOMove(noticeDes.transform.position, 0.3f).OnComplete(() =>
-			{
-				try
-				{
-					if (gameObject.activeSelf == true)
-					{
-						StartCoroutine(DisableNotice());
-					}
-				}
-				catch { }
-			});
+		try
+		{
+			this.gameObject.transform.position = noticeDes.transform.position;
+			this.gameObject.SetActive(true);
+            try
+            {
+                if (gameObject.activeSelf == true)
+                {
+                    StartCoroutine(DisableNotice());
+                }
+            }
+            catch { }
+    //        gameObject.transform.DOMove(noticeDes.transform.position, 0.3f).OnComplete(() =>
+				//{
+					
+				//});
+		}
+		catch { };
 	}
 IEnumerator DisableNotice()
 {

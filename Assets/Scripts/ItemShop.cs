@@ -13,7 +13,6 @@ public class ItemShop : MonoBehaviour
     public TextMeshProUGUI PriceText;
     public bool nonADS;
 
-
     public void ClickMe()
     {
         IapControl.Instance.BuyProductID(namePack, () =>
@@ -27,17 +26,29 @@ public class ItemShop : MonoBehaviour
             
         }); 
     }
+    public void BuyByGold()
+    {
+        
+            SaveSystem.instance.addTiket(this.powerTicket, this.magicTicket);
+            if (nonADS)
+            {
+                SaveSystem.instance.nonAds = 1;
+                SaveSystem.instance.SaveData();
+            }
+
+
+    }
 
     void Start()
     {
-        if (magicTicket >0)
+        PriceText.text = IapControl.Instance.getPrice(namePack);
+        if (magicTicket >0 && magicValueText != null)
         {
             magicValueText.text = magicTicket.ToString();
         }
-        else if(powerTicket > 0) {
+        else if(powerTicket > 0 && powerValueText != null) {
             powerValueText.text = powerTicket.ToString();
         }
-        PriceText.text = IapControl.Instance.getPrice(namePack);
     }
 
 

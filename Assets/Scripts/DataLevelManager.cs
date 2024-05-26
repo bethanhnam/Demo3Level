@@ -123,12 +123,13 @@ public class DataLevelManager : MonoBehaviour
 	//}
 	public void SetLevelDone(int i)
 	{
-		FirebaseAnalyticsControl.Instance.LogEventGamePlayWin(DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[GameManagerNew.Instance.Level].Id);
-		
+		//FirebaseAnalyticsControl.Instance.LogEventGamePlayWin(DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[GameManagerNew.Instance.Level].Id);
+
 		dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].Stage[dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].DataItmeLevel[i].IsUnlock = true;
 		LevelManagerNew.Instance.LevelBase.CountLevelWin += 1;
 		SaveData();
 		LevelManagerNew.Instance.SaveData();
+		UIManagerNew.Instance.FixItemUI.Appear(DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[i].SprItem);
 	}
 	public void ResetData()
 	{

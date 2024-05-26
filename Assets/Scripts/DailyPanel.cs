@@ -18,16 +18,18 @@ public class DailyPanel : MonoBehaviour
 	public reciveRewardPanel reciveRewardPanel;
 	public CanvasGroup canvasGroup;
 
-	private void Start()
+    private void Awake()
+    {
+        lastDate = SaveSystem.instance.days;
+    }
+    private void Start()
 	{
 		checkDay();
-
 	}
 
 	private void checkDay()
 	{
 		//get last claim time");
-		lastDate = DailyRWManager.instance.days;
 		string lastTime = PlayerPrefs.GetString("LastClaimTime");
 		DateTime lastclaimTime;
 		if (!string.IsNullOrEmpty(lastTime))
@@ -41,9 +43,9 @@ public class DailyPanel : MonoBehaviour
 		//enable / disable claim button
 		if (DateTime.Today > lastclaimTime)
 		{
-			if (DailyRWManager.instance.days < 7)
+			if (SaveSystem.instance.days < 7)
 			{
-				dayRewards[DailyRWManager.instance.days].isActive = true;
+				dayRewards[SaveSystem.instance.days].isActive = true;
 				claim.interactable = true;
 				claim.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = Color.white;
 				claimX2.interactable = true;
@@ -71,7 +73,7 @@ public class DailyPanel : MonoBehaviour
 	}
 	private void OnEnable()
 	{
-		for (int i = 0; i < DailyRWManager.instance.days; i++)
+		for (int i = 0; i < SaveSystem.instance.days; i++)
 		{
 			dayRewards[i].isClaim = true;
 		}
@@ -83,13 +85,11 @@ public class DailyPanel : MonoBehaviour
 		isClaim = true;
 		if (dayRewards[lastDate].rewardImg.Length <= 1)
 		{
-			reciveRewardPanel.Show(lastDate, 1,() => {
-			});
+			reciveRewardPanel.Open();
 		}
 		else
 		{
-			reciveRewardPanel.Show(lastDate, 2, () => {
-			});
+			reciveRewardPanel.Open();
 		}
 	}
 	public void OnClaimButtinPressedX2()
@@ -102,35 +102,35 @@ public class DailyPanel : MonoBehaviour
 			isClaimX2 = true;
 			if (dayRewards[lastDate].rewardImg.Length <= 1)
 			{
-				reciveRewardPanel.Show(lastDate,1, () => {
-				});
-			}
+                reciveRewardPanel.Open();
+            }
 			else
 			{
-				reciveRewardPanel.Show(lastDate,2, () => {
-				});
-			}
+                reciveRewardPanel.Open();
+            }
 		});
 	}
 	public void Claim()
 	{
 		if (isClaim)
 		{
-			reciveRewardPanel.Claim(lastDate, () => {
+			reciveRewardPanel.TakeReward(() => {
 				StartCoroutine(ClosePanel());
 			});
 		}
 		if (isClaimX2)
 		{
-			reciveRewardPanel.ClaimX2(lastDate, () =>
+			reciveRewardPanel.TakeReward(() =>
 			{
 				StartCoroutine(ClosePanel());
 			});
 		}
+		SaveSystem.instance.SaveData();
 	}
 	IEnumerator ClosePanel()
 	{
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(1.7f);
+		//UIManagerNew.Instance.DailyRWUI.Close();
 		reciveRewardPanel.Close();
 		isClaimX2 = false;
 	}
@@ -147,7 +147,7 @@ public class DailyPanel : MonoBehaviour
 				{
 					reciveRewardPanel.gameObject.SetActive(false);
 				}
-				AudioManager.instance.PlaySFX("ClosePopUp");
+			AudioManager.instance.PlaySFX("ClosePopUp");
 		}
 
 	}

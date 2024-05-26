@@ -10,8 +10,12 @@ public class ButtonMennuManager : MonoBehaviour
 	private Animator animButton;
 	[SerializeField]
 	private CanvasGroup cvButton;
+    [SerializeField]
+    private RewardMove rewardMove;
+    [SerializeField]
+    public StarMove starMove;
 
-	private int appearButton = Animator.StringToHash("appear");
+    private int appearButton = Animator.StringToHash("appear");
 	private int disappearButton = Animator.StringToHash("disappear");
 
 	public void Appear()
@@ -44,9 +48,12 @@ public class ButtonMennuManager : MonoBehaviour
 
 	public void ActiveCVGroup()
 	{
-		if (!cvButton.blocksRaycasts)
+		if (!GameManagerNew.Instance.CheckSliderValue())
 		{
-			cvButton.blocksRaycasts = true;
+			if (!cvButton.blocksRaycasts)
+			{
+				cvButton.blocksRaycasts = true;
+			}
 		}
 		if (AudioManager.instance.musicSource.isPlaying)
 		{
@@ -55,8 +62,10 @@ public class ButtonMennuManager : MonoBehaviour
 				AudioManager.instance.PlayMusic("MenuTheme");
 			}
 		}
+		DisplayLevelText();
 
-		FirebaseAnalyticsControl.Instance.LogEventMenuPanelAccessSuccessfully(1);
+
+        FirebaseAnalyticsControl.Instance.LogEventMenuPanelAccessSuccessfully(1);
 	}
 	public void DiactiveCVGroup()
 	{
@@ -64,6 +73,11 @@ public class ButtonMennuManager : MonoBehaviour
 		{
 			cvButton.blocksRaycasts = false;
 		}
+	}
+	public void OpenNotEnoughStar()
+	{
+		Close();
+		UIManagerNew.Instance.NotEnoughStarPanel.Open();
 	}
 	public void OpenDailyRW()
 	{
@@ -111,10 +125,15 @@ public class ButtonMennuManager : MonoBehaviour
 		Close();
 		UIManagerNew.Instance.ShopPanel.Open();
 	}
+	public void OpenRW()
+	{
+        rewardMove.gameObject.SetActive(true);
+    }
 	public void DisappearDailyRW()
 	{
 		Appear();
-		UIManagerNew.Instance.DailyRWUI.Close();
+        GameManagerNew.Instance.SetCompleteStory();
+        UIManagerNew.Instance.DailyRWUI.Close();
 	}
 
 	public void DisplayWin()
@@ -122,7 +141,7 @@ public class ButtonMennuManager : MonoBehaviour
 		UIManagerNew.Instance.CompleteImg.gameObject.SetActive(true);
 	}
 	public void PlayButton() {
-		int level = DataLevelManager.Instance.GetLevel();
+		int level = LevelManagerNew.Instance.GetStage();
 		GameManagerNew.Instance.CreateLevel(level);
 		Close();
 	}
@@ -134,5 +153,20 @@ public class ButtonMennuManager : MonoBehaviour
 			UIManagerNew.Instance.ChestSLider.returnPos();
 			UIManagerNew.Instance.ButtonMennuManager.OpenCongratPanel();
 		});
+	}
+	public void DisplayReward()
+	{
+
+	}
+	public void DisplayLevelText()
+	{
+		if(LevelManagerNew.Instance.stage + 1 <= LevelManagerNew.Instance.stageList.Count)
+		{
+			UIManagerNew.Instance.playBTLevelTexts.text = (LevelManagerNew.Instance.stage +1 ).ToString();
+        }
+		else
+		{
+            UIManagerNew.Instance.playBTLevelTexts.text = (LevelManagerNew.Instance.stage).ToString();
+        }
 	}
 }
