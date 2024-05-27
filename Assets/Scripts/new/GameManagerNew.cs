@@ -335,7 +335,7 @@ public class GameManagerNew : MonoBehaviour
         foreach (var character in pictureUIManager.characters)
 		{
 			character.transform.SetParent(UIManagerNew.Instance.CompleteImg.transform);
-			CreateCharacterParticleEF(character.transform.position + new Vector3(0,1.5f,1), character.transform.GetComponent<MeshRenderer>());
+			//CreateCharacterParticleEF(character.transform.position + new Vector3(0,1.5f,1), character.transform.GetComponent<MeshRenderer>());
 		}
 		pictureUIManager.ChangeReaction(0, 3, true);
 		AudioManager.instance.musicSource.Play();

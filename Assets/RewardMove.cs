@@ -76,14 +76,18 @@ public class RewardMove : MonoBehaviour
             coin[i].transform.DOMove(coinImgDes.transform.position, i*0.1f).OnComplete(() =>
             {
                 coinDes.GetComponent<Animator>().Play("CoinBar");
+                //coin[i].GetComponent<Animator>().enabled = false;
                 StartCoroutine(Close(i));
             });
         }
         for(int i =0; i< star.Count; i++)
         {
-            StarDes.GetComponent<Animator>().Play("CoinBar");
+            StarDes.GetComponent<Animator>().Play("StarBar");
             star[i].GetComponent<Animator>().enabled = true;
-            star[i].transform.DOMove(StarImgDes.transform.position, 0.3f);
+            star[i].transform.DOMove(StarImgDes.transform.position, 0.3f).OnComplete(() =>
+            {
+                //star[i].GetComponent<Animator>().enabled = false;
+            });
         }
         //this.gameObject.SetActive(false);
     }
@@ -100,7 +104,7 @@ public class RewardMove : MonoBehaviour
             star[i].SetActive(false);
           
         }
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         this.gameObject.SetActive(false);
     }
 }

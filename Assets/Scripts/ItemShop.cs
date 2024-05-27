@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class ItemShop : MonoBehaviour
 {
-    public PackName namePack;
-    public int magicTicket;
-    public int powerTicket;
+    public NewDataPackName namePack;
+    public int unscrewPoint;
+    public int undoPoint;
+    public int gold;
     public TextMeshProUGUI magicValueText;
     public TextMeshProUGUI powerValueText;
     public TextMeshProUGUI PriceText;
@@ -17,7 +18,9 @@ public class ItemShop : MonoBehaviour
     {
         IapControl.Instance.BuyProductID(namePack, () =>
         {
-            SaveSystem.instance.addTiket(this.powerTicket,this.magicTicket);
+            SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint);
+            SaveSystem.instance.addCoin(this.gold);
+            SaveSystem.instance.SaveData();
             if (nonADS)
             {
                 SaveSystem.instance.nonAds = 1;
@@ -29,7 +32,7 @@ public class ItemShop : MonoBehaviour
     public void BuyByGold()
     {
         
-            SaveSystem.instance.addTiket(this.powerTicket, this.magicTicket);
+            SaveSystem.instance.addTiket(this.unscrewPoint, this.undoPoint);
             if (nonADS)
             {
                 SaveSystem.instance.nonAds = 1;
@@ -42,12 +45,12 @@ public class ItemShop : MonoBehaviour
     void Start()
     {
         PriceText.text = IapControl.Instance.getPrice(namePack);
-        if (magicTicket >0 && magicValueText != null)
+        if (unscrewPoint > 0 && magicValueText != null)
         {
-            magicValueText.text = magicTicket.ToString();
+            magicValueText.text = unscrewPoint.ToString();
         }
-        else if(powerTicket > 0 && powerValueText != null) {
-            powerValueText.text = powerTicket.ToString();
+        else if(undoPoint > 0 && powerValueText != null) {
+            powerValueText.text = undoPoint.ToString();
         }
     }
 

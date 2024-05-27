@@ -71,6 +71,9 @@ public class LoadingScreen : MonoBehaviour
 				cv.DOFade(0, 0.3f).OnComplete(() =>
 				{
 					GameManagerNew.Instance.InitStartGame();
+					if(PlayerPrefs.GetInt("HasTransfer") == 0) { 
+						UIManagerNew.Instance.TransferPanel.Appear();
+					}
 					UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
 					if (RemoteConfigController.instance.IsShowOpenAds == 1)
 					{

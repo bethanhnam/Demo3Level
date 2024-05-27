@@ -26,13 +26,13 @@ public class UndoPanel : MonoBehaviour
 	}
 	public void UseTicket()
 	{
-		if (SaveSystem.instance.powerTicket >= numOfUsed)
+		if (SaveSystem.instance.undoPoint >= numOfUsed)
 		{
             ShowTutor();
             numOfUse++;
 			FirebaseAnalyticsControl.Instance.LogEventUndoUsed(numOfUse);
 
-			SaveSystem.instance.addTiket(-numOfUsed, 0);
+			SaveSystem.instance.AddBooster(0, -numOfUsed);
 			SaveSystem.instance.SaveData();
 			numOfUsed++;
 			Stage.Instance.Undo();

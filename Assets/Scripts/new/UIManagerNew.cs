@@ -55,6 +55,8 @@ public class UIManagerNew : MonoBehaviour
 	private NotEnoughStar notEnoughStarPanel;
     [SerializeField]
     private FixItemUI fixItemUI;
+    [SerializeField]
+    private TransferPanel transferPanel;
 
     public TextMeshProUGUI[] powerTexts;
 	public TextMeshProUGUI[] magicTexts;
@@ -84,6 +86,7 @@ public class UIManagerNew : MonoBehaviour
 	public CompletePanel CompletePanel { get => completePanel; set => completePanel = value; }
     public FixItemUI FixItemUI { get => fixItemUI; set => fixItemUI = value; }
     public NotEnoughStar NotEnoughStarPanel { get => notEnoughStarPanel; set => notEnoughStarPanel = value; }
+    public TransferPanel TransferPanel { get => transferPanel; set => transferPanel = value; }
 
     private void Awake()
 	{

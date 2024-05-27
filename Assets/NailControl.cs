@@ -34,8 +34,7 @@ public class NailControl : MonoBehaviour
 	}
 	public void PickUp(Vector3 pos)
 	{
-		var clickeffect = Instantiate(ParticlesManager.instance.pickUpStartParticle, pos, Quaternion.identity);
-		Destroy(clickeffect, 0.4f);
+		
 		AudioManager.instance.PlaySFX("PickUpScrew");
 		nailSprite.enabled = false;
 		anim.Play(pickUp, 0, 0);

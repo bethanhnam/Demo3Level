@@ -37,12 +37,12 @@ public class Winpop : MonoBehaviour
 			AudioManager.instance.musicSource.Stop();
 			AudioManager.instance.PlaySFX("Winpop");
 			blockPanel.gameObject.SetActive(true);
-			SaveSystem.instance.playingHard = false;
+			
 			GameManager.instance.hasUI = true;
-			int minutes = Mathf.FloorToInt(SaveSystem.instance.playHardTime / 60);
-			int seconds = Mathf.FloorToInt(SaveSystem.instance.playHardTime % 60);
-			PlayTimeText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
-			SaveSystem.instance.playHardTime = 0;
+			//int minutes = Mathf.FloorToInt(SaveSystem.instance.playHardTime / 60);
+			//int seconds = Mathf.FloorToInt(SaveSystem.instance.playHardTime % 60);
+			//PlayTimeText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
+			//SaveSystem.instance.playHardTime = 0;
 			panel.GetComponent<CanvasGroup>().alpha = 1;
 			titleImage.transform.localPosition = new Vector3(6, 1805, 0);
 			PlayTimeRect.GetComponent<CanvasGroup>().alpha = 0;

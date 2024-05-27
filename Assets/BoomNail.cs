@@ -98,7 +98,7 @@ public class BoomNail : MonoBehaviour
 						this.gameObject.SetActive(false);
 						AudioManager.instance.PlaySFX("ClosePopUp");
 						UIManager.instance.ActiveTime();
-						SaveSystem.instance.playingHard = true;
+				
 						GameManager.instance.hasUI = false;
 						Blockpanel.gameObject.SetActive(false);
 					});

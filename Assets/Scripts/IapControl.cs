@@ -160,22 +160,44 @@ public class IapControl : MonoBehaviour, IStoreListener
 
 		var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
-		builder.AddProduct(PackName.remove_ads1.ToString(), ProductType.Consumable);
-		builder.AddProduct(PackName.magic_10.ToString(), ProductType.Consumable);
-		builder.AddProduct(PackName.magic_30.ToString(), ProductType.Consumable);
-		builder.AddProduct(PackName.magic_60.ToString(), ProductType.Consumable);
-		builder.AddProduct(PackName.magic_130.ToString(), ProductType.Consumable);
-		builder.AddProduct(PackName.magic_250.ToString(), ProductType.Consumable);
-		builder.AddProduct(PackName.magic_600.ToString(), ProductType.Consumable);
-		builder.AddProduct(PackName.power_15.ToString(), ProductType.Consumable);
-		builder.AddProduct(PackName.power_45.ToString(), ProductType.Consumable);
-		builder.AddProduct(PackName.power_90.ToString(), ProductType.Consumable);
-		builder.AddProduct(PackName.combo.ToString(), ProductType.Consumable);
-		builder.AddProduct(PackName.remove_ads_pack.ToString(), ProductType.Consumable);
-		builder.AddProduct(PackName.day_vip_3.ToString(), ProductType.Consumable);
-		builder.AddProduct(PackName.day_vip_7.ToString(), ProductType.Consumable);
-		builder.AddProduct(PackName.day_vip_30.ToString(), ProductType.Consumable);
-		UnityPurchasing.Initialize(this, builder);
+		//builder.AddProduct(PackName.remove_ads1.ToString(), ProductType.Consumable);
+		//builder.AddProduct(PackName.magic_10.ToString(), ProductType.Consumable);
+		//builder.AddProduct(PackName.magic_30.ToString(), ProductType.Consumable);
+		//builder.AddProduct(PackName.magic_60.ToString(), ProductType.Consumable);
+		//builder.AddProduct(PackName.magic_130.ToString(), ProductType.Consumable);
+		//builder.AddProduct(PackName.magic_250.ToString(), ProductType.Consumable);
+		//builder.AddProduct(PackName.magic_600.ToString(), ProductType.Consumable);
+		//builder.AddProduct(PackName.power_15.ToString(), ProductType.Consumable);
+		//builder.AddProduct(PackName.power_45.ToString(), ProductType.Consumable);
+		//builder.AddProduct(PackName.power_90.ToString(), ProductType.Consumable);
+		//builder.AddProduct(PackName.combo.ToString(), ProductType.Consumable);
+		//builder.AddProduct(PackName.remove_ads_pack.ToString(), ProductType.Consumable);
+		//builder.AddProduct(PackName.day_vip_3.ToString(), ProductType.Consumable);
+		//builder.AddProduct(PackName.day_vip_7.ToString(), ProductType.Consumable);
+		//builder.AddProduct(PackName.day_vip_30.ToString(), ProductType.Consumable);
+
+		//new data
+        builder.AddProduct(NewDataPackName.remove_ads1	.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.gold_150.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.gold_450	.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.gold_1200.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.gold_2250.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.gold_4500.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.gold_7500.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.unscrew_10.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.unscrew_30.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.unscrew_60.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.unscrew_130.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.unscrew_250.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.unscrew_600.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.undo_15.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.undo_45.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.undo_90.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.combo.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.remove_ads_pack.ToString(), ProductType.Consumable);
+
+
+        UnityPurchasing.Initialize(this, builder);
 	}
 
 	private bool IsInitialized()
@@ -183,7 +205,7 @@ public class IapControl : MonoBehaviour, IStoreListener
 		return m_StoreController != null && m_StoreExtensionProvider != null;
 	}
 
-	public void BuyProductID(PackName productId, Action _action)
+	public void BuyProductID(NewDataPackName productId, Action _action)
 	{
 		if (IsInitialized() && isInitialized && !isInitializing)
 		{
@@ -236,7 +258,7 @@ public class IapControl : MonoBehaviour, IStoreListener
 		}
 	}
 
-	public string getPrice(PackName packName)
+	public string getPrice(NewDataPackName packName)
 	{
 		if (IsInitialized())
 		{
@@ -445,5 +467,26 @@ public enum PackName
 	day_vip_3,
 	day_vip_7,
 	day_vip_30
+}
+public enum NewDataPackName
+{
+    remove_ads1,
+    gold_150,
+    gold_450,
+    gold_1200,
+    gold_2250,
+    gold_4500,
+    gold_7500,
+    unscrew_10,
+    unscrew_30,
+    unscrew_60,
+    unscrew_130,
+    unscrew_250,
+	unscrew_600,
+    undo_15,
+    undo_45,
+    undo_90,
+    combo,
+    remove_ads_pack
 }
 

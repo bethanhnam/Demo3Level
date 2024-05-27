@@ -22,10 +22,10 @@ public class ExtralHole : MonoBehaviour
 	}
 	public void UseTicket()
 	{
-		if (SaveSystem.instance.magicTiket >= 1)
+		if (SaveSystem.instance.coin >= 20)
 		{
 			this.Close();
-			SaveSystem.instance.addTiket(0,-1);
+			SaveSystem.instance.addCoin(-20);
 			SaveSystem.instance.SaveData();
 			Stage.Instance.ChangeLayer();
 			Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;

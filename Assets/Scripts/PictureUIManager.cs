@@ -78,7 +78,7 @@ public class PictureUIManager : MonoBehaviour
 							if (!stage[i].ObjBtn[j].activeSelf)
 							{
 								stage[i].ObjBtn[j].SetActive(true);
-								stage[i].ObjBtn[j].transform.localScale = Vector3.zero;
+								stage[i].ObjBtn[j].transform.localScale = new Vector3(0.7f,0.7f,1f);
                             }
 						}
 					}
@@ -177,7 +177,7 @@ public class PictureUIManager : MonoBehaviour
 		for (int j = 0; j < stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn.Length; j++)
 		{
             stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.localScale = Vector3.zero;
-			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.DOScale(1f, 0.3f);
+			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.DOScale(.7f, 0.3f);
         }
 		SetStarText();
 

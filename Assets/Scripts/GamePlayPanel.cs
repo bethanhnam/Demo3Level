@@ -230,7 +230,7 @@ public class GamePlayPanel : MonoBehaviour
 		UIManager.instance.gamePlayPanel.losePanel.watchAdButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/win/bttn_green");
 		UIManager.instance.gamePlayPanel.losePanel.hasUse = false;
 
-		SaveSystem.instance.playHardTime = 0;
+		
 	}
 	public void ButtonOff()
 	{

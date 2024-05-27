@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,9 @@ public class CompleteUI : MonoBehaviour
 	private int disappearButton = Animator.StringToHash("disappear");
 
 	private Sprite spr;
+
+	public string[] completeSkeletonStage = {"idle_completed","completed"};
+	public SkeletonGraphic completeSkeleton;
 
 	public void Appear(Sprite _spr)
 	{
@@ -44,4 +48,14 @@ public class CompleteUI : MonoBehaviour
 		AudioManager.instance.PlaySFX("Winpop");
 		GameManagerNew.Instance.PictureUIManager.Open();
 	}
+	public void OpenWindow()
+	{
+		completeSkeleton.AnimationState.SetAnimation(0, completeSkeletonStage[1], false);
+    }
+	IEnumerator closeWindow()
+	{
+		yield return new WaitForSeconds(1f);
+        completeSkeleton.startingAnimation = completeSkeletonStage[0];
+    }
+
 }

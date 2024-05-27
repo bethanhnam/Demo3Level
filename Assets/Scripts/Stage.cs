@@ -237,6 +237,8 @@ public class Stage : MonoBehaviour
                     curNail = curHole.getNail();
                     curNail.check();
                     curNail.PickUp(curHole.transform.position);
+                    var clickeffect = Instantiate(ParticlesManager.instance.pickUpStartParticle, curHole.transform.position, Quaternion.identity);
+                    Destroy(clickeffect, 0.4f);
                 }
                 else
                 {
@@ -736,12 +738,20 @@ public class Stage : MonoBehaviour
     }
     public void showUnscrewTuTor()
     {
+        if (SaveSystem.instance.unscrewPoint == 0)
+        {
+            SaveSystem.instance.unscrewPoint = 1;
+        }
         GamePlayPanelUIManager.Instance.boosterBar.SetPoiterPos(0);
         GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
         GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
     }
     public void showUndoTuTor()
     {
+        if(SaveSystem.instance.undoPoint == 0)
+        {
+            SaveSystem.instance.undoPoint = 1;
+        }
         GamePlayPanelUIManager.Instance.boosterBar.SetPoiterPos(1);
         GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.UndoBT);
         GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);

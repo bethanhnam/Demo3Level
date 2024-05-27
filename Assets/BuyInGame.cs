@@ -9,8 +9,8 @@ using UnityEngine.UI;
 
 public class BuyInGame : MonoBehaviour
 {
-    public int magicTicket;
-    public int powerTicket;
+    public int unscrewPoint;
+    public int undoPoint;
     public MyItem myitem;
 
     public void BuyByGold(int gold)
@@ -20,7 +20,7 @@ public class BuyInGame : MonoBehaviour
             if (SaveSystem.instance.coin - gold >= 0)
             {
                 SaveSystem.instance.coin -= gold;
-                SaveSystem.instance.addTiket(this.powerTicket, this.magicTicket);
+                SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint);
                 SaveSystem.instance.SaveData();
                 myitem.numOfBuy++;
                 myitem.Save();

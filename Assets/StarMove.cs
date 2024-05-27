@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.VersionControl.Asset;
 
 public class StarMove : MonoBehaviour
 {
@@ -29,6 +28,7 @@ public class StarMove : MonoBehaviour
         {
             yield return new WaitForSeconds(0.3f);
             var star = Instantiate(starPrefab, transform.position, Quaternion.identity, this.transform);
+            star.transform.localScale = new Vector3(.5f, .5f, 1f);
             stars.Add(star);
             MoveToDes(des,action, star);
         }
@@ -42,6 +42,7 @@ public class StarMove : MonoBehaviour
     }
     public void MoveToDes(Vector3 des,Action action, GameObject star)
     {
+        star.transform.DOScale(1, 1f);
         star.transform.DOMove(des, 1f).OnComplete(() =>
         {
             StartCoroutine(Close(action,star));

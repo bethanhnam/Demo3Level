@@ -27,13 +27,13 @@ public class DeteleNailPanel : MonoBehaviour
     }
 	public void UseTicket()
 	{
-		if (SaveSystem.instance.magicTiket >= numOfUsed)
+		if (SaveSystem.instance.unscrewPoint >= numOfUsed)
 		{
             ShowTutor();
             numOfUse++;
 			FirebaseAnalyticsControl.Instance.LogEventUnscrewUsed(numOfUse);
 
-			SaveSystem.instance.addTiket(0, -numOfUsed);
+			SaveSystem.instance.AddBooster(-numOfUsed,0);
 			SaveSystem.instance.SaveData();
 			//hasUse = true;
 			numOfUsed++;
