@@ -70,8 +70,7 @@ public class ItemPicture : IComparable<ItemPicture>
 	public enum type
 	{
 		gold,
-		typea,
-		typeb,
-		typec
+		Unscrew,
+		Undo
 	}
 }

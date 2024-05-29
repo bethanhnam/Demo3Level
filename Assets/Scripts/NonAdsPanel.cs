@@ -11,7 +11,8 @@ public class NonAdsPanel : MonoBehaviour
 	{
 		if (!this.gameObject.activeSelf)
 		{
-			this.gameObject.SetActive(true);
+            FirebaseAnalyticsControl.Instance.RemoveAds_Click(1);
+            this.gameObject.SetActive(true);
 			panelBoard.gameObject.SetActive(false);
 			panelBoard.transform.localScale = new Vector3(.9f, .9f, 1f);
 			AudioManager.instance.PlaySFX("OpenPopUp");

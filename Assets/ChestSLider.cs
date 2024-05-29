@@ -32,7 +32,7 @@ public class ChestSLider : MonoBehaviour
     {
         AudioManager.instance.PlaySFX("FillUpSlider");
         present.GetComponent<Animator>().SetBool("Shaking", true);
-        mySlider.DOValue(mySlider.value + 1, 0.3f).OnComplete(() =>
+        mySlider.DOValue(mySlider.value + 1, 0.7f).OnComplete(() =>
         {
             currentValue += 1;
             present.GetComponent<Animator>().SetBool("Shaking", false);
@@ -93,10 +93,21 @@ public class ChestSLider : MonoBehaviour
     }
     public void changeMarkerImg(int max)
     {
-        for (int i = 0; i <= max; i++)
+        if ((mySlider.value ==4))
         {
-            markers[i].greenMarker.gameObject.SetActive(true);
+            for (int i = 0; i < max; i++)
+            {
+                markers[i].greenMarker.gameObject.SetActive(true);
+            }
         }
+        else
+        {
+            for (int i = 0; i <= max; i++)
+            {
+                markers[i].greenMarker.gameObject.SetActive(true);
+            }
+        }
+       
     }
     public void changeMarkerImgAtPoint(int max)
     {

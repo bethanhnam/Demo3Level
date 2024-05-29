@@ -96,7 +96,7 @@ public class DailyPanel : MonoBehaviour
 	{
 		AdsManager.instance.ShowRewardVideo(() =>
 		{
-			FirebaseAnalyticsControl.Instance.LogEventX2Reward(1);
+			FirebaseAnalyticsControl.Instance.Daily_RW_x2(1);
 			//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
 			PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
 			isClaimX2 = true;

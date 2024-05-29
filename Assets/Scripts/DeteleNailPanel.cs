@@ -31,7 +31,7 @@ public class DeteleNailPanel : MonoBehaviour
 		{
             ShowTutor();
             numOfUse++;
-			FirebaseAnalyticsControl.Instance.LogEventUnscrewUsed(numOfUse);
+			FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew_1(numOfUse,LevelManagerNew.Instance.stage);
 
 			SaveSystem.instance.AddBooster(-numOfUsed,0);
 			SaveSystem.instance.SaveData();
@@ -55,10 +55,9 @@ public class DeteleNailPanel : MonoBehaviour
             ShowTutor();
             //xem qu?ng cáo 
             numOfUseByAds++;
-			FirebaseAnalyticsControl.Instance.LogEventUnscrewByAds(numOfUseByAds);
-
+			FirebaseAnalyticsControl.Instance.Unscrew_RW_Change(numOfUseByAds);
 			numOfUse++;
-			FirebaseAnalyticsControl.Instance.LogEventUnscrewUsed(numOfUse);
+			FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew_1(numOfUse, LevelManagerNew.Instance.stage);
 
 			//xoá nail(Đồng hồ đếm giờ dừng lại)
 			Stage.Instance.setDeteleting(true);
@@ -158,6 +157,7 @@ public class DeteleNailPanel : MonoBehaviour
                 GamePlayPanelUIManager.Instance.ShowPoiterAgain1();
                 GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
                 ActiveCVGroup();
+                Stage.Instance.checked1 = false;
             });
         }
 	}

@@ -629,22 +629,7 @@ public class Stage : MonoBehaviour
 
     private void TutorUndo()
     {
-        if (LevelManagerNew.Instance.stage == 3 && UIManagerNew.Instance.UndoPanel.isLock)
-        {
-            // tuto unscrew
-            isTutor = true;
-            GamePlayPanelUIManager.Instance.ActiveBlackPic(true);
-            UIManagerNew.Instance.UndoPanel.LockOrUnlock(false);
-            GamePlayPanelUIManager.Instance.boosterBar.UninteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
-            //anim unlock
-            //var x = Instantiate(ParticlesManager.instance.StarParticleObject, GamePlayPanelUIManager.Instance.DeteleButton.transform.position, Quaternion.identity, this.transform);
-            //ParticleSystem particle = x.transform.GetChild(0).GetComponent<ParticleSystem>();
-            //var shape = particle.shape;
-            //         shape.sprite = GamePlayPanelUIManager.Instance.DeteleButton.image.sprite;
-            //         Destroy(x, 1f);
-            Invoke("showUndoTuTor", 1.3f);
-        }
-        else if (LevelManagerNew.Instance.stage > 3)
+        if (LevelManagerNew.Instance.stage >= 1 )
         {
             UIManagerNew.Instance.UndoPanel.LockOrUnlock(false);
             GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.UndoBT);
@@ -653,7 +638,7 @@ public class Stage : MonoBehaviour
 
     private void TutorUnscrew()
     {
-        if (LevelManagerNew.Instance.stage == 1)
+        if (LevelManagerNew.Instance.stage == 2)
         {
             //tuto undo 
             isTutor = true;
@@ -707,7 +692,7 @@ public class Stage : MonoBehaviour
         }
         if (holes.Length != 0 && numOfHoleNotAvailable.Count == holes.Length)
         {
-            Debug.Log(numOfHoleNotAvailable.Count);
+           
             if (checked1 == false)
             {
                 checked1 = true;
@@ -742,18 +727,20 @@ public class Stage : MonoBehaviour
         {
             SaveSystem.instance.unscrewPoint = 1;
         }
+        GamePlayPanelUIManager.Instance.boosterBar.disableDeteleWatchAdsBT();
         GamePlayPanelUIManager.Instance.boosterBar.SetPoiterPos(0);
         GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
         GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
     }
-    public void showUndoTuTor()
-    {
-        if(SaveSystem.instance.undoPoint == 0)
-        {
-            SaveSystem.instance.undoPoint = 1;
-        }
-        GamePlayPanelUIManager.Instance.boosterBar.SetPoiterPos(1);
-        GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.UndoBT);
-        GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
-    }
+    //public void showUndoTuTor()
+    //{
+    //    if(SaveSystem.instance.undoPoint == 0)
+    //    {
+    //        SaveSystem.instance.undoPoint = 1;
+    //    }
+    //    GamePlayPanelUIManager.Instance.boosterBar.disableUndoWatchAdsBT();
+    //    GamePlayPanelUIManager.Instance.boosterBar.SetPoiterPos(1);
+    //    GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.UndoBT);
+    //    GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
+    //}
 }

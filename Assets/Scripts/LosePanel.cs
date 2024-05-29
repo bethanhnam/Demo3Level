@@ -47,8 +47,8 @@ public class LosePanel : MonoBehaviour
 				hasUse = true;
 				watchAdButton.interactable = false;
 				watchAdButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/win/bttn_grey");
-				
-			});
+                FirebaseAnalyticsControl.Instance.Revive_Rw(1);
+            });
 			
 		}
 		
@@ -65,7 +65,7 @@ public class LosePanel : MonoBehaviour
 	}
 	public void Open()
 	{
-		FirebaseAnalyticsControl.Instance.LogEventGamePlayLose(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[GameManagerNew.Instance.Level].Id);
+		FirebaseAnalyticsControl.Instance.LogEventGamePlayLose(LevelManagerNew.Instance.stage);
 		
 		if (UIManagerNew.Instance.WinUI.gameObject.activeSelf)
 		{
@@ -92,8 +92,8 @@ public class LosePanel : MonoBehaviour
 			{
 				this.gameObject.SetActive(false);
 				AudioManager.instance.PlaySFX("ClosePopUp");
-		
-			});
+                Stage.Instance.checked1 = false;
+            });
 		}
 	}
 }

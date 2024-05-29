@@ -34,15 +34,15 @@ public class IapControl : MonoBehaviour, IStoreListener
 	[SerializeField]
 	private GameObject objFailPurchase;
 	[SerializeField]
-	//[Sirenix.OdinInspector.ShowInInspector]
-	//public List<Action> actionUpdate;
+	[Sirenix.OdinInspector.ShowInInspector]
+	public List<Action> actionUpdate;
 	//public List<string> actionUpdatesstr;
 	public bool isReady = false;
 
 	void Awake()
 	{
 		DontDestroyOnLoad(gameObject);
-		//actionUpdate = new List<Action>();
+		actionUpdate = new List<Action>();
 		//actionUpdatesstr = new List<string>();
 		Instance = this;
 	}
@@ -58,19 +58,15 @@ public class IapControl : MonoBehaviour, IStoreListener
 
 	void Update()
 	{
-		//if (actionUpdate != null && actionUpdate.Count > 0)
-		//{
-		//	for (int i = 0; i < actionUpdate.Count; i++)
-		//	{
-		//		Debug.Log(actionUpdatesstr[i]);
-		//		actionUpdate[i]();
-		//	}
-		//	Debug.Log(actionUpdate.Count);
-		//	actionUpdate.Clear();
-		//	//actionUpdatesstr.Clear();
-		//	Debug.Log(actionUpdate.Count);
-		//}
-	}
+        if (actionUpdate != null && actionUpdate.Count > 0)
+        {
+            for (int i = 0; i < actionUpdate.Count; i++)
+            {
+                actionUpdate[i]();
+            }
+            actionUpdate.Clear();
+        }
+    }
 
 	private void ActiveLoadingPurchase()
 	{
@@ -141,7 +137,7 @@ public class IapControl : MonoBehaviour, IStoreListener
 		{
 			//objFailPurchase.SetActive(false);
 			//rectTrsFailPurchase.DOAnchorPosY(1000, 0.3f).SetUpdate(true).SetDelay(1.5f);
-			//isReady = false;
+			
 		});
 	}
 
@@ -217,15 +213,15 @@ public class IapControl : MonoBehaviour, IStoreListener
 			if (product != null && product.availableToPurchase)
 			{
 				Debug.Log(string.Format("Purchasing product asychronously: '{0}'", product.definition.id));
-				//actionUpdate.Add(ActiveLoadingPurchase);
-				//actionUpdatesstr.Add("ActiveLoadingPurchase");
+				actionUpdate.Add(ActiveLoadingPurchase);
+				
 				m_StoreController.InitiatePurchase(product);
 			}
 			else
 			{
 				Debug.Log("BuyProductID: FAIL. Not purchasing product, either is not found or is not available for purchase");
-				//actionUpdate.Add(ActivePurchaseFaill);
-				//actionUpdatesstr.Add("ActivePurchaseFaill");
+				actionUpdate.Add(ActivePurchaseFaill);
+				
 			}
 		}
 		else
@@ -252,8 +248,7 @@ public class IapControl : MonoBehaviour, IStoreListener
 			{
 				InitializePurchasing();
 			}
-
-			//actionUpdate.Add(ActivePurchaseFaill);
+			actionUpdate.Add(ActivePurchaseFaill);
 			//actionUpdatesstr.Add("ActivePurchaseFaill");
 		}
 	}
@@ -372,22 +367,19 @@ public class IapControl : MonoBehaviour, IStoreListener
 		if (validPurchase)
 		{
 			Debug.Log(args.purchasedProduct.definition.id + "..succeed");
-			//Debug.Log(actionUpdatesstr);
-			//Debug.Log(actionUpdatesstr.Count);
-			//actionUpdatesstr.Add("action");
-			//actionUpdate.Add(action);
-			//actionUpdatesstr.Add("ActivePurchaseSuccess");
-			//actionUpdate.Add(ActivePurchaseSuccess);
+	
+			actionUpdate.Add(action);
+			actionUpdate.Add(ActivePurchaseSuccess);
 
 
-			//if (args.purchasedProduct.definition.id == "remove_ads")
-			//{
-			//    PlayerPrefs.SetInt("removeads", 1);
-			//    //     FirebaseControl.instance.LogUserProperties("durable_remove_ads", "0");
-			//}
+			if (args.purchasedProduct.definition.id == "remove_ads")
+			{
+				PlayerPrefs.SetInt("removeads", 1);
+				//FirebaseControl.instance.LogUserProperties("durable_remove_ads", "0");
+			}
 
 
-			//   FirebaseControl.instance.LogEventIapFB(args.purchasedProduct.metadata.isoCurrencyCode, args.purchasedProduct.metadata.localizedPrice, args.purchasedProduct.definition.id);
+			//FirebaseControl.instance.LogEventIapFB(args.purchasedProduct.metadata.isoCurrencyCode, args.purchasedProduct.metadata.localizedPrice, args.purchasedProduct.definition.id);
 
 			//AdjustEvent adjustEvent = new AdjustEvent("pwy6sj");
 			//adjustEvent.setRevenue((double)args.purchasedProduct.metadata.localizedPrice, args.purchasedProduct.metadata.isoCurrencyCode);
@@ -397,7 +389,7 @@ public class IapControl : MonoBehaviour, IStoreListener
 
 			//FirebaseControl.instance.LogEventIAP3days(0);
 		}
-		//actionUpdate.Add(DeactiveLoadingPurchase);
+		actionUpdate.Add(DeactiveLoadingPurchase);
 		//actionUpdatesstr.Add("DeactiveLoadingPurchase");
 		//Debug.Log(actionUpdate.Count);
 		return PurchaseProcessingResult.Complete;
@@ -406,7 +398,7 @@ public class IapControl : MonoBehaviour, IStoreListener
 	{
 		// A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 
 		// this reason with the user to guide their troubleshooting actions.
-		//actionUpdate.Add(DeactiveLoadingPurchase);
+		actionUpdate.Add(DeactiveLoadingPurchase);
 		//actionUpdatesstr.Add("DeactiveLoadingPurchase");
 		//Debug.Log(actionUpdate.Count);
 		Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));

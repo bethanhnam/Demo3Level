@@ -29,7 +29,8 @@ public class ShopPanel : MonoBehaviour
 	{
 		if (GameManagerNew.Instance.CurrentLevel != null)
 		{
-			BackToGame();
+            Stage.Instance.checked1 = false;
+            BackToGame();
 		}
 		else
 		{

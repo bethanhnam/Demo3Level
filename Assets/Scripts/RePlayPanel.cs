@@ -44,7 +44,6 @@ public class RePlayPanel : MonoBehaviour
 		AdsManager.instance.ShowRewardVideo(() =>
 		{
 			UIManagerNew.Instance.UndoPanel.numOfUseByAds++;
-			FirebaseAnalyticsControl.Instance.LogEventUndoReplayByAds(UIManagerNew.Instance.UndoPanel.numOfUseByAds);
 
 			this.CloseToReplay();
 			numOfUsed++;

@@ -24,7 +24,8 @@ public class CompleteUI : MonoBehaviour
 		}
 		animButton.Play(appearButton, 0, 0);
 		spr = _spr;
-	}
+        FirebaseAnalyticsControl.Instance.LogEventGamePlayWin(LevelManagerNew.Instance.stage);
+    }
 
 	public void Close()
 	{

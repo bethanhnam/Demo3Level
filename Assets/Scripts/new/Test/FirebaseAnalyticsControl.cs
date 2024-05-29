@@ -19,67 +19,60 @@ public class FirebaseAnalyticsControl : MonoBehaviour
 	#region properties
 	public void LogEventMenuPanelAccessSuccessfully(int a)
 	{
-		FirebaseAnalytics.LogEvent("Accessed_menupanel_successfully" + a);
+		FirebaseAnalytics.LogEvent("Screen_Home" + a);
 	}
 	public void LogEventShopPanelAccessSuccessfully(int a)
 	{
-		FirebaseAnalytics.LogEvent("Accessed_shoppanel_successfully" + a);
+		FirebaseAnalytics.LogEvent("Screen_Shop" + a);
 	}
 
-	public void LogEventGamePlayAccessSuccessfully(int a)
+	public void LogEventGamePlayAccessSuccessfully(int a,int level)
 	{
-		FirebaseAnalytics.LogEvent("Gameplay_Accessed_Level_" + a);
+		FirebaseAnalytics.LogEvent("Gameplay_Level1 đến 30" + a +"/" + level);
 	}
 
 	public void LogEventGamePlayWin(int a)
     {
         if (a > 30)
             return;
-        FirebaseAnalytics.LogEvent("Gameplay_Win_Level_" + a);
+        FirebaseAnalytics.LogEvent("Gameplay_Win_Level1 đến 30" + a);
     }
 
     public void LogEventGamePlayLose(int a)
     {
         if (a > 30)
             return;
-        FirebaseAnalytics.LogEvent("Gameplay_Lose_Level_" + a);
+        FirebaseAnalytics.LogEvent("Gameplay_Lose_Level1 đến 30" + a);
     }
 
-	public void LogEventUnscrewUsed(int a)
+    public void Gameplay_Item_Unscrew_1(int a, int level)
 	{
-		FirebaseAnalytics.LogEvent("UnscrewUsed" + a);
+		FirebaseAnalytics.LogEvent("Gameplay_Item_Unscrew_1" + a + "/" + level);
 	}
-
-	public void LogEventUndoUsed(int a)
+	public void LogEventGameplay_Item_Undo_1(int a,int level)
 	{
-		FirebaseAnalytics.LogEvent("UndoUsed" + a);
+		FirebaseAnalytics.LogEvent("Gameplay_Item_Undo_1" + a + "/" + level );
 	}
-
-	public void LogEventX2Reward(int a)
+    public void LogEventUndo_RW_Change(int a)
+    {
+        FirebaseAnalytics.LogEvent("Undo_RW_Change" + a);
+    }
+    public void Daily_RW_x2(int a)
 	{
-		FirebaseAnalytics.LogEvent("X2Reward" + a);
+		FirebaseAnalytics.LogEvent("Daily_RW_x2" + a);
 	}
-
-	public void LogEventUnscrewByAds(int a)
+	public void Unscrew_RW_Change(int a)
 	{
 		FirebaseAnalytics.LogEvent("UnscrewUsedByAds" + a);
 	}
-
-	public void LogEventUndoReplayByAds(int a)
-	{
-		FirebaseAnalytics.LogEvent("UndoReplayByAds" + a);
-	}
-
-	public void LogEventMoreTime(int a)
-	{
-		FirebaseAnalytics.LogEvent("MoreTime" + a);
-	}
-
-	public void LogEventSreen(string a)
+    public void RemoveAds_Click(int a)
     {
-        FirebaseAnalytics.LogEvent("Screen_" + a);
+        FirebaseAnalytics.LogEvent("RemoveAds_Click" + a);
     }
-
+    public void Revive_Rw(int a)
+    {
+        FirebaseAnalytics.LogEvent("Revive_Rw" + a );
+    }
     #endregion
     #region event_REV_Ads
     private string countRevAdsName = "count_REV_Ads_total";

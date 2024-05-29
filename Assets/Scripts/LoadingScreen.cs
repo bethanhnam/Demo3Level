@@ -9,12 +9,13 @@ using static UnityEngine.Rendering.HDROutputUtils;
 
 public class LoadingScreen : MonoBehaviour
 {
+	public static LoadingScreen instance;
 	public GameObject loadingScreen;
 	public Screen gamePlayScreen;
 	public Slider[] sliders;
 
 	[SerializeField]
-	private CanvasGroup cv;
+	public CanvasGroup cv;
 
 	//public void LoadingScene(int sceneId)
 	//{
@@ -45,6 +46,7 @@ public class LoadingScreen : MonoBehaviour
 	//	LoadingScene(1);
 	//	AudioManager.instance.PlayMusic("Loading");
 	//}
+	
 	public void LoadingScene(int sceneId)
 	{
 		StartCoroutine(LoadingSceneAsync(sceneId));
@@ -74,7 +76,10 @@ public class LoadingScreen : MonoBehaviour
 					if(PlayerPrefs.GetInt("HasTransfer") == 0) { 
 						UIManagerNew.Instance.TransferPanel.Appear();
 					}
-					UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
+                    if (UIManagerNew.Instance.ChestSLider.currentValue != UIManagerNew.Instance.ChestSLider.maxValue1)
+                    {
+						UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
+                    }
 					if (RemoteConfigController.instance.IsShowOpenAds == 1)
 					{
 						AdsControl.Instance.ShowOpenAds();
@@ -88,7 +93,9 @@ public class LoadingScreen : MonoBehaviour
 	}
 	private void Start()
 	{
-		DontDestroyOnLoad(this.gameObject);
+        instance = this;
+
+        DontDestroyOnLoad(this.gameObject);
 		LoadingScene(1);
 		//AudioManager.instance.PlayMusic("Loading");
 		Application.targetFrameRate = 60;

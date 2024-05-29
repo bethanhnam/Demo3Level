@@ -30,9 +30,9 @@ public class UndoPanel : MonoBehaviour
 		{
             ShowTutor();
             numOfUse++;
-			FirebaseAnalyticsControl.Instance.LogEventUndoUsed(numOfUse);
+            FirebaseAnalyticsControl.Instance.LogEventGameplay_Item_Undo_1(numOfUse, LevelManagerNew.Instance.stage);
 
-			SaveSystem.instance.AddBooster(0, -numOfUsed);
+            SaveSystem.instance.AddBooster(0, -numOfUsed);
 			SaveSystem.instance.SaveData();
 			numOfUsed++;
 			Stage.Instance.Undo();
@@ -50,10 +50,9 @@ public class UndoPanel : MonoBehaviour
 			ShowTutor();
             //xem qu?ng cáo 
             numOfUseByAds++;
-			FirebaseAnalyticsControl.Instance.LogEventUndoReplayByAds(numOfUseByAds);
-
-			numOfUse++;
-			FirebaseAnalyticsControl.Instance.LogEventUndoUsed(numOfUse);
+            FirebaseAnalyticsControl.Instance.LogEventUndo_RW_Change(numOfUse);
+            numOfUse++;
+			FirebaseAnalyticsControl.Instance.LogEventGameplay_Item_Undo_1(numOfUse,LevelManagerNew.Instance.stage);
 
 			Stage.Instance.Undo();
 			numOfUsed++;
@@ -143,6 +142,7 @@ public class UndoPanel : MonoBehaviour
                 GamePlayPanelUIManager.Instance.Appear();
                 GamePlayPanelUIManager.Instance.ShowPoiterAgain1();
                 GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                Stage.Instance.checked1 = false;
 
                 ActiveCVGroup();
             });

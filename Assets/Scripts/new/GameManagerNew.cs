@@ -81,12 +81,12 @@ public class GameManagerNew : MonoBehaviour
 	}
 	public void ScaleForDevices(GameObject obj)
 	{
-		float targetAspect = 9.0f / 18.0f;
+		float targetAspect = 9.0f / 17.0f;
 		float windowAspect = (float)Screen.width / (float)Screen.height;
 
 		if (windowAspect < targetAspect)
 		{
-			obj.transform.localScale = obj.transform.localScale / (targetAspect / windowAspect);
+			obj.transform.localScale = obj.transform.localScale / (targetAspect / windowAspect );
 		}
 
 	}
@@ -120,8 +120,8 @@ public class GameManagerNew : MonoBehaviour
 			CurrentLevel.ResetBooster();
 			PictureUIManager.Close();
 			AudioManager.instance.PlayMusic("GamePlayTheme");
+			FirebaseAnalyticsControl.Instance.LogEventGamePlayAccessSuccessfully(1,LevelManagerNew.Instance.stage);
 		}
-		//FirebaseAnalyticsControl.Instance.LogEventGamePlayAccessSuccessfully(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[Level].Id);
 	}
 	public bool CheckLevelStage()
 	{

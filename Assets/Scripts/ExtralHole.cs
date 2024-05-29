@@ -98,6 +98,7 @@ public class ExtralHole : MonoBehaviour
                 GamePlayPanelUIManager.Instance.ActiveTime();
                 GamePlayPanelUIManager.Instance.Appear();
                 GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                Stage.Instance.checked1 = false;
 
                 ActiveCVGroup();
             });

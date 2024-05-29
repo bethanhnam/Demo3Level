@@ -70,11 +70,15 @@ public class CongratPanel : MonoBehaviour
             {
                 rewardLight.gameObject.SetActive(false);
                 rewardImg.GetComponent<Animator>().enabled = false;
-                rewardImg.DOMove(new Vector2(0, -3), 1f);
-                rewardImg.DOScale(0.5f, 1f).OnComplete(() =>
+                rewardImg.DOMove(new Vector2(-.5f, -2.5f), 1f);
+                rewardImg.DOScale(1f, 1f).OnComplete(() =>
                 {
                     AudioManager.instance.PlaySFX("OpenChest");
                     DisplayRW();
+                    //if (LoadingScreen.instance.cv.blocksRaycasts == true)
+                    //{
+                    //    LoadingScreen.instance.cv.blocksRaycasts = false;
+                    //}
                     rewardOpen.transform.position = rewardImg.transform.position;
                     rewardOpen.transform.localScale = rewardImg.transform.localScale;
                     rewardImg.gameObject.SetActive(false);
@@ -90,11 +94,11 @@ public class CongratPanel : MonoBehaviour
             if (DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].type == ItemPicture.type.gold) {
                 SaveSystem.instance.addCoin(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value);
             }
-            if (DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].type == ItemPicture.type.typea)
+            if (DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].type == ItemPicture.type.Unscrew)
             {
                 SaveSystem.instance.addTiket(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value,0);
             }
-            if (DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].type == ItemPicture.type.typeb)
+            if (DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].type == ItemPicture.type.Undo)
             {
                 SaveSystem.instance.addTiket(0,DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value);
             }
@@ -150,7 +154,8 @@ public class CongratPanel : MonoBehaviour
     }
     public void SetValue(TextMeshProUGUI valueText, int i)
     {
-        valueText.text = DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value.ToString();
+        String x = "X"+ DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value.ToString();
+        valueText.text = x;
     }
     public void DestroyRW()
     {

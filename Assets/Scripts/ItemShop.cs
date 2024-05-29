@@ -11,6 +11,7 @@ public class ItemShop : MonoBehaviour
     public int gold;
     public TextMeshProUGUI magicValueText;
     public TextMeshProUGUI powerValueText;
+    public TextMeshProUGUI goldText;
     public TextMeshProUGUI PriceText;
     public bool nonADS;
 
@@ -49,8 +50,11 @@ public class ItemShop : MonoBehaviour
         {
             magicValueText.text = unscrewPoint.ToString();
         }
-        else if(undoPoint > 0 && powerValueText != null) {
+        if(undoPoint > 0 && powerValueText != null) {
             powerValueText.text = undoPoint.ToString();
+        } 
+        if(gold > 0 && goldText != null) {
+            goldText.text = gold.ToString();
         }
     }
 

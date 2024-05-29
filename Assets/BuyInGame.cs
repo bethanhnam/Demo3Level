@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ public class BuyInGame : MonoBehaviour
     public int unscrewPoint;
     public int undoPoint;
     public MyItem myitem;
+    
 
     public void BuyByGold(int gold)
     {
@@ -39,6 +41,7 @@ public class BuyInGame : MonoBehaviour
                 SaveSystem.instance.coin += 20;
                 SaveSystem.instance.SaveData();
                 myitem.numOfBuy++;
+                
                 myitem.Save();
                 myitem.CheckNumOfUse();
             });
@@ -67,6 +70,7 @@ public class BuyInGame : MonoBehaviour
         if (DateTime.Today > lastclaimTime)
         {
             myitem.numOfBuy = 0;
+        
             myitem.Save();
 
         }
@@ -77,22 +81,26 @@ public class BuyInGame : MonoBehaviour
             myitem.CheckNumOfUse();
 
         }
+        
     }
+    
     [Serializable]
     public class MyItem
     {
         public int id;
         public int numOfBuy;
         public Button button;
+        public TextMeshProUGUI numOfUseText;
 
         public void Save()
         {
             PlayerPrefs.SetInt("numOfBuy" + id, numOfBuy);
+            SetNumOfUseText(numOfBuy);
         }
         public void loadData()
         {
             numOfBuy = PlayerPrefs.GetInt("numOfBuy" + id);
-
+            SetNumOfUseText(numOfBuy);
         }
         public bool CheckNumOfUse()
         {
@@ -107,6 +115,11 @@ public class BuyInGame : MonoBehaviour
                 status = true;
             }
             return status;
+        }
+        public void SetNumOfUseText(int numofUse)
+        {
+            String t = "(" + numofUse.ToString() + "/3)";
+            numOfUseText.text = t;
         }
     }
 }
