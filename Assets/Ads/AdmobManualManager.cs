@@ -159,22 +159,26 @@ public class AdmobManualManager : MonoBehaviour
         ad.OnAdFullScreenContentOpened += () =>
         {
             Debug.Log("Interstitial ad full screen content opened.");
-		AdsManager.instance.CallCloseFA();
-		};
+            AdsManager.instance.CallCloseFA();
+        };
         ad.OnAdFullScreenContentClosed += () =>
         {
             Debug.Log("Interstitial ad full screen content closed.");
             AdsControl.Instance.isShowingAds = false;
             CallLoadFA();
-			AdsManager.instance.CallCloseFA();
+            AdsManager.instance.CallCloseFA();
+            AdsControl.Instance.ActiveBlockFaAds(false);
+            AdsControl.Instance.CallActionFa();
 
-		};
+        };
         ad.OnAdFullScreenContentFailed += (AdError error) =>
         {
             Debug.LogError("Interstitial ad failed to open full screen content " +
                            "with error : " + error);
             AdsControl.Instance.isShowingAds = false;
             CallLoadFA();
+            AdsControl.Instance.ActiveBlockFaAds(false);
+            AdsControl.Instance.CallActionFa();
         };
     }
 
@@ -188,6 +192,7 @@ public class AdmobManualManager : MonoBehaviour
         {
             Debug.Log("Showing interstitial ad.");
             AdsControl.Instance.isShowingAds = true;
+            AdsControl.Instance.ActiveBlockFaAds(true);
             interstitialAd.Show();
         }
         else
@@ -311,6 +316,7 @@ public class AdmobManualManager : MonoBehaviour
             Debug.Log("Rewarded ad full screen content closed.");
             AdsControl.Instance.isShowingAds = false;
             CallLoadRW();
+            AdsControl.Instance.ActiveBlockFaAds(false);
         };
         // Raised when the ad failed to open full screen content.
         ad.OnAdFullScreenContentFailed += (AdError error) =>
@@ -319,6 +325,7 @@ public class AdmobManualManager : MonoBehaviour
                            "with error : " + error);
             AdsControl.Instance.isShowingAds = false;
             CallLoadRW();
+            AdsControl.Instance.ActiveBlockFaAds(false);
         };
     }
 
@@ -332,6 +339,7 @@ public class AdmobManualManager : MonoBehaviour
         {
             Debug.Log("Showing Rw ad.");
             AdsControl.Instance.isShowingAds = true;
+            AdsControl.Instance.ActiveBlockFaAds(true);
             _rewardedAd.Show((Reward rw) =>
             {
                 AdsControl.Instance.isGetReward = true;

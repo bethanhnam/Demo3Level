@@ -59,6 +59,7 @@ public class GameManagerNew : MonoBehaviour
 	{
 		PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
 		ScalePicForDevices(PictureUIManager.transform.gameObject);
+		PictureUIManager.SetHasWindowFirstTime();
 		PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
 		//UIManagerNew.Instance.ButtonMennuManager.Appear();
 		UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
@@ -306,7 +307,14 @@ public class GameManagerNew : MonoBehaviour
 		}
 		else
 		{
-			pictureUIManager.ChangeReaction(1.2f, 0, true);
+			if (GameManagerNew.Instance.PictureUIManager.hasWindow)
+			{
+				pictureUIManager.ChangeReaction(1.2f, "tremble", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+			}
+			else
+			{
+                pictureUIManager.ChangeReaction(1.2f, "idle_sad", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+            }
 			if (UIManagerNew.Instance.CompleteImg.gameObject.activeSelf)
 			{
 				CompleteImgDisappear();
@@ -328,8 +336,15 @@ public class GameManagerNew : MonoBehaviour
 	}
 	IEnumerator CompleteImgAppear(Action action)
 	{
-        pictureUIManager.ChangeReaction(0, 2, false);
-		yield return new WaitForSeconds(0.5f);
+        if (GameManagerNew.Instance.PictureUIManager.hasWindow)
+        {
+            pictureUIManager.ChangeReaction(0f, "tremble_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+        }
+        else
+        {
+            pictureUIManager.ChangeReaction(0f, "sad-happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+        }
+        yield return new WaitForSeconds(0.5f);
         AudioManager.instance.PlaySFX("Shining");
 		AudioManager.instance.musicSource.Stop();
         foreach (var character in pictureUIManager.characters)
@@ -337,7 +352,7 @@ public class GameManagerNew : MonoBehaviour
 			character.transform.SetParent(UIManagerNew.Instance.CompleteImg.transform);
 			//CreateCharacterParticleEF(character.transform.position + new Vector3(0,1.5f,1), character.transform.GetComponent<MeshRenderer>());
 		}
-		pictureUIManager.ChangeReaction(0, 3, true);
+		pictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
 		AudioManager.instance.musicSource.Play();
         //.Instance.CompleteImg.changeColor();
 		UIManagerNew.Instance.CompleteImg.gameObject.SetActive(true);
@@ -365,7 +380,14 @@ public class GameManagerNew : MonoBehaviour
 	IEnumerator NextStage()
 	{
 		yield return new WaitForSeconds(1);
-        pictureUIManager.ChangeReaction(0, 0, true);
+        if (GameManagerNew.Instance.PictureUIManager.hasWindow)
+        {
+            pictureUIManager.ChangeReaction(1.2f, "tremble", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+        }
+        else
+        {
+            pictureUIManager.ChangeReaction(1.2f, "idle_sad", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+        }
         LevelManagerNew.Instance.NextPicStage();
         UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
 		UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
@@ -379,12 +401,14 @@ public class GameManagerNew : MonoBehaviour
         if (LevelManagerNew.Instance.LevelBase.Level == 0)
 		{
             UIManagerNew.Instance.ButtonMennuManager.OpenRattingPanel();
+			PlayerPrefs.SetInt("windowFixed", 0);
 		}
 		else
 		{
             pictureUIManager.DisableCharacter();
 			CompleteLevelAfterReward();
-		}
+            PlayerPrefs.SetInt("windowFixed", 0);
+        }
 	}
 	public void CompleteLevelAfterReward()
 	{

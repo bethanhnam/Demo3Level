@@ -152,7 +152,8 @@ public class DailyPanel : MonoBehaviour
 		yield return new WaitForSeconds(1.7f);
 		UIManagerNew.Instance.DailyRWUI.Close();
 		reciveRewardPanel.Close();
-		reciveRewardDaily.gameObject.SetActive(true); 
+		reciveRewardDaily.gameObject.SetActive(true);
+		//reciveRewardDaily.claim();
 		reciveRewardDaily.SpawnObjects(dayRewards[lastDate].gold,dayRewards[lastDate].magicTiket,dayRewards[lastDate].powerTicket, reciveRewardDaily.rewardImg.gameObject);
         isClaimX2 = false;
 		AudioManager.instance.PlaySFX("ClosePopUp");

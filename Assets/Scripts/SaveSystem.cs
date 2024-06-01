@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -58,7 +59,7 @@ public class SaveSystem : MonoBehaviour
         //powerTicket = 10;
         coin = 1000;
         star = 10;
-        days =6;
+        //days =6;
     }
     public void LoadData()
     {
@@ -127,4 +128,11 @@ public class SaveSystem : MonoBehaviour
         this.unscrewPoint += unscrewPoint;
         this.undoPoint += undoPoint;
     }
+    //public void DelayAdding(int startValue, int endValue, float time)
+    //{
+    //    DOVirtual.Float(startValue, endValue, time, (x);
+    //    DOVirtual.Float(0, y, 0.5f, (x) =>
+    //    {
+    //    }
+    //}
 }

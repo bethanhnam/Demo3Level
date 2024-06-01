@@ -79,6 +79,7 @@ public class LoadingScreen : MonoBehaviour
                     if (UIManagerNew.Instance.ChestSLider.currentValue != UIManagerNew.Instance.ChestSLider.maxValue1)
                     {
 						UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
+						AudioManager.instance.PlayMusic("MenuTheme");
                     }
 					if (RemoteConfigController.instance.IsShowOpenAds == 1)
 					{

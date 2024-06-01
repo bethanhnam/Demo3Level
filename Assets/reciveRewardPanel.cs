@@ -308,7 +308,7 @@ public class reciveRewardPanel : MonoBehaviour
         {
             particleSystems[i].gameObject.SetActive(false);
         }
-        canvasGroup.DOFade(0, .8f).OnComplete(() =>
+        canvasGroup.DOFade(0, .6f).OnComplete(() =>
         {
             this.gameObject.SetActive(false);    
         });

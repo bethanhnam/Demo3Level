@@ -10,9 +10,10 @@ public class LevelButton : MonoBehaviour
 	public TextMeshProUGUI itemStar;
 	[SerializeField]
 	private int star;
+	public bool isWindow;
 	private void Update()
 	{
-	}
+    }
 	public void SetItem()
 	{
 		GameManagerNew.Instance.Level = level;

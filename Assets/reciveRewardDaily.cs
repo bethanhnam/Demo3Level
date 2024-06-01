@@ -114,7 +114,6 @@ public class reciveRewardDaily : MonoBehaviour
         SetValue();
         DOVirtual.DelayedCall(3, () =>
         {
-            close();
             SpawnObjects(dailyPanel.dayRewards[dailyPanel.lastDate].gold, dailyPanel.dayRewards[dailyPanel.lastDate].magicTiket, dailyPanel.dayRewards[dailyPanel.lastDate].powerTicket, rewardImg.gameObject);
         });
     }
@@ -201,77 +200,56 @@ public class reciveRewardDaily : MonoBehaviour
         }
         StartCoroutine(MoveToDes());
     }
+    public void test(List<GameObject> list,int i)
+    {
+        if (list.Count > 0)
+        {
+            float time = .7f / coinList.Count;
+            list[i].transform.DOMove(coinDes.transform.position, time).OnComplete(() =>
+            {
+                var x = list[i];
+                list.Remove(x);
+                Destroy(x.gameObject);
+                test(list,i - 1);
+            });
+        }
+    }
+    public void test1(List<GameObject> list, int i)
+    {
+        if (list.Count > 0)
+        {
+            list[i].transform.DOMove(posDes.transform.position, 0.3f).OnComplete(() =>
+            {
+                var x = list[i];
+                list.Remove(x);
+                Destroy(x.gameObject);
+                test1(list, i - 1);
+            });
+        }
+    }
     IEnumerator MoveToDes()
     {
         yield return new WaitForSeconds(1.1f);
-        for (int i = 0; i < coinList.Count; i++)
+        if (coinList.Count > 0)
         {
-            //Destroy(coin[i],i * .1f);
-            coinList[i].transform.DOMove(coinDes.transform.position, i * .1f).OnComplete(() =>
-            {
-                //coinImgDes.gameObject.transform.DOScale(1.2f, 0.15f).OnComplete(() =>
-                //{
-                //    coinImgDes.gameObject.transform.DOScale(1f, 0f);
-                //});
-                StartCoroutine(Close(i));
-            });
-        }
-        for (int i = 0; i < unscrewList.Count; i++)
-        {
-            
-            //Destroy(star[i], i * .1f);
-            unscrewList[i].transform.DOMove(posDes.transform.position, 0.3f).OnComplete(() =>
-            {
-                unscrewList[i].gameObject.SetActive(false);
-                //StarImgDes.gameObject.transform.DOScale(1.2f, 0.15f).OnComplete(() =>
-                //{
-                //    StarImgDes.gameObject.transform.DOScale(1f, 0f);
-                //});
-            });
-        }
-        for (int i = 0; i < undoList.Count; i++)
-        {
-            
-            //Destroy(star[i], i * .1f);
-            undoList[i].transform.DOMove(posDes.transform.position, 0.3f).OnComplete(() =>
-            {
-                undoList[i].gameObject.SetActive(false);
-                //StarImgDes.gameObject.transform.DOScale(1.2f, 0.15f).OnComplete(() =>
-                //{
-                //    StarImgDes.gameObject.transform.DOScale(1f, 0f);
-                //});
-            });
-        }
-        //this.gameObject.SetActive(false);
-    }
-    IEnumerator Close(int time)
-    {
-        yield return new WaitForSeconds(time * 0.08f);
-        for (int i = 0; i < coinList.Count; i++)
-        {
-            var x = coinList[i];
-            coinList[i].SetActive(false);
-            coinList.Remove(x);
-            Destroy(x, 5f);
+            test(coinList, coinList.Count - 1);
             SaveSystem.instance.addCoin(y);
         }
-        for (int i = 0; i < unscrewList.Count; i++)
+        if (unscrewList.Count > 0)
         {
-            var x = unscrewList[i];
-            unscrewList[i].SetActive(false);
-            unscrewList.Remove(x);
-            Destroy(x,5f);
+            test1(unscrewList, unscrewList.Count - 1);
             SaveSystem.instance.AddBooster(y,0);
         }
-        for (int i = 0; i < undoList.Count; i++)
+        if (undoList.Count > 0)
         {
-            var x = undoList[i];
-            undoList[i].SetActive(false);
-            undoList.Remove(x);
-            Destroy(x,5f);
-            SaveSystem.instance.AddBooster(0, y);
+            test1(undoList, undoList.Count - 1);
+            SaveSystem.instance.AddBooster(0,y);
         }
         SaveSystem.instance.SaveData();
+        StartCoroutine(Close());
+    }
+    IEnumerator Close()
+    {
         yield return new WaitForSeconds(3f);
         this.gameObject.SetActive(false);
     }

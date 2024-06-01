@@ -169,16 +169,19 @@ public class AdmobAutoFloorManager : MonoBehaviour
             Debug.Log("Interstitial ad full screen content closed.");
             AdsControl.Instance.isShowingAds = false;
             CallLoadFA();
-			AdsManager.instance.CallCloseFA();
-
-		};
+            AdsManager.instance.CallCloseFA();
+            AdsControl.Instance.ActiveBlockFaAds(false);
+            AdsControl.Instance.CallActionFa();
+        };
         ad.OnAdFullScreenContentFailed += (AdError error) =>
         {
             Debug.LogError("Interstitial ad failed to open full screen content " +
                            "with error : " + error);
             AdsControl.Instance.isShowingAds = false;
-		AdsManager.instance.CallCloseFA();
-			CallLoadFA();
+            AdsManager.instance.CallCloseFA();
+            CallLoadFA();
+            AdsControl.Instance.ActiveBlockFaAds(false);
+            AdsControl.Instance.CallActionFa();
         };
     }
 
@@ -192,6 +195,7 @@ public class AdmobAutoFloorManager : MonoBehaviour
         {
             Debug.Log("Showing interstitial ad.");
             AdsControl.Instance.isShowingAds = true;
+            AdsControl.Instance.ActiveBlockFaAds(true);
             interstitialAd.Show();
         }
         else
@@ -222,13 +226,13 @@ public class AdmobAutoFloorManager : MonoBehaviour
             return;
         }
 
-        if (indexInListRW >= listManualIDRW.ListManualID.Count+2)
+        if (indexInListRW >= listManualIDRW.ListManualID.Count + 2)
         {
             indexInListRW = 0;
         }
 
 
-        if (indexInListRW < listManualIDRW.ListManualID.Count )
+        if (indexInListRW < listManualIDRW.ListManualID.Count)
         {
             valueRW = listManualIDRW.ListManualID[listManualIDRW.ListManualID.Count - indexInListRW - 1].Value / 1000f;
             LoadRewardedAd(listManualIDRW.ListManualID[listManualIDRW.ListManualID.Count - indexInListRW - 1].Id);
@@ -314,6 +318,7 @@ public class AdmobAutoFloorManager : MonoBehaviour
             Debug.Log("Rewarded ad full screen content closed.");
             AdsControl.Instance.isShowingAds = false;
             CallLoadRW();
+            AdsControl.Instance.ActiveBlockFaAds(false);
         };
         // Raised when the ad failed to open full screen content.
         ad.OnAdFullScreenContentFailed += (AdError error) =>
@@ -322,6 +327,7 @@ public class AdmobAutoFloorManager : MonoBehaviour
                            "with error : " + error);
             AdsControl.Instance.isShowingAds = false;
             CallLoadRW();
+            AdsControl.Instance.ActiveBlockFaAds(false);
         };
     }
 
@@ -335,6 +341,7 @@ public class AdmobAutoFloorManager : MonoBehaviour
         {
             Debug.Log("Showing Rw ad.");
             AdsControl.Instance.isShowingAds = true;
+            AdsControl.Instance.ActiveBlockFaAds(true);
             _rewardedAd.Show((Reward rw) =>
             {
                 AdsControl.Instance.isGetReward = true;

@@ -143,10 +143,10 @@ public class AdsManager : MonoBehaviour
 		}
 		Debug.Log("inter ads: " + p.ToString());
 
-		if (actionDone != null)
-		{
-			actionDone();
-		}
+		//if (actionDone != null)
+		//{
+		//	actionDone();
+		//}
 
 
 		if (StructAds.StructAds.ContainsKey(p.ToString()))
@@ -155,21 +155,38 @@ public class AdsManager : MonoBehaviour
 			if (StructAds.StructAds[p.ToString()].IsShow && StructAds.ConfigBanner.LevelUnlock <= SaveSystem.instance.menuLevel + 1)
 			{
 				Debug.Log("inter ads: " + p.ToString());
-				if (Time.time - lastTime > StructAds.StructAds[p.ToString()].TimeShow)
+ 				if (Time.time - lastTime >= StructAds.StructAds[p.ToString()].TimeShow)
 				{
 					Debug.Log("inter ads: " + p.ToString());
-					AdsControl.Instance.ShowFAAds();
+					AdsControl.Instance.ShowFAAds(actionDone);
 					lastTime = Time.time;
 				}
-				else 
+				else
 				{
+					if (actionDone != null)
+					{
+						actionDone();
+					}
 					if (closeAction != null)
 					{
 						closeAction();
 					}
 				}
 			}
+			else
+			{
+				if (actionDone != null)
+				{
+					actionDone();
+				}
+			}
 		}
+		else {
+            if (actionDone != null)
+            {
+                actionDone();
+            }
+        }
 	}
 
 	public void CallCloseFA()

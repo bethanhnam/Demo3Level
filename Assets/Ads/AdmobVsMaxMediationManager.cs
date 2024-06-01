@@ -43,7 +43,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                 InitOpenAds();
                 InitializeInterstitialAds();
                 InitializeRewardedAds();
-                if (AdsControl.Instance.Banner_type==0)
+                if (AdsControl.Instance.Banner_type == 0)
                 {
                     InitializeBannerAds();
                     AdsControl.Instance.isCanShowBanner = true;
@@ -59,8 +59,8 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
 					AdsControl.Instance.ManagerExistingPrivacySettings();
 				}
 #else
-				AdsControl.Instance.ManagerExistingPrivacySettings();
-				Debug.Log("Unity iOS Support: App Tracking Transparency status not checked, because the platform is not iOS.");
+                AdsControl.Instance.ManagerExistingPrivacySettings();
+                Debug.Log("Unity iOS Support: App Tracking Transparency status not checked, because the platform is not iOS.");
 #endif
             };
             MaxSdk.SetSdkKey(maxSDK);
@@ -242,8 +242,10 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
     {
         Debug.Log("Interstitial failed to display with error code: " + errorInfo.Code);
         AdsControl.Instance.isShowingAds = false;
-		AdsManager.instance.CallCloseFA();
-		LoadInterstitial();
+        AdsManager.instance.CallCloseFA();
+        LoadInterstitial();
+        AdsControl.Instance.ActiveBlockFaAds(false);
+        AdsControl.Instance.CallActionFa();
     }
 
     private void OnInterstitialDismissedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -252,6 +254,8 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
         AdsControl.Instance.isShowingAds = false;
         AdsManager.instance.CallCloseFA();
         LoadInterstitial();
+        AdsControl.Instance.ActiveBlockFaAds(false);
+        AdsControl.Instance.CallActionFa();
     }
 
     private void OnInterstitialRevenuePaidEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -281,11 +285,13 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
             if (faValueMax > valueFAAdmob)
             {
                 AdsControl.Instance.isShowingAds = true;
+                AdsControl.Instance.ActiveBlockFaAds(true);
                 MaxSdk.ShowInterstitial(idFAMax);
             }
             else
             {
                 AdsControl.Instance.isShowingAds = true;
+                AdsControl.Instance.ActiveBlockFaAds(true);
                 interstitialAd.Show();
             }
         }
@@ -294,6 +300,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
             if (initMax && MaxSdk.IsInterstitialReady(idFAMax))
             {
                 AdsControl.Instance.isShowingAds = true;
+                AdsControl.Instance.ActiveBlockFaAds(true);
                 MaxSdk.ShowInterstitial(idFAMax);
             }
             else
@@ -301,6 +308,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                 if (interstitialAd != null && interstitialAd.CanShowAd())
                 {
                     AdsControl.Instance.isShowingAds = true;
+                    AdsControl.Instance.ActiveBlockFaAds(true);
                     interstitialAd.Show();
                 }
             }
@@ -445,18 +453,22 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
         {
             Debug.Log("Interstitial ad full screen content closed.");
             AdsControl.Instance.isShowingAds = false;
-			AdsManager.instance.CallCloseFA();
+            AdsManager.instance.CallCloseFA();
 
-			StartCoroutine(CalLoadInter());
+            StartCoroutine(CalLoadInter());
+            AdsControl.Instance.ActiveBlockFaAds(false);
+            AdsControl.Instance.CallActionFa();
         };
         ad.OnAdFullScreenContentFailed += (AdError error) =>
         {
             Debug.LogError("Interstitial ad failed to open full screen content " +
                            "with error : " + error);
             AdsControl.Instance.isShowingAds = false;
-			AdsManager.instance.CallCloseFA();
+            AdsManager.instance.CallCloseFA();
 
-			StartCoroutine(CalLoadInter());
+            StartCoroutine(CalLoadInter());
+            AdsControl.Instance.ActiveBlockFaAds(false);
+            AdsControl.Instance.CallActionFa();
         };
     }
 
@@ -531,6 +543,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
         Debug.Log("Rewarded ad failed to display with error code: " + errorInfo.Code);
         AdsControl.Instance.isShowingAds = false;
         LoadRewardedAd();
+        AdsControl.Instance.ActiveBlockFaAds(false);
     }
 
     private void OnRewardedAdDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -548,6 +561,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
         Debug.Log("Rewarded ad dismissed");
         AdsControl.Instance.isShowingAds = false;
         LoadRewardedAd();
+        AdsControl.Instance.ActiveBlockFaAds(false);
     }
 
     private void OnRewardedAdReceivedRewardEvent(string adUnitId, MaxSdk.Reward reward, MaxSdkBase.AdInfo adInfo)
@@ -572,11 +586,13 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
             if (rwValueMax > valueRWAdmob)
             {
                 AdsControl.Instance.isShowingAds = true;
+                AdsControl.Instance.ActiveBlockFaAds(true);
                 MaxSdk.ShowRewardedAd(idRWMax);
             }
             else
             {
                 AdsControl.Instance.isShowingAds = true;
+                AdsControl.Instance.ActiveBlockFaAds(true);
                 _rewardedAd.Show((Reward rw) =>
                 {
                     AdsControl.Instance.isGetReward = true;
@@ -589,6 +605,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
             if (MaxSdk.IsRewardedAdReady(idRWMax))
             {
                 AdsControl.Instance.isShowingAds = true;
+                AdsControl.Instance.ActiveBlockFaAds(true);
                 MaxSdk.ShowRewardedAd(idRWMax);
             }
             else
@@ -596,6 +613,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                 if (isInit && _rewardedAd != null && _rewardedAd.CanShowAd())
                 {
                     AdsControl.Instance.isShowingAds = true;
+                    AdsControl.Instance.ActiveBlockFaAds(true);
                     _rewardedAd.Show((Reward rw) =>
                     {
                         AdsControl.Instance.isGetReward = true;
@@ -733,6 +751,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
             Debug.Log("Rewarded ad full screen content closed.");
             AdsControl.Instance.isShowingAds = false;
             StartCoroutine(CalLoadRW());
+            AdsControl.Instance.ActiveBlockFaAds(false);
         };
         // Raised when the ad failed to open full screen content.
         ad.OnAdFullScreenContentFailed += (AdError error) =>
@@ -741,6 +760,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                            "with error : " + error);
             AdsControl.Instance.isShowingAds = false;
             StartCoroutine(CalLoadRW());
+            AdsControl.Instance.ActiveBlockFaAds(false);
         };
     }
 
@@ -841,7 +861,8 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
             {
                 MaxSdk.ShowBanner(idBNMax);
             }
-            else {
+            else
+            {
                 AdsControl.Instance.AdmobBanner.ShowAdmobBanner();
             }
         }

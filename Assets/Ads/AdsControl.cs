@@ -9,6 +9,7 @@ using Firebase.Analytics;
 using UnityEngine.SceneManagement;
 using GoogleMobileAds.Api;
 using com.adjust.sdk;
+using Unity.VisualScripting;
 
 public class AdsControl : MonoBehaviour
 {
@@ -45,6 +46,8 @@ public class AdsControl : MonoBehaviour
     private int banner_type;
 
     private Action rwAction;
+
+    private Action FAACtionDone;
 
     public NativeAdmobManager NativeAdmobManager { get => nativeAdmobManager; }
     public int Banner_type { get => banner_type; }
@@ -211,7 +214,7 @@ public class AdsControl : MonoBehaviour
         return false;
     }
 
-    public void ShowFAAds()
+    public void ShowFAAds(Action a)
     {
         if (isInit)
         {
@@ -222,26 +225,31 @@ public class AdsControl : MonoBehaviour
                     case 0:
                         if (admobVsMaxMediationManager.GetFA())
                         {
+                            FAACtionDone = a;
                             admobVsMaxMediationManager.ShowForceAds();
                         }
                         break;
                     case 1:
                         if (admobManualManager.GetFA() > maxMediation.GetFA())
                         {
+                            FAACtionDone = a;
                             admobManualManager.ShowFAAd();
                         }
                         else
                         {
+                            FAACtionDone = a;
                             maxMediation.ShowForceAds();
                         }
                         break;
                     case 2:
                         if (admobAutoFloorManager.GetFA())
                         {
+                            FAACtionDone = a;
                             admobAutoFloorManager.ShowFAAd();
                         }
                         else
                         {
+                            FAACtionDone = a;
                             maxMediation.ShowForceAds();
                         }
                         break;
@@ -400,6 +408,23 @@ public class AdsControl : MonoBehaviour
                         break;
                 }
             }
+        }
+    }
+
+    public void CallActionFa()
+    {
+        if (FAACtionDone != null)
+        {
+            FAACtionDone();
+            FAACtionDone = null;
+        }
+    }
+
+    public void ActiveBlockFaAds(bool value)
+    {
+        if (UIManagerNew.Instance != null && UIManagerNew.Instance.gameObject != null)
+        {
+            UIManagerNew.Instance.ActiveBlockFaAds(value);
         }
     }
 }
