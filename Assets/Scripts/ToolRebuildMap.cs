@@ -337,16 +337,16 @@
 //		{
 //			if (obj.GetChild(j).GetComponent<Stage>().sprRenderItem != null)
 //			{
-//				obj.GetChild(j).GetComponent<Stage>().sprRenderItem.color = new Color(255, 255, 255, 0.5f);
-//				for (int i = 0; i < obj.GetChild(j).childCount; i++)
-//				{
-//					if (obj.GetChild(j).GetChild(i).gameObject.tag == "square")
-//					{
-//						Transform transform = obj.GetChild(j).GetChild(i);
-//						transform.gameObject.layer = layerValue;
+//				obj.GetChild(j).GetComponent<Stage>().sprRenderItem.color = new Color(255, 255, 255, 0f);
+//				//for (int i = 0; i < obj.GetChild(j).childCount; i++)
+//				//{
+//				//	if (obj.GetChild(j).GetChild(i).gameObject.tag == "square")
+//				//	{
+//				//		Transform transform = obj.GetChild(j).GetChild(i);
+//				//		transform.gameObject.layer = layerValue;
 
-//					}
-//				}
+//				//	}
+//				//}
 //			}
 
 //		}

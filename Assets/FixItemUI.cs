@@ -72,11 +72,11 @@ public class FixItemUI : MonoBehaviour
 			{
                 if (GameManagerNew.Instance.PictureUIManager.hasWindow)
                 {
-                    GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, "tremble_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+                    GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, "tremble_happy", false, GameManagerNew.Instance.PictureUIManager.hasWindow);
                 }
                 else
                 {
-                    GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, "sad-happy", true,GameManagerNew.Instance.PictureUIManager.hasWindow);
+                    GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, "sad-happy", false, GameManagerNew.Instance.PictureUIManager.hasWindow);
                 }
 				UIManagerNew.Instance.ButtonMennuManager.DiactiveCVGroup();
 				GameManagerNew.Instance.CreateParticleEF();

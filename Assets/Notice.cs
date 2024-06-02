@@ -69,12 +69,16 @@ public class Notice : MonoBehaviour
     IEnumerator DisableNotice()
     {
         yield return new WaitForSeconds(1f);
-        noticeImg.SetActive(true);
-        this.gameObject.SetActive(false);
-        this.gameObject.transform.localPosition = defaultPos.transform.position;
+        try
+        {
+            noticeImg.SetActive(true);
+            this.gameObject.SetActive(false);
+            this.gameObject.transform.localPosition = defaultPos.transform.position;
 
-        Stage.Instance.checked1 = false;
-        canAppear = true;
+            Stage.Instance.checked1 = false;
+            canAppear = true;
+        }
+        catch { };
     }
     public void NoticeDisappear()
     {

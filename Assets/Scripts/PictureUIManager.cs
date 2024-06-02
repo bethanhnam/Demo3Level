@@ -197,7 +197,7 @@ public class PictureUIManager : MonoBehaviour
 		{
 			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.localScale = Vector3.zero;
 			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.DOScale(1f, 0.3f);
-			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].GetComponent<Image>().SetNativeSize();
+			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.GetChild((1)).GetComponent<Image>().SetNativeSize();
 		}
 		SetStarText();
 
@@ -207,7 +207,7 @@ public class PictureUIManager : MonoBehaviour
 		for (int j = 0; j < stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn.Length; j++)
 		{
 			var starText = DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[j].Star;
-			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].GetComponent<LevelButton>().SetStarText(starText);
+			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].GetComponentInChildren<LevelButton>().SetStarText(starText);
 		}
 	}
 	public void ChangeItem(GameObject obj)

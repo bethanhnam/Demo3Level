@@ -338,11 +338,11 @@ public class GameManagerNew : MonoBehaviour
 	{
         if (GameManagerNew.Instance.PictureUIManager.hasWindow)
         {
-            pictureUIManager.ChangeReaction(0f, "tremble_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+            pictureUIManager.ChangeReaction(0f, "tremble_happy", false, GameManagerNew.Instance.PictureUIManager.hasWindow);
         }
         else
         {
-            pictureUIManager.ChangeReaction(0f, "sad-happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+            pictureUIManager.ChangeReaction(0f, "sad-happy", false, GameManagerNew.Instance.PictureUIManager.hasWindow);
         }
         yield return new WaitForSeconds(0.5f);
         AudioManager.instance.PlaySFX("Shining");
