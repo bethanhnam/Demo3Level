@@ -162,7 +162,6 @@ public class UndoPanel : MonoBehaviour
             GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(false);
             GamePlayPanelUIManager.Instance.ActiveBlackPic(false);
 			GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
-            Stage.Instance.isTutor = false;
         }
     }
     public void OffPoiter()

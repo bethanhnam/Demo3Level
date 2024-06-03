@@ -37,6 +37,9 @@ public class GamePlayPanelUIManager : MonoBehaviour
 
     //blackPic
     public Image blackPic;
+
+	//pointer
+	public GameObject pointer;
     private void Awake()
 	{
 		Instance = this;
@@ -213,4 +216,8 @@ public class GamePlayPanelUIManager : MonoBehaviour
             GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
         }
     }
+	public void showPointer(bool status)
+	{
+		pointer.gameObject.SetActive(status);
+	}
 }

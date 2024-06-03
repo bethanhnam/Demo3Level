@@ -160,7 +160,8 @@ public class GameManagerNew : MonoBehaviour
 			CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[LevelManagerNew.Instance.stage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
 			currentLevel.resetData();
 			Stage.Instance.DeactiveDeleting();
-			GamePlayPanelUIManager.Instance.ShowNotice(false);
+            GamePlayPanelUIManager.Instance.showPointer(false);
+            GamePlayPanelUIManager.Instance.ShowNotice(false);
 			GamePlayPanelUIManager.Instance.ButtonOn();
 			CurrentLevel.Init(Level);
 		});
@@ -175,9 +176,10 @@ public class GameManagerNew : MonoBehaviour
 			GamePlayPanelUIManager.Instance.Settimer(181);
 			CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[LevelManagerNew.Instance.stage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
 			currentLevel.resetData();
-			GamePlayPanelUIManager.Instance.ShowNotice(false);
+            GamePlayPanelUIManager.Instance.showPointer(false);
+            GamePlayPanelUIManager.Instance.ShowNotice(false);
 			Stage.Instance.ResetBooster();
-			GamePlayPanelUIManager.Instance.ButtonOn();
+            GamePlayPanelUIManager.Instance.ButtonOn();
 			CurrentLevel.Init(Level);
 		});
 	}

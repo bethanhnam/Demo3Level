@@ -17,6 +17,7 @@ public class DeteleNailPanel : MonoBehaviour
 	public CanvasGroup canvasGroup;
 	public int numOfUse = 0;
 	public int numOfUseByAds = 0;
+	public GameObject pointer;
 
 	public bool isLock = false;
 	private void Start()
@@ -32,8 +33,9 @@ public class DeteleNailPanel : MonoBehaviour
             ShowTutor();
             numOfUse++;
 			FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew_1(numOfUse,LevelManagerNew.Instance.stage);
-
-			SaveSystem.instance.AddBooster(-numOfUsed,0);
+            GamePlayPanelUIManager.Instance.showPointer(true);
+            Stage.Instance.DeactiveTutor();
+            SaveSystem.instance.AddBooster(-numOfUsed,0);
 			SaveSystem.instance.SaveData();
 			//hasUse = true;
 			numOfUsed++;
@@ -119,11 +121,13 @@ public class DeteleNailPanel : MonoBehaviour
 			{
 				GamePlayPanelUIManager.Instance.Close();
 				ActiveCVGroup();
-			});
+                if (Stage.Instance.isTutor)
+                {
+                    ShowPointer(true);
+                    Uniteractable();
+                }
+            });
 			CheckNumOfUse();
-            
-
-
         }
 	}
 	public void Close()
@@ -157,7 +161,6 @@ public class DeteleNailPanel : MonoBehaviour
                 GamePlayPanelUIManager.Instance.ShowPoiterAgain1();
                 GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
                 ActiveCVGroup();
-                Stage.Instance.checked1 = false;
             });
         }
 	}
@@ -174,7 +177,6 @@ public class DeteleNailPanel : MonoBehaviour
 		{
 			GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(false);
 			GamePlayPanelUIManager.Instance.ActiveBlackPic(false);
-			Stage.Instance.isTutor = false;
 		}
 	}
 	public void OffPoiter()
@@ -184,4 +186,8 @@ public class DeteleNailPanel : MonoBehaviour
             GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(false);
         }
     }
+	public void ShowPointer(bool status)
+	{
+		pointer.gameObject.SetActive(status);
+	}
 }

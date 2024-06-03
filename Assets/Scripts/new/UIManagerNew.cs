@@ -98,6 +98,10 @@ public class UIManagerNew : MonoBehaviour
     }
     private void Update()
     {
+        
+    }
+    private void Start()
+    {
         LoadData(SaveSystem.instance.magicTiket, SaveSystem.instance.powerTicket, SaveSystem.instance.coin, SaveSystem.instance.star);
     }
     public void LoadData(int magicTiket, int powerTicket, int coin, int star)

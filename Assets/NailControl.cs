@@ -34,8 +34,8 @@ public class NailControl : MonoBehaviour
 	}
 	public void PickUp(Vector3 pos)
 	{
-		
-		AudioManager.instance.PlaySFX("PickUpScrew");
+        AudioManager.instance.PlaySFX("PushNail");
+        //AudioManager.instance.PlaySFX("PickUpScrew");
 		nailSprite.enabled = false;
 		anim.Play(pickUp, 0, 0);
 

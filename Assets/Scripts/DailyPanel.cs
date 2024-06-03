@@ -157,6 +157,11 @@ public class DailyPanel : MonoBehaviour
 		reciveRewardDaily.SpawnObjects(dayRewards[lastDate].gold,dayRewards[lastDate].magicTiket,dayRewards[lastDate].powerTicket, reciveRewardDaily.rewardImg.gameObject);
         isClaimX2 = false;
 		AudioManager.instance.PlaySFX("ClosePopUp");
+
+        if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
+        {
+            UIManagerNew.Instance.ButtonMennuManager.Appear();
+        }
     }
 	public void Open()
 	{

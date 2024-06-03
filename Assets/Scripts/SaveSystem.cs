@@ -52,6 +52,8 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetInt("Star", star);
         PlayerPrefs.SetInt("unscrewPoint", unscrewPoint);
         PlayerPrefs.SetInt("undoPoint", undoPoint);
+
+        
     }
     public void CreateData()
     {
@@ -59,7 +61,7 @@ public class SaveSystem : MonoBehaviour
         //powerTicket = 10;
         coin = 1000;
         star = 10;
-        //days =6;
+        //days =7;
     }
     public void LoadData()
     {
@@ -102,10 +104,12 @@ public class SaveSystem : MonoBehaviour
     public void addCoin(int coin)
     {
         this.coin += coin;
+        UIManagerNew.Instance.LoadData(SaveSystem.instance.magicTiket, SaveSystem.instance.powerTicket, SaveSystem.instance.coin, SaveSystem.instance.star);
     }
     public void addStar(int star)
     {
         this.star += star;
+        UIManagerNew.Instance.LoadData(SaveSystem.instance.magicTiket, SaveSystem.instance.powerTicket, SaveSystem.instance.coin, SaveSystem.instance.star);
     }
     public void transfer()
     {
@@ -127,6 +131,7 @@ public class SaveSystem : MonoBehaviour
     {
         this.unscrewPoint += unscrewPoint;
         this.undoPoint += undoPoint;
+        UIManagerNew.Instance.LoadData(SaveSystem.instance.magicTiket, SaveSystem.instance.powerTicket, SaveSystem.instance.coin, SaveSystem.instance.star);
     }
     //public void DelayAdding(int startValue, int endValue, float time)
     //{

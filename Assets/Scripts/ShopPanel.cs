@@ -21,8 +21,8 @@ public class ShopPanel : MonoBehaviour
 			canvasGroup.alpha = 0;
 			canvasGroup.DOFade(1, .3f).OnComplete(() =>
 			{
-				
-			});
+                UIManagerNew.Instance.LoadData(SaveSystem.instance.magicTiket, SaveSystem.instance.powerTicket, SaveSystem.instance.coin, SaveSystem.instance.star);
+            });
 		}
 	}
 	public void Close()

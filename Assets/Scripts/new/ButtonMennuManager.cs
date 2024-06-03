@@ -57,7 +57,7 @@ public class ButtonMennuManager : MonoBehaviour
 		}
 		if (AudioManager.instance.musicSource.isPlaying)
 		{
-			if (AudioManager.instance.musicSource.clip.name != "MenuTheme")
+			if (AudioManager.instance.musicSource.clip.name != "MenuTheme2")
 			{
 				AudioManager.instance.PlayMusic("MenuTheme");
 			}

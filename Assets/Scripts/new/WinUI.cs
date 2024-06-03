@@ -87,5 +87,13 @@ public class WinUI : MonoBehaviour
 		AudioManager.instance.PlayMusic("MenuTheme");	
         GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
 		UIManagerNew.Instance.ButtonMennuManager.OpenRW();
+        if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
+        {
+            UIManagerNew.Instance.ButtonMennuManager.Appear();
+			if(GameManagerNew.Instance.PictureUIManager.picTutor != null)
+			{
+				GameManagerNew.Instance.PictureUIManager.picTutor.CheckHasFixed();
+            }
+        }
     }
 }

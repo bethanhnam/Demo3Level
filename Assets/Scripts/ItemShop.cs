@@ -19,6 +19,7 @@ public class ItemShop : MonoBehaviour
     {
         IapControl.Instance.BuyProductID(namePack, () =>
         {
+           
             SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint);
             SaveSystem.instance.addCoin(this.gold);
             SaveSystem.instance.SaveData();
@@ -57,6 +58,4 @@ public class ItemShop : MonoBehaviour
             goldText.text = gold.ToString();
         }
     }
-
-
 }

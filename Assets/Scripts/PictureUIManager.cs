@@ -26,10 +26,14 @@ public class PictureUIManager : MonoBehaviour
 	public int Level { get => level; set => level = value; }
 	public CanvasGroup CanvasGroup { get => canvasGroup; set => canvasGroup = value; }
 
-	//
+	//bool
 	public bool hasWindow = false;
 
-	public void Init(int _level)
+    //tutor pic
+	public PicTutor picTutor;
+    public bool hasFixed = false;
+
+    public void Init(int _level)
 	{
 
 		level = _level;
@@ -335,6 +339,7 @@ public class PictureUIManager : MonoBehaviour
 							{
 								stage[i].ObjunLock[j].SetActive(true);
 							}
+							hasFixed = true;
 						}
 						else
 						{

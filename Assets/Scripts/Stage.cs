@@ -371,8 +371,8 @@ public class Stage : MonoBehaviour
                         nailToDetele.RemoveHinge();
                         nailToDetele.gameObject.SetActive(false);
                         setDeteleting(false);
-                        hasDelete = true;
-
+                        hasDelete = true; 
+                        GamePlayPanelUIManager.Instance.showPointer(false);
                     }
                     //var Destroyeffect1 = Instantiate(destroyNailEffect, nailToDetele.transform.position, quaternion.identity);
                     //Destroy(Destroyeffect1, 0.5f);
@@ -720,6 +720,7 @@ public class Stage : MonoBehaviour
         {
             isDeteleting = false;
         }
+        
     }
     public void showUnscrewTuTor()
     {
@@ -732,6 +733,13 @@ public class Stage : MonoBehaviour
         GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
         GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
     }
+    public void DeactiveTutor()
+    {
+        if (isTutor) {
+            isTutor = false;
+        }
+    }
+
     //public void showUndoTuTor()
     //{
     //    if(SaveSystem.instance.undoPoint == 0)
