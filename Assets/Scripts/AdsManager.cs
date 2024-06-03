@@ -90,7 +90,7 @@ public class AdsManager : MonoBehaviour
 
 	IEnumerator WaitToLoadScene()
 	{
-		yield return new WaitForSecondsRealtime(6f);
+		//yield return new WaitForSecondsRealtime(6f);
 		if (RemoteConfigController.instance.IsShowOpenAds == 1)
 		{
 			AdsControl.Instance.ShowOpenAds();

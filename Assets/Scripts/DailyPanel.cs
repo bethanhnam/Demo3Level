@@ -16,6 +16,7 @@ public class DailyPanel : MonoBehaviour
 	public bool isClaim;
 	public bool isClaimX2;
 	public reciveRewardPanel reciveRewardPanel;
+	public reciveRewardDaily reciveRewardDaily;
 	public CanvasGroup canvasGroup;
 
     private void Awake()
@@ -83,15 +84,24 @@ public class DailyPanel : MonoBehaviour
 		//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
 		PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
 		isClaim = true;
-		if (dayRewards[lastDate].rewardImg.Length <= 1)
-		{
-			reciveRewardPanel.Open();
-		}
-		else
-		{
-			reciveRewardPanel.Open();
-		}
-	}
+		//if (lastDate == 6)
+		//{
+			if (dayRewards[lastDate].rewardImg.Length <= 1)
+			{
+				reciveRewardPanel.Open();
+			}
+			else
+			{
+				reciveRewardPanel.Open();
+			}
+		//else
+		//{
+  //          reciveRewardDaily.gameObject.SetActive(true);
+  //          reciveRewardDaily.claim();
+  //      }
+		SaveSystem.instance.SaveData();
+		
+    }
 	public void OnClaimButtinPressedX2()
 	{
 		AdsManager.instance.ShowRewardVideo(() =>
@@ -100,21 +110,31 @@ public class DailyPanel : MonoBehaviour
 			//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
 			PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
 			isClaimX2 = true;
-			if (dayRewards[lastDate].rewardImg.Length <= 1)
-			{
-                reciveRewardPanel.Open();
-            }
-			else
-			{
-                reciveRewardPanel.Open();
-            }
-		});
+			//if (lastDate == 6)
+			//{
+				if (dayRewards[lastDate].rewardImg.Length <= 1)
+				{
+					reciveRewardPanel.Open();
+				}
+				else
+				{
+					reciveRewardPanel.Open();
+				}
+			//}
+			//else
+			//{
+   //             reciveRewardDaily.gameObject.SetActive(true);
+			//	reciveRewardDaily.claim();
+   //         }
+			//SaveSystem.instance.SaveData();
+        });
 	}
 	public void Claim()
 	{
 		if (isClaim)
 		{
-			reciveRewardPanel.TakeReward(() => {
+			reciveRewardPanel.TakeReward(() =>
+			{
 				StartCoroutine(ClosePanel());
 			});
 		}
@@ -130,10 +150,13 @@ public class DailyPanel : MonoBehaviour
 	IEnumerator ClosePanel()
 	{
 		yield return new WaitForSeconds(1.7f);
-		//UIManagerNew.Instance.DailyRWUI.Close();
+		UIManagerNew.Instance.DailyRWUI.Close();
 		reciveRewardPanel.Close();
-		isClaimX2 = false;
-	}
+		reciveRewardDaily.gameObject.SetActive(true); 
+		reciveRewardDaily.SpawnObjects(dayRewards[lastDate].gold,dayRewards[lastDate].magicTiket,dayRewards[lastDate].powerTicket, reciveRewardDaily.rewardImg.gameObject);
+        isClaimX2 = false;
+		AudioManager.instance.PlaySFX("ClosePopUp");
+    }
 	public void Open()
 	{
 		AudioManager.instance.PlaySFX("OpenPopUp");
@@ -143,11 +166,11 @@ public class DailyPanel : MonoBehaviour
 	{
 		if (this.gameObject.activeSelf)
 		{
-				if (reciveRewardPanel.gameObject.activeSelf)
-				{
-					reciveRewardPanel.gameObject.SetActive(false);
-				}
-			AudioManager.instance.PlaySFX("ClosePopUp");
+			if (reciveRewardPanel.gameObject.activeSelf)
+			{
+				reciveRewardPanel.gameObject.SetActive(false);
+			}
+			//this.gameObject.SetActive(false);
 		}
 
 	}

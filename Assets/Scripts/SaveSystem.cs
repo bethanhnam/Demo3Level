@@ -58,7 +58,7 @@ public class SaveSystem : MonoBehaviour
         //powerTicket = 10;
         coin = 1000;
         star = 10;
-        //days =6;
+        days =6;
     }
     public void LoadData()
     {
