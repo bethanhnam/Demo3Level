@@ -40,6 +40,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
 
 	//pointer
 	public GameObject pointer;
+	public GameObject goodJob;
     private void Awake()
 	{
 		Instance = this;

@@ -54,7 +54,7 @@ public class BuyInGame : MonoBehaviour
     }
     private void AddBoosterByads(int gold)
     {
-        SaveSystem.instance.coin -= gold;
+        SaveSystem.instance.addCoin(-gold);
         SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint);
         SaveSystem.instance.SaveData();
         myitem.numOfBuy++;
@@ -81,7 +81,8 @@ public class BuyInGame : MonoBehaviour
 
     private void AddCoinByAds()
     {
-        SaveSystem.instance.coin += 20;
+        
+        SaveSystem.instance.addCoin(20);
         SaveSystem.instance.SaveData();
         myitem.numOfBuy++;
 

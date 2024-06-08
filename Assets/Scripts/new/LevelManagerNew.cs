@@ -21,6 +21,7 @@ public class LevelManagerNew : MonoBehaviour
 	{
 		Instance = this;
 		stage = PlayerPrefs.GetInt("stage");
+		stage = 29;
 	}
 
 	public void Init()
@@ -74,11 +75,12 @@ public class LevelManagerNew : MonoBehaviour
 		}
 		
 	}
-	public void ResetLevel()
+	public void ResetLevel(Action action)
 	{
 		DataLevelManager.Instance.ResetData();
 		levelBase.CountLevelWin = 0;
 		SaveData();
+		action();
 	}
 	public void NextPicStage()
 	{

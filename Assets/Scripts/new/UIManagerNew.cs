@@ -67,6 +67,9 @@ public class UIManagerNew : MonoBehaviour
     [SerializeField]
     private GameObject onjBlockAds;
 
+    [SerializeField]
+    private GameObject blockPicCanvas;
+
 
     public ButtonMennuManager ButtonMennuManager { get => buttonMennuManager; }
     public DailyRWUI DailyRWUI { get => dailyRWUI; }
@@ -91,6 +94,7 @@ public class UIManagerNew : MonoBehaviour
     public FixItemUI FixItemUI { get => fixItemUI; set => fixItemUI = value; }
     public NotEnoughStar NotEnoughStarPanel { get => notEnoughStarPanel; set => notEnoughStarPanel = value; }
     public TransferPanel TransferPanel { get => transferPanel; set => transferPanel = value; }
+    public GameObject BlockPicCanvas { get => blockPicCanvas; set => blockPicCanvas = value; }
 
     private void Awake()
     {

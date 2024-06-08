@@ -63,14 +63,15 @@ public class ItemMoveControl : MonoBehaviour
 		transform.localScale = Vector3.one;
 
 		Vector3 _direction = (pos - targetAnchor).normalized;
-		float _distance = Vector3.Distance(targetAnchor, pos);
-		if (_distance < 4)
+		float _distance = Vector2.Distance(targetAnchor, pos);
+
+        if (_distance < 4)
 		{
 			_distance = 4;
 		}
 
 		timeMove = baseTimeMove * _distance;
-		Debug.Log(timeMove);
+
 
 		Vector3 targetScale = transform.localScale / 4f;
 		transform.DOScale(targetScale, timeMove).SetEase(curveScale);

@@ -53,9 +53,8 @@ public class CompleteUI : MonoBehaviour
 	{
 		completeSkeleton.AnimationState.SetAnimation(0, completeSkeletonStage[1], false);
     }
-	IEnumerator closeWindow()
+	public void closeWindow()
 	{
-		yield return new WaitForSeconds(1f);
         completeSkeleton.startingAnimation = completeSkeletonStage[0];
     }
 

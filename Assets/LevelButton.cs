@@ -17,7 +17,7 @@ public class LevelButton : MonoBehaviour
 	public void SetItem()
 	{
 		GameManagerNew.Instance.Level = level;
-		GameManagerNew.Instance.CheckStarValue(star,this.transform);
+		GameManagerNew.Instance.CheckStarValue(star,this.transform.position,this);
 
     }
 	public void SetStarText( int star)

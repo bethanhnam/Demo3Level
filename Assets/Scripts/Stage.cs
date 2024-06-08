@@ -67,9 +67,13 @@ public class Stage : MonoBehaviour
     public List<Hole> numOfHoleNotAvailable = new List<Hole>();
     public bool checked1 = false;
 
-    //tuto
+    //tutor
     public bool isTutor = false;
+    public bool isLvTutor = false;
     public Vector3 targetScale;
+
+    public GameObject pointer;
+    public TutorPointer pointerTutor;
     private void Start()
     {
         Instance = this;
@@ -190,6 +194,10 @@ public class Stage : MonoBehaviour
                     curNail = curHole.getNail();
                     curNail.check();
                     curNail.PickUp(curHole.transform.position);
+                    if (isLvTutor)
+                    {
+                        pointerTutor.SetPos(1);
+                    }
                 }
 
                 goto lb100;
@@ -271,6 +279,11 @@ public class Stage : MonoBehaviour
                         nailDetectors.Clear();
                         selectedIrons.Clear();
                         hasDelete = false;
+                        if (isLvTutor)
+                        {
+                            isLvTutor = false;
+                            pointerTutor.DisablePointer();
+                        }
                     }
                     else
                     {
@@ -417,7 +430,7 @@ public class Stage : MonoBehaviour
         {
             GamePlayPanelUIManager.Instance.UndoButton.interactable = true;
         }
-        TutorUndo();
+        //TutorUndo();
     }
 
     private void SavePreData()
@@ -624,21 +637,22 @@ public class Stage : MonoBehaviour
         UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(true);
         UIManagerNew.Instance.UndoPanel.LockOrUnlock(true);
         TutorUnscrew();
+        TutorLevel1();
         DeactiveDeleting();
     }
 
-    private void TutorUndo()
-    {
-        if (LevelManagerNew.Instance.stage >= 1 )
-        {
-            UIManagerNew.Instance.UndoPanel.LockOrUnlock(false);
-            GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.UndoBT);
-        }
-    }
+    //private void TutorUndo()
+    //{
+    //    if (LevelManagerNew.Instance.stage >= 1 )
+    //    {
+    //        UIManagerNew.Instance.UndoPanel.LockOrUnlock(false);
+    //        GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.UndoBT);
+    //    }
+    //}
 
     private void TutorUnscrew()
     {
-        if (LevelManagerNew.Instance.stage == 2)
+        if (LevelManagerNew.Instance.stage == 3)
         {
             //tuto undo 
             isTutor = true;
@@ -654,13 +668,30 @@ public class Stage : MonoBehaviour
             Invoke("showUnscrewTuTor", 1.3f);
 
         }
-        else if (LevelManagerNew.Instance.stage > 1)
+        else if (LevelManagerNew.Instance.stage > 3)
         {
             UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(false);
             GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
         }
+        else if (LevelManagerNew.Instance.stage < 3)
+        {
+            UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(true);
+            GamePlayPanelUIManager.Instance.boosterBar.UninteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
+        }
     }
+    private void TutorLevel1()
+    {
+        if (LevelManagerNew.Instance.stage == 0 && pointerTutor != null )
+        {
+            //tuto undo 
+            isLvTutor = true;
+            if(pointerTutor.gameObject.activeSelf == false)
+            {
+                Invoke("showLevel1Tutor",1f);
+            }
 
+        }
+    }
     public void Hack()
     {
         if (Input.GetKeyDown(KeyCode.J))
@@ -732,6 +763,10 @@ public class Stage : MonoBehaviour
         GamePlayPanelUIManager.Instance.boosterBar.SetPoiterPos(0);
         GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
         GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
+    }
+    public void showLevel1Tutor()
+    {
+        pointerTutor.gameObject.SetActive(true);
     }
     public void DeactiveTutor()
     {

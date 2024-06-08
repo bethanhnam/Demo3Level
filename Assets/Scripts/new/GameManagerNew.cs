@@ -178,8 +178,9 @@ public class GameManagerNew : MonoBehaviour
 			currentLevel.resetData();
             GamePlayPanelUIManager.Instance.showPointer(false);
             GamePlayPanelUIManager.Instance.ShowNotice(false);
-			Stage.Instance.ResetBooster();
             GamePlayPanelUIManager.Instance.ButtonOn();
+			Stage.Instance.pointerTutor.gameObject.SetActive(false);
+			Stage.Instance.ResetBooster();
 			CurrentLevel.Init(Level);
 		});
 	}
@@ -341,10 +342,12 @@ public class GameManagerNew : MonoBehaviour
         if (GameManagerNew.Instance.PictureUIManager.hasWindow)
         {
             pictureUIManager.ChangeReaction(0f, "tremble_happy", false, GameManagerNew.Instance.PictureUIManager.hasWindow);
+			AudioManager.instance.PlaySFX("Laugh");
         }
         else
         {
             pictureUIManager.ChangeReaction(0f, "sad-happy", false, GameManagerNew.Instance.PictureUIManager.hasWindow);
+            AudioManager.instance.PlaySFX("Laugh");
         }
         yield return new WaitForSeconds(0.5f);
         AudioManager.instance.PlaySFX("Shining");
@@ -415,9 +418,10 @@ public class GameManagerNew : MonoBehaviour
 	public void CompleteLevelAfterReward()
 	{
         pictureUIManager.DisableCharacter();
-		Destroy(PictureUIManager.gameObject);
+		var x = PictureUIManager.gameObject;
         LevelManagerNew.Instance.NetxtLevel();
 		PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
+		//Destroy(x);
 		PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
         AudioManager.instance.musicSource.Play();
         ScalePicForDevices(PictureUIManager.transform.gameObject);
@@ -471,16 +475,17 @@ public class GameManagerNew : MonoBehaviour
         yield return new WaitForSeconds(1f);
         UIManagerNew.Instance.ButtonMennuManager.DisPlayPresent();
 	}
-	public void CheckStarValue(int numOfStar,Transform des)
+	public void CheckStarValue(int numOfStar,Vector3 des,LevelButton levelButton)
 	{
 		if (SaveSystem.instance.star - numOfStar >= 0)
 		{
-			SaveSystem.instance.star -= numOfStar;
+			SaveSystem.instance.addStar(-numOfStar);
 			SaveSystem.instance.SaveData();
-			GameManagerNew.Instance.pictureUIManager.DisableCV();
-			UIManagerNew.Instance.ButtonMennuManager.starMove.CreateStar(des.position, (() => {
+			UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+			UIManagerNew.Instance.ButtonMennuManager.starMove.CreateStar(des, (() => {
 				DataLevelManager.Instance.SetLevelDone(Level);
-			}),numOfStar);
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+            }),numOfStar, levelButton);
 		}
 		else
 		{

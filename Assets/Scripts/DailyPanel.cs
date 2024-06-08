@@ -19,6 +19,8 @@ public class DailyPanel : MonoBehaviour
 	public reciveRewardDaily reciveRewardDaily;
 	public CanvasGroup canvasGroup;
 
+	public int startValue;
+
     private void Awake()
     {
         lastDate = SaveSystem.instance.days;
@@ -26,7 +28,9 @@ public class DailyPanel : MonoBehaviour
     private void Start()
 	{
 		checkDay();
-	}
+		startValue = SaveSystem.instance.coin;
+
+    }
 
 	private void checkDay()
 	{
@@ -154,7 +158,8 @@ public class DailyPanel : MonoBehaviour
 		reciveRewardPanel.Close();
 		reciveRewardDaily.gameObject.SetActive(true);
 		//reciveRewardDaily.claim();
-		reciveRewardDaily.SpawnObjects(dayRewards[lastDate].gold,dayRewards[lastDate].magicTiket,dayRewards[lastDate].powerTicket, reciveRewardDaily.rewardImg.gameObject);
+		reciveRewardDaily.SetValue();
+        reciveRewardDaily.SpawnObjects(dayRewards[lastDate].gold,dayRewards[lastDate].magicTiket,dayRewards[lastDate].powerTicket, reciveRewardDaily.rewardImg.gameObject);
         isClaimX2 = false;
 		AudioManager.instance.PlaySFX("ClosePopUp");
 
@@ -163,11 +168,6 @@ public class DailyPanel : MonoBehaviour
             UIManagerNew.Instance.ButtonMennuManager.Appear();
         }
     }
-	public void Open()
-	{
-		AudioManager.instance.PlaySFX("OpenPopUp");
-
-	}
 	public void Close()
 	{
 		if (this.gameObject.activeSelf)
