@@ -14,9 +14,11 @@ public class RewardMove : MonoBehaviour
     public GameObject StarShadowImg;
     public Image CoinShadowImg;
     public List<CoinReward> coin = new List<CoinReward>();
-    public List<CoinReward> star = new List<CoinReward>();
+    public List<StarReward> star = new List<StarReward>();
     public GameObject prefabToSpawn;
     public Transform startPos;
+
+    public Canvas canvaToMove;
 
     public AnimationCurve scaleCurve;
     // Start is called before the first frame update
@@ -44,44 +46,60 @@ public class RewardMove : MonoBehaviour
         star[0].transform.localScale = Vector3.zero;
 
         star[0].gameObject.SetActive(true);
-        star[0].transform.DOScale(new Vector3(3.2f, 3.2f, 3.2f), 0.1f).OnComplete(() =>
+        star[0].transform.SetParent(canvaToMove.transform);
+        star[0].transform.DOScale(new Vector3(2.1f, 2.1f, 2.1f), 0.3f).OnComplete(() =>
         {
-            star[0].transform.DOScale(new Vector3(2.5f, 2.5f, 2.5f), 0.1f).OnComplete(() =>
+            star[0].ActiveGlowParticle(true);
+            DOVirtual.DelayedCall(0.25f, () =>
+            { 
+                star[0].ActiveFireWorkParticle(true);
+            });
+            star[0].transform.DOScale(new Vector3(1.9f, 1.9f, 1.9f), 0.2f).OnComplete(() =>
             {
-                star[0].transform.DOScale(new Vector3(3f, 3f, 3f), 0.1f).OnComplete(() =>
+                DOVirtual.DelayedCall(0.3f, () =>
                 {
+                    star[0].ActiveGlowParticle(false);
+                    
+                });
+                star[0].transform.DOScale(new Vector3(2f, 2f, 2f), 0.2f).OnComplete(() =>
+                {
+
                     StartCoroutine(MoveToDes());
+
                 });
             });
         });
     }
 
-    private void SpawnCoin(float parentWidth, float parentHeight, Action action)
+    private void SpawnCoin(int i, float parentWidth, float parentHeight)
     {
-        for (int i = 0; i < coin.Count; i++)
+        if (i < coin.Count)
         {
-            coin[i].transform.localPosition = startPos.position;
-            coin[i].transform.localScale = Vector3.zero;
-
-            // Tạo tọa độ ngẫu nhiên trong phạm vi kích thước của object cha
-            float randomX = UnityEngine.Random.Range(-parentWidth / 2, parentWidth / 2);
-            float randomY = UnityEngine.Random.Range(-parentHeight / 2, parentHeight / 2);
-
-            // Tạo một vị trí mới cho object con
-            Vector3 randomPosition = new Vector3(randomX, randomY, 0f);
-            var coinIndex = coin[i];
-            coin[i].gameObject.SetActive(true);
-            coin[i].transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
+            DOVirtual.DelayedCall(0.01f, () =>
             {
-                float randomSpeed = UnityEngine.Random.Range(0.5f, 2f);
-                coinIndex.GetComponent<Animator>().speed = randomSpeed;
+                SpawnCoin(i + 1, parentWidth, parentHeight);
             });
-
-            // Instantiate object con và gán nó vào object cha
-            coin[i].transform.DOLocalMove(randomPosition, 0.4f);
-            //coin[i].transform.localPosition = randomPosition;
         }
-        action();
+        coin[i].transform.localPosition = startPos.position;
+        coin[i].transform.localScale = Vector3.zero;
+
+        // Tạo tọa độ ngẫu nhiên trong phạm vi kích thước của object cha
+        float randomX = UnityEngine.Random.Range(-parentWidth / 2, parentWidth / 2);
+        float randomY = UnityEngine.Random.Range(-parentHeight / 2, parentHeight / 2);
+
+        // Tạo một vị trí mới cho object con
+        Vector3 randomPosition = new Vector3(randomX, randomY, 0f);
+        var coinIndex = coin[i];
+        coin[i].gameObject.SetActive(true);
+        coin[i].transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
+        {
+            float randomSpeed = UnityEngine.Random.Range(0.5f, 2f);
+            coinIndex.GetComponent<Animator>().speed = randomSpeed;
+        });
+
+        // Instantiate object con và gán nó vào object cha
+        coin[i].transform.DOLocalMove(randomPosition, 0.4f);
+        //coin[i].transform.localPosition = randomPosition;
     }
 
     public void MoveCoin(List<CoinReward> list, int i, int value)
@@ -90,89 +108,102 @@ public class RewardMove : MonoBehaviour
         {
             float time = .7f / list.Count;
             //list[i].GetComponent<Animator>().enabled = true;
-            DOVirtual.DelayedCall(0.1f, () =>
+            DOVirtual.DelayedCall(0.05f, () =>
             {
                 MoveCoin(list, i + 1, value + 1);
             });
-            list[i].MoveToFix(list[i], list[i].transform.position, coinImgDes.transform.position, () =>
-            {
-                coinImgDes.gameObject.transform.DOScale(.8f, 0.15f).OnComplete(() =>
+            //Vector3 stepPos = new Vector3(list[i].transform.position.x+1.5f , list[i].transform.position.y - 1f, list[i].transform.position.z);
+            //list[i].transform.DOMove(stepPos, 0.1f).OnComplete(() =>
+            //{
+                list[i].MoveToFix(list[i], list[i].transform.position, coinImgDes.transform.position, Vector3.one, () =>
                 {
-                    UIManagerNew.Instance.coinTexts[0].SetText((SaveSystem.instance.coin + value).ToString());
-                    AudioManager.instance.PlaySFX("AddCoin");
-                    coinImgDes.gameObject.transform.DOScale(.7f, 0.02f);
-                });
-                CoinShadowImg.gameObject.SetActive(true);
-                Color color = new Color(CoinShadowImg.color.r, CoinShadowImg.color.g, CoinShadowImg.color.b, 0);
-                CoinShadowImg.DOColor(color, 0.3f);
-                CoinShadowImg.gameObject.transform.DOScale(0.10f, 0.15f).OnComplete(() =>
-                {
-                    Color color = new Color(CoinShadowImg.color.r, CoinShadowImg.color.g, CoinShadowImg.color.b, 0.4f);
-                    CoinShadowImg.DOColor(color, 0.05f);
-                    CoinShadowImg.gameObject.transform.DOScale(.8f, 0.05f).OnComplete(() =>
+                   
+                    coinImgDes.gameObject.transform.DOScale(.8f, 0.15f).OnComplete(() =>
                     {
-                        CoinShadowImg.gameObject.SetActive(false);
+                        UIManagerNew.Instance.coinTexts[0].SetText((SaveSystem.instance.coin + value+2).ToString());
+                        AudioManager.instance.PlaySFX("AddCoin");
+                        coinImgDes.gameObject.transform.DOScale(.7f, 0.02f);
+                    });
+                    //CoinShadowImg.gameObject.SetActive(true);
+                    //Color color = new Color(CoinShadowImg.color.r, CoinShadowImg.color.g, CoinShadowImg.color.b, 0);
+                    //CoinShadowImg.DOColor(color, 0.3f);
+                    //CoinShadowImg.gameObject.transform.DOScale(0.10f, 0.15f).OnComplete(() =>
+                    //{
+                    //    Color color = new Color(CoinShadowImg.color.r, CoinShadowImg.color.g, CoinShadowImg.color.b, 0.4f);
+                    //    CoinShadowImg.DOColor(color, 0.05f);
+                    //    CoinShadowImg.gameObject.transform.DOScale(.8f, 0.05f).OnComplete(() =>
+                    //    {
+                    //        CoinShadowImg.gameObject.SetActive(false);
+                    //    });
+                    //});
+                    var x = list[i];
+                    DOVirtual.DelayedCall(0.03f, () =>
+                    {
+                        x.gameObject.SetActive(false);
                     });
                 });
-                var x = list[i];
-                DOVirtual.DelayedCall(0f, () =>
-                {
-                    x.gameObject.SetActive(false);
-                });
-            });
+            //});
+
         }
     }
-    public void MoveStar(List<CoinReward> list, int i)
+    public void MoveStar(List<StarReward> list, int i)
     {
         float time = .3f / list.Count;
-        //list[i].GetComponent<Animator>().enabled = true;
-
-
-        list[0].transform.DOScale(Vector3.one, 0.4f).SetEase(scaleCurve);
-        list[0].MoveToFix(list[0], list[0].transform.position, StarImgDes.transform.position, () =>
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+        Vector3 stepPos = new Vector3(list[i].transform.position.x -1, list[i].transform.position.y - 1f, list[i].transform.position.z);
+        list[i].transform.DOMove(stepPos, 0.3f).OnComplete(() =>
         {
-            int i = 0;
-            SpawnCoin(this.GetComponent<RectTransform>().rect.width, this.GetComponent<RectTransform>().rect.height, () =>
-            {
-                if (i < coin.Count)
+            list[0].MoveToFix(list[0], list[0].transform.position, StarImgDes.transform.position, Vector3.one, () =>
                 {
-                    MoveCoin(coin, i, 1);
-                }
-            });
-            StarImgDes.gameObject.transform.DOScale(1.2f, 0.15f).OnComplete(() =>
-            {
-                StarImgDes.gameObject.transform.DOScale(1f, 0.02f);
+                    int i = 0;
+                    SpawnCoin(i, this.GetComponent<RectTransform>().rect.width, this.GetComponent<RectTransform>().rect.height);
+                    DOVirtual.DelayedCall(1.2f, () =>
+                    {
+                        if (i < coin.Count)
+                        {
+                            MoveCoin(coin, i, 1);
+                        }
+                    });
+                    StarImgDes.gameObject.transform.DOScale(1.2f, 0.15f).OnComplete(() =>
+                    {
+                        StarImgDes.gameObject.transform.DOScale(1f, 0.02f);
 
-            });
-            StarShadowImg.gameObject.SetActive(true);
-            StarShadowImg.gameObject.transform.DOScale(0.3f, 0.15f).OnComplete(() =>
-            {
-                StarShadowImg.gameObject.transform.DOScale(.25f, 0.05f).OnComplete(() =>
-                {
-                    StarShadowImg.gameObject.SetActive(false);
+                    });
+                    StarShadowImg.gameObject.SetActive(true);
+                    StarShadowImg.gameObject.transform.DOScale(0.3f, 0.15f).OnComplete(() =>
+                    {
+                        StarShadowImg.gameObject.transform.DOScale(.25f, 0.05f).OnComplete(() =>
+                        {
+                            StarShadowImg.gameObject.SetActive(false);
+                        });
+                    });
+                    var x = list[0];
+                    DOVirtual.DelayedCall(0.03f, () =>
+                    {
+                        x.gameObject.SetActive(false);
+                    });
+
                 });
-            });
-            var x = list[0];
-            DOVirtual.DelayedCall(0f, () =>
-            {
-                x.gameObject.SetActive(false);
-            });
-
         });
     }
     IEnumerator MoveToDes()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.6f);
+        star[0].ActiveFireWorkParticle(false);
         int j = 0;
         if (j < star.Count)
         {
-            MoveStar(star, j); 
+            MoveStar(star, j);
         }
         StartCoroutine(Close());
     }
     IEnumerator Close()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(4.5f);
+        
+        star[0].transform.SetParent(this.transform);
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+        GameManagerNew.Instance.PictureUIManager.DisplayButton();
         this.gameObject.SetActive(false);
     }
 }

@@ -17,6 +17,7 @@ public class DailyRWUI : MonoBehaviour
 
 
     private int appearButton = Animator.StringToHash("appear");
+    private int idleButton = Animator.StringToHash("DailyPanel");
 	private int disappearButton = Animator.StringToHash("Disappear");
 
 
@@ -29,6 +30,10 @@ public class DailyRWUI : MonoBehaviour
 		cvButton.enabled = false;
 		animButton.Play(appearButton, 0, 0);
         AudioManager.instance.PlaySFX("OpenPopUp");
+    }
+	public void PlayIdleState()
+	{
+        animButton.Play(idleButton, 0, 0);
     }
 
 	public void Close()

@@ -482,7 +482,8 @@ public class GameManagerNew : MonoBehaviour
 			SaveSystem.instance.addStar(-numOfStar);
 			SaveSystem.instance.SaveData();
 			UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-			UIManagerNew.Instance.ButtonMennuManager.starMove.CreateStar(des, (() => {
+
+            UIManagerNew.Instance.ButtonMennuManager.starMove.CreateStar(des, (() => {
 				DataLevelManager.Instance.SetLevelDone(Level);
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
             }),numOfStar, levelButton);

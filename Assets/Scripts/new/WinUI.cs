@@ -84,15 +84,15 @@ public class WinUI : MonoBehaviour
 		//Deactive();
 		UIManagerNew.Instance.WinUI.Close();
 		UIManagerNew.Instance.ButtonMennuManager.DiactiveCVGroup();
-		AudioManager.instance.PlayMusic("MenuTheme");	
-        GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
-		UIManagerNew.Instance.ButtonMennuManager.OpenRW();
+		AudioManager.instance.PlayMusic("MenuTheme");
+        UIManagerNew.Instance.ButtonMennuManager.OpenRW();
+        GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level,false);
         if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
         {
             UIManagerNew.Instance.ButtonMennuManager.Appear();
-			if(GameManagerNew.Instance.PictureUIManager.picTutor != null)
-			{
-				GameManagerNew.Instance.PictureUIManager.picTutor.CheckHasFixed();
+            if (GameManagerNew.Instance.PictureUIManager.picTutor != null)
+            {
+                GameManagerNew.Instance.PictureUIManager.picTutor.CheckHasFixed();
             }
         }
     }

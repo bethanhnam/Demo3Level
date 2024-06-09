@@ -41,7 +41,7 @@ public class CoinReward : MonoBehaviour
         }
     }
 
-    public void MoveToFix(CoinReward star, Vector3 pos, Vector3 targetAnchor, Action action)
+    public void MoveToFix(CoinReward star, Vector3 pos, Vector3 targetAnchor,Vector3 scaleTarget, Action action)
     {
 
         if (!star.gameObject.activeSelf)
@@ -49,7 +49,6 @@ public class CoinReward : MonoBehaviour
             star.gameObject.SetActive(true);
         }
         star.transform.position = pos;
-        //star.transform.localScale = Vector3.one;
 
         Vector3 _direction = (pos - targetAnchor).normalized;
         float _distance = Vector2.Distance(targetAnchor, pos);
@@ -61,8 +60,7 @@ public class CoinReward : MonoBehaviour
         //timeMove = baseTimeMove * _distance;
         timeMove = 0.5f;
 
-        Vector3 targetScale = transform.localScale;
-        //star.transform.DOScale(targetScale, timeMove).SetEase(curveScale);
+        star.transform.DOScale(scaleTarget, timeMove).SetEase(curveScale);
 
         Vector3 p1 = pos + _direction * (_distance / 3f);
         Vector3 centrPos = (pos + targetAnchor) / 2f;

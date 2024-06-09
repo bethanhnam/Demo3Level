@@ -255,7 +255,7 @@ public class PictureUIManager : MonoBehaviour
 		canvasGroup.blocksRaycasts = true;
 		canvasGroup.interactable = true;
 	}
-	public void ChangeItemOnly(int _level)
+	public void ChangeItemOnly(int _level,bool showBT = true)
 	{
 		level = _level;
 		if (level >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
@@ -378,13 +378,16 @@ public class PictureUIManager : MonoBehaviour
 				}
 			}
 		}
-		StartCoroutine(NormalInit());
+		HiddenButton();
+        StartCoroutine(NormalInit(showBT));
 	}
-	IEnumerator NormalInit()
+	IEnumerator NormalInit(bool showBT)
 	{
 		yield return new WaitForSeconds(.5f);
 		Init(level);
-		DisplayButton();
+		if (showBT) { 
+			DisplayButton(); 
+		}
 		if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
 		{
 			UIManagerNew.Instance.ButtonMennuManager.Appear();

@@ -199,7 +199,7 @@ public class reciveRewardDaily : MonoBehaviour
             {
                 test(list, i - 1);
             });
-            list[i].MoveToFix(list[i], list[i].transform.position, coinDes.transform.position, () =>
+            list[i].MoveToFix(list[i], list[i].transform.position, coinDes.transform.position,new Vector3(0.8f,0.8f,1), () =>
             {
                 coinDes.gameObject.transform.DOScale(.8f, 0.15f).OnComplete(() =>
                 {
@@ -222,7 +222,7 @@ public class reciveRewardDaily : MonoBehaviour
             {
                 test1(list, i - 1);
             });
-            list[i].MoveToFix(list[i], list[i].transform.position, posDes.transform.position, () =>
+            list[i].MoveToFix(list[i], list[i].transform.position, posDes.transform.position, new Vector3(0.8f, 0.8f, 1), () =>
             {
                 posDes.gameObject.transform.DOScale(.8f, 0.15f).OnComplete(() =>
                 {
