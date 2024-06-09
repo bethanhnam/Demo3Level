@@ -69,11 +69,11 @@ public class BuyInGame : MonoBehaviour
             AdsManager.instance.ShowRewardVideo(() =>
             {
                 
-                CreateStar(this.transform.position, () =>
-                {
+                //CreateStar(this.transform.position, () =>
+                //{
                     AddCoinByAds();
 
-                },0);
+                //},0);
             });
             PlayerPrefs.SetString("ClaimTime", DateTime.Today.ToString());
         }

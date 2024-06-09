@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Rendering.InspectorCurveEditor;
 
 public class StarMove : MonoBehaviour
 {
@@ -49,7 +48,7 @@ public class StarMove : MonoBehaviour
     public void CreateStar(Vector3 des, Action action, int numOfStar, LevelButton levelButton)
     {
         UIManagerNew.Instance.starTexts[0].color = Color.red;
-        DOVirtual.Float(SaveSystem.instance.star, SaveSystem.instance.star -numOfStar, 0.5f, (x) =>
+        DOVirtual.Float(SaveSystem.instance.star + numOfStar, SaveSystem.instance.star, 0.5f, (x) =>
         {
             UIManagerNew.Instance.starTexts[0].color = Color.white;
             UIManagerNew.Instance.starTexts[0].text = Mathf.CeilToInt(x).ToString();

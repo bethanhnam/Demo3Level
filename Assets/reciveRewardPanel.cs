@@ -96,7 +96,7 @@ public class reciveRewardPanel : MonoBehaviour
                 rewardLight.gameObject.SetActive(false);
                 rewardImg.GetComponent<Animator>().enabled = false;
                 rewardImg.DOMove(new Vector2(0, -5), 1f);
-                rewardImg.DOScale(0.5f, 1f).OnComplete(() =>
+                rewardImg.DOScale(1f, 1f).OnComplete(() =>
                 {
                     AudioManager.instance.PlaySFX("OpenChest");
                     rewardOpen.transform.position = rewardImg.transform.position;
@@ -196,7 +196,7 @@ public class reciveRewardPanel : MonoBehaviour
             rewardsDaily[dailyPanel.lastDate].isClaim = true;
             SaveSystem.instance.days = dailyPanel.lastDate + 1;
             SaveSystem.instance.addTiket(rewardsDaily[dailyPanel.lastDate].powerTicket * 2, rewardsDaily[dailyPanel.lastDate].magicTiket * 2);
-            SaveSystem.instance.addCoin(rewardsDaily[dailyPanel.lastDate].gold * 2);
+            SaveSystem.instance.addCoin(rewardsDaily[dailyPanel.lastDate].gold*2);
             SaveSystem.instance.SaveData();
         }
     }

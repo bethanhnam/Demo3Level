@@ -31,7 +31,6 @@ public class LevelManager : MonoBehaviour
 
 			// Store the reference to the new level instance
 			levelInstances.Add(levelInstance);
-			GameManager.instance.currentLevel = currentLevel;
 		}
 		else
 		{

@@ -199,14 +199,18 @@ public class PictureUIManager : MonoBehaviour
 	{
 		for (int j = 0; j < stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn.Length; j++)
 		{
-			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.localScale = Vector3.zero;
-			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.DOScale(1f, 0.3f);
-			stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.GetChild((1)).GetComponent<Image>().SetNativeSize();
+			if (!DataLevelManager.Instance.DataLevel.Data[level].Stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].DataItmeLevel[j].IsUnlock)
+			{
+				stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].SetActive(true);
+				stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.localScale = Vector3.zero;
+				stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.DOScale(1f, 0.2f);
+				stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn[j].transform.GetChild((1)).GetComponent<Image>().SetNativeSize();
+			}
 		}
 		SetStarText();
 
-	}
-	public void SetStarText()
+    }
+    public void SetStarText()
 	{
 		for (int j = 0; j < stage[DataLevelManager.Instance.DataLevel.Data[level].IndexStage].ObjBtn.Length; j++)
 		{
@@ -388,10 +392,10 @@ public class PictureUIManager : MonoBehaviour
 		if (showBT) { 
 			DisplayButton(); 
 		}
-		if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
-		{
-			UIManagerNew.Instance.ButtonMennuManager.Appear();
-		}
+		//if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
+		//{
+		//	UIManagerNew.Instance.ButtonMennuManager.Appear();
+		//}
 		if (!GameManagerNew.Instance.CheckSliderValueAndDisplay())
 		{
 			UIManagerNew.Instance.ButtonMennuManager.ActiveCVGroup();

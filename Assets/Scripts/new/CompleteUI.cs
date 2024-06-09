@@ -24,6 +24,7 @@ public class CompleteUI : MonoBehaviour
 		}
 		animButton.Play(appearButton, 0, 0);
 		spr = _spr;
+		closeWindow();
         FirebaseAnalyticsControl.Instance.LogEventGamePlayWin(LevelManagerNew.Instance.stage);
     }
 
@@ -40,11 +41,14 @@ public class CompleteUI : MonoBehaviour
 		}
 		
 	}
-
+	public void CloseBeforeWinUI()
+	{
+		UIManagerNew.Instance.GamePlayPanel.Close();
+    }
 
 	public void AppearWinGame() {
-		UIManagerNew.Instance.GamePlayPanel.Close(true);
-		UIManagerNew.Instance.WinUI.Appear();
+        GameManagerNew.Instance.CloseLevel(true);
+        UIManagerNew.Instance.WinUI.Appear();
 		AudioManager.instance.musicSource.Stop();
 		AudioManager.instance.PlaySFX("Winpop");
 		GameManagerNew.Instance.PictureUIManager.Open();

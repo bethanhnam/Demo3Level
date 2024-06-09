@@ -21,7 +21,6 @@ public class LevelManagerNew : MonoBehaviour
 	{
 		Instance = this;
 		stage = PlayerPrefs.GetInt("stage");
-		stage = 29;
 	}
 
 	public void Init()

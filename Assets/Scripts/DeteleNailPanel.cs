@@ -111,15 +111,13 @@ public class DeteleNailPanel : MonoBehaviour
             this.gameObject.SetActive(true);
 			canvasGroup.blocksRaycasts = false;
 			AudioManager.instance.PlaySFX("OpenPopUp");
-			//panel.localRotation = Quaternion.identity;
-			//panel.localPosition = new Vector3(-351, 479, 0);
 			panel.localScale = new Vector3(.8f, .8f, 1);
-			//closeButton.localPosition = new Vector3(364, 277.600006f, 0);
 			canvasGroup.alpha = 0;
 			canvasGroup.DOFade(1, 0.1f);
 			panel.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
 			{
-				GamePlayPanelUIManager.Instance.Close();
+                GameManagerNew.Instance.CloseLevel(false);
+                GamePlayPanelUIManager.Instance.Close();
 				ActiveCVGroup();
                 if (Stage.Instance.isTutor)
                 {

@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class DailyPanel : MonoBehaviour
 {
@@ -28,10 +29,9 @@ public class DailyPanel : MonoBehaviour
     private void Start()
 	{
 		checkDay();
-		startValue = SaveSystem.instance.coin;
+		
 
     }
-
 	private void checkDay()
 	{
 		//get last claim time");
@@ -82,7 +82,8 @@ public class DailyPanel : MonoBehaviour
 		{
 			dayRewards[i].isClaim = true;
 		}
-	}
+        startValue = SaveSystem.instance.coin;
+    }
 	public void OnClaimButtinPressed()
 	{
 		//dayRewards[lastDate].Active.gameObject.SetActive(true) ;

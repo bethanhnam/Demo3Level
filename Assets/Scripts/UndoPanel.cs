@@ -95,18 +95,13 @@ public class UndoPanel : MonoBehaviour
             OffPoiter();
             this.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("OpenPopUp");
-			//panel.localRotation = Quaternion.identity;
 			canvasGroup.blocksRaycasts = false;
-			//UIManager.instance.DeactiveTime();
-			//panel.localPosition = new Vector3(-351, 479, 0);
-			//panel.localScale = new Vector3(.8f, .8f, 1);
-			//closeButton.localPosition = new Vector3(364, 277.600006f, 0);
 			canvasGroup.alpha = 0;
 			canvasGroup.DOFade(1, 0.1f);
 			panel.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
 			{
 				ActiveCVGroup();
-				GamePlayPanelUIManager.Instance.Close();
+				//GamePlayPanelUIManager.Instance.Close();
 			});
             CheckNumOfUse();
 

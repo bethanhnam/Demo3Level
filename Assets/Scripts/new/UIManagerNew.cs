@@ -70,6 +70,9 @@ public class UIManagerNew : MonoBehaviour
     [SerializeField]
     private GameObject blockPicCanvas;
 
+    [SerializeField]
+    private GamePlayLoading gamePlayLoading;
+
 
     public ButtonMennuManager ButtonMennuManager { get => buttonMennuManager; }
     public DailyRWUI DailyRWUI { get => dailyRWUI; }
@@ -95,6 +98,7 @@ public class UIManagerNew : MonoBehaviour
     public NotEnoughStar NotEnoughStarPanel { get => notEnoughStarPanel; set => notEnoughStarPanel = value; }
     public TransferPanel TransferPanel { get => transferPanel; set => transferPanel = value; }
     public GameObject BlockPicCanvas { get => blockPicCanvas; set => blockPicCanvas = value; }
+    public GamePlayLoading GamePlayLoading { get => gamePlayLoading; set => gamePlayLoading = value; }
 
     private void Awake()
     {

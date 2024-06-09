@@ -54,7 +54,7 @@ public class StarReward : MonoBehaviour
         }
         star.transform.position = pos;
 
-        Vector3 _direction = -(pos - targetAnchor).normalized;
+        Vector3 _direction = (pos - targetAnchor).normalized;
 
         float _distance = Vector2.Distance(targetAnchor, pos);
         if (_distance < 4)
@@ -63,15 +63,8 @@ public class StarReward : MonoBehaviour
         }
 
         //timeMove = baseTimeMove * _distance;
-        timeMove = 0.5f;
-        Vector3 rotationAngles = new Vector3(0, 0, 360);
-        star.transform.DORotate(rotationAngles, timeMove, RotateMode.FastBeyond360)
-                //.SetLoops(-1, LoopType.Incremental)
-                .SetEase(Ease.InOutBack).OnComplete(() =>
-                {
-                    star.transform.DORotate(Vector3.zero, 0.05f); ; // Đặt góc quay về 0
-                });
-
+        timeMove = 1f;
+        
         star.transform.DOScale(scaleTarget, timeMove).SetEase(curveScale);
 
         Vector3 p1 = pos + _direction * (_distance / 3f);

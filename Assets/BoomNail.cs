@@ -25,9 +25,8 @@ public class BoomNail : MonoBehaviour
 			SaveSystem.instance.addTiket(0, -numOfUsed);
 			SaveSystem.instance.SaveData();
 			//hasUse = true;
-			GameManager.instance.deletingIron = true;
+
 			numOfUsed++;
-			UIManager.instance.gamePlayPanel.ButtonOff();
 			this.Close();
 		}
 		else
@@ -42,8 +41,6 @@ public class BoomNail : MonoBehaviour
 			//xem qu?ng cáo 
 
 			//xoá nail(Đồng hồ đếm giờ dừng lại)
-			GameManager.instance.deletingIron = true;
-			UIManager.instance.gamePlayPanel.ButtonOff();
 			numOfUsed++;
 			this.Close();
 
@@ -69,8 +66,6 @@ public class BoomNail : MonoBehaviour
 			Blockpanel.gameObject.SetActive(true);
 			this.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("OpenPopUp");
-			UIManager.instance.DeactiveTime();
-			GameManager.instance.hasUI = true;
 			panel.localRotation = Quaternion.identity;
 			panel.localPosition = new Vector3(332f, -239.000031f, 0);
 			panel.localScale = new Vector3(.8f, .8f, 1);
@@ -97,9 +92,6 @@ public class BoomNail : MonoBehaviour
 					{
 						this.gameObject.SetActive(false);
 						AudioManager.instance.PlaySFX("ClosePopUp");
-						UIManager.instance.ActiveTime();
-				
-						GameManager.instance.hasUI = false;
 						Blockpanel.gameObject.SetActive(false);
 					});
 				});

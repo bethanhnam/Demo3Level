@@ -70,7 +70,13 @@ public class NotEnoughStar : MonoBehaviour
     public void PlayGameViaButton()
     {
         int level = LevelManagerNew.Instance.GetStage();
-        GameManagerNew.Instance.CreateLevel(level);
+        //GameManagerNew.Instance.CreateLevel(level);
+        UIManagerNew.Instance.GamePlayLoading.appear();
+        DOVirtual.DelayedCall(0.7f, () =>
+        {
+            UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
+            GameManagerNew.Instance.CreateLevel(level);
+        });
         CloseForPlay();
     }
 }

@@ -15,22 +15,6 @@ public class Winpop : MonoBehaviour
 	public RectTransform panel;
 	public void Open()
 	{
-		if(UIManager.instance.gamePlayPanel.extraHolePanel.gameObject.activeSelf)
-		{
-			UIManager.instance.gamePlayPanel.extraHolePanel.gameObject.SetActive(false);
-		}
-		if (UIManager.instance.gamePlayPanel.deteleNailPanel.gameObject.activeSelf)
-		{
-			UIManager.instance.gamePlayPanel.deteleNailPanel.gameObject.SetActive(false);
-		}
-		if (UIManager.instance.gamePlayPanel.rePlayPanel.gameObject.activeSelf)
-		{
-			UIManager.instance.gamePlayPanel.rePlayPanel.gameObject.SetActive(false);
-		}
-		if (UIManager.instance.gamePlayPanel.undoPanel.gameObject.activeSelf)
-		{
-			UIManager.instance.gamePlayPanel.undoPanel.gameObject.SetActive(false);
-		}
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
@@ -38,7 +22,6 @@ public class Winpop : MonoBehaviour
 			AudioManager.instance.PlaySFX("Winpop");
 			blockPanel.gameObject.SetActive(true);
 			
-			GameManager.instance.hasUI = true;
 			//int minutes = Mathf.FloorToInt(SaveSystem.instance.playHardTime / 60);
 			//int seconds = Mathf.FloorToInt(SaveSystem.instance.playHardTime % 60);
 			//PlayTimeText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
@@ -69,9 +52,7 @@ public class Winpop : MonoBehaviour
 					blockPanel.gameObject.SetActive(false);
 					this.gameObject.SetActive(false);
 					AudioManager.instance.PlaySFX("ClosePopUp");
-					GameManager.instance.currentLevel++;
 					//UIManager.instance.chestPanel.Open();
-					GameManager.instance.hasUI = false;
 					AudioManager.instance.musicSource.Play();
 				});
 			},null);

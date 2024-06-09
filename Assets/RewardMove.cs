@@ -75,7 +75,7 @@ public class RewardMove : MonoBehaviour
     {
         if (i < coin.Count)
         {
-            DOVirtual.DelayedCall(0.01f, () =>
+            DOVirtual.DelayedCall(0.15f, () =>
             {
                 SpawnCoin(i + 1, parentWidth, parentHeight);
             });
@@ -100,6 +100,10 @@ public class RewardMove : MonoBehaviour
         // Instantiate object con và gán nó vào object cha
         coin[i].transform.DOLocalMove(randomPosition, 0.4f);
         //coin[i].transform.localPosition = randomPosition;
+        DOVirtual.DelayedCall(0.8f, () =>
+        {
+            MoveCoin(coin, i, 1);
+        });
     }
 
     public void MoveCoin(List<CoinReward> list, int i, int value)
@@ -107,14 +111,6 @@ public class RewardMove : MonoBehaviour
         if (i < list.Count)
         {
             float time = .7f / list.Count;
-            //list[i].GetComponent<Animator>().enabled = true;
-            DOVirtual.DelayedCall(0.05f, () =>
-            {
-                MoveCoin(list, i + 1, value + 1);
-            });
-            //Vector3 stepPos = new Vector3(list[i].transform.position.x+1.5f , list[i].transform.position.y - 1f, list[i].transform.position.z);
-            //list[i].transform.DOMove(stepPos, 0.1f).OnComplete(() =>
-            //{
                 list[i].MoveToFix(list[i], list[i].transform.position, coinImgDes.transform.position, Vector3.one, () =>
                 {
                    
@@ -124,26 +120,12 @@ public class RewardMove : MonoBehaviour
                         AudioManager.instance.PlaySFX("AddCoin");
                         coinImgDes.gameObject.transform.DOScale(.7f, 0.02f);
                     });
-                    //CoinShadowImg.gameObject.SetActive(true);
-                    //Color color = new Color(CoinShadowImg.color.r, CoinShadowImg.color.g, CoinShadowImg.color.b, 0);
-                    //CoinShadowImg.DOColor(color, 0.3f);
-                    //CoinShadowImg.gameObject.transform.DOScale(0.10f, 0.15f).OnComplete(() =>
-                    //{
-                    //    Color color = new Color(CoinShadowImg.color.r, CoinShadowImg.color.g, CoinShadowImg.color.b, 0.4f);
-                    //    CoinShadowImg.DOColor(color, 0.05f);
-                    //    CoinShadowImg.gameObject.transform.DOScale(.8f, 0.05f).OnComplete(() =>
-                    //    {
-                    //        CoinShadowImg.gameObject.SetActive(false);
-                    //    });
-                    //});
                     var x = list[i];
                     DOVirtual.DelayedCall(0.03f, () =>
                     {
                         x.gameObject.SetActive(false);
                     });
                 });
-            //});
-
         }
     }
     public void MoveStar(List<StarReward> list, int i)
@@ -157,13 +139,7 @@ public class RewardMove : MonoBehaviour
                 {
                     int i = 0;
                     SpawnCoin(i, this.GetComponent<RectTransform>().rect.width, this.GetComponent<RectTransform>().rect.height);
-                    DOVirtual.DelayedCall(1.2f, () =>
-                    {
-                        if (i < coin.Count)
-                        {
-                            MoveCoin(coin, i, 1);
-                        }
-                    });
+                   
                     StarImgDes.gameObject.transform.DOScale(1.2f, 0.15f).OnComplete(() =>
                     {
                         StarImgDes.gameObject.transform.DOScale(1f, 0.02f);
@@ -203,6 +179,7 @@ public class RewardMove : MonoBehaviour
         
         star[0].transform.SetParent(this.transform);
         UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+        GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level, false);
         GameManagerNew.Instance.PictureUIManager.DisplayButton();
         this.gameObject.SetActive(false);
     }

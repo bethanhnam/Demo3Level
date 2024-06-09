@@ -105,8 +105,12 @@ public class Stage : MonoBehaviour
         gameObject.SetActive(true);
         Vector3 targetSclae = transform.localScale;
         transform.localScale = Vector3.one;
-        transform.DOScale(GameManagerNew.Instance.TargetScale, 0.3f);
-        //ChangeSize(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[level].SprItem);
+        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f,0.1f,0), 0.5f).OnComplete(() =>
+        {
+            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() => {
+                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f);
+            });
+        });
         GamePlayPanelUIManager.Instance.ShowNotice(false);
     }
     public Vector3 setTargetScale(GameObject gameObject)
@@ -116,7 +120,7 @@ public class Stage : MonoBehaviour
     }
     public void Close(bool isDes)
     {
-        transform.DOScale(Vector3.one, 0.2f).OnComplete(() =>
+        transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
         {
             if (isDes)
             {
@@ -353,10 +357,11 @@ public class Stage : MonoBehaviour
         {
             AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_win, () =>
             {
-                //UIManagerNew.Instance.GamePlayPanel.Close();
-                //GameManagerNew.Instance.ItemMoveControl.Init(sprRenderItem.transform.position, sprRenderItem.sprite, sprRenderItem.transform.localScale, UIManagerNew.Instance.WinUI.PosImage.transform.position);
+                UIManagerNew.Instance.GamePlayPanel.Close();
                 LevelManagerNew.Instance.NextStage();
-                UIManagerNew.Instance.CompleteUI.Appear(sprRenderItem.sprite);
+                DOVirtual.DelayedCall(0.3f, () => { 
+                    UIManagerNew.Instance.CompleteUI.Appear(sprRenderItem.sprite);
+                });
             }, null);
         }
     }

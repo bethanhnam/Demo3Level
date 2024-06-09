@@ -19,59 +19,59 @@ public class FirebaseAnalyticsControl : MonoBehaviour
 	#region properties
 	public void LogEventMenuPanelAccessSuccessfully(int a)
 	{
-		FirebaseAnalytics.LogEvent("Screen_Home" + a);
+		FirebaseAnalytics.LogEvent("Screen_Home");
 	}
 	public void LogEventShopPanelAccessSuccessfully(int a)
 	{
-		FirebaseAnalytics.LogEvent("Screen_Shop" + a);
+		FirebaseAnalytics.LogEvent("Screen_Shop");
 	}
 
 	public void LogEventGamePlayAccessSuccessfully(int a,int level)
 	{
-		FirebaseAnalytics.LogEvent("Gameplay_Level1 đến 30" + a +"/" + level);
+		FirebaseAnalytics.LogEvent("Gameplay_Level1 đến 30" + " Level" + level);
 	}
 
 	public void LogEventGamePlayWin(int a)
     {
         if (a > 30)
             return;
-        FirebaseAnalytics.LogEvent("Gameplay_Win_Level1 đến 30" + a);
+        FirebaseAnalytics.LogEvent("Gameplay_Win_Level1 đến 30" + " Level" + a);
     }
 
     public void LogEventGamePlayLose(int a)
     {
         if (a > 30)
             return;
-        FirebaseAnalytics.LogEvent("Gameplay_Lose_Level1 đến 30" + a);
+        FirebaseAnalytics.LogEvent("Gameplay_Lose_Level1 đến 30" + " Level" + a);
     }
 
     public void Gameplay_Item_Unscrew_1(int a, int level)
 	{
-		FirebaseAnalytics.LogEvent("Gameplay_Item_Unscrew_1" + a + "/" + level);
+		FirebaseAnalytics.LogEvent("Gameplay_Item_Unscrew_1" + " Level" + level);
 	}
 	public void LogEventGameplay_Item_Undo_1(int a,int level)
 	{
-		FirebaseAnalytics.LogEvent("Gameplay_Item_Undo_1" + a + "/" + level );
+		FirebaseAnalytics.LogEvent("Gameplay_Item_Undo_1" + " Level" + level );
 	}
     public void LogEventUndo_RW_Change(int a)
     {
-        FirebaseAnalytics.LogEvent("Undo_RW_Change" + a);
+        FirebaseAnalytics.LogEvent("Undo_RW_Change");
     }
     public void Daily_RW_x2(int a)
 	{
-		FirebaseAnalytics.LogEvent("Daily_RW_x2" + a);
+		FirebaseAnalytics.LogEvent("Daily_RW_x2");
 	}
 	public void Unscrew_RW_Change(int a)
 	{
-		FirebaseAnalytics.LogEvent("UnscrewUsedByAds" + a);
+		FirebaseAnalytics.LogEvent("UnscrewUsedByAds");
 	}
     public void RemoveAds_Click(int a)
     {
-        FirebaseAnalytics.LogEvent("RemoveAds_Click" + a);
+        FirebaseAnalytics.LogEvent("RemoveAds_Click");
     }
     public void Revive_Rw(int a)
     {
-        FirebaseAnalytics.LogEvent("Revive_Rw" + a );
+        FirebaseAnalytics.LogEvent("Revive_Rw");
     }
     #endregion
     #region event_REV_Ads

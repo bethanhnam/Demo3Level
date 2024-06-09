@@ -20,10 +20,14 @@ public class Timer : MonoBehaviour
 	}
 	public void SetTimer(float time)
 	{
-		TimeLeft = time;
+		TimerOn = false;
+        TimeLeft = time;
 		hasScale = false;
 		hasscale =false;
-	}
+        int minutes = Mathf.FloorToInt(TimeLeft / 60);
+        int seconds = Mathf.FloorToInt(TimeLeft % 60);
+        TimerText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
+    }
 	private void Update()
 	{
 		if (TimerOn)

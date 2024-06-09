@@ -70,9 +70,12 @@ public class LoadingScreen : MonoBehaviour
 				yield return new WaitForSecondsRealtime(0.3f);
 				operation.allowSceneActivation = true;
 				RemoteConfigController.instance.Init();
-				cv.DOFade(0, 0.3f).OnComplete(() =>
+				DOVirtual.DelayedCall(0.1f, () =>
 				{
 					GameManagerNew.Instance.InitStartGame();
+				});
+				cv.DOFade(0, 0.3f).OnComplete(() =>
+				{
 					if(PlayerPrefs.GetInt("HasTransfer") == 0) { 
 						UIManagerNew.Instance.TransferPanel.Appear();
 					}

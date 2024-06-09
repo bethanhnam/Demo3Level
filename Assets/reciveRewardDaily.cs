@@ -197,7 +197,10 @@ public class reciveRewardDaily : MonoBehaviour
             float time = .7f / list.Count;
             DOVirtual.DelayedCall(0.1f, () =>
             {
-                test(list, i - 1);
+                if (i - 1 >= 0)
+                {
+                    test(list, i - 1);
+                }
             });
             list[i].MoveToFix(list[i], list[i].transform.position, coinDes.transform.position,new Vector3(0.8f,0.8f,1), () =>
             {
@@ -243,27 +246,25 @@ public class reciveRewardDaily : MonoBehaviour
         if (coinList.Count > 0)
         {
             var x = dailyPanel.startValue;
-            Debug.Log(x);
-            Debug.Log(x + gold);
             DOVirtual.Float(x, x + gold, 2.2f, (x) =>
             {
                 UIManagerNew.Instance.coinTexts[0].text = Mathf.CeilToInt(x).ToString();
 
             });
             test(coinList, coinList.Count - 1);
-            SaveSystem.instance.addCoin(gold);
+            //SaveSystem.instance.addCoin(gold);
             gold = 0;
         }
         if (unscrewList.Count > 0)
         {
             test1(unscrewList, unscrewList.Count - 1);
-            SaveSystem.instance.AddBooster(unscrew, 0);
+            //SaveSystem.instance.AddBooster(unscrew, 0);
             unscrew = 0;
         }
         if (undoList.Count > 0)
         {
             test1(undoList, undoList.Count - 1);
-            SaveSystem.instance.AddBooster(0, undo);
+            //SaveSystem.instance.AddBooster(0, undo);
             undo = 0;
         }
         SaveSystem.instance.SaveData();
