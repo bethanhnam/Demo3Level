@@ -146,13 +146,29 @@ public class ButtonMennuManager : MonoBehaviour
         int level = LevelManagerNew.Instance.GetStage();
         //GameManagerNew.Instance.CreateLevel(level);
 
-        UIManagerNew.Instance.GamePlayLoading.appear();
-        DOVirtual.DelayedCall(.7f, () =>
+        if (GameManagerNew.Instance.CheckLevelStage())
         {
-            UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
-            GameManagerNew.Instance.CreateLevel(level);
-        });
-        Close();
+            UIManagerNew.Instance.ButtonMennuManager.OpenCompletePanel();
+        }
+        else
+        {
+            UIManagerNew.Instance.GamePlayLoading.appear();
+            DOVirtual.DelayedCall(.7f, () =>
+            {
+                UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
+                if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
+                {
+                    int replayLevel = UnityEngine.Random.Range(0, 29);
+                    LevelManagerNew.Instance.stage = replayLevel;
+                    GameManagerNew.Instance.CreateLevel(replayLevel);
+                }
+                else
+                {
+                    GameManagerNew.Instance.CreateLevel(level);
+                }
+            });
+            Close();
+        }
     }
     public void DisPlayPresent()
     {

@@ -17,6 +17,7 @@ public class GamePlayLoading : MonoBehaviour
     }
     public void DisplayLogo()
     {
+        AudioManager.instance.PlaySFX("GamePlayLoading");
         GameManagerNew.Instance.Bg.gameObject.SetActive(true);
         Image.transform.DOScale(.8f, 0.3f).OnComplete(() =>
         {
@@ -26,7 +27,8 @@ public class GamePlayLoading : MonoBehaviour
                 {
                     DOVirtual.DelayedCall(0.3f, () =>
                     {
-                        Image.transform.DOScale(0, 0.4f).OnComplete(() =>
+                        Image.transform.DOScale(0, 0.4f);
+                        DOVirtual.DelayedCall(0.2f, () =>
                         {
                             Disapper();
                         });

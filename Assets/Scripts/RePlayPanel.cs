@@ -27,7 +27,7 @@ public class RePlayPanel : MonoBehaviour
 		if (SaveSystem.instance.powerTicket >= numOfUsed)
 		{
 
-			SaveSystem.instance.addTiket(-numOfUsed, 0);
+			//SaveSystem.instance.addTiket(-numOfUsed, 0);
 			SaveSystem.instance.SaveData();
 			numOfUsed++;
 			this.CloseToReplay();

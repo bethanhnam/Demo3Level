@@ -50,7 +50,7 @@ public class CoinReward : MonoBehaviour
         }
         star.transform.position = pos;
 
-        Vector3 _direction = (pos - targetAnchor).normalized;
+        Vector3 _direction = -(pos - targetAnchor).normalized;
         float _distance = Vector2.Distance(targetAnchor, pos);
         if (_distance < 4)
         {
@@ -60,13 +60,13 @@ public class CoinReward : MonoBehaviour
         //timeMove = baseTimeMove * _distance;
         timeMove = 0.5f;
 
-        star.transform.DOScale(scaleTarget, timeMove).SetEase(curveScale);
+        star.transform.DOScale(scaleTarget, 0.25f).SetEase(curveScale);
 
         Vector3 p1 = pos + _direction * (_distance / 3f);
         Vector3 centrPos = (pos + targetAnchor) / 2f;
         Vector3 d2 = Vector3.Cross(_direction, Vector3.forward);
-        //	Vector3 stepPos = pos + new Vector3(1, 1,pos.z);
-        stepPos = p1 + d2 * (_distance / 3f);
+        //Vector3 stepPos = pos + new Vector3(1, 1,pos.z);
+        stepPos = p1 + d2 * (_distance / 2f) - new Vector3(0, 3, 0);
         startPos = pos;
         endPos = targetAnchor;
 

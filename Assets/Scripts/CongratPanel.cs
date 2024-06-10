@@ -90,21 +90,23 @@ public class CongratPanel : MonoBehaviour
     public void takeRewardData()
     {
         //add data to save system
-        for (int i = 0; i < DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA.Length; i++) {
-            if (DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].type == ItemPicture.type.gold) {
+        for (int i = 0; i < DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA.Length; i++)
+        {
+            if (DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].type == ItemPicture.type.gold)
+            {
                 SaveSystem.instance.addCoin(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value);
             }
             if (DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].type == ItemPicture.type.Unscrew)
             {
-                SaveSystem.instance.addTiket(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value,0);
+                SaveSystem.instance.AddBooster(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value, 0);
             }
             if (DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].type == ItemPicture.type.Undo)
             {
-                SaveSystem.instance.addTiket(0,DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value);
+                SaveSystem.instance.AddBooster(0, DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value);
             }
             SaveSystem.instance.SaveData();
         }
-
+        PlayerPrefs.SetInt("HasRecieveRW", 1);
     }
     public void DisplayRW()
     {
@@ -125,13 +127,13 @@ public class CongratPanel : MonoBehaviour
     IEnumerator MoveRW()
     {
         yield return new WaitForSeconds(1);
-        for(int i = 0;i < Listeward.Count;i++)
+        for (int i = 0; i < Listeward.Count; i++)
         {
             Listeward[i].transform.DOScale(Vector2.one, 0.7f);
             Listeward[i].transform.DOMove(rewardsPos[i].position, 0.7f).OnComplete(() =>
             {
                 congratuationText.enabled = true;
-                
+
             });
         }
         StartCoroutine(DisplayClaimBT());
@@ -154,16 +156,16 @@ public class CongratPanel : MonoBehaviour
     }
     public void SetValue(TextMeshProUGUI valueText, int i)
     {
-        String x = "X"+ DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value.ToString();
+        String x = "X" + DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value.ToString();
         valueText.text = x;
     }
     public void DestroyRW()
     {
-        for (int i = 0;i<Listeward.Count;i++)
+        for (int i = 0; i < Listeward.Count; i++)
         {
             Destroy(Listeward[i]);
             Listeward.RemoveAt(i);
-            
+
         }
         rewardsValue.Clear();
     }

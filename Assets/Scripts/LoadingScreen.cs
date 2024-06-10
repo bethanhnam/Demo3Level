@@ -76,8 +76,12 @@ public class LoadingScreen : MonoBehaviour
 				});
 				cv.DOFade(0, 0.3f).OnComplete(() =>
 				{
-					if(PlayerPrefs.GetInt("HasTransfer") == 0) { 
-						UIManagerNew.Instance.TransferPanel.Appear();
+					if (SaveSystem.instance.powerTicket > 0 || SaveSystem.instance.magicTiket > 0)
+					{
+						if (PlayerPrefs.GetInt("HasTransfer") == 0)
+						{
+							UIManagerNew.Instance.TransferPanel.Appear();
+						}
 					}
                     if (UIManagerNew.Instance.ChestSLider.currentValue != UIManagerNew.Instance.ChestSLider.maxValue1)
                     {

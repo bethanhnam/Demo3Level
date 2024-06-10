@@ -186,7 +186,7 @@ public class reciveRewardPanel : MonoBehaviour
             AudioManager.instance.PlaySFX("GetReward");
             rewardsDaily[dailyPanel.lastDate].isClaim = true;
             SaveSystem.instance.days = dailyPanel.lastDate + 1;
-            SaveSystem.instance.addTiket(rewardsDaily[dailyPanel.lastDate].powerTicket, rewardsDaily[dailyPanel.lastDate].magicTiket);
+            SaveSystem.instance.AddBooster(rewardsDaily[dailyPanel.lastDate].powerTicket, rewardsDaily[dailyPanel.lastDate].magicTiket);
             SaveSystem.instance.addCoin(rewardsDaily[dailyPanel.lastDate].gold);
             SaveSystem.instance.SaveData();
         }
@@ -195,7 +195,7 @@ public class reciveRewardPanel : MonoBehaviour
             AudioManager.instance.PlaySFX("GetReward");
             rewardsDaily[dailyPanel.lastDate].isClaim = true;
             SaveSystem.instance.days = dailyPanel.lastDate + 1;
-            SaveSystem.instance.addTiket(rewardsDaily[dailyPanel.lastDate].powerTicket * 2, rewardsDaily[dailyPanel.lastDate].magicTiket * 2);
+            SaveSystem.instance.AddBooster(rewardsDaily[dailyPanel.lastDate].powerTicket * 2, rewardsDaily[dailyPanel.lastDate].magicTiket * 2);
             SaveSystem.instance.addCoin(rewardsDaily[dailyPanel.lastDate].gold*2);
             SaveSystem.instance.SaveData();
         }

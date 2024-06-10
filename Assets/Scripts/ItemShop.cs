@@ -34,7 +34,7 @@ public class ItemShop : MonoBehaviour
     public void BuyByGold()
     {
         
-            SaveSystem.instance.addTiket(this.unscrewPoint, this.undoPoint);
+            SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint);
             if (nonADS)
             {
                 SaveSystem.instance.nonAds = 1;

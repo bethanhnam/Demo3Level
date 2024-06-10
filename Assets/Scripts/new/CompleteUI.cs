@@ -47,11 +47,10 @@ public class CompleteUI : MonoBehaviour
     }
 
 	public void AppearWinGame() {
-        GameManagerNew.Instance.CloseLevel(true);
         UIManagerNew.Instance.WinUI.Appear();
 		AudioManager.instance.musicSource.Stop();
 		AudioManager.instance.PlaySFX("Winpop");
-		GameManagerNew.Instance.PictureUIManager.Open();
+		
 	}
 	public void OpenWindow()
 	{

@@ -7,6 +7,8 @@ public class ShopPanel : MonoBehaviour
 {
 	public CanvasGroup canvasGroup;
 	public RestorePanel restorePanel;
+
+	public Animator animator;
 	public void Open()
 	{
 		if (!this.gameObject.activeSelf)
@@ -19,6 +21,7 @@ public class ShopPanel : MonoBehaviour
 			}
 			AudioManager.instance.PlaySFX("OpenPopUp");
 			canvasGroup.alpha = 0;
+			//animator.Play("appear", 0, 0);
 			canvasGroup.DOFade(1, .3f).OnComplete(() =>
 			{
                 UIManagerNew.Instance.LoadData(SaveSystem.instance.magicTiket, SaveSystem.instance.powerTicket, SaveSystem.instance.coin, SaveSystem.instance.star);

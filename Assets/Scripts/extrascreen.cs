@@ -41,7 +41,7 @@
 //			Color color;
 //			if (ColorUtility.TryParseHtmlString("#58FF00", out color))
 //			{
-//				// Gán màu cho SpriteRenderer
+//				// Gán màu cho SpriteRendererPlayerPrefs.SetInt("HasRecieveRW", 1);
 //				boardSprite.color = color;
 //			}
 //			else

@@ -111,32 +111,35 @@ public class reciveRewardDaily : MonoBehaviour
         float parentWidth = this.GetComponent<RectTransform>().rect.width;
         float parentHeight = this.GetComponent<RectTransform>().rect.height;
 
-        for (int i = 0; i < 10; i++)
+        if (goldValue > 0)
         {
-            var coin = Instantiate(coinPrefab, SpawnPoint.transform.position, Quaternion.identity, spawnCanvas.transform);
-            coinList.Add(coin);
-
-            var coinIndex = coin;
-            coinIndex.transform.localPosition = Vector3.zero;
-            coinIndex.transform.localScale = Vector3.zero;
-
-            // Tạo tọa độ ngẫu nhiên trong phạm vi kích thước của object cha
-            float randomX = UnityEngine.Random.Range(-parentWidth / 2, parentWidth / 2);
-            float randomY = UnityEngine.Random.Range(-parentHeight / 2, parentHeight / 2);
-
-            //Tạo một vị trí mới cho object con
-            Vector3 randomPosition = new Vector3(randomX, randomY, 0f);
-
-            coinIndex.gameObject.SetActive(true);
-            coinIndex.transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
+            for (int i = 0; i < 10; i++)
             {
-                float randomSpeed = UnityEngine.Random.Range(0.5f, 2f);
-                coinIndex.GetComponent<Animator>().speed = randomSpeed;
-            });
+                var coin = Instantiate(coinPrefab, SpawnPoint.transform.position, Quaternion.identity, spawnCanvas.transform);
+                coinList.Add(coin);
 
-            // Instantiate object con và gán nó vào object cha
-            coinIndex.transform.DOLocalMove(randomPosition, 0.4f);
-            //coinIndex.transform.localPosition = randomPosition;
+                var coinIndex = coin;
+                coinIndex.transform.localPosition = Vector3.zero;
+                coinIndex.transform.localScale = Vector3.zero;
+
+                // Tạo tọa độ ngẫu nhiên trong phạm vi kích thước của object cha
+                float randomX = UnityEngine.Random.Range(-parentWidth / 2, parentWidth / 2);
+                float randomY = UnityEngine.Random.Range(-parentHeight / 2, parentHeight / 2);
+
+                //Tạo một vị trí mới cho object con
+                Vector3 randomPosition = new Vector3(randomX, randomY, 0f);
+
+                coinIndex.gameObject.SetActive(true);
+                coinIndex.transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
+                {
+                    float randomSpeed = UnityEngine.Random.Range(0.5f, 2f);
+                    coinIndex.GetComponent<Animator>().speed = randomSpeed;
+                });
+
+                // Instantiate object con và gán nó vào object cha
+                coinIndex.transform.DOLocalMove(randomPosition, 0.4f);
+                //coinIndex.transform.localPosition = randomPosition;
+            }
         }
         for (int i = 0; i < unscrewValue; i++)
         {
@@ -199,10 +202,11 @@ public class reciveRewardDaily : MonoBehaviour
             {
                 if (i - 1 >= 0)
                 {
-                    test(list, i - 1);
+                    if (i - 1 >= 0)
+                        test(list, i - 1);
                 }
             });
-            list[i].MoveToFix(list[i], list[i].transform.position, coinDes.transform.position,new Vector3(0.8f,0.8f,1), () =>
+            list[i].MoveToFix(list[i], list[i].transform.position, coinDes.transform.position, new Vector3(0.8f, 0.8f, 1), () =>
             {
                 coinDes.gameObject.transform.DOScale(.8f, 0.15f).OnComplete(() =>
                 {
@@ -212,7 +216,7 @@ public class reciveRewardDaily : MonoBehaviour
                 });
                 var x = list[i];
                 list.Remove(x);
-                Destroy(x.gameObject,0.1f);
+                Destroy(x.gameObject, 0f);
             });
         }
     }
@@ -223,6 +227,7 @@ public class reciveRewardDaily : MonoBehaviour
             float time = .7f / list.Count;
             DOVirtual.DelayedCall(0.1f, () =>
             {
+                if(i - 1 >= 0)
                 test1(list, i - 1);
             });
             list[i].MoveToFix(list[i], list[i].transform.position, posDes.transform.position, new Vector3(0.8f, 0.8f, 1), () =>
@@ -235,10 +240,9 @@ public class reciveRewardDaily : MonoBehaviour
                 });
                 var x = list[i];
                 list.Remove(x);
-                Destroy(x.gameObject,0.1f);
+                Destroy(x.gameObject, 0f);
             });
         }
-
     }
     IEnumerator MoveToDes()
     {

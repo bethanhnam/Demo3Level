@@ -77,7 +77,10 @@ public class RewardMove : MonoBehaviour
         {
             DOVirtual.DelayedCall(0.15f, () =>
             {
-                SpawnCoin(i + 1, parentWidth, parentHeight);
+                if (i + 1 < coin.Count)
+                {
+                    SpawnCoin(i + 1, parentWidth, parentHeight);
+                }
             });
         }
         coin[i].transform.localPosition = startPos.position;

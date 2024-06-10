@@ -78,7 +78,7 @@ public class Ratting : MonoBehaviour
 			canvasGroup.DOFade(1, .3f).OnComplete(() =>
 			{
 			});
-
+			PlayerPrefs.SetInt("HasOpenRatting", 1);
 		}
 	}
 	public void Close()
@@ -92,22 +92,22 @@ public class Ratting : MonoBehaviour
 	{
 		yield return new WaitForSeconds(0.05f); 
 		this.gameObject.SetActive(false);
+
 		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_chest, () =>
 		{
-			GameManagerNew.Instance.CompleteLevelAfterReward();
-			//GameManagerNew.Instance.PictureUIManager.DisableCharacter();
-			//Destroy(GameManagerNew.Instance.PictureUIManager.gameObject);
-			//LevelManagerNew.Instance.NetxtLevel();
-			//GameManagerNew.Instance.PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, GameManagerNew.Instance.parPic);
-			//GameManagerNew.Instance.PictureUIManager.Init(LevelManagerNew.Instance.LevelBase.Level);
-			//GameManagerNew.Instance.ScalePicForDevices(GameManagerNew.Instance.PictureUIManager.transform.gameObject);
-			//UIManagerNew.Instance.ButtonMennuManager.Appear();
-			//UIManagerNew.Instance.ChestSLider.SetMaxValue(GameManagerNew.Instance.PictureUIManager);
-			//UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
-			//GameManagerNew.Instance.SetCompletImg();
-			//GameManagerNew.Instance.SetCompleteStory();
-			//Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
-		}, null);
+			if (LevelManagerNew.Instance.LevelBase.Level >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+			{
+                GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+                UIManagerNew.Instance.CompleteImg.Disablepic();
+                if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
+                {
+                    UIManagerNew.Instance.ButtonMennuManager.Appear();
+                }
+            }
+			else { 
+				GameManagerNew.Instance.CompleteLevelAfterReward();
+			}
+        }, null);
 
 	}
 	public void Rate()

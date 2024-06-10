@@ -63,7 +63,7 @@ public class GameManagerNew : MonoBehaviour
         //UIManagerNew.Instance.ButtonMennuManager.Appear();
         UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
         UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
-        //UIManagerNew.Instance.ChestSLider.CreateMarker();
+        UIManagerNew.Instance.ChestSLider.CreateMarker();
         SetCompletImg();
         Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
     }
@@ -92,11 +92,6 @@ public class GameManagerNew : MonoBehaviour
 
     public void CreateLevel(int _level)
     {
-        if (CheckLevelStage())
-        {
-            UIManagerNew.Instance.ButtonMennuManager.OpenCompletePanel();
-        }
-        else
         {
             //UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
             GamePlayPanelUIManager.Instance.setText(LevelManagerNew.Instance.stage + 1);
@@ -397,26 +392,48 @@ public class GameManagerNew : MonoBehaviour
     }
     public void NextLevelPicture()
     {
-
         if (LevelManagerNew.Instance.LevelBase.Level == 0)
         {
-            UIManagerNew.Instance.ButtonMennuManager.OpenRattingPanel();
-            PlayerPrefs.SetInt("windowFixed", 0);
+            if (PlayerPrefs.GetInt("HasOpenRatting") == 0)
+            {
+                UIManagerNew.Instance.ButtonMennuManager.OpenRattingPanel();
+                PlayerPrefs.SetInt("windowFixed", 0);
+            }
+            else
+            {
+                pictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+                UIManagerNew.Instance.CompleteImg.Disablepic();
+                if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
+                {
+                    UIManagerNew.Instance.ButtonMennuManager.Appear();
+                }
+            }
         }
         else
         {
-            pictureUIManager.DisableCharacter();
-            CompleteLevelAfterReward();
-            PlayerPrefs.SetInt("windowFixed", 0);
+            if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+            {
+                CompleteLevelAfterReward();
+                PlayerPrefs.SetInt("windowFixed", 0);
+                PlayerPrefs.SetInt("HasRecieveRW", 0);
+            }
+            else
+            {
+                pictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+                UIManagerNew.Instance.CompleteImg.Disablepic();
+                if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
+                {
+                    UIManagerNew.Instance.ButtonMennuManager.Appear();
+                }
+            }
         }
     }
     public void CompleteLevelAfterReward()
     {
-        pictureUIManager.DisableCharacter();
         var x = PictureUIManager.gameObject;
+        Destroy(x);
         LevelManagerNew.Instance.NetxtLevel();
         PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
-        //Destroy(x);
         PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
         AudioManager.instance.musicSource.Play();
         ScalePicForDevices(PictureUIManager.transform.gameObject);
@@ -450,9 +467,42 @@ public class GameManagerNew : MonoBehaviour
         var result = false;
         if (UIManagerNew.Instance.ChestSLider.currentValue == UIManagerNew.Instance.ChestSLider.maxValue1)
         {
-            UIManagerNew.Instance.ButtonMennuManager.DiactiveCVGroup();
-            result = true;
-            StartCoroutine(DisPlayPresent());
+            if (LevelManagerNew.Instance.LevelBase.Level +1 >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+            {
+                if (PlayerPrefs.GetInt("HasRecieveRW") == 0)
+                {
+                    UIManagerNew.Instance.ButtonMennuManager.DiactiveCVGroup();
+                    result = true;
+                    StartCoroutine(DisPlayPresent());
+                }
+                else
+                {
+                    pictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+                    if (UIManagerNew.Instance.CompleteImg.gameObject.activeSelf)
+                    {
+                        UIManagerNew.Instance.CompleteImg.Disablepic();
+                    }
+                    if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
+                    {
+                        UIManagerNew.Instance.ButtonMennuManager.Appear();
+                    }
+                }
+            }
+            else
+            {
+                {
+                    if (PlayerPrefs.GetInt("HasRecieveRW") == 0)
+                    {
+                        UIManagerNew.Instance.ButtonMennuManager.DiactiveCVGroup();
+                        result = true;
+                        StartCoroutine(DisPlayPresent());
+                    }
+                    else
+                    {
+                        NextLevelPicture();
+                    }
+                }
+            }
         }
         return result;
     }

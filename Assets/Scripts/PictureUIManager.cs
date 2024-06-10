@@ -184,7 +184,8 @@ public class PictureUIManager : MonoBehaviour
 		{
 			foreach (var character in characters)
 			{
-				character.AnimationState.SetAnimation(0, t, loop);
+                character.gameObject.SetActive(true);
+                character.AnimationState.SetAnimation(0, t, loop);
 			}
 		}
 	}

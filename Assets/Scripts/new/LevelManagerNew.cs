@@ -76,8 +76,7 @@ public class LevelManagerNew : MonoBehaviour
 	}
 	public void ResetLevel(Action action)
 	{
-		DataLevelManager.Instance.ResetData();
-		levelBase.CountLevelWin = 0;
+		//DataLevelManager.Instance.ResetData();
 		SaveData();
 		action();
 	}

@@ -22,7 +22,7 @@ public class BoomNail : MonoBehaviour
 	{
 		if (SaveSystem.instance.magicTiket >= numOfUsed)
 		{
-			SaveSystem.instance.addTiket(0, -numOfUsed);
+			//SaveSystem.instance.addTiket(0, -numOfUsed);
 			SaveSystem.instance.SaveData();
 			//hasUse = true;
 
