@@ -55,13 +55,17 @@ public class ExtralHole : MonoBehaviour
 			this.gameObject.SetActive(true);
 			AudioManager.instance.PlaySFX("OpenPopUp");
 			canvasGroup.blocksRaycasts = false;
-			canvasGroup.alpha = 0;
+            panel.localScale = new Vector3(.8f, .8f, 1f);
+            canvasGroup.alpha = 0;
 			canvasGroup.DOFade(1, 0.1f);
-			panel.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
-			{
-				ActiveCVGroup();
-				//GamePlayPanelUIManager.Instance.Close();
-			});
+            panel.transform.DOScale(new Vector3(1.05f, 1.05f, 1f), 0.2f).OnComplete(() =>
+            {
+                panel.transform.DOScale(Vector3.one, 0.15f).OnComplete(() =>
+                {
+                    ActiveCVGroup();
+                    //GamePlayPanelUIManager.Instance.Close();
+                });
+            });
 		}
 	}
 	public void Close()

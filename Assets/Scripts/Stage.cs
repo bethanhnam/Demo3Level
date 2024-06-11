@@ -99,6 +99,14 @@ public class Stage : MonoBehaviour
         //{
         //	
         //}
+        StartCoroutine(check());
+    }
+    IEnumerator check()
+    {
+        while (true) { 
+            yield return new WaitForSeconds(1.5f);
+            check1();
+        }
     }
     public void Init(int level)
     {
@@ -160,14 +168,16 @@ public class Stage : MonoBehaviour
                 else
                 {
                     Click();
+                    
                 }
             }
         }
         Hack();
-        check1();
     }
+    
     public void Click()
     {
+        
         Vector2 posMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(posMouse, 0.5f, Vector3.forward, Mathf.Infinity);
@@ -330,7 +340,7 @@ public class Stage : MonoBehaviour
     public bool CheckHoleIsAvailable()
     {
         bool allin = true;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(curHole.transform.position, 0.1f);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(curHole.transform.position, 0.15f);
         foreach (Collider2D collider in colliders)
         {
             if (collider.transform.tag == "Iron")
@@ -359,7 +369,8 @@ public class Stage : MonoBehaviour
             {
                 UIManagerNew.Instance.GamePlayPanel.Close();
                 LevelManagerNew.Instance.NextStage();
-                DOVirtual.DelayedCall(0.3f, () => { 
+                DOVirtual.DelayedCall(0.3f, () => {
+                    AudioManager.instance.PlaySFX("CompletePanel");
                     UIManagerNew.Instance.CompleteUI.Appear(sprRenderItem.sprite);
                 });
             }, null);
@@ -629,9 +640,7 @@ public class Stage : MonoBehaviour
         curNail = null;
         curHole = null;
         preHole = null;
-        Debug.Log(numOfHoleNotAvailable.Count);
         numOfHoleNotAvailable.Clear();
-        Debug.Log(numOfHoleNotAvailable.Count);
     }
     public void ResetBooster()
     {
@@ -640,10 +649,11 @@ public class Stage : MonoBehaviour
         //UIManagerNew.Instance.RePlayPanel.numOfUsed = 1;
         UIManagerNew.Instance.LosePanel.hasUse = false;
         UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(true);
-        UIManagerNew.Instance.UndoPanel.LockOrUnlock(true);
         TutorUnscrew();
         TutorLevel1();
         DeactiveDeleting();
+
+        
     }
 
     //private void TutorUndo()
@@ -775,9 +785,7 @@ public class Stage : MonoBehaviour
     }
     public void DeactiveTutor()
     {
-        if (isTutor) {
-            isTutor = false;
-        }
+       isTutor = false;
     }
 
     //public void showUndoTuTor()

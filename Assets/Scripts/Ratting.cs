@@ -103,7 +103,12 @@ public class Ratting : MonoBehaviour
 			}
 			else
 			{
-				GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+                PlayerPrefs.SetInt("CompleteLastPic", 1);
+                foreach (var character in GameManagerNew.Instance.PictureUIManager.characters)
+                {
+                    character.transform.SetParent(GameManagerNew.Instance.PictureUIManager.transform);
+                }
+                GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
 				UIManagerNew.Instance.CompleteImg.Disablepic();
 				if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
 				{

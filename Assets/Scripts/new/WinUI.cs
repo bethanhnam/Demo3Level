@@ -198,10 +198,9 @@ public class WinUI : MonoBehaviour
                     star.transform.DORotate(Vector3.zero, 0.05f); ; // Đặt góc quay về 0
                 });
         SpawnCoin(0);
+        AudioManager.instance.PlaySFX("StarRecieve");
         list.MoveToFix(list, list.transform.position, StarImgDes.transform.position, new Vector3(.3f, .3f, 1f), () =>
             {
-                Debug.Log(list.transform.position);
-
                 StarImgDes.gameObject.transform.DOScale(1.2f, 0.15f).OnComplete(() =>
                 {
                     StarImgDes.gameObject.transform.DOScale(1f, 0.02f);

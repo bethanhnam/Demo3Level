@@ -41,6 +41,7 @@ public class GamePlayLoading : MonoBehaviour
     public void Disapper()
     {
         animator.Play("GamePlayLoadingOut", 0, 0);
+        AudioManager.instance.PlaySFX("GamePlayLoading");
     }
     public void Diactive()
     {

@@ -17,6 +17,9 @@ public class BuyInGame : MonoBehaviour
     public int undoPoint;
     public MyItem myitem;
 
+    public Sprite ticketBarNor;
+    public Sprite ticketBarRed;
+
     public Transform startPos;
     public List<GameObject> coins;
     public GameObject coinsPrefab;
@@ -30,21 +33,37 @@ public class BuyInGame : MonoBehaviour
         {
             if (SaveSystem.instance.coin - gold >= 0)
             {
-                SetMinusText(gold);
+                char t = '-';
+                SetMinusText(t,gold);
                 LoadData(-gold);
-                CreateStar(this.transform.position, () =>
+                CreateStar(this.transform.position,startPos.position, () =>
                 {
                     AddBoosterByads(gold);
                 }, 5);
+            }
+            else
+            {
+                startPos.GetComponent<Image>().sprite = ticketBarRed;
+                startPos.DORotate(new Vector3(0, 0, 10), .2f)
+                .SetEase(Ease.InOutSine) // Sử dụng Ease.InOutSine để xoay mượt mà
+                .SetLoops(-1, LoopType.Yoyo);
+                DOVirtual.DelayedCall(1.5f, () =>
+                {
+                    startPos.DORotate(Vector3.zero, 0.05f).OnComplete(() =>
+                    {
+                        DOTween.Kill(startPos);
+                    }); // Đặt góc quay về 0
+                    startPos.GetComponent<Image>().sprite = ticketBarNor;
+                });
             }
             PlayerPrefs.SetString("ClaimTime", DateTime.Today.ToString());
         }
 
     }
-    public void SetMinusText(int value)
+    public void SetMinusText(char t,int value)
     {
         minusCoinText.gameObject.SetActive(true);
-        minusCoinText.text = "-" + value.ToString();
+        minusCoinText.text = t + value.ToString();
         StartCoroutine(DisableText());
     }
     IEnumerator DisableText()
@@ -68,12 +87,18 @@ public class BuyInGame : MonoBehaviour
         {
             AdsManager.instance.ShowRewardVideo(() =>
             {
-                
-                //CreateStar(this.transform.position, () =>
-                //{
-                    AddCoinByAds();
+                char t = '+';
+                SetMinusText(t,20);
+                DOVirtual.DelayedCall(0.3f, () =>
+                {
+                    LoadData(20);
+                });
+                CreateStar(startPos.position,this.transform.position, () =>
+                {
 
-                //},0);
+                    AddCoinByAds();
+                }, 5);
+
             });
             PlayerPrefs.SetString("ClaimTime", DateTime.Today.ToString());
         }
@@ -125,22 +150,22 @@ public class BuyInGame : MonoBehaviour
         }
         
     }
-    IEnumerator Spawn(Vector3 des, Action action, int numOfStar)
+    IEnumerator Spawn(Vector3 des,Vector3 spawnPos, Action action, int numOfStar)
     {
         for (int i = 0; i < numOfStar; i++)
         {
             yield return new WaitForSeconds(0.3f);
-            var coin = Instantiate(coinsPrefab, startPos.position, Quaternion.identity, spawnCanvas.transform);
+            var coin = Instantiate(coinsPrefab, spawnPos, Quaternion.identity, spawnCanvas.transform);
             coin.transform.localScale = new Vector3(.5f, .5f, 1f);
             coins.Add(coin);
             MoveToDes(des, action, coin);
         }
     }
-    public void CreateStar(Vector3 des, Action action, int numOfStar)
+    public void CreateStar(Vector3 des, Vector3 spawnPos, Action action, int numOfStar)
     {
         UIManagerNew.Instance.ButtonMennuManager.DiactiveCVGroup();
         this.gameObject.SetActive(true);
-        StartCoroutine(Spawn(des, action, numOfStar));
+        StartCoroutine(Spawn(des, spawnPos, action, numOfStar));
     }
     public void MoveToDes(Vector3 des, Action action, GameObject star)
     {
@@ -148,7 +173,7 @@ public class BuyInGame : MonoBehaviour
         //Vector3 rotationAngles = new Vector3(0, 0, 360);
        
         //star.transform.DORotate(Vector3.zero, 0.05f); ; // Đặt góc quay về 0
-        star.transform.DOMove(des, 1f).OnComplete(() =>
+        star.transform.DOMove(des, .8f).OnComplete(() =>
         {
 
             StartCoroutine(Close(action, star));
@@ -166,7 +191,7 @@ public class BuyInGame : MonoBehaviour
     }
     public void LoadData(int addValue)
     {
-        DOVirtual.Float(SaveSystem.instance.coin, SaveSystem.instance.coin + addValue, 0.3f, (x) =>
+        DOVirtual.Float(SaveSystem.instance.coin, SaveSystem.instance.coin + addValue, 1.7f, (x) =>
         {
             CoinText.SetText(Mathf.CeilToInt(x).ToString());
         });

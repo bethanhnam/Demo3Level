@@ -221,11 +221,11 @@ public class GamePlayPanel : MonoBehaviour
 	}
 	public void EnableBoosterButton()
 	{
-		UIManager.instance.gamePlayPanel.rePlayPanel.numOfUsed = 1;
+		//UIManager.instance.gamePlayPanel.rePlayPanel.numOfUsed = 1;
 
-		UIManager.instance.gamePlayPanel.undoPanel.numOfUsed = 1;
-		UIManager.instance.gamePlayPanel.deteleNailPanel.numOfUsed = 1;
-		UIManager.instance.gamePlayPanel.boomNailPanel.numOfUsed = 1;
+		//UIManager.instance.gamePlayPanel.undoPanel.numOfUsed = 1;
+		//UIManager.instance.gamePlayPanel.deteleNailPanel.numOfUsed = 1;
+		//UIManager.instance.gamePlayPanel.boomNailPanel.numOfUsed = 1;
 		UIManager.instance.gamePlayPanel.losePanel.watchAdButton.GetComponent<Button>().interactable = true;
 		UIManager.instance.gamePlayPanel.losePanel.watchAdButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/win/bttn_green");
 		UIManager.instance.gamePlayPanel.losePanel.hasUse = false;

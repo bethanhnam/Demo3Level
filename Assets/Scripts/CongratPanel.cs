@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using DG.Tweening.Core.Easing;
+using Sirenix.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,8 +14,8 @@ public class CongratPanel : MonoBehaviour
     public RectTransform rewardImg;
     public RectTransform rewardLight;
     public RectTransform rewardOpen;
-    public Image RewardPrefab;
-    public List<Image> Listeward = new List<Image>();
+    public GameObject RewardPrefab;
+    public List<GameObject> Listeward = new List<GameObject>();
     public List<TextMeshProUGUI> rewardsValue = new List<TextMeshProUGUI>();
     public List<Transform> rewardsPos = new List<Transform>();
 
@@ -46,6 +47,9 @@ public class CongratPanel : MonoBehaviour
             DestroyRW();
             SaveSystem.instance.SaveData();
             rewardOpen.gameObject.SetActive(false);
+            tapToClaim.gameObject.SetActive(false);
+            rewardImg.transform.position = rewardLight.transform.position;
+            rewardImg.GetComponent<Animator>().enabled = true;
             this.gameObject.SetActive(false);
             AudioManager.instance.PlaySFX("ClosePopUp");
             SaveSystem.instance.SaveData();
@@ -113,7 +117,7 @@ public class CongratPanel : MonoBehaviour
         for (int i = 0; i < DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA.Length; i++)
         {
             var x = Instantiate(RewardPrefab, rewardOpen.transform.position, Quaternion.identity, this.transform);
-            x.sprite = DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].rwSprite;
+            x.GetComponent<Image>().sprite = DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].rwSprite;
             x.transform.localScale = Vector2.zero;
             x.gameObject.SetActive(true);
             Listeward.Add(x);
@@ -161,11 +165,15 @@ public class CongratPanel : MonoBehaviour
     }
     public void DestroyRW()
     {
-        for (int i = 0; i < Listeward.Count; i++)
+        for (int i = Listeward.Count-1; i >=0; i--)
         {
-            Destroy(Listeward[i]);
-            Listeward.RemoveAt(i);
-
+            var x = Listeward[i];
+            Listeward.Remove(x);
+            Destroy(x);
+        }
+        if (Listeward.IsNullOrEmpty())
+        {
+            Listeward.Clear();
         }
         rewardsValue.Clear();
     }

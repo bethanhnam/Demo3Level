@@ -420,11 +420,18 @@ public class AdsControl : MonoBehaviour
         }
     }
 
-    public void ActiveBlockFaAds(bool value)
+    public void ActiveBlockFaAds(bool value,Action action = null)
     {
         if (UIManagerNew.Instance != null && UIManagerNew.Instance.gameObject != null)
         {
             UIManagerNew.Instance.ActiveBlockFaAds(value);
+            if (action != null)
+            {
+                DOVirtual.DelayedCall(1f, () =>
+                {
+                    action();
+                });
+            }
         }
     }
 }

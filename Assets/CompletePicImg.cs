@@ -7,6 +7,8 @@ using DG.Tweening;
 public class CompletePicImg : MonoBehaviour
 {
     public Image completeImg;
+    public GameObject continueBT;
+    public GameObject congratText;
     void Start()
     {
 
@@ -16,6 +18,16 @@ public class CompletePicImg : MonoBehaviour
     void Update()
     {
 
+    }
+    public void changeSize()
+    {
+        float targetAspect = 9.0f / 16.0f;
+        float windowAspect = (float)Screen.width / (float)Screen.height;
+        if (LevelManagerNew.Instance.LevelBase.Level != 0)
+        {
+            continueBT.transform.localScale = Vector3.one - new Vector3(0.216998f, 0.216998f, 0);
+            congratText.transform.localScale = Vector3.one - new Vector3(0.216998f, 0.216998f, 0);
+        }
     }
     public void changeColor()
     {

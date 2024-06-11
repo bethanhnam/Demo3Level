@@ -60,7 +60,7 @@ public class SaveSystem : MonoBehaviour
         //magicTiket = 10;
         //powerTicket = 10;
         //coin = 1000;
-        star = 50;
+        //star = 80;
         //days =6;
 
     }

@@ -86,6 +86,8 @@ public class FixItemUI : MonoBehaviour
             {
                 GameManagerNew.Instance.PictureUIManager.picTutor.CheckHasFixed();
             }
+            DataLevelManager.Instance.SaveData();
+            LevelManagerNew.Instance.SaveData();
         });
     }
 }

@@ -161,6 +161,7 @@ public class GameManagerNew : MonoBehaviour
         ReOpenLevel(() =>
         {
             GamePlayPanelUIManager.Instance.Settimer(181);
+            GamePlayPanelUIManager.Instance.ActiveTime();
             CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[LevelManagerNew.Instance.stage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
             currentLevel.resetData();
             GamePlayPanelUIManager.Instance.showPointer(false);
@@ -372,6 +373,7 @@ public class GameManagerNew : MonoBehaviour
         UIManagerNew.Instance.CompleteImg.completeImg.sprite = DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Completeimg;
         UIManagerNew.Instance.CompleteImg.completeImg.SetNativeSize();
         ScalePicForDevices(UIManagerNew.Instance.CompleteImg.transform.gameObject);
+        UIManagerNew.Instance.CompleteImg.changeSize();
     }
     IEnumerator NextStage()
     {
@@ -409,7 +411,13 @@ public class GameManagerNew : MonoBehaviour
 				}
 				else
 				{
-					pictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+                    PlayerPrefs.SetInt("CompleteLastPic", 1);
+                    foreach (var character in pictureUIManager.characters)
+                    {
+                        character.transform.SetParent(GameManagerNew.Instance.pictureUIManager.transform);
+                        //CreateCharacterParticleEF(character.transform.position + new Vector3(0,1.5f,1), character.transform.GetComponent<MeshRenderer>());
+                    }
+                    pictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
 					UIManagerNew.Instance.CompleteImg.Disablepic();
 					if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
 					{
@@ -428,7 +436,12 @@ public class GameManagerNew : MonoBehaviour
             }
             else
             {
-                pictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+                PlayerPrefs.SetInt("CompleteLastPic", 1);
+                foreach (var character in pictureUIManager.characters)
+                {
+                    character.transform.SetParent(GameManagerNew.Instance.pictureUIManager.transform);
+                }
+                    pictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
                 UIManagerNew.Instance.CompleteImg.Disablepic();
                 if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
                 {
@@ -487,6 +500,10 @@ public class GameManagerNew : MonoBehaviour
                 }
                 else
                 {
+                    foreach (var character in pictureUIManager.characters)
+                    {
+                        character.transform.SetParent(GameManagerNew.Instance.pictureUIManager.transform);
+                    }
                     pictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
                     if (UIManagerNew.Instance.CompleteImg.gameObject.activeSelf)
                     {
@@ -527,6 +544,7 @@ public class GameManagerNew : MonoBehaviour
     }
     IEnumerator DisPlayPresent()
     {
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);
         UIManagerNew.Instance.ButtonMennuManager.DisPlayPresent();
     }

@@ -224,8 +224,10 @@ public class MaxMediation : MonoBehaviour
         if (MaxSdk.IsInterstitialReady(idFAMax))
         {
             AdsControl.Instance.isShowingAds = true;
-            AdsControl.Instance.ActiveBlockFaAds(true);
-            MaxSdk.ShowInterstitial(idFAMax);
+            AdsControl.Instance.ActiveBlockFaAds(true, () =>
+            {
+                MaxSdk.ShowInterstitial(idFAMax);
+            });
         }
         else
         {
@@ -343,8 +345,10 @@ public class MaxMediation : MonoBehaviour
         if (MaxSdk.IsRewardedAdReady(idRWMax))
         {
             AdsControl.Instance.isShowingAds = true;
-        AdsControl.Instance.ActiveBlockFaAds(true);
-            MaxSdk.ShowRewardedAd(idRWMax);
+            AdsControl.Instance.ActiveBlockFaAds(true, () =>
+            {
+                MaxSdk.ShowRewardedAd(idRWMax);
+            });
         }
         else
         {

@@ -6,6 +6,7 @@ using System.Threading;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using System.Timers;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class LosePanel : MonoBehaviour
@@ -47,6 +48,7 @@ public class LosePanel : MonoBehaviour
 				hasUse = true;
 				watchAdButton.interactable = false;
 				watchAdButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/win/bttn_grey");
+                Stage.Instance.CheckDoneLevel();
                 FirebaseAnalyticsControl.Instance.Revive_Rw(1);
             });
 			
@@ -65,23 +67,25 @@ public class LosePanel : MonoBehaviour
 	}
 	public void Open()
 	{
-		FirebaseAnalyticsControl.Instance.LogEventGamePlayLose(LevelManagerNew.Instance.stage);
-		
-		if (UIManagerNew.Instance.WinUI.gameObject.activeSelf)
+		//neu da win thi khong mo lose
+		if(Stage.Instance.numOfIronPlates <= 0)
 		{
 			return;
 		}
-		if (!this.gameObject.activeSelf)
+		else
 		{
-			this.gameObject.SetActive(true);
-			AudioManager.instance.PlaySFX("LosePop");
-			canvasGroup.alpha = 0;
-			canvasGroup.DOFade(1, .3f).OnComplete(() =>
-			{
-				
-			});
+            FirebaseAnalyticsControl.Instance.LogEventGamePlayLose(LevelManagerNew.Instance.stage);
+            if (!this.gameObject.activeSelf)
+            {
+                this.gameObject.SetActive(true);
+                AudioManager.instance.PlaySFX("LosePop");
+                canvasGroup.alpha = 0;
+                canvasGroup.DOFade(1, .3f).OnComplete(() =>
+                {
 
-		}
+                });
+            }
+        }
 	}
 	public void Close()
 	{

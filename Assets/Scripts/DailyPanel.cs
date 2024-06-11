@@ -87,8 +87,9 @@ public class DailyPanel : MonoBehaviour
 	public void OnClaimButtinPressed()
 	{
 		//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
-		PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
-		isClaim = true;
+		PlayerPrefs.SetString("LastClaimTime", DateTime.Now.ToString("yyyy-MM-dd"));
+        Debug.Log(DateTime.Now.ToString());
+        isClaim = true;
 		//if (lastDate == 6)
 		//{
 			if (dayRewards[lastDate].rewardImg.Length <= 1)
@@ -111,10 +112,11 @@ public class DailyPanel : MonoBehaviour
 	{
 		AdsManager.instance.ShowRewardVideo(() =>
 		{
-			FirebaseAnalyticsControl.Instance.Daily_RW_x2(1);
-			//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
-			PlayerPrefs.SetString("LastClaimTime", DateTime.Today.ToString());
-			isClaimX2 = true;
+		FirebaseAnalyticsControl.Instance.Daily_RW_x2(1);
+		//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
+		PlayerPrefs.SetString("LastClaimTime", DateTime.Now.ToString("yyyy-MM-dd"));
+		Debug.Log(DateTime.Now.ToString());
+            isClaimX2 = true;
 			//if (lastDate == 6)
 			//{
 				if (dayRewards[lastDate].rewardImg.Length <= 1)

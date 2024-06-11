@@ -63,15 +63,16 @@ public class StarMove : MonoBehaviour
     {
         star.transform.DOScale(1, 1f);
         Vector3 rotationAngles = new Vector3(0, 0, 360);
-        star.transform.DORotate(rotationAngles, 0.9f, RotateMode.FastBeyond360)
+        star.transform.DORotate(rotationAngles, 0.7f, RotateMode.FastBeyond360)
                 .SetLoops(-1 , LoopType.Incremental)
-                .SetEase(Ease.InOutBack).OnComplete(() =>
+                .SetEase(Ease.Linear).OnComplete(() =>
                 {
                     star.transform.DORotate(Vector3.zero, 0.05f); ; // Đặt góc quay về 0
                 });
-
+        AudioManager.instance.PlaySFX("StarRecieve");
         star.MoveToFix(star, startPos.position, des, (() =>
         {
+            
             levelButton.transform.DOScale(1.2f, .1f).OnComplete(() =>
             {
                 levelButton.transform.DOScale(1f, 0.05f);

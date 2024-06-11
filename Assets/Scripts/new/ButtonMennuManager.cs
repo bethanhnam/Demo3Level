@@ -175,6 +175,7 @@ public class ButtonMennuManager : MonoBehaviour
         Vector3 startPos = UIManagerNew.Instance.ChestSLider.present.transform.position;
         UIManagerNew.Instance.ChestSLider.present.transform.DOMove(Vector3.zero, 1f).OnComplete(() =>
         {
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
             UIManagerNew.Instance.ChestSLider.returnPos();
             UIManagerNew.Instance.ButtonMennuManager.OpenCongratPanel();
         });

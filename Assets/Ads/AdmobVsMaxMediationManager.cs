@@ -285,14 +285,18 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
             if (faValueMax > valueFAAdmob)
             {
                 AdsControl.Instance.isShowingAds = true;
-                AdsControl.Instance.ActiveBlockFaAds(true);
-                MaxSdk.ShowInterstitial(idFAMax);
+                AdsControl.Instance.ActiveBlockFaAds(true, () =>
+                {
+                    MaxSdk.ShowInterstitial(idFAMax);
+                });
             }
             else
             {
                 AdsControl.Instance.isShowingAds = true;
-                AdsControl.Instance.ActiveBlockFaAds(true);
-                interstitialAd.Show();
+                AdsControl.Instance.ActiveBlockFaAds(true, () =>
+                {
+                    interstitialAd.Show();
+                });
             }
         }
         else
@@ -300,16 +304,20 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
             if (initMax && MaxSdk.IsInterstitialReady(idFAMax))
             {
                 AdsControl.Instance.isShowingAds = true;
-                AdsControl.Instance.ActiveBlockFaAds(true);
-                MaxSdk.ShowInterstitial(idFAMax);
+                AdsControl.Instance.ActiveBlockFaAds(true, () =>
+                {
+                    MaxSdk.ShowInterstitial(idFAMax);
+                });
             }
             else
             {
                 if (interstitialAd != null && interstitialAd.CanShowAd())
                 {
                     AdsControl.Instance.isShowingAds = true;
-                    AdsControl.Instance.ActiveBlockFaAds(true);
-                    interstitialAd.Show();
+                    AdsControl.Instance.ActiveBlockFaAds(true, () =>
+                    {
+                        interstitialAd.Show();
+                    });
                 }
             }
         }
@@ -586,18 +594,22 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
             if (rwValueMax > valueRWAdmob)
             {
                 AdsControl.Instance.isShowingAds = true;
-                AdsControl.Instance.ActiveBlockFaAds(true);
-                MaxSdk.ShowRewardedAd(idRWMax);
+                AdsControl.Instance.ActiveBlockFaAds(true, () =>
+                {
+                    MaxSdk.ShowRewardedAd(idRWMax);
+                });
             }
             else
             {
                 AdsControl.Instance.isShowingAds = true;
-                AdsControl.Instance.ActiveBlockFaAds(true);
-                _rewardedAd.Show((Reward rw) =>
+                AdsControl.Instance.ActiveBlockFaAds(true, () =>
                 {
-                    AdsControl.Instance.isGetReward = true;
-                }
-         );
+                    _rewardedAd.Show((Reward rw) =>
+                    {
+                        AdsControl.Instance.isGetReward = true;
+                    }
+                    );
+                });
             }
         }
         else
@@ -605,20 +617,24 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
             if (MaxSdk.IsRewardedAdReady(idRWMax))
             {
                 AdsControl.Instance.isShowingAds = true;
-                AdsControl.Instance.ActiveBlockFaAds(true);
-                MaxSdk.ShowRewardedAd(idRWMax);
+                AdsControl.Instance.ActiveBlockFaAds(true, () =>
+                {
+                    MaxSdk.ShowRewardedAd(idRWMax);
+                });
             }
             else
             {
                 if (isInit && _rewardedAd != null && _rewardedAd.CanShowAd())
                 {
                     AdsControl.Instance.isShowingAds = true;
-                    AdsControl.Instance.ActiveBlockFaAds(true);
-                    _rewardedAd.Show((Reward rw) =>
+                    AdsControl.Instance.ActiveBlockFaAds(true, () =>
                     {
-                        AdsControl.Instance.isGetReward = true;
-                    }
-             );
+                        _rewardedAd.Show((Reward rw) =>
+                        {
+                            AdsControl.Instance.isGetReward = true;
+                        }
+                        );
+                    });         
                 }
             }
         }

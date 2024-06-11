@@ -97,7 +97,7 @@ public class IronPlate : MonoBehaviour
 	public bool checkHitPoint(Vector2 holePosition)
 	{
 		result = false;
-		radius = 0.01f;
+		radius = 0.015f;
 		float reference = radius;
 		for (int i = 0; i < centerPoints.Length; i++)
 		{
@@ -168,7 +168,7 @@ public class IronPlate : MonoBehaviour
 						Vector3 movementDirection = this.rigidbody2D1.velocity.normalized;
 
 						// Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude
-						Vector3 forceToAdd = movementDirection * .2f;
+						Vector3 forceToAdd = movementDirection * .3f;
 
 						// Thêm lực vào Rigidbody
 						rigidbody2D1.AddForce(forceToAdd, ForceMode2D.Force);
@@ -187,7 +187,7 @@ public class IronPlate : MonoBehaviour
 	}
 	IEnumerator unFreeze()
 	{
-		yield return new WaitForSeconds(0.05f);
+		yield return new WaitForSeconds(0.1f);
 		isFrezze = false;
 		rigidbody2D1.constraints = RigidbodyConstraints2D.None;
 		rigidbody2D1.freezeRotation = false;
@@ -195,7 +195,7 @@ public class IronPlate : MonoBehaviour
 		{
 			rigidbody2D1.angularDrag += 0.05f;
 		}
-		rigidbody2D1.gravityScale = 1.2f;
+		rigidbody2D1.gravityScale = 1.1f;
 
 	}
 	public void SetHingeJoint()

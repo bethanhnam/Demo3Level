@@ -192,8 +192,10 @@ public class AdmobManualManager : MonoBehaviour
         {
             Debug.Log("Showing interstitial ad.");
             AdsControl.Instance.isShowingAds = true;
-            AdsControl.Instance.ActiveBlockFaAds(true);
-            interstitialAd.Show();
+            AdsControl.Instance.ActiveBlockFaAds(true, () =>
+            {
+                interstitialAd.Show();
+            });
         }
         else
         {
@@ -339,12 +341,14 @@ public class AdmobManualManager : MonoBehaviour
         {
             Debug.Log("Showing Rw ad.");
             AdsControl.Instance.isShowingAds = true;
-            AdsControl.Instance.ActiveBlockFaAds(true);
-            _rewardedAd.Show((Reward rw) =>
+            AdsControl.Instance.ActiveBlockFaAds(true, () =>
             {
-                AdsControl.Instance.isGetReward = true;
-            }
+                _rewardedAd.Show((Reward rw) =>
+                {
+                    AdsControl.Instance.isGetReward = true;
+                }
             );
+            });  
         }
         else
         {

@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -85,8 +86,18 @@ public class LoadingScreen : MonoBehaviour
 					}
                     if (UIManagerNew.Instance.ChestSLider.currentValue != UIManagerNew.Instance.ChestSLider.maxValue1)
                     {
-						UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
-						AudioManager.instance.PlayMusic("MenuTheme");
+                        string lastClaimTime = PlayerPrefs.GetString("LastClaimTime", string.Empty);
+                        string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        if (lastClaimTime.Equals(currentDate))
+                        {
+                            AudioManager.instance.PlayMusic("MenuTheme");
+                            UIManagerNew.Instance.ButtonMennuManager.Appear();
+                        }
+						else
+						{
+							UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
+							AudioManager.instance.PlayMusic("MenuTheme");
+						}
                     }
 					if (RemoteConfigController.instance.IsShowOpenAds == 1)
 					{
