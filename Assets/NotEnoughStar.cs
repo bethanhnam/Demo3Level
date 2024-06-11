@@ -77,7 +77,8 @@ public class NotEnoughStar : MonoBehaviour
         }
         else
         {
-            DOVirtual.DelayedCall(0.7f, () =>
+			UIManagerNew.Instance.GamePlayLoading.appear();
+			DOVirtual.DelayedCall(0.7f, () =>
             {
                 UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
                 if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)

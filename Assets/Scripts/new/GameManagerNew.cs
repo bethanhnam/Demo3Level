@@ -401,13 +401,22 @@ public class GameManagerNew : MonoBehaviour
             }
             else
             {
-                pictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
-                UIManagerNew.Instance.CompleteImg.Disablepic();
-                if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
-                {
-                    UIManagerNew.Instance.ButtonMennuManager.Appear();
-                }
-            }
+				if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+				{
+					CompleteLevelAfterReward();
+					PlayerPrefs.SetInt("windowFixed", 0);
+					PlayerPrefs.SetInt("HasRecieveRW", 0);
+				}
+				else
+				{
+					pictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+					UIManagerNew.Instance.CompleteImg.Disablepic();
+					if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
+					{
+						UIManagerNew.Instance.ButtonMennuManager.Appear();
+					}
+				}
+			}
         }
         else
         {
@@ -430,6 +439,7 @@ public class GameManagerNew : MonoBehaviour
     }
     public void CompleteLevelAfterReward()
     {
+        pictureUIManager.DisableCharacter();
         var x = PictureUIManager.gameObject;
         Destroy(x);
         LevelManagerNew.Instance.NetxtLevel();

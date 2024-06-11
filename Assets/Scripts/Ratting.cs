@@ -95,19 +95,22 @@ public class Ratting : MonoBehaviour
 
 		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_chest, () =>
 		{
-			if (LevelManagerNew.Instance.LevelBase.Level >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+			if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
 			{
-                GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
-                UIManagerNew.Instance.CompleteImg.Disablepic();
-                if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
-                {
-                    UIManagerNew.Instance.ButtonMennuManager.Appear();
-                }
-            }
-			else { 
 				GameManagerNew.Instance.CompleteLevelAfterReward();
+				PlayerPrefs.SetInt("windowFixed", 0);
+				PlayerPrefs.SetInt("HasRecieveRW", 0);
 			}
-        }, null);
+			else
+			{
+				GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+				UIManagerNew.Instance.CompleteImg.Disablepic();
+				if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
+				{
+					UIManagerNew.Instance.ButtonMennuManager.Appear();
+				}
+			}
+		}, null);
 
 	}
 	public void Rate()
