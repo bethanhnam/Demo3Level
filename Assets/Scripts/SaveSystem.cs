@@ -17,6 +17,7 @@ public class SaveSystem : MonoBehaviour
     public int star;
     public int unscrewPoint;
     public int undoPoint;
+    public int extraHolePoint;
     private void Awake()
     {
         if (instance == null)
@@ -52,6 +53,7 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetInt("Star", star);
         PlayerPrefs.SetInt("unscrewPoint", unscrewPoint);
         PlayerPrefs.SetInt("undoPoint", undoPoint);
+        PlayerPrefs.SetInt("extraHolePoint", extraHolePoint);
 
         
     }
@@ -59,8 +61,8 @@ public class SaveSystem : MonoBehaviour
     {
         //magicTiket = 10;
         //powerTicket = 10;
-        //coin = 1000;
-        //star = 80;
+        coin = 1000;
+        star = 80;
         //days =6;
 
     }
@@ -77,6 +79,7 @@ public class SaveSystem : MonoBehaviour
         star = PlayerPrefs.GetInt("Star");
         unscrewPoint = PlayerPrefs.GetInt("unscrewPoint");
         undoPoint = PlayerPrefs.GetInt("undoPoint");
+        extraHolePoint = PlayerPrefs.GetInt("extraHolePoint");
     }
     public int GetmagicTiket()
     {
@@ -128,10 +131,11 @@ public class SaveSystem : MonoBehaviour
             addCoin(30);
         }
     }
-    public void AddBooster(int unscrewPoint,int undoPoint)
+    public void AddBooster(int unscrewPoint,int undoPoint,int extraHolePoint)
     {
         this.unscrewPoint += unscrewPoint;
         this.undoPoint += undoPoint;
+        this.extraHolePoint += extraHolePoint;
         UIManagerNew.Instance.LoadData(SaveSystem.instance.magicTiket, SaveSystem.instance.powerTicket, SaveSystem.instance.coin, SaveSystem.instance.star);
     }
     //public void DelayAdding(int startValue, int endValue, float time)

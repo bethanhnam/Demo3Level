@@ -102,11 +102,11 @@ public class CongratPanel : MonoBehaviour
             }
             if (DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].type == ItemPicture.type.Unscrew)
             {
-                SaveSystem.instance.AddBooster(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value, 0);
+                SaveSystem.instance.AddBooster(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value, 0,0);
             }
             if (DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].type == ItemPicture.type.Undo)
             {
-                SaveSystem.instance.AddBooster(0, DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value);
+                SaveSystem.instance.AddBooster(0, DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PresentA[i].value,0);
             }
             SaveSystem.instance.SaveData();
         }

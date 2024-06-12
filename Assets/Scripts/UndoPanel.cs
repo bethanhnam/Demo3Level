@@ -31,7 +31,7 @@ public class UndoPanel : MonoBehaviour
             numOfUse++;
             FirebaseAnalyticsControl.Instance.LogEventGameplay_Item_Undo_1(numOfUse, LevelManagerNew.Instance.stage);
 
-            SaveSystem.instance.AddBooster(0, -numOfUsed);
+            SaveSystem.instance.AddBooster(0, -numOfUsed,0);
             SaveSystem.instance.SaveData();
             numOfUsed++;
             Stage.Instance.Undo();

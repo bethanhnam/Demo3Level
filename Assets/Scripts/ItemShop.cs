@@ -8,6 +8,8 @@ public class ItemShop : MonoBehaviour
     public NewDataPackName namePack;
     public int unscrewPoint;
     public int undoPoint;
+    public int extraHolePoint;
+
     public int gold;
     public TextMeshProUGUI magicValueText;
     public TextMeshProUGUI powerValueText;
@@ -20,7 +22,7 @@ public class ItemShop : MonoBehaviour
         IapControl.Instance.BuyProductID(namePack, () =>
         {
            
-            SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint);
+            SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint, this.extraHolePoint);
             SaveSystem.instance.addCoin(this.gold);
             SaveSystem.instance.SaveData();
             if (nonADS)
@@ -34,7 +36,7 @@ public class ItemShop : MonoBehaviour
     public void BuyByGold()
     {
         
-            SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint);
+            SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint, this.extraHolePoint);
             if (nonADS)
             {
                 SaveSystem.instance.nonAds = 1;

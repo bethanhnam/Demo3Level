@@ -159,6 +159,7 @@ public class WinUI : MonoBehaviour
                     UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                     DOVirtual.DelayedCall(2f, () =>
                     {
+                        Stage.Instance.canInteract = true;
                         GameManagerNew.Instance.PictureUIManager.Open();
                         GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level, false);
                         GameManagerNew.Instance.CloseLevel(true);

@@ -82,6 +82,8 @@ public class PictureUIManager : MonoBehaviour
 							{
 								stage[i].ObjBtn[j].SetActive(false);
 							}
+							PlayerPrefs.SetInt("lastLevelActived", level);
+							PlayerPrefs.SetInt("lastLevelStageActived", DataLevelManager.Instance.DataLevel.Data[level].IndexStage);
 						}
 						else
 						{

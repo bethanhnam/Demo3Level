@@ -36,7 +36,7 @@ public class DeteleNailPanel : MonoBehaviour
             GamePlayPanelUIManager.Instance.showPointer(true);
             Stage.Instance.DeactiveTutor();
             ShowPointer(false);
-            SaveSystem.instance.AddBooster(-numOfUsed, 0);
+            SaveSystem.instance.AddBooster(-numOfUsed, 0, 0);
             SaveSystem.instance.SaveData();
             //hasUse = true;
             numOfUsed++;
@@ -141,22 +141,6 @@ public class DeteleNailPanel : MonoBehaviour
         if (this.gameObject.activeSelf)
         {
             canvasGroup.blocksRaycasts = false;
-            //closeButton.DOAnchorPos(new Vector2(552f, -105f), .1f, false).OnComplete(() =>
-            //{
-            //	panel.DORotate(new Vector3(0, 0, -10f), 0.25f, RotateMode.Fast).OnComplete(() =>
-            //	{
-            //		panel.DOAnchorPos(new Vector2(panel.transform.position.x, -1467f), .25f, false).OnComplete(() =>
-            //		{
-            //			this.gameObject.SetActive(false);
-            //			AudioManager.instance.PlaySFX("ClosePopUp");
-            //			GamePlayPanelUIManager.Instance.ActiveTime();
-            //			GamePlayPanelUIManager.Instance.Appear();
-            //			GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-
-            //			ActiveCVGroup();
-            //		});
-            //	});
-            //});
             canvasGroup.DOFade(0, 0.1f);
             panel.DOScale(new Vector3(0.8f, 0.8f, 0), 0.1f).OnComplete(() =>
             {

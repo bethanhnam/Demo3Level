@@ -15,6 +15,7 @@ public class BuyInGame : MonoBehaviour
 {
     public int unscrewPoint;
     public int undoPoint;
+    public int extraHolePoint;
     public MyItem myitem;
 
     public Sprite ticketBarNor;
@@ -74,7 +75,7 @@ public class BuyInGame : MonoBehaviour
     private void AddBoosterByads(int gold)
     {
         SaveSystem.instance.addCoin(-gold);
-        SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint);
+        SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint, this.extraHolePoint);
         SaveSystem.instance.SaveData();
         myitem.numOfBuy++;
         myitem.Save();
@@ -98,6 +99,22 @@ public class BuyInGame : MonoBehaviour
 
                     AddCoinByAds();
                 }, 5);
+
+            });
+            PlayerPrefs.SetString("ClaimTime", DateTime.Today.ToString());
+        }
+    }
+    public void watchAds1()
+    {
+        if (myitem.CheckNumOfUse())
+        {
+            AdsManager.instance.ShowRewardVideo(() =>
+            {
+                SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint, this.extraHolePoint);
+                SaveSystem.instance.SaveData();
+                myitem.numOfBuy++;
+                myitem.Save();
+                myitem.CheckNumOfUse();
 
             });
             PlayerPrefs.SetString("ClaimTime", DateTime.Today.ToString());

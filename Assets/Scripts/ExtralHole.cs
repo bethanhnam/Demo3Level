@@ -13,7 +13,7 @@ public class ExtralHole : MonoBehaviour
 	public rankpanel notEnoughpanel;
 	public CanvasGroup canvasGroup;
 
-	private void Start()
+    private void Start()
 	{
 		canvasGroup = GetComponent<CanvasGroup>();
 	}
@@ -22,10 +22,10 @@ public class ExtralHole : MonoBehaviour
 	}
 	public void UseTicket()
 	{
-		if (SaveSystem.instance.coin >= 20)
+		if (SaveSystem.instance.extraHolePoint >= 1)
 		{
 			this.Close();
-			SaveSystem.instance.addCoin(-20);
+			SaveSystem.instance.AddBooster(0,0,-1);
 			SaveSystem.instance.SaveData();
 			Stage.Instance.ChangeLayer();
 			Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;

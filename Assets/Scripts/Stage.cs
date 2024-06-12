@@ -74,6 +74,8 @@ public class Stage : MonoBehaviour
 
     public GameObject pointer;
     public TutorPointer pointerTutor;
+
+    public bool canInteract = true;
     private void Start()
     {
         Instance = this;
@@ -160,18 +162,22 @@ public class Stage : MonoBehaviour
         {
             if (!isTutor)
             {
-                if (isDeteleting)
+                if (canInteract)
                 {
-                    GamePlayPanelUIManager.Instance.ButtonOff();
-                    selectDeteleNail();
-                }
-                else
-                {
-                    Click();
-                    
+                    if (isDeteleting)
+                    {
+                        GamePlayPanelUIManager.Instance.ButtonOff();
+                        selectDeteleNail();
+                    }
+                    else
+                    {
+                        Click();
+
+                    }
                 }
             }
         }
+        CheckHoleAvailable();
         Hack();
     }
     
@@ -340,7 +346,7 @@ public class Stage : MonoBehaviour
     public bool CheckHoleIsAvailable()
     {
         bool allin = true;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(curHole.transform.position, 0.15f);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(curHole.transform.position, 0.12f);
         foreach (Collider2D collider in colliders)
         {
             if (collider.transform.tag == "Iron")
@@ -372,6 +378,7 @@ public class Stage : MonoBehaviour
                 DOVirtual.DelayedCall(0.3f, () => {
                     AudioManager.instance.PlaySFX("CompletePanel");
                     UIManagerNew.Instance.CompleteUI.Appear(sprRenderItem.sprite);
+                    canInteract = false;
                 });
             }, null);
         }
@@ -719,6 +726,26 @@ public class Stage : MonoBehaviour
     }
     public void check1()
     {
+        
+        if (holes.Length != 0 && numOfHoleNotAvailable.Count == holes.Length)
+        {
+
+            if (checked1 == false)
+            {
+                checked1 = true;
+                Invoke("ShowNotice", 1f);
+            }
+
+        }
+        else
+        {
+            GamePlayPanelUIManager.Instance.ShowNotice(false);
+            checked1 = false;
+        }
+    }
+
+    private void CheckHoleAvailable()
+    {
         foreach (var hole in holes)
         {
             if (hole.isOsccupied == true)
@@ -736,22 +763,8 @@ public class Stage : MonoBehaviour
                 }
             }
         }
-        if (holes.Length != 0 && numOfHoleNotAvailable.Count == holes.Length)
-        {
-           
-            if (checked1 == false)
-            {
-                checked1 = true;
-                Invoke("ShowNotice", 1f);
-            }
-
-        }
-        else
-        {
-            GamePlayPanelUIManager.Instance.ShowNotice(false);
-            checked1 = false;
-        }
     }
+
     private void ShowNotice()
     {
         if (numOfHoleNotAvailable.Count == holes.Length)

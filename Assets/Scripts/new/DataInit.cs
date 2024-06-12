@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class DataInit : MonoBehaviour
 {
+	public static DataInit instance;
 	[SerializeField]
-	private DataLevelManager dataLevelManager;
+	public DataLevelManager dataLevelManager;
 	[SerializeField]
-	private LevelManagerNew levelManagerNew;
+	public LevelManagerNew levelManagerNew;
 
 	private void Awake()
 	{
 		DontDestroyOnLoad(this.gameObject);
-
+		
 		levelManagerNew.Init();
 		dataLevelManager.Init();
+
+		if(instance == null)
+		{
+			instance = this;
+		}
 	}
 }

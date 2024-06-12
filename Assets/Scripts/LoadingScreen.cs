@@ -86,18 +86,46 @@ public class LoadingScreen : MonoBehaviour
 					}
                     if (UIManagerNew.Instance.ChestSLider.currentValue != UIManagerNew.Instance.ChestSLider.maxValue1)
                     {
-                        string lastClaimTime = PlayerPrefs.GetString("LastClaimTime", string.Empty);
-                        string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
-                        if (lastClaimTime.Equals(currentDate))
-                        {
-                            AudioManager.instance.PlayMusic("MenuTheme");
-                            UIManagerNew.Instance.ButtonMennuManager.Appear();
+						string lastClaimTime = PlayerPrefs.GetString("LastClaimTime", string.Empty);
+						string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+						if (lastClaimTime.Equals(currentDate))
+						{
+							AudioManager.instance.PlayMusic("MenuTheme");
+							UIManagerNew.Instance.ButtonMennuManager.Appear();
+                            Debug.Log("mở khi  full process và chưa nhận quà hàng ngày ");
                         }
 						else
 						{
 							UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
 							AudioManager.instance.PlayMusic("MenuTheme");
+                            Debug.Log("mở khi  full process và chưa nhận quà hàng ngày ");
+                        }
+					}
+					else
+					{
+						if (PlayerPrefs.GetInt("HasRecieveRW") == 1)
+						{
+							string lastClaimTime = PlayerPrefs.GetString("LastClaimTime", string.Empty);
+							string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+							if (lastClaimTime.Equals(currentDate))
+							{
+								AudioManager.instance.PlayMusic("MenuTheme");
+								UIManagerNew.Instance.ButtonMennuManager.Appear();
+                                Debug.Log("mở khi chua full process và  đã nhận quà hàng ngày ");
+                            }
+							else
+							{
+								UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
+								AudioManager.instance.PlayMusic("MenuTheme");
+                                Debug.Log("mở khi chua full process và đã đã nhận quà hàng ngày ");
+                            }
 						}
+						else
+						{
+                            AudioManager.instance.PlayMusic("MenuTheme");
+							Debug.Log("mở khi chua full process và chưa mở quà ");
+                            UIManagerNew.Instance.ButtonMennuManager.Appear();
+                        }
                     }
 					if (RemoteConfigController.instance.IsShowOpenAds == 1)
 					{

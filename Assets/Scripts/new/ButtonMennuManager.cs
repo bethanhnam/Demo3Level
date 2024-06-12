@@ -133,7 +133,9 @@ public class ButtonMennuManager : MonoBehaviour
     public void DisappearDailyRW()
     {
         Appear();
+        Debug.Log("thông qua dailyRW");
         GameManagerNew.Instance.SetCompleteStory();
+        Debug.Log("thông qua SetCompleteStory");
         UIManagerNew.Instance.DailyRWUI.Close();
     }
 

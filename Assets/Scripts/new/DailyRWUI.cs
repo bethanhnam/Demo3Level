@@ -1,4 +1,4 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,15 +41,14 @@ public class DailyRWUI : MonoBehaviour
 		cvButton.blocksRaycasts = false;
 		animButton.Play(disappearButton,0,0);
         AudioManager.instance.PlaySFX("ClosePopUp");
+        Debug.Log("chạy qua dailyRW");
     }
 
 	public void Deactive()
 	{
-		if (gameObject.activeSelf)
-		{
 			gameObject.SetActive(false);
-		}
-	}
+        Debug.Log("đã tắt dailyRW");
+    }
 
 	public void ActiveCVGroup()
 	{

@@ -23,11 +23,18 @@ public class CompletePicImg : MonoBehaviour
     {
         float targetAspect = 9.0f / 16.0f;
         float windowAspect = (float)Screen.width / (float)Screen.height;
-        if (LevelManagerNew.Instance.LevelBase.Level != 0)
+
+        if (windowAspect < targetAspect)
         {
-            continueBT.transform.localScale = Vector3.one - new Vector3(0.216998f, 0.216998f, 0);
-            congratText.transform.localScale = Vector3.one - new Vector3(0.216998f, 0.216998f, 0);
+            this.transform.localScale = this.transform.localScale * (targetAspect / windowAspect);
+            var x = this.transform.localScale * (targetAspect / windowAspect) - this.transform.localScale;
+            continueBT.transform.localScale = Vector3.one - x;
+            congratText.transform.localScale = Vector3.one - x;
         }
+        //if (LevelManagerNew.Instance.LevelBase.Level != 0)
+        //{
+           
+        //}
     }
     public void changeColor()
     {
