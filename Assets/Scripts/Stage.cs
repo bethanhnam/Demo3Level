@@ -178,7 +178,7 @@ public class Stage : MonoBehaviour
             }
         }
         CheckHoleAvailable();
-        Hack();
+        //Hack();
     }
     
     public void Click()
