@@ -92,7 +92,6 @@ public class ExtralHole : MonoBehaviour
             canvasGroup.DOFade(0, 0.1f);
             panel.DOScale(new Vector3(0.8f, 0.8f, 0), 0.1f).OnComplete(() =>
             {
-                this.gameObject.SetActive(false);
                 AudioManager.instance.PlaySFX("ClosePopUp");
                 GamePlayPanelUIManager.Instance.ActiveTime();
                 GamePlayPanelUIManager.Instance.Appear();
@@ -100,6 +99,7 @@ public class ExtralHole : MonoBehaviour
                 Stage.Instance.checked1 = false;
 
                 ActiveCVGroup();
+                this.gameObject.SetActive(false);
             });
         }
 	}

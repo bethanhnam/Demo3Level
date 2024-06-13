@@ -39,6 +39,9 @@ public class BuyInGame : MonoBehaviour
                 LoadData(-gold);
                 CreateStar(this.transform.position,startPos.position, () =>
                 {
+                   
+                    UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+                  
                     AddBoosterByads(gold);
                 }, 5);
             }
@@ -55,6 +58,7 @@ public class BuyInGame : MonoBehaviour
                         DOTween.Kill(startPos);
                     }); // Đặt góc quay về 0
                     startPos.GetComponent<Image>().sprite = ticketBarNor;
+
                 });
             }
             PlayerPrefs.SetString("ClaimTime", DateTime.Today.ToString());
@@ -96,7 +100,7 @@ public class BuyInGame : MonoBehaviour
                 });
                 CreateStar(startPos.position,this.transform.position, () =>
                 {
-
+                    UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                     AddCoinByAds();
                 }, 5);
 
@@ -169,22 +173,24 @@ public class BuyInGame : MonoBehaviour
     }
     IEnumerator Spawn(Vector3 des,Vector3 spawnPos, Action action, int numOfStar)
     {
+
         for (int i = 0; i < numOfStar; i++)
         {
             yield return new WaitForSeconds(0.3f);
             var coin = Instantiate(coinsPrefab, spawnPos, Quaternion.identity, spawnCanvas.transform);
             coin.transform.localScale = new Vector3(.5f, .5f, 1f);
             coins.Add(coin);
-            MoveToDes(des, action, coin);
+            MoveToDes(des, action, coin,i);
         }
     }
     public void CreateStar(Vector3 des, Vector3 spawnPos, Action action, int numOfStar)
     {
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         UIManagerNew.Instance.ButtonMennuManager.DiactiveCVGroup();
         this.gameObject.SetActive(true);
         StartCoroutine(Spawn(des, spawnPos, action, numOfStar));
     }
-    public void MoveToDes(Vector3 des, Action action, GameObject star)
+    public void MoveToDes(Vector3 des, Action action, GameObject star,int index)
     {
         star.transform.DOScale(1, 1f);
         //Vector3 rotationAngles = new Vector3(0, 0, 360);

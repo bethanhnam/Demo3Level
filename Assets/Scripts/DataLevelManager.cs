@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.Security.Cryptography;
+using System.IO;
 
 public class DataLevelManager : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class DataLevelManager : MonoBehaviour
 		}
 
 		string dataString = PlayerPrefs.GetString(dataName);
-
+		
 		if (string.IsNullOrEmpty(dataString))
 		{
 			CreateNewData();
@@ -45,7 +46,7 @@ public class DataLevelManager : MonoBehaviour
 			try
 			{
 				dataLevel = JsonConvert.DeserializeObject<DataLevel>(dataString);
-				if (dataLevel == null)
+                if (dataLevel == null)
 				{
 					CreateNewData();
 					SaveData();

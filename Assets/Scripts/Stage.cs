@@ -105,20 +105,30 @@ public class Stage : MonoBehaviour
     }
     IEnumerator check()
     {
-        while (true) { 
+        while (true)
+        {
             yield return new WaitForSeconds(1.5f);
             check1();
         }
     }
     public void Init(int level)
     {
+        canInteract = false;
         gameObject.SetActive(true);
         Vector3 targetSclae = transform.localScale;
         transform.localScale = Vector3.one;
-        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f,0.1f,0), 0.5f).OnComplete(() =>
+        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.5f).OnComplete(() =>
         {
-            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() => {
-                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f);
+            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
+            {
+                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
+                {
+                    canInteract = true;
+                    if (!GamePlayPanelUIManager.Instance.gameObject.activeSelf)
+                    {
+                        GamePlayPanelUIManager.Instance.Appear();
+                    }
+                });
             });
         });
         GamePlayPanelUIManager.Instance.ShowNotice(false);
@@ -130,6 +140,7 @@ public class Stage : MonoBehaviour
     }
     public void Close(bool isDes)
     {
+        canInteract = false;
         transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
         {
             if (isDes)
@@ -157,13 +168,13 @@ public class Stage : MonoBehaviour
 
     private void Update()
     {
-
-        if (Input.GetMouseButtonDown(0))
+        if (canInteract)
         {
-            if (!isTutor)
+            if (Input.GetMouseButtonDown(0))
             {
-                if (canInteract)
+                if (!isTutor)
                 {
+
                     if (isDeteleting)
                     {
                         GamePlayPanelUIManager.Instance.ButtonOff();
@@ -180,10 +191,10 @@ public class Stage : MonoBehaviour
         CheckHoleAvailable();
         //Hack();
     }
-    
+
     public void Click()
     {
-        
+
         Vector2 posMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(posMouse, 0.5f, Vector3.forward, Mathf.Infinity);
@@ -353,7 +364,7 @@ public class Stage : MonoBehaviour
             {
                 if (collider.GetComponent<IronPlate>().hingeJoint2Ds.Length > 0)
                 {
-                    if (!collider.GetComponent<IronPlate>().checkHitPoint(curHole.transform.position))
+                    if (!collider.GetComponent<IronPlate>().checkHitPoint1(curHole.transform.position))
                     {
                         allin = false;
                         return false;
@@ -371,11 +382,15 @@ public class Stage : MonoBehaviour
     {
         if (numOfIronPlates <= 0)
         {
+            Debug.Log("numOfIronPlates" + numOfIronPlates);
+            Debug.Log("chay vào đây khi hết thanh gỗ");
             AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_win, () =>
             {
+                Debug.Log("sau khi show ads");
                 UIManagerNew.Instance.GamePlayPanel.Close();
                 LevelManagerNew.Instance.NextStage();
-                DOVirtual.DelayedCall(0.3f, () => {
+                DOVirtual.DelayedCall(0.3f, () =>
+                {
                     AudioManager.instance.PlaySFX("CompletePanel");
                     UIManagerNew.Instance.CompleteUI.Appear(sprRenderItem.sprite);
                     canInteract = false;
@@ -407,7 +422,7 @@ public class Stage : MonoBehaviour
                         nailToDetele.RemoveHinge();
                         nailToDetele.gameObject.SetActive(false);
                         setDeteleting(false);
-                        hasDelete = true; 
+                        hasDelete = true;
                         GamePlayPanelUIManager.Instance.showPointer(false);
                     }
                     //var Destroyeffect1 = Instantiate(destroyNailEffect, nailToDetele.transform.position, quaternion.identity);
@@ -449,7 +464,7 @@ public class Stage : MonoBehaviour
 
         }
         hasSave = true;
-        if (LevelManagerNew.Instance.stage >=3)
+        if (LevelManagerNew.Instance.stage >= 3)
         {
             GamePlayPanelUIManager.Instance.UndoButton.interactable = true;
         }
@@ -660,7 +675,7 @@ public class Stage : MonoBehaviour
         TutorLevel1();
         DeactiveDeleting();
 
-        
+
     }
 
     //private void TutorUndo()
@@ -680,7 +695,7 @@ public class Stage : MonoBehaviour
             isTutor = true;
             GamePlayPanelUIManager.Instance.ActiveBlackPic(true);
             UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(false);
-            
+
             //anim unlock
             //var x = Instantiate(ParticlesManager.instance.StarParticleObject, GamePlayPanelUIManager.Instance.DeteleButton.transform.position, Quaternion.identity, this.transform);
             //ParticleSystem particle = x.transform.GetChild(0).GetComponent<ParticleSystem>();
@@ -703,13 +718,13 @@ public class Stage : MonoBehaviour
     }
     private void TutorLevel1()
     {
-        if (LevelManagerNew.Instance.stage == 0 && pointerTutor != null )
+        if (LevelManagerNew.Instance.stage == 0 && pointerTutor != null)
         {
             //tuto undo 
             isLvTutor = true;
-            if(pointerTutor.gameObject.activeSelf == false)
+            if (pointerTutor.gameObject.activeSelf == false)
             {
-                Invoke("showLevel1Tutor",1f);
+                Invoke("showLevel1Tutor", 1f);
             }
 
         }
@@ -726,7 +741,7 @@ public class Stage : MonoBehaviour
     }
     public void check1()
     {
-        
+
         if (holes.Length != 0 && numOfHoleNotAvailable.Count == holes.Length)
         {
 
@@ -779,7 +794,7 @@ public class Stage : MonoBehaviour
         {
             isDeteleting = false;
         }
-        
+
     }
     public void showUnscrewTuTor()
     {
@@ -798,7 +813,7 @@ public class Stage : MonoBehaviour
     }
     public void DeactiveTutor()
     {
-       isTutor = false;
+        isTutor = false;
     }
 
     //public void showUndoTuTor()

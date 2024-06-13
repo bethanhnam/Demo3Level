@@ -20,6 +20,7 @@ public class DeteleNailPanel : MonoBehaviour
     public GameObject pointer;
 
     public bool isLock = false;
+    public bool canInteract = true;
     private void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -30,20 +31,28 @@ public class DeteleNailPanel : MonoBehaviour
     {
         if (SaveSystem.instance.unscrewPoint >= numOfUsed)
         {
-            ShowTutor();
-            numOfUse++;
-            FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew_1(numOfUse, LevelManagerNew.Instance.stage);
-            GamePlayPanelUIManager.Instance.showPointer(true);
-            Stage.Instance.DeactiveTutor();
-            ShowPointer(false);
-            SaveSystem.instance.AddBooster(-numOfUsed, 0, 0);
-            SaveSystem.instance.SaveData();
-            //hasUse = true;
-            numOfUsed++;
-            CheckNumOfUse();
-            Stage.Instance.setDeteleting(true);
-            //UIManager.instance.gamePlayPanel.ButtonOff();
-            this.Close();
+            if (canInteract)
+            {
+                canInteract = false;
+                ShowTutor();
+                numOfUse++;
+                FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew_1(numOfUse, LevelManagerNew.Instance.stage);
+                GamePlayPanelUIManager.Instance.showPointer(true);
+                Stage.Instance.DeactiveTutor();
+                ShowPointer(false);
+                SaveSystem.instance.AddBooster(-numOfUsed, 0, 0);
+                SaveSystem.instance.SaveData();
+                //hasUse = true;
+                numOfUsed++;
+                CheckNumOfUse();
+                Stage.Instance.setDeteleting(true);
+                //UIManager.instance.gamePlayPanel.ButtonOff();
+                this.Close();
+            }
+            else
+            {
+                this.Close();
+            }
         }
         else
         {
@@ -108,8 +117,9 @@ public class DeteleNailPanel : MonoBehaviour
     {
         if (!this.gameObject.activeSelf)
         {
-            OffPoiter();
             this.gameObject.SetActive(true);
+            OffPoiter();
+            GameManagerNew.Instance.CloseLevel(false);
             canvasGroup.blocksRaycasts = false;
             AudioManager.instance.PlaySFX("OpenPopUp");
             panel.localScale = new Vector3(.8f, .8f, 1f);
@@ -119,7 +129,7 @@ public class DeteleNailPanel : MonoBehaviour
             {
                 panel.transform.DOScale(Vector3.one, 0.15f).OnComplete(() =>
                 {
-                    GameManagerNew.Instance.CloseLevel(false);
+
                     GamePlayPanelUIManager.Instance.Close();
                     ActiveCVGroup();
                     if (Stage.Instance.isTutor && LevelManagerNew.Instance.stage == 3)
@@ -144,13 +154,17 @@ public class DeteleNailPanel : MonoBehaviour
             canvasGroup.DOFade(0, 0.1f);
             panel.DOScale(new Vector3(0.8f, 0.8f, 0), 0.1f).OnComplete(() =>
             {
-                this.gameObject.SetActive(false);
                 AudioManager.instance.PlaySFX("ClosePopUp");
                 GamePlayPanelUIManager.Instance.ActiveTime();
+
                 GamePlayPanelUIManager.Instance.Appear();
+
                 GamePlayPanelUIManager.Instance.ShowPoiterAgain1();
                 GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
                 ActiveCVGroup();
+                canInteract = true;
+                this.gameObject.SetActive(false);
+
             });
         }
     }

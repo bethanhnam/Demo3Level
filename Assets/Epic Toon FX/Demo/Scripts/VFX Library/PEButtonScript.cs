@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 namespace ETFXPEL
 {
@@ -38,6 +39,7 @@ public class PEButtonScript : MonoBehaviour, IEventSystemHandler, IPointerEnterH
 	public void OnButtonClicked () {
 		// Button Click Actions
 		UICanvasManager.GlobalAccess.UIButtonClick(ButtonType);
+		
 	}
 }
 }

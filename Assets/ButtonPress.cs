@@ -1,6 +1,7 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -25,7 +26,7 @@ public class ButtonPress : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void OnDisable()
     {
-
+        
         gameObject.transform.localScale = _scaleDefault;
     }
 
@@ -34,7 +35,9 @@ public class ButtonPress : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (btn != null && btn.interactable)
         {
             var minScale = _scaleDefault * scaleRate;
-            transform.DOScale(minScale, .2f).SetEase(Ease.Linear);
+            transform.DOScale(minScale, .2f).SetEase(Ease.Linear).OnComplete(() =>
+            {
+            });
         }
     }
 

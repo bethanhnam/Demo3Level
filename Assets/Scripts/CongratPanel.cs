@@ -66,29 +66,32 @@ public class CongratPanel : MonoBehaviour
     {
         AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_bonus, () =>
         {
-            takeRewardData();
-            tapToOpen.gameObject.SetActive(false);
-            rewardLight.gameObject.SetActive(true);
-            rewardLight.GetComponent<CanvasGroup>().DOFade(1, 0.6f);
-            rewardLight.DOScale(1.3f, 0.5f).OnComplete(() =>
+            if (PlayerPrefs.GetInt("HasRecieveRW") == 0)
             {
-                rewardLight.gameObject.SetActive(false);
-                rewardImg.GetComponent<Animator>().enabled = false;
-                rewardImg.DOMove(new Vector2(-.5f, -2.5f), 1f);
-                rewardImg.DOScale(1f, 1f).OnComplete(() =>
+                takeRewardData();
+                tapToOpen.gameObject.SetActive(false);
+                rewardLight.gameObject.SetActive(true);
+                rewardLight.GetComponent<CanvasGroup>().DOFade(1, 0.6f);
+                rewardLight.DOScale(1.3f, 0.5f).OnComplete(() =>
                 {
-                    AudioManager.instance.PlaySFX("OpenChest");
-                    DisplayRW();
-                    //if (LoadingScreen.instance.cv.blocksRaycasts == true)
-                    //{
-                    //    LoadingScreen.instance.cv.blocksRaycasts = false;
-                    //}
-                    rewardOpen.transform.position = rewardImg.transform.position;
-                    rewardOpen.transform.localScale = rewardImg.transform.localScale;
-                    rewardImg.gameObject.SetActive(false);
-                    rewardOpen.gameObject.SetActive(true);
+                    rewardLight.gameObject.SetActive(false);
+                    rewardImg.GetComponent<Animator>().enabled = false;
+                    rewardImg.DOMove(new Vector2(-.5f, -2.5f), 1f);
+                    rewardImg.DOScale(1f, 1f).OnComplete(() =>
+                    {
+                        AudioManager.instance.PlaySFX("OpenChest");
+                        DisplayRW();
+                        //if (LoadingScreen.instance.cv.blocksRaycasts == true)
+                        //{
+                        //    LoadingScreen.instance.cv.blocksRaycasts = false;
+                        //}
+                        rewardOpen.transform.position = rewardImg.transform.position;
+                        rewardOpen.transform.localScale = rewardImg.transform.localScale;
+                        rewardImg.gameObject.SetActive(false);
+                        rewardOpen.gameObject.SetActive(true);
+                    });
                 });
-            });
+            }
         }, null);
     }
     public void takeRewardData()

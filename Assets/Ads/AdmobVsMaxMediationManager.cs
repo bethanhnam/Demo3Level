@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using com.adjust.sdk;
@@ -277,6 +277,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
     {
         if (AdsControl.Instance.isShowingAds)
         {
+            Debug.Log("Chạy vào case 1 khong show");
             return;
         }
 
@@ -288,6 +289,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                 AdsControl.Instance.ActiveBlockFaAds(true, () =>
                 {
                     MaxSdk.ShowInterstitial(idFAMax);
+                    Debug.Log("Chạy vào case 1 show 1");
                 });
             }
             else
@@ -296,6 +298,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                 AdsControl.Instance.ActiveBlockFaAds(true, () =>
                 {
                     interstitialAd.Show();
+                    Debug.Log("Chạy vào case 1 show 2");
                 });
             }
         }
@@ -307,6 +310,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                 AdsControl.Instance.ActiveBlockFaAds(true, () =>
                 {
                     MaxSdk.ShowInterstitial(idFAMax);
+                    Debug.Log("Chạy vào case 1 show 3");
                 });
             }
             else
@@ -317,6 +321,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                     AdsControl.Instance.ActiveBlockFaAds(true, () =>
                     {
                         interstitialAd.Show();
+                        Debug.Log("Chạy vào case 1 show 4");
                     });
                 }
             }

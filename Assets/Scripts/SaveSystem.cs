@@ -63,6 +63,9 @@ public class SaveSystem : MonoBehaviour
         //powerTicket = 10;
         //coin = 1000;
         //star = 80;
+        //unscrewPoint = 20;
+        //undoPoint = 20;
+        //extraHolePoint = 20;
         //days =6;
 
     }

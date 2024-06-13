@@ -110,6 +110,22 @@ public class IronPlate : MonoBehaviour
         }
         return result;
     }
+    public bool checkHitPoint1(Vector2 holePosition)
+    {
+        result = false;
+        radius = 0.015f;
+        float reference = radius;
+        for (int i = 0; i < centerPoints.Length; i++)
+        {
+            float distance = Vector2.Distance(holePosition, centerPoints[i]);
+            if (distance < reference)
+            {
+                selectedHinge = i;
+                result = true;
+            }
+        }
+        return result;
+    }
     //private void OnDrawGizmos()
     //{
     //	if (this.isActiveAndEnabled)
@@ -165,30 +181,27 @@ public class IronPlate : MonoBehaviour
             //{
             if (!hasAddForce)
             {
-                Vector3 movementDirection = this.rigidbody2D1.velocity.normalized;
+                Vector3 movementDirection1 = this.rigidbody2D1.velocity.normalized;
 
                 // Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude
-                Vector3 forceToAdd = movementDirection * .3f;
+                Vector3 forceToAdd = movementDirection1 * .3f;
 
                 // Thêm lực vào Rigidbody
                 rigidbody2D1.AddForce(forceToAdd, ForceMode2D.Force);
                 hasAddForce = true;
             }
-            if (this.rigidbody2D1.velocity == Vector2.zero)
+            Vector3 movementDirection = this.rigidbody2D1.velocity.normalized;
+
+            // Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude
+            if (rigidbody2D1.velocity.magnitude < 0.5f)
             {
-                Vector3 movementDirection = this.rigidbody2D1.velocity.normalized;
+                Vector3 forceToAdd = movementDirection * .2f;
 
-                // Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude
-                if (rigidbody2D1.velocity.magnitude < 0.5f)
-                {
-                    Vector3 forceToAdd = movementDirection * .1f;
-
-                    // Thêm lực vào Rigidbody
-                    rigidbody2D1.AddForce(forceToAdd, ForceMode2D.Force);
-                }
+                // Thêm lực vào Rigidbody
+                rigidbody2D1.AddForce(forceToAdd, ForceMode2D.Force);
             }
-            //}
         }
+        //}
     }
     IEnumerator Freeze()
     {

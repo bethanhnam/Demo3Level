@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 using GoogleMobileAds.Api;
 using com.adjust.sdk;
 using Unity.VisualScripting;
+using GoogleMobileAds.Ump.Api;
 
 public class AdsControl : MonoBehaviour
 {
@@ -218,16 +219,21 @@ public class AdsControl : MonoBehaviour
     {
         if (isInit)
         {
+            Debug.Log(isInit + "init chưa");
             if (dataAdsMediationConfig != null)
             {
+                Debug.Log("dataAdsMediationConfig khong null");
+                Debug.Log("dataAdsMediationConfig.TypeMediation" + dataAdsMediationConfig.TypeMediation);
                 switch (dataAdsMediationConfig.TypeMediation)
                 {
                     case 0:
                         if (admobVsMaxMediationManager.GetFA())
                         {
+                            Debug.Log("Chạy vào case 1 a");
                             FAACtionDone = a;
                             admobVsMaxMediationManager.ShowForceAds();
                         }
+                        Debug.Log("Chạy vào case 1");
                         break;
                     case 1:
                         if (admobManualManager.GetFA() > maxMediation.GetFA())
@@ -240,6 +246,7 @@ public class AdsControl : MonoBehaviour
                             FAACtionDone = a;
                             maxMediation.ShowForceAds();
                         }
+                        Debug.Log("Chạy vào case 2");
                         break;
                     case 2:
                         if (admobAutoFloorManager.GetFA())
@@ -252,6 +259,7 @@ public class AdsControl : MonoBehaviour
                             FAACtionDone = a;
                             maxMediation.ShowForceAds();
                         }
+                        Debug.Log("Chạy vào case 3");
                         break;
                 }
             }

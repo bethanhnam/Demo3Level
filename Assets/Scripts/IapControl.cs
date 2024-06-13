@@ -189,7 +189,7 @@ public class IapControl : MonoBehaviour, IStoreListener
         builder.AddProduct(NewDataPackName.undo_15.ToString(), ProductType.Consumable);
         builder.AddProduct(NewDataPackName.undo_45.ToString(), ProductType.Consumable);
         builder.AddProduct(NewDataPackName.undo_90.ToString(), ProductType.Consumable);
-        builder.AddProduct(NewDataPackName.combo.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.combo_1.ToString(), ProductType.Consumable);
         builder.AddProduct(NewDataPackName.remove_ads_pack.ToString(), ProductType.Consumable);
 
 
@@ -478,7 +478,7 @@ public enum NewDataPackName
     undo_15,
     undo_45,
     undo_90,
-    combo,
+    combo_1,
     remove_ads_pack
 }
 

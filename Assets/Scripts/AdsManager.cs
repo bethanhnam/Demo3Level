@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -159,13 +159,15 @@ public class AdsManager : MonoBehaviour
 				{
 					Debug.Log("inter ads: " + p.ToString());
 					AdsControl.Instance.ShowFAAds(actionDone);
-					lastTime = Time.time;
+                    Debug.Log("Chạy vào action");
+                    lastTime = Time.time;
 				}
 				else
 				{
 					if (actionDone != null)
 					{
 						actionDone();
+						Debug.Log("chạy actiondone1");
 					}
 					if (closeAction != null)
 					{
@@ -178,13 +180,15 @@ public class AdsManager : MonoBehaviour
 				if (actionDone != null)
 				{
 					actionDone();
-				}
+                    Debug.Log("chạy actiondone2");
+                }
 			}
 		}
 		else {
             if (actionDone != null)
             {
                 actionDone();
+                Debug.Log("chạy actiondone3");
             }
         }
 	}

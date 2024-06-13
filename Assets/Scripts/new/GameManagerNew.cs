@@ -338,7 +338,28 @@ public class GameManagerNew : MonoBehaviour
             LevelManagerNew.Instance.LevelBase.Level = PlayerPrefs.GetInt("lastLevelActived");
             DataLevelManager.Instance.DataLevel.Data[level].IndexStage = PlayerPrefs.GetInt("lastLevelStageActived");
             DataLevelManager.Instance.ResetData();
-            CompleteLevelAfterReward();
+
+
+            pictureUIManager.DisableCharacter();
+            var x = PictureUIManager.gameObject;
+            Destroy(x);
+            //LevelManagerNew.Instance.NetxtLevel();
+            Debug.Log("level tranh tiếp theo " + LevelManagerNew.Instance.LevelBase.Level);
+            PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
+            PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
+            AudioManager.instance.musicSource.Play();
+            ScalePicForDevices(PictureUIManager.transform.gameObject);
+            UIManagerNew.Instance.ButtonMennuManager.Appear();
+            UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
+            UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
+            UIManagerNew.Instance.ChestSLider.CreateMarker();
+            SetCompletImg();
+            SetCompleteStory();
+            //UIManagerNew.Instance.CongratPanel.takeRewardData();
+            Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
+
+            DataLevelManager.Instance.SaveData();
+            LevelManagerNew.Instance.SaveData();
         }
     }
     private void CreateCharacterParticleEF(Vector3 position, MeshRenderer mesh)

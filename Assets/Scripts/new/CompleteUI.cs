@@ -1,4 +1,4 @@
-using Spine.Unity;
+﻿using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +18,7 @@ public class CompleteUI : MonoBehaviour
 
 	public void Appear(Sprite _spr)
 	{
+		Debug.Log("hiện win UI");
 		if (!gameObject.activeSelf)
 		{
 			gameObject.SetActive(true);
