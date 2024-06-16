@@ -134,7 +134,7 @@ public class MaxMediation : MonoBehaviour
         }
         else
         {
-            // MaxSdk.LoadAppOpenAd(idOpenAds);
+            MaxSdk.LoadAppOpenAd(idOpenAds);
         }
     }
     #endregion Open Ads -------------------------------

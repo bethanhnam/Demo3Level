@@ -37,7 +37,10 @@ public class DeteleNailPanel : MonoBehaviour
                 ShowTutor();
                 numOfUse++;
                 FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew_1(numOfUse, LevelManagerNew.Instance.stage);
-                GamePlayPanelUIManager.Instance.showPointer(true);
+                if (LevelManagerNew.Instance.stage == 3)
+                {
+                    GamePlayPanelUIManager.Instance.showPointer(true);
+                }
                 Stage.Instance.DeactiveTutor();
                 ShowPointer(false);
                 SaveSystem.instance.AddBooster(-numOfUsed, 0, 0);
@@ -137,10 +140,6 @@ public class DeteleNailPanel : MonoBehaviour
                         ShowPointer(true);
                         Uniteractable();
                     }
-                    else
-                    {
-                        ShowPointer(false);
-                    }
                 });
             });
             CheckNumOfUse();
@@ -157,13 +156,21 @@ public class DeteleNailPanel : MonoBehaviour
                 AudioManager.instance.PlaySFX("ClosePopUp");
                 GamePlayPanelUIManager.Instance.ActiveTime();
 
-                GamePlayPanelUIManager.Instance.Appear();
-
-                GamePlayPanelUIManager.Instance.ShowPoiterAgain1();
-                GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                if (Stage.Instance.isWining)
+                {
+                    Stage.Instance.ScaleUpStage();
+                }
+                else
+                {
+                    GamePlayPanelUIManager.Instance.Appear();
+                    GamePlayPanelUIManager.Instance.ShowPoiterAgain1();
+                    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                }
                 ActiveCVGroup();
                 canInteract = true;
+                ShowPointer(false);
                 this.gameObject.SetActive(false);
+                Stage.Instance.AfterPanel();
 
             });
         }

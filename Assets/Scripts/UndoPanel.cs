@@ -108,34 +108,25 @@ public class UndoPanel : MonoBehaviour
         if (this.gameObject.activeSelf)
         {
             canvasGroup.blocksRaycasts = false;
-            //closeButton.DOAnchorPos(new Vector2(552f, -105f), .1f, false).OnComplete(() =>
-            //{
-            //	panel.DORotate(new Vector3(0, 0, -10f), 0.25f, RotateMode.Fast).OnComplete(() =>
-            //	{
-            //		panel.DOAnchorPos(new Vector2(panel.transform.position.x, -1467f), 0.25f, false).OnComplete(() =>
-            //		{
-            //			this.gameObject.SetActive(false);
-            //			AudioManager.instance.PlaySFX("ClosePopUp");
-            //			GamePlayPanelUIManager.Instance.ActiveTime();
-            //			GamePlayPanelUIManager.Instance.Appear();
-            //			GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-
-            //			ActiveCVGroup();
-            //		});
-            //	});
-            //});
-            //         canvasGroup.DOFade(0, 0.1f);
             panel.DOScale(new Vector3(0.8f, 0.8f, 0), 0.1f).OnComplete(() =>
             {
                 AudioManager.instance.PlaySFX("ClosePopUp");
                 GamePlayPanelUIManager.Instance.ActiveTime();
-                GamePlayPanelUIManager.Instance.Appear();
+                if (Stage.Instance.isWining && Stage.Instance.numOfIronPlates <=0)
+                {
+                    Stage.Instance.ScaleUpStage();
+                }
+                else
+                {
+                    GamePlayPanelUIManager.Instance.Appear();
+                    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                }
                 GamePlayPanelUIManager.Instance.ShowPoiterAgain1();
-                GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
                 Stage.Instance.checked1 = false;
 
                 ActiveCVGroup();
                 this.gameObject.SetActive(false);
+                Stage.Instance.AfterPanel();
             });
         }
     }

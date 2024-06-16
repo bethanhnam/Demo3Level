@@ -160,6 +160,7 @@ public class WinUI : MonoBehaviour
                     DOVirtual.DelayedCall(2f, () =>
                     {
                         Stage.Instance.canInteract = true;
+                        Stage.Instance.isWining = false;
                         GameManagerNew.Instance.PictureUIManager.Open();
                         GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level, false);
                         GameManagerNew.Instance.CloseLevel(true);
@@ -200,8 +201,11 @@ public class WinUI : MonoBehaviour
                 });
         SpawnCoin(0);
         AudioManager.instance.PlaySFX("StarRecieve");
+        Debug.Log("StarImgDes " + StarImgDes.transform.position);
         list.MoveToFix(list, list.transform.position, StarImgDes.transform.position, new Vector3(.3f, .3f, 1f), () =>
             {
+                Debug.Log("list " + list.transform.position);
+                Debug.Log("Đã đến nơi ");
                 StarImgDes.gameObject.transform.DOScale(1.2f, 0.15f).OnComplete(() =>
                 {
                     StarImgDes.gameObject.transform.DOScale(1f, 0.02f);

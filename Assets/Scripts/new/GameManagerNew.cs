@@ -65,7 +65,6 @@ public class GameManagerNew : MonoBehaviour
         UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
         UIManagerNew.Instance.ChestSLider.CreateMarker();
         SetCompletImg();
-        Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
     }
     public void ScalePicForDevices(GameObject obj)
     {
@@ -148,6 +147,7 @@ public class GameManagerNew : MonoBehaviour
             currentLevel.resetData();
             Stage.Instance.DeactiveDeleting();
             GamePlayPanelUIManager.Instance.showPointer(false);
+            GamePlayPanelUIManager.Instance.hasOpen = false;
             GamePlayPanelUIManager.Instance.ShowNotice(false);
             GamePlayPanelUIManager.Instance.ButtonOn();
             CurrentLevel.Init(Level);
@@ -165,6 +165,7 @@ public class GameManagerNew : MonoBehaviour
             CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[LevelManagerNew.Instance.stage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
             currentLevel.resetData();
             GamePlayPanelUIManager.Instance.showPointer(false);
+            GamePlayPanelUIManager.Instance.hasOpen = false;
             GamePlayPanelUIManager.Instance.ShowNotice(false);
             GamePlayPanelUIManager.Instance.ButtonOn();
             if (Stage.Instance.pointerTutor != null)

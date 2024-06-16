@@ -188,13 +188,20 @@ public class ButtonMennuManager : MonoBehaviour
     }
     public void DisplayLevelText()
     {
-        if (LevelManagerNew.Instance.stage + 1 <= LevelManagerNew.Instance.stageList.Count)
+        if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
         {
-            UIManagerNew.Instance.playBTLevelTexts.text = (LevelManagerNew.Instance.stage + 1).ToString();
+            UIManagerNew.Instance.playBTLevelTexts.text = LevelManagerNew.Instance.stageList.Count.ToString();
         }
         else
         {
-            UIManagerNew.Instance.playBTLevelTexts.text = (LevelManagerNew.Instance.stage).ToString();
+            if (LevelManagerNew.Instance.stage + 1 <= LevelManagerNew.Instance.stageList.Count)
+            {
+                UIManagerNew.Instance.playBTLevelTexts.text = (LevelManagerNew.Instance.stage + 1).ToString();
+            }
+            else
+            {
+                UIManagerNew.Instance.playBTLevelTexts.text = (LevelManagerNew.Instance.stage).ToString();
+            }
         }
     }
 }

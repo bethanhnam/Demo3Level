@@ -76,6 +76,9 @@ public class Stage : MonoBehaviour
     public TutorPointer pointerTutor;
 
     public bool canInteract = true;
+
+    public bool isWining = false;
+    public bool isLosing = false;
     private void Start()
     {
         Instance = this;
@@ -133,6 +136,23 @@ public class Stage : MonoBehaviour
         });
         GamePlayPanelUIManager.Instance.ShowNotice(false);
     }
+    public void ScaleUpStage()
+    {
+        canInteract = false;
+        gameObject.SetActive(true);
+        Vector3 targetSclae = transform.localScale;
+        transform.localScale = Vector3.one;
+        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.5f).OnComplete(() =>
+        {
+            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
+            {
+                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
+                {
+                    canInteract = true;
+                });
+            });
+        });
+    }
     public Vector3 setTargetScale(GameObject gameObject)
     {
         targetScale = gameObject.transform.localScale;
@@ -189,7 +209,15 @@ public class Stage : MonoBehaviour
             }
         }
         CheckHoleAvailable();
-        //Hack();
+        Hack();
+        if (isWining)
+        {
+
+            if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
+            {
+                UIManagerNew.Instance.GamePlayPanel.Close();
+            }
+        }
     }
 
     public void Click()
@@ -382,20 +410,43 @@ public class Stage : MonoBehaviour
     {
         if (numOfIronPlates <= 0)
         {
+            isWining = true;
             Debug.Log("numOfIronPlates" + numOfIronPlates);
             Debug.Log("chay vào đây khi hết thanh gỗ");
-            AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_win, () =>
+            if (!UIManagerNew.Instance.PausePanel.gameObject.activeSelf && !UIManagerNew.Instance.UndoPanel.gameObject.activeSelf && !UIManagerNew.Instance.DeteleNailPanel.gameObject.activeSelf && !UIManagerNew.Instance.ExtralHolePanel.gameObject.activeSelf)
             {
-                Debug.Log("sau khi show ads");
-                UIManagerNew.Instance.GamePlayPanel.Close();
-                LevelManagerNew.Instance.NextStage();
-                DOVirtual.DelayedCall(0.3f, () =>
+                AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_win, () =>
                 {
-                    AudioManager.instance.PlaySFX("CompletePanel");
-                    UIManagerNew.Instance.CompleteUI.Appear(sprRenderItem.sprite);
-                    canInteract = false;
-                });
-            }, null);
+                    Debug.Log("sau khi show ads");
+                    //UIManagerNew.Instance.GamePlayPanel.Close();
+                    LevelManagerNew.Instance.NextStage();
+                    DOVirtual.DelayedCall(0.3f, () =>
+                    {
+                        AudioManager.instance.PlaySFX("CompletePanel");
+                        UIManagerNew.Instance.CompleteUI.Appear(sprRenderItem.sprite);
+                        canInteract = false;
+                    });
+                }, null);
+            }
+            else
+            {
+                return;
+            }
+        }
+        else
+        {
+            isWining = false;
+        }
+    }
+    public void AfterPanel()
+    {
+        if (isWining)
+        {
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                    CheckDoneLevel();
+            });
+
         }
     }
     public void selectDeteleNail()

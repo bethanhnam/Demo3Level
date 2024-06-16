@@ -152,7 +152,7 @@ public class AdsManager : MonoBehaviour
 		if (StructAds.StructAds.ContainsKey(p.ToString()))
 		{
 			Debug.Log("inter ads: " + p.ToString());
-			if (StructAds.StructAds[p.ToString()].IsShow && StructAds.ConfigBanner.LevelUnlock <= SaveSystem.instance.menuLevel + 1)
+			if (StructAds.StructAds[p.ToString()].IsShow  && AdsControl.Instance.CheckFA() && StructAds.ConfigBanner.LevelUnlock <= SaveSystem.instance.menuLevel + 1)
 			{
 				Debug.Log("inter ads: " + p.ToString());
  				if (Time.time - lastTime >= StructAds.StructAds[p.ToString()].TimeShow)

@@ -13,8 +13,7 @@ public class CompletePanel : MonoBehaviour
             this.gameObject.SetActive(true);
             AudioManager.instance.PlaySFX("LosePop");
             claimPanel.gameObject.SetActive(true);
-
-
+            PlayerPrefs.SetInt("HasCompleteLastLevel", 1);
         }
     }
     public void Close()

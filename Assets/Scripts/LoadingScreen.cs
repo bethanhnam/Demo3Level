@@ -74,7 +74,12 @@ public class LoadingScreen : MonoBehaviour
 				DOVirtual.DelayedCall(0.1f, () =>
 				{
 					GameManagerNew.Instance.InitStartGame();
-				});
+                    if (RemoteConfigController.instance.IsShowOpenAds == 1)
+                    {
+                        AdsControl.Instance.ShowOpenAds();
+                    }
+
+                });
 				cv.DOFade(0, 0.3f).OnComplete(() =>
 				{
 					if (SaveSystem.instance.powerTicket > 0 || SaveSystem.instance.magicTiket > 0)
@@ -127,11 +132,9 @@ public class LoadingScreen : MonoBehaviour
                             UIManagerNew.Instance.ButtonMennuManager.Appear();
                         }
                     }
-					if (RemoteConfigController.instance.IsShowOpenAds == 1)
-					{
-						AdsControl.Instance.ShowOpenAds();
-					}
-					Destroy(this.gameObject);
+					
+                        
+                    Destroy(this.gameObject);
 				});
 			}
 			yield return null;

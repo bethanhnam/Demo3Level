@@ -213,7 +213,7 @@ public class IronPlate : MonoBehaviour
     }
     IEnumerator unFreeze()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         isFrezze = false;
         rigidbody2D1.constraints = RigidbodyConstraints2D.None;
         rigidbody2D1.freezeRotation = false;

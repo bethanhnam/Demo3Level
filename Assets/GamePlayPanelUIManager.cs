@@ -46,6 +46,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
     //pointer
     public GameObject pointer;
     public GameObject goodJob;
+    public bool hasOpen;
     private void Awake()
     {
         Instance = this;
@@ -264,7 +265,16 @@ public class GamePlayPanelUIManager : MonoBehaviour
     }
     public void showPointer(bool status)
     {
-        pointer.gameObject.SetActive(status);
+        if (hasOpen == false)
+        {
+            pointer.gameObject.SetActive(status);
+            hasOpen = true;
+        }
+        else
+        {
+            pointer.gameObject.SetActive(false);
+        }
+
     }
 
 }

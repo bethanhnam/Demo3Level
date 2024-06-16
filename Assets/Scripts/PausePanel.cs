@@ -69,9 +69,18 @@ public class PausePanel : MonoBehaviour
                 GamePlayPanelUIManager.Instance.ActiveTime();
                 //UIManager.instance.ActiveTime();
                 //UIManager.instance.gamePlayPanel.backFromPause = true;
-                GamePlayPanelUIManager.Instance.Appear();
-                GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                if (Stage.Instance.isWining)
+                {
+                    Stage.Instance.ScaleUpStage();
+                }
+                else
+                {
+                    GamePlayPanelUIManager.Instance.Appear();
+                    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                }
+                Stage.Instance.AfterPanel();
                 Stage.Instance.checked1 = false;
+                
             });
 
         }

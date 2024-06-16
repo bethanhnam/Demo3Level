@@ -20,8 +20,8 @@ public class LevelManagerNew : MonoBehaviour
     private void Awake()
 	{
 		Instance = this;
-		stage = PlayerPrefs.GetInt("stage");
-	}
+        stage = PlayerPrefs.GetInt("stage");
+    }
 
 	public void Init()
 	{

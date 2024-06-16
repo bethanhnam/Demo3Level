@@ -192,7 +192,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
         }
         else
         {
-            // MaxSdk.LoadAppOpenAd(idOpenAds);
+            MaxSdk.LoadAppOpenAd(idOpenAds);
         }
     }
     #endregion Open Ads -------------------------------

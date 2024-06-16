@@ -33,13 +33,17 @@ public class StarReward : MonoBehaviour
         if (isMove)
         {
             this.transform.DOMove(SmoothPath(startPos, stepPos, endPos, (Time.time - startTime) / timeMove), 0.05f).SetEase(curveMove);
-            if (Time.time >= startTime + timeMove)
+            var x = Vector2.Distance(this.transform.position, endPos);
+            if (x < 0.3f)
             {
-                isMove = false;
-                if (a != null)
+                if (Time.time >= startTime + timeMove)
                 {
-                    a();
-                    a = null;
+                    isMove = false;
+                    if (a != null)
+                    {
+                        a();
+                        a = null;
+                    }
                 }
             }
         }
@@ -47,6 +51,7 @@ public class StarReward : MonoBehaviour
 
     public void MoveToFix(StarReward star, Vector3 pos, Vector3 targetAnchor, Vector3 scaleTarget, Action action)
     {
+        Debug.Log("targetAnchor " + targetAnchor);
 
         if (!star.gameObject.activeSelf)
         {
@@ -63,7 +68,7 @@ public class StarReward : MonoBehaviour
         }
 
         //timeMove = baseTimeMove * _distance;
-        timeMove = 1f;
+        timeMove = .7f;
         
         star.transform.DOScale(scaleTarget, timeMove).SetEase(curveScale);
 
@@ -71,8 +76,8 @@ public class StarReward : MonoBehaviour
         Vector3 centrPos = (pos + targetAnchor) / 2f;
         Vector3 d2 = Vector3.Cross(_direction, Vector3.forward);
         //	Vector3 stepPos = pos + new Vector3(1, 1,pos.z);
-        stepPos = p1 + d2 * (_distance / 3f);
-        startPos = pos;
+        stepPos = p1 + d2 * (_distance / 3f) - new Vector3(1f, 1.5f, 0); ;
+        startPos = pos ;
         endPos = targetAnchor;
 
         startTime = Time.time;
