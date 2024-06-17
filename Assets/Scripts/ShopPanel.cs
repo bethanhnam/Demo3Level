@@ -24,7 +24,7 @@ public class ShopPanel : MonoBehaviour
 			//animator.Play("appear", 0, 0);
 			canvasGroup.DOFade(1, .3f).OnComplete(() =>
 			{
-                UIManagerNew.Instance.LoadData(SaveSystem.instance.magicTiket, SaveSystem.instance.powerTicket, SaveSystem.instance.coin, SaveSystem.instance.star);
+                UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
             });
 		}
 	}
@@ -63,8 +63,16 @@ public class ShopPanel : MonoBehaviour
 
 			});
 			GamePlayPanelUIManager.Instance.ActiveTime();
-			GamePlayPanelUIManager.Instance.Appear();
-			GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+			if (!UIManagerNew.Instance.DeteleNailPanel.gameObject.activeSelf && !UIManagerNew.Instance.UndoPanel.gameObject.activeSelf && !UIManagerNew.Instance.ExtralHolePanel.gameObject.activeSelf)
+			{
+				GamePlayPanelUIManager.Instance.Appear();
+                GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+            }
+			else
+			{
+				//do nothing;
+			}
+			
 		}
 	}
 	public void ExchangeTicket()
@@ -75,5 +83,9 @@ public class ShopPanel : MonoBehaviour
 			SaveSystem.instance.magicTiket += 1;
 			SaveSystem.instance.SaveData();
 		}
+	}
+	public void DoNothing()
+	{
+
 	}
 }

@@ -19,6 +19,9 @@ public class DeteleNailPanel : MonoBehaviour
     public int numOfUseByAds = 0;
     public GameObject pointer;
 
+    //text 
+    public TextMeshProUGUI minusText;
+
     public bool isLock = false;
     public bool canInteract = true;
     private void Start()
@@ -43,6 +46,7 @@ public class DeteleNailPanel : MonoBehaviour
                 }
                 Stage.Instance.DeactiveTutor();
                 ShowPointer(false);
+                SetMinusText('-', numOfUsed);
                 SaveSystem.instance.AddBooster(-numOfUsed, 0, 0);
                 SaveSystem.instance.SaveData();
                 //hasUse = true;
@@ -50,7 +54,10 @@ public class DeteleNailPanel : MonoBehaviour
                 CheckNumOfUse();
                 Stage.Instance.setDeteleting(true);
                 //UIManager.instance.gamePlayPanel.ButtonOff();
-                this.Close();
+                DOVirtual.DelayedCall(1f, () =>
+                {
+                    this.Close();
+                });
             }
             else
             {
@@ -200,5 +207,17 @@ public class DeteleNailPanel : MonoBehaviour
     public void ShowPointer(bool status)
     {
         pointer.gameObject.SetActive(status);
+    }
+
+    public void SetMinusText(char t, int value)
+    {
+        minusText.gameObject.SetActive(true);
+        minusText.text = t + value.ToString();
+        StartCoroutine(DisableText());
+    }
+    IEnumerator DisableText()
+    {
+        yield return new WaitForSeconds(0.8f);
+        minusText.gameObject.SetActive(false);
     }
 }

@@ -34,6 +34,16 @@ public class StarReward : MonoBehaviour
         {
             this.transform.DOMove(SmoothPath(startPos, stepPos, endPos, (Time.time - startTime) / timeMove), 0.05f).SetEase(curveMove);
             var x = Vector2.Distance(this.transform.position, endPos);
+            if (Time.time >= startTime + timeMove + .3f)
+            {
+                isMove = false;
+                if (a != null)
+                {
+                    a();
+                    a = null;
+                }
+            }
+            else
             if (x < 0.3f)
             {
                 if (Time.time >= startTime + timeMove)
@@ -46,6 +56,7 @@ public class StarReward : MonoBehaviour
                     }
                 }
             }
+
         }
     }
 
@@ -69,7 +80,7 @@ public class StarReward : MonoBehaviour
 
         //timeMove = baseTimeMove * _distance;
         timeMove = .7f;
-        
+
         star.transform.DOScale(scaleTarget, timeMove).SetEase(curveScale);
 
         Vector3 p1 = pos + _direction * (_distance / 3f);
@@ -77,7 +88,7 @@ public class StarReward : MonoBehaviour
         Vector3 d2 = Vector3.Cross(_direction, Vector3.forward);
         //	Vector3 stepPos = pos + new Vector3(1, 1,pos.z);
         stepPos = p1 + d2 * (_distance / 3f) - new Vector3(1f, 1.5f, 0); ;
-        startPos = pos ;
+        startPos = pos;
         endPos = targetAnchor;
 
         startTime = Time.time;

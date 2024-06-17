@@ -126,6 +126,15 @@ public class ButtonMennuManager : MonoBehaviour
         Close();
         UIManagerNew.Instance.ShopPanel.Open();
     }
+    public void OpenShopPanelViaBooster()
+    {
+        //GameManagerNew.Instance.ClosePicture(false);
+        if (GameManagerNew.Instance.CurrentLevel != null)
+        {
+        }
+        Close();
+        UIManagerNew.Instance.ShopPanel.Open();
+    }
     public void OpenRW()
     {
         rewardMove.gameObject.SetActive(true);

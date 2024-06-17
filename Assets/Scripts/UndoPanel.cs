@@ -18,6 +18,8 @@ public class UndoPanel : MonoBehaviour
     public TextMeshProUGUI numOfUsedText;
     public CanvasGroup canvasGroup;
 
+    //text 
+    public TextMeshProUGUI minusText;
     private void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -30,12 +32,15 @@ public class UndoPanel : MonoBehaviour
             ShowTutor();
             numOfUse++;
             FirebaseAnalyticsControl.Instance.LogEventGameplay_Item_Undo_1(numOfUse, LevelManagerNew.Instance.stage);
-
+            SetMinusText('-', numOfUsed);
             SaveSystem.instance.AddBooster(0, -numOfUsed,0);
             SaveSystem.instance.SaveData();
             numOfUsed++;
             Stage.Instance.Undo();
-            this.Close();
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                this.Close();
+            });
         }
         else
         {
@@ -152,5 +157,16 @@ public class UndoPanel : MonoBehaviour
         {
             GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(false);
         }
+    }
+    public void SetMinusText(char t, int value)
+    {
+        minusText.gameObject.SetActive(true);
+        minusText.text = t + value.ToString();
+        StartCoroutine(DisableText());
+    }
+    IEnumerator DisableText()
+    {
+        yield return new WaitForSeconds(0.8f);
+        minusText.gameObject.SetActive(false);
     }
 }

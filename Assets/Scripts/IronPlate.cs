@@ -18,6 +18,7 @@ public class IronPlate : MonoBehaviour
     public bool result;
     public bool isFrezze;
     public bool hasAddForce;
+    public bool hasAddForceRotate;
     public List<HingeJoint2D> joints = new List<HingeJoint2D>();
     public List<NailControl> nailControls = new List<NailControl>();
     public Rigidbody2D rigidbody2D1;
@@ -171,6 +172,7 @@ public class IronPlate : MonoBehaviour
             else
             {
                 StartCoroutine(unFreeze());
+                
             }
         }
         if (joints.IsNullOrEmpty())
@@ -221,7 +223,28 @@ public class IronPlate : MonoBehaviour
         {
             rigidbody2D1.angularDrag += 0.05f;
         }
-        rigidbody2D1.gravityScale = 1.1f;
+        if (!hasAddForceRotate)
+        {
+            IEnumerator AddTorqueGradually()
+            {
+                hasAddForceRotate = true;
+                float elapsedTime = 0f;
+
+                while (elapsedTime < 2)
+                {
+                    float currentTorque = Mathf.Lerp(0f, 10, elapsedTime / 2);
+                    rigidbody2D1.AddTorque(currentTorque * Time.deltaTime);
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
+                }
+
+                // Đảm bảo đối tượng đạt được lực quay tối đa
+                rigidbody2D1.AddTorque(10 * Time.deltaTime);
+
+                //isAddingTorque = false;
+            }
+        }
+        rigidbody2D1.gravityScale = 1.05f;
 
     }
     public void SetHingeJoint()

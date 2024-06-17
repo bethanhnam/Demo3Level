@@ -209,7 +209,7 @@ public class Stage : MonoBehaviour
             }
         }
         CheckHoleAvailable();
-        Hack();
+        //Hack();
         if (isWining)
         {
 

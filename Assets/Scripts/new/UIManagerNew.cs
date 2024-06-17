@@ -58,8 +58,9 @@ public class UIManagerNew : MonoBehaviour
     [SerializeField]
     private TransferPanel transferPanel;
 
-    public TextMeshProUGUI[] powerTexts;
-    public TextMeshProUGUI[] magicTexts;
+    public TextMeshProUGUI[] DrillTexts;
+    public TextMeshProUGUI[] UnscrewTexts;
+    public TextMeshProUGUI[] UndoTexts;
     public TextMeshProUGUI[] coinTexts;
     public TextMeshProUGUI[] starTexts;
     public TextMeshProUGUI playBTLevelTexts;
@@ -110,14 +111,15 @@ public class UIManagerNew : MonoBehaviour
     }
     private void Start()
     {
-        LoadData(SaveSystem.instance.magicTiket, SaveSystem.instance.powerTicket, SaveSystem.instance.coin, SaveSystem.instance.star);
+        LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint,SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
     }
-    public void LoadData(int magicTiket, int powerTicket, int coin, int star)
+    public void LoadData(int unscrew, int undo,int drill,  int coin, int star)
     {
-        for (int i = 0; i < magicTexts.Length; i++)
+        for (int i = 0; i < UnscrewTexts.Length; i++)
         {
-            magicTexts[i].SetText(magicTiket.ToString());
-            powerTexts[i].SetText(powerTicket.ToString());
+            UnscrewTexts[i].SetText(unscrew.ToString());
+            UndoTexts[i].SetText(undo.ToString());
+            DrillTexts[i].SetText(drill.ToString());
         }
         for (int j = 0; j < coinTexts.Length; j++)
         {

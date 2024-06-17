@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class ExtralHole : MonoBehaviour
@@ -12,6 +13,9 @@ public class ExtralHole : MonoBehaviour
 	public RectTransform panel;
 	public rankpanel notEnoughpanel;
 	public CanvasGroup canvasGroup;
+
+    //text 
+    public TextMeshProUGUI minusText;
 
     private void Start()
 	{
@@ -24,13 +28,17 @@ public class ExtralHole : MonoBehaviour
 	{
 		if (SaveSystem.instance.extraHolePoint >= 1)
 		{
-			this.Close();
-			SaveSystem.instance.AddBooster(0,0,-1);
+            SetMinusText('-', 1);
+            SaveSystem.instance.AddBooster(0,0,-1);
 			SaveSystem.instance.SaveData();
 			Stage.Instance.ChangeLayer();
 			Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
 			Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
-		}
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                this.Close();
+            });
+        }
 		else
 		{
 			notEnoughpanel.ShowDialog();
@@ -102,4 +110,15 @@ public class ExtralHole : MonoBehaviour
 			canvasGroup.blocksRaycasts = true;
 		}
 	}
+    public void SetMinusText(char t, int value)
+    {
+        minusText.gameObject.SetActive(true);
+        minusText.text = t + value.ToString();
+        StartCoroutine(DisableText());
+    }
+    IEnumerator DisableText()
+    {
+        yield return new WaitForSeconds(0.8f);
+        minusText.gameObject.SetActive(false);
+    }
 }
