@@ -424,6 +424,131 @@ public class PictureUIManager : MonoBehaviour
 			ChangeReaction(0, "idle_sad", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
 		}
 	}
+  //  public void DisplayPicStory(int _level, bool showBT = true)
+  //  {
+  //      level = _level;
+  //      if (level >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+  //      {
+  //          level = 0;
+  //      }
+
+  //      for (int i = 0; i < stage.Length; i++)
+  //      {
+  //          if (i < DataLevelManager.Instance.DataLevel.Data[level].IndexStage)
+  //          {
+  //              for (int j = 0; j < stage[i].ObjBtn.Length; j++)
+  //              {
+  //                  if (stage[i].ObjBtn[j].activeSelf)
+  //                  {
+  //                      stage[i].ObjBtn[j].SetActive(false);
+  //                  }
+  //              }
+
+  //              for (int j = 0; j < stage[i].ObjLock.Length; j++)
+  //              {
+  //                  if (stage[i].ObjLock[j].activeSelf)
+  //                  {
+  //                      stage[i].ObjLock[j].SetActive(false);
+  //                  }
+  //              }
+
+  //              for (int j = 0; j < stage[i].ObjunLock.Length; j++)
+  //              {
+  //                  if (!stage[i].ObjunLock[j].activeSelf)
+  //                  {
+  //                      stage[i].ObjunLock[j].SetActive(true);
+  //                  }
+  //              }
+  //          }
+  //          else
+  //          {
+  //              if (i == DataLevelManager.Instance.DataLevel.Data[level].IndexStage)
+  //              {
+  //                  //for (int j = 0; j < stage[i].ObjBtn.Length; j++)
+  //                  //{
+  //                  //	if (DataLevelManager.Instance.DataLevel.Data[level].Stage[i].DataItmeLevel[j].IsUnlock)
+  //                  //	{
+  //                  //		if (stage[i].ObjBtn[j].activeSelf)
+  //                  //		{
+  //                  //			stage[i].ObjBtn[j].SetActive(false);
+  //                  //		}
+  //                  //	}
+  //                  //	else
+  //                  //	{
+  //                  //		if (!stage[i].ObjBtn[j].activeSelf)
+  //                  //		{
+  //                  //			stage[i].ObjBtn[j].SetActive(true);
+  //                  //		}
+  //                  //	}
+  //                  //}
+
+  //                  for (int j = 0; j < stage[i].ObjLock.Length; j++)
+  //                  {
+  //                      if (DataLevelManager.Instance.DataLevel.Data[level].Stage[i].DataItmeLevel[j].IsUnlock)
+  //                      {
+  //                          if (stage[i].ObjLock[j].activeSelf)
+  //                          {
+  //                              stage[i].ObjLock[j].SetActive(false);
+  //                          }
+  //                      }
+  //                      else
+  //                      {
+  //                          if (!stage[i].ObjLock[j].activeSelf)
+  //                          {
+  //                              stage[i].ObjLock[j].SetActive(true);
+  //                          }
+  //                      }
+  //                  }
+
+  //                  for (int j = 0; j < stage[i].ObjunLock.Length; j++)
+  //                  {
+  //                      if (DataLevelManager.Instance.DataLevel.Data[level].Stage[i].DataItmeLevel[j].IsUnlock)
+  //                      {
+  //                          if (!stage[i].ObjunLock[j].activeSelf)
+  //                          {
+  //                              stage[i].ObjunLock[j].SetActive(true);
+  //                          }
+  //                          hasFixed = true;
+  //                      }
+  //                      else
+  //                      {
+  //                          if (stage[i].ObjunLock[j].activeSelf)
+  //                          {
+  //                              stage[i].ObjunLock[j].SetActive(false);
+  //                          }
+  //                      }
+  //                  }
+  //              }
+  //              else
+  //              {
+  //                  for (int j = 0; j < stage[i].ObjBtn.Length; j++)
+  //                  {
+  //                      if (stage[i].ObjBtn[j].activeSelf)
+  //                      {
+  //                          stage[i].ObjBtn[j].SetActive(false);
+  //                      }
+  //                  }
+
+  //                  for (int j = 0; j < stage[i].ObjLock.Length; j++)
+  //                  {
+  //                      if (stage[i].ObjLock[j].activeSelf)
+  //                      {
+  //                          stage[i].ObjLock[j].SetActive(true);
+  //                      }
+  //                  }
+
+  //                  for (int j = 0; j < stage[i].ObjunLock.Length; j++)
+  //                  {
+  //                      if (stage[i].ObjunLock[j].activeSelf)
+  //                      {
+  //                          stage[i].ObjunLock[j].SetActive(false);
+  //                      }
+  //                  }
+  //              }
+  //          }
+  //      }
+		//EnableCV();
+  //  }
 }
 [Serializable]
 public class ItemInStage

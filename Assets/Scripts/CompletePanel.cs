@@ -24,7 +24,6 @@ public class CompletePanel : MonoBehaviour
             if (GameManagerNew.Instance.CheckLevelStage())
             {
                 int replayLevel = Random.Range(0, 29);
-                LevelManagerNew.Instance.stage = replayLevel;
                 UIManagerNew.Instance.GamePlayLoading.appear();
                 DOVirtual.DelayedCall(.7f, () =>
                 {

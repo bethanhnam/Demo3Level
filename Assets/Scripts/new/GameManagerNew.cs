@@ -38,6 +38,12 @@ public class GameManagerNew : MonoBehaviour
     [SerializeField]
     private Vector3 targetScale;
 
+    public VideoController videoController;
+
+    //story
+    public bool isStory;
+    public GameObject StoryPic;
+
     public LayerMask INSelectionLayer { get => iNSelectionLayer1; }
     public LayerMask IronLayer1 { get => IronLayer12; }
     public Stage CurrentLevel { get => currentLevel; set => currentLevel = value; }
@@ -65,6 +71,10 @@ public class GameManagerNew : MonoBehaviour
         UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
         UIManagerNew.Instance.ChestSLider.CreateMarker();
         SetCompletImg();
+    }
+    public void InitStartStoryPic(int picIndex)
+    {
+        StoryPic = Instantiate(DataLevelStoryPic.instance.listJson[picIndex]);
     }
     public void ScalePicForDevices(GameObject obj)
     {
@@ -103,9 +113,28 @@ public class GameManagerNew : MonoBehaviour
                 CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[LevelManagerNew.Instance.stage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
                 ScaleForDevices(CurrentLevel.transform.gameObject);
                 SetTargetScale(currentLevel.gameObject);
-                CurrentLevel.Init(Level);
+                CurrentLevel.Init(level);
                 CurrentLevel.ResetBooster();
                 AudioManager.instance.PlayMusic("GamePlayTheme"); 
+            });
+            FirebaseAnalyticsControl.Instance.LogEventGamePlayAccessSuccessfully(1, LevelManagerNew.Instance.stage);
+        }
+    }
+    public void CreateLevelForStory(int _level)
+    {
+        {
+            //DOVirtual.DelayedCall(1f, () =>
+            //{
+            //    PictureUIManager.Close();
+            //});
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
+                ScaleForDevices(CurrentLevel.transform.gameObject);
+                SetTargetScale(currentLevel.gameObject);
+                CurrentLevel.InitForStory(_level);
+                //CurrentLevel.ResetBooster();
+                //AudioManager.instance.PlayMusic("GamePlayTheme");
             });
             FirebaseAnalyticsControl.Instance.LogEventGamePlayAccessSuccessfully(1, LevelManagerNew.Instance.stage);
         }
@@ -628,5 +657,10 @@ public class GameManagerNew : MonoBehaviour
         {
             UIManagerNew.Instance.ButtonMennuManager.OpenNotEnoughStar();
         }
+    }
+    public void PlayVideo()
+    {
+        videoController.gameObject.SetActive(true);
+        videoController.CheckStartVideo();
     }
 }

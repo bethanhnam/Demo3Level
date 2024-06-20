@@ -170,7 +170,6 @@ public class ButtonMennuManager : MonoBehaviour
                 if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
                 {
                     int replayLevel = UnityEngine.Random.Range(0, 29);
-                    LevelManagerNew.Instance.stage = replayLevel;
                     GameManagerNew.Instance.CreateLevel(replayLevel);
                 }
                 else

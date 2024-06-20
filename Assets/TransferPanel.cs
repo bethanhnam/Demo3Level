@@ -34,9 +34,16 @@ public class TransferPanel : MonoBehaviour
         if (gameObject.activeSelf)
         {
             gameObject.SetActive(false);
+           
         }
     }
-
+    public void checkDaily()
+    {
+        if (!UIManagerNew.Instance.DailyRWUI.gameObject.activeSelf)
+        {
+            UIManagerNew.Instance.ButtonMennuManager.Appear();
+        }
+    }
     public void ActiveCVGroup()
     {
         if (!GameManagerNew.Instance.CheckSliderValue())

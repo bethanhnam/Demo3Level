@@ -57,6 +57,10 @@ public class UIManagerNew : MonoBehaviour
     private FixItemUI fixItemUI;
     [SerializeField]
     private TransferPanel transferPanel;
+    [SerializeField]
+    private videoLoading videoLoaingPanel;
+
+
 
     public TextMeshProUGUI[] DrillTexts;
     public TextMeshProUGUI[] UnscrewTexts;
@@ -70,6 +74,9 @@ public class UIManagerNew : MonoBehaviour
 
     [SerializeField]
     private GameObject blockPicCanvas;
+
+    [SerializeField]
+    private GameObject highCanvas;
 
     [SerializeField]
     private GamePlayLoading gamePlayLoading;
@@ -100,6 +107,8 @@ public class UIManagerNew : MonoBehaviour
     public TransferPanel TransferPanel { get => transferPanel; set => transferPanel = value; }
     public GameObject BlockPicCanvas { get => blockPicCanvas; set => blockPicCanvas = value; }
     public GamePlayLoading GamePlayLoading { get => gamePlayLoading; set => gamePlayLoading = value; }
+    public videoLoading VideoLoaingPanel { get => videoLoaingPanel; set => videoLoaingPanel = value; }
+    public GameObject HighCanvas { get => highCanvas; set => highCanvas = value; }
 
     private void Awake()
     {
