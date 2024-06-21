@@ -31,7 +31,7 @@ public class UndoPanel : MonoBehaviour
         {
             ShowTutor();
             numOfUse++;
-            FirebaseAnalyticsControl.Instance.LogEventGameplay_Item_Undo_1(numOfUse, LevelManagerNew.Instance.stage);
+            FirebaseAnalyticsControl.Instance.Gameplay_Item_Undo(numOfUse, LevelManagerNew.Instance.stage);
             SetMinusText('-', numOfUsed);
             SaveSystem.instance.AddBooster(0, -numOfUsed,0);
             SaveSystem.instance.SaveData();
@@ -56,7 +56,7 @@ public class UndoPanel : MonoBehaviour
             numOfUseByAds++;
             FirebaseAnalyticsControl.Instance.LogEventUndo_RW_Change(numOfUse);
             numOfUse++;
-            FirebaseAnalyticsControl.Instance.LogEventGameplay_Item_Undo_1(numOfUse, LevelManagerNew.Instance.stage);
+            FirebaseAnalyticsControl.Instance.Gameplay_Item_Undo(numOfUse, LevelManagerNew.Instance.stage);
 
             Stage.Instance.Undo();
             numOfUsed++;

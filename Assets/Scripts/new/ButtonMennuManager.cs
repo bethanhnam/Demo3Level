@@ -66,7 +66,7 @@ public class ButtonMennuManager : MonoBehaviour
         DisplayLevelText();
 
 
-        FirebaseAnalyticsControl.Instance.LogEventMenuPanelAccessSuccessfully(1);
+        FirebaseAnalyticsControl.Instance.Screen_Home(1);
     }
     public void DiactiveCVGroup()
     {

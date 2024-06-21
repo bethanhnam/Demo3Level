@@ -17,41 +17,41 @@ public class FirebaseAnalyticsControl : MonoBehaviour
 
 
 	#region properties
-	public void LogEventMenuPanelAccessSuccessfully(int a)
+	public void Screen_Home(int a)
 	{
 		FirebaseAnalytics.LogEvent("Screen_Home");
 	}
-	public void LogEventShopPanelAccessSuccessfully(int a)
+	public void Screen_Shop(int a)
 	{
 		FirebaseAnalytics.LogEvent("Screen_Shop");
 	}
 
-	public void LogEventGamePlayAccessSuccessfully(int a,int level)
+	public void Gameplay_Level(int a,int level)
 	{
-		FirebaseAnalytics.LogEvent("Gameplay_Level1 đến 30" + " Level" + level);
+		FirebaseAnalytics.LogEvent("Gameplay_Level" + " " + level);
 	}
 
-	public void LogEventGamePlayWin(int a)
+	public void Gameplay_Win(int a)
     {
         if (a > 30)
             return;
-        FirebaseAnalytics.LogEvent("Gameplay_Win_Level1 đến 30" + " Level" + a);
+        FirebaseAnalytics.LogEvent("Gameplay_Win" + " Level" + a);
     }
 
-    public void LogEventGamePlayLose(int a)
+    public void Gameplay_Lose(int a)
     {
         if (a > 30)
             return;
-        FirebaseAnalytics.LogEvent("Gameplay_Lose_Level1 đến 30" + " Level" + a);
+        FirebaseAnalytics.LogEvent("Gameplay_Lose" + " Level" + a);
     }
 
-    public void Gameplay_Item_Unscrew_1(int a, int level)
+    public void Gameplay_Item_Unscrew(int a, int level)
 	{
-		FirebaseAnalytics.LogEvent("Gameplay_Item_Unscrew_1" + " Level" + level);
+		FirebaseAnalytics.LogEvent("Gameplay_Item_Unscrew" + " Level" + level);
 	}
-	public void LogEventGameplay_Item_Undo_1(int a,int level)
+	public void Gameplay_Item_Undo(int a,int level)
 	{
-		FirebaseAnalytics.LogEvent("Gameplay_Item_Undo_1" + " Level" + level );
+		FirebaseAnalytics.LogEvent("Gameplay_Item_Undo" + " Level" + level );
 	}
     public void LogEventUndo_RW_Change(int a)
     {
