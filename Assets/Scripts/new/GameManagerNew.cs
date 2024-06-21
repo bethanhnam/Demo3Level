@@ -101,6 +101,7 @@ public class GameManagerNew : MonoBehaviour
 
     public void CreateLevel(int _level)
     {
+        FirebaseAnalyticsControl.Instance.Gameplay_Level(1, LevelManagerNew.Instance.stage);
         {
             //UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
             GamePlayPanelUIManager.Instance.setText(LevelManagerNew.Instance.stage + 1);
@@ -117,7 +118,6 @@ public class GameManagerNew : MonoBehaviour
                 CurrentLevel.ResetBooster();
                 AudioManager.instance.PlayMusic("GamePlayTheme"); 
             });
-            FirebaseAnalyticsControl.Instance.Gameplay_Level(1, LevelManagerNew.Instance.stage);
         }
     }
     public void CreateLevelForStory(int _level)

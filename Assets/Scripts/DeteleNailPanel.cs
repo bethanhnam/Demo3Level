@@ -176,6 +176,7 @@ public class DeteleNailPanel : MonoBehaviour
                 ActiveCVGroup();
                 canInteract = true;
                 ShowPointer(false);
+                Stage.Instance.checked1 = false;
                 this.gameObject.SetActive(false);
                 Stage.Instance.AfterPanel();
 

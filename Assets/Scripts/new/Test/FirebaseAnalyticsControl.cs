@@ -27,31 +27,32 @@ public class FirebaseAnalyticsControl : MonoBehaviour
 	}
 
 	public void Gameplay_Level(int a,int level)
-	{
-		FirebaseAnalytics.LogEvent("Gameplay_Level" + " " + level);
+    {
+        string temp = "Gameplay_Level_" + (level +1).ToString() ;
+        FirebaseAnalytics.LogEvent(temp);
 	}
 
 	public void Gameplay_Win(int a)
     {
         if (a > 30)
             return;
-        FirebaseAnalytics.LogEvent("Gameplay_Win" + " Level" + a);
+        FirebaseAnalytics.LogEvent("Gameplay_Win" + "_Level" + a);
     }
 
     public void Gameplay_Lose(int a)
     {
         if (a > 30)
             return;
-        FirebaseAnalytics.LogEvent("Gameplay_Lose" + " Level" + a);
+        FirebaseAnalytics.LogEvent("Gameplay_Lose" + "_Level" + a);
     }
 
     public void Gameplay_Item_Unscrew(int a, int level)
 	{
-		FirebaseAnalytics.LogEvent("Gameplay_Item_Unscrew" + " Level" + level);
+		FirebaseAnalytics.LogEvent("Gameplay_Item_Unscrew" + "_Level" + level);
 	}
 	public void Gameplay_Item_Undo(int a,int level)
 	{
-		FirebaseAnalytics.LogEvent("Gameplay_Item_Undo" + " Level" + level );
+		FirebaseAnalytics.LogEvent("Gameplay_Item_Undo" + "_Level" + level );
 	}
     public void LogEventUndo_RW_Change(int a)
     {
