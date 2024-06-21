@@ -9,62 +9,63 @@ public class FirebaseAnalyticsControl : MonoBehaviour
     private bool isReady = false;
 
     public static FirebaseAnalyticsControl Instance;
-	private void Awake()
-	{
+    private void Awake()
+    {
         Instance = this;
         DontDestroyOnLoad(gameObject);
-	}
+    }
 
 
-	#region properties
-	public void LogEventMenuPanelAccessSuccessfully(int a)
-	{
-		FirebaseAnalytics.LogEvent("Screen_Home");
-	}
-	public void LogEventShopPanelAccessSuccessfully(int a)
-	{
-		FirebaseAnalytics.LogEvent("Screen_Shop");
-	}
+    #region properties
+    public void Screen_Home(int a)
+    {
+        FirebaseAnalytics.LogEvent("Screen_Home");
+    }
+    public void Screen_Shop(int a)
+    {
+        FirebaseAnalytics.LogEvent("Screen_Shop");
+    }
 
-	public void LogEventGamePlayAccessSuccessfully(int a,int level)
-	{
-		FirebaseAnalytics.LogEvent("Gameplay_Level1 đến 30" + " Level" + level);
-	}
+    public void Gameplay_Level(int level)
+    {
+        FirebaseAnalytics.LogEvent("Gameplay_Level" + " " + level);
+    }
 
-	public void LogEventGamePlayWin(int a)
+    public void Gameplay_Win(int a)
     {
         if (a > 30)
             return;
-        FirebaseAnalytics.LogEvent("Gameplay_Win_Level1 đến 30" + " Level" + a);
+
+        FirebaseAnalytics.LogEvent("Gameplay_win" + " Level" + a);
     }
 
-    public void LogEventGamePlayLose(int a)
+    public void Gameplay_Lose(int a)
     {
         if (a > 30)
             return;
-        FirebaseAnalytics.LogEvent("Gameplay_Lose_Level1 đến 30" + " Level" + a);
+        FirebaseAnalytics.LogEvent("Gameplay_Lose" + " Level" + a);
     }
 
-    public void Gameplay_Item_Unscrew_1(int a, int level)
-	{
-		FirebaseAnalytics.LogEvent("Gameplay_Item_Unscrew_1" + " Level" + level);
-	}
-	public void LogEventGameplay_Item_Undo_1(int a,int level)
-	{
-		FirebaseAnalytics.LogEvent("Gameplay_Item_Undo_1" + " Level" + level );
-	}
+    public void Gameplay_Item_Unscrew(int level)
+    {
+        FirebaseAnalytics.LogEvent("Gameplay_Item_Unscrew" + " Level" + level);
+    }
+    public void Gameplay_Item_Undo(int level)
+    {
+        FirebaseAnalytics.LogEvent("Gameplay_Item_Undo" + " Level" + level);
+    }
     public void LogEventUndo_RW_Change(int a)
     {
         FirebaseAnalytics.LogEvent("Undo_RW_Change");
     }
     public void Daily_RW_x2(int a)
-	{
-		FirebaseAnalytics.LogEvent("Daily_RW_x2");
-	}
-	public void Unscrew_RW_Change(int a)
-	{
-		FirebaseAnalytics.LogEvent("UnscrewUsedByAds");
-	}
+    {
+        FirebaseAnalytics.LogEvent("Daily_RW_x2");
+    }
+    public void Unscrew_RW_Change(int a)
+    {
+        FirebaseAnalytics.LogEvent("UnscrewUsedByAds");
+    }
     public void RemoveAds_Click(int a)
     {
         FirebaseAnalytics.LogEvent("RemoveAds_Click");
@@ -144,3 +145,4 @@ public class FirebaseAnalyticsControl : MonoBehaviour
     }
     #endregion
 }
+    

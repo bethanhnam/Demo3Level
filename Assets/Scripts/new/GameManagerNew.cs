@@ -107,7 +107,7 @@ public class GameManagerNew : MonoBehaviour
                 CurrentLevel.ResetBooster();
                 AudioManager.instance.PlayMusic("GamePlayTheme"); 
             });
-            FirebaseAnalyticsControl.Instance.LogEventGamePlayAccessSuccessfully(1, LevelManagerNew.Instance.stage);
+            FirebaseAnalyticsControl.Instance.Gameplay_Level(LevelManagerNew.Instance.stage);
         }
     }
     public bool CheckLevelStage()

@@ -14,7 +14,7 @@ public class ShopPanel : MonoBehaviour
 		if (!this.gameObject.activeSelf)
 		{
 			this.gameObject.SetActive(true);
-			FirebaseAnalyticsControl.Instance.LogEventShopPanelAccessSuccessfully(1);
+			FirebaseAnalyticsControl.Instance.Screen_Shop(1);
 			if (GameManagerNew.Instance.CurrentLevel != null)
 			{
 				GamePlayPanelUIManager.Instance.DeactiveTime();

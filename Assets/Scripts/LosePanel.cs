@@ -74,7 +74,7 @@ public class LosePanel : MonoBehaviour
 		}
 		else
 		{
-            FirebaseAnalyticsControl.Instance.LogEventGamePlayLose(LevelManagerNew.Instance.stage);
+            FirebaseAnalyticsControl.Instance.Gameplay_Lose(LevelManagerNew.Instance.stage);
             if (!this.gameObject.activeSelf)
             {
                 this.gameObject.SetActive(true);
