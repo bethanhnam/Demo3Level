@@ -221,8 +221,9 @@ public class Stage : MonoBehaviour
                     }
                     else
                     {
-                        Click();
                         Debug.Log("chọn đinh");
+                        Click();
+                        Debug.Log("chạy xong click");
                     }
                 }
             }
@@ -231,6 +232,7 @@ public class Stage : MonoBehaviour
         //Hack();
         if (isWining)
         {
+            Debug.Log("vào win");
 
             if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
             {
@@ -241,7 +243,7 @@ public class Stage : MonoBehaviour
 
     public void Click()
     {
-
+        Debug.Log("chạy vào click");
         Vector2 posMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(posMouse, 0.5f, Vector3.forward, Mathf.Infinity);
@@ -250,10 +252,12 @@ public class Stage : MonoBehaviour
         {
             nailDetectors.Clear();
         }
+        Debug.Log("xoá nail dêtctors");
         if (!selectedIrons.IsNullOrEmpty())
         {
             selectedIrons.Clear();
         }
+        Debug.Log("xoá selectedIrons");
         for (int i = 0; i < cubeHit.Length; i++)
         {
             if (cubeHit[i].transform.gameObject.tag == "Iron")
@@ -326,6 +330,7 @@ public class Stage : MonoBehaviour
                     curNail.PickUp(curHole.transform.position);
                     var clickeffect = Instantiate(ParticlesManager.instance.pickUpStartParticle, curHole.transform.position, Quaternion.identity);
                     Destroy(clickeffect, 0.4f);
+                    Debug.Log("chạy qua chọn đinh mới bth");
                 }
                 else
                 {
@@ -334,8 +339,10 @@ public class Stage : MonoBehaviour
                         Debug.Log("Đẩy được đinh vào");
                         // continue code
                         SaveGameObject();
+                        Debug.Log("chạy qua save object bth");
                         //curNail.SetTrigger();
                         curNail.SetNewPos(curHole.transform.position);
+                        Debug.Log("chạy qua set new pos bth");
                         if (!nailDetectors.IsNullOrEmpty())
                         {
                             foreach (var nail in nailDetectors)
@@ -359,11 +366,13 @@ public class Stage : MonoBehaviour
                         nailDetectors.Clear();
                         selectedIrons.Clear();
                         hasDelete = false;
-                        if (isLvTutor)
+                        if (isLvTutor && !GameManagerNew.Instance.isStory)
                         {
+                            Debug.Log("chạy vào tutor");
                             isLvTutor = false;
                             pointerTutor.DisablePointer();
                         }
+                        Debug.Log("chạy qua click mới bth");
                     }
                     else
                     {
@@ -377,20 +386,6 @@ public class Stage : MonoBehaviour
         {
             //do nothing;
         }
-        //selectedHole = cubeHit[hole].transform.gameObject;
-        ////try
-        ////{
-        ////if (Notice.Instance.gameObject.activeSelf)
-        ////{
-        ////	StartCoroutine(DisappearNotice());
-        ////}
-        ////}
-        ////catch
-        ////{
-
-        ////}
-        //preHingeJoint2D.Clear();
-        //AudioManager.instance.PlaySFX("PickUpScrew");
     }
     public void setHoleInIron(Vector3 pos)
     {
@@ -544,15 +539,19 @@ public class Stage : MonoBehaviour
         {
             //code đoạn này ngu vl
             ClearData();
+            Debug.Log("chạy qua ClearData");
             SavePreData();
+            Debug.Log("chạy qua SavePreData");
 
 
         }
         hasSave = true;
-        if (LevelManagerNew.Instance.stage >= 3)
+        if (LevelManagerNew.Instance.stage >= 3 && !GameManagerNew.Instance.isStory)
         {
+            Debug.Log("chạy vào gameplaypanel");
             GamePlayPanelUIManager.Instance.UndoButton.interactable = true;
         }
+        Debug.Log("chạy qua save object");
         //TutorUndo();
     }
 
@@ -720,9 +719,15 @@ public class Stage : MonoBehaviour
             //mới add
             HingeJointBeforeRemove.Clear();
             nailsJointBeforemove.Clear();
+            Debug.Log("chạy qua Clear");
 
             hasSave = false;
-            GamePlayPanelUIManager.Instance.UndoButton.interactable = false;
+            if (GamePlayPanelUIManager.Instance.gameObject.activeSelf)
+            {
+                Debug.Log("chạy vào GamePlayPanelUIManager");
+                GamePlayPanelUIManager.Instance.UndoButton.interactable = false;
+            }
+            Debug.Log("chạy hết Clear data");
         }
         catch (Exception e) { }
     }
@@ -774,7 +779,7 @@ public class Stage : MonoBehaviour
 
     private void TutorUnscrew()
     {
-        if (LevelManagerNew.Instance.stage == 3)
+        if (LevelManagerNew.Instance.stage == 3 && !GameManagerNew.Instance.isStory)
         {
             //tuto undo 
             isTutor = true;
