@@ -216,7 +216,7 @@ public class reciveRewardDaily : MonoBehaviour
                 });
                 var x = list[i];
                 list.Remove(x);
-                Destroy(x.gameObject, 0.3f);
+                Destroy(x.gameObject, 0.1f);
             });
         }
     }
@@ -240,7 +240,7 @@ public class reciveRewardDaily : MonoBehaviour
                 });
                 var x = list[i];
                 list.Remove(x);
-                Destroy(x.gameObject, 0.3f);
+                Destroy(x.gameObject, 0.1f);
             });
         }
     }

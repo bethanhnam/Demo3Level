@@ -429,7 +429,7 @@ public class Stage : MonoBehaviour
             if (GameManagerNew.Instance.isStory)
             {
                 //code phần complete khi hoàn thành màn story
-                Destroy(GameManagerNew.Instance.StoryPic);
+                Destroy(GameManagerNew.Instance.StoryPic,1);
                 UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
                 {
                     VideoController.instance.PlayVideo(VideoController.instance.videoIndex + 1, null);

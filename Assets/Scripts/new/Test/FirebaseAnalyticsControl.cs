@@ -26,7 +26,7 @@ public class FirebaseAnalyticsControl : MonoBehaviour
 		FirebaseAnalytics.LogEvent("Screen_Shop");
 	}
 
-	public void Gameplay_Level(int a,int level)
+	public void Gameplay_Level(int level)
     {
         string temp = "Gameplay_Level_" + (level +1).ToString() ;
         FirebaseAnalytics.LogEvent(temp);

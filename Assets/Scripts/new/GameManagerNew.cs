@@ -101,7 +101,7 @@ public class GameManagerNew : MonoBehaviour
 
     public void CreateLevel(int _level)
     {
-        FirebaseAnalyticsControl.Instance.Gameplay_Level(1, LevelManagerNew.Instance.stage);
+        FirebaseAnalyticsControl.Instance.Gameplay_Level(LevelManagerNew.Instance.stage);
         {
             //UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
             GamePlayPanelUIManager.Instance.setText(LevelManagerNew.Instance.stage + 1);
@@ -129,14 +129,14 @@ public class GameManagerNew : MonoBehaviour
             //});
             DOVirtual.DelayedCall(1f, () =>
             {
-                CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
+                CurrentLevel = Instantiate(StoryGamePlayLevel.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
                 ScaleForDevices(CurrentLevel.transform.gameObject);
                 SetTargetScale(currentLevel.gameObject);
                 CurrentLevel.InitForStory(_level);
                 //CurrentLevel.ResetBooster();
                 //AudioManager.instance.PlayMusic("GamePlayTheme");
             });
-            FirebaseAnalyticsControl.Instance.LogEventGamePlayAccessSuccessfully(1, LevelManagerNew.Instance.stage);
+            FirebaseAnalyticsControl.Instance.Gameplay_Level(LevelManagerNew.Instance.stage);
         }
     }
     public bool CheckLevelStage()
