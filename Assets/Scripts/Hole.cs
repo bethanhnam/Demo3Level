@@ -46,7 +46,7 @@ public class Hole : MonoBehaviour
 		{
 			if (this.CheckNail() == false)
 			{
-				Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(this.transform.position.x, this.transform.position.y), 0.13f,IronLayer);
+				Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(this.transform.position.x, this.transform.position.y), 0.1f,IronLayer);
 				bool hasCollider = false;
 				if (colliders.IsNullOrEmpty())
 				{

@@ -38,12 +38,12 @@ public class LoadingScreen : MonoBehaviour
             if (operation.progress >= 0.9f && sliders[0].value == 0.9f)
             {
                 operation.allowSceneActivation = true;
-                yield return new WaitForSecondsRealtime(0.3f);
+                yield return new WaitForSecondsRealtime(0.2f);
                 if (!HasFinishedStory())
                 {
                     GameManagerNew.Instance.PlayVideo();
-                    AudioManager.instance.PlayMusic("MenuTheme");
-                    Destroy(this.gameObject);
+                    AudioManager.instance.PlayMusic("story");
+                    Destroy(this.gameObject,1f);
 
                     ////test 
                     //normalInitGame();
@@ -61,6 +61,7 @@ public class LoadingScreen : MonoBehaviour
 
     private void normalInitGame()
     {
+        GameManagerNew.Instance.videoController.gameObject.SetActive(false);
         RemoteConfigController.instance.Init();
         DOVirtual.DelayedCall(0.1f, () =>
         {

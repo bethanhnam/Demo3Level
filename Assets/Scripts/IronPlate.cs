@@ -1,4 +1,6 @@
-﻿using Sirenix.Utilities;
+﻿using DG.Tweening;
+using GoogleMobileAds.Api;
+using Sirenix.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +8,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using static Unity.VisualScripting.Member;
 
 public class IronPlate : MonoBehaviour
 {
@@ -15,6 +18,7 @@ public class IronPlate : MonoBehaviour
     public int selectedhole;
     [SerializeField] private float radius;
     public int selectedHinge = 0;
+    public HingeJoint2D selectedHingeJoint;
     public bool result;
     public bool isFrezze;
     public bool hasAddForce;
@@ -42,6 +46,11 @@ public class IronPlate : MonoBehaviour
         checkHinge();
         setPoint();
         //CheckPosition();
+
+        if (!isFrezze)
+        {
+            ApplyTorque();
+        }
     }
     private void FixedUpdate()
     {
@@ -98,7 +107,7 @@ public class IronPlate : MonoBehaviour
     public bool checkHitPoint(Vector2 holePosition)
     {
         result = false;
-        radius = 0.015f;
+        radius = 0.07f;
         float reference = radius;
         for (int i = 0; i < centerPoints.Length; i++)
         {
@@ -114,7 +123,7 @@ public class IronPlate : MonoBehaviour
     public bool checkHitPoint1(Vector2 holePosition)
     {
         result = false;
-        radius = 0.015f;
+        radius = 0.07f;
         float reference = radius;
         for (int i = 0; i < centerPoints.Length; i++)
         {
@@ -172,7 +181,7 @@ public class IronPlate : MonoBehaviour
             else
             {
                 StartCoroutine(unFreeze());
-                
+
             }
         }
         if (joints.IsNullOrEmpty())
@@ -211,6 +220,7 @@ public class IronPlate : MonoBehaviour
         rigidbody2D1.freezeRotation = true;
         rigidbody2D1.constraints = RigidbodyConstraints2D.FreezeAll;
         rigidbody2D1.gravityScale = 1f;
+        hasAddForceRotate = false;
         isFrezze = true;
     }
     IEnumerator unFreeze()
@@ -223,29 +233,31 @@ public class IronPlate : MonoBehaviour
         {
             rigidbody2D1.angularDrag += 0.05f;
         }
-        if (!hasAddForceRotate)
-        {
-            IEnumerator AddTorqueGradually()
+        rigidbody2D1.gravityScale = 1.05f;
+        //if (!hasAddForce)
+        //{
+        //    ApplyTorque();
+        //}
+
+    }
+    private void ApplyTorque()
+    {
+        if(holes.Length >=3)
+        for (int i = 0; i < holes.Length; i++) {
+            if (holes[i].GetComponent<NailDetector>().Nail != null)
             {
-                hasAddForceRotate = true;
-                float elapsedTime = 0f;
-
-                while (elapsedTime < 2)
+                float distance = Vector2.Distance(holes[i].transform.localPosition, Vector2.zero);
+                if (distance < 0.2f)
                 {
-                    float currentTorque = Mathf.Lerp(0f, 10, elapsedTime / 2);
-                    rigidbody2D1.AddTorque(currentTorque * Time.deltaTime);
-                    elapsedTime += Time.deltaTime;
-                    yield return null;
+                        float currentTorque = Mathf.Lerp(2f, 5f, 3f);
+                        rigidbody2D1.AddTorque(currentTorque * Time.deltaTime);
                 }
-
-                // Đảm bảo đối tượng đạt được lực quay tối đa
-                rigidbody2D1.AddTorque(10 * Time.deltaTime);
-
-                //isAddingTorque = false;
             }
         }
-        rigidbody2D1.gravityScale = 1.05f;
-
+        //DOVirtual.DelayedCall(0.5f, () =>
+        //{
+        //    selectedHingeJoint.useMotor = false;
+        //});
     }
     public void SetHingeJoint()
     {

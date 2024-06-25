@@ -149,7 +149,7 @@ public class AdmobAutoFloorManager : MonoBehaviour
                     string.Empty,
                     string.Empty,
                     string.Empty,
-                    adValue.Value / 1000f,
+                    adValue.Value / 1000000f,
                     string.Empty);
         };
         ad.OnAdImpressionRecorded += () =>
@@ -295,7 +295,7 @@ public class AdmobAutoFloorManager : MonoBehaviour
                   string.Empty,
                   string.Empty,
                   string.Empty,
-                  adValue.Value / 1000f,
+                  adValue.Value / 1000000f,
                   string.Empty);
         };
         // Raised when an impression is recorded for an ad.

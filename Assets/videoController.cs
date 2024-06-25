@@ -18,6 +18,7 @@ public class VideoController : MonoBehaviour
     public bool canCreate = true;
 
     public List<VideoClip> videoList;
+    public List<VideoClip> videoActionList;
 
     [System.Serializable]
     public class Frame
@@ -45,14 +46,32 @@ public class VideoController : MonoBehaviour
     }
     public void PlayVideo(int videoIndex, Action action)
     {
-        Debug.Log(("play video " + videoIndex).ToString());
         this.gameObject.SetActive(true);
         this.videoIndex = videoIndex;
-        PlayerPrefs.SetInt("videoIndex",videoIndex);
+        PlayerPrefs.SetInt("videoIndex", videoIndex);
         videoPlayer.clip = videoList[videoIndex];
         videoPlayer.Play();
         videoPlayer.loopPointReached += LoadingVideo;
         canCreate = true;
+    }
+    public void PlayVideoAction(int videoIndex)
+    {
+        this.gameObject.SetActive(true);
+        this.videoIndex = videoIndex;
+        PlayerPrefs.SetInt("videoIndex", videoIndex);
+
+        videoPlayer.clip = videoActionList[videoIndex];
+        videoPlayer.Play();
+        videoPlayer.loopPointReached += LoadingActionVideo;
+        canCreate = false;
+    }
+    void LoadingActionVideo(VideoPlayer vp)
+    {
+        videoPlayer.loopPointReached -= LoadingActionVideo;
+        UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
+        {
+            PlayVideo(videoIndex, null);
+        });
     }
     void LoadingVideo(VideoPlayer vp)
     {
@@ -62,7 +81,7 @@ public class VideoController : MonoBehaviour
             PlayerPrefs.SetString("HasFinishedStory", "true");
             UIManagerNew.Instance.GamePlayLoading.appear();
             RemoteConfigController.instance.Init();
-            DOVirtual.DelayedCall(0.5f, () =>
+            DOVirtual.DelayedCall(0.3f, () =>
             {
                 GameManagerNew.Instance.InitStartGame();
             });
@@ -74,7 +93,7 @@ public class VideoController : MonoBehaviour
                 }
                 else
                 {
-                    DOVirtual.DelayedCall(0.7f, () =>
+                    DOVirtual.DelayedCall(0.5f, () =>
                     {
                         UIManagerNew.Instance.ButtonMennuManager.Appear();
                     });
@@ -82,11 +101,16 @@ public class VideoController : MonoBehaviour
             }
             else
             {
-                DOVirtual.DelayedCall(0.7f, () =>
+                DOVirtual.DelayedCall(0.5f, () =>
                 {
                     UIManagerNew.Instance.ButtonMennuManager.Appear();
                 });
             }
+            DOVirtual.DelayedCall(.7f, () =>
+            {
+                GameManagerNew.Instance.isStory = false;
+                this.gameObject.SetActive(false);
+            });
         }
         else
         {
@@ -98,21 +122,29 @@ public class VideoController : MonoBehaviour
                     if (videoIndex == 0)
                     {
                         GameManagerNew.Instance.InitStartStoryPic(0);
+                        UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[0].itemSpite);
+                        UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[0].targetTransform);
                         canCreate = false;
                     }
                     if (videoIndex == 1)
                     {
                         GameManagerNew.Instance.InitStartStoryPic(1);
+                        UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[1].itemSpite);
+                        UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[1].targetTransform);
+                        canCreate = false;
+                    }
+                    if (videoIndex == 2)
+                    {
+                        GameManagerNew.Instance.InitStartStoryPic(2);
+                        UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[2].itemSpite);
+                        UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[2].targetTransform);
                         canCreate = false;
                     }
                 }
                 //PlayerPrefs.SetString("HasFinishedStory","true");
             });
         }
-        DOVirtual.DelayedCall(1f, () =>
-        {
-            this.gameObject.SetActive(false);
-        });
+
     }
     public void NormalInit()
     {

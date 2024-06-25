@@ -81,6 +81,9 @@ public class UIManagerNew : MonoBehaviour
     [SerializeField]
     private GamePlayLoading gamePlayLoading;
 
+    [SerializeField]
+    private StoryItem storyItem;
+
 
     public ButtonMennuManager ButtonMennuManager { get => buttonMennuManager; }
     public DailyRWUI DailyRWUI { get => dailyRWUI; }
@@ -109,6 +112,7 @@ public class UIManagerNew : MonoBehaviour
     public GamePlayLoading GamePlayLoading { get => gamePlayLoading; set => gamePlayLoading = value; }
     public videoLoading VideoLoaingPanel { get => videoLoaingPanel; set => videoLoaingPanel = value; }
     public GameObject HighCanvas { get => highCanvas; set => highCanvas = value; }
+    public StoryItem StoryItem { get => storyItem; set => storyItem = value; }
 
     private void Awake()
     {

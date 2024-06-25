@@ -206,7 +206,7 @@ public class BuyInGame : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         coins.Remove(star);
-        Destroy(star);
+        Destroy(star,.05f);
         if (coins.IsNullOrEmpty())
         {
             action();

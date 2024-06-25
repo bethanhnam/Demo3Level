@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Unity.VisualScripting;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -149,6 +150,7 @@ public class Stage : MonoBehaviour
                 transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
                 {
                     canInteract = true;
+                    TutorLevel1();
                 });
             });
         });
@@ -366,7 +368,7 @@ public class Stage : MonoBehaviour
                         nailDetectors.Clear();
                         selectedIrons.Clear();
                         hasDelete = false;
-                        if (isLvTutor && !GameManagerNew.Instance.isStory)
+                        if (isLvTutor)
                         {
                             Debug.Log("chạy vào tutor");
                             isLvTutor = false;
@@ -401,7 +403,7 @@ public class Stage : MonoBehaviour
     public bool CheckHoleIsAvailable()
     {
         bool allin = true;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(curHole.transform.position, 0.12f);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(curHole.transform.position, 0.1f);
         foreach (Collider2D collider in colliders)
         {
             if (collider.transform.tag == "Iron")
@@ -429,12 +431,14 @@ public class Stage : MonoBehaviour
             if (GameManagerNew.Instance.isStory)
             {
                 //code phần complete khi hoàn thành màn story
-                Destroy(GameManagerNew.Instance.StoryPic,1);
-                UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
-                {
-                    VideoController.instance.PlayVideo(VideoController.instance.videoIndex + 1, null);
-                });
+                int videoIndex = PlayerPrefs.GetInt("videoIndex");
+                PlayerPrefs.SetInt("videoIndex", VideoController.instance.videoIndex + 1);
                 this.Close(true);
+                UIManagerNew.Instance.StoryItem.DisplayItem(videoIndex + 1,() =>
+                {
+                    UIManagerNew.Instance.StoryItem.Disable();
+                });
+                
             }
             else
             { 
@@ -808,7 +812,7 @@ public class Stage : MonoBehaviour
     }
     private void TutorLevel1()
     {
-        if (LevelManagerNew.Instance.stage == 0 && pointerTutor != null)
+        if (LevelManagerNew.Instance.stage == 0 && pointerTutor != null || GameManagerNew.Instance.isStory && pointerTutor != null)
         {
             //tuto undo 
             isLvTutor = true;
@@ -831,21 +835,23 @@ public class Stage : MonoBehaviour
     }
     public void check1()
     {
-
-        if (holes.Length != 0 && numOfHoleNotAvailable.Count == holes.Length)
+        if (!GameManagerNew.Instance.isStory)
         {
-
-            if (checked1 == false)
+            if (holes.Length != 0 && numOfHoleNotAvailable.Count == holes.Length)
             {
-                checked1 = true;
-                Invoke("ShowNotice", 1f);
-            }
 
-        }
-        else
-        {
-            //GamePlayPanelUIManager.Instance.ShowNotice(false);
-            //checked1 = false;
+                if (checked1 == false)
+                {
+                    checked1 = true;
+                    Invoke("ShowNotice", 1f);
+                }
+
+            }
+            else
+            {
+                GamePlayPanelUIManager.Instance.ShowNotice(false);
+                checked1 = false;
+            }
         }
     }
 

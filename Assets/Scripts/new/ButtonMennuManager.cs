@@ -15,6 +15,9 @@ public class ButtonMennuManager : MonoBehaviour
     [SerializeField]
     public StarMove starMove;
 
+    //pointer
+    public GameObject playBTPoinnter;
+
     private int appearButton = Animator.StringToHash("appear");
     private int disappearButton = Animator.StringToHash("disappear");
 
@@ -31,12 +34,23 @@ public class ButtonMennuManager : MonoBehaviour
         cvButton.blocksRaycasts = false;
         animButton.Play(appearButton, 0, 0);
         SaveSystem.instance.LoadData();
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            if (LevelManagerNew.Instance.stage == 0)
+            {
+                DisplayPointer();
+            }
+            else
+            {
+                DisablePointer();
+            }
+        });
     }
     public void Close()
     {
         cvButton.blocksRaycasts = false;
         animButton.Play(disappearButton);
-
+        DisablePointer();
     }
 
     public void Deactive()
@@ -156,7 +170,7 @@ public class ButtonMennuManager : MonoBehaviour
     {
         int level = LevelManagerNew.Instance.GetStage();
         //GameManagerNew.Instance.CreateLevel(level);
-
+        DisablePointer();
         if (GameManagerNew.Instance.CheckLevelStage())
         {
             UIManagerNew.Instance.ButtonMennuManager.OpenCompletePanel();
@@ -193,6 +207,15 @@ public class ButtonMennuManager : MonoBehaviour
     public void DisplayReward()
     {
 
+    }
+
+    public void DisplayPointer()
+    {
+        playBTPoinnter.gameObject.SetActive(true);
+    }
+    public void DisablePointer()
+    {
+        playBTPoinnter.gameObject.SetActive(false);
     }
     public void DisplayLevelText()
     {

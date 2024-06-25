@@ -42,7 +42,7 @@ public class GameManagerNew : MonoBehaviour
 
     //story
     public bool isStory;
-    public GameObject StoryPic;
+    public JsonItem StoryPic;
 
     public LayerMask INSelectionLayer { get => iNSelectionLayer1; }
     public LayerMask IronLayer1 { get => IronLayer12; }
