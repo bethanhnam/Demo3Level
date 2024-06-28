@@ -124,13 +124,12 @@ public class Ratting : MonoBehaviour
 		if(numOfRate >= 5)
 		{
 			// mo ra store
-			Review.Instance.OpenReview(() => {
+			RateCtrl.Instance.RateAndReview(() =>{
 			ratingBar.gameObject.SetActive(false);
 			rateButton.gameObject.SetActive(false);
 			thanksText.gameObject.SetActive(true);
 			rateLaterText.gameObject.SetActive(false);
 				Invoke("Close", 1f);
-			//rateLaterText.text = "Tap To Continue!";
 			});
 		}
 		else
@@ -140,7 +139,6 @@ public class Ratting : MonoBehaviour
 			notThanksText.gameObject.SetActive(true);
 			rateLaterText.gameObject.SetActive(false);
 			Invoke("Close", 2f);
-			//rateLaterText.text = "Tap To Continue!";
 		}
 	}
 }

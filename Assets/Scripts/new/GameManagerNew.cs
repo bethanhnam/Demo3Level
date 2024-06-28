@@ -74,6 +74,7 @@ public class GameManagerNew : MonoBehaviour
     }
     public void InitStartStoryPic(int picIndex)
     {
+       
         StoryPic = Instantiate(DataLevelStoryPic.instance.listJson[picIndex]);
     }
     public void ScalePicForDevices(GameObject obj)

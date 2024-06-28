@@ -1087,7 +1087,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: sfxSounds.Array.size
-      value: 22
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: musicSounds.Array.size
@@ -1204,6 +1204,30 @@ PrefabInstance:
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: sfxSounds.Array.data[21].name
       value: StarRecieve
+      objectReference: {fileID: 0}
+    - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
+      propertyPath: sfxSounds.Array.data[22].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: b9cd7d1ed219ce04d82ff89ccc4657e4, type: 3}
+    - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
+      propertyPath: sfxSounds.Array.data[22].name
+      value: ChopingWood
+      objectReference: {fileID: 0}
+    - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
+      propertyPath: sfxSounds.Array.data[23].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 21418a14272287b47abbcec032f74faf, type: 3}
+    - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
+      propertyPath: sfxSounds.Array.data[23].name
+      value: WoodBreak
+      objectReference: {fileID: 0}
+    - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
+      propertyPath: sfxSounds.Array.data[24].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: cff7fae5c93888e4799db4a68c1edc1c, type: 3}
+    - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
+      propertyPath: sfxSounds.Array.data[24].name
+      value: HeartBreak
       objectReference: {fileID: 0}
     - target: {fileID: 6034339284705504392, guid: 44b2c34bcf1819645ad3d60250eeffe2, type: 3}
       propertyPath: musicSounds.Array.data[0].clip
@@ -1660,6 +1684,50 @@ Transform:
   - {fileID: 1600536807}
   - {fileID: 280035582}
   - {fileID: 1219911462}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1571473013
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1571473015}
+  - component: {fileID: 1571473014}
+  m_Layer: 0
+  m_Name: Rate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1571473014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571473013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54ad4cb0e72978b4796c0808c51dcde1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1571473015
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571473013}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1600536806
@@ -2492,3 +2560,4 @@ SceneRoots:
   - {fileID: 1048155220}
   - {fileID: 257283571}
   - {fileID: 1698873504}
+  - {fileID: 1571473015}

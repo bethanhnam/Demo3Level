@@ -19,6 +19,7 @@ public class StoryPicBt : MonoBehaviour
     }
     public void CreateLevelViaBT()
     {
+        AudioManager.instance.PlaySFX("PickUpScrew");
         GameManagerNew.Instance.isStory = true;
         GameManagerNew.Instance.CreateLevelForStory(level);
         this.gameObject.SetActive(false);

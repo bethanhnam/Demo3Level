@@ -138,6 +138,7 @@ public class Stage : MonoBehaviour
         gameObject.SetActive(true);
         Vector3 targetSclae = transform.localScale;
         transform.localScale = Vector3.one;
+        AudioManager.instance.PlaySFX("GamePlayLoading");
         transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.5f).OnComplete(() =>
         {
             transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
@@ -226,7 +227,7 @@ public class Stage : MonoBehaviour
             }
         }
         CheckHoleAvailable();
-        Hack();
+        //Hack();
         if (isWining)
         {
             Debug.Log("vào win");

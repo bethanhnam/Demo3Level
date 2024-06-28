@@ -43,11 +43,11 @@ public class StoryItem : MonoBehaviour
         this.videoIndex = videoIndex;
         this.gameObject.SetActive(true);
         animator.Play("DisplayItem");
-
+        AudioManager.instance.PlaySFX("GetReward");
         if (videoIndex == 3)
         {
             GameManagerNew.Instance.videoController.PlayVideo(videoIndex, null);
-            DOVirtual.DelayedCall(0.8f, () =>
+            DOVirtual.DelayedCall(0.5f, () =>
             {
                 ChopingWood();
             });
@@ -67,7 +67,7 @@ public class StoryItem : MonoBehaviour
             });
             Destroy(GameManagerNew.Instance.StoryPic.gameObject);
 
-            DOVirtual.DelayedCall(.55f, () =>
+            DOVirtual.DelayedCall(.5f, () =>
             {
                 GameManagerNew.Instance.videoController.PlayVideo(videoIndex, null);
             });
@@ -78,8 +78,8 @@ public class StoryItem : MonoBehaviour
             DOVirtual.DelayedCall(.5f, () =>
             {
                 BreakHeart();
-                Destroy(GameManagerNew.Instance.StoryPic.gameObject);
-                DOVirtual.DelayedCall(.7f, () =>
+                Destroy(GameManagerNew.Instance.StoryPic.gameObject,0.1f);
+                DOVirtual.DelayedCall(.3f, () =>
                 {
                     GameManagerNew.Instance.videoController.PlayVideo(videoIndex, null);
 
@@ -94,7 +94,6 @@ public class StoryItem : MonoBehaviour
         animator.Play("DisappearItem");
         DOVirtual.DelayedCall(1f, () =>
         {
-
             chopingAxe.GetComponent<Animator>().enabled = true;
             DOVirtual.DelayedCall(1f, () =>
             {
@@ -108,10 +107,11 @@ public class StoryItem : MonoBehaviour
     {
         itemImage.gameObject.SetActive(false);
         heartBreak.gameObject.SetActive(true);
+        AudioManager.instance.PlaySFX("HeartBreak");
         heartBreak.transform.GetChild(0).DORotate(new Vector3(0, 0, 30), 0.5f);
         heartBreak.transform.GetChild(1).DORotate(new Vector3(0, 0, -30), 0.5f).OnComplete(() =>
         {
-            DOVirtual.DelayedCall(0.3f, () =>
+            DOVirtual.DelayedCall(0.5f, () =>
             {
                 animator.Play("DisappearItem");
                 Disable();
@@ -143,4 +143,5 @@ public class StoryItem : MonoBehaviour
     {
         itemImage.GetComponent<Image>().SetNativeSize();
     }
+   
 }

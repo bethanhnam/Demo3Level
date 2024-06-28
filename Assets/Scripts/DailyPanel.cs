@@ -32,8 +32,9 @@ public class DailyPanel : MonoBehaviour
 		
 
     }
-	private void checkDay()
+	private bool checkDay()
 	{
+		bool result = false;
 		//get last claim time");
 		string lastTime = PlayerPrefs.GetString("LastClaimTime");
 		DateTime lastclaimTime;
@@ -50,6 +51,7 @@ public class DailyPanel : MonoBehaviour
 		{
             if (SaveSystem.instance.days < 7)
 			{
+				result = true;
 				dayRewards[SaveSystem.instance.days].isActive = true;
 				//claim.interactable = true;
 				//claim.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = Color.white;
@@ -71,6 +73,7 @@ public class DailyPanel : MonoBehaviour
 			//claim.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = color;
 			claimX2.interactable = false;
 		}
+		return result;
 	}
 	private void Update()
 	{
@@ -161,5 +164,17 @@ public class DailyPanel : MonoBehaviour
 			//this.gameObject.SetActive(false);
 		}
 
+	}
+	public void CheckForClose()
+	{
+		if (!dayRewards[lastDate].isClaim && checkDay())
+		{
+			OnClaimButtinPressed();
+		}
+		else
+		{
+
+			UIManagerNew.Instance.ButtonMennuManager.DisappearDailyRW();
+		}
 	}
 }

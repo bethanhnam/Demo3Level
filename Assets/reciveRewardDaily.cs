@@ -283,6 +283,28 @@ public class reciveRewardDaily : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         this.gameObject.SetActive(false);
+        if(coinList.Count >= 0)
+        {
+            for (int i = 0; i < coinList.Count; i++)
+            {
+                Destroy(coinList[i]);
+            }
+        }
+        if (unscrewList.Count >= 0)
+        {
+            for (int i = 0; i < unscrewList.Count; i++)
+            {
+                Destroy(unscrewList[i]);
+            }
+        }
+        if (undoList.Count >= 0)
+        {
+            for (int i = 0; i < undoList.Count; i++)
+            {
+                Destroy(undoList[i]);
+            }
+        }
+
     }
     public void close()
     {

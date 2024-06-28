@@ -37,13 +37,6 @@ public class TransferPanel : MonoBehaviour
            
         }
     }
-    public void checkDaily()
-    {
-        if (!UIManagerNew.Instance.DailyRWUI.gameObject.activeSelf)
-        {
-            UIManagerNew.Instance.ButtonMennuManager.Appear();
-        }
-    }
     public void ActiveCVGroup()
     {
         if (!GameManagerNew.Instance.CheckSliderValue())
@@ -59,6 +52,13 @@ public class TransferPanel : MonoBehaviour
         if (cvButton.blocksRaycasts)
         {
             cvButton.blocksRaycasts = false;
+        }
+    }
+    public void Check()
+    {
+        if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
+        {
+            UIManagerNew.Instance.ButtonMennuManager.Appear();
         }
     }
 }

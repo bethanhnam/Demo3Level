@@ -62,8 +62,7 @@ public class VideoController : MonoBehaviour
         {
             PlayerPrefs.SetString("HasFinishedStory", "true");
             UIManagerNew.Instance.GamePlayLoading.appear();
-            RemoteConfigController.instance.Init();
-            DOVirtual.DelayedCall(0.3f, () =>
+            DOVirtual.DelayedCall(0.8f, () =>
             {
                 GameManagerNew.Instance.InitStartGame();
             });
@@ -85,7 +84,7 @@ public class VideoController : MonoBehaviour
             {
                 DOVirtual.DelayedCall(0.5f, () =>
                 {
-                    UIManagerNew.Instance.ButtonMennuManager.Appear();
+                    UIManagerNew.Instance.DailyRWUI.Appear();
                 });
             }
             DOVirtual.DelayedCall(.7f, () =>
@@ -127,25 +126,5 @@ public class VideoController : MonoBehaviour
             });
         }
 
-    }
-    public void NormalInit()
-    {
-        RemoteConfigController.instance.Init();
-        DOVirtual.DelayedCall(0.1f, () =>
-        {
-            GameManagerNew.Instance.InitStartGame();
-        });
-        DOVirtual.DelayedCall(0.03f, () =>
-        {
-            {
-                if (SaveSystem.instance.powerTicket > 0 || SaveSystem.instance.magicTiket > 0)
-                {
-                    if (PlayerPrefs.GetInt("HasTransfer") == 0)
-                    {
-                        UIManagerNew.Instance.TransferPanel.Appear();
-                    }
-                }
-            }
-        });
     }
 }
