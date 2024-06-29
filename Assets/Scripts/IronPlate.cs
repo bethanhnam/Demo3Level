@@ -190,17 +190,17 @@ public class IronPlate : MonoBehaviour
             rigidbody2D1.useAutoMass = true;
             //else
             //{
-            if (!hasAddForce)
-            {
-                Vector3 movementDirection1 = this.rigidbody2D1.velocity.normalized;
+            //if (!hasAddForce)
+            //{
+            //    Vector3 movementDirection1 = this.rigidbody2D1.velocity.normalized;
 
-                // Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude
-                Vector3 forceToAdd = movementDirection1 * .3f;
+            //    // Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude
+            //    Vector3 forceToAdd = movementDirection1 * .3f;
 
-                // Thêm lực vào Rigidbody
-                rigidbody2D1.AddForce(forceToAdd, ForceMode2D.Force);
-                hasAddForce = true;
-            }
+            //    // Thêm lực vào Rigidbody
+            //    rigidbody2D1.AddForce(forceToAdd, ForceMode2D.Force);
+            //    hasAddForce = true;
+            //}
             Vector3 movementDirection = this.rigidbody2D1.velocity.normalized;
 
             // Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude

@@ -335,9 +335,7 @@
 //		int layerValue = LayerMask.NameToLayer(layerName);
 //		for (int j = 0; j < obj.childCount; j++)
 //		{
-//			if (obj.GetChild(j).GetComponent<Stage>().sprRenderItem != null)
-//			{
-//				obj.GetChild(j).GetComponent<Stage>().sprRenderItem.color = new Color(255, 255, 255, 0f);
+			
 //				for (int i = 0; i < obj.GetChild(j).childCount; i++)
 //				{
 //					if (obj.GetChild(j).GetChild(i).gameObject.tag == "square")
@@ -347,7 +345,7 @@
 
 //					}
 //				}
-//			}
+		
 
 //		}
 //	}

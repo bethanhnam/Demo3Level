@@ -32,6 +32,8 @@ public class StoryItem : MonoBehaviour
     }
     public void DisplayItem(int videoIndex, Action action)
     {
+        itemImage.transform.position = Vector3.zero;
+        itemImage.transform.localScale = new Vector3(2, 2, 1);
         animator.enabled = true;
         this.videoIndex = videoIndex;
         this.gameObject.SetActive(true);
@@ -60,7 +62,7 @@ public class StoryItem : MonoBehaviour
         {
             DOVirtual.DelayedCall(0.3f, () =>
             {
-                Destroy(GameManagerNew.Instance.StoryPic.gameObject, 0.1f);
+                Destroy(GameManagerNew.Instance.StoryPic.gameObject, 0.6f);
                 GameManagerNew.Instance.videoController.PlayVideoAction(videoIndex);
                 Disable();
             });
@@ -69,5 +71,9 @@ public class StoryItem : MonoBehaviour
     public void Disable()
     {
         this.gameObject.SetActive(false);
+    }
+    public void SetNative()
+    {
+        itemImage.GetComponent<Image>().SetNativeSize();
     }
 }

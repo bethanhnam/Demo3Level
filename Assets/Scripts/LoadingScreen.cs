@@ -29,6 +29,7 @@ public class LoadingScreen : MonoBehaviour
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
         operation.allowSceneActivation = false;
         loadingScreen.SetActive(true);
+        
         while (sliders[0].value <= 0.9f && !operation.isDone)
         {
             if (sliders[0].value <= 0.9f)
@@ -38,6 +39,7 @@ public class LoadingScreen : MonoBehaviour
             if (operation.progress >= 0.9f && sliders[0].value == 0.9f)
             {
                 operation.allowSceneActivation = true;
+                RemoteConfigController.instance.Init();
                 yield return new WaitForSecondsRealtime(0.2f);
                 if (!HasFinishedStory())
                 {
@@ -61,8 +63,10 @@ public class LoadingScreen : MonoBehaviour
 
     private void normalInitGame()
     {
-        GameManagerNew.Instance.videoController.gameObject.SetActive(false);
-        RemoteConfigController.instance.Init();
+        if (GameManagerNew.Instance.videoController != null)
+        {
+            GameManagerNew.Instance.videoController.gameObject.SetActive(false);
+        }
         DOVirtual.DelayedCall(0.1f, () =>
         {
             GameManagerNew.Instance.InitStartGame();

@@ -67,8 +67,11 @@ public class VideoController : MonoBehaviour
     }
     void LoadingActionVideo(VideoPlayer vp)
     {
-        videoPlayer.loopPointReached -= LoadingActionVideo;
         UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
+        {
+        });
+        videoPlayer.loopPointReached -= LoadingActionVideo;
+        DOVirtual.DelayedCall(.6f, () =>
         {
             PlayVideo(videoIndex, null);
         });

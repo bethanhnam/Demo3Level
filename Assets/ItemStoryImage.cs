@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Sirenix.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,7 +68,7 @@ public class ItemStoryImage : MonoBehaviour
         }
         this.transform.position = pos;
 
-        Vector3 _direction =  -(pos - targetAnchor).normalized;
+        Vector3 _direction = -(pos - targetAnchor).normalized;
 
         float _distance = Vector2.Distance(targetAnchor, pos);
         if (_distance < 4)
@@ -84,13 +85,23 @@ public class ItemStoryImage : MonoBehaviour
         Vector3 centrPos = (pos + targetAnchor) / 2f;
         Vector3 d2 = Vector3.Cross(_direction, Vector3.forward);
         //	Vector3 stepPos = pos + new Vector3(1, 1,pos.z);
-        stepPos = p1 + d2 * (_distance / 3f) - new Vector3(8f, 8f, 0); ;
+        stepPos = p1 + d2 * (_distance / 3f) + SetPos(targetAnchor) * new Vector3(SetPos(targetAnchor) *5f, -6f, 0); ;
         startPos = pos;
         endPos = targetAnchor;
 
         startTime = Time.time;
         a = action;
         isMove = true;
+    }
+     public int SetPos(Vector3 targetAnchor)
+    {
+        int x = 1;
+
+        Vector3 transform = targetAnchor;
+        if (this.transform.position.x < targetAnchor.x) {
+            x = -1;
+        }
+        return x;
     }
 
     [SerializeField]

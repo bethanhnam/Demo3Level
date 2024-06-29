@@ -4,17 +4,12 @@ using Sirenix.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using Unity.VisualScripting;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Stage : MonoBehaviour
 {
     public static Stage Instance;
     public GameObject holeToUnlock;
-    public SpriteRenderer sprRenderItem;
     public GameObject Square;
     // Start is called before the first frame update
 
@@ -455,7 +450,7 @@ public class Stage : MonoBehaviour
                         DOVirtual.DelayedCall(0.3f, () =>
                         {
                             AudioManager.instance.PlaySFX("CompletePanel");
-                            UIManagerNew.Instance.CompleteUI.Appear(sprRenderItem.sprite);
+                            UIManagerNew.Instance.CompleteUI.Appear();
                             canInteract = false;
                         });
                     }, null);

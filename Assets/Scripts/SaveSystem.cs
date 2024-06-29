@@ -66,7 +66,7 @@ public class SaveSystem : MonoBehaviour
         //unscrewPoint = 20;
         //undoPoint = 20;
         //extraHolePoint = 20;
-        //days =6;
+        days =6;
 
     }
     public void LoadData()

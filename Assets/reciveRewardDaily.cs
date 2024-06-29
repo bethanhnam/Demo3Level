@@ -149,12 +149,12 @@ public class reciveRewardDaily : MonoBehaviour
             var unscrewIndex = unscrew;
             unscrewIndex.transform.localScale = Vector3.zero;
 
-            //// Tạo tọa độ ngẫu nhiên trong phạm vi kích thước của object cha
-            float randomX = UnityEngine.Random.Range(-parentWidth / 2, parentWidth / 2);
-            float randomY = UnityEngine.Random.Range(-parentHeight / 2, parentHeight / 2);
+            // Tạo tọa độ ngẫu nhiên trong phạm vi kích thước của object cha
+            float randomX = UnityEngine.Random.Range(-100 / 2, 100 / 2);
+          
 
             // Tạo một vị trí mới cho object con
-            Vector3 randomPosition = new Vector3(randomX, randomY, 0f);
+            Vector3 randomPosition = new Vector3(randomX,0, 1f);
 
             unscrewIndex.gameObject.SetActive(true);
             unscrewIndex.transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
@@ -162,7 +162,6 @@ public class reciveRewardDaily : MonoBehaviour
                 float randomSpeed = UnityEngine.Random.Range(0.5f, 2f);
 
             });
-
             // Instantiate object con và gán nó vào object cha
             unscrewIndex.transform.DOLocalMove(randomPosition, 0.4f);
         }
@@ -174,12 +173,13 @@ public class reciveRewardDaily : MonoBehaviour
             var undoIndex = undo;
             undoIndex.transform.localScale = Vector3.zero;
 
-            //// Tạo tọa độ ngẫu nhiên trong phạm vi kích thước của object cha
-            float randomX = UnityEngine.Random.Range(-parentWidth / 2, parentWidth / 2);
-            float randomY = UnityEngine.Random.Range(-parentHeight / 2, parentHeight / 2);
+            // Tạo tọa độ ngẫu nhiên trong phạm vi kích thước của object cha
+            float randomX = UnityEngine.Random.Range(-100 / 2, 100 / 2);
+            
+
 
             // Tạo một vị trí mới cho object con
-            Vector3 randomPosition = new Vector3(randomX, randomY, 0f);
+            Vector3 randomPosition = new Vector3(randomX, 0, 1f);
 
             undoIndex.gameObject.SetActive(true);
             undoIndex.transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
@@ -187,7 +187,6 @@ public class reciveRewardDaily : MonoBehaviour
                 float randomSpeed = UnityEngine.Random.Range(0.5f, 2f);
 
             });
-
             // Instantiate object con và gán nó vào object cha
             undoIndex.transform.DOLocalMove(randomPosition, 0.4f);
         }
@@ -214,9 +213,12 @@ public class reciveRewardDaily : MonoBehaviour
                     AudioManager.instance.PlaySFX("AddCoin");
                     coinDes.gameObject.transform.DOScale(.7f, 0.02f);
                 });
-                var x = list[i];
-                list.Remove(x);
-                Destroy(x.gameObject, 0.1f);
+                if (i >= 0)
+                {
+                    var x = list[i];
+                    list.Remove(x);
+                    Destroy(x.gameObject, 0.1f);
+                }
             });
         }
     }
@@ -238,9 +240,12 @@ public class reciveRewardDaily : MonoBehaviour
                     AudioManager.instance.PlaySFX("AddCoin");
                     posDes.gameObject.transform.DOScale(.7f, 0.02f);
                 });
-                var x = list[i];
-                list.Remove(x);
-                Destroy(x.gameObject, 0.1f);
+                if (i >= 0)
+                {
+                    var x = list[i];
+                    list.Remove(x);
+                    Destroy(x.gameObject, 0.1f);
+                }
             });
         }
     }
