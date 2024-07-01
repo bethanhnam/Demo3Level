@@ -11,13 +11,17 @@ public class StoryItem : MonoBehaviour
     public static StoryItem Instance;
     public Animator animator;
     public ItemStoryImage itemImage;
+    public GameObject heartBreak;
+    public GameObject chopingAxe;
     int videoIndex;
     public Transform targetPos;
+    float time;
     // Start is called before the first frame update
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
+
     }
     public void SetImg(Sprite sprite)
     {
@@ -32,16 +36,87 @@ public class StoryItem : MonoBehaviour
     }
     public void DisplayItem(int videoIndex, Action action)
     {
+        itemImage.gameObject.SetActive(true);
         itemImage.transform.position = Vector3.zero;
         itemImage.transform.localScale = new Vector3(2, 2, 1);
         animator.enabled = true;
         this.videoIndex = videoIndex;
         this.gameObject.SetActive(true);
         animator.Play("DisplayItem");
-        DOVirtual.DelayedCall(2, () =>
+
+        if (videoIndex == 3)
         {
-            
-            MoveItem();
+            GameManagerNew.Instance.videoController.PlayVideo(videoIndex, null);
+            DOVirtual.DelayedCall(0.8f, () =>
+            {
+                ChopingWood();
+            });
+            Destroy(GameManagerNew.Instance.StoryPic.gameObject);
+
+        }
+        if (videoIndex == 1)
+        {
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                MoveItem();
+                time = 1f;
+                DOVirtual.DelayedCall(0.5f, () =>
+                {
+                    MoveItem1();
+                });
+            });
+            Destroy(GameManagerNew.Instance.StoryPic.gameObject);
+
+            DOVirtual.DelayedCall(.55f, () =>
+            {
+                GameManagerNew.Instance.videoController.PlayVideo(videoIndex, null);
+            });
+
+        }
+        if (videoIndex == 2)
+        {
+            DOVirtual.DelayedCall(.5f, () =>
+            {
+                BreakHeart();
+                Destroy(GameManagerNew.Instance.StoryPic.gameObject);
+                DOVirtual.DelayedCall(.7f, () =>
+                {
+                    GameManagerNew.Instance.videoController.PlayVideo(videoIndex, null);
+
+                });
+            });
+        }
+    }
+    public void ChopingWood()
+    {
+        itemImage.gameObject.SetActive(false);
+        chopingAxe.gameObject.SetActive(true);
+        animator.Play("DisappearItem");
+        DOVirtual.DelayedCall(1f, () =>
+        {
+
+            chopingAxe.GetComponent<Animator>().enabled = true;
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                chopingAxe.gameObject.SetActive(false);
+                Disable();
+            });
+        });
+
+    }
+    public void BreakHeart()
+    {
+        itemImage.gameObject.SetActive(false);
+        heartBreak.gameObject.SetActive(true);
+        heartBreak.transform.GetChild(0).DORotate(new Vector3(0, 0, 30), 0.5f);
+        heartBreak.transform.GetChild(1).DORotate(new Vector3(0, 0, -30), 0.5f).OnComplete(() =>
+        {
+            DOVirtual.DelayedCall(0.3f, () =>
+            {
+                animator.Play("DisappearItem");
+                Disable();
+                heartBreak.gameObject.SetActive(false);
+            });
         });
     }
     public void MoveItem()
@@ -52,20 +127,12 @@ public class StoryItem : MonoBehaviour
     {
         animator.enabled = false;
         itemImage.transform.localScale = new Vector3(2, 2, 1);
-        //DOVirtual.DelayedCall(0.8f, () =>
-        //{
-        //    UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
-        //    {
-        //    });
-        //});
-        itemImage.MoveToFix(this.transform.position, targetPos.position,Vector3.zero,()=>
+        itemImage.MoveToFix(time, this.transform.position, targetPos.position, Vector3.zero, () =>
         {
             DOVirtual.DelayedCall(0.3f, () =>
-            {
-                Destroy(GameManagerNew.Instance.StoryPic.gameObject, 0.6f);
-                GameManagerNew.Instance.videoController.PlayVideoAction(videoIndex);
-                Disable();
-            });
+             {
+                 Disable();
+             });
         });
     }
     public void Disable()

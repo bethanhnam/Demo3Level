@@ -48,7 +48,7 @@ public class DailyPanel : MonoBehaviour
 		//enable / disable claim button
 		if (DateTime.Today > lastclaimTime)
 		{
-			if (SaveSystem.instance.days < 7)
+            if (SaveSystem.instance.days < 7)
 			{
 				dayRewards[SaveSystem.instance.days].isActive = true;
 				//claim.interactable = true;

@@ -18,7 +18,7 @@ public class VideoController : MonoBehaviour
     public bool canCreate = true;
 
     public List<VideoClip> videoList;
-    public List<VideoClip> videoActionList;
+    //public List<VideoClip> videoActionList;
 
     [System.Serializable]
     public class Frame
@@ -41,6 +41,7 @@ public class VideoController : MonoBehaviour
     }
     public void CheckStartVideo()
     {
+        //PlayerPrefs.SetInt("videoIndex",3);
         var x = PlayerPrefs.GetInt("videoIndex");
         PlayVideo(x, null);
     }
@@ -53,28 +54,6 @@ public class VideoController : MonoBehaviour
         videoPlayer.Play();
         videoPlayer.loopPointReached += LoadingVideo;
         canCreate = true;
-    }
-    public void PlayVideoAction(int videoIndex)
-    {
-        this.gameObject.SetActive(true);
-        this.videoIndex = videoIndex;
-        PlayerPrefs.SetInt("videoIndex", videoIndex);
-
-        videoPlayer.clip = videoActionList[videoIndex];
-        videoPlayer.Play();
-        videoPlayer.loopPointReached += LoadingActionVideo;
-        canCreate = false;
-    }
-    void LoadingActionVideo(VideoPlayer vp)
-    {
-        UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
-        {
-        });
-        videoPlayer.loopPointReached -= LoadingActionVideo;
-        DOVirtual.DelayedCall(.6f, () =>
-        {
-            PlayVideo(videoIndex, null);
-        });
     }
     void LoadingVideo(VideoPlayer vp)
     {

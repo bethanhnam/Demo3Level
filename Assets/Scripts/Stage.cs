@@ -226,7 +226,7 @@ public class Stage : MonoBehaviour
             }
         }
         CheckHoleAvailable();
-        //Hack();
+        Hack();
         if (isWining)
         {
             Debug.Log("vào win");

@@ -49,23 +49,23 @@ public class reciveRewardPanel : MonoBehaviour
 
             if (rewardsDaily[dailyPanel.lastDate].rewardImg.Length == 1)
             {
-                var x = Instantiate(RWImg, rewardImg.transform.position, Quaternion.identity, transform);
+                Image x = Instantiate(RWImg, rewardImg.transform.position, Quaternion.identity, transform);
                 x.sprite = rewardsDaily[dailyPanel.lastDate].rewardImg[0].sprite;
                 x.transform.position = rewardImg.transform.position;
                 x.transform.localScale = new Vector2(2, 2);
                 rewards.Add(x);
-                rewardsValue.Add(x.transform.GetChild(0).GetComponent<TextMeshProUGUI>());
+                rewardsValue.Add(x.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>());
                 SetValue(rewardsValue[0], 0);
             }
             else
             {
                 for (int i = 0; i < rewardsDaily[dailyPanel.lastDate].rewardImg.Length; i++)
                 {
-                    var x = Instantiate(RWImg, rewardImg.transform.position, Quaternion.identity, transform);
+                    Image x = Instantiate(RWImg, rewardImg.transform.position, Quaternion.identity, transform);
                     x.sprite = rewardsDaily[dailyPanel.lastDate].rewardImg[i].sprite;
                     x.transform.position = rewardImg.transform.position;
                     rewards.Add(x);
-                    rewardsValue.Add(x.transform.GetChild(0).GetComponent<TextMeshProUGUI>());
+                    rewardsValue.Add(x.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>());
                     SetValue(rewardsValue[i], i);
                 }
             }
@@ -314,5 +314,6 @@ public class reciveRewardPanel : MonoBehaviour
         {
             this.gameObject.SetActive(false);    
         });
+        
     }
 }

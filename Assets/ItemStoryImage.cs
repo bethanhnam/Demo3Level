@@ -58,7 +58,7 @@ public class ItemStoryImage : MonoBehaviour
         }
     }
 
-    public void MoveToFix(Vector3 pos, Vector3 targetAnchor, Vector3 scaleTarget, Action action)
+    public void MoveToFix(float time, Vector3 pos, Vector3 targetAnchor, Vector3 scaleTarget, Action action)
     {
         Debug.Log("targetAnchor " + targetAnchor);
 
@@ -77,7 +77,7 @@ public class ItemStoryImage : MonoBehaviour
         }
 
         //timeMove = baseTimeMove * _distance;
-        timeMove = 1f;
+        timeMove = time;
 
         this.transform.DOScale(scaleTarget, timeMove).SetEase(curveScale);
 
