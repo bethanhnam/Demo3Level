@@ -240,9 +240,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -518,9 +520,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -949,9 +953,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -1223,9 +1229,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -1522,9 +1530,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -1821,9 +1831,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -2120,9 +2132,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -2417,9 +2431,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -2664,9 +2680,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -2961,9 +2979,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -3233,9 +3253,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -3278,8 +3300,8 @@ GameObject:
   - component: {fileID: 7356509996837731690}
   - component: {fileID: 1882075201738035446}
   - component: {fileID: 8858931574664788301}
-  - component: {fileID: 8421210770368755097}
   - component: {fileID: 8213827960837199585}
+  - component: {fileID: 6978731410532197637}
   m_Layer: 16
   m_Name: iron1 1
   m_TagString: Iron
@@ -3419,8 +3441,35 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_SortAtRoot: 0
---- !u!60 &8421210770368755097
-PolygonCollider2D:
+--- !u!114 &8213827960837199585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5844306396045457030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b044b542b1a9f498d4af0dc4eabe0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hingeJoint2Ds: []
+  holes: []
+  centerPoints: []
+  selectedhole: 0
+  radius: 0
+  selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
+  result: 0
+  isFrezze: 0
+  hasAddForce: 0
+  hasAddForceRotate: 0
+  joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
+  centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
+--- !u!58 &6978731410532197637
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3428,7 +3477,7 @@ PolygonCollider2D:
   m_GameObject: {fileID: 5844306396045457030}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -3451,71 +3500,9 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.08, y: 1.08}
-    newSize: {x: 1.35, y: 1.35}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 1
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.66249996, y: -0.0875}
-      - {x: 0.66249996, y: 0.049999997}
-      - {x: 0.65, y: 0.1375}
-      - {x: 0.61249995, y: 0.24999999}
-      - {x: 0.55, y: 0.37499997}
-      - {x: 0.41249996, y: 0.5125}
-      - {x: 0.2125, y: 0.625}
-      - {x: 0.1375, y: 0.65}
-      - {x: 0.024999999, y: 0.66249996}
-      - {x: -0.1125, y: 0.65}
-      - {x: -0.2625, y: 0.61249995}
-      - {x: -0.525, y: 0.425}
-      - {x: -0.6375, y: 0.2125}
-      - {x: -0.66249996, y: 0.074999996}
-      - {x: -0.66249996, y: -0.074999996}
-      - {x: -0.65, y: -0.1625}
-      - {x: -0.59999996, y: -0.3125}
-      - {x: -0.49999997, y: -0.4375}
-      - {x: -0.39999998, y: -0.53749996}
-      - {x: -0.24999999, y: -0.61249995}
-      - {x: -0.14999999, y: -0.65}
-      - {x: -0.024999999, y: -0.67499995}
-      - {x: 0.099999994, y: -0.66249996}
-      - {x: 0.225, y: -0.625}
-      - {x: 0.35, y: -0.575}
-      - {x: 0.5125, y: -0.425}
-      - {x: 0.61249995, y: -0.275}
-  m_UseDelaunayMesh: 0
---- !u!114 &8213827960837199585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5844306396045457030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12b044b542b1a9f498d4af0dc4eabe0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hingeJoint2Ds: []
-  holes: []
-  centerPoints: []
-  selectedhole: 0
-  radius: 0
-  selectedHinge: 0
-  result: 0
-  isFrezze: 0
-  hasAddForce: 0
-  joints: []
-  nailControls: []
-  rigidbody2D1: {fileID: 0}
-  centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
+  m_Offset: {x: -0.000000014901161, y: 0.00000011920929}
+  serializedVersion: 2
+  m_Radius: 0.6750001
 --- !u!1 &6266114511267192129
 GameObject:
   m_ObjectHideFlags: 0
@@ -3762,9 +3749,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -4111,9 +4100,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -4408,9 +4399,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -4682,9 +4675,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -4979,9 +4974,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -5399,9 +5396,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -5698,9 +5697,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -6142,9 +6143,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -6389,9 +6392,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -6516,7 +6521,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holeToUnlock: {fileID: 297164630506492959}
-  sprRenderItem: {fileID: 1935945823225034161}
   Square: {fileID: 6813559553232208821}
   holes:
   - {fileID: 3585689455373176110}
@@ -6606,6 +6610,7 @@ MonoBehaviour:
   nailToDetele: {fileID: 0}
   isDeteleting: 0
   hasDelete: 0
+  hasUndo: 1
   HingeJointBeforeRemove: []
   holeToUndo: {fileID: 0}
   holeBeforeUndo: {fileID: 0}
@@ -6623,7 +6628,14 @@ MonoBehaviour:
   numOfHoleNotAvailable: []
   checked1: 0
   isTutor: 0
+  isLvTutor: 0
   targetScale: {x: 0, y: 0, z: 0}
+  pointer: {fileID: 0}
+  pointerTutor: {fileID: 0}
+  canInteract: 1
+  isWining: 0
+  isLosing: 0
+  isScaling: 0
 --- !u!1 &9135093382668813965
 GameObject:
   m_ObjectHideFlags: 0
@@ -6866,9 +6878,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}

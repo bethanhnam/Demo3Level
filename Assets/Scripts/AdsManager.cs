@@ -265,7 +265,8 @@ public class AdsManager : MonoBehaviour
 			{
 				if (RemoteConfigController.instance.IsShowOpenAds == 1)
 				{
-					AdsControl.Instance.ShowOpenAds();
+                    AdsControl.Instance.ActiveBlockFaAds(false);
+                    AdsControl.Instance.ShowOpenAds();
 				}
 			}
 		}

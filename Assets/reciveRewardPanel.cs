@@ -87,6 +87,7 @@ public class reciveRewardPanel : MonoBehaviour
     {
         AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_bonus, () =>
         {
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             takeReward();
             AudioManager.instance.PlaySFX("OpenChest");
             RewardAppear(action);

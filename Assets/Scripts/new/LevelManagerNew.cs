@@ -21,6 +21,8 @@ public class LevelManagerNew : MonoBehaviour
 	{
 		Instance = this;
 		stage = PlayerPrefs.GetInt("stage");
+		//test
+		//stage = 24;
     }
 
 	public void Init()

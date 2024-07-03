@@ -34,7 +34,6 @@ public class WinUI : MonoBehaviour
 
     public AnimationCurve scaleCurve;
 
-
     public void Appear()
     {
         if (!gameObject.activeSelf)
@@ -85,6 +84,7 @@ public class WinUI : MonoBehaviour
     }
     public void ContinueBT()
     {
+        UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
         animButton.Play("Disappear", 0, 0);
         UIManagerNew.Instance.ButtonMennuManager.DiactiveCVGroup();
     }
@@ -191,7 +191,6 @@ public class WinUI : MonoBehaviour
     public void MoveStar(StarReward list)
     {
         float time = .3f;
-        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         Vector3 rotationAngles = new Vector3(0, 0, 360);
         star.transform.DORotate(rotationAngles, 1f, RotateMode.FastBeyond360
                 //.SetLoops(-1, LoopType.Incremental)
@@ -245,7 +244,9 @@ public class WinUI : MonoBehaviour
     {
         yield return new WaitForSeconds(0.6f);
         //star.ActiveFireWorkParticle(false);
-
-
+    }
+    public void SetStarDesPos()
+    {
+        StarImgDes.transform.position = new Vector3(StarShadowImg.transform.position.x,StarShadowImg.transform.position.y-0.5f,1);
     }
 }

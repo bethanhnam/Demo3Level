@@ -41,6 +41,8 @@ public class Stage : MonoBehaviour
     public bool isDeteleting = false;
     public bool hasDelete;
 
+    public bool hasUndo = true;
+
     // hingeJoint
     public List<HingeJoint2D> HingeJointBeforeRemove = new List<HingeJoint2D>();
 
@@ -75,6 +77,7 @@ public class Stage : MonoBehaviour
 
     public bool isWining = false;
     public bool isLosing = false;
+    public bool isScaling = false;
     private void Start()
     {
         Instance = this;
@@ -83,6 +86,7 @@ public class Stage : MonoBehaviour
     }
     private void OnEnable()
     {
+
         try
         {
             if (GamePlayPanelUIManager.Instance.gameObject.activeSelf == false)
@@ -101,6 +105,7 @@ public class Stage : MonoBehaviour
         //	
         //}
         StartCoroutine(check());
+        InvokeRepeating("Check1", 0f, 1.5f);
     }
     IEnumerator check()
     {
@@ -112,6 +117,7 @@ public class Stage : MonoBehaviour
     }
     public void Init(int level)
     {
+        isScaling = true;
         canInteract = false;
         gameObject.SetActive(true);
         Vector3 targetSclae = transform.localScale;
@@ -122,7 +128,13 @@ public class Stage : MonoBehaviour
             {
                 transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
                 {
+
+                    TakeLossyScale();
                     canInteract = true;
+
+                    isScaling = false;
+                    EverythingStayStill(false);
+
                     if (!GamePlayPanelUIManager.Instance.gameObject.activeSelf)
                     {
                         GamePlayPanelUIManager.Instance.Appear();
@@ -132,8 +144,26 @@ public class Stage : MonoBehaviour
         });
         GamePlayPanelUIManager.Instance.ShowNotice(false);
     }
+    public void EverythingStayStill(bool status)
+    {
+        if ((status))
+        {
+            for (int i = 0; i < ironPlates.Length; i++)
+            {
+                ironPlates[i].rigidbody2D1.gravityScale = 0;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < ironPlates.Length; i++)
+            {
+                ironPlates[i].rigidbody2D1.gravityScale = 1;
+            }
+        }
+    }
     public void InitForStory(int level)
     {
+        isScaling = true;
         canInteract = false;
         gameObject.SetActive(true);
         Vector3 targetSclae = transform.localScale;
@@ -145,6 +175,11 @@ public class Stage : MonoBehaviour
             {
                 transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
                 {
+
+                    isScaling = false;
+                    EverythingStayStill(false);
+
+                    TakeLossyScale();
                     canInteract = true;
                     TutorLevel1();
                 });
@@ -154,6 +189,7 @@ public class Stage : MonoBehaviour
     }
     public void ScaleUpStage()
     {
+        isScaling = true;
         canInteract = false;
         gameObject.SetActive(true);
         Vector3 targetSclae = transform.localScale;
@@ -164,6 +200,10 @@ public class Stage : MonoBehaviour
             {
                 transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
                 {
+
+                    isScaling = false;
+                    EverythingStayStill(false);
+
                     canInteract = true;
                 });
             });
@@ -176,6 +216,7 @@ public class Stage : MonoBehaviour
     }
     public void Close(bool isDes)
     {
+        EverythingStayStill(true);
         canInteract = false;
         transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
         {
@@ -208,6 +249,7 @@ public class Stage : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
+                StartCoroutine(check());
                 if (!isTutor)
                 {
 
@@ -215,13 +257,13 @@ public class Stage : MonoBehaviour
                     {
                         GamePlayPanelUIManager.Instance.ButtonOff();
                         selectDeteleNail();
-                        Debug.Log("chọn đinh xoá");
+                        
                     }
                     else
                     {
-                        Debug.Log("chọn đinh");
+                       
                         Click();
-                        Debug.Log("chạy xong click");
+                        
                     }
                 }
             }
@@ -230,8 +272,7 @@ public class Stage : MonoBehaviour
         //Hack();
         if (isWining)
         {
-            Debug.Log("vào win");
-
+           
             if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
             {
                 UIManagerNew.Instance.GamePlayPanel.Close();
@@ -241,7 +282,7 @@ public class Stage : MonoBehaviour
 
     public void Click()
     {
-        Debug.Log("chạy vào click");
+
         Vector2 posMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(posMouse, 0.5f, Vector3.forward, Mathf.Infinity);
@@ -250,12 +291,12 @@ public class Stage : MonoBehaviour
         {
             nailDetectors.Clear();
         }
-        Debug.Log("xoá nail dêtctors");
+
         if (!selectedIrons.IsNullOrEmpty())
         {
             selectedIrons.Clear();
         }
-        Debug.Log("xoá selectedIrons");
+
         for (int i = 0; i < cubeHit.Length; i++)
         {
             if (cubeHit[i].transform.gameObject.tag == "Iron")
@@ -334,6 +375,7 @@ public class Stage : MonoBehaviour
                 {
                     if (curNail != null && curHole.isOsccupied == false && CheckHoleIsAvailable())
                     {
+                        hasUndo = false;
                         Debug.Log("Đẩy được đinh vào");
                         // continue code
                         SaveGameObject();
@@ -406,7 +448,7 @@ public class Stage : MonoBehaviour
             {
                 if (collider.GetComponent<IronPlate>().hingeJoint2Ds.Length > 0)
                 {
-                    if (!collider.GetComponent<IronPlate>().checkHitPoint1(curHole.transform.position))
+                    if (!collider.GetComponent<IronPlate>().checkHitPoint(curHole.transform.position))
                     {
                         allin = false;
                         return false;
@@ -430,35 +472,39 @@ public class Stage : MonoBehaviour
                 int videoIndex = PlayerPrefs.GetInt("videoIndex");
                 PlayerPrefs.SetInt("videoIndex", VideoController.instance.videoIndex + 1);
                 this.Close(true);
-                UIManagerNew.Instance.StoryItem.DisplayItem(videoIndex + 1,() =>
+                UIManagerNew.Instance.StoryItem.DisplayItem(videoIndex + 1, () =>
                 {
                     UIManagerNew.Instance.StoryItem.Disable();
                 });
-                
+
             }
             else
-            { 
-                isWining = true;
-                Debug.Log("numOfIronPlates" + numOfIronPlates);
-                Debug.Log("chay vào đây khi hết thanh gỗ");
-                if (!UIManagerNew.Instance.PausePanel.gameObject.activeSelf && !UIManagerNew.Instance.UndoPanel.gameObject.activeSelf && !UIManagerNew.Instance.DeteleNailPanel.gameObject.activeSelf && !UIManagerNew.Instance.ExtralHolePanel.gameObject.activeSelf)
+            {
+                if (numOfIronPlates <= 0)
                 {
-                    AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_win, () =>
+                    isWining = true;
+                    Debug.Log("numOfIronPlates" + numOfIronPlates);
+                    Debug.Log("chay vào đây khi hết thanh gỗ");
+                    if (!UIManagerNew.Instance.PausePanel.gameObject.activeSelf && !UIManagerNew.Instance.UndoPanel.gameObject.activeSelf && !UIManagerNew.Instance.DeteleNailPanel.gameObject.activeSelf && !UIManagerNew.Instance.ExtralHolePanel.gameObject.activeSelf)
                     {
-                        Debug.Log("sau khi show ads");
-                        //UIManagerNew.Instance.GamePlayPanel.Close();
-                        LevelManagerNew.Instance.NextStage();
-                        DOVirtual.DelayedCall(0.3f, () =>
+                        AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_win, () =>
                         {
-                            AudioManager.instance.PlaySFX("CompletePanel");
-                            UIManagerNew.Instance.CompleteUI.Appear();
-                            canInteract = false;
-                        });
-                    }, null);
-                }
-                else
-                {
-                    return;
+                            AdsControl.Instance.ActiveBlockFaAds(false);
+                            Debug.Log("sau khi show ads");
+                            //UIManagerNew.Instance.GamePlayPanel.Close();
+                            LevelManagerNew.Instance.NextStage();
+                            DOVirtual.DelayedCall(0.3f, () =>
+                            {
+                                AudioManager.instance.PlaySFX("CompletePanel");
+                                UIManagerNew.Instance.CompleteUI.Appear();
+                                canInteract = false;
+                            });
+                        }, null);
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
             }
         }
@@ -473,7 +519,7 @@ public class Stage : MonoBehaviour
         {
             DOVirtual.DelayedCall(1f, () =>
             {
-                    CheckDoneLevel();
+                CheckDoneLevel();
             });
 
         }
@@ -548,8 +594,11 @@ public class Stage : MonoBehaviour
         hasSave = true;
         if (LevelManagerNew.Instance.stage >= 3 && !GameManagerNew.Instance.isStory)
         {
-            Debug.Log("chạy vào gameplaypanel");
-            GamePlayPanelUIManager.Instance.UndoButton.interactable = true;
+            if (!hasUndo)
+            {
+                Debug.Log("chạy vào gameplaypanel");
+                GamePlayPanelUIManager.Instance.UndoButton.interactable = true;
+            }
         }
         Debug.Log("chạy qua save object");
         //TutorUndo();
@@ -652,6 +701,7 @@ public class Stage : MonoBehaviour
                     HingeJointBeforeRemove[i].autoConfigureConnectedAnchor = true;
                     HingeJointBeforeRemove[i].autoConfigureConnectedAnchor = false;
                 }
+                hasUndo = true;
                 hasDelete = false;
                 Continute();
                 resetData();
@@ -722,8 +772,9 @@ public class Stage : MonoBehaviour
             Debug.Log("chạy qua Clear");
 
             hasSave = false;
-            if (GamePlayPanelUIManager.Instance.gameObject.activeSelf)
+            if (!GameManagerNew.Instance.isStory)
             {
+
                 Debug.Log("chạy vào GamePlayPanelUIManager");
                 GamePlayPanelUIManager.Instance.UndoButton.interactable = false;
             }
@@ -767,16 +818,6 @@ public class Stage : MonoBehaviour
 
 
     }
-
-    //private void TutorUndo()
-    //{
-    //    if (LevelManagerNew.Instance.stage >= 1 )
-    //    {
-    //        UIManagerNew.Instance.UndoPanel.LockOrUnlock(false);
-    //        GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.UndoBT);
-    //    }
-    //}
-
     private void TutorUnscrew()
     {
         if (LevelManagerNew.Instance.stage == 3 && !GameManagerNew.Instance.isStory)
@@ -919,4 +960,21 @@ public class Stage : MonoBehaviour
     //    GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.UndoBT);
     //    GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
     //}
+    public void TakeLossyScale()
+    {
+        //if (ironPlates[0] != null)
+        //{
+        //    float lossyScale = ironPlates[0].holes[0].transform.lossyScale.x;
+        //    float Radius = ironPlates[0].holes[0].GetComponent<CircleCollider2D>().radius;
+        //    Debug.Log("lossyScale " +lossyScale);
+        //    Debug.Log("Radius " + Radius);
+
+        //    float normalScale = lossyScale;
+        //    float normalRadius = Radius;
+        //    for (int i = 1; i < holes.Length; i++) {
+        //        holes[i].GetComponent<CircleCollider2D>().radius = normalRadius * (this.transform.localScale.x / normalScale);
+        //    }
+        //    Debug.Log("lo "+normalRadius * (this.transform.localScale.x / normalScale) * holes[0].transform.localScale.x);
+        //}
+    }
 }

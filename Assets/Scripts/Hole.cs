@@ -11,8 +11,12 @@ public class Hole : MonoBehaviour
 	public bool collider;
 	public bool isOsccupied;
 	private LayerMask IronLayer;
-	private void Start()
+
+    float targetAspect = 9.0f / 16.0f;
+    float windowAspect = (float)Screen.width / (float)Screen.height;
+    private void Start()
 	{
+        this.GetComponent<CircleCollider2D>().radius = this.GetComponent<CircleCollider2D>().radius * (this.transform.localScale.x / ((targetAspect / windowAspect)));
 		IronLayer = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "IronLayer9", "BothLayer", "layer1vs2", "layer1vs2vs3", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
 	}
 	public NailControl getNail()
@@ -46,7 +50,7 @@ public class Hole : MonoBehaviour
 		{
 			if (this.CheckNail() == false)
 			{
-				Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(this.transform.position.x, this.transform.position.y), 0.13f,IronLayer);
+				Collider2D[] colliders = Physics2D.OverlapCircleAll(this.transform.position, this.GetComponent<CircleCollider2D>().radius-0.068f , IronLayer);
 				bool hasCollider = false;
 				if (colliders.IsNullOrEmpty())
 				{
@@ -55,7 +59,7 @@ public class Hole : MonoBehaviour
 				else
 				{
 					hasCollider = true;
-					if (checkOsccupied(colliders))
+					if (checkOsccupied(colliders)) 
 					{
 						isOsccupied = true;
 					}
@@ -107,7 +111,14 @@ public class Hole : MonoBehaviour
 		}
 		return x;
 	}
-	
+	private void OnDrawGizmos()
+	{
+		if (this.isActiveAndEnabled)
+		{
+			Gizmos.color = Color.blue;
+			Gizmos.DrawWireSphere(transform.position, this.GetComponent<CircleCollider2D>().radius- 0.068f);
+		}
+	}
 	//public void CheckIron()
 	//{
 	//	Collider2D[] colliders = Physics2D.OverlapCircleAll(this.transform.localPosition, .2f);

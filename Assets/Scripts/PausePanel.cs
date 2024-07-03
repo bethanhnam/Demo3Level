@@ -68,7 +68,8 @@ public class PausePanel : MonoBehaviour
                 this.gameObject.SetActive(false);
                 GamePlayPanelUIManager.Instance.ActiveTime();
                 //UIManager.instance.ActiveTime();
-                //UIManager.instance.gamePlayPanel.backFromPause = true;
+                //UIManager.instance.gamePlayPanel.backFrom
+                //= true;
                 if (Stage.Instance.isWining)
                 {
                     Stage.Instance.ScaleUpStage();

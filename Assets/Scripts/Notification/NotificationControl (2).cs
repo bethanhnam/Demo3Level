@@ -28,7 +28,6 @@ public class NotificationControl : MonoBehaviour
         //    SmallIcon = smallIcon,
         //    LargeIcon = largeIcon
         //}, channelId);
-
         MyNotification.SendPush(title, t, d, id);
 
         //  manager.ScheduleNotification(notification);
@@ -38,6 +37,7 @@ public class NotificationControl : MonoBehaviour
     {
         MyNotification.CreateChannel();
         MyNotification.CancelAll();
+
         Invoke("PushNotification", 2);
         DontDestroyOnLoad(gameObject);
     }

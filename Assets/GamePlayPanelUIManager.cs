@@ -195,7 +195,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
                 UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
                 if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
                 {
-                    int replayLevel = UnityEngine.Random.Range(0, 29);
+                    int replayLevel = UnityEngine.Random.Range(5, 29);
                     GameManagerNew.Instance.CreateLevel(replayLevel);
                 }
                 else

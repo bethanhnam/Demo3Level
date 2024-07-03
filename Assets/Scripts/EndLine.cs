@@ -60,7 +60,7 @@ public class EndLine : MonoBehaviour
 		{
 			collision.gameObject.SetActive(false);
 			//InputManager.instance.numOfIronPlate--;
-			Stage.Instance.numOfIronPlates--;
+			Stage.Instance.numOfIronPlates -= 1;
             //AudioManager.instance.PlaySFX("DropIron");
             Debug.Log("numOfIronPlates" + Stage.Instance.numOfIronPlates);
             Stage.Instance.CheckDoneLevel();

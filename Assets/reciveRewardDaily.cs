@@ -277,6 +277,7 @@ public class reciveRewardDaily : MonoBehaviour
             undo = 0;
         }
         SaveSystem.instance.SaveData();
+        
         StartCoroutine(Close());
     }
     IEnumerator Close()
@@ -304,7 +305,10 @@ public class reciveRewardDaily : MonoBehaviour
                 Destroy(undoList[i]);
             }
         }
-
+       DOVirtual.DelayedCall(0.3f, () =>
+        {
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+        });
     }
     public void close()
     {

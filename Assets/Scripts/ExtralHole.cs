@@ -48,8 +48,8 @@ public class ExtralHole : MonoBehaviour
 	{
 		AdsManager.instance.ShowRewardVideo(() =>
 		{
-			// load ad 
-			this.Close();
+            // load ad 
+            this.Close();
 			Stage.Instance.ChangeLayer();
 			Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
 			Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);

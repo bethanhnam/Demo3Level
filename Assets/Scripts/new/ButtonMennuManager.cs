@@ -183,7 +183,7 @@ public class ButtonMennuManager : MonoBehaviour
                 UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
                 if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
                 {
-                    int replayLevel = UnityEngine.Random.Range(0, 29);
+                    int replayLevel = UnityEngine.Random.Range(5, 29);
                     GameManagerNew.Instance.CreateLevel(replayLevel);
                 }
                 else
@@ -199,9 +199,12 @@ public class ButtonMennuManager : MonoBehaviour
         Vector3 startPos = UIManagerNew.Instance.ChestSLider.present.transform.position;
         UIManagerNew.Instance.ChestSLider.present.transform.DOMove(Vector3.zero, 1f).OnComplete(() =>
         {
-            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
             UIManagerNew.Instance.ChestSLider.returnPos();
             UIManagerNew.Instance.ButtonMennuManager.OpenCongratPanel();
+            DOVirtual.DelayedCall(0.3f, () =>
+            {
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+            });
         });
     }
     public void DisplayReward()

@@ -2,14 +2,98 @@
 //using System.Collections;
 //using System.Collections.Generic;
 //using TMPro;
+//using Unity.VisualScripting;
 //using UnityEditor;
 //using UnityEngine;
 //using UnityEngine.UI;
 
 //public class ToolRebuildMap2 : MonoBehaviour
 //{
-//    [MenuItem("Tool/rebuild2/addtoStage")]
-//    public static void Button24()
+//    //[MenuItem("Tool/rebuild2/addtoStage")]
+//    //public static void Button24()
+//    //{
+//    //    Transform obj = Selection.activeTransform;
+//    //    for (int j = 0; j < obj.childCount; j++)
+//    //    {
+//    //        Transform transform1 = obj.GetChild(j);
+//    //        for (int i = 0; i < obj.GetChild(j).childCount; i++)
+//    //        {
+//    //            if (obj.GetChild(j).GetChild(i).gameObject.tag == "square")
+//    //            {
+//    //                Transform transform2 = obj.GetChild(j).GetChild(i).transform;
+//    //                for (int k = 0; k < transform2.childCount; k++)
+//    //                {
+//    //                    if (transform2.GetChild(k).gameObject.tag == "Hole")
+//    //                    {
+//    //                        Transform transform = transform2.GetChild(k);
+//    //                        RaycastHit2D[] HitHole = Physics2D.CircleCastAll(transform.position, 0.1f, Vector3.forward);
+//    //                        if (HitHole.Length > 0)
+//    //                        {
+//    //                            foreach (RaycastHit2D collider in HitHole)
+//    //                            {
+//    //                                if (collider.transform.tag == "Nail")
+//    //                                {
+//    //                                    transform.GetComponent<Hole>().Nail = collider.transform.GetComponent<NailControl>();
+//    //                                }
+//    //                            }
+//    //                        }
+//    //                    }
+//    //                }
+//    //            }
+//    //            if (obj.GetChild(j).GetChild(i).gameObject.tag == "Iron")
+//    //            {
+//    //                Transform transform2 = obj.GetChild(j).GetChild(i).transform;
+//    //                for (int k = 0; k < transform2.childCount; k++)
+//    //                {
+//    //                    Transform transform = transform2.GetChild(k);
+//    //                    RaycastHit2D[] HitHole = Physics2D.CircleCastAll(transform.position, 0.1f, Vector3.forward);
+//    //                    if (HitHole.Length > 0)
+//    //                    {
+//    //                        foreach (RaycastHit2D collider in HitHole)
+//    //                        {
+//    //                            if (collider.transform.tag == "Nail")
+//    //                            {
+//    //                                transform.GetComponent<NailDetector>().Nail = collider.transform.GetComponent<NailControl>();
+//    //                            }
+//    //                        }
+//    //                    }
+//    //                }
+//    //            }
+
+//    //        }
+//    //    }
+//    //}
+//    //[MenuItem("Tool/rebuild2/testngu :)))")]
+//    //public static void button25()
+//    //{
+//    //    Transform obj = Selection.activeTransform;
+//    //    PictureUIManager pictureUIManager = obj.GetComponent<PictureUIManager>();
+//    //    for (int i = 0; i < pictureUIManager.Stage.Length; i++)
+//    //    {
+//    //        for (int j = 0; j < pictureUIManager.Stage[i].ObjBtn.Length; j++)
+//    //        {
+//    //            GameObject originalObj = pictureUIManager.Stage[i].ObjBtn[j];
+//    //            GameObject prefabObj = Resources.Load<GameObject>("ObjjPrefab/PicItemBT");
+
+//    //            // Instantiate the prefab and copy the properties from the original object
+//    //            GameObject newObj = (GameObject)PrefabUtility.InstantiatePrefab(prefabObj, originalObj.transform.parent);
+
+//    //            newObj.transform.SetParent(originalObj.transform.parent, false);
+//    //            CopyComponentValues(originalObj, newObj);
+//    //            CoppyPos(originalObj, newObj);
+//    //            setStarText(originalObj, newObj);
+//    //            CoppyChildImg(originalObj.transform.GetChild(0).transform.gameObject, newObj.transform.GetChild(0).transform.gameObject);
+
+//    //            // Update the reference in PictureUIManager
+//    //            pictureUIManager.Stage[i].ObjBtn[j] = newObj;
+
+//    //            // Optionally destroy the original object
+//    //            GameObject.DestroyImmediate(originalObj);
+//    //        }
+//    //    }
+//    //}
+//    [MenuItem("Component/testfixTexture")]
+//    public static  void SetTextureCircle()
 //    {
 //        Transform obj = Selection.activeTransform;
 //        for (int j = 0; j < obj.childCount; j++)
@@ -17,81 +101,22 @@
 //            Transform transform1 = obj.GetChild(j);
 //            for (int i = 0; i < obj.GetChild(j).childCount; i++)
 //            {
-//                if (obj.GetChild(j).GetChild(i).gameObject.tag == "square")
-//                {
-//                    Transform transform2 = obj.GetChild(j).GetChild(i).transform;
-//                    for (int k = 0; k < transform2.childCount; k++)
-//                    {
-//                        if (transform2.GetChild(k).gameObject.tag == "Hole")
-//                        {
-//                            Transform transform = transform2.GetChild(k);
-//                            RaycastHit2D[] HitHole = Physics2D.CircleCastAll(transform.position, 0.1f, Vector3.forward);
-//                            if (HitHole.Length > 0)
-//                            {
-//                                foreach (RaycastHit2D collider in HitHole)
-//                                {
-//                                    if (collider.transform.tag == "Nail")
-//                                    {
-//                                        transform.GetComponent<Hole>().Nail = collider.transform.GetComponent<NailControl>();
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
 //                if (obj.GetChild(j).GetChild(i).gameObject.tag == "Iron")
 //                {
 //                    Transform transform2 = obj.GetChild(j).GetChild(i).transform;
-//                    for (int k = 0; k < transform2.childCount; k++)
+//                    if (transform2.GetComponent<SpriteRenderer>().sprite.name == "Solid_Circle_1")
 //                    {
-//                        Transform transform = transform2.GetChild(k);
-//                        RaycastHit2D[] HitHole = Physics2D.CircleCastAll(transform.position, 0.1f, Vector3.forward);
-//                        if (HitHole.Length > 0)
-//                        {
-//                            foreach (RaycastHit2D collider in HitHole)
-//                            {
-//                                if (collider.transform.tag == "Nail")
-//                                {
-//                                    transform.GetComponent<NailDetector>().Nail = collider.transform.GetComponent<NailControl>();
-//                                }
-//                            }
-//                        }
+//                        PolygonCollider2D polygonCollider2D = transform2.GetComponent<PolygonCollider2D>();
+//                        DestroyImmediate(polygonCollider2D);
+//                        transform2.AddComponent<CircleCollider2D>();
+//                        CircleCollider2D circleCollider2D = transform2.GetComponent<CircleCollider2D>();
+//                        circleCollider2D.sharedMaterial = Resources.Load<PhysicsMaterial2D>("PhysicMaterials/New Physics Material 2D");
 //                    }
 //                }
 
 //            }
 //        }
 //    }
-//    [MenuItem("Tool/rebuild2/testngu :)))")]
-//    public static void button25()
-//    {
-//        Transform obj = Selection.activeTransform;
-//        PictureUIManager pictureUIManager = obj.GetComponent<PictureUIManager>();
-//        for (int i = 0; i < pictureUIManager.Stage.Length; i++)
-//        {
-//            for (int j = 0; j < pictureUIManager.Stage[i].ObjBtn.Length; j++)
-//            {
-//                GameObject originalObj = pictureUIManager.Stage[i].ObjBtn[j];
-//                GameObject prefabObj = Resources.Load<GameObject>("ObjjPrefab/PicItemBT");
-
-//                // Instantiate the prefab and copy the properties from the original object
-//                GameObject newObj = (GameObject)PrefabUtility.InstantiatePrefab(prefabObj, originalObj.transform.parent);
-
-//                newObj.transform.SetParent(originalObj.transform.parent, false);
-//                CopyComponentValues(originalObj, newObj);
-//                CoppyPos(originalObj, newObj);
-//                setStarText(originalObj, newObj);
-//                CoppyChildImg(originalObj.transform.GetChild(0).transform.gameObject, newObj.transform.GetChild(0).transform.gameObject);
-
-//                // Update the reference in PictureUIManager
-//                pictureUIManager.Stage[i].ObjBtn[j] = newObj;
-
-//                // Optionally destroy the original object
-//                GameObject.DestroyImmediate(originalObj);
-//            }
-//        }
-//    }
-
 //    private static void CopyComponentValues(GameObject originalObj, GameObject newObj)
 //    {
 //        // Copy the values of components from originalObj to newObj
@@ -125,4 +150,5 @@
 //        var text = newObj.transform.GetChild(1).GetChild(1);
 //        newObj.GetComponent<LevelButton>().itemStar = text.GetComponent<TextMeshProUGUI>();
 //    }
+   
 //}

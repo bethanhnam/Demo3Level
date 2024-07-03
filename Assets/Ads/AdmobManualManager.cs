@@ -199,6 +199,7 @@ public class AdmobManualManager : MonoBehaviour
         }
         else
         {
+            AdsControl.Instance.ActiveBlockFaAds(false);
             Debug.LogError("Interstitial ad is not ready yet.");
         }
     }
@@ -352,6 +353,7 @@ public class AdmobManualManager : MonoBehaviour
         }
         else
         {
+            AdsControl.Instance.ActiveBlockFaAds(false);
             Debug.LogError("RW ad is not ready yet.");
         }
     }

@@ -134,6 +134,8 @@ public class LoadingScreen : MonoBehaviour
     private void Start()
     {
         instance = this;
+        //test
+        //PlayerPrefs.SetString("HasFinishedStory", "true");
 
         DontDestroyOnLoad(this.gameObject);
         LoadingScene(1);

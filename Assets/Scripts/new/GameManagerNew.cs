@@ -105,14 +105,14 @@ public class GameManagerNew : MonoBehaviour
         FirebaseAnalyticsControl.Instance.Gameplay_Level(LevelManagerNew.Instance.stage);
         {
             //UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
-            GamePlayPanelUIManager.Instance.setText(LevelManagerNew.Instance.stage + 1);
+            GamePlayPanelUIManager.Instance.setText(_level + 1);
             DOVirtual.DelayedCall(1f, () =>
             {
                 PictureUIManager.Close();
             });
             DOVirtual.DelayedCall(1f, () =>
             {
-                CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[LevelManagerNew.Instance.stage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
+                CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
                 ScaleForDevices(CurrentLevel.transform.gameObject);
                 SetTargetScale(currentLevel.gameObject);
                 CurrentLevel.Init(level);
@@ -471,6 +471,7 @@ public class GameManagerNew : MonoBehaviour
     }
     public void NextLevelPicture()
     {
+        UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
         if (LevelManagerNew.Instance.LevelBase.Level == 0)
         {
             Debug.Log("LevelManagerNew.Instance.LevelBase.Level" + LevelManagerNew.Instance.LevelBase.Level);
@@ -575,12 +576,14 @@ public class GameManagerNew : MonoBehaviour
         var result = false;
         if (UIManagerNew.Instance.ChestSLider.currentValue == UIManagerNew.Instance.ChestSLider.maxValue1)
         {
+            UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
             Debug.Log("UIManagerNew.Instance.ChestSLider.currentValue" + UIManagerNew.Instance.ChestSLider.currentValue);
             Debug.Log("UIManagerNew.Instance.ChestSLider.maxValue1" + UIManagerNew.Instance.ChestSLider.maxValue1);
             if (LevelManagerNew.Instance.LevelBase.Level +1 >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
             {
                 if (PlayerPrefs.GetInt("HasRecieveRW") == 0)
                 {
+                    
                     Debug.Log("chưa nhận quà , h hiện quà ");
                     UIManagerNew.Instance.ButtonMennuManager.DiactiveCVGroup();
                     result = true;
@@ -636,7 +639,6 @@ public class GameManagerNew : MonoBehaviour
     }
     IEnumerator DisPlayPresent()
     {
-        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);
         UIManagerNew.Instance.ButtonMennuManager.DisPlayPresent();
     }
@@ -644,18 +646,19 @@ public class GameManagerNew : MonoBehaviour
     {
         if (SaveSystem.instance.star - numOfStar >= 0)
         {
+            UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
             SaveSystem.instance.addStar(-numOfStar);
             SaveSystem.instance.SaveData();
-            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
 
             UIManagerNew.Instance.ButtonMennuManager.starMove.CreateStar(des, (() =>
             {
                 DataLevelManager.Instance.SetLevelDone(Level);
-                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+                //UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
             }), numOfStar, levelButton);
         }
         else
         {
+            UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
             UIManagerNew.Instance.ButtonMennuManager.OpenNotEnoughStar();
         }
     }

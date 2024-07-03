@@ -22,13 +22,13 @@ public class NailControl : MonoBehaviour
 	public Collider2D collider2D;
 	public Rigidbody2D rigidbody2D;
 
-	private int pickUp = Animator.StringToHash("SelectNail");
+    private int pickUp = Animator.StringToHash("SelectNail");
 	private int unSelect = Animator.StringToHash("DeSelectNail");
 	private int idle = Animator.StringToHash("idleBail");
 
 	private void Start()
 	{
-		collider2D = GetComponent<Collider2D>();
+        collider2D = GetComponent<Collider2D>();
 		nailSprite = GetComponent<SpriteRenderer>();
 		rigidbody2D = GetComponent<Rigidbody2D>();
 	}

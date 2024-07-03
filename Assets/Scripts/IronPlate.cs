@@ -4,7 +4,9 @@ using Sirenix.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
+
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
@@ -27,8 +29,8 @@ public class IronPlate : MonoBehaviour
     public List<NailControl> nailControls = new List<NailControl>();
     public Rigidbody2D rigidbody2D1;
     private Collider2D collider2D;
-    [SerializeField] private Vector3 centerOfMass = new Vector3(-0.00177252f, -0.001291171f, 0f);
 
+    [SerializeField] private Vector3 centerOfMass = new Vector3(-0.00177252f, -0.001291171f, 0f);
 
     private void Start()
     {
@@ -38,7 +40,7 @@ public class IronPlate : MonoBehaviour
         SetHingeJoint();
         rigidbody2D1 = this.GetComponent<Rigidbody2D>();
         collider2D = GetComponent<Collider2D>();
-
+        rigidbody2D1.gravityScale = 1f;
 
     }
     private void Update()
@@ -46,11 +48,7 @@ public class IronPlate : MonoBehaviour
         checkHinge();
         setPoint();
         //CheckPosition();
-
-        if (!isFrezze)
-        {
-            ApplyTorque();
-        }
+       
     }
     private void FixedUpdate()
     {
@@ -107,23 +105,28 @@ public class IronPlate : MonoBehaviour
     public bool checkHitPoint(Vector2 holePosition)
     {
         result = false;
-        radius = 0.07f;
+        radius = 0.05f;
         float reference = radius;
         for (int i = 0; i < centerPoints.Length; i++)
         {
             float distance = Vector2.Distance(holePosition, centerPoints[i]);
-            if (distance < reference)
+            if (distance <= 1)
             {
-                selectedHinge = i;
-                result = true;
+                if (distance < reference)
+                {
+                    selectedHinge = i;
+                    result = true;
+                }
             }
+            // Đặt điểm bắt đầu và kết thúc cho Line Renderer
+
         }
         return result;
     }
     public bool checkHitPoint1(Vector2 holePosition)
     {
         result = false;
-        radius = 0.07f;
+        radius = 0.05f;
         float reference = radius;
         for (int i = 0; i < centerPoints.Length; i++)
         {
@@ -138,16 +141,14 @@ public class IronPlate : MonoBehaviour
     }
     //private void OnDrawGizmos()
     //{
-    //	if (this.isActiveAndEnabled)
-    //	{
-    //		foreach (var centerPoint in centerPoints)
-    //		{
-    //			Gizmos.color = Color.black;
-    //			Gizmos.DrawWireSphere(centerPoint, radius);
-    //		}
-    //		Gizmos.color = Color.red;
-    //		Gizmos.DrawSphere(transform.position + transform.rotation * centerOfMass, 0.1f);
-    //	}
+    //    if (this.isActiveAndEnabled)
+    //    {
+    //        foreach (var centerPoint in centerPoints)
+    //        {
+    //            Gizmos.color = Color.red;
+    //            Gizmos.DrawWireSphere(centerPoint, radius);
+    //        }
+    //    }
     //}
     public void checkHinge()
     {
@@ -201,15 +202,16 @@ public class IronPlate : MonoBehaviour
             //    rigidbody2D1.AddForce(forceToAdd, ForceMode2D.Force);
             //    hasAddForce = true;
             //}
-            Vector3 movementDirection = this.rigidbody2D1.velocity.normalized;
+            Vector2 movementDirection = rigidbody2D1.velocity.normalized;
 
-            // Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude
+            // Kiểm tra vận tốc hiện tại
             if (rigidbody2D1.velocity.magnitude < 0.5f)
             {
-                Vector3 forceToAdd = movementDirection * .2f;
+                // Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude
+                Vector2 forceToAdd = movementDirection * 0.05f;
 
-                // Thêm lực vào Rigidbody
-                rigidbody2D1.AddForce(forceToAdd, ForceMode2D.Force);
+                // Thêm lực vào Rigidbody2D
+                rigidbody2D1.AddForce(forceToAdd,ForceMode2D.Force);
             }
         }
         //}
@@ -222,6 +224,8 @@ public class IronPlate : MonoBehaviour
         rigidbody2D1.gravityScale = 1f;
         hasAddForceRotate = false;
         isFrezze = true;
+        rigidbody2D1.sleepMode = RigidbodySleepMode2D.StartAwake;
+        rigidbody2D1.interpolation = RigidbodyInterpolation2D.None;
     }
     IEnumerator unFreeze()
     {
@@ -233,7 +237,8 @@ public class IronPlate : MonoBehaviour
         {
             rigidbody2D1.angularDrag += 0.05f;
         }
-        rigidbody2D1.gravityScale = 1.05f;
+        rigidbody2D1.sleepMode = RigidbodySleepMode2D.NeverSleep;
+        rigidbody2D1.interpolation = RigidbodyInterpolation2D.Interpolate;
         //if (!hasAddForce)
         //{
         //    ApplyTorque();
@@ -242,18 +247,19 @@ public class IronPlate : MonoBehaviour
     }
     private void ApplyTorque()
     {
-        if(holes.Length >=3)
-        for (int i = 0; i < holes.Length; i++) {
-            if (holes[i].GetComponent<NailDetector>().Nail != null)
+        if (holes.Length >= 3)
+            for (int i = 0; i < holes.Length; i++)
             {
-                float distance = Vector2.Distance(holes[i].transform.localPosition, Vector2.zero);
-                if (distance < 0.2f)
+                if (holes[i].GetComponent<NailDetector>().Nail != null)
                 {
+                    float distance = Vector2.Distance(holes[i].transform.localPosition, Vector2.zero);
+                    if (distance < 0.2f)
+                    {
                         float currentTorque = Mathf.Lerp(2f, 5f, 3f);
                         rigidbody2D1.AddTorque(currentTorque * Time.deltaTime);
+                    }
                 }
             }
-        }
         //DOVirtual.DelayedCall(0.5f, () =>
         //{
         //    selectedHingeJoint.useMotor = false;
