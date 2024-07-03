@@ -62,7 +62,7 @@ public class SaveSystem : MonoBehaviour
         //magicTiket = 10;
         //powerTicket = 10;
         //coin = 1000;
-        //star = 80;
+        star = 180;
         //unscrewPoint = 20;
         //undoPoint = 20;
         //extraHolePoint = 20;
