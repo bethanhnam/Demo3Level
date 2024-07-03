@@ -61,6 +61,7 @@ public class VideoController : MonoBehaviour
         if (this.videoIndex == videoList.Count - 1)
         {
             PlayerPrefs.SetString("HasFinishedStory", "true");
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();
             DOVirtual.DelayedCall(0.8f, () =>
             {

@@ -77,7 +77,8 @@ public class NotEnoughStar : MonoBehaviour
         }
         else
         {
-			UIManagerNew.Instance.GamePlayLoading.appear();
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+            UIManagerNew.Instance.GamePlayLoading.appear();
 			DOVirtual.DelayedCall(0.7f, () =>
             {
                 UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();

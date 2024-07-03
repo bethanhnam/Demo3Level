@@ -189,6 +189,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
         }
         else
         {
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();
             DOVirtual.DelayedCall(.7f, () =>
             {

@@ -6,6 +6,7 @@ using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Security;
 using DG.Tweening;
 using Unity.Burst.Intrinsics;
+using UnityEngine.UI;
 
 public class IapControl : MonoBehaviour, IStoreListener
 {
@@ -23,7 +24,7 @@ public class IapControl : MonoBehaviour, IStoreListener
 
 	[SerializeField]
 	private CanvasGroup cvLoadingIAP;
-	[SerializeField]
+    [SerializeField]
 	private GameObject objLoadingIAP;
 	[SerializeField]
 	private RectTransform rectTrsSuccessPurchase;
@@ -74,12 +75,15 @@ public class IapControl : MonoBehaviour, IStoreListener
 		{
 			objLoadingIAP.SetActive(true);
 		}
-		if (DOTween.IsTweening(cvLoadingIAP))
+        if (DOTween.IsTweening(cvLoadingIAP))
 		{
 			DOTween.Kill(cvLoadingIAP);
 		}
 		cvLoadingIAP.alpha = 0.1f;
-		cvLoadingIAP.DOFade(1, 0.3f).SetUpdate(true);
+
+		Color a = new Color(0, 0, 0, 1);
+		cvLoadingIAP.GetComponent<Image>().color = a;
+        cvLoadingIAP.DOFade(1, 0.3f).SetUpdate(true);
 	}
 
 	private void DeactiveLoadingPurchase()
@@ -91,7 +95,9 @@ public class IapControl : MonoBehaviour, IStoreListener
 		cvLoadingIAP.DOFade(0, 0.3f).SetUpdate(true).OnComplete(
 			() =>
 			{
-				if (objLoadingIAP.activeSelf)
+                Color a = new Color(0, 0, 0, 0);
+                cvLoadingIAP.GetComponent<Image>().color = a;
+                if (objLoadingIAP.activeSelf)
 				{
 					objLoadingIAP.SetActive(false);
 

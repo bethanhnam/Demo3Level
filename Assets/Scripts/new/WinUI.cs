@@ -155,6 +155,7 @@ public class WinUI : MonoBehaviour
                 });
                 if (i == list.Count - 1)
                 {
+                    UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
                     UIManagerNew.Instance.GamePlayLoading.appear();
                     UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                     DOVirtual.DelayedCall(2f, () =>
