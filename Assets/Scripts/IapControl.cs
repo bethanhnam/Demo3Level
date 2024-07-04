@@ -162,22 +162,6 @@ public class IapControl : MonoBehaviour, IStoreListener
 
 		var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
-		//builder.AddProduct(PackName.remove_ads1.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.magic_10.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.magic_30.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.magic_60.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.magic_130.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.magic_250.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.magic_600.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.power_15.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.power_45.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.power_90.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.combo.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.remove_ads_pack.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.day_vip_3.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.day_vip_7.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.day_vip_30.ToString(), ProductType.Consumable);
-
 		//new data
         builder.AddProduct(NewDataPackName.remove_ads1	.ToString(), ProductType.Consumable);
         builder.AddProduct(NewDataPackName.gold_150.ToString(), ProductType.Consumable);

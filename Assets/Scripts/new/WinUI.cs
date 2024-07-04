@@ -202,7 +202,7 @@ public class WinUI : MonoBehaviour
         SpawnCoin(0);
         AudioManager.instance.PlaySFX("StarRecieve");
         Debug.Log("StarImgDes " + StarImgDes.transform.position);
-        list.MoveToFix(list, list.transform.position, StarImgDes.transform.position, new Vector3(.3f, .3f, 1f), () =>
+        list.MoveToFix(list, list.transform.position,new Vector3(StarImgDes.transform.position.x, StarImgDes.transform.position.y,0), new Vector3(.3f, .3f, 1f), () =>
             {
                 Debug.Log("list " + list.transform.position);
                 Debug.Log("Đã đến nơi ");
