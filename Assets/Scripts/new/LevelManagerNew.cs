@@ -28,7 +28,7 @@ public class LevelManagerNew : MonoBehaviour
 	public void Init()
 	{
 		string dataString = PlayerPrefs.GetString(dataName);
-		if (string.IsNullOrEmpty(dataString))
+		if (string.IsNullOrEmpty(dataName))
 		{
 			levelBase = new LevelBase();
 			levelBase.Level = 0;
@@ -40,6 +40,9 @@ public class LevelManagerNew : MonoBehaviour
 			try
 			{
 				levelBase = JsonConvert.DeserializeObject<LevelBase>(dataString);
+				dataString = "{\"Level\":4,\"CountLevelWin\":0}";
+                levelBase = JsonConvert.DeserializeObject<LevelBase>(dataString);
+                Debug.Log(dataString);
 				if (levelBase == null)
 				{
 					levelBase = new LevelBase();
