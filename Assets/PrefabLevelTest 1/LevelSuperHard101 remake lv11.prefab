@@ -3347,7 +3347,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2357322211767773523}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.2314174, y: -1.6670979, z: -4.3790064}
   m_LocalScale: {x: 1.85, y: 1.85, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3509,6 +3509,7 @@ MonoBehaviour:
   nailToDetele: {fileID: 0}
   isDeteleting: 0
   hasDelete: 0
+  hasUndo: 1
   HingeJointBeforeRemove: []
   holeToUndo: {fileID: 0}
   holeBeforeUndo: {fileID: 0}
@@ -3533,6 +3534,7 @@ MonoBehaviour:
   canInteract: 1
   isWining: 0
   isLosing: 0
+  isScaling: 0
 --- !u!1 &2591806604478198668
 GameObject:
   m_ObjectHideFlags: 0
@@ -4099,11 +4101,12 @@ GameObject:
   - component: {fileID: 8836347919223553692}
   - component: {fileID: 6089469273932903484}
   - component: {fileID: 9052925365545112209}
-  - component: {fileID: 727152127683413163}
   - component: {fileID: 210593586465723158}
   - component: {fileID: 8722470183158049788}
   - component: {fileID: 2086252892540334104}
   - component: {fileID: 5866719430927125095}
+  - component: {fileID: 7726759186218365256}
+  - component: {fileID: 2686073599466209487}
   m_Layer: 15
   m_Name: iron2 2 (1)
   m_TagString: Iron
@@ -4246,71 +4249,6 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 7
   m_SortAtRoot: 0
---- !u!60 &727152127683413163
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2689347166905130640}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.08, y: 1.08}
-    newSize: {x: 1.5120001, y: 1.5120001}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 1
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.63774043, y: 0.3753736}
-      - {x: 0.5384869, y: 0.5070158}
-      - {x: 0.37465623, y: 0.63845783}
-      - {x: 0.21109915, y: 0.7147174}
-      - {x: 0.10555047, y: 0.7477323}
-      - {x: -0.25311592, y: 0.6904972}
-      - {x: -0.44465202, y: 0.57849723}
-      - {x: -0.6014588, y: 0.39872938}
-      - {x: -0.6831797, y: 0.27161175}
-      - {x: -0.73584527, y: 0.027492136}
-      - {x: -0.7156906, y: -0.19488405}
-      - {x: -0.599768, y: -0.41049737}
-      - {x: -0.4250386, y: -0.59138125}
-      - {x: -0.23127063, y: -0.69049734}
-      - {x: -0.09947287, y: -0.7093061}
-      - {x: 0.2105747, y: -0.65018815}
-      - {x: 0.43234268, y: -0.5561108}
-      - {x: 0.6552266, y: -0.32534796}
-      - {x: 0.7305239, y: -0.11009979}
-      - {x: 0.7207293, y: 0.11372408}
-  m_UseDelaunayMesh: 0
 --- !u!114 &210593586465723158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4413,6 +4351,76 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 0
     m_UpperAngle: 359
+--- !u!58 &7726759186218365256
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2689347166905130640}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.00000023841858}
+  serializedVersion: 2
+  m_Radius: 0.75600016
+--- !u!58 &2686073599466209487
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2689347166905130640}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.00000023841858}
+  serializedVersion: 2
+  m_Radius: 0.75600016
 --- !u!1 &3079967074013414143
 GameObject:
   m_ObjectHideFlags: 0
@@ -4952,8 +4960,8 @@ GameObject:
   - component: {fileID: 4909694885972919917}
   - component: {fileID: 6309412216121951203}
   - component: {fileID: 787317038239872818}
-  - component: {fileID: 7928014457770875805}
   - component: {fileID: 8931320301822401493}
+  - component: {fileID: 8660012372452691327}
   m_Layer: 10
   m_Name: iron6 1 (1)
   m_TagString: Iron
@@ -5093,8 +5101,35 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 15
   m_SortAtRoot: 0
---- !u!60 &7928014457770875805
-PolygonCollider2D:
+--- !u!114 &8931320301822401493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3460853466585762953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b044b542b1a9f498d4af0dc4eabe0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hingeJoint2Ds: []
+  holes: []
+  centerPoints: []
+  selectedhole: 0
+  radius: 0
+  selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
+  result: 0
+  isFrezze: 0
+  hasAddForce: 0
+  hasAddForceRotate: 0
+  joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
+  centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
+--- !u!58 &8660012372452691327
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5125,66 +5160,9 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.08, y: 1.08}
-    newSize: {x: 0.81000006, y: 0.81000006}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 1
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.34164667, y: 0.20109302}
-      - {x: 0.28847513, y: 0.27161562}
-      - {x: 0.20070869, y: 0.34203097}
-      - {x: 0.11308883, y: 0.38288432}
-      - {x: 0.056544892, y: 0.40057087}
-      - {x: -0.13559783, y: 0.36990923}
-      - {x: -0.23820645, y: 0.30990922}
-      - {x: -0.32221007, y: 0.21360502}
-      - {x: -0.36598912, y: 0.1455063}
-      - {x: -0.39420283, y: 0.01472793}
-      - {x: -0.3834057, y: -0.10440217}
-      - {x: -0.32130426, y: -0.21990931}
-      - {x: -0.22769925, y: -0.31681138}
-      - {x: -0.123894975, y: -0.3699093}
-      - {x: -0.05328904, y: -0.37998542}
-      - {x: 0.11280788, y: -0.3483151}
-      - {x: 0.23161215, y: -0.2979165}
-      - {x: 0.35101426, y: -0.17429355}
-      - {x: 0.3913521, y: -0.058982033}
-      - {x: 0.38610497, y: 0.060923617}
-  m_UseDelaunayMesh: 0
---- !u!114 &8931320301822401493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3460853466585762953}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12b044b542b1a9f498d4af0dc4eabe0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hingeJoint2Ds: []
-  holes: []
-  centerPoints: []
-  selectedhole: 0
-  radius: 0
-  selectedHinge: 0
-  selectedHingeJoint: {fileID: 0}
-  result: 0
-  isFrezze: 0
-  hasAddForce: 0
-  hasAddForceRotate: 0
-  joints: []
-  nailControls: []
-  rigidbody2D1: {fileID: 0}
-  centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
+  m_Offset: {x: -0.00000023841858, y: 0.00000008940697}
+  serializedVersion: 2
+  m_Radius: 0.4050001
 --- !u!1 &3507227238607859756
 GameObject:
   m_ObjectHideFlags: 0
@@ -5198,8 +5176,8 @@ GameObject:
   - component: {fileID: 8275912153420222036}
   - component: {fileID: 7603051219820706387}
   - component: {fileID: 249329897861723116}
-  - component: {fileID: 7757884677299185094}
   - component: {fileID: 7197917863216781930}
+  - component: {fileID: 1468389165684153807}
   m_Layer: 10
   m_Name: iron6 1
   m_TagString: Iron
@@ -5339,8 +5317,35 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 15
   m_SortAtRoot: 0
---- !u!60 &7757884677299185094
-PolygonCollider2D:
+--- !u!114 &7197917863216781930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3507227238607859756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b044b542b1a9f498d4af0dc4eabe0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hingeJoint2Ds: []
+  holes: []
+  centerPoints: []
+  selectedhole: 0
+  radius: 0
+  selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
+  result: 0
+  isFrezze: 0
+  hasAddForce: 0
+  hasAddForceRotate: 0
+  joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
+  centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
+--- !u!58 &1468389165684153807
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5371,66 +5376,9 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.08, y: 1.08}
-    newSize: {x: 0.81000006, y: 0.81000006}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 1
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.34164667, y: 0.20109302}
-      - {x: 0.28847513, y: 0.27161562}
-      - {x: 0.20070869, y: 0.34203097}
-      - {x: 0.11308883, y: 0.38288432}
-      - {x: 0.056544892, y: 0.40057087}
-      - {x: -0.13559783, y: 0.36990923}
-      - {x: -0.23820645, y: 0.30990922}
-      - {x: -0.32221007, y: 0.21360502}
-      - {x: -0.36598912, y: 0.1455063}
-      - {x: -0.39420283, y: 0.01472793}
-      - {x: -0.3834057, y: -0.10440217}
-      - {x: -0.32130426, y: -0.21990931}
-      - {x: -0.22769925, y: -0.31681138}
-      - {x: -0.123894975, y: -0.3699093}
-      - {x: -0.05328904, y: -0.37998542}
-      - {x: 0.11280788, y: -0.3483151}
-      - {x: 0.23161215, y: -0.2979165}
-      - {x: 0.35101426, y: -0.17429355}
-      - {x: 0.3913521, y: -0.058982033}
-      - {x: 0.38610497, y: 0.060923617}
-  m_UseDelaunayMesh: 0
---- !u!114 &7197917863216781930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3507227238607859756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12b044b542b1a9f498d4af0dc4eabe0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hingeJoint2Ds: []
-  holes: []
-  centerPoints: []
-  selectedhole: 0
-  radius: 0
-  selectedHinge: 0
-  selectedHingeJoint: {fileID: 0}
-  result: 0
-  isFrezze: 0
-  hasAddForce: 0
-  hasAddForceRotate: 0
-  joints: []
-  nailControls: []
-  rigidbody2D1: {fileID: 0}
-  centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
+  m_Offset: {x: -0.00000023841858, y: 0.00000011920929}
+  serializedVersion: 2
+  m_Radius: 0.4050001
 --- !u!1 &4689462014364674927
 GameObject:
   m_ObjectHideFlags: 0
@@ -6867,8 +6815,8 @@ GameObject:
   - component: {fileID: 1836382389550020674}
   - component: {fileID: 4952356586288690668}
   - component: {fileID: 7956091929426000275}
-  - component: {fileID: 8292809093908549812}
   - component: {fileID: 3133824496022254939}
+  - component: {fileID: 2802076276973253649}
   m_Layer: 10
   m_Name: iron6 1 (3)
   m_TagString: Iron
@@ -7008,8 +6956,35 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 15
   m_SortAtRoot: 0
---- !u!60 &8292809093908549812
-PolygonCollider2D:
+--- !u!114 &3133824496022254939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6636450892109152978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b044b542b1a9f498d4af0dc4eabe0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hingeJoint2Ds: []
+  holes: []
+  centerPoints: []
+  selectedhole: 0
+  radius: 0
+  selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
+  result: 0
+  isFrezze: 0
+  hasAddForce: 0
+  hasAddForceRotate: 0
+  joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
+  centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
+--- !u!58 &2802076276973253649
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -7040,66 +7015,9 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.08, y: 1.08}
-    newSize: {x: 0.81000006, y: 0.81000006}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 1
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.34164667, y: 0.20109302}
-      - {x: 0.28847513, y: 0.27161562}
-      - {x: 0.20070869, y: 0.34203097}
-      - {x: 0.11308883, y: 0.38288432}
-      - {x: 0.056544892, y: 0.40057087}
-      - {x: -0.13559783, y: 0.36990923}
-      - {x: -0.23820645, y: 0.30990922}
-      - {x: -0.32221007, y: 0.21360502}
-      - {x: -0.36598912, y: 0.1455063}
-      - {x: -0.39420283, y: 0.01472793}
-      - {x: -0.3834057, y: -0.10440217}
-      - {x: -0.32130426, y: -0.21990931}
-      - {x: -0.22769925, y: -0.31681138}
-      - {x: -0.123894975, y: -0.3699093}
-      - {x: -0.05328904, y: -0.37998542}
-      - {x: 0.11280788, y: -0.3483151}
-      - {x: 0.23161215, y: -0.2979165}
-      - {x: 0.35101426, y: -0.17429355}
-      - {x: 0.3913521, y: -0.058982033}
-      - {x: 0.38610497, y: 0.060923617}
-  m_UseDelaunayMesh: 0
---- !u!114 &3133824496022254939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6636450892109152978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12b044b542b1a9f498d4af0dc4eabe0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hingeJoint2Ds: []
-  holes: []
-  centerPoints: []
-  selectedhole: 0
-  radius: 0
-  selectedHinge: 0
-  selectedHingeJoint: {fileID: 0}
-  result: 0
-  isFrezze: 0
-  hasAddForce: 0
-  hasAddForceRotate: 0
-  joints: []
-  nailControls: []
-  rigidbody2D1: {fileID: 0}
-  centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
+  m_Offset: {x: 0.00000009685755, y: 0.00000008940697}
+  serializedVersion: 2
+  m_Radius: 0.4050001
 --- !u!1 &6803543399689947103
 GameObject:
   m_ObjectHideFlags: 0
@@ -7956,8 +7874,8 @@ GameObject:
   - component: {fileID: 7603657714452586195}
   - component: {fileID: 5809658038489991603}
   - component: {fileID: 5117084390785985361}
-  - component: {fileID: 461554122942511529}
   - component: {fileID: 6740493325378000436}
+  - component: {fileID: 2905964777867764721}
   m_Layer: 10
   m_Name: iron6 1 (2)
   m_TagString: Iron
@@ -8097,8 +8015,35 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 15
   m_SortAtRoot: 0
---- !u!60 &461554122942511529
-PolygonCollider2D:
+--- !u!114 &6740493325378000436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7991266103563434941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b044b542b1a9f498d4af0dc4eabe0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hingeJoint2Ds: []
+  holes: []
+  centerPoints: []
+  selectedhole: 0
+  radius: 0
+  selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
+  result: 0
+  isFrezze: 0
+  hasAddForce: 0
+  hasAddForceRotate: 0
+  joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
+  centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
+--- !u!58 &2905964777867764721
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -8129,66 +8074,9 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.08, y: 1.08}
-    newSize: {x: 0.81000006, y: 0.81000006}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 1
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.34164667, y: 0.20109302}
-      - {x: 0.28847513, y: 0.27161562}
-      - {x: 0.20070869, y: 0.34203097}
-      - {x: 0.11308883, y: 0.38288432}
-      - {x: 0.056544892, y: 0.40057087}
-      - {x: -0.13559783, y: 0.36990923}
-      - {x: -0.23820645, y: 0.30990922}
-      - {x: -0.32221007, y: 0.21360502}
-      - {x: -0.36598912, y: 0.1455063}
-      - {x: -0.39420283, y: 0.01472793}
-      - {x: -0.3834057, y: -0.10440217}
-      - {x: -0.32130426, y: -0.21990931}
-      - {x: -0.22769925, y: -0.31681138}
-      - {x: -0.123894975, y: -0.3699093}
-      - {x: -0.05328904, y: -0.37998542}
-      - {x: 0.11280788, y: -0.3483151}
-      - {x: 0.23161215, y: -0.2979165}
-      - {x: 0.35101426, y: -0.17429355}
-      - {x: 0.3913521, y: -0.058982033}
-      - {x: 0.38610497, y: 0.060923617}
-  m_UseDelaunayMesh: 0
---- !u!114 &6740493325378000436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7991266103563434941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12b044b542b1a9f498d4af0dc4eabe0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hingeJoint2Ds: []
-  holes: []
-  centerPoints: []
-  selectedhole: 0
-  radius: 0
-  selectedHinge: 0
-  selectedHingeJoint: {fileID: 0}
-  result: 0
-  isFrezze: 0
-  hasAddForce: 0
-  hasAddForceRotate: 0
-  joints: []
-  nailControls: []
-  rigidbody2D1: {fileID: 0}
-  centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
+  m_Offset: {x: 0.00000009685755, y: 0.00000011920929}
+  serializedVersion: 2
+  m_Radius: 0.4050001
 --- !u!1 &8132995403162281297
 GameObject:
   m_ObjectHideFlags: 0
@@ -9389,8 +9277,9 @@ GameObject:
   - component: {fileID: 4025850275393586680}
   - component: {fileID: 4466376038189344143}
   - component: {fileID: 504588985037536671}
-  - component: {fileID: 5273205978935680913}
   - component: {fileID: 3722128438014294969}
+  - component: {fileID: 3038416093951714441}
+  - component: {fileID: 7371707822248299345}
   m_Layer: 15
   m_Name: iron2 2
   m_TagString: Iron
@@ -9530,8 +9419,35 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 7
   m_SortAtRoot: 0
---- !u!60 &5273205978935680913
-PolygonCollider2D:
+--- !u!114 &3722128438014294969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8999945218730728319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b044b542b1a9f498d4af0dc4eabe0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hingeJoint2Ds: []
+  holes: []
+  centerPoints: []
+  selectedhole: 0
+  radius: 0
+  selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
+  result: 0
+  isFrezze: 0
+  hasAddForce: 0
+  hasAddForceRotate: 0
+  joints: []
+  nailControls: []
+  rigidbody2D1: {fileID: 0}
+  centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
+--- !u!58 &3038416093951714441
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -9562,66 +9478,44 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.08, y: 1.08}
-    newSize: {x: 0.97199994, y: 0.972}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 1
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.40997598, y: 0.24131161}
-      - {x: 0.34617016, y: 0.32593876}
-      - {x: 0.24085043, y: 0.41043717}
-      - {x: 0.13570659, y: 0.45946115}
-      - {x: 0.06785387, y: 0.48068506}
-      - {x: -0.16271739, y: 0.44389108}
-      - {x: -0.28584772, y: 0.37189105}
-      - {x: -0.38665205, y: 0.25632602}
-      - {x: -0.43918693, y: 0.17460755}
-      - {x: -0.47304338, y: 0.017673515}
-      - {x: -0.46008682, y: -0.1252826}
-      - {x: -0.38556513, y: -0.26389116}
-      - {x: -0.2732391, y: -0.38017365}
-      - {x: -0.14867397, y: -0.44389114}
-      - {x: -0.06394684, y: -0.4559825}
-      - {x: 0.13536945, y: -0.41797808}
-      - {x: 0.27793458, y: -0.3574998}
-      - {x: 0.42121708, y: -0.20915225}
-      - {x: 0.4696225, y: -0.07077844}
-      - {x: 0.46332595, y: 0.07310834}
-  m_UseDelaunayMesh: 0
---- !u!114 &3722128438014294969
-MonoBehaviour:
+  m_Offset: {x: 0, y: 0.00000011920929}
+  serializedVersion: 2
+  m_Radius: 0.48600006
+--- !u!58 &7371707822248299345
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8999945218730728319}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12b044b542b1a9f498d4af0dc4eabe0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hingeJoint2Ds: []
-  holes: []
-  centerPoints: []
-  selectedhole: 0
-  radius: 0
-  selectedHinge: 0
-  selectedHingeJoint: {fileID: 0}
-  result: 0
-  isFrezze: 0
-  hasAddForce: 0
-  hasAddForceRotate: 0
-  joints: []
-  nailControls: []
-  rigidbody2D1: {fileID: 0}
-  centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.00000011920929}
+  serializedVersion: 2
+  m_Radius: 0.48600006
 --- !u!1001 &68108352601607729
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19542,6 +19436,10 @@ PrefabInstance:
     - target: {fileID: 1820384264117389900, guid: 3d104409bb4c22946bbeb9edcf536f5f, type: 3}
       propertyPath: m_Name
       value: NailsManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2092071075578003848, guid: 3d104409bb4c22946bbeb9edcf536f5f, type: 3}
+      propertyPath: nailPrefab
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4808604705324682345, guid: 3d104409bb4c22946bbeb9edcf536f5f, type: 3}
       propertyPath: m_LocalPosition.x

@@ -159,6 +159,7 @@ public class CongratPanel : MonoBehaviour
     }
     public void close()
     {
+        UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
         ComPleteImgViaButton();
     }
     public void SetValue(TextMeshProUGUI valueText, int i)

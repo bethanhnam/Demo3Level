@@ -279,7 +279,7 @@ public class GameManagerNew : MonoBehaviour
 
     public void CreateParticleEF()
     {
-        Vector3 spawnPos = new Vector3(PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock[level].transform.position.x, PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock[level].transform.position.y + 4, 1);
+        Vector3 spawnPos = new Vector3(PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock[level].objunLock[0].transform.position.x, PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock[level].objunLock[0].transform.position.y + 4, 1);
         var gameobj = Instantiate(ParticlesManager.instance.StarParticleObject, spawnPos, Quaternion.identity);
         ParticleSystem particleSystem = gameobj.transform.GetChild(0).GetComponent<ParticleSystem>();
         var shape = particleSystem.shape;
@@ -307,7 +307,6 @@ public class GameManagerNew : MonoBehaviour
     }
     public void SetCompleteStory()
     {
-
         var winStrike = 0;
         try
         { 
@@ -317,13 +316,13 @@ public class GameManagerNew : MonoBehaviour
                 for (int i = 0; i <= DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage; i++)
                 {
                     Debug.Log("DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage" + DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage);
-                    winStrike += PictureUIManager.Stage[i].ObjunLock.Length;
+                    winStrike += PictureUIManager.Stage[i].listObjLock.Count;
                 }
             }
             else
             {
-                winStrike = PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock.Length;
-                Debug.Log("PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock.Length" + PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock.Length);
+                winStrike = PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock.Count;
+                Debug.Log("PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock.Length" + PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].objunLock.Count);
             }
 
             Debug.Log("winStrike" + winStrike);
@@ -433,6 +432,7 @@ public class GameManagerNew : MonoBehaviour
         UIManagerNew.Instance.CompleteImg.GetComponent<CanvasGroup>().DOFade(1, 1f);
         UIManagerNew.Instance.ButtonMennuManager.Close();
         yield return new WaitForSeconds(0.2f);
+        UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
         action();
     }
     public void CompleteImgDisappear()

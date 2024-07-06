@@ -46,7 +46,7 @@ public class reciveRewardDaily : MonoBehaviour
 
             if (dailyPanel.dayRewards[dailyPanel.lastDate].gold > 0)
             {
-                rewardImg.sprite = coinPrefab.GetComponent<Image>().sprite;
+                rewardImg.sprite = coinPrefab.transform.GetChild(0).GetComponent<Image>().sprite;
                 gold = dailyPanel.dayRewards[dailyPanel.lastDate].gold;
             }
             if (dailyPanel.dayRewards[dailyPanel.lastDate].magicTiket > 0)
@@ -65,7 +65,7 @@ public class reciveRewardDaily : MonoBehaviour
         {
             if (dailyPanel.dayRewards[dailyPanel.lastDate].gold > 0)
             {
-                rewardImg.sprite = coinPrefab.GetComponent<Image>().sprite;
+                rewardImg.sprite = coinPrefab.transform.GetChild(0).GetComponent<Image>().sprite;
                 gold = dailyPanel.dayRewards[dailyPanel.lastDate].gold * 2;
 
             }

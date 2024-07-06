@@ -66,7 +66,7 @@ public class CoinReward : MonoBehaviour
         Vector3 centrPos = (pos + targetAnchor) / 2f;
         Vector3 d2 = Vector3.Cross(_direction, Vector3.forward);
         //Vector3 stepPos = pos + new Vector3(1, 1,pos.z);
-        stepPos = p1 + d2 * (_distance / 2f) - new Vector3(0, 3, 0);
+        stepPos = p1 + d2 * (_distance / 2f) - new Vector3(-1, 3, 0);
         startPos = pos;
         endPos = targetAnchor;
 

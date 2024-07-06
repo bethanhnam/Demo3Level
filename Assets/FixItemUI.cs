@@ -77,7 +77,10 @@ public class FixItemUI : MonoBehaviour
             GameManagerNew.Instance.CreateParticleEF();
             GameManagerNew.Instance.ItemMoveControl.gameObject.SetActive(false);
             GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
-            GameManagerNew.Instance.PictureUIManager.ChangeItem(GameManagerNew.Instance.PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock[GameManagerNew.Instance.Level]);
+			for (int i = 0; i < GameManagerNew.Instance.PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock[GameManagerNew.Instance.Level].objunLock.Count; i++)
+			{
+				GameManagerNew.Instance.PictureUIManager.ChangeItem(GameManagerNew.Instance.PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock[GameManagerNew.Instance.Level].objunLock[i]);
+			}
             //AudioManager.instance.PlayMusic("MenuTheme");
             UIManagerNew.Instance.ChestSLider.ChangeValue(() =>
             {

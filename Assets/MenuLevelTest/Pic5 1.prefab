@@ -552,9 +552,7 @@ Transform:
   - {fileID: 6894935273222464069}
   - {fileID: 5853928436325482881}
   - {fileID: 631575127885574648}
-  - {fileID: 3953997991079578726}
   - {fileID: 7781968285964398108}
-  - {fileID: 6594043809934024919}
   - {fileID: 1475880056704153997}
   - {fileID: 2340695431570766672}
   m_Father: {fileID: 8880875991399296209}
@@ -961,6 +959,8 @@ RectTransform:
   - {fileID: 5632546073600201333}
   - {fileID: 3697841016959120543}
   - {fileID: 5948139437133249002}
+  - {fileID: 3953997991079578726}
+  - {fileID: 6594043809934024919}
   - {fileID: 2585918936896054020}
   - {fileID: 6385090593122425817}
   - {fileID: 5580020227917595011}
@@ -1670,7 +1670,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2689424421949993033}
+  m_Father: {fileID: 5177998648082543012}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1942,39 +1942,68 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stage:
-  - objLock:
-    - {fileID: 6917987090774651859}
-    - {fileID: 2211855480575618311}
-    - {fileID: 3256206177130625982}
-    - {fileID: 7007039261597703208}
-    - {fileID: 2803329875435370857}
-    objunLock:
-    - {fileID: 8957218242981842657}
-    - {fileID: 140602725913573170}
-    - {fileID: 2687468724086136006}
-    - {fileID: 299025002099439075}
-    - {fileID: 6018286332462954480}
-    objBtn:
-    - {fileID: 8689692306887022110}
-    - {fileID: 7649825496783588386}
-    - {fileID: 2474924081078977035}
-    - {fileID: 7190906290247596305}
-    - {fileID: 8009300516082736020}
-  - objLock:
-    - {fileID: 7344815487004915070}
-    - {fileID: 5719643227358260678}
-    - {fileID: 770354981611588301}
-    - {fileID: 2056810144224463231}
-    objunLock:
-    - {fileID: 4722436093527338236}
-    - {fileID: 9128370760700289190}
-    - {fileID: 7729952894567311718}
-    - {fileID: 2037046319328624386}
-    objBtn:
-    - {fileID: 10717016171533184}
-    - {fileID: 3757866936734339421}
-    - {fileID: 2009294405473806214}
-    - {fileID: 7031196668147653107}
+  - listObjLock:
+    - objLock:
+      - {fileID: 6917987090774651859}
+      objunLock:
+      - {fileID: 8957218242981842657}
+      objBtn:
+      - {fileID: 8689692306887022110}
+    - objLock:
+      - {fileID: 2211855480575618311}
+      objunLock:
+      - {fileID: 140602725913573170}
+      objBtn:
+      - {fileID: 7649825496783588386}
+    - objLock:
+      - {fileID: 3256206177130625982}
+      objunLock:
+      - {fileID: 2687468724086136006}
+      objBtn:
+      - {fileID: 2474924081078977035}
+    - objLock:
+      - {fileID: 7007039261597703208}
+      objunLock:
+      - {fileID: 299025002099439075}
+      objBtn:
+      - {fileID: 7190906290247596305}
+    - objLock:
+      - {fileID: 2803329875435370857}
+      objunLock:
+      - {fileID: 6018286332462954480}
+      objBtn:
+      - {fileID: 8009300516082736020}
+  - listObjLock:
+    - objLock:
+      - {fileID: 7344815487004915070}
+      objunLock:
+      - {fileID: 4722436093527338236}
+      objBtn:
+      - {fileID: 10717016171533184}
+    - objLock:
+      - {fileID: 5719643227358260678}
+      objunLock:
+      - {fileID: 9128370760700289190}
+      objBtn:
+      - {fileID: 3757866936734339421}
+    - objLock:
+      - {fileID: 770354981611588301}
+      - {fileID: 7987217911316981044}
+      - {fileID: 2738509776397586252}
+      - {fileID: 2083132725009936658}
+      objunLock:
+      - {fileID: 7729952894567311718}
+      - {fileID: 1625442295905116972}
+      - {fileID: 9207948494164306485}
+      - {fileID: 4760607414957307466}
+      objBtn:
+      - {fileID: 2009294405473806214}
+    - objLock:
+      - {fileID: 2056810144224463231}
+      objunLock:
+      - {fileID: 2037046319328624386}
+      objBtn:
+      - {fileID: 7031196668147653107}
   canvasGroup: {fileID: 7756272779941714262}
   characters:
   - {fileID: 513130131578174492}
@@ -3094,7 +3123,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2689424421949993033}
+  m_Father: {fileID: 5177998648082543012}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4164,6 +4193,18 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2733911099594726547, guid: b91b4b0daa2f6a74daf3b9d16dd87f5b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 223
+      objectReference: {fileID: 0}
+    - target: {fileID: 2733911099594726547, guid: b91b4b0daa2f6a74daf3b9d16dd87f5b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 96
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773602986685321642, guid: b91b4b0daa2f6a74daf3b9d16dd87f5b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f9c37ac2faa4cd54d88e76d1f9e1f33a, type: 3}
     - target: {fileID: 3362294961650065329, guid: b91b4b0daa2f6a74daf3b9d16dd87f5b, type: 3}
       propertyPath: m_Name
       value: PicItemBT (5)
@@ -4188,6 +4229,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -71
       objectReference: {fileID: 0}
+    - target: {fileID: 5019321299844976945, guid: b91b4b0daa2f6a74daf3b9d16dd87f5b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 04fecad1ed8b86744b110775ea0953f1, type: 3}
     - target: {fileID: 7532369734249863270, guid: b91b4b0daa2f6a74daf3b9d16dd87f5b, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -4789,6 +4834,18 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2733911099594726547, guid: b91b4b0daa2f6a74daf3b9d16dd87f5b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 223
+      objectReference: {fileID: 0}
+    - target: {fileID: 2733911099594726547, guid: b91b4b0daa2f6a74daf3b9d16dd87f5b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 96
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773602986685321642, guid: b91b4b0daa2f6a74daf3b9d16dd87f5b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f9c37ac2faa4cd54d88e76d1f9e1f33a, type: 3}
     - target: {fileID: 3362294961650065329, guid: b91b4b0daa2f6a74daf3b9d16dd87f5b, type: 3}
       propertyPath: m_Name
       value: PicItemBT(fridge)
@@ -4825,6 +4882,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 5019321299844976945, guid: b91b4b0daa2f6a74daf3b9d16dd87f5b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 04fecad1ed8b86744b110775ea0953f1, type: 3}
     - target: {fileID: 7532369734249863270, guid: b91b4b0daa2f6a74daf3b9d16dd87f5b, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -4854,7 +4915,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 702150936645375185, guid: b91b4b0daa2f6a74daf3b9d16dd87f5b, type: 3}
       propertyPath: star
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1416102794036505513, guid: b91b4b0daa2f6a74daf3b9d16dd87f5b, type: 3}
       propertyPath: m_Pivot.x

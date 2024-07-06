@@ -28,6 +28,7 @@ public class ExtralHole : MonoBehaviour
 	{
 		if (SaveSystem.instance.extraHolePoint >= 1)
 		{
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             SetMinusText('-', 1);
             SaveSystem.instance.AddBooster(0,0,-1);
 			SaveSystem.instance.SaveData();
@@ -36,6 +37,7 @@ public class ExtralHole : MonoBehaviour
 			Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
             DOVirtual.DelayedCall(1f, () =>
             {
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                 this.Close();
             });
         }
