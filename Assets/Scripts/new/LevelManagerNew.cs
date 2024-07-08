@@ -16,6 +16,8 @@ public class LevelManagerNew : MonoBehaviour
 
 	public List<Stage> stageList = new List<Stage>();
 
+	public List<Stage> testingStageList = new List<Stage>();
+
 	public int stage;
     private void Awake()
 	{

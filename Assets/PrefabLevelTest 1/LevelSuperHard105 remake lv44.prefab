@@ -7213,8 +7213,8 @@ GameObject:
   - component: {fileID: 8448783088074342517}
   - component: {fileID: 3648877473109180700}
   - component: {fileID: 6410650185173150563}
-  - component: {fileID: 8347136251427717813}
   - component: {fileID: 8617602863139561223}
+  - component: {fileID: 2282522699178478426}
   m_Layer: 10
   m_Name: iron9 1
   m_TagString: Iron
@@ -7354,71 +7354,6 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 19
   m_SortAtRoot: 0
---- !u!60 &8347136251427717813
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1945144521166208791}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.08, y: 1.08}
-    newSize: {x: 0.8640001, y: 0.864}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 1
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.36442313, y: 0.21449922}
-      - {x: 0.3077068, y: 0.28972337}
-      - {x: 0.21408927, y: 0.36483306}
-      - {x: 0.12062808, y: 0.40840992}
-      - {x: 0.060314555, y: 0.42727563}
-      - {x: -0.14463769, y: 0.39456984}
-      - {x: -0.25408688, y: 0.33056983}
-      - {x: -0.34369072, y: 0.22784536}
-      - {x: -0.3903884, y: 0.15520673}
-      - {x: -0.42048302, y: 0.015709793}
-      - {x: -0.40896606, y: -0.111362316}
-      - {x: -0.34272456, y: -0.23456994}
-      - {x: -0.2428792, y: -0.33793217}
-      - {x: -0.13215464, y: -0.39456993}
-      - {x: -0.05684164, y: -0.40531778}
-      - {x: 0.120328404, y: -0.3715361}
-      - {x: 0.24705295, y: -0.3177776}
-      - {x: 0.37441522, y: -0.18591313}
-      - {x: 0.41744223, y: -0.06291417}
-      - {x: 0.4118453, y: 0.06498519}
-  m_UseDelaunayMesh: 0
 --- !u!114 &8617602863139561223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7450,6 +7385,41 @@ MonoBehaviour:
   nailControls: []
   rigidbody2D1: {fileID: 8448783088074342517}
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
+--- !u!58 &2282522699178478426
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945144521166208791}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.00000011920929, y: -0.00000011920929}
+  serializedVersion: 2
+  m_Radius: 0.4320001
 --- !u!1 &2051646786159269373
 GameObject:
   m_ObjectHideFlags: 0
@@ -21963,7 +21933,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4801244470016436172}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.68774045, y: 0.17881802, z: -256.86728}
   m_LocalScale: {x: 1.85, y: 1.85, z: 1}
   m_ConstrainProportionsScale: 0
