@@ -90,7 +90,8 @@ public class LevelManagerNew : MonoBehaviour
 	}
 	public void NextPicStage()
 	{
-		DataLevelManager.Instance.DataLevel.Data[levelBase.Level].IndexStage++;
+		
+        DataLevelManager.Instance.DataLevel.Data[levelBase.Level].IndexStage++;
 		SaveData();
 		DataLevelManager.Instance.SaveData();
 	}

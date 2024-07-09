@@ -91,6 +91,7 @@ public class PausePanel : MonoBehaviour
     {
         AdsManager.instance.ShowInterstial(AdsManager.PositionAds.ingame_pause, () =>
         {
+            FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage, LevelStatus.retry);
             Close();
             Stage.Instance.ResetBooster();
             GameManagerNew.Instance.Retry();

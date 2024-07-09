@@ -80,7 +80,7 @@ public class ButtonMennuManager : MonoBehaviour
         DisplayLevelText();
 
 
-        FirebaseAnalyticsControl.Instance.Screen_Home(1);
+        FirebaseAnalyticsControl.Instance.Screen_Home();
     }
     public void DiactiveCVGroup()
     {
@@ -96,6 +96,7 @@ public class ButtonMennuManager : MonoBehaviour
     }
     public void OpenDailyRW()
     {
+        FirebaseAnalyticsControl.Instance.click_dailyRw();
         //GameManagerNew.Instance.ClosePicture(false);
         Close();
         UIManagerNew.Instance.DailyRWUI.Appear();
