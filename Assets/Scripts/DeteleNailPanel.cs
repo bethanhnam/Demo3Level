@@ -36,6 +36,7 @@ public class DeteleNailPanel : MonoBehaviour
         {
             if (canInteract)
             {
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
                 canInteract = false;
                 ShowTutor();
                 numOfUse++;
@@ -57,6 +58,7 @@ public class DeteleNailPanel : MonoBehaviour
                 DOVirtual.DelayedCall(1f, () =>
                 {
                     this.Close();
+                    UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                 });
             }
             else

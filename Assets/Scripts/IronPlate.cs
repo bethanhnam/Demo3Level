@@ -208,7 +208,7 @@ public class IronPlate : MonoBehaviour
             if (rigidbody2D1.velocity.magnitude < 0.5f)
             {
                 // Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude
-                Vector2 forceToAdd = movementDirection * 0.05f;
+                Vector2 forceToAdd = movementDirection * 0.1f;
 
                 // Thêm lực vào Rigidbody2D
                 rigidbody2D1.AddForce(forceToAdd,ForceMode2D.Force);

@@ -44,6 +44,9 @@ public class GameManagerNew : MonoBehaviour
     public bool isStory;
     public JsonItem StoryPic;
 
+    //test Level
+    public int testingStage;
+    public bool isTestingLevel;
     public LayerMask INSelectionLayer { get => iNSelectionLayer1; }
     public LayerMask IronLayer1 { get => IronLayer12; }
     public Stage CurrentLevel { get => currentLevel; set => currentLevel = value; }
@@ -102,9 +105,8 @@ public class GameManagerNew : MonoBehaviour
 
     public void CreateLevel(int _level)
     {
-        FirebaseAnalyticsControl.Instance.Gameplay_Level(LevelManagerNew.Instance.stage);
+        if (isTestingLevel)
         {
-            //UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
             GamePlayPanelUIManager.Instance.setText(_level + 1);
             DOVirtual.DelayedCall(1f, () =>
             {
@@ -112,13 +114,34 @@ public class GameManagerNew : MonoBehaviour
             });
             DOVirtual.DelayedCall(1f, () =>
             {
-                CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
+                CurrentLevel = Instantiate(LevelManagerNew.Instance.testingStageList[testingStage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
                 ScaleForDevices(CurrentLevel.transform.gameObject);
                 SetTargetScale(currentLevel.gameObject);
                 CurrentLevel.Init(level);
                 CurrentLevel.ResetBooster();
-                AudioManager.instance.PlayMusic("GamePlayTheme"); 
+                AudioManager.instance.PlayMusic("GamePlayTheme");
             });
+        }
+        else
+        {
+            FirebaseAnalyticsControl.Instance.Gameplay_Level(LevelManagerNew.Instance.stage);
+            {
+                //UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
+                GamePlayPanelUIManager.Instance.setText(_level + 1);
+                DOVirtual.DelayedCall(1f, () =>
+                {
+                    PictureUIManager.Close();
+                });
+                DOVirtual.DelayedCall(1f, () =>
+                {
+                    CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
+                    ScaleForDevices(CurrentLevel.transform.gameObject);
+                    SetTargetScale(currentLevel.gameObject);
+                    CurrentLevel.Init(level);
+                    CurrentLevel.ResetBooster();
+                    AudioManager.instance.PlayMusic("GamePlayTheme");
+                });
+            }
         }
     }
     public void CreateLevelForStory(int _level)
@@ -279,7 +302,7 @@ public class GameManagerNew : MonoBehaviour
 
     public void CreateParticleEF()
     {
-        Vector3 spawnPos = new Vector3(PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock[level].transform.position.x, PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock[level].transform.position.y + 4, 1);
+        Vector3 spawnPos = new Vector3(PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock[level].objunLock[0].transform.position.x, PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock[level].objunLock[0].transform.position.y + 4, 1);
         var gameobj = Instantiate(ParticlesManager.instance.StarParticleObject, spawnPos, Quaternion.identity);
         ParticleSystem particleSystem = gameobj.transform.GetChild(0).GetComponent<ParticleSystem>();
         var shape = particleSystem.shape;
@@ -307,7 +330,6 @@ public class GameManagerNew : MonoBehaviour
     }
     public void SetCompleteStory()
     {
-
         var winStrike = 0;
         try
         { 
@@ -317,13 +339,13 @@ public class GameManagerNew : MonoBehaviour
                 for (int i = 0; i <= DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage; i++)
                 {
                     Debug.Log("DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage" + DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage);
-                    winStrike += PictureUIManager.Stage[i].ObjunLock.Length;
+                    winStrike += PictureUIManager.Stage[i].listObjLock.Count;
                 }
             }
             else
             {
-                winStrike = PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock.Length;
-                Debug.Log("PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock.Length" + PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock.Length);
+                winStrike = PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock.Count;
+                Debug.Log("PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock.Length" + PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].objunLock.Count);
             }
 
             Debug.Log("winStrike" + winStrike);
@@ -433,6 +455,7 @@ public class GameManagerNew : MonoBehaviour
         UIManagerNew.Instance.CompleteImg.GetComponent<CanvasGroup>().DOFade(1, 1f);
         UIManagerNew.Instance.ButtonMennuManager.Close();
         yield return new WaitForSeconds(0.2f);
+        UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
         action();
     }
     public void CompleteImgDisappear()

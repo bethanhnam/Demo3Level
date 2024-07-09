@@ -54,7 +54,7 @@ public class ChestSLider : MonoBehaviour
         int max = 0;
         for (int i = 0; i < pictureUIManager.Stage.Length; i++)
         {
-            max += pictureUIManager.Stage[i].ObjLock.Length;
+            max += pictureUIManager.Stage[i].listObjLock.Count;
         }
         mySlider.maxValue = 4;
         maxValue1 = max;
