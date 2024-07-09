@@ -37,7 +37,6 @@ public class NotificationControl : MonoBehaviour
     {
         MyNotification.CreateChannel();
         MyNotification.CancelAll();
-
         Invoke("PushNotification", 2);
         DontDestroyOnLoad(gameObject);
     }
