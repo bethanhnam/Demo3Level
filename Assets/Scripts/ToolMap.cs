@@ -940,8 +940,8 @@ public class ToolMap : Editor
         string IronLayer8 = "IronLayer8";
         string IronLayer9 = "IronLayer9";
         string layer1vs2vs3 = "layer10";
-        string layer1vs2vs3vs4 = "layer12";
-        string layer1vs2vs3vs4vs5 = "layer13";
+        string layer1vs2vs3vs4 = "layer11";
+        string layer1vs2vs3vs4vs5 = "layer12";
         string BothLayer = "BothLayer";
         List<int> list = new List<int>();
         int layerValue1 = LayerMask.NameToLayer(IronLayer1);
@@ -968,7 +968,6 @@ public class ToolMap : Editor
         list.Add(layerValue9);
         list.Add(layerValue10);
         list.Add(layerValue11);
-        list.Add(layerValue12);
         list.Add(layerValue12);
         list.Add(BothLayerValue);
         for (int j = 0; j < obj.childCount; j++)
@@ -1020,10 +1019,10 @@ public class ToolMap : Editor
                                     transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial/NewMaterial1 1");
                                     break;
                                 case 12:
-                                    transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial/NewMaterial1 2");
+                                    transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial/NewMaterial1 5");
                                     break;
                                 default:
-                                    transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("");
+                                    transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial/NewMaterial1 6");
                                     break;
                             }
                         }
@@ -1152,9 +1151,9 @@ public class ToolMap : Editor
                 if (obj.GetChild(j).GetChild(i).gameObject.tag == "Iron")
                 {
                     Transform transform2 = obj.GetChild(j).GetChild(i).transform;
-                    if (transform2.GetComponent<SpriteRenderer>().sprite.name == "Solid_Circle_1" || transform2.GetComponent<SpriteRenderer>().sprite.name == "Layer-10")
+                    if (transform2.GetComponent<SpriteRenderer>().sprite.name == "Solid_Circle_1" || transform2.GetComponent<SpriteRenderer>().sprite.name == "Layer-10" || transform2.GetComponent<SpriteRenderer>().sprite.name == "Holed_Circle")
                     {
-                        PolygonCollider2D polygonCollider2D = transform2.GetComponent<PolygonCollider2D>();
+                        Collider2D polygonCollider2D = transform2.GetComponent<Collider2D>();
                         DestroyImmediate(polygonCollider2D);
                         transform2.AddComponent<CircleCollider2D>();
                         CircleCollider2D circleCollider2D = transform2.GetComponent<CircleCollider2D>();
