@@ -1014,16 +1014,16 @@ public class ToolMap : Editor
                                     transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial/NewMaterial1 2");
                                     break;
                                 case 10:
-                                    transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 3");
+                                    transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial/NewMaterial1 9");
                                     break;
                                 case 11:
-                                    transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 4");
+                                    transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial/NewMaterial1 1");
                                     break;
                                 case 12:
-                                    transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 4");
+                                    transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial/NewMaterial1 2");
                                     break;
                                 default:
-                                    transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/NewMaterial1 5");
+                                    transform.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("");
                                     break;
                             }
                         }
