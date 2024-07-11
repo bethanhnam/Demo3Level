@@ -229,9 +229,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -494,9 +496,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -805,9 +809,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -1066,9 +1072,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -1327,9 +1335,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -1429,7 +1439,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holeToUnlock: {fileID: 546384087074079073}
-  sprRenderItem: {fileID: 2719140362135329667}
   Square: {fileID: 2805594925938662011}
   holes:
   - {fileID: 3623274857883342928}
@@ -1469,7 +1478,6 @@ MonoBehaviour:
   - {fileID: 890776856970147284}
   - {fileID: 8679621239516448590}
   - {fileID: 5936082889450300620}
-  - {fileID: 5914973621661867070}
   ironPlates:
   - {fileID: 5342523254495268156}
   - {fileID: 7464056174331894920}
@@ -1504,6 +1512,7 @@ MonoBehaviour:
   nailToDetele: {fileID: 0}
   isDeteleting: 0
   hasDelete: 0
+  hasUndo: 1
   HingeJointBeforeRemove: []
   holeToUndo: {fileID: 0}
   holeBeforeUndo: {fileID: 0}
@@ -1521,7 +1530,14 @@ MonoBehaviour:
   numOfHoleNotAvailable: []
   checked1: 0
   isTutor: 0
+  isLvTutor: 0
   targetScale: {x: 0, y: 0, z: 0}
+  pointer: {fileID: 0}
+  pointerTutor: {fileID: 0}
+  canInteract: 1
+  isWining: 0
+  isLosing: 0
+  isScaling: 0
 --- !u!1 &1637355663027646908
 GameObject:
   m_ObjectHideFlags: 0
@@ -1751,9 +1767,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -2012,9 +2030,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -2273,9 +2293,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -2534,9 +2556,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -2795,9 +2819,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -3056,9 +3082,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -3319,9 +3347,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -3605,9 +3635,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -3649,7 +3681,6 @@ GameObject:
   - component: {fileID: 8508258860513087327}
   - component: {fileID: 8123783682279477586}
   - component: {fileID: 5467067015130012527}
-  - component: {fileID: 1433258040739335991}
   - component: {fileID: 1854421949906273675}
   - component: {fileID: 4544888885135496382}
   - component: {fileID: 1012337088668164832}
@@ -3675,7 +3706,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5492088478497893168}
   - {fileID: 8019622609351664819}
   - {fileID: 4397530115108320887}
   - {fileID: 3769539295674341274}
@@ -3815,31 +3845,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!233 &1433258040739335991
-HingeJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2421161886777788965}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 8786386844983834998}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_BreakAction: 3
-  m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: -0.58999974, y: 0}
-  m_ConnectedAnchor: {x: 0, y: 0}
-  m_UseMotor: 0
-  m_Motor:
-    m_MotorSpeed: 0
-    m_MaximumMotorForce: 10000
-  m_UseLimits: 0
-  m_AngleLimits:
-    m_LowerAngle: 0
-    m_UpperAngle: 359
 --- !u!210 &1854421949906273675
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -3870,9 +3875,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -3964,7 +3971,6 @@ GameObject:
   - component: {fileID: 1157248938020009671}
   - component: {fileID: 806106514858482770}
   - component: {fileID: 6908271529756761640}
-  - component: {fileID: 4228397760364803159}
   - component: {fileID: 901565115032221396}
   - component: {fileID: 5714359623332533567}
   - component: {fileID: 4539635499036917965}
@@ -3989,7 +3995,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7737267789257623251}
   - {fileID: 1810824202081336600}
   - {fileID: 6486762523096314419}
   m_Father: {fileID: 6483370622247901366}
@@ -4128,31 +4133,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!233 &4228397760364803159
-HingeJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2759948246562846287}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 8786386844983834998}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_BreakAction: 3
-  m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: -0.055999946, y: -0.00000035762787}
-  m_ConnectedAnchor: {x: 0, y: 0}
-  m_UseMotor: 0
-  m_Motor:
-    m_MotorSpeed: 0
-    m_MaximumMotorForce: 10000
-  m_UseLimits: 0
-  m_AngleLimits:
-    m_LowerAngle: 0
-    m_UpperAngle: 359
 --- !u!210 &901565115032221396
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -4183,9 +4163,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -4633,9 +4615,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -4894,9 +4878,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -5155,9 +5141,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -5416,9 +5404,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -5763,9 +5753,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -6049,9 +6041,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -6310,9 +6304,11 @@ MonoBehaviour:
   selectedhole: 0
   radius: 0
   selectedHinge: 0
+  selectedHingeJoint: {fileID: 0}
   result: 0
   isFrezze: 0
   hasAddForce: 0
+  hasAddForceRotate: 0
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
@@ -11551,9 +11547,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4808604705324682345, guid: 3d104409bb4c22946bbeb9edcf536f5f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7516382345191998693}
-    - targetCorrespondingSourceObject: {fileID: 4808604705324682345, guid: 3d104409bb4c22946bbeb9edcf536f5f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7509905412773936151}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d104409bb4c22946bbeb9edcf536f5f, type: 3}
 --- !u!4 &253840235919032209 stripped
@@ -12740,109 +12733,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8832038813025474616, guid: 64361980fdb0c0f4895354dd4c25e9a4, type: 3}
   m_PrefabInstance: {fileID: 6145150040037093937}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &6173254042428171388
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 5859066135783775262}
-    m_Modifications:
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.28481463
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.28481457
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.5899998
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1871995622033228647, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1871995622033228647, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1871995622033228647, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3403822299041920013, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_Name
-      value: HoleInIronLeft
-      objectReference: {fileID: 0}
-    - target: {fileID: 4965285923296177115, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: Nail
-      value: 
-      objectReference: {fileID: 5914973621661867070}
-    - target: {fileID: 6123392762969408888, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_Size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6123392762969408888, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_Size.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6123392762969408888, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_DrawMode
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3275158635466302880, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
---- !u!4 &5492088478497893168 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-  m_PrefabInstance: {fileID: 6173254042428171388}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6200699916497881645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13647,108 +13537,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
   m_PrefabInstance: {fileID: 6925391191793662400}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &7069650613265565253
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 253840235919032209}
-    m_Modifications:
-    - target: {fileID: 730984921278806610, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.56462926
-      objectReference: {fileID: 0}
-    - target: {fileID: 730984921278806610, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.56462914
-      objectReference: {fileID: 0}
-    - target: {fileID: 730984921278806610, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.43463883
-      objectReference: {fileID: 0}
-    - target: {fileID: 730984921278806610, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.7128538
-      objectReference: {fileID: 0}
-    - target: {fileID: 730984921278806610, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.0112538
-      objectReference: {fileID: 0}
-    - target: {fileID: 730984921278806610, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 730984921278806610, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 730984921278806610, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 730984921278806610, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 730984921278806610, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 730984921278806610, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 730984921278806610, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1370789141722224381, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_Name
-      value: NailPrefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 5210914224427332886, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_Size.x
-      value: 0.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 5210914224427332886, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_Size.y
-      value: 0.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 5210914224427332886, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: ffe4e599881efe2429f635046acd480e, type: 3}
-    - target: {fileID: 5210914224427332886, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
---- !u!114 &5914973621661867070 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -5761716987643880837, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-  m_PrefabInstance: {fileID: 7069650613265565253}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a711cbd1b53499a429d63c3e973d8cdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &7509905412773936151 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 730984921278806610, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-  m_PrefabInstance: {fileID: 7069650613265565253}
-  m_PrefabAsset: {fileID: 0}
---- !u!50 &8786386844983834998 stripped
-Rigidbody2D:
-  m_CorrespondingSourceObject: {fileID: 2014223449466879795, guid: 2c05762d38683e64f963906ac06d2796, type: 3}
-  m_PrefabInstance: {fileID: 7069650613265565253}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7082772464641887473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14455,109 +14243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeaa7743bc3ee54c91b2fb890a998b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &8285585960272972191
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 6208439441975694648}
-    m_Modifications:
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.28481463
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.28481457
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.055999946
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.00000035762787
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1871995622033228647, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1871995622033228647, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1871995622033228647, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3403822299041920013, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_Name
-      value: HoleInIronLeft
-      objectReference: {fileID: 0}
-    - target: {fileID: 4965285923296177115, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: Nail
-      value: 
-      objectReference: {fileID: 5914973621661867070}
-    - target: {fileID: 6123392762969408888, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_Size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6123392762969408888, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_Size.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6123392762969408888, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-      propertyPath: m_DrawMode
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3275158635466302880, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
---- !u!4 &7737267789257623251 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
-  m_PrefabInstance: {fileID: 8285585960272972191}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8294434880658774555
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14882,10 +14567,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: HoleInSquare
       objectReference: {fileID: 0}
-    - target: {fileID: 8239618245329526501, guid: 64361980fdb0c0f4895354dd4c25e9a4, type: 3}
-      propertyPath: Nail
-      value: 
-      objectReference: {fileID: 5914973621661867070}
     - target: {fileID: 8832038813025474616, guid: 64361980fdb0c0f4895354dd4c25e9a4, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5496294

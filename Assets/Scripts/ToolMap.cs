@@ -10,6 +10,7 @@ using DG.Tweening;
 using UnityEditor.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using TMPro.EditorUtilities;
 
 public class ToolMap : Editor
 {
@@ -730,9 +731,96 @@ public class ToolMap : Editor
             }
         }
     }
+    //test 
+    [MenuItem("Component/ResizeCollider")]
+    public static void ResizeCollider()
+    {
+        Transform obj = Selection.activeTransform;
+        for (int i = obj.childCount - 1; i >= 0; i--)
+        {
+            if (obj.GetChild(i).gameObject.tag == "Iron")
+            {
+                Transform transform1 = obj.GetChild(i).transform;
+                for (int j = 0; j < transform1.childCount; j++)
+                {
+                    obj.GetChild(i).GetChild(j).gameObject.SetActive(false);
+                }
+                try
+                {
+                    PolygonCollider2D polygon = obj.GetChild(i).GetComponent<PolygonCollider2D>();
+                    DestroyImmediate(polygon);
+                    obj.GetChild(i).AddComponent<PolygonCollider2D>();
+                }
+                catch { }
+                EditorApplication.delayCall += () =>
+                {
+                    transform1.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Simple;
+                    EditorApplication.delayCall += () =>
+                    {
+                        for (int j = transform1.childCount -1 ; j >=0; j--)
+                        {
+                            obj.GetChild(i).GetChild(j).gameObject.SetActive(true);
+                        }
+                        
+                    };
+                };
+            }
+        }
+        EditorApplication.delayCall += () =>
+        {
+            RunCoroutine(caculate1(obj));
+        };
+    }
+    private static void RunCoroutine(IEnumerator coroutine)
+    {
+        void Update()
+        {
+            if (!coroutine.MoveNext())
+            {
+                EditorApplication.update -= Update;
+            }
+        }
+        EditorApplication.update += Update;
+    }
+    private static IEnumerator WaitForSeconds(float seconds)
+    {
+        float start = (float)EditorApplication.timeSinceStartup;
+        while ((float)EditorApplication.timeSinceStartup < start + seconds)
+        {
+            yield return null;
+        }
+    }
+    private static IEnumerator caculate1(Transform obj)
+    {
+        yield return new WaitForSeconds(2);
+        for (int j = 0; j < obj.childCount; j++)
+        {
+            if (obj.GetChild(j).gameObject.tag == "Iron")
+            {
+                HingeJoint2D[] allComponents = obj.GetChild(j).GetComponents<HingeJoint2D>();
+                for (int i = 0; i < allComponents.Length; i++)
+                {
+                    Transform nailTransform = allComponents[i].connectedBody.transform;
+                    allComponents[i].anchor = obj.GetChild(j).InverseTransformPoint(nailTransform.position);
+                }
+            }
+        }
+        for (int j = 0; j < obj.childCount; j++)
+        {
+            if (obj.GetChild(j).gameObject.tag == "NailsManager")
+            {
+                for (int i = 0; i < obj.GetChild(j).childCount; i++)
+                {
+                    Transform transform = obj.GetChild(j).GetChild(i);
+                    transform.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("UI/upscale ingame/Untitled-1_0000_Group-1-copy");
+                }
+            }
+        }
+    }
     //22
     public static void CleanHinge(Transform obj)
     {
+
         for (int i = obj.childCount - 1; i >= 0; i--)
         {
             if (obj.GetChild(i).gameObject.tag == "Iron" && !obj.GetChild(i).gameObject.name.Contains("washer") && !obj.GetChild(i).gameObject.name.Contains("Solid"))
