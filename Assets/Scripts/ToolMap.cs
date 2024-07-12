@@ -769,6 +769,13 @@ public class ToolMap : Editor
                 DestroyImmediate(polygon);
                 gameObject.AddComponent<PolygonCollider2D>();
             }
+            //CircleCollider2D circle = objChild.GetChild(i).GetComponent<CircleCollider2D>();
+            //if(circle != null)
+            //{
+            //    DestroyImmediate(circle);
+            //    objChild.GetChild(i).AddComponent<CircleCollider2D>();
+            //}
+
         }
         catch { }
         EditorApplication.delayCall += () =>
@@ -787,6 +794,7 @@ public class ToolMap : Editor
             };
         };
     }
+
     private static void RunCoroutine(IEnumerator coroutine)
     {
         void Update()
@@ -1021,7 +1029,7 @@ public class ToolMap : Editor
                     addtoStage(obj);
                     EditorApplication.delayCall += () =>
                     {
-                        SetTextureCircle(obj);
+                        //SetTextureCircle(obj);
                         EditorApplication.delayCall += () =>
                         {
                             SetRadiusCollider(obj);
@@ -1245,22 +1253,22 @@ public class ToolMap : Editor
         }
     }
     //33
-    public static void SetTextureCircle(Transform obj)
+    [MenuItem("Component/SetTextureCircle")]
+    public static void SetTextureCircle1()
     {
+        Transform obj = Selection.activeTransform;
         for (int j = 0; j < obj.childCount; j++)
         {
-            Transform transform1 = obj.GetChild(j);
             for (int i = 0; i < obj.GetChild(j).childCount; i++)
             {
                 if (obj.GetChild(j).GetChild(i).gameObject.tag == "Iron")
                 {
-                    Transform transform2 = obj.GetChild(j).GetChild(i).transform;
-                    if (transform2.GetComponent<SpriteRenderer>().sprite.name == "Solid_Circle_1" || transform2.GetComponent<SpriteRenderer>().sprite.name == "Layer-10" || transform2.GetComponent<SpriteRenderer>().sprite.name == "Holed_Circle")
+                    if (obj.GetChild(j).GetChild(i).transform.GetComponent<SpriteRenderer>().sprite.name == "Solid_Circle_1" || obj.GetChild(j).GetChild(i).transform.GetComponent<SpriteRenderer>().sprite.name == "Layer-10" || obj.GetChild(j).GetChild(i).transform.GetComponent<SpriteRenderer>().sprite.name == "Holed_Circle")
                     {
-                        Collider2D polygonCollider2D = transform2.GetComponent<Collider2D>();
+                        Collider2D polygonCollider2D = obj.GetChild(j).GetChild(i).transform.GetComponent<Collider2D>();
                         DestroyImmediate(polygonCollider2D);
-                        transform2.AddComponent<CircleCollider2D>();
-                        CircleCollider2D circleCollider2D = transform2.GetComponent<CircleCollider2D>();
+                        obj.GetChild(j).GetChild(i).transform.AddComponent<CircleCollider2D>();
+                        CircleCollider2D circleCollider2D = obj.GetChild(j).GetChild(i).transform.GetComponent<CircleCollider2D>();
                         circleCollider2D.sharedMaterial = Resources.Load<PhysicsMaterial2D>("PhysicMaterials/New Physics Material 2D");
                     }
                 }

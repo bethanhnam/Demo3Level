@@ -48,7 +48,7 @@ public class IronPlate : MonoBehaviour
         checkHinge();
         setPoint();
         //CheckPosition();
-       
+
     }
     private void FixedUpdate()
     {
@@ -211,7 +211,7 @@ public class IronPlate : MonoBehaviour
                 Vector2 forceToAdd = movementDirection * 0.1f;
 
                 // Thêm lực vào Rigidbody2D
-                rigidbody2D1.AddForce(forceToAdd,ForceMode2D.Force);
+                rigidbody2D1.AddForce(forceToAdd, ForceMode2D.Force);
             }
         }
         //}
@@ -239,10 +239,8 @@ public class IronPlate : MonoBehaviour
         }
         rigidbody2D1.sleepMode = RigidbodySleepMode2D.NeverSleep;
         rigidbody2D1.interpolation = RigidbodyInterpolation2D.Interpolate;
-        //if (!hasAddForce)
-        //{
-        //    ApplyTorque();
-        //}
+        ApplyTorque();
+
 
     }
     private void ApplyTorque()
@@ -260,10 +258,6 @@ public class IronPlate : MonoBehaviour
                     }
                 }
             }
-        //DOVirtual.DelayedCall(0.5f, () =>
-        //{
-        //    selectedHingeJoint.useMotor = false;
-        //});
     }
     public void SetHingeJoint()
     {
