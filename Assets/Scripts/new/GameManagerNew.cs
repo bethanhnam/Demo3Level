@@ -151,6 +151,7 @@ public class GameManagerNew : MonoBehaviour
             //{
             //    PictureUIManager.Close();
             //});
+            FirebaseAnalyticsControl.Instance.LogEventLevelStory(_level);
             DOVirtual.DelayedCall(1f, () =>
             {
                 CurrentLevel = Instantiate(StoryGamePlayLevel.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);

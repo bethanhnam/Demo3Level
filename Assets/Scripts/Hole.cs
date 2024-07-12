@@ -50,7 +50,7 @@ public class Hole : MonoBehaviour
 		{
 			if (this.CheckNail() == false)
 			{
-				Collider2D[] colliders = Physics2D.OverlapCircleAll(this.transform.position, this.GetComponent<CircleCollider2D>().radius-0.068f , IronLayer);
+				Collider2D[] colliders = Physics2D.OverlapCircleAll(this.transform.position, this.GetComponent<CircleCollider2D>().radius-0.06f , IronLayer);
 				bool hasCollider = false;
 				if (colliders.IsNullOrEmpty())
 				{
@@ -116,7 +116,7 @@ public class Hole : MonoBehaviour
 		if (this.isActiveAndEnabled)
 		{
 			Gizmos.color = Color.blue;
-			Gizmos.DrawWireSphere(transform.position, this.GetComponent<CircleCollider2D>().radius- 0.068f);
+			Gizmos.DrawWireSphere(transform.position, this.GetComponent<CircleCollider2D>().radius- 0.06f);
 		}
 	}
 	//public void CheckIron()
