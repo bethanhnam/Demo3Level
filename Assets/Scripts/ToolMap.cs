@@ -939,9 +939,9 @@ public class ToolMap : Editor
         string IronLayer7 = "IronLayer7";
         string IronLayer8 = "IronLayer8";
         string IronLayer9 = "IronLayer9";
-        string layer1vs2vs3 = "layer1vs2vs3";
-        string layer1vs2vs3vs4 = "layer1vs2vs3vs4";
-        string layer1vs2vs3vs4vs5 = "layer1vs2vs3vs4vs5";
+        string layer1vs2vs3 = "layer10";
+        string layer1vs2vs3vs4 = "layer12";
+        string layer1vs2vs3vs4vs5 = "layer13";
         string BothLayer = "BothLayer";
         List<int> list = new List<int>();
         int layerValue1 = LayerMask.NameToLayer(IronLayer1);
