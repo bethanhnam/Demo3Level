@@ -221,15 +221,26 @@ public class PictureUIManager : MonoBehaviour
     }
     public void CheckForWindow()
     {
-
-        if (windowObj.gameObject != null && windowObj.gameObject.activeSelf)
+        Debug.Log("LevelManagerNew.Instance.LevelBase.Level " + LevelManagerNew.Instance.LevelBase.Level);
+        if (LevelManagerNew.Instance.LevelBase.Level == 0)
         {
-            hasWindow = true;
+            if (windowObj.gameObject != null && windowObj.gameObject.activeSelf)
+            {
+                hasWindow = true;
+                Debug.Log("chạy qua has window true");
+            }
+            else
+            {
+                PlayerPrefs.SetInt("windowFixed", 1);
+                hasWindow = false;
+                Debug.Log("chạy qua has window fal trong true");
+            }
         }
         else
         {
             PlayerPrefs.SetInt("windowFixed", 1);
             hasWindow = false;
+            Debug.Log("chạy qua has window fal");
         }
     }
     public void ChangeReaction(float time, string t, bool loop, bool hasWindow)
