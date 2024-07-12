@@ -731,44 +731,60 @@ public class ToolMap : Editor
             }
         }
     }
-    //test 
     [MenuItem("Component/ResizeCollider")]
     public static void ResizeCollider()
     {
         Transform obj = Selection.activeTransform;
-        for (int i = obj.childCount - 1; i >= 0; i--)
+        for (int k = 0; k < obj.childCount; k++)
         {
-            if (obj.GetChild(i).gameObject.tag == "Iron")
+            Transform objChild = obj.GetChild(k);
+            for (int i = objChild.childCount - 1; i >= 0; i--)
             {
-                Transform transform1 = obj.GetChild(i).transform;
-                for (int j = 0; j < transform1.childCount; j++)
+                if (objChild.GetChild(i).gameObject.tag == "Iron")
                 {
-                    obj.GetChild(i).GetChild(j).gameObject.SetActive(false);
+                    ResetIronPlate(objChild.GetChild(i));
                 }
-                try
-                {
-                    PolygonCollider2D polygon = obj.GetChild(i).GetComponent<PolygonCollider2D>();
-                    DestroyImmediate(polygon);
-                    obj.GetChild(i).AddComponent<PolygonCollider2D>();
-                }
-                catch { }
                 EditorApplication.delayCall += () =>
                 {
-                    transform1.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Simple;
-                    EditorApplication.delayCall += () =>
-                    {
-                        for (int j = transform1.childCount -1 ; j >=0; j--)
-                        {
-                            obj.GetChild(i).GetChild(j).gameObject.SetActive(true);
-                        }
-                        
-                    };
+                    RunCoroutine(caculate1(objChild));
                 };
             }
         }
+    }
+
+    public static void ResetIronPlate(Transform gameObject)
+    {
+        List<GameObject> li = new List<GameObject>();
+
+        for (int j = gameObject.childCount - 1; j >= 0; j--)
+        {
+            li.Add(gameObject.GetChild(j).gameObject);
+            gameObject.GetChild(j).transform.parent = gameObject.transform.parent;
+        }
+        try
+        {
+            PolygonCollider2D polygon = gameObject.GetComponent<PolygonCollider2D>();
+            if (polygon != null)
+            {
+                DestroyImmediate(polygon);
+                gameObject.AddComponent<PolygonCollider2D>();
+            }
+        }
+        catch { }
         EditorApplication.delayCall += () =>
         {
-            RunCoroutine(caculate1(obj));
+            gameObject.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Simple;
+            if (gameObject.GetComponent<SpriteRenderer>().sprite.name == "Solid_Circle_1" || gameObject.GetComponent<SpriteRenderer>().sprite.name == "Layer-10" || gameObject.GetComponent<SpriteRenderer>().sprite.name == "Holed_Circle")
+            {
+                gameObject.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Sliced;
+            }
+            EditorApplication.delayCall += () =>
+            {
+                for (int i = li.Count - 1; i >= 0; i--)
+                {
+                    li[i].transform.SetParent(gameObject.transform);
+                }
+            };
         };
     }
     private static void RunCoroutine(IEnumerator coroutine)
