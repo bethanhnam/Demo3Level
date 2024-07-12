@@ -215,7 +215,7 @@ public class PictureUIManager : MonoBehaviour
         Debug.Log("chạy xong normalInit");
         SetStarText();
         Debug.Log("chạy xong setStarText");
-        CheckForWindow();
+        //CheckForWindow();
         Debug.Log("chạy xong checkForWindow");
 
     }
