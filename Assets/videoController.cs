@@ -43,6 +43,9 @@ public class VideoController : MonoBehaviour
     {
         //PlayerPrefs.SetInt("videoIndex",3);
         var x = PlayerPrefs.GetInt("videoIndex");
+        if (x == 0) {
+            FirebaseAnalyticsControl.Instance.startTutor();
+        }
         PlayVideo(x, null);
     }
     public void PlayVideo(int videoIndex, Action action)
@@ -61,6 +64,7 @@ public class VideoController : MonoBehaviour
         if (this.videoIndex == videoList.Count - 1)
         {
             PlayerPrefs.SetString("HasFinishedStory", "true");
+            FirebaseAnalyticsControl.Instance.completeTutor();
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();
             DOVirtual.DelayedCall(0.8f, () =>

@@ -49,7 +49,7 @@ public class LosePanel : MonoBehaviour
 				watchAdButton.interactable = false;
 				watchAdButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/win/bttn_grey");
                 Stage.Instance.CheckDoneLevel();
-                FirebaseAnalyticsControl.Instance.Revive_Rw(1);
+                FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.revive);
             });
 			
 		}
@@ -74,7 +74,7 @@ public class LosePanel : MonoBehaviour
 		}
 		else
 		{
-            FirebaseAnalyticsControl.Instance.Gameplay_Lose(LevelManagerNew.Instance.stage);
+            FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.fail);
             if (!this.gameObject.activeSelf)
             {
                 this.gameObject.SetActive(true);
