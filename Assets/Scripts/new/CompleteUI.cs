@@ -16,7 +16,7 @@ public class CompleteUI : MonoBehaviour
 	public string[] completeSkeletonStage = {"idle_completed","completed"};
 	public SkeletonGraphic completeSkeleton;
 
-	public void Appear(Sprite _spr)
+	public void Appear()
 	{
 		Debug.Log("hiện win UI");
 		if (!gameObject.activeSelf)
@@ -24,9 +24,9 @@ public class CompleteUI : MonoBehaviour
 			gameObject.SetActive(true);
 		}
 		animButton.Play(appearButton, 0, 0);
-		spr = _spr;
+
 		closeWindow();
-        FirebaseAnalyticsControl.Instance.LogEventGamePlayWin(LevelManagerNew.Instance.stage);
+        FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.win);
     }
 
 	public void Close()

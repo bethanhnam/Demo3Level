@@ -15,6 +15,7 @@ public class PausePanel : MonoBehaviour
         AdsManager.instance.ShowInterstial(AdsManager.PositionAds.ingame_pause, () =>
         {
             //this.gameObject.SetActive(false);
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();
             DOVirtual.DelayedCall(.7f, () =>
             {
@@ -68,7 +69,8 @@ public class PausePanel : MonoBehaviour
                 this.gameObject.SetActive(false);
                 GamePlayPanelUIManager.Instance.ActiveTime();
                 //UIManager.instance.ActiveTime();
-                //UIManager.instance.gamePlayPanel.backFromPause = true;
+                //UIManager.instance.gamePlayPanel.backFrom
+                //= true;
                 if (Stage.Instance.isWining)
                 {
                     Stage.Instance.ScaleUpStage();
@@ -89,6 +91,7 @@ public class PausePanel : MonoBehaviour
     {
         AdsManager.instance.ShowInterstial(AdsManager.PositionAds.ingame_pause, () =>
         {
+            FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage, LevelStatus.retry);
             Close();
             Stage.Instance.ResetBooster();
             GameManagerNew.Instance.Retry();

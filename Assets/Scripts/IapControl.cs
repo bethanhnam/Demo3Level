@@ -6,6 +6,7 @@ using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Security;
 using DG.Tweening;
 using Unity.Burst.Intrinsics;
+using UnityEngine.UI;
 
 public class IapControl : MonoBehaviour, IStoreListener
 {
@@ -23,7 +24,7 @@ public class IapControl : MonoBehaviour, IStoreListener
 
 	[SerializeField]
 	private CanvasGroup cvLoadingIAP;
-	[SerializeField]
+    [SerializeField]
 	private GameObject objLoadingIAP;
 	[SerializeField]
 	private RectTransform rectTrsSuccessPurchase;
@@ -74,12 +75,15 @@ public class IapControl : MonoBehaviour, IStoreListener
 		{
 			objLoadingIAP.SetActive(true);
 		}
-		if (DOTween.IsTweening(cvLoadingIAP))
+        if (DOTween.IsTweening(cvLoadingIAP))
 		{
 			DOTween.Kill(cvLoadingIAP);
 		}
 		cvLoadingIAP.alpha = 0.1f;
-		cvLoadingIAP.DOFade(1, 0.3f).SetUpdate(true);
+
+		Color a = new Color(0, 0, 0, 1);
+		cvLoadingIAP.GetComponent<Image>().color = a;
+        cvLoadingIAP.DOFade(1, 0.3f).SetUpdate(true);
 	}
 
 	private void DeactiveLoadingPurchase()
@@ -91,7 +95,9 @@ public class IapControl : MonoBehaviour, IStoreListener
 		cvLoadingIAP.DOFade(0, 0.3f).SetUpdate(true).OnComplete(
 			() =>
 			{
-				if (objLoadingIAP.activeSelf)
+                Color a = new Color(0, 0, 0, 0);
+                cvLoadingIAP.GetComponent<Image>().color = a;
+                if (objLoadingIAP.activeSelf)
 				{
 					objLoadingIAP.SetActive(false);
 
@@ -155,22 +161,6 @@ public class IapControl : MonoBehaviour, IStoreListener
 		initializationCount++;
 
 		var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
-
-		//builder.AddProduct(PackName.remove_ads1.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.magic_10.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.magic_30.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.magic_60.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.magic_130.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.magic_250.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.magic_600.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.power_15.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.power_45.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.power_90.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.combo.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.remove_ads_pack.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.day_vip_3.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.day_vip_7.ToString(), ProductType.Consumable);
-		//builder.AddProduct(PackName.day_vip_30.ToString(), ProductType.Consumable);
 
 		//new data
         builder.AddProduct(NewDataPackName.remove_ads1	.ToString(), ProductType.Consumable);

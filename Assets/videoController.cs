@@ -18,6 +18,7 @@ public class VideoController : MonoBehaviour
     public bool canCreate = true;
 
     public List<VideoClip> videoList;
+    //public List<VideoClip> videoActionList;
 
     [System.Serializable]
     public class Frame
@@ -40,15 +41,18 @@ public class VideoController : MonoBehaviour
     }
     public void CheckStartVideo()
     {
+        //PlayerPrefs.SetInt("videoIndex",3);
         var x = PlayerPrefs.GetInt("videoIndex");
+        if (x == 0) {
+            FirebaseAnalyticsControl.Instance.startTutor();
+        }
         PlayVideo(x, null);
     }
     public void PlayVideo(int videoIndex, Action action)
     {
-        Debug.Log(("play video " + videoIndex).ToString());
         this.gameObject.SetActive(true);
         this.videoIndex = videoIndex;
-        PlayerPrefs.SetInt("videoIndex",videoIndex);
+        PlayerPrefs.SetInt("videoIndex", videoIndex);
         videoPlayer.clip = videoList[videoIndex];
         videoPlayer.Play();
         videoPlayer.loopPointReached += LoadingVideo;
@@ -60,9 +64,10 @@ public class VideoController : MonoBehaviour
         if (this.videoIndex == videoList.Count - 1)
         {
             PlayerPrefs.SetString("HasFinishedStory", "true");
+            FirebaseAnalyticsControl.Instance.completeTutor();
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();
-            RemoteConfigController.instance.Init();
-            DOVirtual.DelayedCall(0.5f, () =>
+            DOVirtual.DelayedCall(0.8f, () =>
             {
                 GameManagerNew.Instance.InitStartGame();
             });
@@ -74,7 +79,7 @@ public class VideoController : MonoBehaviour
                 }
                 else
                 {
-                    DOVirtual.DelayedCall(0.7f, () =>
+                    DOVirtual.DelayedCall(0.5f, () =>
                     {
                         UIManagerNew.Instance.ButtonMennuManager.Appear();
                     });
@@ -82,11 +87,16 @@ public class VideoController : MonoBehaviour
             }
             else
             {
-                DOVirtual.DelayedCall(0.7f, () =>
+                DOVirtual.DelayedCall(0.5f, () =>
                 {
-                    UIManagerNew.Instance.ButtonMennuManager.Appear();
+                    UIManagerNew.Instance.DailyRWUI.Appear();
                 });
             }
+            DOVirtual.DelayedCall(.7f, () =>
+            {
+                GameManagerNew.Instance.isStory = false;
+                this.gameObject.SetActive(false);
+            });
         }
         else
         {
@@ -98,40 +108,28 @@ public class VideoController : MonoBehaviour
                     if (videoIndex == 0)
                     {
                         GameManagerNew.Instance.InitStartStoryPic(0);
+                        UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[0].itemSpite);
+                        UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[0].targetTransform);
                         canCreate = false;
                     }
                     if (videoIndex == 1)
                     {
                         GameManagerNew.Instance.InitStartStoryPic(1);
+                        UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[1].itemSpite);
+                        UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[1].targetTransform);
+                        canCreate = false;
+                    }
+                    if (videoIndex == 2)
+                    {
+                        GameManagerNew.Instance.InitStartStoryPic(2);
+                        UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[2].itemSpite);
+                        UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[2].targetTransform);
                         canCreate = false;
                     }
                 }
                 //PlayerPrefs.SetString("HasFinishedStory","true");
             });
         }
-        DOVirtual.DelayedCall(1f, () =>
-        {
-            this.gameObject.SetActive(false);
-        });
-    }
-    public void NormalInit()
-    {
-        RemoteConfigController.instance.Init();
-        DOVirtual.DelayedCall(0.1f, () =>
-        {
-            GameManagerNew.Instance.InitStartGame();
-        });
-        DOVirtual.DelayedCall(0.03f, () =>
-        {
-            {
-                if (SaveSystem.instance.powerTicket > 0 || SaveSystem.instance.magicTiket > 0)
-                {
-                    if (PlayerPrefs.GetInt("HasTransfer") == 0)
-                    {
-                        UIManagerNew.Instance.TransferPanel.Appear();
-                    }
-                }
-            }
-        });
+
     }
 }

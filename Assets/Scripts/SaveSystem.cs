@@ -18,6 +18,8 @@ public class SaveSystem : MonoBehaviour
     public int unscrewPoint;
     public int undoPoint;
     public int extraHolePoint;
+    public int visit_total;
+    public int impr_total_noads_1;
     private void Awake()
     {
         if (instance == null)
@@ -54,6 +56,8 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetInt("unscrewPoint", unscrewPoint);
         PlayerPrefs.SetInt("undoPoint", undoPoint);
         PlayerPrefs.SetInt("extraHolePoint", extraHolePoint);
+        PlayerPrefs.SetInt("visit_total", visit_total);
+        PlayerPrefs.SetInt("impr_total_noads_1", impr_total_noads_1);
 
         
     }
@@ -62,11 +66,11 @@ public class SaveSystem : MonoBehaviour
         //magicTiket = 10;
         //powerTicket = 10;
         //coin = 1000;
-        //star = 80;
+        star = 180;
         //unscrewPoint = 20;
         //undoPoint = 20;
         //extraHolePoint = 20;
-        //days =6;
+        //days =5;
 
     }
     public void LoadData()
@@ -83,6 +87,8 @@ public class SaveSystem : MonoBehaviour
         unscrewPoint = PlayerPrefs.GetInt("unscrewPoint");
         undoPoint = PlayerPrefs.GetInt("undoPoint");
         extraHolePoint = PlayerPrefs.GetInt("extraHolePoint");
+        visit_total = PlayerPrefs.GetInt("visit_total");
+        impr_total_noads_1 = PlayerPrefs.GetInt("impr_total_noads_1");
     }
     public int GetmagicTiket()
     {

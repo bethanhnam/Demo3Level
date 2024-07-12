@@ -11,7 +11,13 @@ public class NonAdsPanel : MonoBehaviour
 	{
 		if (!this.gameObject.activeSelf)
 		{
-            FirebaseAnalyticsControl.Instance.RemoveAds_Click(1);
+            FirebaseAnalyticsControl.Instance.impr_session_noads_1();
+			PlayerPrefs.SetInt("impr_session_noads_1", SaveSystem.instance.impr_total_noads_1);
+			try
+			{
+				FirebaseAnalyticsControl.Instance.impr_total_noads_1();
+			}
+			catch { }
             this.gameObject.SetActive(true);
 			panelBoard.gameObject.SetActive(false);
 			panelBoard.transform.localScale = new Vector3(.9f, .9f, 1f);

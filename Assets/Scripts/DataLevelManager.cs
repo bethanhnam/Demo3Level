@@ -35,8 +35,8 @@ public class DataLevelManager : MonoBehaviour
 		}
 
 		string dataString = PlayerPrefs.GetString(dataName);
-		
-		if (string.IsNullOrEmpty(dataString))
+
+        if (string.IsNullOrEmpty(dataString))
 		{
 			CreateNewData();
 			SaveData();
@@ -46,6 +46,9 @@ public class DataLevelManager : MonoBehaviour
 			try
 			{
 				dataLevel = JsonConvert.DeserializeObject<DataLevel>(dataString);
+				//dataString = "{\n  \"NumOfLevel\": 37,\n  \"Data\": [\n    {\n      \"IndexStage\": 0,\n      \"Stage\": [\n        {\n          \"DataItmeLevel\": [\n            {\n              \"Id\": 1,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 2,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 3,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 4,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"IndexStage\": 2,\n      \"Stage\": [\n        {\n          \"DataItmeLevel\": [\n            {\n              \"Id\": 5,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 6,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 7,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 8,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 9,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 10,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            }\n          ]\n        },\n        {\n          \"DataItmeLevel\": [\n            {\n              \"Id\": 11,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 12,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 13,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            }\n          ]\n        },\n        {\n          \"DataItmeLevel\": [\n            {\n              \"Id\": 14,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 15,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"IndexStage\": 2,\n      \"Stage\": [\n        {\n          \"DataItmeLevel\": [\n            {\n              \"Id\": 15,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 16,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 17,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 18,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 19,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 20,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            }\n          ]\n        },\n        {\n          \"DataItmeLevel\": [\n            {\n              \"Id\": 21,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 22,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 23,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 24,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 25,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            }\n          ]\n        },\n        {\n          \"DataItmeLevel\": [\n            {\n              \"Id\": 26,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 27,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 28,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 29,\n              \"IsUnlock\": true,\n              \"IndexSelect\": 0\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"IndexStage\": 0,\n      \"Stage\": [\n        {\n          \"DataItmeLevel\": [\n            {\n              \"Id\": 30,\n              \"IsUnlock\": false,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 31,\n              \"IsUnlock\": false,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 32,\n              \"IsUnlock\": false,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 33,\n              \"IsUnlock\": false,\n              \"IndexSelect\": 0\n            }\n          ]\n        },\n        {\n          \"DataItmeLevel\": [\n            {\n              \"Id\": 34,\n              \"IsUnlock\": false,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 35,\n              \"IsUnlock\": false,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 36,\n              \"IsUnlock\": false,\n              \"IndexSelect\": 0\n            },\n            {\n              \"Id\": 37,\n              \"IsUnlock\": false,\n              \"IndexSelect\": 0\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}\nUnityEngine.Debug:Log (object)\nDataLevelManager:Init () (at Assets/Scripts/DataLevelManager.cs:51)\nDataInit:Awake () (at Assets/Scripts/new/DataInit.cs:18)\n";
+                //dataLevel = JsonConvert.DeserializeObject<DataLevel>(dataString);
+                Debug.Log(dataString);
                 if (dataLevel == null)
 				{
 					CreateNewData();
@@ -110,18 +113,6 @@ public class DataLevelManager : MonoBehaviour
 		}
 		return 0;
 	}
-	//public int GetLevelText()
-	//{
-	//	for (int i = 0; i < dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].Stage[dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].DataItmeLevel.Length; i++)
-	//	{
-	//		if (!dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].Stage[dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].DataItmeLevel[i].IsUnlock)
-	//		{
-	//			return dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].Stage[dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].DataItmeLevel[i].Id;
-	//		}
-	//	}
-
-	//	return 0;
-	//}
 	public void SetLevelDone(int i)
 	{
 		//FirebaseAnalyticsControl.Instance.LogEventGamePlayWin(DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].Item[GameManagerNew.Instance.Level].Id);

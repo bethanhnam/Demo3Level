@@ -146,6 +146,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
     {
         AdsControl.Instance.isShowingAds = false;
         MaxSdk.LoadAppOpenAd(idOpenAds);
+        AdsControl.Instance.ActiveBlockFaAds(false);
     }
 
     private void AppOpen_OnAdDisplayedEvent(string arg1, MaxSdkBase.AdInfo arg2)
@@ -171,6 +172,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
     {
         AdsControl.Instance.isShowingAds = false;
         MaxSdk.LoadAppOpenAd(idOpenAds);
+        AdsControl.Instance.ActiveBlockFaAds(false);
     }
 
     private void LoadOpenAds()
@@ -447,7 +449,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                     string.Empty,
                     string.Empty,
                     string.Empty,
-                    adValue.Value / 1000f,
+                    adValue.Value / 1000000f,
                     string.Empty);
         };
         ad.OnAdImpressionRecorded += () =>
@@ -482,6 +484,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
             StartCoroutine(CalLoadInter());
             AdsControl.Instance.ActiveBlockFaAds(false);
             AdsControl.Instance.CallActionFa();
+
         };
     }
 
@@ -637,8 +640,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                         _rewardedAd.Show((Reward rw) =>
                         {
                             AdsControl.Instance.isGetReward = true;
-                        }
-                        );
+                        });
                     });         
                 }
             }
@@ -748,7 +750,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                   string.Empty,
                   string.Empty,
                   string.Empty,
-                  adValue.Value / 1000f,
+                  adValue.Value / 1000000f,
                   string.Empty);
         };
         // Raised when an impression is recorded for an ad.

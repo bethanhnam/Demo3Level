@@ -88,6 +88,7 @@ public class MaxMediation : MonoBehaviour
     {
         AdsControl.Instance.isShowingAds = false;
         MaxSdk.LoadAppOpenAd(idOpenAds);
+        AdsControl.Instance.ActiveBlockFaAds(false);
     }
 
     private void AppOpen_OnAdDisplayedEvent(string arg1, MaxSdkBase.AdInfo arg2)
@@ -113,6 +114,7 @@ public class MaxMediation : MonoBehaviour
     {
         AdsControl.Instance.isShowingAds = false;
         MaxSdk.LoadAppOpenAd(idOpenAds);
+        AdsControl.Instance.ActiveBlockFaAds(false);
     }
 
     private void LoadOpenAds()
@@ -231,7 +233,7 @@ public class MaxMediation : MonoBehaviour
         }
         else
         {
-
+            AdsControl.Instance.ActiveBlockFaAds(false);
         }
     }
 
@@ -352,7 +354,7 @@ public class MaxMediation : MonoBehaviour
         }
         else
         {
-
+            AdsControl.Instance.ActiveBlockFaAds(false);
         }
     }
 

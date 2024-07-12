@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,9 @@ public class ButtonMennuManager : MonoBehaviour
     private RewardMove rewardMove;
     [SerializeField]
     public StarMove starMove;
+
+    //pointer
+    public GameObject playBTPoinnter;
 
     private int appearButton = Animator.StringToHash("appear");
     private int disappearButton = Animator.StringToHash("disappear");
@@ -31,12 +35,23 @@ public class ButtonMennuManager : MonoBehaviour
         cvButton.blocksRaycasts = false;
         animButton.Play(appearButton, 0, 0);
         SaveSystem.instance.LoadData();
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            if (LevelManagerNew.Instance.stage == 0)
+            {
+                DisplayPointer();
+            }
+            else
+            {
+                DisablePointer();
+            }
+        });
     }
     public void Close()
     {
         cvButton.blocksRaycasts = false;
         animButton.Play(disappearButton);
-
+        DisablePointer();
     }
 
     public void Deactive()
@@ -66,7 +81,7 @@ public class ButtonMennuManager : MonoBehaviour
         DisplayLevelText();
 
 
-        FirebaseAnalyticsControl.Instance.LogEventMenuPanelAccessSuccessfully(1);
+        FirebaseAnalyticsControl.Instance.Screen_Home();
     }
     public void DiactiveCVGroup()
     {
@@ -82,6 +97,7 @@ public class ButtonMennuManager : MonoBehaviour
     }
     public void OpenDailyRW()
     {
+        FirebaseAnalyticsControl.Instance.click_dailyRw();
         //GameManagerNew.Instance.ClosePicture(false);
         Close();
         UIManagerNew.Instance.DailyRWUI.Appear();
@@ -156,20 +172,21 @@ public class ButtonMennuManager : MonoBehaviour
     {
         int level = LevelManagerNew.Instance.GetStage();
         //GameManagerNew.Instance.CreateLevel(level);
-
+        DisablePointer();
         if (GameManagerNew.Instance.CheckLevelStage())
         {
             UIManagerNew.Instance.ButtonMennuManager.OpenCompletePanel();
         }
         else
         {
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();
             DOVirtual.DelayedCall(.7f, () =>
             {
                 UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
                 if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
                 {
-                    int replayLevel = UnityEngine.Random.Range(0, 29);
+                    int replayLevel = UnityEngine.Random.Range(5, 29);
                     GameManagerNew.Instance.CreateLevel(replayLevel);
                 }
                 else
@@ -185,14 +202,26 @@ public class ButtonMennuManager : MonoBehaviour
         Vector3 startPos = UIManagerNew.Instance.ChestSLider.present.transform.position;
         UIManagerNew.Instance.ChestSLider.present.transform.DOMove(Vector3.zero, 1f).OnComplete(() =>
         {
-            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
             UIManagerNew.Instance.ChestSLider.returnPos();
             UIManagerNew.Instance.ButtonMennuManager.OpenCongratPanel();
+            DOVirtual.DelayedCall(0.3f, () =>
+            {
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+            });
         });
     }
     public void DisplayReward()
     {
 
+    }
+
+    public void DisplayPointer()
+    {
+        playBTPoinnter.gameObject.SetActive(true);
+    }
+    public void DisablePointer()
+    {
+        playBTPoinnter.gameObject.SetActive(false);
     }
     public void DisplayLevelText()
     {

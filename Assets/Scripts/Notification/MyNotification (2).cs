@@ -5,6 +5,7 @@ using UnityEngine;
 using Unity.Notifications;
 #if UNITY_ANDROID
 using Unity.Notifications.Android;
+using UnityEngine.Android;
 #elif UNITY_IOS
 using Unity.Notifications.iOS;
 #endif
@@ -24,9 +25,32 @@ public class MyNotification
 #if UNITY_ANDROID
         AndroidNotificationChannel a = new AndroidNotificationChannel(channelId, channelName, channelDes, Importance.Default);
         AndroidNotificationCenter.RegisterNotificationChannel(a);
+#elif UNITY_IOS
+        StartCoroutine(RequestAuthorizationIos());
 #endif
         //AndroidNotificationCenter.Initialize();
     }
+#if UNITY_ANDROID
+    private void RequestAuthorizationAndroid()
+    {
+        if (!Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
+        {
+            Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS");
+        }
+    }
+#endif
+
+#if UNITY_IOS
+    private IEnumerator RequestAuthorizationIos()
+    {
+        using var req = new AuthorizationRequest(AuthorizationOption.Alert | AuthorizationOption.Badge, true);
+
+        while (!req.IsFinished)
+        {
+            yield return null;
+        }
+    }
+#endif
 
     // Use this for initialization
     public static void SendPush(string title, string des, DateTime timeDelay, string callBack = "")

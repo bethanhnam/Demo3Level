@@ -28,6 +28,8 @@ public class ExtralHole : MonoBehaviour
 	{
 		if (SaveSystem.instance.extraHolePoint >= 1)
 		{
+			FirebaseAnalyticsControl.Instance.Gameplay_Item_Drill(LevelManagerNew.Instance.stage);
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             SetMinusText('-', 1);
             SaveSystem.instance.AddBooster(0,0,-1);
 			SaveSystem.instance.SaveData();
@@ -36,6 +38,7 @@ public class ExtralHole : MonoBehaviour
 			Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
             DOVirtual.DelayedCall(1f, () =>
             {
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                 this.Close();
             });
         }
@@ -48,8 +51,8 @@ public class ExtralHole : MonoBehaviour
 	{
 		AdsManager.instance.ShowRewardVideo(() =>
 		{
-			// load ad 
-			this.Close();
+            // load ad 
+            this.Close();
 			Stage.Instance.ChangeLayer();
 			Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
 			Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);

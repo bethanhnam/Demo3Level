@@ -16,7 +16,8 @@ public class LevelButton : MonoBehaviour
     }
 	public void SetItem()
 	{
-		GameManagerNew.Instance.Level = level;
+        UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+        GameManagerNew.Instance.Level = level;
 		GameManagerNew.Instance.CheckStarValue(star,this.transform.position,this);
 
     }

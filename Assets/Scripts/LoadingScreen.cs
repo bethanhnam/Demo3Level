@@ -29,6 +29,7 @@ public class LoadingScreen : MonoBehaviour
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
         operation.allowSceneActivation = false;
         loadingScreen.SetActive(true);
+        
         while (sliders[0].value <= 0.9f && !operation.isDone)
         {
             if (sliders[0].value <= 0.9f)
@@ -38,12 +39,13 @@ public class LoadingScreen : MonoBehaviour
             if (operation.progress >= 0.9f && sliders[0].value == 0.9f)
             {
                 operation.allowSceneActivation = true;
-                yield return new WaitForSecondsRealtime(0.3f);
+                RemoteConfigController.instance.Init();
+                yield return new WaitForSecondsRealtime(0.2f);
                 if (!HasFinishedStory())
                 {
                     GameManagerNew.Instance.PlayVideo();
-                    AudioManager.instance.PlayMusic("MenuTheme");
-                    Destroy(this.gameObject);
+                    AudioManager.instance.PlayMusic("story");
+                    Destroy(this.gameObject,1f);
 
                     ////test 
                     //normalInitGame();
@@ -61,7 +63,10 @@ public class LoadingScreen : MonoBehaviour
 
     private void normalInitGame()
     {
-        RemoteConfigController.instance.Init();
+        if (GameManagerNew.Instance.videoController != null)
+        {
+            GameManagerNew.Instance.videoController.gameObject.SetActive(false);
+        }
         DOVirtual.DelayedCall(0.1f, () =>
         {
             GameManagerNew.Instance.InitStartGame();
@@ -129,6 +134,8 @@ public class LoadingScreen : MonoBehaviour
     private void Start()
     {
         instance = this;
+        //test
+        PlayerPrefs.SetString("HasFinishedStory", "true");
 
         DontDestroyOnLoad(this.gameObject);
         LoadingScene(1);

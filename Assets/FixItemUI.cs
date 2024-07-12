@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -57,7 +58,8 @@ public class FixItemUI : MonoBehaviour
 	}
 	IEnumerator Fix()
 	{
-		yield return new WaitForSeconds(1.5f);
+        UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
         Deactive();
         GameManagerNew.Instance.ItemMoveControl.MoveToFix(imgPic.transform.position, GameManagerNew.Instance.PictureUIManager.GetCurrentPosItem(), imgPic.sprite, () =>
         {
@@ -75,11 +77,17 @@ public class FixItemUI : MonoBehaviour
             GameManagerNew.Instance.CreateParticleEF();
             GameManagerNew.Instance.ItemMoveControl.gameObject.SetActive(false);
             GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
-            GameManagerNew.Instance.PictureUIManager.ChangeItem(GameManagerNew.Instance.PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].ObjunLock[GameManagerNew.Instance.Level]);
+			for (int i = 0; i < GameManagerNew.Instance.PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock[GameManagerNew.Instance.Level].objunLock.Count; i++)
+			{
+				GameManagerNew.Instance.PictureUIManager.ChangeItem(GameManagerNew.Instance.PictureUIManager.Stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock[GameManagerNew.Instance.Level].objunLock[i]);
+			}
             //AudioManager.instance.PlayMusic("MenuTheme");
             UIManagerNew.Instance.ChestSLider.ChangeValue(() =>
             {
                 GameManagerNew.Instance.SetCompleteStory();
+                DOVirtual.DelayedCall(2f, () => {
+                    UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
+                });
             });
             GameManagerNew.Instance.PictureUIManager.EnableCV();
             if (GameManagerNew.Instance.PictureUIManager.picTutor != null)

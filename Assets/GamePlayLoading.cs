@@ -12,6 +12,7 @@ public class GamePlayLoading : MonoBehaviour
     public Image Image;
     public void appear()
     {
+        
         Image.transform.localScale = Vector3.zero;
         this.gameObject.SetActive(true);
     }
@@ -45,6 +46,7 @@ public class GamePlayLoading : MonoBehaviour
     }
     public void Diactive()
     {
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
     }
 }

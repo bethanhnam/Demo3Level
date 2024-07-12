@@ -48,7 +48,7 @@ public class CongratPanel : MonoBehaviour
             SaveSystem.instance.SaveData();
             rewardOpen.gameObject.SetActive(false);
             tapToClaim.gameObject.SetActive(false);
-            rewardImg.transform.position = rewardLight.transform.position;
+            rewardImg.transform.position = rewardOpen.transform.position;
             rewardImg.GetComponent<Animator>().enabled = true;
             this.gameObject.SetActive(false);
             AudioManager.instance.PlaySFX("ClosePopUp");
@@ -71,12 +71,13 @@ public class CongratPanel : MonoBehaviour
                 takeRewardData();
                 tapToOpen.gameObject.SetActive(false);
                 rewardLight.gameObject.SetActive(true);
-                rewardLight.GetComponent<CanvasGroup>().DOFade(1, 0.6f);
-                rewardLight.DOScale(1.3f, 0.5f).OnComplete(() =>
+                rewardLight.GetComponent<CanvasGroup>().DOFade(1, 0.5f);
+                rewardImg.DORotate(Vector3.zero,0.4f);
+                rewardImg.GetComponent<Animator>().enabled = false;
+                rewardLight.DOScale(2f, 1f).OnComplete(() =>
                 {
                     rewardLight.gameObject.SetActive(false);
-                    rewardImg.GetComponent<Animator>().enabled = false;
-                    rewardImg.DOMove(new Vector2(-.5f, -2.5f), 1f);
+                    //rewardImg.DOMove(rewardOpen.transform.position, 1f);
                     rewardImg.DOScale(1f, 1f).OnComplete(() =>
                     {
                         AudioManager.instance.PlaySFX("OpenChest");
@@ -137,7 +138,7 @@ public class CongratPanel : MonoBehaviour
         for (int i = 0; i < Listeward.Count; i++)
         {
             Listeward[i].transform.DOScale(Vector2.one, 0.7f);
-            Listeward[i].transform.DOMove(rewardsPos[i].position, 0.7f).OnComplete(() =>
+            Listeward[i].transform.DOMove(rewardsPos[i].position, 0.5f).OnComplete(() =>
             {
                 congratuationText.enabled = true;
 
@@ -159,6 +160,7 @@ public class CongratPanel : MonoBehaviour
     }
     public void close()
     {
+        UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
         ComPleteImgViaButton();
     }
     public void SetValue(TextMeshProUGUI valueText, int i)

@@ -28,7 +28,13 @@ public class RewardDaily : MonoBehaviour
 	public int extraHolePoint;
 	public int gold;
 
-	private void Start()
+
+	public Button button;
+    private void Awake()
+    {
+        button = GetComponent<Button>();
+    }
+    private void Start()
 	{
 		panelPosition = new Vector3[rewardImg.Length];
 		for (int i = 0; i < rewardImg.Length; i++)
@@ -42,30 +48,31 @@ public class RewardDaily : MonoBehaviour
 		{
 			if (isActive)
 			{
-				this.Active();
-			}
+                button.enabled = true;
+                panelImg.sprite = panelChangeSprite;
+            }
 			else
 			{
-
 				panelImg.sprite = panelDefaultSprite;
-			}
+                button.enabled = false;
+            }
 		}
 		else
 		{
-			this.isActive = false;
+            button.enabled = false;
+            this.isActive = false;
 			for (int i = 0; i < rewardImg.Length; i++)
 			{
-				rewardImg[i].transform.localPosition = panelPosition[i];
+                button.interactable = false;
+                rewardImg[i].transform.localPosition = panelPosition[i];
 				rewardImg[i].sprite = Resources.Load<Sprite>("UI/UI Nut/export/Daily RW/Daily RW (2)/Daily RW/received stamp");
 				rewardImg[i].GetComponent<Image>().SetNativeSize();
 				rewardImg[i].enabled = true;
 			}
 			for (int i = 0; i < tickImg.Length; i++)
 			{
-				//tickImg[i].sprite = Resources.Load<Sprite>("UI/UI Nut/export/Daily RW/Daily RW (2)/Daily RW/received stamp");
-    //            tickImg[i].GetComponent<Image>().SetNativeSize();
-				//tickImg[i].GetComponent<Image>().enabled = true;
-				tickImg[i].transform.gameObject.SetActive(false);
+
+                tickImg[i].transform.gameObject.SetActive(false);
 			}
 			panelImg.sprite = panelClaimSprite;
             Color x =new Color(0xBB / 255f, 0x7B / 255f, 0x4C / 255f);
@@ -73,13 +80,5 @@ public class RewardDaily : MonoBehaviour
 			//Deactive();
 		}
 	}
-	public void Active()
-	{
-		panelImg.sprite = panelChangeSprite;
-	}
-	public void Deactive()
-	{
-		panelImg.sprite = panelDefaultSprite;
 
-	}
 }

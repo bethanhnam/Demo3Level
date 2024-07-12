@@ -16,7 +16,6 @@ public class DeteleNailPanel : MonoBehaviour
     public TextMeshProUGUI numOfUsedText;
     public CanvasGroup canvasGroup;
     public int numOfUse = 0;
-    public int numOfUseByAds = 0;
     public GameObject pointer;
 
     //text 
@@ -36,10 +35,11 @@ public class DeteleNailPanel : MonoBehaviour
         {
             if (canInteract)
             {
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
                 canInteract = false;
                 ShowTutor();
                 numOfUse++;
-                FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew_1(numOfUse, LevelManagerNew.Instance.stage);
+                //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
                 if (LevelManagerNew.Instance.stage == 3)
                 {
                     GamePlayPanelUIManager.Instance.showPointer(true);
@@ -57,6 +57,7 @@ public class DeteleNailPanel : MonoBehaviour
                 DOVirtual.DelayedCall(1f, () =>
                 {
                     this.Close();
+                    UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                 });
             }
             else
@@ -76,10 +77,8 @@ public class DeteleNailPanel : MonoBehaviour
         {
             ShowTutor();
             //xem qu?ng cáo 
-            numOfUseByAds++;
-            FirebaseAnalyticsControl.Instance.Unscrew_RW_Change(numOfUseByAds);
             numOfUse++;
-            FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew_1(numOfUse, LevelManagerNew.Instance.stage);
+            FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(LevelManagerNew.Instance.stage);
 
             //xoá nail(Đồng hồ đếm giờ dừng lại)
             Stage.Instance.setDeteleting(true);
@@ -176,6 +175,7 @@ public class DeteleNailPanel : MonoBehaviour
                 ActiveCVGroup();
                 canInteract = true;
                 ShowPointer(false);
+                Stage.Instance.checked1 = false;
                 this.gameObject.SetActive(false);
                 Stage.Instance.AfterPanel();
 

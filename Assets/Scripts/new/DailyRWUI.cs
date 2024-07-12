@@ -41,13 +41,11 @@ public class DailyRWUI : MonoBehaviour
 		cvButton.blocksRaycasts = false;
 		animButton.Play(disappearButton,0,0);
         AudioManager.instance.PlaySFX("ClosePopUp");
-        Debug.Log("chạy qua dailyRW");
     }
 
 	public void Deactive()
 	{
 			gameObject.SetActive(false);
-        Debug.Log("đã tắt dailyRW");
     }
 
 	public void ActiveCVGroup()
@@ -59,4 +57,11 @@ public class DailyRWUI : MonoBehaviour
 		}
 	}
 
+	public void check()
+	{
+		if (!UIManagerNew.Instance.DailyRWUI.gameObject.activeSelf)
+		{
+            UIManagerNew.Instance.DailyRWUI.gameObject.SetActive(true);
+        }
+	}
 }

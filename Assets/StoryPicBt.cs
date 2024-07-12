@@ -6,6 +6,7 @@ public class StoryPicBt : MonoBehaviour
 {
     // Start is called before the first frame update
     public int level;
+    public GameObject pointer;
     void Start()
     {
         
@@ -18,8 +19,10 @@ public class StoryPicBt : MonoBehaviour
     }
     public void CreateLevelViaBT()
     {
+        AudioManager.instance.PlaySFX("PickUpScrew");
         GameManagerNew.Instance.isStory = true;
         GameManagerNew.Instance.CreateLevelForStory(level);
         this.gameObject.SetActive(false);
+        pointer.SetActive(false);
     }
 }

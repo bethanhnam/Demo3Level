@@ -32,8 +32,9 @@ public class DailyPanel : MonoBehaviour
 		
 
     }
-	private void checkDay()
+	private bool checkDay()
 	{
+		bool result = false;
 		//get last claim time");
 		string lastTime = PlayerPrefs.GetString("LastClaimTime");
 		DateTime lastclaimTime;
@@ -48,29 +49,31 @@ public class DailyPanel : MonoBehaviour
 		//enable / disable claim button
 		if (DateTime.Today > lastclaimTime)
 		{
-			if (SaveSystem.instance.days < 7)
+            if (SaveSystem.instance.days < 7)
 			{
+				result = true;
 				dayRewards[SaveSystem.instance.days].isActive = true;
-				claim.interactable = true;
-				claim.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = Color.white;
+				//claim.interactable = true;
+				//claim.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = Color.white;
 				claimX2.interactable = true;
 			}
 			else
 			{
-				claim.interactable = false;
-				Color color = new Color(140f / 255f, 140f / 255f, 140f / 255f);
-				claim.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = color;
+				//claim.interactable = false;
+				//Color color = new Color(140f / 255f, 140f / 255f, 140f / 255f);
+				//claim.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = color;
 				claimX2.interactable = false;
 			}
 			
 		}
 		else
 		{
-			claim.interactable = false;
-			Color color = new Color(140f / 255f, 140f / 255f, 140f / 255f);
-			claim.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = color;
+			//claim.interactable = false;
+			//Color color = new Color(140f / 255f, 140f / 255f, 140f / 255f);
+			//claim.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = color;
 			claimX2.interactable = false;
 		}
+		return result;
 	}
 	private void Update()
 	{
@@ -86,25 +89,11 @@ public class DailyPanel : MonoBehaviour
     }
 	public void OnClaimButtinPressed()
 	{
-		//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
 		PlayerPrefs.SetString("LastClaimTime", DateTime.Now.ToString("yyyy-MM-dd"));
         Debug.Log(DateTime.Now.ToString());
         isClaim = true;
-		//if (lastDate == 6)
-		//{
-			if (dayRewards[lastDate].rewardImg.Length <= 1)
-			{
-				reciveRewardPanel.Open();
-			}
-			else
-			{
-				reciveRewardPanel.Open();
-			}
-		//else
-		//{
-  //          reciveRewardDaily.gameObject.SetActive(true);
-  //          reciveRewardDaily.claim();
-  //      }
+		reciveRewardPanel.Open();
+		Claim();
 		SaveSystem.instance.SaveData();
 		
     }
@@ -112,28 +101,20 @@ public class DailyPanel : MonoBehaviour
 	{
 		AdsManager.instance.ShowRewardVideo(() =>
 		{
-		FirebaseAnalyticsControl.Instance.Daily_RW_x2(1);
-		//dayRewards[lastDate].Active.gameObject.SetActive(true) ;
 		PlayerPrefs.SetString("LastClaimTime", DateTime.Now.ToString("yyyy-MM-dd"));
 		Debug.Log(DateTime.Now.ToString());
             isClaimX2 = true;
 			//if (lastDate == 6)
 			//{
-				if (dayRewards[lastDate].rewardImg.Length <= 1)
-				{
-					reciveRewardPanel.Open();
-				}
-				else
-				{
-					reciveRewardPanel.Open();
-				}
-			//}
-			//else
-			//{
-   //             reciveRewardDaily.gameObject.SetActive(true);
-			//	reciveRewardDaily.claim();
-   //         }
-			//SaveSystem.instance.SaveData();
+			reciveRewardPanel.Open();
+            Claim();
+            //}
+            //else
+            //{
+            //  reciveRewardDaily.gameObject.SetActive(true);
+            //	reciveRewardDaily.claim();
+            //         }
+            //SaveSystem.instance.SaveData();
         });
 	}
 	public void Claim()
@@ -156,7 +137,7 @@ public class DailyPanel : MonoBehaviour
 	}
 	IEnumerator ClosePanel()
 	{
-		yield return new WaitForSeconds(1.7f);
+		yield return new WaitForSeconds(0.5f);
 		UIManagerNew.Instance.DailyRWUI.Close();
 		reciveRewardPanel.Close();
 		reciveRewardDaily.gameObject.SetActive(true);
@@ -182,5 +163,17 @@ public class DailyPanel : MonoBehaviour
 			//this.gameObject.SetActive(false);
 		}
 
+	}
+	public void CheckForClose()
+	{
+		if (!dayRewards[lastDate].isClaim && checkDay())
+		{
+			OnClaimButtinPressed();
+		}
+		else
+		{
+
+			UIManagerNew.Instance.ButtonMennuManager.DisappearDailyRW();
+		}
 	}
 }

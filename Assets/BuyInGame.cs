@@ -100,6 +100,7 @@ public class BuyInGame : MonoBehaviour
                 });
                 CreateStar(startPos.position,this.transform.position, () =>
                 {
+                    FirebaseAnalyticsControl.Instance.BuyByAds(myitem.id);
                     UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                     AddCoinByAds();
                 }, 5);
@@ -114,6 +115,7 @@ public class BuyInGame : MonoBehaviour
         {
             AdsManager.instance.ShowRewardVideo(() =>
             {
+                FirebaseAnalyticsControl.Instance.BuyByAds(myitem.id);
                 SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint, this.extraHolePoint);
                 SaveSystem.instance.SaveData();
                 myitem.numOfBuy++;
@@ -206,7 +208,7 @@ public class BuyInGame : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         coins.Remove(star);
-        Destroy(star);
+        Destroy(star,.05f);
         if (coins.IsNullOrEmpty())
         {
             action();

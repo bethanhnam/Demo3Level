@@ -28,7 +28,6 @@ public class NotificationControl : MonoBehaviour
         //    SmallIcon = smallIcon,
         //    LargeIcon = largeIcon
         //}, channelId);
-
         MyNotification.SendPush(title, t, d, id);
 
         //  manager.ScheduleNotification(notification);

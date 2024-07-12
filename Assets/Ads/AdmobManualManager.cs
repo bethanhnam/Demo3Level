@@ -145,7 +145,7 @@ public class AdmobManualManager : MonoBehaviour
                     string.Empty,
                     string.Empty,
                     string.Empty,
-                    adValue.Value / 1000f,
+                    adValue.Value / 1000000f,
                     string.Empty);
         };
         ad.OnAdImpressionRecorded += () =>
@@ -199,6 +199,7 @@ public class AdmobManualManager : MonoBehaviour
         }
         else
         {
+            AdsControl.Instance.ActiveBlockFaAds(false);
             Debug.LogError("Interstitial ad is not ready yet.");
         }
     }
@@ -294,7 +295,7 @@ public class AdmobManualManager : MonoBehaviour
                   string.Empty,
                   string.Empty,
                   string.Empty,
-                  adValue.Value / 1000f,
+                  adValue.Value / 1000000f,
                   string.Empty);
         };
         // Raised when an impression is recorded for an ad.
@@ -352,6 +353,7 @@ public class AdmobManualManager : MonoBehaviour
         }
         else
         {
+            AdsControl.Instance.ActiveBlockFaAds(false);
             Debug.LogError("RW ad is not ready yet.");
         }
     }

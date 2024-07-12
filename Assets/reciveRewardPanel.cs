@@ -38,34 +38,34 @@ public class reciveRewardPanel : MonoBehaviour
             this.gameObject.SetActive(true);
             canvasGroup.alpha = 1;
             AudioManager.instance.PlaySFX("OpenPopUp");
-            rewardLight.GetComponent<CanvasGroup>().alpha = 0f;
+            //rewardLight.GetComponent<CanvasGroup>().alpha = 0f;
 
-            rewardImg.gameObject.SetActive(true);
-            tapToOpen.gameObject.SetActive(true);
-            rewardLight.gameObject.SetActive(false);
-            rewardOpen.gameObject.SetActive(false);
-            rewardOpen.localScale = Vector3.one;
-            rewardLight.localScale = Vector3.one;
+            //rewardImg.gameObject.SetActive(true);
+            //tapToOpen.gameObject.SetActive(true);
+            //rewardLight.gameObject.SetActive(false);
+            //rewardOpen.gameObject.SetActive(false);
+            //rewardOpen.localScale = Vector3.one;
+            //rewardLight.localScale = Vector3.one;
 
             if (rewardsDaily[dailyPanel.lastDate].rewardImg.Length == 1)
             {
-                var x = Instantiate(RWImg, rewardImg.transform.position, Quaternion.identity, transform);
+                Image x = Instantiate(RWImg, rewardImg.transform.position, Quaternion.identity, transform);
                 x.sprite = rewardsDaily[dailyPanel.lastDate].rewardImg[0].sprite;
                 x.transform.position = rewardImg.transform.position;
                 x.transform.localScale = new Vector2(2, 2);
                 rewards.Add(x);
-                rewardsValue.Add(x.transform.GetChild(0).GetComponent<TextMeshProUGUI>());
+                rewardsValue.Add(x.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>());
                 SetValue(rewardsValue[0], 0);
             }
             else
             {
                 for (int i = 0; i < rewardsDaily[dailyPanel.lastDate].rewardImg.Length; i++)
                 {
-                    var x = Instantiate(RWImg, rewardImg.transform.position, Quaternion.identity, transform);
+                    Image x = Instantiate(RWImg, rewardImg.transform.position, Quaternion.identity, transform);
                     x.sprite = rewardsDaily[dailyPanel.lastDate].rewardImg[i].sprite;
                     x.transform.position = rewardImg.transform.position;
                     rewards.Add(x);
-                    rewardsValue.Add(x.transform.GetChild(0).GetComponent<TextMeshProUGUI>());
+                    rewardsValue.Add(x.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>());
                     SetValue(rewardsValue[i], i);
                 }
             }
@@ -77,7 +77,7 @@ public class reciveRewardPanel : MonoBehaviour
         if (this.gameObject.activeSelf)
         {
             SaveSystem.instance.SaveData();
-            rewardOpen.gameObject.SetActive(false);
+            //rewardOpen.gameObject.SetActive(false);
             this.gameObject.SetActive(false);
             AudioManager.instance.PlaySFX("ClosePopUp");
             SaveSystem.instance.SaveData();
@@ -87,36 +87,39 @@ public class reciveRewardPanel : MonoBehaviour
     {
         AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_bonus, () =>
         {
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             takeReward();
-            tapToOpen.gameObject.SetActive(false);
-            rewardLight.gameObject.SetActive(true);
-            rewardLight.GetComponent<CanvasGroup>().DOFade(1, 0.6f);
-            rewardLight.DOScale(1.3f, 0.5f).OnComplete(() =>
-            {
-                rewardLight.gameObject.SetActive(false);
-                rewardImg.GetComponent<Animator>().enabled = false;
-                rewardImg.DOMove(new Vector2(0, -5), 1f);
-                rewardImg.DOScale(1f, 1f).OnComplete(() =>
-                {
-                    AudioManager.instance.PlaySFX("OpenChest");
-                    rewardOpen.transform.position = rewardImg.transform.position;
-                    rewardOpen.transform.localScale = rewardImg.transform.localScale;
-                    rewardImg.gameObject.SetActive(false);
-                    rewardOpen.gameObject.SetActive(true);
-                    RewardAppear(action);
-                });
-            });
+            AudioManager.instance.PlaySFX("OpenChest");
+            RewardAppear(action);
+            //tapToOpen.gameObject.SetActive(false);
+            //rewardLight.gameObject.SetActive(true);
+            //rewardLight.GetComponent<CanvasGroup>().DOFade(1, 0.6f);
+            //rewardLight.DOScale(1.3f, 0.5f).OnComplete(() =>
+            //{
+            //    rewardLight.gameObject.SetActive(false);
+            //    rewardImg.GetComponent<Animator>().enabled = false;
+            //    rewardImg.DOMove(new Vector2(0, -5), 1f);
+            //    rewardImg.DOScale(1f, 1f).OnComplete(() =>
+            //    {
+            //        AudioManager.instance.PlaySFX("OpenChest");
+            //        rewardOpen.transform.position = rewardImg.transform.position;
+            //        rewardOpen.transform.localScale = rewardImg.transform.localScale;
+            //        rewardImg.gameObject.SetActive(false);
+            //        rewardOpen.gameObject.SetActive(true);
+            //        RewardAppear(action);
+            //    });
+            //});
         }, null);
     }
     public void RewardAppear(Action action)
     {
         if (rewards.Count == 1)
         {
-            rewards[0].transform.position = rewardOpen.position;
+            rewards[0].transform.position = Vector3.zero;
             rewards[0].transform.localScale = Vector2.zero;
             rewards[0].gameObject.SetActive(true);
             rewards[0].transform.DOScale(2, 1);
-            rewards[0].transform.DOMove(setPos(0), 1f).OnComplete(() =>
+            rewards[0].transform.DOMove(Vector3.zero, 1f).OnComplete(() =>
             {
                 action();
                 //rewardOpen.gameObject.SetActive(false);
@@ -130,7 +133,7 @@ public class reciveRewardPanel : MonoBehaviour
 
                 if (i != rewards.Count - 1)
                 {
-                    rewards[i].transform.position = rewardOpen.position;
+                    rewards[i].transform.position = Vector3.zero;
                     rewards[i].transform.localScale = Vector2.zero;
                     rewards[i].gameObject.SetActive(true);
                     rewards[i].transform.DOScale(1, 1);
@@ -138,7 +141,7 @@ public class reciveRewardPanel : MonoBehaviour
                 }
                 else
                 {
-                    rewards[i].transform.position = rewardOpen.position;
+                    rewards[i].transform.position = Vector3.zero;
                     rewards[i].transform.localScale = Vector2.zero;
                     rewards[i].gameObject.SetActive(true);
                     rewards[i].transform.DOScale(1, 1);
@@ -312,5 +315,6 @@ public class reciveRewardPanel : MonoBehaviour
         {
             this.gameObject.SetActive(false);    
         });
+        
     }
 }
