@@ -1,4 +1,4 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using Sirenix.OdinInspector;
 using Spine.Unity;
 using System;
@@ -212,8 +212,11 @@ public class PictureUIManager : MonoBehaviour
                 }
             }
         }
+        Debug.Log("chạy xong normalInit");
         SetStarText();
+        Debug.Log("chạy xong setStarText");
         CheckForWindow();
+        Debug.Log("chạy xong checkForWindow");
 
     }
     public void CheckForWindow()
@@ -361,6 +364,7 @@ public class PictureUIManager : MonoBehaviour
                         }
                     }
                 }
+                Debug.Log("chạy xong đổi các item stage trước");
             }
             else
             {
@@ -441,6 +445,7 @@ public class PictureUIManager : MonoBehaviour
 
                         }
                     }
+                    Debug.Log("chạy xong đúng stage");
                 }
                 else
                 {
@@ -468,10 +473,13 @@ public class PictureUIManager : MonoBehaviour
                             }
                         }
                     }
+                    Debug.Log("chạy xong đóng hết item");
                 }
             }
         }
+       Debug.Log("chạy xong changeitemonly");
         HiddenButton();
+        Debug.Log("chạy xong changeitemonly");
         StartCoroutine(NormalInit(showBT));
     }
     IEnumerator NormalInit(bool showBT)
@@ -480,6 +488,7 @@ public class PictureUIManager : MonoBehaviour
         Init(level);
         if (showBT)
         {
+            Debug.Log("chạy xong showBT");
             DisplayButton();
         }
         //if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
@@ -488,8 +497,10 @@ public class PictureUIManager : MonoBehaviour
         //}
         if (!GameManagerNew.Instance.CheckSliderValueAndDisplay())
         {
+            Debug.Log("chạy vào trong normalInit");
             UIManagerNew.Instance.ButtonMennuManager.ActiveCVGroup();
         }
+        Debug.Log("chạy xong normalInit");
     }
 
     public Vector3 GetCurrentPosItem()

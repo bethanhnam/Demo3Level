@@ -108,12 +108,22 @@ public class LoadingScreen : MonoBehaviour
                         AudioManager.instance.PlayMusic("MenuTheme");
                         UIManagerNew.Instance.ButtonMennuManager.Appear();
                         Debug.Log("mở khi chua full process và  đã nhận quà hàng ngày ");
+                        if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
+                        {
+                            PlayerPrefs.SetInt("CompleteLastPic", 0);
+                            GameManagerNew.Instance.CreatePicForNewPic();
+                        }
                     }
                     else
                     {
                         UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
                         AudioManager.instance.PlayMusic("MenuTheme");
                         Debug.Log("mở khi chua full process và đã đã nhận quà hàng ngày ");
+                        if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
+                        {
+                            PlayerPrefs.SetInt("CompleteLastPic", 0);
+                            GameManagerNew.Instance.CreatePicForNewPic();
+                        }
                     }
                 }
                 else

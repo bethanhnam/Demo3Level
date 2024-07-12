@@ -403,14 +403,15 @@ public class GameManagerNew : MonoBehaviour
             Debug.Log("level tranh tiếp theo " + LevelManagerNew.Instance.LevelBase.Level);
             PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
             PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
+            Debug.Log(" Chạy qua ChangeItemOnly");
             AudioManager.instance.musicSource.Play();
             ScalePicForDevices(PictureUIManager.transform.gameObject);
+            Debug.Log(" Chạy qua ScalePic");
             UIManagerNew.Instance.ButtonMennuManager.Appear();
             UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
             UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
             UIManagerNew.Instance.ChestSLider.CreateMarker();
             SetCompletImg();
-            SetCompleteStory();
             //UIManagerNew.Instance.CongratPanel.takeRewardData();
             Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
 
@@ -516,7 +517,6 @@ public class GameManagerNew : MonoBehaviour
                     CompleteLevelAfterReward();
                     PlayerPrefs.SetInt("windowFixed", 0);
                     PlayerPrefs.SetInt("HasRecieveRW", 0);
-                    PlayerPrefs.SetInt("CompleteLastPic", 0);
                 }
                 else
                 {
@@ -573,9 +573,12 @@ public class GameManagerNew : MonoBehaviour
         LevelManagerNew.Instance.NetxtLevel();
         Debug.Log("level tranh tiếp theo " + LevelManagerNew.Instance.LevelBase.Level);
         PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
+        Debug.Log(" Chạy qua tạo pic");
         PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
+        Debug.Log(" Chạy qua ChangeItemOnly");
         AudioManager.instance.musicSource.Play();
         ScalePicForDevices(PictureUIManager.transform.gameObject);
+        Debug.Log(" Chạy qua scalePic");
         UIManagerNew.Instance.ButtonMennuManager.Appear();
         UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
         UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
@@ -601,6 +604,22 @@ public class GameManagerNew : MonoBehaviour
         //UIManagerNew.Instance.CongratPanel.takeRewardData();
         Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
     }
+    public void CreatePicForNewPic()
+    {
+        Destroy(PictureUIManager.gameObject);
+        PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
+        PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
+        AudioManager.instance.musicSource.Play();
+        ScalePicForDevices(PictureUIManager.transform.gameObject);
+        UIManagerNew.Instance.ButtonMennuManager.Appear();
+        UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
+        UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
+        UIManagerNew.Instance.ChestSLider.CreateMarker();
+        SetCompletImg();
+        SetCompleteStory();
+        //UIManagerNew.Instance.CongratPanel.takeRewardData();
+        Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
+    }
     public bool CheckSliderValueAndDisplay()
     {
         var result = false;
@@ -609,7 +628,7 @@ public class GameManagerNew : MonoBehaviour
             UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
             Debug.Log("UIManagerNew.Instance.ChestSLider.currentValue" + UIManagerNew.Instance.ChestSLider.currentValue);
             Debug.Log("UIManagerNew.Instance.ChestSLider.maxValue1" + UIManagerNew.Instance.ChestSLider.maxValue1);
-            if (LevelManagerNew.Instance.LevelBase.Level + 1 >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+            if (LevelManagerNew.Instance.LevelBase.Level + 1 > DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
             {
                 if (PlayerPrefs.GetInt("HasRecieveRW") == 0)
                 {
