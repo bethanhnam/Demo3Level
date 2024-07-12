@@ -42,7 +42,7 @@ public class LevelManagerNew : MonoBehaviour
 			try
 			{
 				levelBase = JsonConvert.DeserializeObject<LevelBase>(dataString);
-				//dataString = "{\"Level\":4,\"CountLevelWin\":0}";
+				//dataString = "{\"Level\":2,\"CountLevelWin\":0}";
                 //levelBase = JsonConvert.DeserializeObject<LevelBase>(dataString);
                 Debug.Log(dataString);
 				if (levelBase == null)

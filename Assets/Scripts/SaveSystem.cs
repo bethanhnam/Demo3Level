@@ -68,7 +68,7 @@ public class SaveSystem : MonoBehaviour
         //coin = 1000;
         star = 180;
         //unscrewPoint = 20;
-        //undoPoint = 20;
+        undoPoint = 200;
         //extraHolePoint = 20;
         //days =5;
 

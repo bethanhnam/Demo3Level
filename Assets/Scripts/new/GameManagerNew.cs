@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using JetBrains.Annotations;
+using Sirenix.OdinInspector;
 using Spine.Unity;
 using System;
 using System.Collections;
@@ -425,6 +426,7 @@ public class GameManagerNew : MonoBehaviour
         //shape.meshRenderer = SkeletonGraphic.;
         Destroy(gameobj, 1f);
     }
+    [Button("TestCompleteImg")]
     public void CompleteImgAppearViaButton(Action action)
     {
         StartCoroutine(CompleteImgAppear(action));
@@ -508,12 +510,13 @@ public class GameManagerNew : MonoBehaviour
             }
             else
             {
-                if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+                if (LevelManagerNew.Instance.LevelBase.Level + 1 <= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
                 {
                     Debug.Log("tạo tranh mới");
                     CompleteLevelAfterReward();
                     PlayerPrefs.SetInt("windowFixed", 0);
                     PlayerPrefs.SetInt("HasRecieveRW", 0);
+                    PlayerPrefs.SetInt("CompleteLastPic", 0);
                 }
                 else
                 {
@@ -535,13 +538,14 @@ public class GameManagerNew : MonoBehaviour
         }
         else
         {
-            if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+            if (LevelManagerNew.Instance.LevelBase.Level + 1 <= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
             {
                 Debug.Log("LevelManagerNew.Instance.LevelBase.Level" + LevelManagerNew.Instance.LevelBase.Level);
                 Debug.Log("tạo tranh mới 2");
                 CompleteLevelAfterReward();
                 PlayerPrefs.SetInt("windowFixed", 0);
                 PlayerPrefs.SetInt("HasRecieveRW", 0);
+                PlayerPrefs.SetInt("CompleteLastPic", 0);
             }
             else
             {
@@ -565,6 +569,7 @@ public class GameManagerNew : MonoBehaviour
         pictureUIManager.DisableCharacter();
         var x = PictureUIManager.gameObject;
         Destroy(x);
+        UIManagerNew.Instance.CompleteImg.transform.localScale = Vector3.one;
         LevelManagerNew.Instance.NetxtLevel();
         Debug.Log("level tranh tiếp theo " + LevelManagerNew.Instance.LevelBase.Level);
         PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);

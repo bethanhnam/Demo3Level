@@ -108,7 +108,8 @@ public class DataLevelManager : MonoBehaviour
 		{
 			if (!dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].Stage[dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].DataItmeLevel[i].IsUnlock)
 			{
-				return i;
+                PlayerPrefs.SetInt("HasCompleteLastLevel", 0);
+                return i;
 			}
 		}
 		return 0;
