@@ -72,9 +72,24 @@ public class GameManagerNew : MonoBehaviour
         UIManagerNew.Instance.ChestSLider.CreateMarker();
         SetCompletImg();
     }
+    public void CreateForNewPic()
+    {
+        if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+        {
+            PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
+            ScalePicForDevices(PictureUIManager.transform.gameObject);
+            PictureUIManager.SetHasWindowFirstTime();
+            LevelManagerNew.Instance.NetxtLevelForNewPic();
+            PictureUIManager.Init(LevelManagerNew.Instance.LevelBase.Level);
+            //UIManagerNew.Instance.ButtonMennuManager.Appear();
+            UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
+            UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
+            UIManagerNew.Instance.ChestSLider.CreateMarker();
+            SetCompletImg();
+        }
+    }
     public void InitStartStoryPic(int picIndex)
     {
-       
         StoryPic = Instantiate(DataLevelStoryPic.instance.listJson[picIndex]);
     }
     public void ScalePicForDevices(GameObject obj)

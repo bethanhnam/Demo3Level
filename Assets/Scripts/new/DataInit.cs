@@ -13,11 +13,21 @@ public class DataInit : MonoBehaviour
 	private void Awake()
 	{
 		DontDestroyOnLoad(this.gameObject);
-		
-		levelManagerNew.Init();
-		dataLevelManager.Init();
 
-		if(instance == null)
+		if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
+		{
+			dataLevelManager.RepairData();
+			dataLevelManager.SaveData();
+            Debug.Log("chayj vaof repairdata");
+        }
+		else
+		{
+			levelManagerNew.Init();
+			dataLevelManager.Init();
+            Debug.Log("chayj vaof init bth");
+        }
+
+		if (instance == null)
 		{
 			instance = this;
 		}

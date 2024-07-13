@@ -69,7 +69,16 @@ public class LoadingScreen : MonoBehaviour
         }
         DOVirtual.DelayedCall(0.1f, () =>
         {
-            GameManagerNew.Instance.InitStartGame();
+            if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
+            {
+                Debug.Log("chayj vaof tao moi pic");
+                PlayerPrefs.SetInt("CompleteLastPic", 0);
+                GameManagerNew.Instance.CreateForNewPic();
+            }
+            else
+            {
+                GameManagerNew.Instance.InitStartGame();
+            }
         });
         cv.DOFade(0, 0.3f).OnComplete(() =>
         {

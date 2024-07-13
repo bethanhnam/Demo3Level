@@ -46,6 +46,10 @@ public class DataLevelManager : MonoBehaviour
 			try
 			{
 				dataLevel = JsonConvert.DeserializeObject<DataLevel>(dataString);
+				//String data = "{\"NumOfLevel\":30,\"Data\":[{\"IndexStage\":0,\"Stage\":[{\"DataItmeLevel\":[{\"Id\":1,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":2,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":3,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":4,\"IsUnlock\":true,\"IndexSelect\":0}]}]},{\"IndexStage\":2,\"Stage\":[{\"DataItmeLevel\":[{\"Id\":5,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":6,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":7,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":8,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":9,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":10,\"IsUnlock\":true,\"IndexSelect\":0}]},{\"DataItmeLevel\":[{\"Id\":11,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":12,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":13,\"IsUnlock\":true,\"IndexSelect\":0}]},{\"DataItmeLevel\":[{\"Id\":14,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":15,\"IsUnlock\":true,\"IndexSelect\":0}]}]},{\"IndexStage\":2,\"Stage\":[{\"DataItmeLevel\":[{\"Id\":15,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":16,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":17,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":18,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":19,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":20,\"IsUnlock\":true,\"IndexSelect\":0}]},{\"DataItmeLevel\":[{\"Id\":21,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":22,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":23,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":24,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":25,\"IsUnlock\":true,\"IndexSelect\":0}]},{\"DataItmeLevel\":[{\"Id\":26,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":27,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":28,\"IsUnlock\":true,\"IndexSelect\":0},{\"Id\":29,\"IsUnlock\":true,\"IndexSelect\":0}]}]}]}";
+				//dataLevel = JsonConvert.DeserializeObject<DataLevel>(data);
+				//SaveData();
+				Debug.Log(dataString);
                 if (dataLevel == null)
 				{
 					CreateNewData();
@@ -89,10 +93,28 @@ public class DataLevelManager : MonoBehaviour
 		}
 	}
 
-	private void RepairData()
+	public void RepairData()
 	{
-
-	}
+        for (int i = 1; i <= datatPictureScriptTableObjects.Length - LevelManagerNew.Instance.LevelBase.Level+1; i++)
+        {
+            dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level + i] = new DataLevelChil();
+            dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level + i].IndexStage = 0;
+            dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level + i].Stage = new DataStageLevel[datatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level + i].Stage.Length];
+            for (int j = 0; j < dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level + i].Stage.Length; j++)
+            {
+                dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level + i].Stage[j] = new DataStageLevel();
+                dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level + i].Stage[j].DataItmeLevel = new DataItmeLevel[datatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level + i].Stage[j].Item.Length];
+                for (int k = 0; k < dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level + i].Stage[j].DataItmeLevel.Length; k++)
+                {
+                    dataLevel.NumOfLevel++;
+                    dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level + i].Stage[j].DataItmeLevel[k] = new DataItmeLevel();
+                    dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level + i].Stage[j].DataItmeLevel[k].Id = datatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level + i].Stage[j].Item[k].Id;
+                    dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level + i].Stage[j].DataItmeLevel[k].IsUnlock = false;
+                    dataLevel.Data[LevelManagerNew.Instance.LevelBase.Level + i].Stage[j].DataItmeLevel[k].IndexSelect = 0;
+                }
+            }
+        }
+    }
 
 	public void SaveData()
 	{

@@ -40,6 +40,10 @@ public class LevelManagerNew : MonoBehaviour
 			try
 			{
 				levelBase = JsonConvert.DeserializeObject<LevelBase>(dataString);
+				//String dataString1 = "{\"Level\":2,\"CountLevelWin\":15}";
+				//levelBase = JsonConvert.DeserializeObject<LevelBase>(dataString1);
+				//SaveData();
+				Debug.Log(dataString);
 				if (levelBase == null)
 				{
 					levelBase = new LevelBase();
@@ -77,7 +81,22 @@ public class LevelManagerNew : MonoBehaviour
 		}
 		
 	}
-	public void ResetLevel(Action action)
+    public void NetxtLevelForNewPic()
+    {
+        if (levelBase.Level + 1 >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+        {
+            
+        }
+        else
+        {
+            Debug.Log(levelBase.Level);
+            levelBase.Level++;
+            levelBase.CountLevelWin = 0;
+            //DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage = 0;
+            SaveData();
+        }
+    }
+    public void ResetLevel(Action action)
 	{
 		
 		SaveData();

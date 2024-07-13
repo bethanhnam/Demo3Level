@@ -160,7 +160,7 @@ public class PictureUIManager : MonoBehaviour
 		}
 		SetStarText();
 		CheckForWindow();
-
+		DataLevelManager.Instance.SaveData();
 	}
 	public void CheckForWindow()
 	{
@@ -387,6 +387,7 @@ public class PictureUIManager : MonoBehaviour
 		}
 		HiddenButton();
         StartCoroutine(NormalInit(showBT));
+		DataLevelManager.Instance.SaveData();
 	}
 	IEnumerator NormalInit(bool showBT)
 	{
