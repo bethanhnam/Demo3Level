@@ -627,7 +627,7 @@ public class GameManagerNew : MonoBehaviour
         var x = PictureUIManager.gameObject;
         Destroy(x);
         UIManagerNew.Instance.CompleteImg.transform.localScale = Vector3.one;
-        LevelManagerNew.Instance.NetxtLevel();
+        LevelManagerNew.Instance.CheckForNewPic();
         DataLevelManager.Instance.DataLevel.Data[level].IndexStage = 0;
         Debug.Log("level tranh tiếp theo " + LevelManagerNew.Instance.LevelBase.Level);
         PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
@@ -641,6 +641,7 @@ public class GameManagerNew : MonoBehaviour
         UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
         UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
         UIManagerNew.Instance.ChestSLider.CreateMarker();
+        Debug.Log(" Chạy qua createMarker");
         SetCompletImg();
         //UIManagerNew.Instance.CongratPanel.takeRewardData();
         Debug.Log("LevelManagerNew.Instance.LevelBase.CountLevelWin "+LevelManagerNew.Instance.LevelBase.CountLevelWin);

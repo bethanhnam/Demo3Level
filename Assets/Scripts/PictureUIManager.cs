@@ -212,7 +212,6 @@ public class PictureUIManager : MonoBehaviour
                 }
             }
         }
-        Debug.Log("chạy xong normalInit");
         SetStarText();
         Debug.Log("chạy xong setStarText");
         //CheckForWindow();
@@ -488,7 +487,6 @@ public class PictureUIManager : MonoBehaviour
                 }
             }
         }
-       Debug.Log("chạy xong changeitemonly");
         HiddenButton();
         Debug.Log("chạy xong changeitemonly");
         StartCoroutine(NormalInit(showBT));

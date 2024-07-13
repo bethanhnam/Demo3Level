@@ -82,6 +82,20 @@ public class LevelManagerNew : MonoBehaviour
 		}
 		
 	}
+	public void CheckForNewPic()
+	{
+        if (levelBase.Level + 1 >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+        {
+            
+        }
+        else
+        {
+            Debug.Log(levelBase.Level);
+            levelBase.Level++;
+            levelBase.CountLevelWin = 0;
+            SaveData();
+        }
+    }
 	public void ResetLevel(Action action)
 	{
 		

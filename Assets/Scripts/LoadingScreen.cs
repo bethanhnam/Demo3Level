@@ -105,12 +105,22 @@ public class LoadingScreen : MonoBehaviour
                 {
                     AudioManager.instance.PlayMusic("MenuTheme");
                     UIManagerNew.Instance.ButtonMennuManager.Appear();
+                    if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
+                    {
+                        PlayerPrefs.SetInt("CompleteLastPic", 0);
+                        GameManagerNew.Instance.CreatePicForNewPic();
+                    }
                     Debug.Log("mở khi  full process và chưa nhận quà hàng ngày ");
                 }
                 else
                 {
                     UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
                     AudioManager.instance.PlayMusic("MenuTheme");
+                    if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
+                    {
+                        PlayerPrefs.SetInt("CompleteLastPic", 0);
+                        GameManagerNew.Instance.CreatePicForNewPic();
+                    }
                     Debug.Log("mở khi  full process và chưa nhận quà hàng ngày ");
                 }
             }
@@ -138,6 +148,11 @@ public class LoadingScreen : MonoBehaviour
                     AudioManager.instance.PlayMusic("MenuTheme");
                     Debug.Log("mở khi chua full process và chưa mở quà ");
                     UIManagerNew.Instance.ButtonMennuManager.Appear();
+                    if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
+                    {
+                        PlayerPrefs.SetInt("CompleteLastPic", 0);
+                        GameManagerNew.Instance.CreatePicForNewPic();
+                    }
                 }
             }
             if (RemoteConfigController.instance.IsShowOpenAds == 1)
