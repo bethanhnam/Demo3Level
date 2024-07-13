@@ -606,19 +606,26 @@ public class GameManagerNew : MonoBehaviour
     }
     public void CreatePicForNewPic()
     {
-        Destroy(PictureUIManager.gameObject);
+        var x = PictureUIManager.gameObject;
+        Destroy(x);
+        UIManagerNew.Instance.CompleteImg.transform.localScale = Vector3.one;
+        LevelManagerNew.Instance.NetxtLevel();
+        DataLevelManager.Instance.DataLevel.Data[level].IndexStage = 0;
+        Debug.Log("level tranh tiếp theo " + LevelManagerNew.Instance.LevelBase.Level);
         PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
+        Debug.Log(" Chạy qua tạo pic");
         PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
+        Debug.Log(" Chạy qua ChangeItemOnly");
         AudioManager.instance.musicSource.Play();
         ScalePicForDevices(PictureUIManager.transform.gameObject);
+        Debug.Log(" Chạy qua scalePic");
         UIManagerNew.Instance.ButtonMennuManager.Appear();
         UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
         UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
         UIManagerNew.Instance.ChestSLider.CreateMarker();
         SetCompletImg();
-        SetCompleteStory();
         //UIManagerNew.Instance.CongratPanel.takeRewardData();
-        Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
+        Debug.Log("LevelManagerNew.Instance.LevelBase.CountLevelWin "+LevelManagerNew.Instance.LevelBase.CountLevelWin);
     }
     public bool CheckSliderValueAndDisplay()
     {
