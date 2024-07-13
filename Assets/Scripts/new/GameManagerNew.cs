@@ -632,7 +632,7 @@ public class GameManagerNew : MonoBehaviour
         Debug.Log("level tranh tiếp theo " + LevelManagerNew.Instance.LevelBase.Level);
         PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
         Debug.Log(" Chạy qua tạo pic");
-        PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
+        PictureUIManager.Init(LevelManagerNew.Instance.LevelBase.Level);
         Debug.Log(" Chạy qua ChangeItemOnly");
         AudioManager.instance.musicSource.Play();
         ScalePicForDevices(PictureUIManager.transform.gameObject);

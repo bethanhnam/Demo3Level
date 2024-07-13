@@ -65,6 +65,7 @@ public class PictureUIManager : MonoBehaviour
         level = _level;
         if (level >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
         {
+            Debug.LogWarning("level "+ level);
             level = 0;
         }
 
@@ -214,7 +215,7 @@ public class PictureUIManager : MonoBehaviour
         }
         SetStarText();
         Debug.Log("chạy xong setStarText");
-        //CheckForWindow();
+        CheckForWindow();
         Debug.Log("chạy xong checkForWindow");
 
     }
