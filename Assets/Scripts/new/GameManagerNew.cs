@@ -75,6 +75,7 @@ public class GameManagerNew : MonoBehaviour
         UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
         UIManagerNew.Instance.ChestSLider.CreateMarker();
         SetCompletImg();
+        SetCompleteStory();
     }
     public void InitStartStoryPic(int picIndex)
     {
@@ -143,6 +144,23 @@ public class GameManagerNew : MonoBehaviour
                     AudioManager.instance.PlayMusic("GamePlayTheme");
                 });
             }
+        }
+    }
+    public void CreateForNewPic()
+    {
+        if (LevelManagerNew.Instance.LevelBase.Level + 1 <= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+        {
+            LevelManagerNew.Instance.NetxtLevelForNewPic();
+            PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
+            ScalePicForDevices(PictureUIManager.transform.gameObject);
+            //PictureUIManager.SetHasWindowFirstTime();
+            PictureUIManager.Init(LevelManagerNew.Instance.LevelBase.Level);
+            //UIManagerNew.Instance.ButtonMennuManager.Appear();
+            UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
+            UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
+            UIManagerNew.Instance.ChestSLider.CreateMarker();
+            SetCompletImg();
+            PlayerPrefs.SetInt("HasRecieveRW", 0);
         }
     }
     public void CreateLevelForStory(int _level)
@@ -511,7 +529,7 @@ public class GameManagerNew : MonoBehaviour
             }
             else
             {
-                if (LevelManagerNew.Instance.LevelBase.Level + 1 <= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+                if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
                 {
                     Debug.Log("tạo tranh mới");
                     CompleteLevelAfterReward();
@@ -538,7 +556,7 @@ public class GameManagerNew : MonoBehaviour
         }
         else
         {
-            if (LevelManagerNew.Instance.LevelBase.Level + 1 <= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+            if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
             {
                 Debug.Log("LevelManagerNew.Instance.LevelBase.Level" + LevelManagerNew.Instance.LevelBase.Level);
                 Debug.Log("tạo tranh mới 2");
@@ -635,7 +653,7 @@ public class GameManagerNew : MonoBehaviour
             UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
             Debug.Log("UIManagerNew.Instance.ChestSLider.currentValue" + UIManagerNew.Instance.ChestSLider.currentValue);
             Debug.Log("UIManagerNew.Instance.ChestSLider.maxValue1" + UIManagerNew.Instance.ChestSLider.maxValue1);
-            if (LevelManagerNew.Instance.LevelBase.Level + 1 > DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+            if (LevelManagerNew.Instance.LevelBase.Level + 1 >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
             {
                 if (PlayerPrefs.GetInt("HasRecieveRW") == 0)
                 {

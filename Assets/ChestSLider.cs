@@ -109,7 +109,10 @@ public class ChestSLider : MonoBehaviour
     }
     public void changeMarkerImgAtPoint(int max)
     {
-        markers[max].greenMarker.gameObject.SetActive(true);
+        if (max >= 0 && max < markers.Count)
+        {
+            markers[max].greenMarker.gameObject.SetActive(true);
+        }
     }
     //public void ChangeSlider()
     //{

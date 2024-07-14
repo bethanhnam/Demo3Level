@@ -29,7 +29,7 @@ public class LoadingScreen : MonoBehaviour
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
         operation.allowSceneActivation = false;
         loadingScreen.SetActive(true);
-        
+
         while (sliders[0].value <= 0.9f && !operation.isDone)
         {
             if (sliders[0].value <= 0.9f)
@@ -45,7 +45,7 @@ public class LoadingScreen : MonoBehaviour
                 {
                     GameManagerNew.Instance.PlayVideo();
                     AudioManager.instance.PlayMusic("story");
-                    Destroy(this.gameObject,1f);
+                    Destroy(this.gameObject, 1f);
 
                     ////test 
                     //normalInitGame();
@@ -69,7 +69,24 @@ public class LoadingScreen : MonoBehaviour
         }
         DOVirtual.DelayedCall(0.1f, () =>
         {
-            GameManagerNew.Instance.InitStartGame();
+            if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
+            {
+                Debug.Log("chayj vaof tao moi pic");
+                PlayerPrefs.SetInt("CompleteLastPic", 0);
+                if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+                {
+                    GameManagerNew.Instance.CreateForNewPic();
+                }
+                else
+                {
+                    PlayerPrefs.SetInt("CompleteLastPic", 1);
+                    GameManagerNew.Instance.InitStartGame();
+                }
+            }
+            else
+            {
+                GameManagerNew.Instance.InitStartGame();
+            }
         });
         cv.DOFade(0, 0.3f).OnComplete(() =>
         {
@@ -108,22 +125,12 @@ public class LoadingScreen : MonoBehaviour
                         AudioManager.instance.PlayMusic("MenuTheme");
                         UIManagerNew.Instance.ButtonMennuManager.Appear();
                         Debug.Log("mở khi chua full process và  đã nhận quà hàng ngày ");
-                        if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
-                        {
-                            PlayerPrefs.SetInt("CompleteLastPic", 0);
-                            GameManagerNew.Instance.CreatePicForNewPic();
-                        }
                     }
                     else
                     {
                         UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
                         AudioManager.instance.PlayMusic("MenuTheme");
                         Debug.Log("mở khi chua full process và đã đã nhận quà hàng ngày ");
-                        if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
-                        {
-                            PlayerPrefs.SetInt("CompleteLastPic", 0);
-                            GameManagerNew.Instance.CreatePicForNewPic();
-                        }
                     }
                 }
                 else
@@ -145,7 +152,7 @@ public class LoadingScreen : MonoBehaviour
     {
         instance = this;
         //test
-        PlayerPrefs.SetString("HasFinishedStory", "true");
+        //PlayerPrefs.SetString("HasFinishedStory", "true");
 
         DontDestroyOnLoad(this.gameObject);
         LoadingScene(1);
@@ -165,7 +172,7 @@ public class LoadingScreen : MonoBehaviour
     }
     public bool HasFinishedStory()
     {
-        var data = PlayerPrefs.GetString("HasFinishedStory","false");
+        var data = PlayerPrefs.GetString("HasFinishedStory", "false");
         bool HasFinishedStory = JsonConvert.DeserializeObject<bool>(data);
         return HasFinishedStory;
     }

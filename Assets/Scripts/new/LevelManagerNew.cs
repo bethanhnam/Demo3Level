@@ -95,7 +95,21 @@ public class LevelManagerNew : MonoBehaviour
 		SaveData();
 		DataLevelManager.Instance.SaveData();
 	}
-	public int GetStage()
+    public void NetxtLevelForNewPic()
+    {
+        if (levelBase.Level + 1 >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+        {
+
+        }
+        else
+        {
+            Debug.Log(levelBase.Level);
+            levelBase.Level++;
+            levelBase.CountLevelWin = 0;
+            SaveData();
+        }
+    }
+    public int GetStage()
 	{
 		if(stage > stageList.Count)
 		{

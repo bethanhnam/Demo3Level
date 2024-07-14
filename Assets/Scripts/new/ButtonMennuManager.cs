@@ -24,28 +24,31 @@ public class ButtonMennuManager : MonoBehaviour
 
     public void Appear()
     {
-        if (GameManagerNew.Instance.PictureUIManager.gameObject.activeSelf == false)
+        if (GameManagerNew.Instance.PictureUIManager != null)
         {
-            GameManagerNew.Instance.PictureUIManager.Open();
-        }
-        if (!gameObject.activeSelf)
-        {
-            gameObject.SetActive(true);
-        }
-        cvButton.blocksRaycasts = false;
-        animButton.Play(appearButton, 0, 0);
-        SaveSystem.instance.LoadData();
-        DOVirtual.DelayedCall(1f, () =>
-        {
-            if (LevelManagerNew.Instance.stage == 0)
+            if (GameManagerNew.Instance.PictureUIManager.gameObject.activeSelf == false)
             {
-                DisplayPointer();
+                GameManagerNew.Instance.PictureUIManager.Open();
             }
-            else
+            if (!gameObject.activeSelf)
             {
-                DisablePointer();
+                gameObject.SetActive(true);
             }
-        });
+            cvButton.blocksRaycasts = false;
+            animButton.Play(appearButton, 0, 0);
+            SaveSystem.instance.LoadData();
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                if (LevelManagerNew.Instance.stage == 0)
+                {
+                    DisplayPointer();
+                }
+                else
+                {
+                    DisablePointer();
+                }
+            });
+        }
     }
     public void Close()
     {
