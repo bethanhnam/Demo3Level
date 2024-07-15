@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Firebase.Analytics;
 using Unity.VisualScripting;
+using Firebase;
+using Firebase.Extensions;
 //using MyManager.Abstract;
 public enum LevelStatus : short
 {
@@ -21,6 +23,7 @@ public class FirebaseAnalyticsControl : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        CheckFireBaseAvailabe();
         DontDestroyOnLoad(gameObject);
     }
 
@@ -36,6 +39,31 @@ public class FirebaseAnalyticsControl : MonoBehaviour
     public void click_dailyRw()
     {
         FirebaseAnalytics.LogEvent("click_dailyRw");
+    }
+
+    public void CheckFireBaseAvailabe()
+    {
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+        {
+            Firebase.DependencyStatus dependencyStatus = task.Result;
+            if (dependencyStatus == Firebase.DependencyStatus.Available)
+            {
+                // Các phụ thuộc đã sẵn sàng, bạn có thể gọi các chức năng của Firebase tại đây
+                InitializeFirebase();
+            }
+            else
+            {
+                Debug.LogError("Could not resolve all Firebase dependencies: " + dependencyStatus);
+            }
+        });
+    }
+
+    void InitializeFirebase()
+    {
+        // Các hàm khởi tạo Firebase
+        FirebaseApp app = FirebaseApp.DefaultInstance;
+        LoadingScreen.instance.isFirebaseInitialized = true;
+        Debug.Log("Firebase is ready to use!");
     }
 
     // Level status

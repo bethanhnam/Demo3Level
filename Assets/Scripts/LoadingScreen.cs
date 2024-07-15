@@ -1,4 +1,6 @@
 ﻿using DG.Tweening;
+using Firebase;
+using Firebase.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -18,6 +20,9 @@ public class LoadingScreen : MonoBehaviour
 
     [SerializeField]
     public CanvasGroup cv;
+
+    // firebase
+    public bool isFirebaseInitialized;
     public void LoadingScene(int sceneId)
     {
         StartCoroutine(LoadingSceneAsync(sceneId));
@@ -36,7 +41,7 @@ public class LoadingScreen : MonoBehaviour
             {
                 sliders[0].value += 0.015f;
             }
-            if (operation.progress >= 0.9f && sliders[0].value == 0.9f)
+            if (operation.progress >= 0.9f && sliders[0].value == 0.9f && isFirebaseInitialized)
             {
                 operation.allowSceneActivation = true;
                 RemoteConfigController.instance.Init();
@@ -167,7 +172,7 @@ public class LoadingScreen : MonoBehaviour
     {
         instance = this;
         //test
-        PlayerPrefs.SetString("HasFinishedStory", "true");
+        //PlayerPrefs.SetString("HasFinishedStory", "true");
 
         DontDestroyOnLoad(this.gameObject);
         LoadingScene(1);

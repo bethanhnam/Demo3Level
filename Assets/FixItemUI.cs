@@ -85,7 +85,16 @@ public class FixItemUI : MonoBehaviour
             UIManagerNew.Instance.ChestSLider.ChangeValue(() =>
             {
                 GameManagerNew.Instance.SetCompleteStory();
-                DOVirtual.DelayedCall(1.5f, () => {
+				float time = 2;
+				if(UIManagerNew.Instance.ChestSLider.currentValue == UIManagerNew.Instance.ChestSLider.maxValue1)
+				{
+					time = 2;
+				}
+				else
+				{
+					time = 0.9f;
+				}
+                DOVirtual.DelayedCall(time, () => {
                     UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
                 });
             });
