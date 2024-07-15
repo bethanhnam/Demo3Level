@@ -134,7 +134,7 @@ public class CongratPanel : MonoBehaviour
     }
     IEnumerator MoveRW()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.3f);
         for (int i = 0; i < Listeward.Count; i++)
         {
             Listeward[i].transform.DOScale(Vector2.one, 0.7f);

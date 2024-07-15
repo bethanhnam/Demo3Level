@@ -85,7 +85,7 @@ public class FixItemUI : MonoBehaviour
             UIManagerNew.Instance.ChestSLider.ChangeValue(() =>
             {
                 GameManagerNew.Instance.SetCompleteStory();
-                DOVirtual.DelayedCall(2f, () => {
+                DOVirtual.DelayedCall(1.5f, () => {
                     UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
                 });
             });
