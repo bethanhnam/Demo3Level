@@ -57,8 +57,9 @@ public class LosePanel : MonoBehaviour
 	}
 	public void Replay()
     {
-		// load ad 
-		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_lose, () =>
+        // load ad 
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+        AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_lose, () =>
 		{
 			Close();
 			GameManagerNew.Instance.Retry();

@@ -5,6 +5,7 @@ using Firebase.Analytics;
 using Unity.VisualScripting;
 using Firebase;
 using Firebase.Extensions;
+using System;
 //using MyManager.Abstract;
 public enum LevelStatus : short
 {
@@ -103,9 +104,9 @@ public class FirebaseAnalyticsControl : MonoBehaviour
        });
     }
     // Map 2 - Map 3 
-    public void LogEventFixStageMap(string Piclevel,int stageIndext)
+    public void LogEventFixStageMap(int Piclevel,int stageIndext)
     {
-        FirebaseAnalytics.LogEvent(FireBaseEventName.Map_+Piclevel+1, new Parameter[]
+        FirebaseAnalytics.LogEvent(FireBaseEventName.Map_+ Piclevel, new Parameter[]
        {
             new Parameter(FireBaseEventName.fix_done_stage, stageIndext),
        });
@@ -208,7 +209,7 @@ public class FireBaseEventName
     public static string Level_status = "Level_status";
     public static string Level_story = "Level_story";
     public static string Endgames = "Endgames";
-    public static string Map_1 = "Map_1";
+    public static string Map_1 = "Map_1_fix_item_";
     public static string Map_ = "Map_";
     public static string Screen_Shop = "Screen_Shop";
     public static string Offer = "Offer";

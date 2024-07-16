@@ -245,6 +245,10 @@ public class GameManagerNew : MonoBehaviour
             {
                 Stage.Instance.pointerTutor.gameObject.SetActive(false);
             }
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+            });
             Stage.Instance.ResetBooster();
             CurrentLevel.Init(Level);
         });
@@ -382,7 +386,7 @@ public class GameManagerNew : MonoBehaviour
                 }
                 else
                 {
-                    FirebaseAnalyticsControl.Instance.LogEventFixStageMap((LevelManagerNew.Instance.LevelBase.Level+1).ToString(), DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage);
+                    FirebaseAnalyticsControl.Instance.LogEventFixStageMap((LevelManagerNew.Instance.LevelBase.Level+1), DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage);
                     Debug.Log("Chuyển tới stage tiếp theo");
                     StartCoroutine(NextStage());
                 }
@@ -658,7 +662,7 @@ public class GameManagerNew : MonoBehaviour
             {
                 if (PlayerPrefs.GetInt("HasRecieveRW") == 0)
                 {
-                    FirebaseAnalyticsControl.Instance.LogEventFixStageMap((LevelManagerNew.Instance.LevelBase.Level + 1).ToString(), DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage);
+                    FirebaseAnalyticsControl.Instance.LogEventFixStageMap((LevelManagerNew.Instance.LevelBase.Level + 1), DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage);
                     Debug.Log("chưa nhận quà , h hiện quà ");
                     UIManagerNew.Instance.ButtonMennuManager.DiactiveCVGroup();
                     result = true;

@@ -22,7 +22,7 @@ public class Stage : MonoBehaviour
     [SerializeField]
     public int numOfIronPlates;
     [SerializeField]
-    private NailControl curNail;
+    public NailControl curNail;
     [SerializeField]
     private Hole curHole;
     [SerializeField]

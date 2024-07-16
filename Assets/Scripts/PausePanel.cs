@@ -89,6 +89,7 @@ public class PausePanel : MonoBehaviour
     }
     public void Retry()
     {
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         AdsManager.instance.ShowInterstial(AdsManager.PositionAds.ingame_pause, () =>
         {
             FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage, LevelStatus.retry);
