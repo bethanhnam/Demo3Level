@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Firebase.Analytics;
 using DG.Tweening;
+using GoogleMobileAds.Api;
 
 public class AdsManager : MonoBehaviour
 {
@@ -84,7 +85,8 @@ public class AdsManager : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-		admobManager = GetComponent<AdmobManager>();
+        MobileAds.RaiseAdEventsOnUnityMainThread = true;
+        admobManager = GetComponent<AdmobManager>();
 		//StartCoroutine(WaitToLoadScene());
 	}
 

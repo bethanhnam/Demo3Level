@@ -150,14 +150,16 @@ public class Stage : MonoBehaviour
         {
             for (int i = 0; i < ironPlates.Length; i++)
             {
-                ironPlates[i].rigidbody2D1.gravityScale = 0;
+                if (ironPlates[i].rigidbody2D1 != null)
+                    ironPlates[i].rigidbody2D1.gravityScale = 0;
             }
         }
         else
         {
             for (int i = 0; i < ironPlates.Length; i++)
             {
-                ironPlates[i].rigidbody2D1.gravityScale = 1;
+                if (ironPlates[i].rigidbody2D1 != null)
+                    ironPlates[i].rigidbody2D1.gravityScale = 1;
             }
         }
     }
@@ -257,13 +259,13 @@ public class Stage : MonoBehaviour
                     {
                         GamePlayPanelUIManager.Instance.ButtonOff();
                         selectDeteleNail();
-                        
+
                     }
                     else
                     {
-                       
+
                         Click();
-                        
+
                     }
                 }
             }
@@ -272,7 +274,7 @@ public class Stage : MonoBehaviour
         //Hack();
         if (isWining)
         {
-           
+
             if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
             {
                 UIManagerNew.Instance.GamePlayPanel.Close();

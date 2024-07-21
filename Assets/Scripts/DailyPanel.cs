@@ -166,14 +166,17 @@ public class DailyPanel : MonoBehaviour
 	}
 	public void CheckForClose()
 	{
-		if (!dayRewards[lastDate].isClaim && checkDay())
+		if (dayRewards[lastDate] !=null)
 		{
-			OnClaimButtinPressed();
-		}
-		else
-		{
+			if (!dayRewards[lastDate].isClaim && checkDay())
+			{
+				OnClaimButtinPressed();
+			}
+			else
+			{
 
-			UIManagerNew.Instance.ButtonMennuManager.DisappearDailyRW();
+				UIManagerNew.Instance.ButtonMennuManager.DisappearDailyRW();
+			}
 		}
 	}
 }
