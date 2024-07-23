@@ -65,7 +65,7 @@ public class RewardDaily : MonoBehaviour
 			{
                 button.interactable = false;
                 rewardImg[i].transform.localPosition = panelPosition[i];
-				rewardImg[i].sprite = Resources.Load<Sprite>("UI/UI Nut/export/Daily RW/Daily RW (2)/Daily RW/received stamp");
+				rewardImg[i].sprite = Resources.Load<Sprite>("UI/UI Nut/received stamp");
 				rewardImg[i].GetComponent<Image>().SetNativeSize();
 				rewardImg[i].enabled = true;
 			}

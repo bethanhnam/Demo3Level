@@ -8,6 +8,7 @@ public class ExtraHoleButton : MonoBehaviour
 	// Thêm một biến public để kéo và thả nút vào trong Inspector
 	public GameObject extraHole;
 	public Button myButton;
+	public Animator myAnimator;
 
 	void Start()
 	{

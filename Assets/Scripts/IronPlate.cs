@@ -205,10 +205,10 @@ public class IronPlate : MonoBehaviour
             Vector2 movementDirection = rigidbody2D1.velocity.normalized;
 
             // Kiểm tra vận tốc hiện tại
-            if (rigidbody2D1.velocity.magnitude < 2f)
+            if (rigidbody2D1.velocity.magnitude < 3f)
             {
                 // Tính toán lực cần thêm vào dựa trên hướng di chuyển và forceMagnitude
-                Vector2 forceToAdd = movementDirection * 0.3f;
+                Vector2 forceToAdd = movementDirection * 0.7f;
 
                 // Thêm lực vào Rigidbody2D
                 rigidbody2D1.AddForce(forceToAdd, ForceMode2D.Force);
@@ -233,10 +233,10 @@ public class IronPlate : MonoBehaviour
         isFrezze = false;
         rigidbody2D1.constraints = RigidbodyConstraints2D.None;
         rigidbody2D1.freezeRotation = false;
-        if (rigidbody2D1.angularDrag < 1)
-        {
-            rigidbody2D1.angularDrag += 0.05f;
-        }
+        //if (rigidbody2D1.angularDrag < 1)
+        //{
+        //    rigidbody2D1.angularDrag += 0.05f;
+        //}
         //rigidbody2D1.sleepMode = RigidbodySleepMode2D.NeverSleep;
         //rigidbody2D1.interpolation = RigidbodyInterpolation2D.Interpolate;
         ApplyTorque();

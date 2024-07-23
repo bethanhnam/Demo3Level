@@ -9,7 +9,7 @@ using UnityEngine;
 public class Stage : MonoBehaviour
 {
     public static Stage Instance;
-    public GameObject holeToUnlock;
+    public ExtraHoleButton holeToUnlock;
     public GameObject Square;
     // Start is called before the first frame update
 
@@ -78,11 +78,15 @@ public class Stage : MonoBehaviour
     public bool isWining = false;
     public bool isLosing = false;
     public bool isScaling = false;
+
+    //check for movement
+    public bool isMoving = false;
     private void Start()
     {
         Instance = this;
         ClearData();
         numOfIronPlates = ironPlates.Length;
+        StartCoroutine(CheckForClickContinuously());
     }
     private void OnEnable()
     {
@@ -970,5 +974,54 @@ public class Stage : MonoBehaviour
     //    GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.UndoBT);
     //    GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
     //}
-    
+    IEnumerator CheckForClickContinuously()
+    {
+        while (true)
+        {
+            if (!GameManagerNew.Instance.isStory)
+            {
+                isMoving = false;
+                float timer = 5f;
+                while (timer > 0)
+                {
+                    if (Input.GetMouseButtonDown(0)) // Kiểm tra bấm chuột trái hoặc chạm vào màn hình
+                    {
+                        isMoving = true;
+                        yield return null; // Đợi khung hình tiếp theo
+                    }
+                    timer -= Time.deltaTime; // Giảm thời gian theo thời gian thực
+                    yield return null; // Đợi khung hình tiếp theo
+                }
+                if (isMoving)
+                {
+                    // Thực hiện hành động khi người chơi bấm vào màn hình
+                    GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, false);
+                    GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);
+                    yield return null; // Đợi khung hình tiếp theo
+                }
+                else
+                {
+                    // Thực hiện hành động khi người chơi không bấm vào màn hình
+                    var defaultHoleScale = this.holeToUnlock.transform.localScale;
+                    this.holeToUnlock.GetComponent<ExtraHoleButton>().myAnimator.enabled = true;
+                    GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, true);
+                    DOVirtual.DelayedCall(1f, () =>
+                    {
+                        GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, false);
+                        GamePlayPanelUIManager.Instance.DeteleButton.transform.DOScale(1, 0.05f);
+                        GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, true);
+                        DOVirtual.DelayedCall(1f, () =>
+                        {
+                            GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);
+                            GamePlayPanelUIManager.Instance.UndoButton.transform.DOScale(1, 0.05f);
+                            this.holeToUnlock.GetComponent<ExtraHoleButton>().myAnimator.enabled = false;
+                            this.holeToUnlock.transform.DOScale(defaultHoleScale, 0.05f);
+                        });
+                    });
+                }
+                // Đợi 5 giây trước khi kiểm tra lại
+                yield return new WaitForSeconds(5f);
+            }
+        }
+    }
 }

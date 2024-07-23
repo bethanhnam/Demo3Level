@@ -24,7 +24,7 @@ public class WinUI : MonoBehaviour
     public GameObject StarShadowImg;
 
     public List<CoinReward> coin = new List<CoinReward>();
-    public StarReward star = new StarReward();
+    public StarReward star;
 
     public Transform startPos;
     public Transform spawnPos;

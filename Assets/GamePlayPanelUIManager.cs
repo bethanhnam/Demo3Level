@@ -27,6 +27,10 @@ public class GamePlayPanelUIManager : MonoBehaviour
     public Button PauseButton;
     public Button BoomButton;
 
+    // anim Button
+    public Animator UndoButtonAim;
+    public Animator DeteleButtonAim;
+
     //text 
     public TextMeshProUGUI levelText;
 
@@ -276,5 +280,8 @@ public class GamePlayPanelUIManager : MonoBehaviour
         }
 
     }
-
+    public void activeAnimation(Animator button,bool status)
+    {
+        button.enabled = status;
+    }
 }

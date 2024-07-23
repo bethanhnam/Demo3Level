@@ -210,7 +210,7 @@ public class FireBaseEventName
     //event
     public static string Screen_Home = "Screen_Home";
     public static string Level_status = "Level_status";
-    public static string Level_item = "Level_status";
+    public static string Level_item = "Level_item";
     public static string Level_story = "Level_story";
     public static string Endgames = "Endgames";
     public static string Map_1 = "Map_1_fix_item_";
