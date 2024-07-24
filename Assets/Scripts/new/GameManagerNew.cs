@@ -10,7 +10,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
-using Lofelt.NiceVibrations;
 
 public class GameManagerNew : MonoBehaviour
 {
@@ -48,10 +47,7 @@ public class GameManagerNew : MonoBehaviour
 
     //test Level
     public int testingStage;
-    public bool isTestingLevel;
-
-    // vabration
-    public HapticSource hapticSouce;   
+    public bool isTestingLevel; 
 
     public LayerMask INSelectionLayer { get => iNSelectionLayer1; }
     public LayerMask IronLayer1 { get => IronLayer12; }
@@ -454,7 +450,6 @@ public class GameManagerNew : MonoBehaviour
         //shape.meshRenderer = SkeletonGraphic.;
         Destroy(gameobj, 1f);
     }
-    [Button("TestCompleteImg")]
     public void CompleteImgAppearViaButton(Action action)
     {
         StartCoroutine(CompleteImgAppear(action));
@@ -754,10 +749,5 @@ public class GameManagerNew : MonoBehaviour
     {
         videoController.gameObject.SetActive(true);
         videoController.CheckStartVideo();
-    }
-    [Button("testvibration")]
-    public void Vibration()
-    {
-        hapticSouce.Play();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using DG.Tweening.Core.Easing;
+using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using System;
 using System.Collections;
@@ -55,6 +56,7 @@ public class CongratPanel : MonoBehaviour
             SaveSystem.instance.SaveData();
         }
     }
+    [Button("TestCompleteImg")]
     public void ComPleteImgViaButton()
     {
         GameManagerNew.Instance.CompleteImgAppearViaButton(() =>
