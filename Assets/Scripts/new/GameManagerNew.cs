@@ -10,6 +10,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using Lofelt.NiceVibrations;
 
 public class GameManagerNew : MonoBehaviour
 {
@@ -47,7 +48,10 @@ public class GameManagerNew : MonoBehaviour
 
     //test Level
     public int testingStage;
-    public bool isTestingLevel; 
+    public bool isTestingLevel;
+
+    // vabration
+    public HapticSource hapticSouce;
 
     public LayerMask INSelectionLayer { get => iNSelectionLayer1; }
     public LayerMask IronLayer1 { get => IronLayer12; }
@@ -57,6 +61,7 @@ public class GameManagerNew : MonoBehaviour
     public PictureUIManager PictureUIManager { get => pictureUIManager; set => pictureUIManager = value; }
     public Transform GamePlayPanel { get => gamePlayPanel; set => gamePlayPanel = value; }
     public Vector3 TargetScale { get => targetScale; set => targetScale = value; }
+
 
     private void Awake()
     {
@@ -749,5 +754,10 @@ public class GameManagerNew : MonoBehaviour
     {
         videoController.gameObject.SetActive(true);
         videoController.CheckStartVideo();
+    }
+    [Button("testvibration")]
+    public void Vibration()
+    {
+        hapticSouce.Play();
     }
 }
