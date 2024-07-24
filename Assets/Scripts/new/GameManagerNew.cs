@@ -10,6 +10,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using Lofelt.NiceVibrations;
 
 public class GameManagerNew : MonoBehaviour
 {
@@ -48,6 +49,10 @@ public class GameManagerNew : MonoBehaviour
     //test Level
     public int testingStage;
     public bool isTestingLevel;
+
+    // vabration
+    public HapticSource hapticSouce;   
+
     public LayerMask INSelectionLayer { get => iNSelectionLayer1; }
     public LayerMask IronLayer1 { get => IronLayer12; }
     public Stage CurrentLevel { get => currentLevel; set => currentLevel = value; }
@@ -173,7 +178,7 @@ public class GameManagerNew : MonoBehaviour
             FirebaseAnalyticsControl.Instance.LogEventLevelStory(_level);
             DOVirtual.DelayedCall(1f, () =>
             {
-                CurrentLevel = Instantiate(StoryGamePlayLevel.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
+                CurrentLevel = Instantiate(StoryGamePlayLevel.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity);
                 ScaleForDevices(CurrentLevel.transform.gameObject);
                 SetTargetScale(currentLevel.gameObject);
                 CurrentLevel.InitForStory(_level);
@@ -749,5 +754,10 @@ public class GameManagerNew : MonoBehaviour
     {
         videoController.gameObject.SetActive(true);
         videoController.CheckStartVideo();
+    }
+    [Button("testvibration")]
+    public void Vibration()
+    {
+        hapticSouce.Play();
     }
 }

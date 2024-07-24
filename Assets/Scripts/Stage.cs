@@ -81,16 +81,20 @@ public class Stage : MonoBehaviour
 
     //check for movement
     public bool isMoving = false;
+    public Tween boosterTween;
+    public Tween boosterTween1;
     private void Start()
     {
         Instance = this;
         ClearData();
         numOfIronPlates = ironPlates.Length;
-        StartCoroutine(CheckForClickContinuously());
     }
     private void OnEnable()
     {
-
+        if (!GameManagerNew.Instance.isStory)
+        {
+            StartCoroutine(CheckForClickContinuously());
+        }
         try
         {
             if (GamePlayPanelUIManager.Instance.gameObject.activeSelf == false)
@@ -264,6 +268,12 @@ public class Stage : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
+                //booster anim
+                if (!GameManagerNew.Instance.isStory)
+                {
+                    isMoving = true;
+                    SetDefaultBoosterAim();
+                }
                 if (!isTutor)
                 {
 
@@ -984,44 +994,65 @@ public class Stage : MonoBehaviour
                 float timer = 5f;
                 while (timer > 0)
                 {
-                    if (Input.GetMouseButtonDown(0)) // Kiểm tra bấm chuột trái hoặc chạm vào màn hình
-                    {
-                        isMoving = true;
-                        yield return null; // Đợi khung hình tiếp theo
-                    }
                     timer -= Time.deltaTime; // Giảm thời gian theo thời gian thực
                     yield return null; // Đợi khung hình tiếp theo
                 }
                 if (isMoving)
                 {
                     // Thực hiện hành động khi người chơi bấm vào màn hình
-                    GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, false);
-                    GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);
+                    SetDefaultBoosterAim();
                     yield return null; // Đợi khung hình tiếp theo
                 }
                 else
                 {
-                    // Thực hiện hành động khi người chơi không bấm vào màn hình
-                    var defaultHoleScale = this.holeToUnlock.transform.localScale;
-                    this.holeToUnlock.GetComponent<ExtraHoleButton>().myAnimator.enabled = true;
-                    GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, true);
-                    DOVirtual.DelayedCall(1f, () =>
-                    {
-                        GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, false);
-                        GamePlayPanelUIManager.Instance.DeteleButton.transform.DOScale(1, 0.05f);
-                        GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, true);
-                        DOVirtual.DelayedCall(1f, () =>
-                        {
-                            GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);
-                            GamePlayPanelUIManager.Instance.UndoButton.transform.DOScale(1, 0.05f);
-                            this.holeToUnlock.GetComponent<ExtraHoleButton>().myAnimator.enabled = false;
-                            this.holeToUnlock.transform.DOScale(defaultHoleScale, 0.05f);
-                        });
-                    });
+                    LauchBoosterAim();
                 }
                 // Đợi 5 giây trước khi kiểm tra lại
                 yield return new WaitForSeconds(5f);
             }
         }
+    }
+
+    private void SetDefaultBoosterAim()
+    {
+        holeToUnlock.myAnimator.enabled = false;
+        if (holeToUnlock.addImage.gameObject.activeSelf)
+        {
+            this.holeToUnlock.addImage.transform.localScale = holeToUnlock.myScale;
+        }
+        GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, false);
+        GamePlayPanelUIManager.Instance.DeteleButton.transform.DOScale(1.05f, 0.05f);
+        GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);
+        GamePlayPanelUIManager.Instance.UndoButton.transform.DOScale(1.05f, 0.05f);
+        if(boosterTween !=null)
+            DOTween.Kill(boosterTween);
+        if (boosterTween1 != null)
+            DOTween.Kill(boosterTween1);
+    }
+
+    private void LauchBoosterAim()
+    {
+        // Thực hiện hành động khi người chơi không bấm vào màn hình
+        if (holeToUnlock.addImage.IsActive())
+        {
+            this.holeToUnlock.myAnimator.enabled = true;
+        }
+        GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, true);
+        boosterTween = DOVirtual.DelayedCall(3f, () =>
+        {
+            GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, false);
+            GamePlayPanelUIManager.Instance.DeteleButton.transform.localScale = new Vector3(1.05f, 1.05f, 1);
+            GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, true);
+            boosterTween1 = DOVirtual.DelayedCall(3f, () =>
+            {
+                GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);
+                GamePlayPanelUIManager.Instance.UndoButton.transform.localScale = new Vector3(1.05f, 1.05f, 1);
+                this.holeToUnlock.myAnimator.enabled = false;
+                if (holeToUnlock.addImage.IsActive())
+                {
+                    this.holeToUnlock.addImage.transform.localScale = holeToUnlock.myScale;
+                }
+            });
+        });
     }
 }

@@ -43,7 +43,8 @@ public class VideoController : MonoBehaviour
     {
         //PlayerPrefs.SetInt("videoIndex",3);
         var x = PlayerPrefs.GetInt("videoIndex");
-        if (x == 0) {
+        if (x == 0)
+        {
             FirebaseAnalyticsControl.Instance.startTutor();
         }
         PlayVideo(x, null);
@@ -67,31 +68,35 @@ public class VideoController : MonoBehaviour
             FirebaseAnalyticsControl.Instance.completeTutor();
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();
-            DOVirtual.DelayedCall(0.8f, () =>
+            DOVirtual.DelayedCall(0.3f, () =>
             {
                 GameManagerNew.Instance.InitStartGame();
             });
-            if (SaveSystem.instance.powerTicket > 0 || SaveSystem.instance.magicTiket > 0)
+            DOVirtual.DelayedCall(0.35f, () =>
             {
-                if (PlayerPrefs.GetInt("HasTransfer") == 0)
+
+                if (SaveSystem.instance.powerTicket > 0 || SaveSystem.instance.magicTiket > 0)
                 {
-                    UIManagerNew.Instance.TransferPanel.Appear();
+                    if (PlayerPrefs.GetInt("HasTransfer") == 0)
+                    {
+                        UIManagerNew.Instance.TransferPanel.Appear();
+                    }
+                    else
+                    {
+                        DOVirtual.DelayedCall(0.5f, () =>
+                        {
+                            UIManagerNew.Instance.ButtonMennuManager.Appear();
+                        });
+                    }
                 }
                 else
                 {
                     DOVirtual.DelayedCall(0.5f, () =>
                     {
-                        UIManagerNew.Instance.ButtonMennuManager.Appear();
+                        UIManagerNew.Instance.DailyRWUI.Appear();
                     });
                 }
-            }
-            else
-            {
-                DOVirtual.DelayedCall(0.5f, () =>
-                {
-                    UIManagerNew.Instance.DailyRWUI.Appear();
-                });
-            }
+            });
             DOVirtual.DelayedCall(.7f, () =>
             {
                 GameManagerNew.Instance.isStory = false;
