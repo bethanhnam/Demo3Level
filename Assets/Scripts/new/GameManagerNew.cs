@@ -10,6 +10,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using Lofelt.NiceVibrations;
 
 public class GameManagerNew : MonoBehaviour
 {
@@ -47,7 +48,10 @@ public class GameManagerNew : MonoBehaviour
 
     //test Level
     public int testingStage;
-    public bool isTestingLevel; 
+    public bool isTestingLevel;
+
+    // vabration
+    public HapticSource hapticSouce;
 
     public LayerMask INSelectionLayer { get => iNSelectionLayer1; }
     public LayerMask IronLayer1 { get => IronLayer12; }
@@ -58,12 +62,17 @@ public class GameManagerNew : MonoBehaviour
     public Transform GamePlayPanel { get => gamePlayPanel; set => gamePlayPanel = value; }
     public Vector3 TargetScale { get => targetScale; set => targetScale = value; }
 
+
     private void Awake()
     {
         Instance = this;
         iNSelectionLayer1 = LayerMask.GetMask("Hole");
         iNSelectionLayer1 = LayerMask.GetMask("Hole");
         IronLayer12 = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "IronLayer9", "BothLayer", "layer1vs2", "layer1vs2vs3", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
+    }
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
     }
     public void InitStartGame()
     {
@@ -747,7 +756,11 @@ public class GameManagerNew : MonoBehaviour
     }
     public void PlayVideo()
     {
-        videoController.gameObject.SetActive(true);
         videoController.CheckStartVideo();
+    }
+    [Button("testvibration")]
+    public void Vibration()
+    {
+        hapticSouce.Play();
     }
 }
