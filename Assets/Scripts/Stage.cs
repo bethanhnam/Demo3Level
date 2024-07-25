@@ -4,6 +4,7 @@ using Sirenix.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEngine;
 
 public class Stage : MonoBehaviour
@@ -79,6 +80,11 @@ public class Stage : MonoBehaviour
     public bool isLosing = false;
     public bool isScaling = false;
 
+    //check for movement
+    public bool isMoving = false;
+    public Tween boosterTween;
+    public Tween boosterTween1;
+
     private void Start()
     {
         Instance = this;
@@ -87,6 +93,10 @@ public class Stage : MonoBehaviour
     }
     private void OnEnable()
     {
+        //if (!GameManagerNew.Instance.isStory)
+        //{
+        //    StartCoroutine(CheckForClickContinuously());
+        //}
         try
         {
             if (GamePlayPanelUIManager.Instance.gameObject.activeSelf == false)
@@ -122,13 +132,12 @@ public class Stage : MonoBehaviour
         gameObject.SetActive(true);
         Vector3 targetSclae = transform.localScale;
         transform.localScale = Vector3.one;
-        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
+        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.45f).OnComplete(() =>
         {
-            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.3f).OnComplete(() =>
+            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.35f).OnComplete(() =>
             {
-                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.4f).OnComplete(() =>
+                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.45f).OnComplete(() =>
                 {
-
                     canInteract = true;
 
                     DOVirtual.DelayedCall(0.3f, () =>
@@ -175,14 +184,14 @@ public class Stage : MonoBehaviour
         Vector3 targetSclae = transform.localScale;
         transform.localScale = Vector3.one;
         AudioManager.instance.PlaySFX("GamePlayLoading");
-        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
+        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.3f).OnComplete(() =>
         {
-            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.3f).OnComplete(() =>
+            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.2f).OnComplete(() =>
             {
-                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.4f).OnComplete(() =>
+                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.2f).OnComplete(() =>
                 {
 
-                    DOVirtual.DelayedCall(0.3f, () =>
+                    DOVirtual.DelayedCall(0.2f, () =>
                     {
                         isScaling = false;
                     });
@@ -202,13 +211,12 @@ public class Stage : MonoBehaviour
         gameObject.SetActive(true);
         Vector3 targetSclae = transform.localScale;
         transform.localScale = Vector3.one;
-        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
+        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.45f).OnComplete(() =>
         {
-            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.3f).OnComplete(() =>
+            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.35f).OnComplete(() =>
             {
-                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.4f).OnComplete(() =>
+                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.45f).OnComplete(() =>
                 {
-
                     DOVirtual.DelayedCall(0.3f, () =>
                     {
                         isScaling = false;
@@ -261,6 +269,11 @@ public class Stage : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
+                //if (!GameManagerNew.Instance.isStory)
+                //{
+                //    isMoving = true;
+                //    SetDefaultBoosterAim();
+                //}
                 //booster anim
                 if (!isTutor)
                 {
@@ -979,5 +992,76 @@ public class Stage : MonoBehaviour
     //    GamePlayPanelUIManager.Instance.boosterBar.SetPoiterPos(1);
     //    GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.UndoBT);
     //    GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
+    //}
+    //IEnumerator CheckForClickContinuously()
+    //{
+    //    while (true)
+    //    {
+    //        if (!GameManagerNew.Instance.isStory)
+    //        {
+    //            isMoving = false;
+    //            float timer = 5f;
+    //            while (timer > 0)
+    //            {
+    //                timer -= Time.deltaTime; // Giảm thời gian theo thời gian thực
+    //                yield return null; // Đợi khung hình tiếp theo
+    //            }
+    //            if (isMoving)
+    //            {
+    //                // Thực hiện hành động khi người chơi bấm vào màn hình
+    //                SetDefaultBoosterAim();
+    //                yield return null; // Đợi khung hình tiếp theo
+    //            }
+    //            else
+    //            {
+    //                LauchBoosterAim();
+    //            }
+    //            // Đợi 5 giây trước khi kiểm tra lại
+    //            yield return new WaitForSeconds(5f);
+    //        }
+    //    }
+    //}
+
+    //private void SetDefaultBoosterAim()
+    //{
+    //    holeToUnlock.myAnimator.enabled = false;
+    //    if (holeToUnlock.addImage.gameObject.activeSelf)
+    //    {
+    //        this.holeToUnlock.addImage.transform.localScale = holeToUnlock.myScale;
+    //    }
+    //    GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, false);
+    //    GamePlayPanelUIManager.Instance.DeteleButton.transform.DOScale(1.05f, 0.05f);
+    //    GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);
+    //    GamePlayPanelUIManager.Instance.UndoButton.transform.DOScale(1.05f, 0.05f);
+    //    if (boosterTween != null)
+    //        DOTween.Kill(boosterTween);
+    //    if (boosterTween1 != null)
+    //        DOTween.Kill(boosterTween1);
+    //}
+
+    //private void LauchBoosterAim()
+    //{
+    //    // Thực hiện hành động khi người chơi không bấm vào màn hình
+    //    if (holeToUnlock.addImage.IsActive())
+    //    {
+    //        this.holeToUnlock.myAnimator.enabled = true;
+    //    }
+    //    GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, true);
+    //    boosterTween = DOVirtual.DelayedCall(3f, () =>
+    //    {
+    //        GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, false);
+    //        GamePlayPanelUIManager.Instance.DeteleButton.transform.localScale = new Vector3(1.05f, 1.05f, 1);
+    //        GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, true);
+    //        boosterTween1 = DOVirtual.DelayedCall(3f, () =>
+    //        {
+    //            GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);
+    //            GamePlayPanelUIManager.Instance.UndoButton.transform.localScale = new Vector3(1.05f, 1.05f, 1);
+    //            this.holeToUnlock.myAnimator.enabled = false;
+    //            if (holeToUnlock.addImage.IsActive())
+    //            {
+    //                this.holeToUnlock.addImage.transform.localScale = holeToUnlock.myScale;
+    //            }
+    //        });
+    //    });
     //}
 }

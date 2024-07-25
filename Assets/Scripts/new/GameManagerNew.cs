@@ -111,11 +111,11 @@ public class GameManagerNew : MonoBehaviour
         if (isTestingLevel)
         {
             GamePlayPanelUIManager.Instance.setText(_level + 1);
-            DOVirtual.DelayedCall(1f, () =>
+            DOVirtual.DelayedCall(0.5f, () =>
             {
                 PictureUIManager.Close();
             });
-            DOVirtual.DelayedCall(1f, () =>
+            DOVirtual.DelayedCall(0.5f, () =>
             {
                 CurrentLevel = Instantiate(LevelManagerNew.Instance.testingStageList[testingStage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
                 ScaleForDevices(CurrentLevel.transform.gameObject);
@@ -131,11 +131,11 @@ public class GameManagerNew : MonoBehaviour
             {
                 //UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
                 GamePlayPanelUIManager.Instance.setText(_level + 1);
-                DOVirtual.DelayedCall(1f, () =>
+                DOVirtual.DelayedCall(0.5f, () =>
                 {
                     PictureUIManager.Close();
                 });
-                DOVirtual.DelayedCall(1f, () =>
+                DOVirtual.DelayedCall(0.5f, () =>
                 {
                     CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
                     ScaleForDevices(CurrentLevel.transform.gameObject);
@@ -172,7 +172,7 @@ public class GameManagerNew : MonoBehaviour
             //    PictureUIManager.Close();
             //});
             FirebaseAnalyticsControl.Instance.LogEventLevelStory(_level);
-            DOVirtual.DelayedCall(1f, () =>
+            DOVirtual.DelayedCall(0.5f, () =>
             {
                 CurrentLevel = Instantiate(StoryGamePlayLevel.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity);
                 ScaleForDevices(CurrentLevel.transform.gameObject);

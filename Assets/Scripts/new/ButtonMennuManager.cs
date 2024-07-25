@@ -37,20 +37,20 @@ public class ButtonMennuManager : MonoBehaviour
             cvButton.blocksRaycasts = false;
             animButton.Play(appearButton, 0, 0);
             SaveSystem.instance.LoadData();
-            DOVirtual.DelayedCall(1f, () =>
+
+            if (LevelManagerNew.Instance.stage == 0)
             {
-                if (LevelManagerNew.Instance.stage == 0)
+
+                DOVirtual.DelayedCall(1f, () =>
                 {
-                    DOVirtual.DelayedCall(1f, () =>
-                    {
-                        DisplayPointer();
-                    });
-                }
-                else
-                {
-                    DisablePointer();
-                }
-            });
+                    DisplayPointer();
+                });
+            }
+            else
+            {
+                DisablePointer();
+            }
+
         }
     }
     public void Close()

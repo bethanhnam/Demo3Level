@@ -281,6 +281,10 @@ public class reciveRewardDaily : MonoBehaviour
     }
     IEnumerator Close()
     {
+        DOVirtual.DelayedCall(1.3f, () =>
+        {
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+        });
         yield return new WaitForSeconds(3f);
         this.gameObject.SetActive(false);
         if(gold > 0)
@@ -309,7 +313,6 @@ public class reciveRewardDaily : MonoBehaviour
             gold = 0;
             unscrew = 0;
             undo = 0;
-            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
         });
     }
     public void close()
