@@ -20,24 +20,16 @@ public class VideoController : MonoBehaviour
     public List<VideoClip> videoList;
     //public List<VideoClip> videoActionList;
 
-    [System.Serializable]
-    public class Frame
-    {
-        public string sprite;
-        public float duration;
-    }
-
-    [System.Serializable]
-    public class AnimationData
-    {
-        public List<Frame> frames;
-    }
-
-    private AnimationData animationData;
-
     private void Awake()
     {
         instance = this;
+
+    }
+    private void Start()
+    {
+        var x = PlayerPrefs.GetInt("videoIndex");
+        videoPlayer.clip = videoList[x];
+        videoPlayer.Prepare();
     }
     public void CheckStartVideo()
     {
@@ -51,6 +43,7 @@ public class VideoController : MonoBehaviour
     }
     public void PlayVideo(int videoIndex, Action action)
     {
+        Debug.Log("play video " + videoIndex);
         this.gameObject.SetActive(true);
         this.videoIndex = videoIndex;
         PlayerPrefs.SetInt("videoIndex", videoIndex);

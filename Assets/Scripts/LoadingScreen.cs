@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using static UnityEngine.Rendering.HDROutputUtils;
 
 public class LoadingScreen : MonoBehaviour
@@ -48,17 +49,10 @@ public class LoadingScreen : MonoBehaviour
                 yield return new WaitForSecondsRealtime(0.2f);
                 if (!HasFinishedStory())
                 {
-                    Destroy(this.gameObject, 1f);
-                    DOVirtual.DelayedCall(0.5f, () =>
-                    {
-                        GameManagerNew.Instance.PlayVideo();
-
-                        AudioManager.instance.PlayMusic("story");
-                    });
-
-                    ////test 
-                    //normalInitGame();
-
+                    GameManagerNew.Instance.videoController.gameObject.SetActive(true);
+                    GameManagerNew.Instance.videoController.videoPlayer.Prepare();
+                    // Wait for the video to be prepared
+                    InvokeRepeating("WaitForVideoPrepare", 2, 0.5f);
                 }
                 else
                 {
@@ -68,6 +62,17 @@ public class LoadingScreen : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSecondsRealtime(1f);
+    }
+
+    private void WaitForVideoPrepare()
+    {
+        if (GameManagerNew.Instance.videoController.videoPlayer.isPrepared)
+        {
+            GameManagerNew.Instance.PlayVideo();
+            AudioManager.instance.PlayMusic("story");
+            Destroy(this.gameObject, 1f);
+            CancelInvoke("WaitForVideoPrepare");
+        }
     }
 
     private void normalInitGame()
@@ -183,7 +188,7 @@ public class LoadingScreen : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
         LoadingScene(1);
-        //AudioManager.instance.PlayMusic("Loading");
+
         Application.targetFrameRate = 60;
     }
     public bool IsFirstOpen()
