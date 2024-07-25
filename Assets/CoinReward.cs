@@ -58,7 +58,7 @@ public class CoinReward : MonoBehaviour
         }
 
         //timeMove = baseTimeMove * _distance;
-        timeMove = 0.5f;
+        timeMove = 0.7f;
 
         star.transform.DOScale(scaleTarget, 0.25f).SetEase(curveScale);
 

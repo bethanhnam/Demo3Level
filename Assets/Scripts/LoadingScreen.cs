@@ -48,9 +48,13 @@ public class LoadingScreen : MonoBehaviour
                 yield return new WaitForSecondsRealtime(0.2f);
                 if (!HasFinishedStory())
                 {
-                    GameManagerNew.Instance.PlayVideo();
-                    AudioManager.instance.PlayMusic("story");
                     Destroy(this.gameObject, 1f);
+                    DOVirtual.DelayedCall(0.5f, () =>
+                    {
+                        GameManagerNew.Instance.PlayVideo();
+
+                        AudioManager.instance.PlayMusic("story");
+                    });
 
                     ////test 
                     //normalInitGame();
@@ -78,14 +82,17 @@ public class LoadingScreen : MonoBehaviour
             {
                 Debug.Log("chayj vaof tao moi pic");
                 PlayerPrefs.SetInt("CompleteLastPic", 0);
-                if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+                if (LevelManagerNew.Instance.LevelBase != null)
                 {
-                    GameManagerNew.Instance.CreateForNewPic();
-                }
-                else
-                {
-                    PlayerPrefs.SetInt("CompleteLastPic", 1);
-                    GameManagerNew.Instance.InitStartGame();
+                    if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+                    {
+                        GameManagerNew.Instance.CreateForNewPic();
+                    }
+                    else
+                    {
+                        PlayerPrefs.SetInt("CompleteLastPic", 1);
+                        GameManagerNew.Instance.InitStartGame();
+                    }
                 }
             }
             else

@@ -105,7 +105,7 @@ public class Stage : MonoBehaviour
         //	
         //}
         StartCoroutine(check());
-        InvokeRepeating("Check1", 0f, 1.5f);
+        //InvokeRepeating("Check1", 0f, 1.5f);
     }
     IEnumerator check()
     {
@@ -129,10 +129,12 @@ public class Stage : MonoBehaviour
                 transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
                 {
 
-                    TakeLossyScale();
                     canInteract = true;
 
-                    isScaling = false;
+                    DOVirtual.DelayedCall(0.3f, () =>
+                    {
+                        isScaling = false;
+                    });
                     EverythingStayStill(false);
 
                     if (!GamePlayPanelUIManager.Instance.gameObject.activeSelf)
@@ -150,7 +152,7 @@ public class Stage : MonoBehaviour
         {
             for (int i = 0; i < ironPlates.Length; i++)
             {
-                if (ironPlates[i].rigidbody2D1 != null)
+                if (ironPlates[i] != null)
                     ironPlates[i].rigidbody2D1.gravityScale = 0;
             }
         }
@@ -158,8 +160,9 @@ public class Stage : MonoBehaviour
         {
             for (int i = 0; i < ironPlates.Length; i++)
             {
-                if (ironPlates[i].rigidbody2D1 != null)
+                if (ironPlates[i] != null)
                     ironPlates[i].rigidbody2D1.gravityScale = 1;
+
             }
         }
     }
@@ -178,10 +181,12 @@ public class Stage : MonoBehaviour
                 transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
                 {
 
-                    isScaling = false;
+                    DOVirtual.DelayedCall(0.3f, () =>
+                    {
+                        isScaling = false;
+                    });
                     EverythingStayStill(false);
 
-                    TakeLossyScale();
                     canInteract = true;
                     TutorLevel1();
                 });
@@ -203,7 +208,10 @@ public class Stage : MonoBehaviour
                 transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
                 {
 
-                    isScaling = false;
+                    DOVirtual.DelayedCall(0.3f, () =>
+                    {
+                        isScaling = false;
+                    });
                     EverythingStayStill(false);
 
                     canInteract = true;
@@ -220,6 +228,7 @@ public class Stage : MonoBehaviour
     {
         EverythingStayStill(true);
         canInteract = false;
+        isScaling = true;
         transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
         {
             if (isDes)
@@ -251,7 +260,6 @@ public class Stage : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                StartCoroutine(check());
                 if (!isTutor)
                 {
 
@@ -879,7 +887,7 @@ public class Stage : MonoBehaviour
             if (holes.Length != 0 && numOfHoleNotAvailable.Count == holes.Length)
             {
 
-                if (checked1 == false)
+                if (checked1 == false && !isScaling)
                 {
                     checked1 = true;
                     Invoke("ShowNotice", 1f);
@@ -962,21 +970,5 @@ public class Stage : MonoBehaviour
     //    GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.UndoBT);
     //    GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
     //}
-    public void TakeLossyScale()
-    {
-        //if (ironPlates[0] != null)
-        //{
-        //    float lossyScale = ironPlates[0].holes[0].transform.lossyScale.x;
-        //    float Radius = ironPlates[0].holes[0].GetComponent<CircleCollider2D>().radius;
-        //    Debug.Log("lossyScale " +lossyScale);
-        //    Debug.Log("Radius " + Radius);
-
-        //    float normalScale = lossyScale;
-        //    float normalRadius = Radius;
-        //    for (int i = 1; i < holes.Length; i++) {
-        //        holes[i].GetComponent<CircleCollider2D>().radius = normalRadius * (this.transform.localScale.x / normalScale);
-        //    }
-        //    Debug.Log("lo "+normalRadius * (this.transform.localScale.x / normalScale) * holes[0].transform.localScale.x);
-        //}
-    }
+    
 }

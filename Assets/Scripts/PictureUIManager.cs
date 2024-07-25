@@ -384,31 +384,6 @@ public class PictureUIManager : MonoBehaviour
             {
                 if (i == DataLevelManager.Instance.DataLevel.Data[level].IndexStage)
                 {
-                    //for (int j = 0; j < stage[i].listObjLock.Count; j++)
-                    //{
-                    //    for (int k = 0; k < stage[i].listObjLock[j].objBtn.Count; k++)
-                    //    {
-                    //        if (DataLevelManager.Instance.DataLevel.Data[level].Stage[i].DataItmeLevel[j].IsUnlock)
-                    //        {
-                    //            if (stage[i].listObjLock[j].objBtn[k].activeSelf)
-                    //            {
-                    //                stage[i].listObjLock[j].objBtn[k].SetActive(false);
-
-                    //            }
-                    //            PlayerPrefs.SetInt("lastLevelActived", level);
-                    //            PlayerPrefs.SetInt("lastLevelStageActived", DataLevelManager.Instance.DataLevel.Data[level].IndexStage);
-                    //        }
-                    //        else
-                    //        {
-                    //            if (!stage[i].listObjLock[j].objBtn[k].activeSelf)
-                    //            {
-                    //                stage[i].listObjLock[j].objBtn[k].SetActive(true);
-                    //            }
-
-                    //        }
-                    //    }
-
-                    //}
                     for (int j = 0; j < stage[i].listObjLock.Count; j++)
                     {
                         if (DataLevelManager.Instance.DataLevel.Data[level].Stage[i].DataItmeLevel[j].IsUnlock)
