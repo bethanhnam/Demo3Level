@@ -41,7 +41,10 @@ public class ButtonMennuManager : MonoBehaviour
             {
                 if (LevelManagerNew.Instance.stage == 0)
                 {
-                    DisplayPointer();
+                    DOVirtual.DelayedCall(1f, () =>
+                    {
+                        DisplayPointer();
+                    });
                 }
                 else
                 {

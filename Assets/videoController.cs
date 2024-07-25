@@ -43,14 +43,13 @@ public class VideoController : MonoBehaviour
     }
     public void PlayVideo(int videoIndex, Action action)
     {
-        Debug.Log("play video " + videoIndex);
         this.gameObject.SetActive(true);
         this.videoIndex = videoIndex;
         PlayerPrefs.SetInt("videoIndex", videoIndex);
         videoPlayer.clip = videoList[videoIndex];
         videoPlayer.Play();
-        videoPlayer.loopPointReached += LoadingVideo;
-        canCreate = true;
+       videoPlayer.loopPointReached += LoadingVideo;
+       canCreate = true;
     }
     void LoadingVideo(VideoPlayer vp)
     {

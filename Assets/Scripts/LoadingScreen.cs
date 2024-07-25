@@ -35,17 +35,16 @@ public class LoadingScreen : MonoBehaviour
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
         operation.allowSceneActivation = false;
         loadingScreen.SetActive(true);
-
         while (sliders[0].value <= 0.9f && !operation.isDone)
         {
             if (sliders[0].value <= 0.9f)
             {
-                sliders[0].value += 0.015f;
+                sliders[0].value += 0.005f;
             }
             if (operation.progress >= 0.9f && sliders[0].value == 0.9f && isFirebaseInitialized)
             {
-                operation.allowSceneActivation = true;
                 RemoteConfigController.instance.Init();
+                operation.allowSceneActivation = true;
                 yield return new WaitForSecondsRealtime(0.2f);
                 if (!HasFinishedStory())
                 {
@@ -68,10 +67,10 @@ public class LoadingScreen : MonoBehaviour
     {
         if (GameManagerNew.Instance.videoController.videoPlayer.isPrepared)
         {
-            GameManagerNew.Instance.PlayVideo();
-            AudioManager.instance.PlayMusic("story");
-            Destroy(this.gameObject, 1f);
             CancelInvoke("WaitForVideoPrepare");
+            AudioManager.instance.PlayMusic("story");
+            GameManagerNew.Instance.PlayVideo();
+            Destroy(this.gameObject, 1f);
         }
     }
 

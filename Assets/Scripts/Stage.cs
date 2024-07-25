@@ -122,11 +122,11 @@ public class Stage : MonoBehaviour
         gameObject.SetActive(true);
         Vector3 targetSclae = transform.localScale;
         transform.localScale = Vector3.one;
-        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.5f).OnComplete(() =>
+        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
         {
-            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
+            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.3f).OnComplete(() =>
             {
-                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
+                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.4f).OnComplete(() =>
                 {
 
                     canInteract = true;
@@ -171,14 +171,15 @@ public class Stage : MonoBehaviour
         isScaling = true;
         canInteract = false;
         gameObject.SetActive(true);
+        TutorLevel1();
         Vector3 targetSclae = transform.localScale;
         transform.localScale = Vector3.one;
         AudioManager.instance.PlaySFX("GamePlayLoading");
-        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.5f).OnComplete(() =>
+        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
         {
-            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
+            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.3f).OnComplete(() =>
             {
-                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
+                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.4f).OnComplete(() =>
                 {
 
                     DOVirtual.DelayedCall(0.3f, () =>
@@ -188,7 +189,7 @@ public class Stage : MonoBehaviour
                     EverythingStayStill(false);
 
                     canInteract = true;
-                    TutorLevel1();
+
                 });
             });
         });
@@ -201,11 +202,11 @@ public class Stage : MonoBehaviour
         gameObject.SetActive(true);
         Vector3 targetSclae = transform.localScale;
         transform.localScale = Vector3.one;
-        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.5f).OnComplete(() =>
+        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
         {
-            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
+            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.3f).OnComplete(() =>
             {
-                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
+                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.4f).OnComplete(() =>
                 {
 
                     DOVirtual.DelayedCall(0.3f, () =>
@@ -421,6 +422,10 @@ public class Stage : MonoBehaviour
                         {
                             Debug.Log("chạy vào tutor");
                             isLvTutor = false;
+                            if (Stage.Instance.pointerTutor != null)
+                            {
+                                Stage.Instance.pointerTutor.gameObject.SetActive(false);
+                            }
                             pointerTutor.DisablePointer();
                         }
                         Debug.Log("chạy qua click mới bth");
@@ -866,7 +871,10 @@ public class Stage : MonoBehaviour
             isLvTutor = true;
             if (pointerTutor.gameObject.activeSelf == false)
             {
-                Invoke("showLevel1Tutor", 1f);
+                DOVirtual.DelayedCall(0.7f, () =>
+                {
+                    pointerTutor.gameObject.SetActive(true);
+                });
             }
 
         }
