@@ -752,7 +752,6 @@ public class GameManagerNew : MonoBehaviour
     }
     public void PlayVideo()
     {
-        videoController.gameObject.SetActive(true);
         videoController.CheckStartVideo();
     }
     [Button("testvibration")]
