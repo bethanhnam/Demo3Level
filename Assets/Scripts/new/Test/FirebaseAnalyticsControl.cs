@@ -16,6 +16,12 @@ public enum LevelStatus : short
     retry = 4,
     revive = 5,
 }
+public enum LevelItem: short
+{
+    unscrew = 0,
+    undo = 1,
+    drill = 2
+}
 public class FirebaseAnalyticsControl : MonoBehaviour
 {
     private bool isReady = false;
@@ -76,6 +82,15 @@ public class FirebaseAnalyticsControl : MonoBehaviour
         {
             new Parameter(FireBaseEventName.level, level+1),
             new Parameter(FireBaseEventName.Status, status.ToString()),
+        });
+    }
+    //LevelItem
+    public void LogEventLevelItem(int level, LevelItem status)
+    {
+        FirebaseAnalytics.LogEvent(FireBaseEventName.Level_item, new Parameter[]
+        {
+            new Parameter(FireBaseEventName.level, level+1),
+            new Parameter(FireBaseEventName.LevelItem, status.ToString()),
         });
     }
     public void LogEventLevelStory(int level)
@@ -146,19 +161,6 @@ public class FirebaseAnalyticsControl : MonoBehaviour
         }
         FirebaseAnalytics.LogEvent(packName);
     }
-    //booster
-    public void Gameplay_Item_Unscrew(int level)
-    {
-        FirebaseAnalytics.LogEvent("unscrew_" + "_Level" + level+1);
-    }
-    public void Gameplay_Item_Undo(int level)
-    {
-        FirebaseAnalytics.LogEvent("undo" + "_Level" + level+1);
-    }
-    public void Gameplay_Item_Drill(int level)
-    {
-        FirebaseAnalytics.LogEvent("drill" + "_Level" + level+1);
-    }
     //Offer
     public void impr_session_noads_1()
     {
@@ -201,12 +203,14 @@ public class FireBaseEventName
 {
     // key
     public static string Status = "Status";
+    public static string LevelItem = "LevelItem";
     public static string fix_done = "Fix_Done_";
     public static string fix_done_stage = "fix_done_stage_";
 
     //event
     public static string Screen_Home = "Screen_Home";
     public static string Level_status = "Level_status";
+    public static string Level_item = "Level_status";
     public static string Level_story = "Level_story";
     public static string Endgames = "Endgames";
     public static string Map_1 = "Map_1_fix_item_";
@@ -228,6 +232,8 @@ public class FireBaseEventName
     public static string fail = "fail";
     public static string Break = "break";
     public static string retry = "retry";
+
+    //LevelItem
     public static string unscrew = "unscrew";
     public static string undo = "undo";
     public static string drill = "drill";

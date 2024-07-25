@@ -78,7 +78,7 @@ public class DeteleNailPanel : MonoBehaviour
             ShowTutor();
             //xem qu?ng cáo 
             numOfUse++;
-            FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(LevelManagerNew.Instance.stage);
+            FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.unscrew);
 
             //xoá nail(Đồng hồ đếm giờ dừng lại)
             Stage.Instance.setDeteleting(true);

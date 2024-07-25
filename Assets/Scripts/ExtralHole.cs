@@ -28,7 +28,7 @@ public class ExtralHole : MonoBehaviour
 	{
 		if (SaveSystem.instance.extraHolePoint >= 1)
 		{
-			FirebaseAnalyticsControl.Instance.Gameplay_Item_Drill(LevelManagerNew.Instance.stage);
+            FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.drill);
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             SetMinusText('-', 1);
             SaveSystem.instance.AddBooster(0,0,-1);
