@@ -70,6 +70,10 @@ public class GameManagerNew : MonoBehaviour
         iNSelectionLayer1 = LayerMask.GetMask("Hole");
         IronLayer12 = LayerMask.GetMask("IronLayer1", "IronLayer2", "IronLayer3", "IronLayer4", "IronLayer5", "IronLayer6", "IronLayer7", "IronLayer8", "IronLayer9", "BothLayer", "layer1vs2", "layer1vs2vs3", "layer1vs2vs3vs4", "layer1vs2vs3vs4");
     }
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
+    }
     public void InitStartGame()
     {
         PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
