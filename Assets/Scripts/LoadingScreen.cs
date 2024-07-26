@@ -39,7 +39,7 @@ public class LoadingScreen : MonoBehaviour
         {
             if (sliders[0].value <= 0.9f)
             {
-                sliders[0].value += 0.005f;
+                sliders[0].value += 0.01f;
             }
             if (operation.progress >= 0.9f && sliders[0].value == 0.9f && isFirebaseInitialized)
             {
