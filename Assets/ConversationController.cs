@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,18 +23,22 @@ public class ConversationController : MonoBehaviour
         
     }
 
+    [Button("Appear")]
     public void Appear(int indexCharacter)
     {
         conversations[indexCharacter].gameObject.SetActive(true);
         CanvasGroup.DOFade(1, 0.5f);
         conversations[indexCharacter].animator.enabled = true;
     }
-    
+
+    [Button("SetChatting")]
+
     public void SetChatting(int indexCharacter,int line)
     {
         conversations[indexCharacter].StartDialogue(line);
     }
 
+    [Button("Disappear")]
     public void Disappear()
     {
         CanvasGroup.DOFade(0, 1);
