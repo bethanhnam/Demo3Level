@@ -66,27 +66,33 @@ public class VideoController : MonoBehaviour
             });
             DOVirtual.DelayedCall(0.35f, () =>
             {
-
-                if (SaveSystem.instance.powerTicket > 0 || SaveSystem.instance.magicTiket > 0)
+                if (PlayerPrefs.GetInt("FirstStoryBubble") == 0)
                 {
-                    if (PlayerPrefs.GetInt("HasTransfer") == 0)
+                    GameManagerNew.Instance.conversationController.Appear();
+                }
+                else
+                {
+                    if (SaveSystem.instance.powerTicket > 0 || SaveSystem.instance.magicTiket > 0)
                     {
-                        UIManagerNew.Instance.TransferPanel.Appear();
+                        if (PlayerPrefs.GetInt("HasTransfer") == 0)
+                        {
+                            UIManagerNew.Instance.TransferPanel.Appear();
+                        }
+                        else
+                        {
+                            DOVirtual.DelayedCall(0.5f, () =>
+                            {
+                                UIManagerNew.Instance.ButtonMennuManager.Appear();
+                            });
+                        }
                     }
                     else
                     {
                         DOVirtual.DelayedCall(0.5f, () =>
                         {
-                            UIManagerNew.Instance.ButtonMennuManager.Appear();
+                            UIManagerNew.Instance.DailyRWUI.Appear();
                         });
                     }
-                }
-                else
-                {
-                    DOVirtual.DelayedCall(0.5f, () =>
-                    {
-                        UIManagerNew.Instance.DailyRWUI.Appear();
-                    });
                 }
             });
             DOVirtual.DelayedCall(.7f, () =>

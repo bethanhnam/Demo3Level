@@ -11,6 +11,7 @@ public class Conversation : MonoBehaviour
     public List<string> textList;
     public float textSpeed;
     public Animator animator;
+    public ConversationController conversationController;
 
     private int index;
     // Start is called before the first frame update
@@ -56,7 +57,20 @@ public class Conversation : MonoBehaviour
         }
         else
         {
-            gameObject.SetActive(false);
+            conversationController.Disappear();
+        }
+    }
+
+    public void CheckNextLine()
+    {
+        if(textBox.text == textList[index])
+        {
+            NextLine();
+        }
+        else
+        {
+            StopAllCoroutines();
+            textBox.text = textList[index];
         }
     }
 }

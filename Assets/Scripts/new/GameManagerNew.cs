@@ -53,6 +53,9 @@ public class GameManagerNew : MonoBehaviour
     // vabration
     public HapticSource hapticSouce;
 
+    //conversation
+    public ConversationController conversationController;
+
     public LayerMask INSelectionLayer { get => iNSelectionLayer1; }
     public LayerMask IronLayer1 { get => IronLayer12; }
     public Stage CurrentLevel { get => currentLevel; set => currentLevel = value; }
