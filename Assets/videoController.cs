@@ -68,7 +68,7 @@ public class VideoController : MonoBehaviour
             {
                 if (PlayerPrefs.GetInt("FirstStoryBubble") == 0)
                 {
-                    GameManagerNew.Instance.conversationController.Appear();
+                    GameManagerNew.Instance.conversationController.Appear(GameManagerNew.Instance.conversationController.indexCharacter);
                 }
                 else
                 {
