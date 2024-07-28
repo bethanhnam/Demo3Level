@@ -33,7 +33,7 @@ public class VideoController : MonoBehaviour
     }
     public void CheckStartVideo()
     {
-        //PlayerPrefs.SetInt("videoIndex",3);
+        PlayerPrefs.SetInt("videoIndex", 3);
         var x = PlayerPrefs.GetInt("videoIndex");
         if (x == 0)
         {
@@ -48,8 +48,8 @@ public class VideoController : MonoBehaviour
         PlayerPrefs.SetInt("videoIndex", videoIndex);
         videoPlayer.clip = videoList[videoIndex];
         videoPlayer.Play();
-       videoPlayer.loopPointReached += LoadingVideo;
-       canCreate = true;
+        videoPlayer.loopPointReached += LoadingVideo;
+        canCreate = true;
     }
     void LoadingVideo(VideoPlayer vp)
     {
@@ -68,7 +68,14 @@ public class VideoController : MonoBehaviour
             {
                 if (PlayerPrefs.GetInt("FirstStoryBubble") == 0)
                 {
-                    GameManagerNew.Instance.conversationController.Appear(GameManagerNew.Instance.conversationController.indexCharacter);
+                    DOVirtual.DelayedCall(1.3f, () =>
+                    {
+                        PlayerPrefs.SetInt("FirstStoryBubble", 1);
+                        GameManagerNew.Instance.conversationController.StartConversation(1, () =>
+                        {
+                            UIManagerNew.Instance.ButtonMennuManager.Appear();
+                        });
+                    });
                 }
                 else
                 {

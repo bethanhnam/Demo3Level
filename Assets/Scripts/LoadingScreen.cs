@@ -43,15 +43,17 @@ public class LoadingScreen : MonoBehaviour
             }
             if (operation.progress >= 0.9f && sliders[0].value == 0.9f && isFirebaseInitialized)
             {
-                RemoteConfigController.instance.Init();
                 operation.allowSceneActivation = true;
-                yield return new WaitForSecondsRealtime(0.2f);
+                RemoteConfigController.instance.Init();
+                yield return new WaitForSecondsRealtime(0.5f);
                 if (!HasFinishedStory())
                 {
                     GameManagerNew.Instance.videoController.gameObject.SetActive(true);
                     GameManagerNew.Instance.videoController.videoPlayer.Prepare();
-                    // Wait for the video to be prepared
-                    InvokeRepeating("WaitForVideoPrepare", 2, 0.5f);
+                    yield return new WaitUntil(() => GameManagerNew.Instance.videoController.videoPlayer.isPrepared);
+                    AudioManager.instance.PlayMusic("story");
+                    GameManagerNew.Instance.PlayVideo();
+                    Destroy(this.gameObject, 1f);
                 }
                 else
                 {
@@ -63,16 +65,16 @@ public class LoadingScreen : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
     }
 
-    private void WaitForVideoPrepare()
-    {
-        if (GameManagerNew.Instance.videoController.videoPlayer.isPrepared)
-        {
-            CancelInvoke("WaitForVideoPrepare");
-            AudioManager.instance.PlayMusic("story");
-            GameManagerNew.Instance.PlayVideo();
-            Destroy(this.gameObject, 1f);
-        }
-    }
+    //private IEnumerator WaitForVideoPrepareCoroutine()
+    //{
+    //    while (!GameManagerNew.Instance.videoController.videoPlayer.isPrepared)
+    //    {
+    //        yield return new WaitForSeconds(0.5f);
+    //    }
+    //    AudioManager.instance.PlayMusic("story");
+    //    GameManagerNew.Instance.PlayVideo();
+    //    Destroy(this.gameObject, 1f);
+    //}
 
     private void normalInitGame()
     {
@@ -201,9 +203,17 @@ public class LoadingScreen : MonoBehaviour
 
         return isFirstOpen;
     }
+
     public bool HasFinishedStory()
     {
         var data = PlayerPrefs.GetString("HasFinishedStory", "false");
+        bool HasFinishedStory = JsonConvert.DeserializeObject<bool>(data);
+        return HasFinishedStory;
+    }
+
+    public bool FirstStoryBubble()
+    {
+        var data = PlayerPrefs.GetString("FirstStoryBubble", "false");
         bool HasFinishedStory = JsonConvert.DeserializeObject<bool>(data);
         return HasFinishedStory;
     }

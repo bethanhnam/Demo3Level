@@ -881,7 +881,12 @@ public class Stage : MonoBehaviour
     {
         if (LevelManagerNew.Instance.stage == 0 && pointerTutor != null || GameManagerNew.Instance.isStory && pointerTutor != null)
         {
+            GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
             //tuto undo 
+            GameManagerNew.Instance.conversationController.StartConversation(0, () =>
+            {
+                GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(true);
+            });
             isLvTutor = true;
             if (pointerTutor.gameObject.activeSelf == false)
             {
