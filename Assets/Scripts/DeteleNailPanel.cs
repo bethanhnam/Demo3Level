@@ -33,6 +33,10 @@ public class DeteleNailPanel : MonoBehaviour
     {
         if (SaveSystem.instance.unscrewPoint >= numOfUsed)
         {
+            if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
+            {
+                UIManagerNew.Instance.ThresholeController.Disable();
+            }
             if (canInteract)
             {
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);

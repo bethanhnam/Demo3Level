@@ -29,6 +29,10 @@ public class ExtralHole : MonoBehaviour
 	{
 		if (SaveSystem.instance.extraHolePoint >= 1)
 		{
+            if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
+            {
+                UIManagerNew.Instance.ThresholeController.Disable();
+            }
             FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.drill);
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             SetMinusText('-', 1);
