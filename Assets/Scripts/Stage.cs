@@ -881,12 +881,6 @@ public class Stage : MonoBehaviour
     {
         if (LevelManagerNew.Instance.stage == 0 && pointerTutor != null || GameManagerNew.Instance.isStory && pointerTutor != null)
         {
-            GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
-            //tuto undo 
-            GameManagerNew.Instance.conversationController.StartConversation(0, () =>
-            {
-                GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(true);
-            });
             isLvTutor = true;
             if (pointerTutor.gameObject.activeSelf == false)
             {
@@ -978,6 +972,17 @@ public class Stage : MonoBehaviour
         GamePlayPanelUIManager.Instance.boosterBar.SetPoiterPos(0);
         GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
         GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
+    }
+
+    public void ShowExtraholeTutor()
+    {
+        if (LevelManagerNew.Instance.stage == 1)
+        {
+            GameManagerNew.Instance.conversationController.StartConversation(1, 4, () =>
+            {
+                UIManagerNew.Instance.NewBooster.Appear();
+            });
+        }
     }
     public void showLevel1Tutor()
     {

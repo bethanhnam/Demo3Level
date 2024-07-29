@@ -29,6 +29,9 @@ public class UndoPanel : MonoBehaviour
     {
         if (SaveSystem.instance.undoPoint >= numOfUsed)
         {
+            if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf) {
+                UIManagerNew.Instance.ThresholeController.Disable();
+            }
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             ShowTutor();
             numOfUse++;

@@ -65,7 +65,8 @@ public class LosePanel : MonoBehaviour
         AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_lose, () =>
 		{
 			Close();
-			GameManagerNew.Instance.Retry();
+            ConversationController.instance.Disappear();
+            GameManagerNew.Instance.Retry();
 			hasUse = false;
 		}, null);
 	}

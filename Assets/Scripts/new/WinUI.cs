@@ -178,11 +178,14 @@ public class WinUI : MonoBehaviour
                                 GameManagerNew.Instance.PictureUIManager.picTutor.CheckHasFixed();
                             }
                         }
-                        //DOVirtual.DelayedCall(1f, () =>
-                        //{
-
-                        //});
-
+                        DOVirtual.DelayedCall(.5f, () => {
+                            if (LevelManagerNew.Instance.stage == 1)
+                            {
+                                GameManagerNew.Instance.conversationController.StartConversation(1, 2, () =>
+                                {
+                                });
+                            }
+                        });
                     });
                 }
             });
@@ -202,7 +205,7 @@ public class WinUI : MonoBehaviour
         SpawnCoin(0);
         AudioManager.instance.PlaySFX("StarRecieve");
         Debug.Log("StarImgDes " + StarImgDes.transform.position);
-        list.MoveToFix(list, list.transform.position,new Vector3(StarImgDes.transform.position.x, StarImgDes.transform.position.y,0), new Vector3(.3f, .3f, 1f), () =>
+        list.MoveToFix(list, list.transform.position, new Vector3(StarImgDes.transform.position.x, StarImgDes.transform.position.y, 0), new Vector3(.3f, .3f, 1f), () =>
             {
                 Debug.Log("list " + list.transform.position);
                 Debug.Log("Đã đến nơi ");
@@ -233,7 +236,6 @@ public class WinUI : MonoBehaviour
     IEnumerator Close1()
     {
         yield return new WaitForSeconds(4.5f);
-
         star.transform.SetParent(this.transform);
         UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
         GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level, false);
@@ -248,6 +250,6 @@ public class WinUI : MonoBehaviour
     }
     public void SetStarDesPos()
     {
-        StarImgDes.transform.position = new Vector3(StarShadowImg.transform.position.x,StarShadowImg.transform.position.y-0.5f,1);
+        StarImgDes.transform.position = new Vector3(StarShadowImg.transform.position.x, StarShadowImg.transform.position.y - 0.5f, 1);
     }
 }

@@ -59,6 +59,10 @@ public class UIManagerNew : MonoBehaviour
     private TransferPanel transferPanel;
     [SerializeField]
     private videoLoading videoLoaingPanel;
+    [SerializeField]
+    private NewBooster newBooster;
+    [SerializeField]
+    private ThresholeController thresholeController;
 
 
 
@@ -113,6 +117,8 @@ public class UIManagerNew : MonoBehaviour
     public videoLoading VideoLoaingPanel { get => videoLoaingPanel; set => videoLoaingPanel = value; }
     public GameObject HighCanvas { get => highCanvas; set => highCanvas = value; }
     public StoryItem StoryItem { get => storyItem; set => storyItem = value; }
+    public NewBooster NewBooster { get => newBooster; set => newBooster = value; }
+    public ThresholeController ThresholeController { get => thresholeController; set => thresholeController = value; }
 
     private void Awake()
     {

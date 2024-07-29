@@ -197,6 +197,17 @@ public class ButtonMennuManager : MonoBehaviour
                 }
                 else
                 {
+                    DOVirtual.DelayedCall(.95f, () =>
+                    {
+                        if (LevelManagerNew.Instance.stage == 0)
+                        {
+                            GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
+                            //tuto undo 
+                            GameManagerNew.Instance.conversationController.StartConversation(1, 1, () =>
+                            {
+                            });
+                        }
+                    });
                     GameManagerNew.Instance.CreateLevel(level);
                 }
             });

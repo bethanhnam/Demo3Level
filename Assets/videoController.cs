@@ -71,7 +71,7 @@ public class VideoController : MonoBehaviour
                     DOVirtual.DelayedCall(1.3f, () =>
                     {
                         PlayerPrefs.SetInt("FirstStoryBubble", 1);
-                        GameManagerNew.Instance.conversationController.StartConversation(1, () =>
+                        GameManagerNew.Instance.conversationController.StartConversation(0,0, () =>
                         {
                             UIManagerNew.Instance.ButtonMennuManager.Appear();
                         });

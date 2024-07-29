@@ -111,20 +111,13 @@ public class FirebaseAnalyticsControl : MonoBehaviour
     }
 
     // Map 1
-
     public void LogEventFixItem(int itemIndext) {
-        FirebaseAnalytics.LogEvent(FireBaseEventName.Map_1, new Parameter[]
-       {
-            new Parameter(FireBaseEventName.fix_done, itemIndext+1),
-       });
+        FirebaseAnalytics.LogEvent("Map_1_fix_done_" + itemIndext+1);
     }
     // Map 2 - Map 3 
-    public void LogEventFixStageMap(int Piclevel,int stageIndext)
+    public void LogEventFixStageMap(int map,int stageIndext)
     {
-        FirebaseAnalytics.LogEvent(FireBaseEventName.Map_+ Piclevel, new Parameter[]
-       {
-            new Parameter(FireBaseEventName.fix_done_stage, stageIndext),
-       });
+        FirebaseAnalytics.LogEvent("Map_"+map+"_fix_done_stage_" + (stageIndext + 1));
     }
     //Shop 
     public void visit_session()

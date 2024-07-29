@@ -10,39 +10,40 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "conversationScripable", order = 1)]
 public class conversationScripable : ScriptableObject
 {
+    public String[] character1Lines;
+
     public ConversationType conversationType;
-    public int numOfChat;
 
     public int indexChar;
     public int indexChat;
 
-    public void StartConversation(Action action)
+    public void StartConversation(int indexCharacterEmo,Action action)
     {
         if (conversationType == ConversationType.singleConver)
         {
-            CreateLineForSingle(0, action);
+            CreateLineForSingle(indexCharacterEmo,indexChar, action);
         }
         if (conversationType == ConversationType.connectConver)
         {
-            CreateLineForConnect(ChangeCharacter(indexChar), action);
+            CreateLineForConnect(ChangeCharacter(indexChar), indexCharacterEmo, action);
         }
     }
 
-    public void CreateLineForSingle(int i, Action action)
+    public void CreateLineForSingle(int indexCharacterEmo, int i, Action action)
     {
-        if (indexChat < numOfChat)
+        if (indexChat < character1Lines.Length)
         {
             if (!ConversationController.instance.Conversations[i].gameObject.activeSelf)
             {
-                Appear(i);
+                Appear(indexCharacterEmo,i);
             }
             DOVirtual.DelayedCall(0.3f, () =>
             {
                 ConversationController.instance.Conversations[i].StartDialogue(ConversationController.instance.Conversations[i].index, () =>
                 {
                     indexChat++;
-                    CreateLineForSingle(indexChar, action);
-                });
+                    CreateLineForSingle(indexCharacterEmo, indexChar, action);
+                }, character1Lines[indexChat]);
             });
         }
         else
@@ -51,21 +52,21 @@ public class conversationScripable : ScriptableObject
             action();
         }
     }
-    public void CreateLineForConnect(int i, Action action)
+    public void CreateLineForConnect(int i,int indexCharacterEmo, Action action)
     {
-        if (indexChat < numOfChat)
+        if (indexChat < character1Lines.Length)
         {
             if (!ConversationController.instance.Conversations[i].gameObject.activeSelf)
             {
-                Appear(i);
+                Appear(indexCharacterEmo, i);
             }
             DOVirtual.DelayedCall(0.3f, () =>
             {
                 ConversationController.instance.Conversations[i].StartDialogue(ConversationController.instance.Conversations[i].index, () =>
                 {
                     indexChat++;
-                    CreateLineForConnect(ChangeCharacter(indexChar), action);
-                });
+                    CreateLineForConnect(ChangeCharacter(indexChar), indexCharacterEmo, action);
+                }, character1Lines[indexChat]);
             });
         }
         else
@@ -89,8 +90,9 @@ public class conversationScripable : ScriptableObject
         }
         return x;
     }
-    public void Appear(int indexCharacter)
+    public void Appear(int indexCharacterEmo, int indexCharacter)
     {
+        ConversationController.instance.Conversations[indexCharacter].ChangeEmo(indexCharacterEmo);
         ConversationController.instance.Conversations[indexCharacter].gameObject.SetActive(true);
         ConversationController.instance.Conversations[indexCharacter].animator.enabled = true;
     }

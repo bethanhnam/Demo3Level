@@ -95,6 +95,7 @@ public class PausePanel : MonoBehaviour
             FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage, LevelStatus.retry);
             Close();
             Stage.Instance.ResetBooster();
+            ConversationController.instance.Disappear();
             GameManagerNew.Instance.Retry();
             //UIManager.instance.gamePlayPanel.backFromPause = false;
         }, null);
