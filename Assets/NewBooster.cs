@@ -24,12 +24,11 @@ public class NewBooster : MonoBehaviour
             animator.enabled =  false;
         });
     }
-    [Button("Showthreshole")]
     public void ShowThreshole()
     {
         if(LevelManagerNew.Instance.stage == 1)
         {
-            //UIManagerNew.Instance.ThresholeController.showExtraHole();
+            UIManagerNew.Instance.ThresholeController.showThreshole("extrahole");
         }
     }
 }

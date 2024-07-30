@@ -207,6 +207,23 @@ public class ButtonMennuManager : MonoBehaviour
                             {
                             });
                         }
+                        if (LevelManagerNew.Instance.stage == 1)
+                        {
+                            GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
+                            //tuto undo 
+                            GameManagerNew.Instance.conversationController.StartConversation(1, 4, () =>
+                            {
+                                UIManagerNew.Instance.NewBooster.ShowThreshole();
+                            });
+                        }
+                        if (LevelManagerNew.Instance.stage == 3)
+                        {
+                            GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
+                            //tuto undo 
+                            GameManagerNew.Instance.conversationController.StartConversation(1, 1, () =>
+                            {
+                            });
+                        }
                     });
                     GameManagerNew.Instance.CreateLevel(level);
                 }

@@ -92,21 +92,45 @@ public class ExtralHole : MonoBehaviour
             canvasGroup.DOFade(0, 0.1f);
             panel.DOScale(new Vector3(0.8f, 0.8f, 0), 0.1f).OnComplete(() =>
             {
-                AudioManager.instance.PlaySFX("ClosePopUp");
-                GamePlayPanelUIManager.Instance.ActiveTime();
-                if (Stage.Instance.isWining)
+                if (LevelManagerNew.Instance.stage == 1)
                 {
-                    Stage.Instance.ScaleUpStage();
+                    GameManagerNew.Instance.conversationController.StartConversation(1, 5, () =>
+                    {
+                        AudioManager.instance.PlaySFX("ClosePopUp");
+                        GamePlayPanelUIManager.Instance.ActiveTime();
+                        if (Stage.Instance.isWining)
+                        {
+                            Stage.Instance.ScaleUpStage();
+                        }
+                        else
+                        {
+                            GamePlayPanelUIManager.Instance.Appear();
+                            GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                        }
+                        Stage.Instance.checked1 = false;
+                        ActiveCVGroup();
+                        this.gameObject.SetActive(false);
+                        Stage.Instance.AfterPanel();
+                    });
                 }
                 else
                 {
-                    GamePlayPanelUIManager.Instance.Appear();
-					GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                    AudioManager.instance.PlaySFX("ClosePopUp");
+                    GamePlayPanelUIManager.Instance.ActiveTime();
+                    if (Stage.Instance.isWining)
+                    {
+                        Stage.Instance.ScaleUpStage();
+                    }
+                    else
+                    {
+                        GamePlayPanelUIManager.Instance.Appear();
+                        GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                    }
+                    Stage.Instance.checked1 = false;
+                    ActiveCVGroup();
+                    this.gameObject.SetActive(false);
+                    Stage.Instance.AfterPanel();
                 }
-                Stage.Instance.checked1 = false;
-                ActiveCVGroup();
-                this.gameObject.SetActive(false);
-				Stage.Instance.AfterPanel();
             });
         }
 	}
