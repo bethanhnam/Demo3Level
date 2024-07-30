@@ -11,7 +11,7 @@ public class PicTutor : MonoBehaviour
     }
     public  void CheckHasFixed()
     {
-        if(GameManagerNew.Instance.PictureUIManager.hasFixed == true)
+        if (PlayerPrefs.GetInt("Hasfixed") == 1)
         {
             ShowPointer(false);
         }

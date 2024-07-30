@@ -41,10 +41,13 @@ public class ThresholeController : MonoBehaviour
     }
     public void Disable()
     {
-        if (thresholeDictionary.TryGetValue(thresholeName, out GameObject go))
+        if (this.thresholeName != null)
         {
-            go.gameObject.SetActive(false);
-            this.thresholeName = null;
+            if (thresholeDictionary.TryGetValue(thresholeName, out GameObject go))
+            {
+                go.gameObject.SetActive(false);
+                this.thresholeName = null;
+            }
         }
         CanvasGroup.DOFade(0, 1f).OnComplete(() =>
         {
@@ -70,6 +73,26 @@ public class ThresholeController : MonoBehaviour
         if (thresholeDictionary.TryGetValue(thresholeName, out GameObject go1))
         {
             go1.gameObject.SetActive(true);
+        }
+    }
+    public void showNextThreshole(string thresholeName)
+    {
+        if (this.thresholeName != null)
+        {
+            if (thresholeDictionary.TryGetValue(this.thresholeName, out GameObject go))
+            {
+                go.gameObject.SetActive(false);
+            }
+        }
+        this.thresholeName = thresholeName;
+        Appear();
+        // Ví dụ: sử dụng Dictionary để lấy GameObject
+        if (thresholeDictionary.TryGetValue(thresholeName, out GameObject go1))
+        {
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                go1.gameObject.SetActive(true);
+            });
         }
     }
 }

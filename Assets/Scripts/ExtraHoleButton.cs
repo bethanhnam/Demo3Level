@@ -32,7 +32,7 @@ public class ExtraHoleButton : MonoBehaviour
 		var scaleDown = myScale - new Vector3(0.1f, 0.1f, 0.1f);
         addImage.transform.DOScale(scaleDown, 0.5f).OnComplete(() =>
 		{
-            shinningParticle.Play();
+            //shinningParticle.Play();
         });
     }
     public void NomalScale()

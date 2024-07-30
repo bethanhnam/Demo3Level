@@ -96,22 +96,22 @@ public class ExtralHole : MonoBehaviour
                 {
                     GameManagerNew.Instance.conversationController.StartConversation(1, 5, () =>
                     {
-                        AudioManager.instance.PlaySFX("ClosePopUp");
                         GamePlayPanelUIManager.Instance.ActiveTime();
-                        if (Stage.Instance.isWining)
-                        {
-                            Stage.Instance.ScaleUpStage();
-                        }
-                        else
-                        {
-                            GamePlayPanelUIManager.Instance.Appear();
-                            GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-                        }
-                        Stage.Instance.checked1 = false;
-                        ActiveCVGroup();
-                        this.gameObject.SetActive(false);
-                        Stage.Instance.AfterPanel();
                     });
+                    AudioManager.instance.PlaySFX("ClosePopUp");
+                    if (Stage.Instance.isWining)
+                    {
+                        Stage.Instance.ScaleUpStage();
+                    }
+                    else
+                    {
+                        GamePlayPanelUIManager.Instance.Appear();
+                        GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                    }
+                    Stage.Instance.checked1 = false;
+                    ActiveCVGroup();
+                    this.gameObject.SetActive(false);
+                    Stage.Instance.AfterPanel();
                 }
                 else
                 {

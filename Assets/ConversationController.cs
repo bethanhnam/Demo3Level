@@ -17,6 +17,7 @@ public class ConversationController : MonoBehaviour
 
     public int indexCharacter;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +33,7 @@ public class ConversationController : MonoBehaviour
 
     }
 
-    public void StartConversation(int indexCharacterEmo,int indexConversationScripable,Action action)
+    public void StartConversation(int indexCharacterEmo,int indexConversationScripable, Action action)
     {
         this.gameObject.SetActive(true);
         CanvasGroup.interactable = true;
@@ -40,7 +41,9 @@ public class ConversationController : MonoBehaviour
         conversationScripableIndex = indexConversationScripable;
         Appear();
         ResetData();
-        conversationScripables[indexConversationScripable].StartConversation(indexCharacterEmo,action);
+        DOVirtual.DelayedCall(0.8f, () => { 
+        conversationScripables[indexConversationScripable].StartConversation(indexCharacterEmo, conversationScripables[indexConversationScripable].isconnectLine, action);
+        });
     }
     public void Disappear()
     {
@@ -54,10 +57,14 @@ public class ConversationController : MonoBehaviour
         {
             conversationScripables[j].indexChat = 0;
         }
-        CanvasGroup.DOFade(0, 1f).OnComplete(() =>
+        CanvasGroup.DOFade(0, 0.5f).OnComplete(() =>
         {
-            DOVirtual.DelayedCall(0.3f, () =>
+            DOVirtual.DelayedCall(0.4f, () =>
             {
+                if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+                {
+                    Stage.Instance.canInteract = true;
+                }
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
             });
             CanvasGroup.interactable = false;
@@ -78,6 +85,7 @@ public class ConversationController : MonoBehaviour
     {
         for(int j = 0;j < Conversations.Length; j++)
         {
+            
             Conversations[j].index = 0;
         }
     }

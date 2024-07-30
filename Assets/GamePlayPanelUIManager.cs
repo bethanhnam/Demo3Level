@@ -48,7 +48,6 @@ public class GamePlayPanelUIManager : MonoBehaviour
     public Image blockPic;
 
     //pointer
-    public GameObject pointer;
     public GameObject goodJob;
     public bool hasOpen;
     private void Awake()
@@ -75,6 +74,10 @@ public class GamePlayPanelUIManager : MonoBehaviour
     }
     private void OnEnable()
     {
+        if (LevelManagerNew.Instance.stage >= 3)
+        {
+           boosterBar.gameObject.SetActive(true);
+        }
     }
     public void Appear()
     {
@@ -135,8 +138,6 @@ public class GamePlayPanelUIManager : MonoBehaviour
             cvButton.blocksRaycasts = true;
         }
     }
-
-
     public void OpenReplayPanel()
     {
 
@@ -254,31 +255,6 @@ public class GamePlayPanelUIManager : MonoBehaviour
     public void ActiveBlackPic(bool status)
     {
         blackPic.gameObject.SetActive(status);
-    }
-    public void ShowPoiterAgain1()
-    {
-        StartCoroutine(ShowPoiterAgain());
-    }
-    IEnumerator ShowPoiterAgain()
-    {
-        yield return new WaitForSeconds(1f);
-        if (Stage.Instance.isTutor)
-        {
-            GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
-        }
-    }
-    public void showPointer(bool status)
-    {
-        if (hasOpen == false)
-        {
-            pointer.gameObject.SetActive(status);
-            hasOpen = true;
-        }
-        else
-        {
-            pointer.gameObject.SetActive(false);
-        }
-
     }
     public void activeAnimation(Animator button,bool status)
     {

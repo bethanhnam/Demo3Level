@@ -92,7 +92,7 @@ public class Stage : MonoBehaviour
     }
     private void OnEnable()
     {
-        if (!GameManagerNew.Instance.isStory)
+        if (!GameManagerNew.Instance.isStory && LevelManagerNew.Instance.stage > 3)
         {
             StartCoroutine(CheckForClickContinuously());
         }
@@ -180,7 +180,6 @@ public class Stage : MonoBehaviour
         isScaling = true;
         canInteract = false;
         gameObject.SetActive(true);
-        TutorLevel1();
         Vector3 targetSclae = transform.localScale;
         transform.localScale = Vector3.one;
         AudioManager.instance.PlaySFX("GamePlayLoading");
@@ -579,7 +578,16 @@ public class Stage : MonoBehaviour
                         nailToDetele.gameObject.SetActive(false);
                         setDeteleting(false);
                         hasDelete = true;
-                        GamePlayPanelUIManager.Instance.showPointer(false);
+                        if (LevelManagerNew.Instance.stage == 3)
+                        {
+                            DOVirtual.DelayedCall(0.7f, () =>
+                            {
+                                GameManagerNew.Instance.conversationController.StartConversation(1, 5, () =>
+                                {
+
+                                });
+                            });
+                        }
                     }
                     //var Destroyeffect1 = Instantiate(destroyNailEffect, nailToDetele.transform.position, quaternion.identity);
                     //Destroy(Destroyeffect1, 0.5f);
@@ -843,7 +851,6 @@ public class Stage : MonoBehaviour
         UIManagerNew.Instance.LosePanel.hasUse = false;
         UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(true);
         TutorUnscrew();
-        TutorLevel1();
         DeactiveDeleting();
 
 
@@ -854,7 +861,7 @@ public class Stage : MonoBehaviour
         {
             //tuto undo 
             isTutor = true;
-            GamePlayPanelUIManager.Instance.ActiveBlackPic(true);
+            //GamePlayPanelUIManager.Instance.ActiveBlackPic(true);
             UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(false);
 
             //anim unlock
@@ -863,7 +870,7 @@ public class Stage : MonoBehaviour
             //var shape = particle.shape;
             //         shape.sprite = GamePlayPanelUIManager.Instance.DeteleButton.image.sprite;
             //         Destroy(x, 1f);
-            Invoke("showUnscrewTuTor", 1.3f);
+            Invoke("showUnscrewTuTor", 0.5f);
 
         }
         else if (LevelManagerNew.Instance.stage > 3)
@@ -877,14 +884,14 @@ public class Stage : MonoBehaviour
             GamePlayPanelUIManager.Instance.boosterBar.UninteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
         }
     }
-    private void TutorLevel1()
+    public void TutorLevel1()
     {
         if (LevelManagerNew.Instance.stage == 0 && pointerTutor != null || GameManagerNew.Instance.isStory && pointerTutor != null)
         {
             isLvTutor = true;
             if (pointerTutor.gameObject.activeSelf == false)
             {
-                DOVirtual.DelayedCall(0.7f, () =>
+                DOVirtual.DelayedCall(0.3f, () =>
                 {
                     pointerTutor.gameObject.SetActive(true);
                 });
@@ -968,22 +975,18 @@ public class Stage : MonoBehaviour
             SaveSystem.instance.unscrewPoint = 1;
             UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
         }
+        GameManagerNew.Instance.conversationController.StartConversation(1, 4, () =>
+        {
+            UIManagerNew.Instance.NewBooster.ShowThreshole();
+            GamePlayPanelUIManager.Instance.boosterBar.disableDeteleWatchAdsBT();
+            GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
+        });
         GamePlayPanelUIManager.Instance.boosterBar.disableDeteleWatchAdsBT();
-        GamePlayPanelUIManager.Instance.boosterBar.SetPoiterPos(0);
+        //GamePlayPanelUIManager.Instance.boosterBar.SetPoiterPos(0);
         GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
-        GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
+        //GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
     }
 
-    public void ShowExtraholeTutor()
-    {
-        if (LevelManagerNew.Instance.stage == 1)
-        {
-            GameManagerNew.Instance.conversationController.StartConversation(1, 4, () =>
-            {
-                UIManagerNew.Instance.NewBooster.Appear();
-            });
-        }
-    }
     public void showLevel1Tutor()
     {
         pointerTutor.gameObject.SetActive(true);
@@ -1035,10 +1038,10 @@ public class Stage : MonoBehaviour
 
     private void SetDefaultBoosterAim()
     {
-        holeToUnlock.myAnimator.enabled = false;
+        //holeToUnlock.myAnimator.enabled = false;
         if (holeToUnlock.addImage.gameObject.activeSelf)
         {
-            this.holeToUnlock.addImage.transform.localScale = holeToUnlock.myScale;
+            //this.holeToUnlock.addImage.transform.localScale = holeToUnlock.myScale;
         }
         GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, false);
         GamePlayPanelUIManager.Instance.DeteleButton.transform.DOScale(1.05f, 0.05f);
@@ -1055,7 +1058,7 @@ public class Stage : MonoBehaviour
         // Thực hiện hành động khi người chơi không bấm vào màn hình
         if (holeToUnlock.addImage.IsActive())
         {
-            this.holeToUnlock.myAnimator.enabled = true;
+            //this.holeToUnlock.myAnimator.enabled = true;
         }
         GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, true);
         boosterTween = DOVirtual.DelayedCall(3f, () =>
@@ -1067,10 +1070,10 @@ public class Stage : MonoBehaviour
             {
                 GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);
                 GamePlayPanelUIManager.Instance.UndoButton.transform.localScale = new Vector3(1.05f, 1.05f, 1);
-                this.holeToUnlock.myAnimator.enabled = false;
+                //this.holeToUnlock.myAnimator.enabled = false;
                 if (holeToUnlock.addImage.IsActive())
                 {
-                    this.holeToUnlock.addImage.transform.localScale = holeToUnlock.myScale;
+                    //this.holeToUnlock.addImage.transform.localScale = holeToUnlock.myScale;
                 }
             });
         });

@@ -20,7 +20,6 @@ public class BoosterBar : MonoBehaviour
 
     public DeteleNailPanel deteleNailPanel;
     public UndoPanel undoPanel;
-    public Image pointer;
     public Transform[] transforms;
     
     public void InteractableBT(Button button)
@@ -30,14 +29,6 @@ public class BoosterBar : MonoBehaviour
     public void UninteractableBT(Button button)
     {
         button.interactable = false;
-    }
-    public void ShowPointer(bool status)
-    {
-        pointer.gameObject.SetActive(status);
-    }
-    public void SetPoiterPos(int i)
-    {
-        pointer.gameObject.transform.position = transforms[i].position;
     }
     public void disableDeteleWatchAdsBT()
     {

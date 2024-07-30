@@ -102,8 +102,6 @@ public class FirebaseAnalyticsControl : MonoBehaviour
             new Parameter(FireBaseEventName.level, level+1)
         });
     }
-
-
     private void OnApplicationQuit()
     {
         if (GamePlayPanelUIManager.Instance.gameObject.activeSelf)

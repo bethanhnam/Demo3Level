@@ -65,7 +65,6 @@ public class UIManagerNew : MonoBehaviour
     private ThresholeController thresholeController;
 
 
-
     public TextMeshProUGUI[] DrillTexts;
     public TextMeshProUGUI[] UnscrewTexts;
     public TextMeshProUGUI[] UndoTexts;
@@ -87,6 +86,9 @@ public class UIManagerNew : MonoBehaviour
 
     [SerializeField]
     private StoryItem storyItem;
+
+    [SerializeField]
+    private GameObject playButton;
 
 
     public ButtonMennuManager ButtonMennuManager { get => buttonMennuManager; }
@@ -119,6 +121,7 @@ public class UIManagerNew : MonoBehaviour
     public StoryItem StoryItem { get => storyItem; set => storyItem = value; }
     public NewBooster NewBooster { get => newBooster; set => newBooster = value; }
     public ThresholeController ThresholeController { get => thresholeController; set => thresholeController = value; }
+    public GameObject PlayButton { get => playButton; set => playButton = value; }
 
     private void Awake()
     {

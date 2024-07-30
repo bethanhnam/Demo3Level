@@ -16,9 +16,6 @@ public class ButtonMennuManager : MonoBehaviour
     [SerializeField]
     public StarMove starMove;
 
-    //pointer
-    public GameObject playBTPoinnter;
-
     private int appearButton = Animator.StringToHash("appear");
     private int disappearButton = Animator.StringToHash("disappear");
 
@@ -41,23 +38,26 @@ public class ButtonMennuManager : MonoBehaviour
             {
                 if (LevelManagerNew.Instance.stage == 0)
                 {
-                    DOVirtual.DelayedCall(1f, () =>
-                    {
-                        DisplayPointer();
-                    });
+                    ShowPointer();
                 }
                 else
                 {
-                    DisablePointer();
+                    UIManagerNew.Instance.PlayButton.gameObject.SetActive(true);
                 }
             });
+            if (LevelManagerNew.Instance.stage == 1 && PlayerPrefs.GetInt("Hasfixed") == 0)
+            {
+                GameManagerNew.Instance.conversationController.StartConversation(1, 2, () =>
+                {
+                    GameManagerNew.Instance.CheckForTutorFix();
+                });
+            }
         }
     }
     public void Close()
     {
         cvButton.blocksRaycasts = false;
         animButton.Play(disappearButton);
-        DisablePointer();
     }
 
     public void Deactive()
@@ -178,7 +178,6 @@ public class ButtonMennuManager : MonoBehaviour
     {
         int level = LevelManagerNew.Instance.GetStage();
         //GameManagerNew.Instance.CreateLevel(level);
-        DisablePointer();
         if (GameManagerNew.Instance.CheckLevelStage())
         {
             UIManagerNew.Instance.ButtonMennuManager.OpenCompletePanel();
@@ -205,23 +204,21 @@ public class ButtonMennuManager : MonoBehaviour
                             //tuto undo 
                             GameManagerNew.Instance.conversationController.StartConversation(1, 1, () =>
                             {
+                                Stage.Instance.TutorLevel1();
                             });
                         }
                         if (LevelManagerNew.Instance.stage == 1)
                         {
                             GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
                             //tuto undo 
+                            if (SaveSystem.instance.extraHolePoint == 0)
+                            {
+                                SaveSystem.instance.extraHolePoint = 1;
+                                UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
+                            }
                             GameManagerNew.Instance.conversationController.StartConversation(1, 4, () =>
                             {
                                 UIManagerNew.Instance.NewBooster.ShowThreshole();
-                            });
-                        }
-                        if (LevelManagerNew.Instance.stage == 3)
-                        {
-                            GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
-                            //tuto undo 
-                            GameManagerNew.Instance.conversationController.StartConversation(1, 1, () =>
-                            {
                             });
                         }
                     });
@@ -244,19 +241,6 @@ public class ButtonMennuManager : MonoBehaviour
             });
         });
     }
-    public void DisplayReward()
-    {
-
-    }
-
-    public void DisplayPointer()
-    {
-        playBTPoinnter.gameObject.SetActive(true);
-    }
-    public void DisablePointer()
-    {
-        playBTPoinnter.gameObject.SetActive(false);
-    }
     public void DisplayLevelText()
     {
         if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
@@ -274,5 +258,14 @@ public class ButtonMennuManager : MonoBehaviour
                 UIManagerNew.Instance.playBTLevelTexts.text = (LevelManagerNew.Instance.stage).ToString();
             }
         }
+    }
+   public void ShowPointer()
+    {
+        UIManagerNew.Instance.PlayButton.gameObject.SetActive(false);
+        UIManagerNew.Instance.ThresholeController.showThreshole("playButton");
+    }
+    public void activePlayButton()
+    {
+        UIManagerNew.Instance.PlayButton.gameObject.SetActive(true);
     }
 }

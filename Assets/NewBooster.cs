@@ -3,9 +3,11 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NewBooster : MonoBehaviour
 {
+    public Image Image;
     public CanvasGroup canvasGroup;
     public Animator animator;
     public void Appear()
@@ -29,6 +31,10 @@ public class NewBooster : MonoBehaviour
         if(LevelManagerNew.Instance.stage == 1)
         {
             UIManagerNew.Instance.ThresholeController.showThreshole("extrahole");
+        }
+        if (LevelManagerNew.Instance.stage == 3)
+        {
+            UIManagerNew.Instance.ThresholeController.showThreshole("unscrew");
         }
     }
 }

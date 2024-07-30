@@ -27,7 +27,6 @@ public class FixItemUI : MonoBehaviour
         {
             gameObject.SetActive(true);
         }
-
         animButton.Play(appearButton, 0, 0);
         //imgPic.transform.localScale = Vector3.zero;
         imgPic.sprite = spr;
@@ -63,14 +62,23 @@ public class FixItemUI : MonoBehaviour
         Deactive();
         GameManagerNew.Instance.ItemMoveControl.MoveToFix(imgPic.transform.position, GameManagerNew.Instance.PictureUIManager.GetCurrentPosItem(), imgPic.sprite, () =>
         {
-            GameManagerNew.Instance.PictureUIManager.hasFixed = true;
-            if (GameManagerNew.Instance.PictureUIManager.hasWindow)
+            
+            if (GameManagerNew.Instance.PictureUIManager.hasWindow )
             {
-                GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, "tremble_happy", false, GameManagerNew.Instance.PictureUIManager.hasWindow);
-                AudioManager.instance.PlaySFX("Laugh");
-                GameManagerNew.Instance.conversationController.StartConversation(1,3, () =>
+                if (GameManagerNew.Instance.PictureUIManager.LevelButton != null)
                 {
-                });
+                    if(GameManagerNew.Instance.PictureUIManager.GetcurrentLevelButton() == GameManagerNew.Instance.PictureUIManager.LevelButton)
+                    {
+                        GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, "tremble_happy", false, GameManagerNew.Instance.PictureUIManager.hasWindow);
+                        AudioManager.instance.PlaySFX("Laugh");
+                        if (LevelManagerNew.Instance.LevelBase.Level == 0)
+                        {
+                            GameManagerNew.Instance.conversationController.StartConversation(1, 3, () =>
+                            {
+                            });
+                        }
+                    }
+                }
             }
             else
             {
@@ -104,10 +112,6 @@ public class FixItemUI : MonoBehaviour
                 });
             });
             GameManagerNew.Instance.PictureUIManager.EnableCV();
-            if (GameManagerNew.Instance.PictureUIManager.picTutor != null)
-            {
-                GameManagerNew.Instance.PictureUIManager.picTutor.CheckHasFixed();
-            }
             DataLevelManager.Instance.SaveData();
             LevelManagerNew.Instance.SaveData();
         });

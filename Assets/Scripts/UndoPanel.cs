@@ -33,7 +33,6 @@ public class UndoPanel : MonoBehaviour
                 UIManagerNew.Instance.ThresholeController.Disable();
             }
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-            ShowTutor();
             numOfUse++;
             //FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.undo);
             SetMinusText('-', numOfUsed);
@@ -56,7 +55,6 @@ public class UndoPanel : MonoBehaviour
     {
         AdsManager.instance.ShowRewardVideo(() =>
         {
-            ShowTutor();
             //xem qu?ng cáo 
             numOfUse++;
             FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.undo);
@@ -93,7 +91,6 @@ public class UndoPanel : MonoBehaviour
         if (!this.gameObject.activeSelf)
         {
             this.gameObject.SetActive(true);
-            OffPoiter();
             AudioManager.instance.PlaySFX("OpenPopUp");
             canvasGroup.blocksRaycasts = false;
             panel.localScale = new Vector3(.8f, .8f, 1f);
@@ -129,7 +126,6 @@ public class UndoPanel : MonoBehaviour
                     GamePlayPanelUIManager.Instance.Appear();
                     GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
                 }
-                GamePlayPanelUIManager.Instance.ShowPoiterAgain1();
                 Stage.Instance.checked1 = false;
 
                 ActiveCVGroup();
@@ -143,22 +139,6 @@ public class UndoPanel : MonoBehaviour
         if (!canvasGroup.blocksRaycasts)
         {
             canvasGroup.blocksRaycasts = true;
-        }
-    }
-    public void ShowTutor()
-    {
-        if (Stage.Instance.isTutor)
-        {
-            GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(false);
-            GamePlayPanelUIManager.Instance.ActiveBlackPic(false);
-            GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
-        }
-    }
-    public void OffPoiter()
-    {
-        if (Stage.Instance.isTutor)
-        {
-            GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(false);
         }
     }
     public void SetMinusText(char t, int value)

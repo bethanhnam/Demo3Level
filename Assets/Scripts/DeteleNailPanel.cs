@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 [RequireComponent(typeof(CanvasGroup))]
@@ -17,6 +18,8 @@ public class DeteleNailPanel : MonoBehaviour
     public CanvasGroup canvasGroup;
     public int numOfUse = 0;
     public GameObject pointer;
+
+    public bool hasUseTutor;
 
     //text 
     public TextMeshProUGUI minusText;
@@ -39,17 +42,15 @@ public class DeteleNailPanel : MonoBehaviour
             }
             if (canInteract)
             {
+                if(LevelManagerNew.Instance.stage == 3 && numOfUse == 1)
+                {
+                    hasUseTutor = true;
+                }
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
                 canInteract = false;
-                ShowTutor();
                 numOfUse++;
                 //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
-                if (LevelManagerNew.Instance.stage == 3)
-                {
-                    GamePlayPanelUIManager.Instance.showPointer(true);
-                }
                 Stage.Instance.DeactiveTutor();
-                ShowPointer(false);
                 SetMinusText('-', numOfUsed);
                 SaveSystem.instance.AddBooster(-numOfUsed, 0, 0);
                 SaveSystem.instance.SaveData();
@@ -79,7 +80,7 @@ public class DeteleNailPanel : MonoBehaviour
     {
         AdsManager.instance.ShowRewardVideo(() =>
         {
-            ShowTutor();
+
             //xem qu?ng cáo 
             numOfUse++;
             FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.unscrew);
@@ -131,7 +132,6 @@ public class DeteleNailPanel : MonoBehaviour
         if (!this.gameObject.activeSelf)
         {
             this.gameObject.SetActive(true);
-            OffPoiter();
             GameManagerNew.Instance.CloseLevel(false);
             canvasGroup.blocksRaycasts = false;
             AudioManager.instance.PlaySFX("OpenPopUp");
@@ -147,7 +147,6 @@ public class DeteleNailPanel : MonoBehaviour
                     ActiveCVGroup();
                     if (Stage.Instance.isTutor && LevelManagerNew.Instance.stage == 3)
                     {
-                        ShowPointer(true);
                         Uniteractable();
                     }
                 });
@@ -163,25 +162,50 @@ public class DeteleNailPanel : MonoBehaviour
             canvasGroup.DOFade(0, 0.1f);
             panel.DOScale(new Vector3(0.8f, 0.8f, 0), 0.1f).OnComplete(() =>
             {
-                AudioManager.instance.PlaySFX("ClosePopUp");
-                GamePlayPanelUIManager.Instance.ActiveTime();
-
-                if (Stage.Instance.isWining)
+                if (LevelManagerNew.Instance.stage == 3 && hasUseTutor)
                 {
-                    Stage.Instance.ScaleUpStage();
+                    GameManagerNew.Instance.conversationController.StartConversation(1, 12, () =>
+                    {
+                        GamePlayPanelUIManager.Instance.ActiveTime();
+                    });
+                    AudioManager.instance.PlaySFX("ClosePopUp");
+
+                    if (Stage.Instance.isWining)
+                    {
+                        Stage.Instance.ScaleUpStage();
+                    }
+                    else
+                    {
+                        GamePlayPanelUIManager.Instance.Appear();
+                        GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                    }
+                    ActiveCVGroup();
+                    canInteract = true;
+                    Stage.Instance.checked1 = false;
+                    this.gameObject.SetActive(false);
+                    Stage.Instance.AfterPanel();
                 }
                 else
                 {
-                    GamePlayPanelUIManager.Instance.Appear();
-                    GamePlayPanelUIManager.Instance.ShowPoiterAgain1();
-                    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                    AudioManager.instance.PlaySFX("ClosePopUp");
+                    GamePlayPanelUIManager.Instance.ActiveTime();
+
+                    if (Stage.Instance.isWining)
+                    {
+                        Stage.Instance.ScaleUpStage();
+                    }
+                    else
+                    {
+                        GamePlayPanelUIManager.Instance.Appear();
+                        GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                    }
+                    ActiveCVGroup();
+                    canInteract = true;
+
+                    Stage.Instance.checked1 = false;
+                    this.gameObject.SetActive(false);
+                    Stage.Instance.AfterPanel();
                 }
-                ActiveCVGroup();
-                canInteract = true;
-                ShowPointer(false);
-                Stage.Instance.checked1 = false;
-                this.gameObject.SetActive(false);
-                Stage.Instance.AfterPanel();
 
             });
         }
@@ -193,26 +217,6 @@ public class DeteleNailPanel : MonoBehaviour
             canvasGroup.blocksRaycasts = true;
         }
     }
-    public void ShowTutor()
-    {
-        if (Stage.Instance.isTutor)
-        {
-            GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(false);
-            GamePlayPanelUIManager.Instance.ActiveBlackPic(false);
-        }
-    }
-    public void OffPoiter()
-    {
-        if (Stage.Instance.isTutor)
-        {
-            GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(false);
-        }
-    }
-    public void ShowPointer(bool status)
-    {
-        pointer.gameObject.SetActive(status);
-    }
-
     public void SetMinusText(char t, int value)
     {
         minusText.gameObject.SetActive(true);

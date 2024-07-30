@@ -30,6 +30,7 @@ public class PictureUIManager : MonoBehaviour
 
     //bool
     public bool hasWindow = false;
+    public GameObject LevelButton;
 
     //tutor pic
     public PicTutor picTutor;
@@ -494,6 +495,10 @@ public class PictureUIManager : MonoBehaviour
     public Vector3 GetCurrentPosItem()
     {
         return stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock[GameManagerNew.Instance.Level].objunLock[0].transform.position;
+    }
+    public GameObject GetcurrentLevelButton()
+    {
+        return stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock[GameManagerNew.Instance.Level].objBtn[0];
     }
     public void DisableCharacter()
     {

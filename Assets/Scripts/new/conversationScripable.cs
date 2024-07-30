@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "conversationScripable", order = 1)]
@@ -14,22 +15,53 @@ public class conversationScripable : ScriptableObject
 
     public ConversationType conversationType;
 
-    public int indexChar;
+    private int indexChar;
     public int indexChat;
+    public bool isconnectLine;
 
-    public void StartConversation(int indexCharacterEmo,Action action)
+    public MyCharacter selectedCharacter;
+    public enum MyCharacter
     {
+        Mom,
+        Child,
+        Mom2
+    }
+
+    public int ChangeToInt()
+    {
+        int x =0;
+        switch (selectedCharacter)
+        {
+            case MyCharacter.Child:
+                x= 0;
+                return 0;
+            case MyCharacter.Mom:
+                x = 1;
+                return 1;
+            case MyCharacter.Mom2:
+                x = 2;
+                return 2;
+        }
+        return x;
+    }
+
+    public void StartConversation(int indexCharacterEmo, bool isconnectLine, Action action)
+    {
+        if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+        {
+            Stage.Instance.canInteract = false;
+        }
         if (conversationType == ConversationType.singleConver)
         {
-            CreateLineForSingle(indexCharacterEmo,indexChar, action);
+            CreateLineForSingle(indexCharacterEmo, ChangeToInt(), isconnectLine, action);
         }
         if (conversationType == ConversationType.connectConver)
         {
-            CreateLineForConnect(ChangeCharacter(indexChar), indexCharacterEmo, action);
+            CreateLineForConnect(ChangeCharacter(ChangeToInt()), indexCharacterEmo, isconnectLine, action);
         }
     }
 
-    public void CreateLineForSingle(int indexCharacterEmo, int i, Action action)
+    public void CreateLineForSingle(int indexCharacterEmo, int i,bool isconnectLine, Action action)
     {
         if (indexChat < character1Lines.Length)
         {
@@ -42,17 +74,24 @@ public class conversationScripable : ScriptableObject
                 ConversationController.instance.Conversations[i].StartDialogue(ConversationController.instance.Conversations[i].index, () =>
                 {
                     indexChat++;
-                    CreateLineForSingle(indexCharacterEmo, indexChar, action);
+                    CreateLineForSingle(indexCharacterEmo, ChangeToInt(), isconnectLine, action);
                 }, character1Lines[indexChat]);
             });
         }
         else
         {
-            ConversationController.instance.Disappear();
-            action();
+            if (!isconnectLine)
+            {
+                ConversationController.instance.Disappear();
+                action();
+            }
+            else
+            {
+                action();
+            }
         }
     }
-    public void CreateLineForConnect(int i,int indexCharacterEmo, Action action)
+    public void CreateLineForConnect(int i,int indexCharacterEmo,bool isconnectLine, Action action)
     {
         if (indexChat < character1Lines.Length)
         {
@@ -65,14 +104,23 @@ public class conversationScripable : ScriptableObject
                 ConversationController.instance.Conversations[i].StartDialogue(ConversationController.instance.Conversations[i].index, () =>
                 {
                     indexChat++;
-                    CreateLineForConnect(ChangeCharacter(indexChar), indexCharacterEmo, action);
+                    CreateLineForConnect(ChangeCharacter(indexChar), indexCharacterEmo, isconnectLine, action);
                 }, character1Lines[indexChat]);
             });
         }
         else
         {
-            ConversationController.instance.Disappear();
-            action();
+            if (!isconnectLine)
+            {
+                ConversationController.instance.Disappear();
+                action();
+                
+            }
+            else
+            {
+                action();
+               
+            }
         }
     }
     public int ChangeCharacter(int currentCharacter)

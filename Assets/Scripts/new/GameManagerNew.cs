@@ -193,7 +193,7 @@ public class GameManagerNew : MonoBehaviour
                 //CurrentLevel.ResetBooster();
                 //AudioManager.instance.PlayMusic("GamePlayTheme");
             });
-            
+
         }
     }
     public bool CheckLevelStage()
@@ -232,7 +232,6 @@ public class GameManagerNew : MonoBehaviour
             CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[LevelManagerNew.Instance.stage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
             currentLevel.resetData();
             Stage.Instance.DeactiveDeleting();
-            GamePlayPanelUIManager.Instance.showPointer(false);
             GamePlayPanelUIManager.Instance.hasOpen = false;
             GamePlayPanelUIManager.Instance.ShowNotice(false);
             GamePlayPanelUIManager.Instance.ButtonOn();
@@ -250,7 +249,6 @@ public class GameManagerNew : MonoBehaviour
             GamePlayPanelUIManager.Instance.ActiveTime();
             CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[LevelManagerNew.Instance.stage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
             currentLevel.resetData();
-            GamePlayPanelUIManager.Instance.showPointer(false);
             GamePlayPanelUIManager.Instance.hasOpen = false;
             GamePlayPanelUIManager.Instance.ShowNotice(false);
             GamePlayPanelUIManager.Instance.ButtonOn();
@@ -399,7 +397,7 @@ public class GameManagerNew : MonoBehaviour
                 }
                 else
                 {
-                    FirebaseAnalyticsControl.Instance.LogEventFixStageMap(LevelManagerNew.Instance.LevelBase.Level,DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage);
+                    FirebaseAnalyticsControl.Instance.LogEventFixStageMap(LevelManagerNew.Instance.LevelBase.Level, DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage);
                     Debug.Log("Chuyển tới stage tiếp theo");
                     StartCoroutine(NextStage());
                 }
@@ -547,6 +545,17 @@ public class GameManagerNew : MonoBehaviour
             {
                 if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
                 {
+                    conversationController.StartConversation(1, 11, () =>
+                    {
+                        UIManagerNew.Instance.ButtonMennuManager.Appear();
+                        UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
+                        UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
+                        UIManagerNew.Instance.ChestSLider.CreateMarker();
+                        SetCompletImg();
+                        SetCompleteStory();
+                        //UIManagerNew.Instance.CongratPanel.takeRewardData();
+                        Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
+                    });
                     Debug.Log("tạo tranh mới");
                     CompleteLevelAfterReward();
                     PlayerPrefs.SetInt("windowFixed", 0);
@@ -561,7 +570,7 @@ public class GameManagerNew : MonoBehaviour
                         character.transform.SetParent(GameManagerNew.Instance.pictureUIManager.transform);
                         //CreateCharacterParticleEF(character.transform.position + new Vector3(0,1.5f,1), character.transform.GetComponent<MeshRenderer>());
                     }
-                    pictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+                    pictureUIManager.ChangeReaction(0.5f, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
                     UIManagerNew.Instance.CompleteImg.Disablepic();
                     if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
                     {
@@ -589,7 +598,7 @@ public class GameManagerNew : MonoBehaviour
                 {
                     character.transform.SetParent(GameManagerNew.Instance.pictureUIManager.transform);
                 }
-                pictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+                pictureUIManager.ChangeReaction(0.5f, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
                 UIManagerNew.Instance.CompleteImg.Disablepic();
                 if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
                 {
@@ -660,7 +669,7 @@ public class GameManagerNew : MonoBehaviour
         Debug.Log(" Chạy qua createMarker");
         SetCompletImg();
         //UIManagerNew.Instance.CongratPanel.takeRewardData();
-        Debug.Log("LevelManagerNew.Instance.LevelBase.CountLevelWin "+LevelManagerNew.Instance.LevelBase.CountLevelWin);
+        Debug.Log("LevelManagerNew.Instance.LevelBase.CountLevelWin " + LevelManagerNew.Instance.LevelBase.CountLevelWin);
     }
     public bool CheckSliderValueAndDisplay()
     {
@@ -687,7 +696,7 @@ public class GameManagerNew : MonoBehaviour
                     {
                         character.transform.SetParent(GameManagerNew.Instance.pictureUIManager.transform);
                     }
-                    pictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+                    pictureUIManager.ChangeReaction(0.5f, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
                     if (UIManagerNew.Instance.CompleteImg.gameObject.activeSelf)
                     {
                         UIManagerNew.Instance.CompleteImg.Disablepic();
@@ -743,12 +752,12 @@ public class GameManagerNew : MonoBehaviour
             }
             UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
             SaveSystem.instance.addStar(-numOfStar);
-            SaveSystem.instance.SaveData();
-
             UIManagerNew.Instance.ButtonMennuManager.starMove.CreateStar(des, (() =>
             {
                 DataLevelManager.Instance.SetLevelDone(Level);
                 //UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+                SaveSystem.instance.SaveData();
+                PlayerPrefs.SetInt("Hasfixed", 1);
             }), numOfStar, levelButton);
         }
         else
@@ -765,5 +774,12 @@ public class GameManagerNew : MonoBehaviour
     public void Vibration()
     {
         hapticSouce.Play();
+    }
+    public void CheckForTutorFix()
+    {
+        if (PlayerPrefs.GetInt("Hasfixed") == 0 && LevelManagerNew.Instance.LevelBase.Level == 0)
+        {
+            UIManagerNew.Instance.ThresholeController.showThreshole("fixFirstItem");
+        }
     }
 }

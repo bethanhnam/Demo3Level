@@ -71,8 +71,10 @@ public class VideoController : MonoBehaviour
                     DOVirtual.DelayedCall(1.3f, () =>
                     {
                         PlayerPrefs.SetInt("FirstStoryBubble", 1);
+                        GameManagerNew.Instance.conversationController.CanvasGroup.alpha = 0.8f;
                         GameManagerNew.Instance.conversationController.StartConversation(0,0, () =>
                         {
+                            GameManagerNew.Instance.conversationController.CanvasGroup.alpha = 0.4f;
                             UIManagerNew.Instance.ButtonMennuManager.Appear();
                         });
                     });
