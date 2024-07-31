@@ -47,10 +47,6 @@ public class conversationScripable : ScriptableObject
 
     public void StartConversation(int indexCharacterEmo, bool isconnectLine, Action action)
     {
-        if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
-        {
-            Stage.Instance.canInteract = false;
-        }
         if (conversationType == ConversationType.singleConver)
         {
             CreateLineForSingle(indexCharacterEmo, ChangeToInt(), isconnectLine, action);

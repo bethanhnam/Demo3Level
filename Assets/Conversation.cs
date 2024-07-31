@@ -18,6 +18,7 @@ public class Conversation : MonoBehaviour
     public int index;
     public bool readyForNextAction = false;
     public bool endOfConversation = false;
+    public GameObject nextLine;
     public Action action1 = null;
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,7 @@ public class Conversation : MonoBehaviour
             {
                 if (action1 != null)
                 {
+                    nextLine.gameObject.SetActive(false);
                     readyForNextAction = false;
                     index++;
                     action1();
@@ -52,6 +54,7 @@ public class Conversation : MonoBehaviour
 
     IEnumerator TypeLine(String line)
     {
+        nextLine.gameObject.SetActive(false);
         textBox.text = string.Empty;
         readyForNextAction = false;
         foreach (char c in line.ToCharArray())
@@ -60,20 +63,6 @@ public class Conversation : MonoBehaviour
             yield return new WaitForSeconds(textSpeed);
         }
     }
-    //public void NextLine()
-    //{
-    //    if(index < textList.Count-1)
-    //    {
-    //        index++;
-    //        textBox.text = string.Empty;
-    //        StartCoroutine (TypeLine());
-    //    }
-    //    else
-    //    {
-    //        endOfConversation = true;
-    //    }
-    //}
-
     public void CheckNextLine(Action action,String line)
     {
         if (action != null)
@@ -82,6 +71,7 @@ public class Conversation : MonoBehaviour
         }
         if (textBox.text == line)
         {
+            nextLine.gameObject.SetActive(true);
             readyForNextAction = true;
         }
         else
@@ -98,6 +88,7 @@ public class Conversation : MonoBehaviour
         if (index < line.Length)
         {
             yield return new WaitUntil(() => textBox.text == line);
+            nextLine.gameObject.SetActive(true);
               readyForNextAction = true;
         }
     }

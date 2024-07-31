@@ -92,7 +92,7 @@ public class Stage : MonoBehaviour
     }
     private void OnEnable()
     {
-        if (!GameManagerNew.Instance.isStory && LevelManagerNew.Instance.stage > 3)
+        if (!GameManagerNew.Instance.isStory && LevelManagerNew.Instance.stage > 3 && !GameManagerNew.Instance.isMinigame)
         {
             StartCoroutine(CheckForClickContinuously());
         }
@@ -269,7 +269,7 @@ public class Stage : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (!GameManagerNew.Instance.isStory)
+                if (!GameManagerNew.Instance.isStory && !GameManagerNew.Instance.isMinigame)
                 {
                     isMoving = true;
                     SetDefaultBoosterAim();
@@ -495,7 +495,7 @@ public class Stage : MonoBehaviour
     {
         if (numOfIronPlates <= 0)
         {
-            if (GameManagerNew.Instance.isStory)
+            if (GameManagerNew.Instance.isStory && !GameManagerNew.Instance.isMinigame)
             {
                 //code phần complete khi hoàn thành màn story
                 int videoIndex = PlayerPrefs.GetInt("videoIndex");
@@ -580,13 +580,18 @@ public class Stage : MonoBehaviour
                         hasDelete = true;
                         if (LevelManagerNew.Instance.stage == 3)
                         {
-                            DOVirtual.DelayedCall(0.7f, () =>
+                            if (UIManagerNew.Instance.DeteleNailPanel.hasUseTutor == true)
                             {
-                                GameManagerNew.Instance.conversationController.StartConversation(1, 5, () =>
+                                UIManagerNew.Instance.DeteleNailPanel.hasUseTutor = false;
+                                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+                                DOVirtual.DelayedCall(0.7f, () =>
                                 {
-
+                                    GameManagerNew.Instance.conversationController.StartConversation(1, 5, () =>
+                                    {
+                                        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+                                    });
                                 });
-                            });
+                            }
                         }
                     }
                     //var Destroyeffect1 = Instantiate(destroyNailEffect, nailToDetele.transform.position, quaternion.identity);
@@ -630,7 +635,7 @@ public class Stage : MonoBehaviour
 
         }
         hasSave = true;
-        if (LevelManagerNew.Instance.stage >= 3 && !GameManagerNew.Instance.isStory)
+        if (LevelManagerNew.Instance.stage >= 3 && !GameManagerNew.Instance.isStory && !GameManagerNew.Instance.isMinigame)
         {
             if (!hasUndo)
             {
@@ -810,7 +815,7 @@ public class Stage : MonoBehaviour
             Debug.Log("chạy qua Clear");
 
             hasSave = false;
-            if (!GameManagerNew.Instance.isStory)
+            if (!GameManagerNew.Instance.isStory && !GameManagerNew.Instance.isMinigame)
             {
 
                 Debug.Log("chạy vào GamePlayPanelUIManager");
@@ -857,7 +862,7 @@ public class Stage : MonoBehaviour
     }
     private void TutorUnscrew()
     {
-        if (LevelManagerNew.Instance.stage == 3 && !GameManagerNew.Instance.isStory)
+        if (LevelManagerNew.Instance.stage == 3 && !GameManagerNew.Instance.isStory && GamePlayPanelUIManager.Instance.gameObject.activeSelf)
         {
             //tuto undo 
             isTutor = true;
@@ -911,7 +916,7 @@ public class Stage : MonoBehaviour
     }
     public void check1()
     {
-        if (!GameManagerNew.Instance.isStory)
+        if (!GameManagerNew.Instance.isStory && !GameManagerNew.Instance.isMinigame)
         {
             if (holes.Length != 0 && numOfHoleNotAvailable.Count == holes.Length)
             {
@@ -975,9 +980,10 @@ public class Stage : MonoBehaviour
             SaveSystem.instance.unscrewPoint = 1;
             UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
         }
-        GameManagerNew.Instance.conversationController.StartConversation(1, 4, () =>
+        GameManagerNew.Instance.conversationController.StartConversation(1, 13, () =>
         {
-            UIManagerNew.Instance.NewBooster.ShowThreshole();
+            UIManagerNew.Instance.NewBooster.SetValue(1);
+            UIManagerNew.Instance.NewBooster.Appear();
             GamePlayPanelUIManager.Instance.boosterBar.disableDeteleWatchAdsBT();
             GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
         });
@@ -1011,7 +1017,7 @@ public class Stage : MonoBehaviour
     {
         while (true)
         {
-            if (!GameManagerNew.Instance.isStory)
+            if (!GameManagerNew.Instance.isStory && !GameManagerNew.Instance.isMinigame)
             {
                 isMoving = false;
                 float timer = 5f;

@@ -24,6 +24,7 @@ public class GameManagerNew : MonoBehaviour
     private Transform gamePlayPanel;
     [SerializeField]
     private Stage currentLevel;
+    private MiniGameStage currentMiniGameStage;
     private int level;
 
     private LayerMask iNSelectionLayer1;
@@ -50,6 +51,9 @@ public class GameManagerNew : MonoBehaviour
     public int testingStage;
     public bool isTestingLevel;
 
+    //minigame
+    public bool isMinigame;
+
     // vabration
     public HapticSource hapticSouce;
 
@@ -64,7 +68,7 @@ public class GameManagerNew : MonoBehaviour
     public PictureUIManager PictureUIManager { get => pictureUIManager; set => pictureUIManager = value; }
     public Transform GamePlayPanel { get => gamePlayPanel; set => gamePlayPanel = value; }
     public Vector3 TargetScale { get => targetScale; set => targetScale = value; }
-
+    public MiniGameStage CurrentMiniGameStage { get => currentMiniGameStage; set => currentMiniGameStage = value; }
 
     private void Awake()
     {
@@ -117,7 +121,6 @@ public class GameManagerNew : MonoBehaviour
         }
 
     }
-
     public void CreateLevel(int _level)
     {
         if (isTestingLevel)
@@ -195,6 +198,27 @@ public class GameManagerNew : MonoBehaviour
             });
 
         }
+    }
+    public void CreateMiniGame(int level)
+    {
+            //GamePlayPanelUIManager.Instance.setText(level + 1);
+            isMinigame = true; 
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                PictureUIManager.Close();
+            });
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                CurrentMiniGameStage = Instantiate(LevelManagerNew.Instance.miniStageList[level], new Vector2(0, -2.51f), Quaternion.identity);
+                ScaleForDevices(CurrentMiniGameStage.transform.gameObject);
+                if (!UIManagerNew.Instance.MiniGamePlay.gameObject.activeSelf)
+                {
+                    UIManagerNew.Instance.MiniGamePlay.Appear();
+                }
+                SetTargetScale(currentLevel.gameObject);
+                CurrentMiniGameStage.InitForMinigame(level);
+                AudioManager.instance.PlayMusic("GamePlayTheme");
+            });
     }
     public bool CheckLevelStage()
     {
@@ -779,7 +803,7 @@ public class GameManagerNew : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("Hasfixed") == 0 && LevelManagerNew.Instance.LevelBase.Level == 0)
         {
-            UIManagerNew.Instance.ThresholeController.showThreshole("fixFirstItem");
+            UIManagerNew.Instance.ThresholeController.showThreshole("fixFirstItem", pictureUIManager.transform.localScale, pictureUIManager.Stage[0].listObjLock[0].objBtn[0].transform.GetChild(1).transform);
         }
     }
 }

@@ -218,7 +218,8 @@ public class ButtonMennuManager : MonoBehaviour
                             }
                             GameManagerNew.Instance.conversationController.StartConversation(1, 4, () =>
                             {
-                                UIManagerNew.Instance.NewBooster.ShowThreshole();
+                                UIManagerNew.Instance.NewBooster.SetValue(0);
+                                UIManagerNew.Instance.NewBooster.Appear();
                             });
                         }
                     });
@@ -228,6 +229,31 @@ public class ButtonMennuManager : MonoBehaviour
             Close();
         }
     }
+    [Button("CreateMinigame")]
+    public void PlayMiniGame()
+    {
+        int level = 0;
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+        UIManagerNew.Instance.GamePlayLoading.appear();
+        
+        DOVirtual.DelayedCall(.7f, () =>
+        {
+            DOVirtual.DelayedCall(.95f, () =>
+                {
+                    if (LevelManagerNew.Instance.stage == 4)
+                    {
+                        level = 0;
+                    }
+                    if (LevelManagerNew.Instance.stage == 7)
+                    {
+                        level = 1;
+                    }
+                });
+            GameManagerNew.Instance.CreateMiniGame(level);
+        });
+        Close();
+    }
+
     public void DisPlayPresent()
     {
         Vector3 startPos = UIManagerNew.Instance.ChestSLider.present.transform.position;
@@ -259,10 +285,10 @@ public class ButtonMennuManager : MonoBehaviour
             }
         }
     }
-   public void ShowPointer()
+    public void ShowPointer()
     {
         UIManagerNew.Instance.PlayButton.gameObject.SetActive(false);
-        UIManagerNew.Instance.ThresholeController.showThreshole("playButton");
+        UIManagerNew.Instance.ThresholeController.showThreshole("playButton", UIManagerNew.Instance.PlayButton.transform.localScale, UIManagerNew.Instance.PlayButton.transform);
     }
     public void activePlayButton()
     {

@@ -42,7 +42,7 @@ public class DeteleNailPanel : MonoBehaviour
             }
             if (canInteract)
             {
-                if(LevelManagerNew.Instance.stage == 3 && numOfUse == 1)
+                if(LevelManagerNew.Instance.stage == 3 && numOfUsed == 1)
                 {
                     hasUseTutor = true;
                 }

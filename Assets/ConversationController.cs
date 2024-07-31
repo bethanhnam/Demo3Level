@@ -41,8 +41,14 @@ public class ConversationController : MonoBehaviour
         conversationScripableIndex = indexConversationScripable;
         Appear();
         ResetData();
-        DOVirtual.DelayedCall(0.8f, () => { 
-        conversationScripables[indexConversationScripable].StartConversation(indexCharacterEmo, conversationScripables[indexConversationScripable].isconnectLine, action);
+        DOVirtual.DelayedCall(0.8f, () => {
+            DOVirtual.DelayedCall(0.3f, () => {
+                if (Stage.Instance != null)
+                {
+                    Stage.Instance.canInteract = false;
+                }
+            });
+            conversationScripables[indexConversationScripable].StartConversation(indexCharacterEmo, conversationScripables[indexConversationScripable].isconnectLine, action);
         });
     }
     public void Disappear()
@@ -51,6 +57,7 @@ public class ConversationController : MonoBehaviour
         for (int j = 0; j < Conversations.Length; j++)
         {
             Conversations[j].textBox.text = string.Empty;
+            Conversations[j].nextLine.gameObject.SetActive(false);
             Conversations[j].gameObject.SetActive(false);
         }
         for (int j = 0; j < conversationScripables.Count; j++)
@@ -59,7 +66,7 @@ public class ConversationController : MonoBehaviour
         }
         CanvasGroup.DOFade(0, 0.5f).OnComplete(() =>
         {
-            DOVirtual.DelayedCall(0.4f, () =>
+            DOVirtual.DelayedCall(0.25f, () =>
             {
                 if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
                 {

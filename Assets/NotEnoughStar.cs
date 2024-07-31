@@ -94,19 +94,22 @@ public class NotEnoughStar : MonoBehaviour
             });
             if (LevelManagerNew.Instance.stage == 1)
             {
-                GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
                 //tuto undo 
                 if (SaveSystem.instance.extraHolePoint == 0)
                 {
                     SaveSystem.instance.extraHolePoint = 1;
                     UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
                 }
-                GameManagerNew.Instance.conversationController.StartConversation(1, 4, () =>
+                DOVirtual.DelayedCall(2f, () =>
                 {
-                    UIManagerNew.Instance.NewBooster.ShowThreshole();
+                    GameManagerNew.Instance.conversationController.StartConversation(1, 4, () =>
+                    {
+                        UIManagerNew.Instance.NewBooster.Appear();
+                    });
                 });
-                CloseForPlay();
+
             }
+            CloseForPlay();
         }
     }
 }

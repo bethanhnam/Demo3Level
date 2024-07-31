@@ -34,24 +34,53 @@ public class NailControl : MonoBehaviour
 	}
 	public void PickUp(Vector3 pos)
 	{
-        AudioManager.instance.PlaySFX("PushNail");
-        //AudioManager.instance.PlaySFX("PickUpScrew");
-		nailSprite.enabled = false;
-		anim.Play(pickUp, 0, 0);
-		Stage.Instance.curNail.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 23;
+		if (GameManagerNew.Instance.isMinigame)
+		{
+            AudioManager.instance.PlaySFX("PushNail");
+            //AudioManager.instance.PlaySFX("PickUpScrew");
+            nailSprite.enabled = false;
+            anim.Play(pickUp, 0, 0);
+            MiniGameStage.Instance.curNail.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 23;
+        }
+		else
+		{
+			AudioManager.instance.PlaySFX("PushNail");
+			//AudioManager.instance.PlaySFX("PickUpScrew");
+			nailSprite.enabled = false;
+			anim.Play(pickUp, 0, 0);
+			Stage.Instance.curNail.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 23;
+		}
 	}
 
 	public void SetNewPos(Vector3 pos)
 	{
-        Stage.Instance.curNail.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 22;
-        AudioManager.instance.PlaySFX("PushNail");
-        transform.position = pos;
-        anim.Play(unSelect, 0, 0);
+		if (GameManagerNew.Instance.isMinigame)
+		{
+            MiniGameStage.Instance.curNail.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 22;
+            AudioManager.instance.PlaySFX("PushNail");
+            transform.position = pos;
+            anim.Play(unSelect, 0, 0);
+        }
+		else
+		{
+			Stage.Instance.curNail.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 22;
+			AudioManager.instance.PlaySFX("PushNail");
+			transform.position = pos;
+			anim.Play(unSelect, 0, 0);
+		}
 	}
 
 	public void Unselect() {
-        Stage.Instance.curNail.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 22;
-        anim.Play(unSelect, 0, 0);
+		if (GameManagerNew.Instance.isMinigame)
+		{
+            MiniGameStage.Instance.curNail.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 22;
+            anim.Play(unSelect, 0, 0);
+        }
+		else
+		{
+			Stage.Instance.curNail.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 22;
+			anim.Play(unSelect, 0, 0);
+		}
 	}
 	public void SetHole(Hole  _hole)
 	{

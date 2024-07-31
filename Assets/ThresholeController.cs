@@ -58,7 +58,7 @@ public class ThresholeController : MonoBehaviour
         });
     }
     [Button("TestThreshole")]
-    public void showThreshole(string thresholeName)
+    public void showThreshole(string thresholeName, Vector3 scale, Transform transform = null)
     {
         if (this.thresholeName != null)
         {
@@ -67,6 +67,7 @@ public class ThresholeController : MonoBehaviour
                 go.gameObject.SetActive(false);
             }
         }
+        SetPos(thresholeName, transform, scale);
         this.thresholeName = thresholeName;
         Appear();
         // Ví dụ: sử dụng Dictionary để lấy GameObject
@@ -84,6 +85,7 @@ public class ThresholeController : MonoBehaviour
                 go.gameObject.SetActive(false);
             }
         }
+        SetPos(thresholeName, null, Vector3.zero);
         this.thresholeName = thresholeName;
         Appear();
         // Ví dụ: sử dụng Dictionary để lấy GameObject
@@ -94,6 +96,26 @@ public class ThresholeController : MonoBehaviour
                 go1.gameObject.SetActive(true);
             });
         }
+    }
+
+    public void SetPos(string thresholeName,Transform transform,Vector3 scale)
+    {
+        if (transform != null)
+        {
+            if (thresholeDictionary.TryGetValue(thresholeName, out GameObject go))
+            {
+                go.transform.GetChild(1).transform.position = transform.position;
+               
+            }
+            if (scale != null)
+            {
+                if (thresholeDictionary.TryGetValue(thresholeName, out GameObject go1))
+                {
+                    go1.transform.GetChild(1).localScale = scale;
+                }
+            }
+        }
+        
     }
 }
 [System.Serializable]

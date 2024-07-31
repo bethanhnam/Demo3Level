@@ -78,6 +78,10 @@ public class GamePlayPanelUIManager : MonoBehaviour
         {
            boosterBar.gameObject.SetActive(true);
         }
+        else
+        {
+            boosterBar.gameObject.SetActive(false);
+        }
     }
     public void Appear()
     {
@@ -213,6 +217,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
             Close();
         }
     }
+
     public void ButtonOff()
     {
         ReplayButton.interactable = false;
