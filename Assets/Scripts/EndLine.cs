@@ -40,6 +40,14 @@ public class EndLine : MonoBehaviour
                 MiniGameStage.Instance.CheckDoneLevel();
                 UIManagerNew.Instance.MiniGamePlay.miniItem[MiniGameStage.Instance.numOfIronPlates].gameObject.gameObject.SetActive(true);
                 UIManagerNew.Instance.MiniGamePlay.miniItem[MiniGameStage.Instance.numOfIronPlates].gameObject.transform.position = collision.transform.position;
+				UIManagerNew.Instance.MiniGamePlay.miniItem[MiniGameStage.Instance.numOfIronPlates].transform.DOMoveY(UIManagerNew.Instance.MiniGamePlay.miniItem[MiniGameStage.Instance.numOfIronPlates].transform.position.y + 18, 0.5f).OnComplete(() =>
+				{
+                    UIManagerNew.Instance.MiniGamePlay.miniItem[MiniGameStage.Instance.numOfIronPlates].transform.DOMoveY(UIManagerNew.Instance.MiniGamePlay.miniItem[MiniGameStage.Instance.numOfIronPlates].transform.position.y - 5, 0.5f).OnComplete(() => { 
+
+                    UIManagerNew.Instance.MiniGamePlay.miniItem[MiniGameStage.Instance.numOfIronPlates].MoveItem();
+                    });
+
+                });
             }
         }
 		else
