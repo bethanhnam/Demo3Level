@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sirenix.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
@@ -16,8 +17,11 @@ public class Conversation : MonoBehaviour
     public ConversationController conversationController;
 
     public int index;
+    public string indexLine;
+
     public bool readyForNextAction = false;
     public bool endOfConversation = false;
+
     public GameObject nextLine;
     public Action action1 = null;
     // Start is called before the first frame update
@@ -30,26 +34,30 @@ public class Conversation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (readyForNextAction)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (action1 != null && readyForNextAction == true)
             {
-                if (action1 != null)
-                {
-                    nextLine.gameObject.SetActive(false);
-                    readyForNextAction = false;
-                    index++;
-                    action1();
-                }
+                textSpeed = 0.05f;
+                nextLine.gameObject.SetActive(false);
+                readyForNextAction = false;
+                index++;
+                indexLine = string.Empty;
+                action1();
             }
-        }   
+            if (!indexLine.IsNullOrWhitespace())
+            {
+                textSpeed = 0;
+            }
+        }
     }
-    public void StartDialogue(int index,Action action,string line)
+    public void StartDialogue(int index, Action action, string line)
     {
+        indexLine = line;
         endOfConversation = false;
         this.index = index;
         StartCoroutine(TypeLine(line));
-        CheckNextLine(action,line);
+        CheckNextLine(action, line);
     }
 
     IEnumerator TypeLine(String line)
@@ -63,7 +71,7 @@ public class Conversation : MonoBehaviour
             yield return new WaitForSeconds(textSpeed);
         }
     }
-    public void CheckNextLine(Action action,String line)
+    public void CheckNextLine(Action action, String line)
     {
         if (action != null)
         {
@@ -89,7 +97,7 @@ public class Conversation : MonoBehaviour
         {
             yield return new WaitUntil(() => textBox.text == line);
             nextLine.gameObject.SetActive(true);
-              readyForNextAction = true;
+            readyForNextAction = true;
         }
     }
     public void ChangeEmo(int indexEmo)

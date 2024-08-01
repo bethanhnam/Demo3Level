@@ -37,9 +37,9 @@ public class EndLine : MonoBehaviour
                 MiniGameStage.Instance.numOfIronPlates -= 1;
                 //AudioManager.instance.PlaySFX("DropIron");
                 Debug.Log("numOfIronPlates" + MiniGameStage.Instance.numOfIronPlates);
-                MiniGameStage.Instance.CheckDoneLevel();
                 UIManagerNew.Instance.MiniGamePlay.miniItem[MiniGameStage.Instance.numOfIronPlates].gameObject.gameObject.SetActive(true);
-                UIManagerNew.Instance.MiniGamePlay.miniItem[MiniGameStage.Instance.numOfIronPlates].gameObject.transform.position = collision.transform.position;
+                UIManagerNew.Instance.MiniGamePlay.miniItem[MiniGameStage.Instance.numOfIronPlates].gameObject.transform.position = new Vector3(collision.transform.position.x,MiniItemEndLine.instance.transform.position.y,1);
+                UIManagerNew.Instance.MiniGamePlay.miniItem[MiniGameStage.Instance.numOfIronPlates].animator.enabled = true;
             }
         }
 		else

@@ -22,8 +22,7 @@ public class clockFill : MonoBehaviour
         timeText.text = timeLimit.ToString();
         time = timeLimit;
         startTimer = false;
-
-        clockSlider.fillAmount = time * multiplierFactor;
+        //clockSlider.fillAmount = time * multiplierFactor;
     }
 
     [Button("startTimer")]

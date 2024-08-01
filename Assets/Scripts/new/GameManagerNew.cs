@@ -201,24 +201,32 @@ public class GameManagerNew : MonoBehaviour
     }
     public void CreateMiniGame(int level)
     {
-            //GamePlayPanelUIManager.Instance.setText(level + 1);
-            isMinigame = true; 
-            DOVirtual.DelayedCall(1f, () =>
+        //GamePlayPanelUIManager.Instance.setText(level + 1);
+
+
+        isMinigame = true;
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            PictureUIManager.Close();
+        });
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            CurrentMiniGameStage = Instantiate(LevelManagerNew.Instance.miniStageList[level], new Vector2(0, -2.51f), Quaternion.identity);
+            ScaleForDevices(CurrentMiniGameStage.transform.gameObject);
+            if (!UIManagerNew.Instance.MiniGamePlay.gameObject.activeSelf)
             {
-                PictureUIManager.Close();
-            });
-            DOVirtual.DelayedCall(1f, () =>
-            {
-                CurrentMiniGameStage = Instantiate(LevelManagerNew.Instance.miniStageList[level], new Vector2(0, -2.51f), Quaternion.identity);
-                ScaleForDevices(CurrentMiniGameStage.transform.gameObject);
-                if (!UIManagerNew.Instance.MiniGamePlay.gameObject.activeSelf)
-                {
-                    UIManagerNew.Instance.MiniGamePlay.Appear();
-                }
-                SetTargetScale(currentLevel.gameObject);
-                CurrentMiniGameStage.InitForMinigame(level);
-                AudioManager.instance.PlayMusic("GamePlayTheme");
-            });
+                UIManagerNew.Instance.MiniGamePlay.Appear(() =>
+                    {
+                        DOVirtual.DelayedCall(0.3f, () =>
+                        {
+                            UIManagerNew.Instance.MiniGamePlay.SetItem(level, currentMiniGameStage.numOfIronPlates);
+                        });
+                    });
+            }
+            SetTargetScale(CurrentMiniGameStage.gameObject);
+            CurrentMiniGameStage.InitForMinigame(level);
+            AudioManager.instance.PlayMusic("GamePlayTheme");
+        });
     }
     public bool CheckLevelStage()
     {
