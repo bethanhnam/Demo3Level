@@ -105,7 +105,8 @@ public class NotEnoughStar : MonoBehaviour
                 {
                     Stage.Instance.canInteract = false;
                 }
-                UIManagerNew.Instance.NewBooster.Appear();
+                    UIManagerNew.Instance.NewBooster.SetValue(0);
+                    UIManagerNew.Instance.NewBooster.Appear();
                 });
             }
             CloseForPlay();

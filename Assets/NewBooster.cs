@@ -23,6 +23,7 @@ public class NewBooster : MonoBehaviour
     public Animator animator;
     public void Appear()
     {
+        AudioManager.instance.PlaySFX("NewBooster");
         this.gameObject.SetActive(true);
         canvasGroup.enabled = true;
         canvasGroup.DOFade(1, 1).OnComplete(() =>
