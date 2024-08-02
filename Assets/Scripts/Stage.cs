@@ -137,9 +137,7 @@ public class Stage : MonoBehaviour
             {
                 transform.DOScale(GameManagerNew.Instance.TargetScale, 0.4f).OnComplete(() =>
                 {
-
                     canInteract = true;
-
                     DOVirtual.DelayedCall(0.3f, () =>
                     {
                         isScaling = false;
@@ -238,7 +236,7 @@ public class Stage : MonoBehaviour
         EverythingStayStill(true);
         canInteract = false;
         isScaling = true;
-        transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
+        transform.DOScale(Vector3.one, 0.7f).OnComplete(() =>
         {
             if (isDes)
             {
@@ -583,14 +581,7 @@ public class Stage : MonoBehaviour
                             if (UIManagerNew.Instance.DeteleNailPanel.hasUseTutor == true)
                             {
                                 UIManagerNew.Instance.DeteleNailPanel.hasUseTutor = false;
-                                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-                                DOVirtual.DelayedCall(0.7f, () =>
-                                {
-                                    GameManagerNew.Instance.conversationController.StartConversation(1, 12, "6UnscrewTutor", () =>
-                                    {
-                                        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
-                                    });
-                                });
+
                             }
                         }
                     }
@@ -980,9 +971,14 @@ public class Stage : MonoBehaviour
             SaveSystem.instance.unscrewPoint = 1;
             UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
         }
-
         UIManagerNew.Instance.NewBooster.SetValue(1);
-        UIManagerNew.Instance.NewBooster.Appear();
+        DOVirtual.DelayedCall(0.5f, () => {
+            if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+            {
+                Stage.Instance.canInteract = false;
+            }
+            UIManagerNew.Instance.NewBooster.Appear();
+        });
         GamePlayPanelUIManager.Instance.boosterBar.disableDeteleWatchAdsBT();
         GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
         GamePlayPanelUIManager.Instance.boosterBar.disableDeteleWatchAdsBT();

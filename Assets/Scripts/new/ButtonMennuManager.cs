@@ -205,7 +205,7 @@ public class ButtonMennuManager : MonoBehaviour
                             GameManagerNew.Instance.conversationController.StartConversation(1, 1, "2SecondConver", () =>
                             {
                                 Stage.Instance.TutorLevel1();
-                            });
+                            },true);
                         }
                         if (LevelManagerNew.Instance.stage == 1)
                         {
@@ -216,8 +216,14 @@ public class ButtonMennuManager : MonoBehaviour
                                 SaveSystem.instance.extraHolePoint = 1;
                                 UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
                             }
-                                UIManagerNew.Instance.NewBooster.SetValue(0);
+                            UIManagerNew.Instance.NewBooster.SetValue(0);
+                            DOVirtual.DelayedCall(0.5f, () => {
+                                if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+                                {
+                                    Stage.Instance.canInteract = false;
+                                }
                                 UIManagerNew.Instance.NewBooster.Appear();
+                            });
                         }
                     });
                     GameManagerNew.Instance.CreateLevel(level);
@@ -232,7 +238,7 @@ public class ButtonMennuManager : MonoBehaviour
         int level = 0;
         UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         UIManagerNew.Instance.GamePlayLoading.appear();
-        
+
         DOVirtual.DelayedCall(.7f, () =>
         {
             DOVirtual.DelayedCall(.95f, () =>
@@ -284,7 +290,14 @@ public class ButtonMennuManager : MonoBehaviour
     }
     public void ShowPointer()
     {
-        UIManagerNew.Instance.PlayButton.gameObject.SetActive(false);
+        if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
+        {
+            UIManagerNew.Instance.GamePlayPanel.DeactiveTime();
+        }
+        if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+        {
+            Stage.Instance.canInteract = false;
+        }
         UIManagerNew.Instance.ThresholeController.showThreshole("playButton", UIManagerNew.Instance.PlayButton.transform.localScale, UIManagerNew.Instance.PlayButton.transform);
     }
     public void activePlayButton()

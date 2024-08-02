@@ -809,6 +809,14 @@ public class GameManagerNew : MonoBehaviour
     }
     public void CheckForTutorFix()
     {
+        if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
+        {
+            UIManagerNew.Instance.GamePlayPanel.DeactiveTime();
+        }
+        if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+        {
+            Stage.Instance.canInteract = false;
+        }
         if (PlayerPrefs.GetInt("Hasfixed") == 0 && LevelManagerNew.Instance.LevelBase.Level == 0)
         {
             UIManagerNew.Instance.ThresholeController.showThreshole("fixFirstItem", pictureUIManager.transform.localScale, pictureUIManager.Stage[0].listObjLock[0].objBtn[0].transform.GetChild(1).transform);

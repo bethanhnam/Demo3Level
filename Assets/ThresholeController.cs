@@ -15,6 +15,8 @@ public class ThresholeController : MonoBehaviour
 
     private Dictionary<string, GameObject> thresholeDictionary;
 
+    public Transform hinddenTransform;
+
     void Start()
     {
         // Khởi tạo Dictionary và thêm các phần tử
@@ -32,7 +34,7 @@ public class ThresholeController : MonoBehaviour
     {
         this.gameObject.SetActive(true);
         CanvasGroup.enabled = true;
-        CanvasGroup.DOFade(1, 1).OnComplete(() =>
+        CanvasGroup.DOFade(1, 0.5f).OnComplete(() =>
         {
             CanvasGroup.interactable = true;
             CanvasGroup.blocksRaycasts = true;
@@ -41,6 +43,11 @@ public class ThresholeController : MonoBehaviour
     }
     public void Disable()
     {
+        if(hinddenTransform != null)
+        {
+            hinddenTransform.gameObject.SetActive(true);
+            hinddenTransform = null; 
+        }
         if (this.thresholeName != null)
         {
             if (thresholeDictionary.TryGetValue(thresholeName, out GameObject go))
@@ -49,17 +56,26 @@ public class ThresholeController : MonoBehaviour
                 this.thresholeName = null;
             }
         }
+        if (Stage.Instance != null)
+        {
+            Stage.Instance.canInteract = true;
+        }
         CanvasGroup.DOFade(0, 1f).OnComplete(() =>
         {
             CanvasGroup.interactable = false;
             CanvasGroup.blocksRaycasts = false;
             CanvasGroup.enabled = false;
             this.gameObject.SetActive(false);
+            UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
         });
     }
     [Button("TestThreshole")]
     public void showThreshole(string thresholeName, Vector3 scale, Transform transform = null)
     {
+        if (transform != null)
+        {
+            hinddenTransform = transform;
+        }
         if (this.thresholeName != null)
         {
             if (thresholeDictionary.TryGetValue(this.thresholeName, out GameObject go))
@@ -69,13 +85,12 @@ public class ThresholeController : MonoBehaviour
         }
         SetPos(thresholeName, transform, scale);
         this.thresholeName = thresholeName;
-        Appear();
-        // Ví dụ: sử dụng Dictionary để lấy GameObject
         if (thresholeDictionary.TryGetValue(thresholeName, out GameObject go1))
         {
             go1.gameObject.SetActive(true);
             UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
         }
+        Appear();
     }
     public void showNextThreshole(string thresholeName)
     {
@@ -88,7 +103,6 @@ public class ThresholeController : MonoBehaviour
         }
         SetPos(thresholeName, null, Vector3.zero);
         this.thresholeName = thresholeName;
-        Appear();
         // Ví dụ: sử dụng Dictionary để lấy GameObject
         if (thresholeDictionary.TryGetValue(thresholeName, out GameObject go1))
         {
@@ -98,10 +112,15 @@ public class ThresholeController : MonoBehaviour
                 UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
             });
         }
+        Appear();
     }
 
     public void SetPos(string thresholeName,Transform transform,Vector3 scale)
     {
+        if (transform != null)
+        {
+            transform.gameObject.SetActive(false);
+        }
         if (transform != null)
         {
             if (thresholeDictionary.TryGetValue(thresholeName, out GameObject go))

@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +19,6 @@ public class GamePlayPanelUIManager : MonoBehaviour
     private int appearButton1 = Animator.StringToHash("await");
     private int appearButton = Animator.StringToHash("appear");
     private int disappearButton = Animator.StringToHash("disappear");
-
 
     //PopUp Button
     public Button ReplayButton;
@@ -50,6 +50,9 @@ public class GamePlayPanelUIManager : MonoBehaviour
     //pointer
     public GameObject goodJob;
     public bool hasOpen;
+
+    //Drill Effect
+    public SkeletonGraphic drillEffect;
     private void Awake()
     {
         Instance = this;
@@ -103,7 +106,10 @@ public class GamePlayPanelUIManager : MonoBehaviour
         {
             DOVirtual.DelayedCall(1f, () =>
             {
-                ActiveTime();
+                if (LevelManagerNew.Instance.stage != 1 && LevelManagerNew.Instance.stage != 3)
+                {
+                    ActiveTime();
+                }
             });
             animButton.Play(appearButton, 0, 0);
         });
@@ -264,5 +270,15 @@ public class GamePlayPanelUIManager : MonoBehaviour
     public void activeAnimation(Animator button,bool status)
     {
         button.enabled = status;
+    }
+    public void ShowDrillEffect(Action action)
+    {
+        drillEffect.transform.position = new Vector3(Stage.Instance.holeToUnlock.transform.position.x, Stage.Instance.holeToUnlock.transform.position.y-0.3f, Stage.Instance.holeToUnlock.transform.position.z);
+        drillEffect.gameObject.SetActive(true);
+        DOVirtual.DelayedCall(1.5f, () =>
+        {
+            drillEffect.gameObject.SetActive(false);
+            action();
+        });
     }
 }
