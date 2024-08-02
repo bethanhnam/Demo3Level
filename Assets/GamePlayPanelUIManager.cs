@@ -275,6 +275,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
     {
         drillEffect.transform.position = new Vector3(Stage.Instance.holeToUnlock.transform.position.x, Stage.Instance.holeToUnlock.transform.position.y-0.3f, Stage.Instance.holeToUnlock.transform.position.z);
         drillEffect.gameObject.SetActive(true);
+        AudioManager.instance.PlaySFX("ExtraHole");
         DOVirtual.DelayedCall(1.5f, () =>
         {
             drillEffect.gameObject.SetActive(false);

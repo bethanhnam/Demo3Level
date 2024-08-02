@@ -15,6 +15,8 @@ public class ButtonMennuManager : MonoBehaviour
     private RewardMove rewardMove;
     [SerializeField]
     public StarMove starMove;
+    public GameObject[] noticeButtons;
+
 
     private int appearButton = Animator.StringToHash("appear");
     private int disappearButton = Animator.StringToHash("disappear");
@@ -51,6 +53,14 @@ public class ButtonMennuManager : MonoBehaviour
                 {
                     GameManagerNew.Instance.CheckForTutorFix();
                 });
+            }
+            CheckDailyNotice();
+            if (LevelManagerNew.Instance.stage <= 3)
+            {
+                noticeButtons[0].gameObject.SetActive(false);
+            }
+            else{
+                noticeButtons[0].gameObject.SetActive(true);
             }
         }
     }
@@ -303,5 +313,21 @@ public class ButtonMennuManager : MonoBehaviour
     public void activePlayButton()
     {
         UIManagerNew.Instance.PlayButton.gameObject.SetActive(true);
+    } 
+    public void ShowNoticeIcon(int i,bool status)
+    {
+        noticeButtons[i].transform.GetChild(0).gameObject.SetActive(status);
+    }
+    public void CheckDailyNotice() {
+        string lastClaimTime = PlayerPrefs.GetString("LastClaimTime", string.Empty);
+        string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+        if (lastClaimTime.Equals(currentDate))
+        {
+            ShowNoticeIcon(0, false);
+        }
+        else
+        {
+            ShowNoticeIcon(0, true);
+        }
     }
 }
