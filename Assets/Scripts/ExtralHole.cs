@@ -44,11 +44,11 @@ public class ExtralHole : MonoBehaviour
                 this.Close();
                 DOVirtual.DelayedCall(1.3f, () =>
                 {
+                    Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
+                    Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
                     UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
                     {
                         Stage.Instance.ChangeLayer();
-                        Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
-                        Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
                     });
                 });
             });
@@ -67,11 +67,11 @@ public class ExtralHole : MonoBehaviour
             this.Close();
             DOVirtual.DelayedCall(1.3f, () =>
             {
+                Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
+                Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
                 UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
                 {
                     Stage.Instance.ChangeLayer();
-                    Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
-                    Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
                 });
             });
         });

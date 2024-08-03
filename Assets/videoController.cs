@@ -44,6 +44,16 @@ public class VideoController : MonoBehaviour
             skipButton.gameObject.SetActive(false);
         }
     }
+    private void Update()
+    {
+        if (canSkip) {
+            skipButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            skipButton.gameObject.SetActive(false);
+        }
+    }
     public void CheckStartVideo()
     {
         //PlayerPrefs.SetInt("videoIndex", 3);
