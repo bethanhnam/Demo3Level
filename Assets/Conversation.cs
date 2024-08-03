@@ -47,7 +47,7 @@ public class Conversation : MonoBehaviour
             }
             if (!indexLine.IsNullOrWhitespace())
             {
-                textSpeed = 0;
+                textSpeed = 0f;
             }
         }
     }

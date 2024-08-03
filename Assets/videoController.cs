@@ -72,7 +72,7 @@ public class VideoController : MonoBehaviour
                     {
                         PlayerPrefs.SetInt("FirstStoryBubble", 1);
                         GameManagerNew.Instance.conversationController.CanvasGroup.alpha = 0.8f;
-                        GameManagerNew.Instance.conversationController.StartConversation(0,0, () =>
+                        GameManagerNew.Instance.conversationController.StartConversation(0,0, "1FirstConver", () =>
                         {
                             GameManagerNew.Instance.conversationController.CanvasGroup.alpha = 0.4f;
                             UIManagerNew.Instance.ButtonMennuManager.Appear();

@@ -47,7 +47,7 @@ public class ButtonMennuManager : MonoBehaviour
             });
             if (LevelManagerNew.Instance.stage == 1 && PlayerPrefs.GetInt("Hasfixed") == 0)
             {
-                GameManagerNew.Instance.conversationController.StartConversation(1, 2, () =>
+                GameManagerNew.Instance.conversationController.StartConversation(1, 2, "3FirstFix", () =>
                 {
                     GameManagerNew.Instance.CheckForTutorFix();
                 });
@@ -202,7 +202,7 @@ public class ButtonMennuManager : MonoBehaviour
                         {
                             GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
                             //tuto undo 
-                            GameManagerNew.Instance.conversationController.StartConversation(1, 1, () =>
+                            GameManagerNew.Instance.conversationController.StartConversation(1, 1, "2SecondConver", () =>
                             {
                                 Stage.Instance.TutorLevel1();
                             });
@@ -216,11 +216,8 @@ public class ButtonMennuManager : MonoBehaviour
                                 SaveSystem.instance.extraHolePoint = 1;
                                 UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
                             }
-                            GameManagerNew.Instance.conversationController.StartConversation(1, 4, () =>
-                            {
                                 UIManagerNew.Instance.NewBooster.SetValue(0);
                                 UIManagerNew.Instance.NewBooster.Appear();
-                            });
                         }
                     });
                     GameManagerNew.Instance.CreateLevel(level);

@@ -100,14 +100,8 @@ public class NotEnoughStar : MonoBehaviour
                     SaveSystem.instance.extraHolePoint = 1;
                     UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
                 }
-                DOVirtual.DelayedCall(2f, () =>
-                {
-                    GameManagerNew.Instance.conversationController.StartConversation(1, 4, () =>
-                    {
+               
                         UIManagerNew.Instance.NewBooster.Appear();
-                    });
-                });
-
             }
             CloseForPlay();
         }

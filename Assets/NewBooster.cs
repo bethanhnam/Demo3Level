@@ -41,7 +41,7 @@ public class NewBooster : MonoBehaviour
     }
     public void ShowThreshole()
     {
-        DOVirtual.DelayedCall(0.5f, () =>
+        DOVirtual.DelayedCall(0f, () =>
         {
             if (LevelManagerNew.Instance.stage == 1)
             {

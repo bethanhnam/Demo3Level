@@ -74,6 +74,7 @@ public class ThresholeController : MonoBehaviour
         if (thresholeDictionary.TryGetValue(thresholeName, out GameObject go1))
         {
             go1.gameObject.SetActive(true);
+            UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
         }
     }
     public void showNextThreshole(string thresholeName)
@@ -94,6 +95,7 @@ public class ThresholeController : MonoBehaviour
             DOVirtual.DelayedCall(0.5f, () =>
             {
                 go1.gameObject.SetActive(true);
+                UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
             });
         }
     }
@@ -116,6 +118,10 @@ public class ThresholeController : MonoBehaviour
             }
         }
         
+    }
+    public void ActiveBlock()
+    {
+        UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
     }
 }
 [System.Serializable]

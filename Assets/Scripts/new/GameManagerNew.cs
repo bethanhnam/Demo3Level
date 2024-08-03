@@ -577,7 +577,7 @@ public class GameManagerNew : MonoBehaviour
             {
                 if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
                 {
-                    conversationController.StartConversation(1, 11, () =>
+                    conversationController.StartConversation(1, 11, "8FirstMap2", () =>
                     {
                         UIManagerNew.Instance.ButtonMennuManager.Appear();
                         UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);

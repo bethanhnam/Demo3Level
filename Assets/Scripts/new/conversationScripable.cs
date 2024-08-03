@@ -19,6 +19,10 @@ public class conversationScripable : ScriptableObject
     public int indexChat;
     public bool isconnectLine;
 
+    public Conversation mom;
+    public Conversation child;
+    public List<Conversation> listCharacters = new List<Conversation>();
+
     public MyCharacter selectedCharacter;
     public enum MyCharacter
     {
@@ -53,7 +57,15 @@ public class conversationScripable : ScriptableObject
         }
         if (conversationType == ConversationType.connectConver)
         {
-            CreateLineForConnect(ChangeCharacter(ChangeToInt()), indexCharacterEmo, isconnectLine, action);
+            if (character1Lines.Length < 3)
+            {
+                CreateLineForConnect(ChangeCharacter(ChangeToInt()), indexCharacterEmo, isconnectLine, action);
+            }
+            else
+            {
+                listCharacters.Clear();
+                CreateSliderConversation(ChangeToInt(), indexCharacterEmo, isconnectLine, action);
+            }
         }
     }
 
@@ -119,6 +131,35 @@ public class conversationScripable : ScriptableObject
             }
         }
     }
+    public void CreateSliderConversation(int i, int indexCharacterEmo, bool isconnectLine, Action action)
+    {
+        if (indexChat < character1Lines.Length)
+        {
+            CreateCharacter(indexCharacterEmo, i);
+            DOVirtual.DelayedCall(0.3f, () =>
+            {
+                listCharacters[i].StartDialogue(listCharacters[i].index, () =>
+                {
+                    indexChat++;
+                    CreateSliderConversation(ChangeCharacter(indexChar), indexCharacterEmo, isconnectLine, action);
+                }, character1Lines[indexChat]);
+            });
+        }
+        else
+        {
+            if (!isconnectLine)
+            {
+                ConversationController.instance.DeteleSlideCoversation();
+                action();
+
+            }
+            else
+            {
+                action();
+
+            }
+        }
+    }
     public int ChangeCharacter(int currentCharacter)
     {
         var x = 0;
@@ -139,5 +180,14 @@ public class conversationScripable : ScriptableObject
         ConversationController.instance.Conversations[indexCharacter].ChangeEmo(indexCharacterEmo);
         ConversationController.instance.Conversations[indexCharacter].gameObject.SetActive(true);
         ConversationController.instance.Conversations[indexCharacter].animator.enabled = true;
+    }
+    public void CreateCharacter(int indexCharacterEmo, int indexCharacter)
+    {
+        Vector3 SpawnPos = new Vector3(ConversationController.instance.Conversations[indexCharacter].transform.position.x, ConversationController.instance.Conversations[indexCharacter].transform.position.y - indexChat * 205, ConversationController.instance.Conversations[indexCharacter].transform.position.z);
+        var character = GameObject.Instantiate(ConversationController.instance.Conversations[indexCharacter], SpawnPos, Quaternion.identity, ConversationController.instance.transform);
+        listCharacters.Add(character);
+        character.ChangeEmo(indexCharacter);
+        character.gameObject.SetActive(true);
+        character.animator.enabled = true;
     }
 }

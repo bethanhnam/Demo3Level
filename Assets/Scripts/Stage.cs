@@ -586,7 +586,7 @@ public class Stage : MonoBehaviour
                                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
                                 DOVirtual.DelayedCall(0.7f, () =>
                                 {
-                                    GameManagerNew.Instance.conversationController.StartConversation(1, 5, () =>
+                                    GameManagerNew.Instance.conversationController.StartConversation(1, 12, "6UnscrewTutor", () =>
                                     {
                                         UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                                     });
@@ -980,13 +980,11 @@ public class Stage : MonoBehaviour
             SaveSystem.instance.unscrewPoint = 1;
             UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
         }
-        GameManagerNew.Instance.conversationController.StartConversation(1, 13, () =>
-        {
-            UIManagerNew.Instance.NewBooster.SetValue(1);
-            UIManagerNew.Instance.NewBooster.Appear();
-            GamePlayPanelUIManager.Instance.boosterBar.disableDeteleWatchAdsBT();
-            GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
-        });
+
+        UIManagerNew.Instance.NewBooster.SetValue(1);
+        UIManagerNew.Instance.NewBooster.Appear();
+        GamePlayPanelUIManager.Instance.boosterBar.disableDeteleWatchAdsBT();
+        GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
         GamePlayPanelUIManager.Instance.boosterBar.disableDeteleWatchAdsBT();
         //GamePlayPanelUIManager.Instance.boosterBar.SetPoiterPos(0);
         GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);

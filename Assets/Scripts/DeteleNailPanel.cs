@@ -164,7 +164,7 @@ public class DeteleNailPanel : MonoBehaviour
             {
                 if (LevelManagerNew.Instance.stage == 3 && hasUseTutor)
                 {
-                    GameManagerNew.Instance.conversationController.StartConversation(1, 12, () =>
+                    GameManagerNew.Instance.conversationController.StartConversation(1, 12, "UnscrewTutor", () =>
                     {
                         GamePlayPanelUIManager.Instance.ActiveTime();
                     });

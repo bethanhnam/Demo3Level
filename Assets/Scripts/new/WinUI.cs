@@ -183,26 +183,26 @@ public class WinUI : MonoBehaviour
                             //        GameManagerNew.Instance.CheckForTutorFix();
                             //    });
                             //}
-                            if (LevelManagerNew.Instance.stage == 4)
-                            {
-                                GameManagerNew.Instance.conversationController.StartConversation(1, 7, () =>
-                                {
-                                    GameManagerNew.Instance.conversationController.StartConversation(1, 8, () =>
-                                    {
-                                        // đổi playbutton thành questbutton
-                                    });
-                                });
-                            }
-                            if (LevelManagerNew.Instance.stage == 7)
-                            {
-                                GameManagerNew.Instance.conversationController.StartConversation(1, 9, () =>
-                                {
-                                    // đổi playbutton thành questbutton
-                                });
-                            }
+                            //if (LevelManagerNew.Instance.stage == 4)
+                            //{
+                            //    GameManagerNew.Instance.conversationController.StartConversation(1, 7, () =>
+                            //    {
+                            //        GameManagerNew.Instance.conversationController.StartConversation(1, 8, () =>
+                            //        {
+                            //            // đổi playbutton thành questbutton
+                            //        });
+                            //    });
+                            //}
+                            //if (LevelManagerNew.Instance.stage == 7)
+                            //{
+                            //    GameManagerNew.Instance.conversationController.StartConversation(1, 9, () =>
+                            //    {
+                            //        // đổi playbutton thành questbutton
+                            //    });
+                            //}
                             if (LevelManagerNew.Instance.stage == 8)
                             {
-                                GameManagerNew.Instance.conversationController.StartConversation(1, 10, () =>
+                                GameManagerNew.Instance.conversationController.StartConversation(1, 10, "7AfterLevel9",() =>
                                 {
                                     
                                 });

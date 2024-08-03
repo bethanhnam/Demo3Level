@@ -73,7 +73,7 @@ public class FixItemUI : MonoBehaviour
                         AudioManager.instance.PlaySFX("Laugh");
                         if (LevelManagerNew.Instance.LevelBase.Level == 0)
                         {
-                            GameManagerNew.Instance.conversationController.StartConversation(1, 3, () =>
+                            GameManagerNew.Instance.conversationController.StartConversation(1, 3, "4AafterFirstFix", () =>
                             {
                             });
                         }

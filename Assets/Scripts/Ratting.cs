@@ -99,12 +99,12 @@ public class Ratting : MonoBehaviour
 			{
 				if (LevelManagerNew.Instance.LevelBase.Level == 0)
 				{
-                    GameManagerNew.Instance.conversationController.StartConversation(1, 11, () =>
-                    {
+                    //GameManagerNew.Instance.conversationController.StartConversation(1, 11, "8FirstMap2", () =>
+                    //{
                         GameManagerNew.Instance.CompleteLevelAfterReward();
                         PlayerPrefs.SetInt("windowFixed", 0);
                         PlayerPrefs.SetInt("HasRecieveRW", 0);
-                    });
+                    //});
                 }
 				else
 				{

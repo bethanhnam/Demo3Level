@@ -94,7 +94,7 @@ public class ExtralHole : MonoBehaviour
             {
                 if (LevelManagerNew.Instance.stage == 1)
                 {
-                    GameManagerNew.Instance.conversationController.StartConversation(1, 5, () =>
+                    GameManagerNew.Instance.conversationController.StartConversation(1, 5, "5AfterUseBooster", () =>
                     {
                         GamePlayPanelUIManager.Instance.ActiveTime();
                     });

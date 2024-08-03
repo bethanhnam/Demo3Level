@@ -33,7 +33,7 @@ public class ConversationController : MonoBehaviour
 
     }
 
-    public void StartConversation(int indexCharacterEmo,int indexConversationScripable, Action action)
+    public void StartConversation(int indexCharacterEmo,int indexConversationScripable,String name, Action action)
     {
         this.gameObject.SetActive(true);
         CanvasGroup.interactable = true;
@@ -59,6 +59,36 @@ public class ConversationController : MonoBehaviour
             Conversations[j].textBox.text = string.Empty;
             Conversations[j].nextLine.gameObject.SetActive(false);
             Conversations[j].gameObject.SetActive(false);
+        }
+        for (int j = 0; j < conversationScripables.Count; j++)
+        {
+            conversationScripables[j].indexChat = 0;
+        }
+        CanvasGroup.DOFade(0, 0.5f).OnComplete(() =>
+        {
+            DOVirtual.DelayedCall(0.25f, () =>
+            {
+                if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+                {
+                    Stage.Instance.canInteract = true;
+                }
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+            });
+            CanvasGroup.interactable = false;
+            CanvasGroup.blocksRaycasts = false;
+            this.gameObject.SetActive(false);
+        });
+    }
+    public void DeteleSlideCoversation()
+    {
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+        for (int j = 0; j < conversationScripables[conversationScripableIndex].listCharacters.Count; j++)
+        {
+            Destroy(conversationScripables[conversationScripableIndex].listCharacters[j]);
+            if(j ==  conversationScripableIndex - 1)
+            {
+                conversationScripables[conversationScripableIndex].listCharacters.Clear();
+            }
         }
         for (int j = 0; j < conversationScripables.Count; j++)
         {
