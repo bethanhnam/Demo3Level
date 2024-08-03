@@ -17,6 +17,8 @@ public class ConversationController : MonoBehaviour
 
     public int indexCharacter;
 
+    public List<Conversation> listCharacters = new List<Conversation>();
+
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +35,7 @@ public class ConversationController : MonoBehaviour
 
     }
 
-    public void StartConversation(int indexCharacterEmo,int indexConversationScripable,String name, Action action)
+    public void StartConversation(int indexCharacterEmo, int indexConversationScripable, String name, Action action)
     {
         this.gameObject.SetActive(true);
         CanvasGroup.interactable = true;
@@ -41,8 +43,10 @@ public class ConversationController : MonoBehaviour
         conversationScripableIndex = indexConversationScripable;
         Appear();
         ResetData();
-        DOVirtual.DelayedCall(0.8f, () => {
-            DOVirtual.DelayedCall(0.3f, () => {
+        DOVirtual.DelayedCall(0.8f, () =>
+        {
+            DOVirtual.DelayedCall(0.3f, () =>
+            {
                 if (Stage.Instance != null)
                 {
                     Stage.Instance.canInteract = false;
@@ -82,12 +86,13 @@ public class ConversationController : MonoBehaviour
     public void DeteleSlideCoversation()
     {
         UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-        for (int j = 0; j < conversationScripables[conversationScripableIndex].listCharacters.Count; j++)
+        if (listCharacters.Count > 0)
         {
-            Destroy(conversationScripables[conversationScripableIndex].listCharacters[j]);
-            if(j ==  conversationScripableIndex - 1)
+            for (int j = listCharacters.Count -1; j >=0; j--)
             {
-                conversationScripables[conversationScripableIndex].listCharacters.Clear();
+                var x = listCharacters[j]; 
+                listCharacters.RemoveAt(j);
+                x.gameObject.SetActive(false);
             }
         }
         for (int j = 0; j < conversationScripables.Count; j++)
@@ -120,9 +125,9 @@ public class ConversationController : MonoBehaviour
     }
     public void ResetData()
     {
-        for(int j = 0;j < Conversations.Length; j++)
+        for (int j = 0; j < Conversations.Length; j++)
         {
-            
+
             Conversations[j].index = 0;
         }
     }
