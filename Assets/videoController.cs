@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class VideoController : MonoBehaviour
@@ -16,6 +17,9 @@ public class VideoController : MonoBehaviour
 
     public bool canInit = true;
     public bool canCreate = true;
+    public bool canSkip = true;
+
+    public Button skipButton;
 
     public List<VideoClip> videoList;
     //public List<VideoClip> videoActionList;
@@ -27,13 +31,32 @@ public class VideoController : MonoBehaviour
     }
     private void Start()
     {
+        canSkip = true;
         var x = PlayerPrefs.GetInt("videoIndex");
         videoPlayer.clip = videoList[x];
         videoPlayer.Prepare();
+        if (!LoadingScreen.instance.HasFinishedStory())
+        {
+            skipButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            skipButton.gameObject.SetActive(false);
+        }
+    }
+    private void Update()
+    {
+        if (canSkip) {
+            skipButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            skipButton.gameObject.SetActive(false);
+        }
     }
     public void CheckStartVideo()
     {
-        PlayerPrefs.SetInt("videoIndex", 3);
+        //PlayerPrefs.SetInt("videoIndex", 3);
         var x = PlayerPrefs.GetInt("videoIndex");
         if (x == 0)
         {
@@ -57,6 +80,7 @@ public class VideoController : MonoBehaviour
         if (this.videoIndex == videoList.Count - 1)
         {
             PlayerPrefs.SetString("HasFinishedStory", "true");
+            skipButton.gameObject.SetActive(false);
             FirebaseAnalyticsControl.Instance.completeTutor();
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();
@@ -114,9 +138,9 @@ public class VideoController : MonoBehaviour
         {
             UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
             {
-
                 if (canCreate)
                 {
+                    canSkip = false;
                     if (videoIndex == 0)
                     {
                         GameManagerNew.Instance.InitStartStoryPic(0);
@@ -143,5 +167,15 @@ public class VideoController : MonoBehaviour
             });
         }
 
+    }
+    public void SkipVideo()
+    {
+        if (canSkip && videoIndex != 3)
+        {
+            long videoLength = (long)videoList[videoIndex].frameCount;
+            videoPlayer.frame = videoLength;
+            videoPlayer.loopPointReached += LoadingVideo;
+            canCreate = true;
+        }
     }
 }

@@ -24,7 +24,6 @@ public class DeteleNailPanel : MonoBehaviour
     //text 
     public TextMeshProUGUI minusText;
 
-    public bool isLock = false;
     public bool canInteract = true;
     private void Start()
     {
@@ -103,8 +102,6 @@ public class DeteleNailPanel : MonoBehaviour
     public void CheckNumOfUse()
     {
         numOfUsedText.text = ("X" + (numOfUsed).ToString());
-        if (!isLock)
-        {
             if (numOfUsed == 1)
             {
                 Interactable();
@@ -113,11 +110,7 @@ public class DeteleNailPanel : MonoBehaviour
             {
                 Uniteractable();
             }
-        }
-    }
-    public void LockOrUnlock(bool status)
-    {
-        isLock = status;
+        
     }
     public void Uniteractable()
     {
@@ -167,7 +160,7 @@ public class DeteleNailPanel : MonoBehaviour
                     GameManagerNew.Instance.conversationController.StartConversation(1, 12, "UnscrewTutor", () =>
                     {
                         GamePlayPanelUIManager.Instance.ActiveTime();
-                    });
+                    },true);
                     AudioManager.instance.PlaySFX("ClosePopUp");
 
                     if (Stage.Instance.isWining)

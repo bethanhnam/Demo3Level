@@ -20,10 +20,6 @@ public class conversationScripable : ScriptableObject
     public int indexChat;
     public bool isconnectLine;
 
-    public Conversation mom;
-    public Conversation child;
-    
-
     public MyCharacter selectedCharacter;
     public enum MyCharacter
     {
@@ -50,12 +46,12 @@ public class conversationScripable : ScriptableObject
         return x;
     }
 
-    public void StartConversation(int indexCharacterEmo, bool isconnectLine, Action action)
+    public void StartConversation(int indexCharacterEmo, bool isconnectLine, Action action,bool setPos)
     {
         indexChat = 0;
         if (conversationType == ConversationType.singleConver)
         {
-            CreateLineForSingle(indexCharacterEmo, ChangeToInt(), isconnectLine, action);
+            CreateLineForSingle(indexCharacterEmo, ChangeToInt(), isconnectLine, action, setPos);
         }
         if (conversationType == ConversationType.connectConver)
         {
@@ -71,13 +67,13 @@ public class conversationScripable : ScriptableObject
         }
     }
 
-    public void CreateLineForSingle(int indexCharacterEmo, int i,bool isconnectLine, Action action)
+    public void CreateLineForSingle(int indexCharacterEmo, int i,bool isconnectLine, Action action, bool setPos = false)
     {
         if (indexChat < character1Lines.Length)
         {
             if (!ConversationController.instance.Conversations[i].gameObject.activeSelf)
             {
-                Appear(indexCharacterEmo,i);
+                AppearForSingle(indexCharacterEmo,i, setPos);
             }
             DOVirtual.DelayedCall(0.3f, () =>
             {
@@ -107,7 +103,7 @@ public class conversationScripable : ScriptableObject
         {
             if (!ConversationController.instance.Conversations[i].gameObject.activeSelf)
             {
-                Appear(indexCharacterEmo, i);
+                AppearForConnect(indexCharacterEmo, i);
             }
             DOVirtual.DelayedCall(0.3f, () =>
             {
@@ -153,12 +149,10 @@ public class conversationScripable : ScriptableObject
             {
                 ConversationController.instance.DeteleSlideCoversation();
                 action();
-
             }
             else
             {
                 action();
-
             }
         }
     }
@@ -181,15 +175,30 @@ public class conversationScripable : ScriptableObject
         }
         return x;
     }
-    public void Appear(int indexCharacterEmo, int indexCharacter)
+    public void AppearForSingle(int indexCharacterEmo, int indexCharacter,bool SetPos)
     {
+        if (SetPos) {
+            ConversationController.instance.Conversations[indexCharacter].transform.position = new Vector3(ConversationController.instance.Conversations[indexCharacter].transform.position.x, -6, 0);
+        }
+        else
+        {
+            ConversationController.instance.Conversations[indexCharacter].transform.position = new Vector3(ConversationController.instance.Conversations[indexCharacter].transform.position.x,0,0);
+        }
+        ConversationController.instance.Conversations[indexCharacter].ChangeEmo(indexCharacterEmo);
+        ConversationController.instance.Conversations[indexCharacter].gameObject.SetActive(true);
+        ConversationController.instance.Conversations[indexCharacter].animator.enabled = true;
+    }
+    public void AppearForConnect(int indexCharacterEmo, int indexCharacter)
+    {
+        Vector3 SpawnPos = new Vector3(ConversationController.instance.Conversations[indexCharacter].transform.position.x, 3 - indexChat * 3, ConversationController.instance.Conversations[indexCharacter].transform.position.z);
+        ConversationController.instance.Conversations[indexCharacter].transform.position = SpawnPos;
         ConversationController.instance.Conversations[indexCharacter].ChangeEmo(indexCharacterEmo);
         ConversationController.instance.Conversations[indexCharacter].gameObject.SetActive(true);
         ConversationController.instance.Conversations[indexCharacter].animator.enabled = true;
     }
     public void CreateCharacter(int indexCharacterEmo, int indexCharacter)
     {
-        Vector3 SpawnPos = new Vector3(ConversationController.instance.Conversations[indexCharacter].transform.position.x, ConversationController.instance.Conversations[1].transform.position.y - indexChat * 4, ConversationController.instance.Conversations[indexCharacter].transform.position.z);
+        Vector3 SpawnPos = new Vector3(ConversationController.instance.Conversations[indexCharacter].transform.position.x, 3 - indexChat * 3, ConversationController.instance.Conversations[indexCharacter].transform.position.z);
         var character = GameObject.Instantiate(ConversationController.instance.Conversations[indexCharacter], SpawnPos, Quaternion.identity, ConversationController.instance.transform);
         ConversationController.instance.listCharacters.Add(character);
         character.ChangeEmo(indexCharacter);

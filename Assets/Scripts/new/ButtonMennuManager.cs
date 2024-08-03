@@ -15,6 +15,8 @@ public class ButtonMennuManager : MonoBehaviour
     private RewardMove rewardMove;
     [SerializeField]
     public StarMove starMove;
+    public GameObject[] noticeButtons;
+
 
     private int appearButton = Animator.StringToHash("appear");
     private int disappearButton = Animator.StringToHash("disappear");
@@ -51,6 +53,14 @@ public class ButtonMennuManager : MonoBehaviour
                 {
                     GameManagerNew.Instance.CheckForTutorFix();
                 });
+            }
+            CheckDailyNotice();
+            if (LevelManagerNew.Instance.stage <= 3)
+            {
+                noticeButtons[0].gameObject.SetActive(false);
+            }
+            else{
+                noticeButtons[0].gameObject.SetActive(true);
             }
         }
     }
@@ -205,7 +215,7 @@ public class ButtonMennuManager : MonoBehaviour
                             GameManagerNew.Instance.conversationController.StartConversation(1, 1, "2SecondConver", () =>
                             {
                                 Stage.Instance.TutorLevel1();
-                            });
+                            },true);
                         }
                         if (LevelManagerNew.Instance.stage == 1)
                         {
@@ -216,8 +226,14 @@ public class ButtonMennuManager : MonoBehaviour
                                 SaveSystem.instance.extraHolePoint = 1;
                                 UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
                             }
-                                UIManagerNew.Instance.NewBooster.SetValue(0);
+                            UIManagerNew.Instance.NewBooster.SetValue(0);
+                            DOVirtual.DelayedCall(0.5f, () => {
+                                if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+                                {
+                                    Stage.Instance.canInteract = false;
+                                }
                                 UIManagerNew.Instance.NewBooster.Appear();
+                            });
                         }
                     });
                     GameManagerNew.Instance.CreateLevel(level);
@@ -232,7 +248,7 @@ public class ButtonMennuManager : MonoBehaviour
         int level = 0;
         UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         UIManagerNew.Instance.GamePlayLoading.appear();
-        
+
         DOVirtual.DelayedCall(.7f, () =>
         {
             DOVirtual.DelayedCall(.95f, () =>
@@ -284,11 +300,34 @@ public class ButtonMennuManager : MonoBehaviour
     }
     public void ShowPointer()
     {
-        UIManagerNew.Instance.PlayButton.gameObject.SetActive(false);
+        if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
+        {
+            UIManagerNew.Instance.GamePlayPanel.DeactiveTime();
+        }
+        if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+        {
+            Stage.Instance.canInteract = false;
+        }
         UIManagerNew.Instance.ThresholeController.showThreshole("playButton", UIManagerNew.Instance.PlayButton.transform.localScale, UIManagerNew.Instance.PlayButton.transform);
     }
     public void activePlayButton()
     {
         UIManagerNew.Instance.PlayButton.gameObject.SetActive(true);
+    } 
+    public void ShowNoticeIcon(int i,bool status)
+    {
+        noticeButtons[i].transform.GetChild(0).gameObject.SetActive(status);
+    }
+    public void CheckDailyNotice() {
+        string lastClaimTime = PlayerPrefs.GetString("LastClaimTime", string.Empty);
+        string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+        if (lastClaimTime.Equals(currentDate))
+        {
+            ShowNoticeIcon(0, false);
+        }
+        else
+        {
+            ShowNoticeIcon(0, true);
+        }
     }
 }

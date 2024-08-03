@@ -137,9 +137,7 @@ public class Stage : MonoBehaviour
             {
                 transform.DOScale(GameManagerNew.Instance.TargetScale, 0.4f).OnComplete(() =>
                 {
-
                     canInteract = true;
-
                     DOVirtual.DelayedCall(0.3f, () =>
                     {
                         isScaling = false;
@@ -238,7 +236,7 @@ public class Stage : MonoBehaviour
         EverythingStayStill(true);
         canInteract = false;
         isScaling = true;
-        transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
+        transform.DOScale(Vector3.one, 0.7f).OnComplete(() =>
         {
             if (isDes)
             {
@@ -516,11 +514,10 @@ public class Stage : MonoBehaviour
                     Debug.Log("chay vào đây khi hết thanh gỗ");
                     if (!UIManagerNew.Instance.PausePanel.gameObject.activeSelf && !UIManagerNew.Instance.UndoPanel.gameObject.activeSelf && !UIManagerNew.Instance.DeteleNailPanel.gameObject.activeSelf && !UIManagerNew.Instance.ExtralHolePanel.gameObject.activeSelf)
                     {
-                        AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_win, () =>
+                        if (LevelManagerNew.Instance.stage == 0 || LevelManagerNew.Instance.stage == 1)
                         {
                             AdsControl.Instance.ActiveBlockFaAds(false);
                             Debug.Log("sau khi show ads");
-                            //UIManagerNew.Instance.GamePlayPanel.Close();
                             LevelManagerNew.Instance.NextStage();
                             DOVirtual.DelayedCall(0.3f, () =>
                             {
@@ -528,7 +525,22 @@ public class Stage : MonoBehaviour
                                 UIManagerNew.Instance.CompleteUI.Appear();
                                 canInteract = false;
                             });
-                        }, null);
+                        }
+                        else
+                        {
+                            AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_win, () =>
+                            {
+                                AdsControl.Instance.ActiveBlockFaAds(false);
+                                Debug.Log("sau khi show ads");
+                                LevelManagerNew.Instance.NextStage();
+                                DOVirtual.DelayedCall(0.3f, () =>
+                                {
+                                    AudioManager.instance.PlaySFX("CompletePanel");
+                                    UIManagerNew.Instance.CompleteUI.Appear();
+                                    canInteract = false;
+                                });
+                            }, null);
+                        }
                     }
                     else
                     {
@@ -583,14 +595,9 @@ public class Stage : MonoBehaviour
                             if (UIManagerNew.Instance.DeteleNailPanel.hasUseTutor == true)
                             {
                                 UIManagerNew.Instance.DeteleNailPanel.hasUseTutor = false;
-                                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-                                DOVirtual.DelayedCall(0.7f, () =>
-                                {
-                                    GameManagerNew.Instance.conversationController.StartConversation(1, 12, "6UnscrewTutor", () =>
-                                    {
-                                        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
-                                    });
-                                });
+                                UIManagerNew.Instance.GamePlayPanel.boosterBar.freeUnscrewImg.gameObject.SetActive(false);
+                                UIManagerNew.Instance.GamePlayPanel.boosterBar.unscrewNumImg.gameObject.SetActive(true);
+
                             }
                         }
                     }
@@ -854,7 +861,6 @@ public class Stage : MonoBehaviour
         UIManagerNew.Instance.UndoPanel.numOfUsed = 1;
         //UIManagerNew.Instance.RePlayPanel.numOfUsed = 1;
         UIManagerNew.Instance.LosePanel.hasUse = false;
-        UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(true);
         TutorUnscrew();
         DeactiveDeleting();
 
@@ -864,29 +870,9 @@ public class Stage : MonoBehaviour
     {
         if (LevelManagerNew.Instance.stage == 3 && !GameManagerNew.Instance.isStory && GamePlayPanelUIManager.Instance.gameObject.activeSelf)
         {
-            //tuto undo 
+            //tuto unscrew
             isTutor = true;
-            //GamePlayPanelUIManager.Instance.ActiveBlackPic(true);
-            UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(false);
-
-            //anim unlock
-            //var x = Instantiate(ParticlesManager.instance.StarParticleObject, GamePlayPanelUIManager.Instance.DeteleButton.transform.position, Quaternion.identity, this.transform);
-            //ParticleSystem particle = x.transform.GetChild(0).GetComponent<ParticleSystem>();
-            //var shape = particle.shape;
-            //         shape.sprite = GamePlayPanelUIManager.Instance.DeteleButton.image.sprite;
-            //         Destroy(x, 1f);
             Invoke("showUnscrewTuTor", 0.5f);
-
-        }
-        else if (LevelManagerNew.Instance.stage > 3)
-        {
-            UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(false);
-            GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
-        }
-        else if (LevelManagerNew.Instance.stage < 3)
-        {
-            UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(true);
-            GamePlayPanelUIManager.Instance.boosterBar.UninteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
         }
     }
     public void TutorLevel1()
@@ -980,15 +966,14 @@ public class Stage : MonoBehaviour
             SaveSystem.instance.unscrewPoint = 1;
             UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
         }
-
         UIManagerNew.Instance.NewBooster.SetValue(1);
-        UIManagerNew.Instance.NewBooster.Appear();
-        GamePlayPanelUIManager.Instance.boosterBar.disableDeteleWatchAdsBT();
-        GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
-        GamePlayPanelUIManager.Instance.boosterBar.disableDeteleWatchAdsBT();
-        //GamePlayPanelUIManager.Instance.boosterBar.SetPoiterPos(0);
-        GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
-        //GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
+        DOVirtual.DelayedCall(0.5f, () => {
+            if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+            {
+                Stage.Instance.canInteract = false;
+            }
+            UIManagerNew.Instance.NewBooster.Appear();
+        });
     }
 
     public void showLevel1Tutor()

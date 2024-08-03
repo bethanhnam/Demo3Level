@@ -176,23 +176,22 @@ public class WinUI : MonoBehaviour
                             
                         }
                         DOVirtual.DelayedCall(.5f, () => {
-                            //if (LevelManagerNew.Instance.stage == 1)
-                            //{
-                            //    GameManagerNew.Instance.conversationController.StartConversation(1, 2, () =>
-                            //    {
-                            //        GameManagerNew.Instance.CheckForTutorFix();
-                            //    });
-                            //}
-                            //if (LevelManagerNew.Instance.stage == 4)
-                            //{
-                            //    GameManagerNew.Instance.conversationController.StartConversation(1, 7, () =>
-                            //    {
-                            //        GameManagerNew.Instance.conversationController.StartConversation(1, 8, () =>
-                            //        {
-                            //            // đổi playbutton thành questbutton
-                            //        });
-                            //    });
-                            //}
+                            if (LevelManagerNew.Instance.stage == 4)
+                            {
+                               if(PlayerPrefs.GetInt("GiveAwayBooster") == 0)
+                                {
+                                    PlayerPrefs.SetInt("GiveAwayBooster", 1);
+                                    SaveSystem.instance.AddBooster(2, 2, 2);
+                                    SaveSystem.instance.SaveData();
+                                }
+                            }
+                            if (LevelManagerNew.Instance.stage == 4)
+                            {
+                                UIManagerNew.Instance.WelcomePresent.Appear();
+                                GameManagerNew.Instance.conversationController.StartConversation(1, 14,"WelcomePresent", () =>
+                                {
+                                });
+                            }
                             //if (LevelManagerNew.Instance.stage == 7)
                             //{
                             //    GameManagerNew.Instance.conversationController.StartConversation(1, 9, () =>

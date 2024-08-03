@@ -963,7 +963,7 @@
 //            if (obj.GetChild(j).gameObject.tag == "square")
 //            {
 //                Transform transform = obj.GetChild(j);
-//                transform.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Story 1 - 2/bar/bar (2)");
+//                transform.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("ResoucesMap/Story 1 - 2/bar/bar (2)");
 //                transform.localPosition = new Vector3(0, -0.10810812f, 1f);
 //                for (int i = transform.childCount - 1; i >= 0; i--)
 //                {
@@ -1043,7 +1043,6 @@
 //    [MenuItem("Component/changeNewMaterialRebuild")]
 //    public static void changeNewMaterialRebuild()
 //    {
-//        Transform obj = Selection.activeTransform;
 //        string IronLayer1 = "IronLayer1";
 //        string IronLayer2 = "IronLayer2";
 //        string IronLayer3 = "IronLayer3";
@@ -1161,7 +1160,7 @@
 //                    transform.AddComponent<BoxCollider2D>();
 //                    transform.GetComponent<BoxCollider2D>().isTrigger = true;
 
-//                    transform.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Story 1 - 2/bar/bar (2)");
+//                    transform.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("ResoucesMap/Story 1 - 2/bar/bar (2)");
 //                }
 //            }
 //        }
@@ -1411,21 +1410,21 @@
 //        obj.GetComponent<Stage>().holeToUnlock = null;
 //        obj.transform.position = Vector3.zero;
 //        for (int i = 0; i < obj.childCount; i++)
-//            {
+//        {
 //            if (obj.GetChild(i).gameObject.tag == "square")
+//            {
+//                for (int k = 0; k < obj.GetChild(i).childCount; i++)
 //                {
-//                    for (int k = 0; k < obj.GetChild(i).childCount; i++)
+//                    if (obj.GetChild(i).GetChild(k).transform.name == "ExtraHole")
 //                    {
-//                        if (obj.GetChild(i).GetChild(k).transform.name == "ExtraHole")
-//                        {
-//                            obj.GetComponent<Stage>().holeToUnlock = obj.GetChild(i).GetChild(k).GetComponent<ExtraHoleButton>();
-//                            SavePrefab(obj.gameObject);
-//                        }
-//                        if (obj.GetChild(i).GetChild(k).transform.name == "InputManager")
-//                        {
-//                            DestroyImmediate(obj.GetChild(i).GetChild(k).gameObject);
-//                        }
+//                        obj.GetComponent<Stage>().holeToUnlock = obj.GetChild(i).GetChild(k).GetComponent<ExtraHoleButton>();
+//                        SavePrefab(obj.gameObject);
 //                    }
+//                    if (obj.GetChild(i).GetChild(k).transform.name == "InputManager")
+//                    {
+//                        DestroyImmediate(obj.GetChild(i).GetChild(k).gameObject);
+//                    }
+//                }
 //            }
 //        }
 //    }
@@ -1442,8 +1441,8 @@
 //        if (AssetDatabase.LoadAssetAtPath(localPath, typeof(GameObject)))
 //        {
 //            // Ghi đè prefab cũ
-            
-//                CreateNewPrefab(obj, localPath);
+
+//            CreateNewPrefab(obj, localPath);
 //        }
 //        else
 //        {

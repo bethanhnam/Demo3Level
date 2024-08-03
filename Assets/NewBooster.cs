@@ -23,11 +23,19 @@ public class NewBooster : MonoBehaviour
     public Animator animator;
     public void Appear()
     {
+        AudioManager.instance.PlaySFX("ItemAppear");
         this.gameObject.SetActive(true);
         canvasGroup.enabled = true;
-        canvasGroup.DOFade(1, 1).OnComplete(() =>
+        DOVirtual.DelayedCall(0.5f, () =>
         {
             animator.enabled = true;
+        });
+        canvasGroup.DOFade(1, 1).OnComplete(() =>
+        {
+            if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+            {
+                Stage.Instance.canInteract = false;
+            }
         });
     }
     public void Disappear()
@@ -41,17 +49,23 @@ public class NewBooster : MonoBehaviour
     }
     public void ShowThreshole()
     {
-        DOVirtual.DelayedCall(0f, () =>
+        if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
         {
-            if (LevelManagerNew.Instance.stage == 1)
-            {
-                UIManagerNew.Instance.ThresholeController.showThreshole("extrahole", Stage.Instance.holeToUnlock.transform.localScale, Stage.Instance.holeToUnlock.transform);
-            }
-            if (LevelManagerNew.Instance.stage == 3)
-            {
-                UIManagerNew.Instance.ThresholeController.showThreshole("unscrew", GamePlayPanelUIManager.Instance.boosterBar.deteleBT.transform.localScale, GamePlayPanelUIManager.Instance.boosterBar.deteleBT.transform);
-            }
-        });
+            UIManagerNew.Instance.GamePlayPanel.DeactiveTime();
+        }
+        if(Stage.Instance !=null && Stage.Instance.gameObject.activeSelf)
+        {
+            Stage.Instance.canInteract = false;
+        }
+        if (LevelManagerNew.Instance.stage == 1)
+        {
+            UIManagerNew.Instance.ThresholeController.showThreshole("extrahole", Stage.Instance.holeToUnlock.transform.localScale, Stage.Instance.holeToUnlock.transform);
+        }
+        if (LevelManagerNew.Instance.stage == 3)
+        {
+            UIManagerNew.Instance.ThresholeController.showThreshole("unscrew", GamePlayPanelUIManager.Instance.boosterBar.deteleBT.transform.localScale, GamePlayPanelUIManager.Instance.boosterBar.deteleBT.transform);
+        }
+
     }
     public void SetValue(int indexSprite)
     {

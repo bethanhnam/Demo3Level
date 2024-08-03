@@ -35,8 +35,12 @@ public class ConversationController : MonoBehaviour
 
     }
 
-    public void StartConversation(int indexCharacterEmo, int indexConversationScripable, String name, Action action)
+    public void StartConversation(int indexCharacterEmo, int indexConversationScripable, String name, Action action,bool setpos = false)
     {
+        if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
+        {
+            UIManagerNew.Instance.GamePlayPanel.DeactiveTime();
+        }
         this.gameObject.SetActive(true);
         CanvasGroup.interactable = true;
         CanvasGroup.blocksRaycasts = true;
@@ -52,11 +56,15 @@ public class ConversationController : MonoBehaviour
                     Stage.Instance.canInteract = false;
                 }
             });
-            conversationScripables[indexConversationScripable].StartConversation(indexCharacterEmo, conversationScripables[indexConversationScripable].isconnectLine, action);
+            conversationScripables[indexConversationScripable].StartConversation(indexCharacterEmo, conversationScripables[indexConversationScripable].isconnectLine, action, setpos);
         });
     }
     public void Disappear()
     {
+        if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
+        {
+            UIManagerNew.Instance.GamePlayPanel.ActiveTime();
+        }
         UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         for (int j = 0; j < Conversations.Length; j++)
         {
