@@ -20,10 +20,6 @@ public class conversationScripable : ScriptableObject
     public int indexChat;
     public bool isconnectLine;
 
-    public Conversation mom;
-    public Conversation child;
-    
-
     public MyCharacter selectedCharacter;
     public enum MyCharacter
     {

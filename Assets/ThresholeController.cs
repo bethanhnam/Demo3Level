@@ -60,13 +60,13 @@ public class ThresholeController : MonoBehaviour
         {
             Stage.Instance.canInteract = true;
         }
+        UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
         CanvasGroup.DOFade(0, 1f).OnComplete(() =>
         {
             CanvasGroup.interactable = false;
             CanvasGroup.blocksRaycasts = false;
             CanvasGroup.enabled = false;
             this.gameObject.SetActive(false);
-            UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
         });
     }
     [Button("TestThreshole")]
