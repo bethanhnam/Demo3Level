@@ -100,7 +100,7 @@ public class NotEnoughStar : MonoBehaviour
                     SaveSystem.instance.extraHolePoint = 1;
                     UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
                 }
-                DOVirtual.DelayedCall(0.5f, () => { 
+                DOVirtual.DelayedCall(1.7f, () => { 
                 if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
                 {
                     Stage.Instance.canInteract = false;

@@ -51,8 +51,9 @@ public class GamePlayPanelUIManager : MonoBehaviour
     public GameObject goodJob;
     public bool hasOpen;
 
-    //Drill Effect
-    public SkeletonGraphic drillEffect;
+    //Booster Effect
+    public GameObject unscrewEffect;
+    public GameObject drillEffect;
     private void Awake()
     {
         Instance = this;
@@ -79,7 +80,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
     {
         if (LevelManagerNew.Instance.stage >= 3)
         {
-           boosterBar.gameObject.SetActive(true);
+            boosterBar.gameObject.SetActive(true);
         }
         else
         {
@@ -128,7 +129,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
 
     public void Close(bool _destroy = false)
     {
-        
+
         cvButton.blocksRaycasts = false;
         animButton.Play(disappearButton);
     }
@@ -267,18 +268,34 @@ public class GamePlayPanelUIManager : MonoBehaviour
     {
         blackPic.gameObject.SetActive(status);
     }
-    public void activeAnimation(Animator button,bool status)
+    public void activeAnimation(Animator button, bool status)
     {
         button.enabled = status;
     }
     public void ShowDrillEffect(Action action)
     {
-        drillEffect.transform.position = new Vector3(Stage.Instance.holeToUnlock.transform.position.x, Stage.Instance.holeToUnlock.transform.position.y, Stage.Instance.holeToUnlock.transform.position.z);
+        Stage.Instance.canInteract = false;
+        drillEffect.transform.GetChild(1).transform.position = new Vector3(Stage.Instance.holeToUnlock.transform.position.x, Stage.Instance.holeToUnlock.transform.position.y, Stage.Instance.holeToUnlock.transform.position.z);
+        drillEffect.transform.GetChild(1).transform.localScale = Stage.Instance.holeToUnlock.transform.localScale * 2;
         drillEffect.gameObject.SetActive(true);
         AudioManager.instance.PlaySFX("ExtraHole");
         DOVirtual.DelayedCall(1.5f, () =>
         {
+            Stage.Instance.holeToUnlock.shinningParticle.gameObject.SetActive(true);
             drillEffect.gameObject.SetActive(false);
+            Stage.Instance.canInteract = true;
+            action();
+        });
+    }
+    public void ShowUnscrewEffect(Action action)
+    {
+        Stage.Instance.canInteract = false;
+        unscrewEffect.gameObject.SetActive(true);
+        AudioManager.instance.PlaySFX("HeartBreak");
+        DOVirtual.DelayedCall(1.5f, () =>
+        {
+            unscrewEffect.gameObject.SetActive(false);
+            Stage.Instance.canInteract = true;
             action();
         });
     }

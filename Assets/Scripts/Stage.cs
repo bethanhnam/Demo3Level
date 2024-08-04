@@ -236,7 +236,7 @@ public class Stage : MonoBehaviour
         EverythingStayStill(true);
         canInteract = false;
         isScaling = true;
-        transform.DOScale(Vector3.one, 0.7f).OnComplete(() =>
+        transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
         {
             if (isDes)
             {
@@ -518,12 +518,22 @@ public class Stage : MonoBehaviour
                         {
                             AdsControl.Instance.ActiveBlockFaAds(false);
                             Debug.Log("sau khi show ads");
-                            LevelManagerNew.Instance.NextStage();
                             DOVirtual.DelayedCall(0.3f, () =>
                             {
                                 AudioManager.instance.PlaySFX("CompletePanel");
-                                UIManagerNew.Instance.CompleteUI.Appear();
-                                canInteract = false;
+                                if (LevelManagerNew.Instance.stage == 0)
+                                {
+                                    DOVirtual.DelayedCall(0.3f, () =>
+                                    {
+                                        UIManagerNew.Instance.CompleteUI.Appear();
+                                        canInteract = false;
+                                    });
+                                }
+                                else
+                                {
+                                    UIManagerNew.Instance.CompleteUI.Appear();
+                                    canInteract = false;
+                                }
                             });
                         }
                         else
@@ -532,12 +542,22 @@ public class Stage : MonoBehaviour
                             {
                                 AdsControl.Instance.ActiveBlockFaAds(false);
                                 Debug.Log("sau khi show ads");
-                                LevelManagerNew.Instance.NextStage();
                                 DOVirtual.DelayedCall(0.3f, () =>
                                 {
                                     AudioManager.instance.PlaySFX("CompletePanel");
-                                    UIManagerNew.Instance.CompleteUI.Appear();
-                                    canInteract = false;
+                                    if (LevelManagerNew.Instance.stage == 0)
+                                    {
+                                        DOVirtual.DelayedCall(0.3f, () =>
+                                        {
+                                            UIManagerNew.Instance.CompleteUI.Appear();
+                                            canInteract = false;
+                                        });
+                                    }
+                                    else
+                                    {
+                                        UIManagerNew.Instance.CompleteUI.Appear();
+                                        canInteract = false;
+                                    }
                                 });
                             }, null);
                         }
@@ -590,6 +610,7 @@ public class Stage : MonoBehaviour
                         nailToDetele.gameObject.SetActive(false);
                         setDeteleting(false);
                         hasDelete = true;
+                        UIManagerNew.Instance.GamePlayPanel.ShowUnscrewEffect(null);
                         if (LevelManagerNew.Instance.stage == 3)
                         {
                             if (UIManagerNew.Instance.DeteleNailPanel.hasUseTutor == true)

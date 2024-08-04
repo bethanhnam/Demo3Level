@@ -58,6 +58,7 @@ public class WelcomePresent : MonoBehaviour
     }
     public void ClanimPresent()
     {
+        AudioManager.instance.PlaySFX("FillUpSlider");
         SaveSystem.instance.AddBooster(2, 2, 2);
         SaveSystem.instance.SaveData();
     }

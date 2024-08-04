@@ -94,6 +94,10 @@ public class ThresholeController : MonoBehaviour
     }
     public void showNextThreshole(string thresholeName)
     {
+        if(hinddenTransform != null)
+        {
+            hinddenTransform.gameObject.SetActive(true);
+        }
         if (this.thresholeName != null)
         {
             if (thresholeDictionary.TryGetValue(this.thresholeName, out GameObject go))

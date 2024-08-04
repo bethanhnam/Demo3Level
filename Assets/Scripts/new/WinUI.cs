@@ -181,9 +181,9 @@ public class WinUI : MonoBehaviour
                                if(PlayerPrefs.GetInt("GiveAwayBooster") == 0)
                                 {
                                     PlayerPrefs.SetInt("GiveAwayBooster", 1);
-                                    UIManagerNew.Instance.WelcomePresent.Appear();
                                     GameManagerNew.Instance.conversationController.StartConversation(1, 14, "WelcomePresent", () =>
                                     {
+                                        UIManagerNew.Instance.WelcomePresent.Appear();
                                     });
                                 }
                             }
@@ -230,6 +230,7 @@ public class WinUI : MonoBehaviour
                     StarImgDes.gameObject.transform.DOScale(1f, 0.02f);
                     SaveSystem.instance.addStar(1);
                     SaveSystem.instance.SaveData();
+                    LevelManagerNew.Instance.NextStage();
                 });
                 StarShadowImg.gameObject.SetActive(true);
                 StarShadowImg.gameObject.transform.DOScale(0.3f, 0.15f).OnComplete(() =>

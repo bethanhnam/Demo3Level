@@ -457,12 +457,21 @@ public class MiniGameStage : MonoBehaviour
                             AdsControl.Instance.ActiveBlockFaAds(false);
                             Debug.Log("sau khi show ads");
                             //UIManagerNew.Instance.GamePlayPanel.Close();
-                            LevelManagerNew.Instance.NextStage();
                             DOVirtual.DelayedCall(0.3f, () =>
                             {
                                 AudioManager.instance.PlaySFX("CompletePanel");
-                                UIManagerNew.Instance.CompleteUI.Appear();
-                                canInteract = false;
+                                if (LevelManagerNew.Instance.stage == 0) {
+                                    DOVirtual.DelayedCall(0.3f, () =>
+                                    {
+                                        UIManagerNew.Instance.CompleteUI.Appear();
+                                        canInteract = false;
+                                    });
+                                }
+                                else
+                                {
+                                    UIManagerNew.Instance.CompleteUI.Appear();
+                                    canInteract = false;
+                                }
                             });
                         }, null);
                     }
