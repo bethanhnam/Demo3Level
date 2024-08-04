@@ -287,16 +287,17 @@ public class GamePlayPanelUIManager : MonoBehaviour
             action();
         });
     }
-    public void ShowUnscrewEffect(Action action)
+    public void ShowUnscrewEffect(Transform transform ,Action action)
     {
         Stage.Instance.canInteract = false;
+        unscrewEffect.transform.GetChild(1).transform.position = transform.position;
         unscrewEffect.gameObject.SetActive(true);
         AudioManager.instance.PlaySFX("HeartBreak");
-        DOVirtual.DelayedCall(1.5f, () =>
+        DOVirtual.DelayedCall(2f, () =>
         {
             unscrewEffect.gameObject.SetActive(false);
             Stage.Instance.canInteract = true;
-            action();
+            if(action != null) action();
         });
     }
 }

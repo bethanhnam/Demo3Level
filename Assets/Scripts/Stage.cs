@@ -308,7 +308,7 @@ public class Stage : MonoBehaviour
 
         Vector2 posMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(posMouse, 0.5f, Vector3.forward, Mathf.Infinity);
+        RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(posMouse, 0.8f, Vector3.forward, Mathf.Infinity);
 
         if (!nailDetectors.IsNullOrEmpty())
         {
@@ -610,7 +610,7 @@ public class Stage : MonoBehaviour
                         nailToDetele.gameObject.SetActive(false);
                         setDeteleting(false);
                         hasDelete = true;
-                        UIManagerNew.Instance.GamePlayPanel.ShowUnscrewEffect(null);
+                        UIManagerNew.Instance.GamePlayPanel.ShowUnscrewEffect(holeToDetele.transform, null);
                         if (LevelManagerNew.Instance.stage == 3)
                         {
                             if (UIManagerNew.Instance.DeteleNailPanel.hasUseTutor == true)

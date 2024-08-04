@@ -160,7 +160,7 @@ public class DeteleNailPanel : MonoBehaviour
                     GameManagerNew.Instance.conversationController.StartConversation(1, 12, "UnscrewTutor", () =>
                     {
                         GamePlayPanelUIManager.Instance.ActiveTime();
-                    },true);
+                    },false);
                     AudioManager.instance.PlaySFX("ClosePopUp");
 
                     if (Stage.Instance.isWining)

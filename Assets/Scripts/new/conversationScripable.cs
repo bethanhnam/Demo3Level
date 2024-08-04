@@ -182,7 +182,7 @@ public class conversationScripable : ScriptableObject
         }
         else
         {
-            ConversationController.instance.Conversations[indexCharacter].transform.position = new Vector3(ConversationController.instance.Conversations[indexCharacter].transform.position.x,0,0);
+            ConversationController.instance.Conversations[indexCharacter].transform.position = new Vector3(ConversationController.instance.Conversations[indexCharacter].transform.position.x,1,1);
         }
         ConversationController.instance.Conversations[indexCharacter].ChangeEmo(indexCharacterEmo);
         ConversationController.instance.Conversations[indexCharacter].gameObject.SetActive(true);
