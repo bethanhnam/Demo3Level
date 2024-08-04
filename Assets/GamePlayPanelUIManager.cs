@@ -106,7 +106,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
         {
             DOVirtual.DelayedCall(1f, () =>
             {
-                if (LevelManagerNew.Instance.stage != 1 && LevelManagerNew.Instance.stage != 3)
+                if (LevelManagerNew.Instance.stage != 0 && LevelManagerNew.Instance.stage != 3)
                 {
                     ActiveTime();
                 }

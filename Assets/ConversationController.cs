@@ -37,9 +37,13 @@ public class ConversationController : MonoBehaviour
 
     public void StartConversation(int indexCharacterEmo, int indexConversationScripable, String name, Action action,bool setpos = false)
     {
-        if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
+        if (UIManagerNew.Instance.GamePlayPanel != null)
         {
             UIManagerNew.Instance.GamePlayPanel.DeactiveTime();
+        }
+        if (Stage.Instance != null)
+        {
+            Stage.Instance.canInteract = false;
         }
         this.gameObject.SetActive(true);
         CanvasGroup.interactable = true;

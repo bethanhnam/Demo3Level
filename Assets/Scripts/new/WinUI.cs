@@ -181,16 +181,11 @@ public class WinUI : MonoBehaviour
                                if(PlayerPrefs.GetInt("GiveAwayBooster") == 0)
                                 {
                                     PlayerPrefs.SetInt("GiveAwayBooster", 1);
-                                    SaveSystem.instance.AddBooster(2, 2, 2);
-                                    SaveSystem.instance.SaveData();
+                                    UIManagerNew.Instance.WelcomePresent.Appear();
+                                    GameManagerNew.Instance.conversationController.StartConversation(1, 14, "WelcomePresent", () =>
+                                    {
+                                    });
                                 }
-                            }
-                            if (LevelManagerNew.Instance.stage == 4)
-                            {
-                                UIManagerNew.Instance.WelcomePresent.Appear();
-                                GameManagerNew.Instance.conversationController.StartConversation(1, 14,"WelcomePresent", () =>
-                                {
-                                });
                             }
                             //if (LevelManagerNew.Instance.stage == 7)
                             //{
