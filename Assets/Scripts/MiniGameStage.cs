@@ -83,17 +83,6 @@ public class MiniGameStage : MonoBehaviour
     }
     private void OnEnable()
     {
-        try
-        {
-            if (GamePlayPanelUIManager.Instance.gameObject.activeSelf == false)
-            {
-                GamePlayPanelUIManager.Instance.Appear();
-            }
-        }
-        catch
-        {
-
-        }
         Instance = this;
         resetData();
     }
@@ -118,11 +107,6 @@ public class MiniGameStage : MonoBehaviour
                         isScaling = false;
                     });
                     EverythingStayStill(false);
-
-                    if (!GamePlayPanelUIManager.Instance.gameObject.activeSelf)
-                    {
-                        GamePlayPanelUIManager.Instance.Appear();
-                    }
                 });
             });
         });

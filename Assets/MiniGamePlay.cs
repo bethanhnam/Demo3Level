@@ -1,4 +1,6 @@
+using Coffee.UIExtensions;
 using DG.Tweening;
+using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,23 +11,18 @@ using UnityEngine.UI;
 
 public class MiniGamePlay : MonoBehaviour
 {
+    public MiniGameMap[] MiniGameMaps;
+    public int selectedMinimap;
+
     public static MiniGamePlay instance;
 
     public MiniItem[] miniItem;
 
-    public Slider collectSlider;
-    public Slider heartSlider;
-
     public float collectValue;
     public float heartValue;
 
-    public TextMeshProUGUI maxCollectText;
-    public TextMeshProUGUI collectText;
-
-    public clockFill clockFill;
-    public Sprite[] sprites;
-
     public CanvasGroup canvasGroup;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -51,61 +48,83 @@ public class MiniGamePlay : MonoBehaviour
             action();
         });
     }
-    void Start()
+    public void SetItem(int miniGameMapIndex, int Maxcollectvalue)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    public void SetItem(int indexSprite,int Maxcollectvalue)
-    {
+        selectedMinimap = miniGameMapIndex;
         collectValue = 0;
-        collectSlider.value = collectValue;
+        MiniGameMaps[selectedMinimap].collectSlider.value = collectValue;
         SetMaxValue(Maxcollectvalue);
         for (int i = 0; i < miniItem.Length; i++)
         {
-            miniItem[i].SetImage(sprites[indexSprite]);
+            miniItem[i].SetImage(MiniGameMaps[selectedMinimap].sprite);
             miniItem[i].itemImg.SetNativeSize();
         }
-        DOVirtual.DelayedCall(0.6f, () => { 
-        clockFill.StartTimer();
+        DOVirtual.DelayedCall(0.2f, () =>
+        {
+            MiniGameMaps[selectedMinimap].clockFill.StartTimer();
+            if (MiniGameMaps[selectedMinimap].HeartSlider != null)
+            {
+                MiniGameMaps[selectedMinimap].HeartSlider.StartTimer();
+
+            }
+            if (MiniGameMaps[selectedMinimap].ghostSkeleton != null)
+            {
+                MiniGameMaps[selectedMinimap].ghostSkeleton.StartTimer();
+            }
         });
     }
     public void ChangeCollectSliderValue()
     {
         AudioManager.instance.PlaySFX("FillUpSlider");
-        collectSlider.DOValue(collectSlider.value + 1, 0.7f).OnComplete(() =>
+        MiniGameMaps[selectedMinimap].collectSlider.DOValue(MiniGameMaps[selectedMinimap].collectSlider.value + 1, 0.7f).OnComplete(() =>
         {
+            if (selectedMinimap == 0)
+            {
+                MiniGameMaps[selectedMinimap].UIParticle.scale += 5;
+            }
             collectValue += 1;
-            collectText.text = collectValue.ToString();
-            if (collectSlider.value >= collectSlider.maxValue)
+            MiniGameMaps[selectedMinimap].collectText.text = collectValue.ToString();
+            if (collectValue >= MiniGameMaps[selectedMinimap].collectSlider.maxValue)
             {
                 //win minigame
+                MiniGameMaps[selectedMinimap].clockFill.StopTimer();
+                if (selectedMinimap == 1)
+                {
+                    MiniGameMaps[selectedMinimap].itemImage.gameObject.SetActive(false);
+                    MiniGameMaps[selectedMinimap].ghostSkeleton.StopTimer();
+                }
+                if (selectedMinimap == 0)
+                {
+                    MiniGameMaps[selectedMinimap].HeartSlider.StopTimer();
+                }
                 Debug.Log("win minigames");
+                MiniGameMaps[selectedMinimap].skeleton.AnimationState.SetAnimation(0, "happy", false);
+                DOVirtual.DelayedCall(0.3f, () =>
+                {
+                    MiniGameMaps[selectedMinimap].skeleton.AnimationState.SetAnimation(0, "idle_happy", true);
+                    UIManagerNew.Instance.WinMiniGamePanel.Appear();
+                });
             }
         });
 
     }
-    public void ChangeHeartSlider()
-    {
-        collectSlider.DOValue(collectSlider.value - 1, 0.7f).OnComplete(() =>
-        {
-            collectValue += 1;
-            collectText.text = collectValue.ToString();
-            if (collectSlider.value >= collectSlider.maxValue)
-            {
-                //win minigame
-                Debug.Log("win minigames");
-            }
-        });
-    }
     public void SetMaxValue(int numOfItem)
     {
-        collectSlider.maxValue = numOfItem;
-        maxCollectText.text = numOfItem.ToString(); 
+        MiniGameMaps[selectedMinimap].collectSlider.maxValue = numOfItem;
+        MiniGameMaps[selectedMinimap].maxCollectText.text = numOfItem.ToString();
+    }
+    public void StopMinigame()
+    {
+        MiniGameMaps[selectedMinimap].clockFill.StopTimer();
+
+        if (MiniGameMaps[selectedMinimap].HeartSlider != null)
+        {
+            MiniGameMaps[selectedMinimap].HeartSlider.StopTimer();
+
+        }
+        if (MiniGameMaps[selectedMinimap].ghostSkeleton != null)
+        {
+            MiniGameMaps[selectedMinimap].ghostSkeleton.StopTimer();
+        }
     }
 }

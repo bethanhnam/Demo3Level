@@ -202,8 +202,6 @@ public class GameManagerNew : MonoBehaviour
     public void CreateMiniGame(int level)
     {
         //GamePlayPanelUIManager.Instance.setText(level + 1);
-
-
         isMinigame = true;
         DOVirtual.DelayedCall(1f, () =>
         {
@@ -217,10 +215,8 @@ public class GameManagerNew : MonoBehaviour
             {
                 UIManagerNew.Instance.MiniGamePlay.Appear(() =>
                     {
-                        DOVirtual.DelayedCall(0.3f, () =>
-                        {
-                            UIManagerNew.Instance.MiniGamePlay.SetItem(level, currentMiniGameStage.numOfIronPlates);
-                        });
+                        UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].gameObject.SetActive(true);
+                        UIManagerNew.Instance.MiniGamePlay.SetItem(level, currentMiniGameStage.numOfIronPlates);
                     });
             }
             SetTargetScale(CurrentMiniGameStage.gameObject);

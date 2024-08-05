@@ -83,7 +83,7 @@ public class FixItemUI : MonoBehaviour
                                 {
                                     Stage.Instance.canInteract = false;
                                 }
-                                UIManagerNew.Instance.ThresholeController.showThreshole("playButtonLevel2", UIManagerNew.Instance.PlayButton.transform.localScale, UIManagerNew.Instance.PlayButton.transform);
+                                UIManagerNew.Instance.ThresholeController.showThreshole("playButtonLevel2", UIManagerNew.Instance.ButtonMennuManager.playButton.transform.localScale, UIManagerNew.Instance.ButtonMennuManager.playButton.transform);
                             });
                         }
                     }

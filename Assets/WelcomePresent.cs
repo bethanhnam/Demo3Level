@@ -34,6 +34,7 @@ public class WelcomePresent : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+        UIManagerNew.Instance.ButtonMennuManager.CheckForMinigame();
     }
     public void ActiveCVGroup()
     {
@@ -48,6 +49,7 @@ public class WelcomePresent : MonoBehaviour
         {
             cvButton.blocksRaycasts = false;
         }
+        
     }
     public void Check()
     {
