@@ -51,4 +51,34 @@ public class WinMiniGamePanel : MonoBehaviour
             cvButton.blocksRaycasts = true;
         }
     }
+    public void BackToMenu()
+    {
+        SaveSystem.instance.addCoin(UIManagerNew.Instance.StartMiniGamePanel.reward);
+        SaveSystem.instance.SaveData();
+        this.Close();
+        MiniGamePlay.instance.Disappear(() =>
+        {
+            MiniGamePlay.instance.MiniGameMaps[MiniGamePlay.instance.selectedMinimap].gameObject.SetActive(false);
+            UIManagerNew.Instance.GamePlayLoading.appear();
+            if (MiniGameStage.Instance != null)
+            {
+                MiniGameStage.Instance.Close(true);
+            }
+            DOVirtual.DelayedCall(0.7f, () =>
+            {
+                UIManagerNew.Instance.ButtonMennuManager.Appear();
+                DOVirtual.DelayedCall(0.85f, () =>
+                {
+                    if (MiniGamePlay.instance.selectedMinimap == 0)
+                    {
+                        ConversationController.instance.StartConversation(1, 7, "AfterMinigame1", () =>
+                        {
+                            ConversationController.instance.StartConversation(1, 9, "AfterMinigame2", () => { 
+                            });
+                        });
+                    }
+                });
+            });
+        });
+    }
 }

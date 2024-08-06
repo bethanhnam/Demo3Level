@@ -12,7 +12,7 @@ public class MiniItem : MonoBehaviour
 
     public void MoveItem()
     {
-        this.transform.DOMove(targetPos.position, 0.5f).OnComplete(() => {
+        this.transform.DOMove(UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[UIManagerNew.Instance.MiniGamePlay.selectedMinimap].itemImage.transform.position, 0.5f).OnComplete(() => {
             animator.enabled = false;
             this.gameObject.SetActive(false);
             MiniGamePlay.instance.ChangeCollectSliderValue();

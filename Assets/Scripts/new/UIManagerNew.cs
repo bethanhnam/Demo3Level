@@ -71,6 +71,8 @@ public class UIManagerNew : MonoBehaviour
     private StartMiniGamePanel startMiniGamePanel;
     [SerializeField]
     private WinMiniGamePanel winMiniGamePanel;
+    [SerializeField]
+    private SkipPanel skipPanel;
 
     public TextMeshProUGUI[] DrillTexts;
     public TextMeshProUGUI[] UnscrewTexts;
@@ -129,6 +131,7 @@ public class UIManagerNew : MonoBehaviour
     public WelcomePresent WelcomePresent { get => welcomePresent; set => welcomePresent = value; }
     public StartMiniGamePanel StartMiniGamePanel { get => startMiniGamePanel; set => startMiniGamePanel = value; }
     public WinMiniGamePanel WinMiniGamePanel { get => winMiniGamePanel; set => winMiniGamePanel = value; }
+    public SkipPanel SkipPanel { get => skipPanel; set => skipPanel = value; }
 
     private void Awake()
     {

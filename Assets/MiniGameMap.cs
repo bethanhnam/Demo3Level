@@ -21,8 +21,10 @@ public class MiniGameMap : MonoBehaviour
 
     public SkeletonGraphic skeleton;
     public GhostMinigame ghostSkeleton;
-    public UIParticle UIParticle;
+    public characterStepBack characterStepBack;
+
+    public ParticleSystem UIParticle;
 
     public Image itemImage;
-
+    public bool hasDone;
 }

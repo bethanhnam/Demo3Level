@@ -1,4 +1,4 @@
-using Coffee.UIExtensions;
+﻿using Coffee.UIExtensions;
 using DG.Tweening;
 using Spine.Unity;
 using System;
@@ -51,6 +51,7 @@ public class MiniGamePlay : MonoBehaviour
     public void SetItem(int miniGameMapIndex, int Maxcollectvalue)
     {
         selectedMinimap = miniGameMapIndex;
+        MiniGameMaps[selectedMinimap].ghostSkeleton.skeletonGraphic.gameObject.SetActive(false);
         collectValue = 0;
         MiniGameMaps[selectedMinimap].collectSlider.value = collectValue;
         SetMaxValue(Maxcollectvalue);
@@ -59,51 +60,101 @@ public class MiniGamePlay : MonoBehaviour
             miniItem[i].SetImage(MiniGameMaps[selectedMinimap].sprite);
             miniItem[i].itemImg.SetNativeSize();
         }
-        DOVirtual.DelayedCall(0.2f, () =>
+        DOVirtual.DelayedCall(0.5f, () =>
         {
-            MiniGameMaps[selectedMinimap].clockFill.StartTimer();
-            if (MiniGameMaps[selectedMinimap].HeartSlider != null)
+            MiniGameMaps[selectedMinimap].collectText.text = collectValue.ToString();
+            if (selectedMinimap == 0)
             {
-                MiniGameMaps[selectedMinimap].HeartSlider.StartTimer();
+                MiniGameMaps[selectedMinimap].ghostSkeleton.gameObject.SetActive(true);
+                MiniGameMaps[selectedMinimap].ghostSkeleton.RestartTimer();
+                MiniGameMaps[selectedMinimap].characterStepBack.RestartTimer();
 
+                MiniGameMaps[selectedMinimap].skeleton.gameObject.SetActive(true);
+                MiniGameMaps[selectedMinimap].ghostSkeleton.hasReached = false;
+
+                MiniGameMaps[selectedMinimap].itemImage.gameObject.SetActive(true);
+
+                DOVirtual.DelayedCall(0.3f, () =>
+                {
+                    MiniGameMaps[selectedMinimap].characterStepBack.StartTimer();
+                    
+                    MiniGameMaps[selectedMinimap].ghostSkeleton.StartTimer();
+                });
             }
-            if (MiniGameMaps[selectedMinimap].ghostSkeleton != null)
+            if (selectedMinimap == 1)
             {
-                MiniGameMaps[selectedMinimap].ghostSkeleton.StartTimer();
+                var particleSystem = MiniGameMaps[selectedMinimap].UIParticle;
+                if (particleSystem != null)
+                {
+                    var mainModule = particleSystem.main;
+                    mainModule.startSize = 0.6f;
+                }
+                MiniGameMaps[selectedMinimap].HeartSlider.RestartTimer();
+                MiniGameMaps[selectedMinimap].skeleton.AnimationState.SetAnimation(0, "idle_sad", true);
+
+                DOVirtual.DelayedCall(0.3f, () =>
+                {
+                    MiniGameMaps[selectedMinimap].HeartSlider.StartTimer();
+                });
             }
+            MiniGameMaps[selectedMinimap].clockFill.RestartTimer();
+            MiniGameMaps[selectedMinimap].clockFill.StartTimer();
         });
     }
     public void ChangeCollectSliderValue()
     {
         AudioManager.instance.PlaySFX("FillUpSlider");
-        MiniGameMaps[selectedMinimap].collectSlider.DOValue(MiniGameMaps[selectedMinimap].collectSlider.value + 1, 0.7f).OnComplete(() =>
+        MiniGameMaps[selectedMinimap].collectSlider.value = collectValue;
+        MiniGameMaps[selectedMinimap].collectSlider.DOValue(MiniGameMaps[selectedMinimap].collectSlider.value + 1, 0.3f).OnComplete(() =>
         {
-            if (selectedMinimap == 0)
+            if (selectedMinimap == 1)
             {
-                MiniGameMaps[selectedMinimap].UIParticle.scale += 5;
+                // Tăng kích thước hạt
+                var particleSystem = MiniGameMaps[selectedMinimap].UIParticle;
+                if (particleSystem != null)
+                {
+                    var mainModule = particleSystem.main;
+                    mainModule.startSize = new ParticleSystem.MinMaxCurve(mainModule.startSize.constant + .5f);
+                }
+                else
+                {
+                    Debug.LogError("ParticleSystem not found on selected minimap.");
+                }
             }
             collectValue += 1;
             MiniGameMaps[selectedMinimap].collectText.text = collectValue.ToString();
             if (collectValue >= MiniGameMaps[selectedMinimap].collectSlider.maxValue)
             {
                 //win minigame
+                MiniGameMaps[selectedMinimap].hasDone = true;
                 MiniGameMaps[selectedMinimap].clockFill.StopTimer();
-                if (selectedMinimap == 1)
+                if (selectedMinimap == 0)
                 {
                     MiniGameMaps[selectedMinimap].itemImage.gameObject.SetActive(false);
                     MiniGameMaps[selectedMinimap].ghostSkeleton.StopTimer();
                 }
-                if (selectedMinimap == 0)
+                if (selectedMinimap == 1)
                 {
                     MiniGameMaps[selectedMinimap].HeartSlider.StopTimer();
                 }
                 Debug.Log("win minigames");
-                MiniGameMaps[selectedMinimap].skeleton.AnimationState.SetAnimation(0, "happy", false);
-                DOVirtual.DelayedCall(0.3f, () =>
+                if (selectedMinimap == 1)
                 {
-                    MiniGameMaps[selectedMinimap].skeleton.AnimationState.SetAnimation(0, "idle_happy", true);
-                    UIManagerNew.Instance.WinMiniGamePanel.Appear();
-                });
+                    MiniGameMaps[selectedMinimap].skeleton.AnimationState.SetAnimation(0, "happy", false);
+                    DOVirtual.DelayedCall(0.3f, () =>
+                    {
+                        MiniGameMaps[selectedMinimap].skeleton.AnimationState.SetAnimation(0, "idle_happy", true);
+                        UIManagerNew.Instance.WinMiniGamePanel.Appear();
+                    });
+                }
+                if (selectedMinimap == 0)
+                {
+                    MiniGameMaps[selectedMinimap].characterStepBack.GoToWin(() =>
+                    {
+                        UIManagerNew.Instance.WinMiniGamePanel.Appear();
+                    });
+                    MiniGameMaps[selectedMinimap].ghostSkeleton.gameObject.SetActive(false);
+                }
             }
         });
 
@@ -126,5 +177,47 @@ public class MiniGamePlay : MonoBehaviour
         {
             MiniGameMaps[selectedMinimap].ghostSkeleton.StopTimer();
         }
+    }
+    public void CloseMinigame()
+    {
+        UIManagerNew.Instance.GamePlayLoading.appear();
+        DOVirtual.DelayedCall(0.3f, () =>
+        {
+            if (MiniGameMaps[selectedMinimap].ghostSkeleton != null && MiniGameMaps[selectedMinimap].ghostSkeleton.gameObject.activeSelf)
+            {
+                MiniGameMaps[selectedMinimap].ghostSkeleton.gameObject.SetActive(false);
+            }
+            Disappear(() =>
+            {
+                MiniGameMaps[selectedMinimap].gameObject.SetActive(false);
+                DOVirtual.DelayedCall(1f, () =>
+                {
+                    if (MiniGameStage.Instance != null)
+                    {
+                        MiniGameStage.Instance.Close(true);
+                    }
+                    UIManagerNew.Instance.ButtonMennuManager.Appear();
+                });
+            });
+        });
+    }
+    public void ReplayMinigame()
+    {
+        UIManagerNew.Instance.GamePlayLoading.appear();
+        if (UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf) {
+            UIManagerNew.Instance.ButtonMennuManager.Close();
+        }
+        DOVirtual.DelayedCall(0.5f, () =>
+        {
+            if (UIManagerNew.Instance.StartMiniGamePanel.gameObject.activeSelf)
+            {
+                UIManagerNew.Instance.StartMiniGamePanel.Close();
+            }
+            if (UIManagerNew.Instance.SkipPanel.gameObject.activeSelf)
+            {
+                UIManagerNew.Instance.SkipPanel.Close();
+            }
+        });
+        GameManagerNew.Instance.ReCreateMiniGame(UIManagerNew.Instance.ButtonMennuManager.levelMinigame);
     }
 }

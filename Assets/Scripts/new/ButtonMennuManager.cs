@@ -16,6 +16,7 @@ public class ButtonMennuManager : MonoBehaviour
     [SerializeField]
     public StarMove starMove;
     public GameObject[] noticeButtons;
+    public int levelMinigame;
 
     public GameObject playButton;
     public MiniGamePlayButton MiniGamePlayButton;
@@ -23,6 +24,11 @@ public class ButtonMennuManager : MonoBehaviour
     private int appearButton = Animator.StringToHash("appear");
     private int disappearButton = Animator.StringToHash("disappear");
 
+    private void Awake()
+    {
+        // datatest
+        PlayerPrefs.SetInt("GiveAwayBooster", 1);
+    }
     public void Appear()
     {
         if (GameManagerNew.Instance.PictureUIManager != null)
@@ -253,30 +259,24 @@ public class ButtonMennuManager : MonoBehaviour
             Close();
         }
     }
-    [Button("CreateMinigame")]
     public void PlayMiniGame()
     {
         DOVirtual.DelayedCall(1, () =>
         {
-            int level = 0;
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();
-
-            DOVirtual.DelayedCall(.7f, () =>
-            {
-                DOVirtual.DelayedCall(.95f, () =>
+                DOVirtual.DelayedCall(.5f, () =>
                     {
                         if (LevelManagerNew.Instance.stage == 4)
                         {
-                            level = 0;
+                            this.levelMinigame = 0;
                         }
                         if (LevelManagerNew.Instance.stage == 7)
                         {
-                            level = 1;
+                            this.levelMinigame = 1;
                         }
+                        GameManagerNew.Instance.CreateMiniGame(levelMinigame);
                     });
-                GameManagerNew.Instance.CreateMiniGame(level);
-            });
             Close();
         });
     }
@@ -347,24 +347,46 @@ public class ButtonMennuManager : MonoBehaviour
     }
     public void CheckForMinigame()
     {
-        if(LevelManagerNew.Instance.stage == 4 && PlayerPrefs.GetInt("GiveAwayBooster") == 1)
+        if (LevelManagerNew.Instance.stage == 4 && PlayerPrefs.GetInt("GiveAwayBooster") == 1)
         {
-            ConversationController.instance.StartConversation(0, 6, "minigame1", () =>
+            if (!UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[0].hasDone)
             {
+                UIManagerNew.Instance.StartMiniGamePanel.SetProperties(50, 0);
                 MiniGamePlayButton.SetQuestButton(0, "Help me");
-            });
-        }
-        if (LevelManagerNew.Instance.stage == 7)
-        {
-            ConversationController.instance.StartConversation(0, 8, "minigame2", () =>
+                ConversationController.instance.StartConversation(0, 6, "minigame1", () =>
+                {
+                    UIManagerNew.Instance.StartMiniGamePanel.ChangeText("PLAY");
+                    UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(PlayMiniGame);
+                    UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(UIManagerNew.Instance.StartMiniGamePanel.Close);
+                });
+            }
+            else
             {
-                MiniGamePlayButton.SetQuestButton(1, "Help me");
-            });
+                GameManagerNew.Instance.isMinigame = false;
+                MiniGamePlayButton.SetToPlayButton();
+            }
         }
-    }
-    public void ChangePlayButton()
-    {
-        playButton.gameObject.SetActive(false);
-        MiniGamePlayButton.gameObject.SetActive(true);
+        else
+        {
+            if (LevelManagerNew.Instance.stage == 7)
+            {
+                if (!UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[1].hasDone)
+                {
+                    UIManagerNew.Instance.StartMiniGamePanel.SetProperties(50, 1);
+                    MiniGamePlayButton.SetQuestButton(1, "Help me");
+                    ConversationController.instance.StartConversation(0, 8, "minigame2", () =>
+                    {
+                        UIManagerNew.Instance.StartMiniGamePanel.ChangeText("PLAY");
+                        UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(PlayMiniGame);
+                        UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(UIManagerNew.Instance.StartMiniGamePanel.Close);
+                    });
+                }
+                else
+                {
+                    GameManagerNew.Instance.isMinigame = false;
+                    MiniGamePlayButton.SetToPlayButton();
+                }
+            }
+        }
     }
 }

@@ -207,7 +207,7 @@ public class GameManagerNew : MonoBehaviour
         {
             PictureUIManager.Close();
         });
-        DOVirtual.DelayedCall(1f, () =>
+        DOVirtual.DelayedCall(.5f, () =>
         {
             CurrentMiniGameStage = Instantiate(LevelManagerNew.Instance.miniStageList[level], new Vector2(0, -2.51f), Quaternion.identity);
             ScaleForDevices(CurrentMiniGameStage.transform.gameObject);
@@ -219,6 +219,38 @@ public class GameManagerNew : MonoBehaviour
                         UIManagerNew.Instance.MiniGamePlay.SetItem(level, currentMiniGameStage.numOfIronPlates);
                     });
             }
+            SetTargetScale(CurrentMiniGameStage.gameObject);
+            CurrentMiniGameStage.InitForMinigame(level);
+            AudioManager.instance.PlayMusic("GamePlayTheme");
+        });
+    }
+
+    public void ReCreateMiniGame(int level)
+    {
+        //GamePlayPanelUIManager.Instance.setText(level + 1);
+        isMinigame = true;
+
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            PictureUIManager.Close();
+        });
+        DOVirtual.DelayedCall(.5f, () =>
+        {
+            if (CurrentMiniGameStage != null)
+            {
+                CurrentMiniGameStage.Close(true);
+            }
+        });
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            CurrentMiniGameStage = Instantiate(LevelManagerNew.Instance.miniStageList[level], new Vector2(0, -2.51f), Quaternion.identity);
+            ScaleForDevices(CurrentMiniGameStage.transform.gameObject);
+
+            UIManagerNew.Instance.MiniGamePlay.Appear(() =>
+            {
+                UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].gameObject.SetActive(true);
+                UIManagerNew.Instance.MiniGamePlay.SetItem(level, currentMiniGameStage.numOfIronPlates);
+            });
             SetTargetScale(CurrentMiniGameStage.gameObject);
             CurrentMiniGameStage.InitForMinigame(level);
             AudioManager.instance.PlayMusic("GamePlayTheme");

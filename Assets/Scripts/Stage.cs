@@ -1067,10 +1067,6 @@ public class Stage : MonoBehaviour
     private void LauchBoosterAim()
     {
         // Thực hiện hành động khi người chơi không bấm vào màn hình
-        if (holeToUnlock.addImage.IsActive())
-        {
-            //this.holeToUnlock.myAnimator.enabled = true;
-        }
         GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, true);
         boosterTween = DOVirtual.DelayedCall(3f, () =>
         {
@@ -1082,10 +1078,6 @@ public class Stage : MonoBehaviour
                 GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);
                 GamePlayPanelUIManager.Instance.UndoButton.transform.localScale = new Vector3(1.05f, 1.05f, 1);
                 //this.holeToUnlock.myAnimator.enabled = false;
-                if (holeToUnlock.addImage.IsActive())
-                {
-                    //this.holeToUnlock.addImage.transform.localScale = holeToUnlock.myScale;
-                }
             });
         });
     }
