@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,13 +20,16 @@ public class GamePlayPanelUIManager : MonoBehaviour
     private int appearButton = Animator.StringToHash("appear");
     private int disappearButton = Animator.StringToHash("disappear");
 
-
     //PopUp Button
     public Button ReplayButton;
     public Button UndoButton;
     public Button DeteleButton;
     public Button PauseButton;
     public Button BoomButton;
+
+    // anim Button
+    public Animator UndoButtonAim;
+    public Animator DeteleButtonAim;
 
     //text 
     public TextMeshProUGUI levelText;
@@ -44,9 +48,12 @@ public class GamePlayPanelUIManager : MonoBehaviour
     public Image blockPic;
 
     //pointer
-    public GameObject pointer;
     public GameObject goodJob;
     public bool hasOpen;
+
+    //Booster Effect
+    public GameObject unscrewEffect;
+    public GameObject drillEffect;
     private void Awake()
     {
         Instance = this;
@@ -71,6 +78,14 @@ public class GamePlayPanelUIManager : MonoBehaviour
     }
     private void OnEnable()
     {
+        if (LevelManagerNew.Instance.stage >= 3)
+        {
+            boosterBar.gameObject.SetActive(true);
+        }
+        else
+        {
+            boosterBar.gameObject.SetActive(false);
+        }
     }
     public void Appear()
     {
@@ -92,7 +107,10 @@ public class GamePlayPanelUIManager : MonoBehaviour
         {
             DOVirtual.DelayedCall(1f, () =>
             {
-                ActiveTime();
+                if (LevelManagerNew.Instance.stage != 0 && LevelManagerNew.Instance.stage != 3)
+                {
+                    ActiveTime();
+                }
             });
             animButton.Play(appearButton, 0, 0);
         });
@@ -111,7 +129,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
 
     public void Close(bool _destroy = false)
     {
-        
+
         cvButton.blocksRaycasts = false;
         animButton.Play(disappearButton);
     }
@@ -131,8 +149,6 @@ public class GamePlayPanelUIManager : MonoBehaviour
             cvButton.blocksRaycasts = true;
         }
     }
-
-
     public void OpenReplayPanel()
     {
 
@@ -150,7 +166,6 @@ public class GamePlayPanelUIManager : MonoBehaviour
     }
     public void OpenExtraHolePanel()
     {
-
         DeactiveTime();
         Close();
         GameManagerNew.Instance.CloseLevel(false);
@@ -208,6 +223,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
             Close();
         }
     }
+
     public void ButtonOff()
     {
         ReplayButton.interactable = false;
@@ -251,30 +267,37 @@ public class GamePlayPanelUIManager : MonoBehaviour
     {
         blackPic.gameObject.SetActive(status);
     }
-    public void ShowPoiterAgain1()
+    public void activeAnimation(Animator button, bool status)
     {
-        StartCoroutine(ShowPoiterAgain());
+        button.enabled = status;
     }
-    IEnumerator ShowPoiterAgain()
+    public void ShowDrillEffect(Action action)
     {
-        yield return new WaitForSeconds(1f);
-        if (Stage.Instance.isTutor)
+        Stage.Instance.canInteract = false;
+        drillEffect.transform.GetChild(1).transform.position = new Vector3(Stage.Instance.holeToUnlock.transform.position.x, Stage.Instance.holeToUnlock.transform.position.y, Stage.Instance.holeToUnlock.transform.position.z);
+        drillEffect.transform.GetChild(1).transform.localScale = Stage.Instance.holeToUnlock.transform.localScale * 2;
+        drillEffect.gameObject.SetActive(true);
+        AudioManager.instance.PlaySFX("ExtraHole");
+        DOVirtual.DelayedCall(1.5f, () =>
         {
-            GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
-        }
+            FirebaseAnalyticsControl.Instance.LogEventTutorialStatus(LevelManagerNew.Instance.stage, TutorialStatus.tut_drill_done);
+            Stage.Instance.holeToUnlock.shinningParticle.gameObject.SetActive(true);
+            drillEffect.gameObject.SetActive(false);
+            Stage.Instance.canInteract = true;
+            action();
+        });
     }
-    public void showPointer(bool status)
+    public void ShowUnscrewEffect(Transform transform ,Action action)
     {
-        if (hasOpen == false)
+        Stage.Instance.canInteract = false;
+        unscrewEffect.transform.GetChild(1).transform.position = transform.position;
+        unscrewEffect.gameObject.SetActive(true);
+        AudioManager.instance.PlaySFX("HeartBreak");
+        DOVirtual.DelayedCall(2f, () =>
         {
-            pointer.gameObject.SetActive(status);
-            hasOpen = true;
-        }
-        else
-        {
-            pointer.gameObject.SetActive(false);
-        }
-
+            unscrewEffect.gameObject.SetActive(false);
+            Stage.Instance.canInteract = true;
+            if(action != null) action();
+        });
     }
-
 }

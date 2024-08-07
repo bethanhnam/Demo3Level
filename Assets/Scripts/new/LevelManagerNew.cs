@@ -18,13 +18,15 @@ public class LevelManagerNew : MonoBehaviour
 
 	public List<Stage> testingStageList = new List<Stage>();
 
+	public List<MiniGameStage> miniStageList = new List<MiniGameStage>();
+
 	public int stage;
     private void Awake()
 	{
 		Instance = this;
 		stage = PlayerPrefs.GetInt("stage");
 		//test
-		//stage = 24;
+		stage = 24;
     }
 
 	public void Init()
@@ -42,7 +44,7 @@ public class LevelManagerNew : MonoBehaviour
 			try
 			{
 				levelBase = JsonConvert.DeserializeObject<LevelBase>(dataString);
-				//dataString = "{\"Level\":4,\"CountLevelWin\":0}";
+				//dataString = "{\"Level\":2,\"CountLevelWin\":0}";
                 //levelBase = JsonConvert.DeserializeObject<LevelBase>(dataString);
                 Debug.Log(dataString);
 				if (levelBase == null)
@@ -82,6 +84,20 @@ public class LevelManagerNew : MonoBehaviour
 		}
 		
 	}
+	public void CheckForNewPic()
+	{
+        if (levelBase.Level + 1 >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+        {
+            
+        }
+        else
+        {
+            Debug.Log(levelBase.Level);
+            levelBase.Level++;
+            levelBase.CountLevelWin = 0;
+            SaveData();
+        }
+    }
 	public void ResetLevel(Action action)
 	{
 		
@@ -95,7 +111,21 @@ public class LevelManagerNew : MonoBehaviour
 		SaveData();
 		DataLevelManager.Instance.SaveData();
 	}
-	public int GetStage()
+    public void NetxtLevelForNewPic()
+    {
+        if (levelBase.Level + 1 >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+        {
+
+        }
+        else
+        {
+            Debug.Log(levelBase.Level);
+            levelBase.Level++;
+            levelBase.CountLevelWin = 0;
+            SaveData();
+        }
+    }
+    public int GetStage()
 	{
 		if(stage > stageList.Count)
 		{

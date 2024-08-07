@@ -30,8 +30,11 @@ public class reciveRewardDaily : MonoBehaviour
     public TextMeshProUGUI rewardText;
 
     String x = "";
+    [SerializeField]
     int gold = 0;
+    [SerializeField]
     int unscrew = 0;
+    [SerializeField]
     int undo = 0;
     // Start is called before the first frame update
     void Start()
@@ -107,6 +110,7 @@ public class reciveRewardDaily : MonoBehaviour
     }
     public void SpawnObjects(int goldValue, int unscrewValue, int undoValue, GameObject SpawnPoint)
     {
+
         // Kích thước của object cha (giả sử là 400x400)
         float parentWidth = this.GetComponent<RectTransform>().rect.width;
         float parentHeight = this.GetComponent<RectTransform>().rect.height;
@@ -115,8 +119,10 @@ public class reciveRewardDaily : MonoBehaviour
         {
             for (int i = 0; i < 10; i++)
             {
-                var coin = Instantiate(coinPrefab, SpawnPoint.transform.position, Quaternion.identity, spawnCanvas.transform);
-                coinList.Add(coin);
+                var coin = coinList[i];
+                coin.transform.position = SpawnPoint.transform.position;
+                //var coin = Instantiate(coinPrefab, SpawnPoint.transform.position, Quaternion.identity, spawnCanvas.transform);
+                //coinList.Add(coin);
 
                 var coinIndex = coin;
                 coinIndex.transform.localPosition = Vector3.zero;
@@ -141,10 +147,10 @@ public class reciveRewardDaily : MonoBehaviour
                 //coinIndex.transform.localPosition = randomPosition;
             }
         }
-        for (int i = 0; i < unscrewValue; i++)
+        for (int i = 0; i < this.unscrew; i++)
         {
-            var unscrew = Instantiate(unscrewprefab, SpawnPoint.transform.position, Quaternion.identity, spawnCanvas.transform);
-            unscrewList.Add(unscrew);
+            var unscrew = unscrewList[i];
+            unscrew.transform.position = SpawnPoint.transform.position;
 
             var unscrewIndex = unscrew;
             unscrewIndex.transform.localScale = Vector3.zero;
@@ -156,7 +162,7 @@ public class reciveRewardDaily : MonoBehaviour
             // Tạo một vị trí mới cho object con
             Vector3 randomPosition = new Vector3(randomX,0, 1f);
 
-            unscrewIndex.gameObject.SetActive(true);
+            //unscrewIndex.gameObject.SetActive(true);
             unscrewIndex.transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
             {
                 float randomSpeed = UnityEngine.Random.Range(0.5f, 2f);
@@ -165,10 +171,10 @@ public class reciveRewardDaily : MonoBehaviour
             // Instantiate object con và gán nó vào object cha
             unscrewIndex.transform.DOLocalMove(randomPosition, 0.4f);
         }
-        for (int i = 0; i < undoValue; i++)
+        for (int i = 0; i < this.undo; i++)
         {
-            var undo = Instantiate(undoprefab, SpawnPoint.transform.position, Quaternion.identity, spawnCanvas.transform);
-            undoList.Add(undo);
+            var undo = undoList[i];
+            undo.transform.position = SpawnPoint.transform.position;
 
             var undoIndex = undo;
             undoIndex.transform.localScale = Vector3.zero;
@@ -176,12 +182,10 @@ public class reciveRewardDaily : MonoBehaviour
             // Tạo tọa độ ngẫu nhiên trong phạm vi kích thước của object cha
             float randomX = UnityEngine.Random.Range(-100 / 2, 100 / 2);
             
-
-
             // Tạo một vị trí mới cho object con
             Vector3 randomPosition = new Vector3(randomX, 0, 1f);
 
-            undoIndex.gameObject.SetActive(true);
+            //undoIndex.gameObject.SetActive(true);
             undoIndex.transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
             {
                 float randomSpeed = UnityEngine.Random.Range(0.5f, 2f);
@@ -192,17 +196,17 @@ public class reciveRewardDaily : MonoBehaviour
         }
         StartCoroutine(MoveToDes());
     }
-    public void test(List<CoinReward> list, int i)
+    public void test(List<CoinReward> list, int i,int value)
     {
-        if (list.Count > 0)
+        if (value > 0)
         {
-            float time = .7f / list.Count;
+            float time = .7f / value;
             DOVirtual.DelayedCall(0.1f, () =>
             {
                 if (i - 1 >= 0)
                 {
                     if (i - 1 >= 0)
-                        test(list, i - 1);
+                        test(list, i - 1,value-1);
                 }
             });
             list[i].MoveToFix(list[i], list[i].transform.position, coinDes.transform.position, new Vector3(0.8f, 0.8f, 1), () =>
@@ -216,21 +220,20 @@ public class reciveRewardDaily : MonoBehaviour
                 if (i >= 0)
                 {
                     var x = list[i];
-                    list.Remove(x);
-                    Destroy(x.gameObject, 0.1f);
+                    x.gameObject.SetActive(false);
                 }
             });
         }
     }
-    public void test1(List<CoinReward> list, int i)
+    public void test1(List<CoinReward> list, int i,int value)
     {
-        if (list.Count > 0)
+        if (value > 0)
         {
-            float time = .7f / list.Count;
+            float time = .7f / value;
             DOVirtual.DelayedCall(0.1f, () =>
             {
                 if(i - 1 >= 0)
-                test1(list, i - 1);
+                test1(list, i - 1, value - 1);
             });
             list[i].MoveToFix(list[i], list[i].transform.position, posDes.transform.position, new Vector3(0.8f, 0.8f, 1), () =>
             {
@@ -243,8 +246,7 @@ public class reciveRewardDaily : MonoBehaviour
                 if (i >= 0)
                 {
                     var x = list[i];
-                    list.Remove(x);
-                    Destroy(x.gameObject, 0.1f);
+                    x.gameObject.SetActive(false);
                 }
             });
         }
@@ -252,7 +254,7 @@ public class reciveRewardDaily : MonoBehaviour
     IEnumerator MoveToDes()
     {
         yield return new WaitForSeconds(.5f);
-        if (coinList.Count > 0)
+        if (gold > 0)
         {
             var x = dailyPanel.startValue;
             DOVirtual.Float(x, x + gold, 2.2f, (x) =>
@@ -260,21 +262,18 @@ public class reciveRewardDaily : MonoBehaviour
                 UIManagerNew.Instance.coinTexts[0].text = Mathf.CeilToInt(x).ToString();
 
             });
-            test(coinList, coinList.Count - 1);
+            test(coinList, coinList.Count - 1,gold);
             //SaveSystem.instance.addCoin(gold);
-            gold = 0;
         }
-        if (unscrewList.Count > 0)
+        if (unscrew > 0)
         {
-            test1(unscrewList, unscrewList.Count - 1);
+            test1(unscrewList, unscrewList.Count - 1,unscrew);
             //SaveSystem.instance.AddBooster(unscrew, 0);
-            unscrew = 0;
         }
-        if (undoList.Count > 0)
+        if (undo > 0)
         {
-            test1(undoList, undoList.Count - 1);
+            test1(undoList, undoList.Count - 1,undo);
             //SaveSystem.instance.AddBooster(0, undo);
-            undo = 0;
         }
         SaveSystem.instance.SaveData();
         
@@ -284,29 +283,32 @@ public class reciveRewardDaily : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         this.gameObject.SetActive(false);
-        if(coinList.Count >= 0)
+        if(gold > 0)
         {
-            for (int i = 0; i < coinList.Count; i++)
+            for (int i = 0; i < 10; i++)
             {
-                Destroy(coinList[i]);
+                coinList[i].gameObject.SetActive(false);
             }
         }
-        if (unscrewList.Count >= 0)
+        if (unscrew > 0)
         {
-            for (int i = 0; i < unscrewList.Count; i++)
+            for (int i = 0; i < unscrew; i++)
             {
-                Destroy(unscrewList[i]);
+                unscrewList[i].gameObject.SetActive(false);
             }
         }
-        if (undoList.Count >= 0)
+        if (undo > 0)
         {
-            for (int i = 0; i < undoList.Count; i++)
+            for (int i = 0; i < undo; i++)
             {
-                Destroy(undoList[i]);
+                undoList[i].gameObject.SetActive(false);
             }
         }
        DOVirtual.DelayedCall(0.3f, () =>
         {
+            gold = 0;
+            unscrew = 0;
+            undo = 0;
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
         });
     }

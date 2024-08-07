@@ -24,7 +24,7 @@ public class WinUI : MonoBehaviour
     public GameObject StarShadowImg;
 
     public List<CoinReward> coin = new List<CoinReward>();
-    public StarReward star = new StarReward();
+    public StarReward star;
 
     public Transform startPos;
     public Transform spawnPos;
@@ -173,16 +173,28 @@ public class WinUI : MonoBehaviour
                         if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
                         {
                             UIManagerNew.Instance.ButtonMennuManager.Appear();
-                            if (GameManagerNew.Instance.PictureUIManager.picTutor != null)
-                            {
-                                GameManagerNew.Instance.PictureUIManager.picTutor.CheckHasFixed();
-                            }
+                            
                         }
-                        //DOVirtual.DelayedCall(1f, () =>
-                        //{
-
-                        //});
-
+                        DOVirtual.DelayedCall(.5f, () => {
+                            if (LevelManagerNew.Instance.stage == 4)
+                            {
+                               if(PlayerPrefs.GetInt("GiveAwayBooster") == 0)
+                                {
+                                    PlayerPrefs.SetInt("GiveAwayBooster", 1);
+                                    GameManagerNew.Instance.conversationController.StartConversation(1, 14, "WelcomePresent", () =>
+                                    {
+                                        UIManagerNew.Instance.WelcomePresent.Appear();
+                                    });
+                                }
+                            }
+                            if (LevelManagerNew.Instance.stage == 8)
+                            {
+                                GameManagerNew.Instance.conversationController.StartConversation(1, 10, "7AfterLevel9",() =>
+                                {
+                                    
+                                });
+                            }
+                        });
                     });
                 }
             });
@@ -202,7 +214,7 @@ public class WinUI : MonoBehaviour
         SpawnCoin(0);
         AudioManager.instance.PlaySFX("StarRecieve");
         Debug.Log("StarImgDes " + StarImgDes.transform.position);
-        list.MoveToFix(list, list.transform.position,new Vector3(StarImgDes.transform.position.x, StarImgDes.transform.position.y,0), new Vector3(.3f, .3f, 1f), () =>
+        list.MoveToFix(list, list.transform.position, new Vector3(StarImgDes.transform.position.x, StarImgDes.transform.position.y, 0), new Vector3(.3f, .3f, 1f), () =>
             {
                 Debug.Log("list " + list.transform.position);
                 Debug.Log("Đã đến nơi ");
@@ -211,6 +223,7 @@ public class WinUI : MonoBehaviour
                     StarImgDes.gameObject.transform.DOScale(1f, 0.02f);
                     SaveSystem.instance.addStar(1);
                     SaveSystem.instance.SaveData();
+                    LevelManagerNew.Instance.NextStage();
                 });
                 StarShadowImg.gameObject.SetActive(true);
                 StarShadowImg.gameObject.transform.DOScale(0.3f, 0.15f).OnComplete(() =>
@@ -233,7 +246,6 @@ public class WinUI : MonoBehaviour
     IEnumerator Close1()
     {
         yield return new WaitForSeconds(4.5f);
-
         star.transform.SetParent(this.transform);
         UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
         GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level, false);
@@ -248,6 +260,6 @@ public class WinUI : MonoBehaviour
     }
     public void SetStarDesPos()
     {
-        StarImgDes.transform.position = new Vector3(StarShadowImg.transform.position.x,StarShadowImg.transform.position.y-0.5f,1);
+        StarImgDes.transform.position = new Vector3(StarShadowImg.transform.position.x, StarShadowImg.transform.position.y - 0.5f, 1);
     }
 }

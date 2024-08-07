@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class VideoController : MonoBehaviour
@@ -16,34 +17,50 @@ public class VideoController : MonoBehaviour
 
     public bool canInit = true;
     public bool canCreate = true;
+    public bool canSkip = true;
+
+    public Button skipButton;
 
     public List<VideoClip> videoList;
     //public List<VideoClip> videoActionList;
 
-    [System.Serializable]
-    public class Frame
-    {
-        public string sprite;
-        public float duration;
-    }
-
-    [System.Serializable]
-    public class AnimationData
-    {
-        public List<Frame> frames;
-    }
-
-    private AnimationData animationData;
-
     private void Awake()
     {
         instance = this;
+
+    }
+    private void Start()
+    {
+        canSkip = true;
+        var x = PlayerPrefs.GetInt("videoIndex");
+        videoPlayer.clip = videoList[x];
+        videoPlayer.Prepare();
+        if (!LoadingScreen.instance.HasFinishedStory())
+        {
+            skipButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            skipButton.gameObject.SetActive(false);
+        }
+    }
+    private void Update()
+    {
+        if (canSkip && (PlayerPrefs.GetString("HasFinishedStory", "false") == "false") && this.videoIndex != videoList.Count - 1)
+            {
+            skipButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            skipButton.gameObject.SetActive(false);
+        }
     }
     public void CheckStartVideo()
     {
-        //PlayerPrefs.SetInt("videoIndex",3);
+        //PlayerPrefs.SetInt("videoIndex", 3);
         var x = PlayerPrefs.GetInt("videoIndex");
-        if (x == 0) {
+        if (x == 0)
+        {
             FirebaseAnalyticsControl.Instance.startTutor();
         }
         PlayVideo(x, null);
@@ -64,34 +81,54 @@ public class VideoController : MonoBehaviour
         if (this.videoIndex == videoList.Count - 1)
         {
             PlayerPrefs.SetString("HasFinishedStory", "true");
+            skipButton.gameObject.SetActive(false);
             FirebaseAnalyticsControl.Instance.completeTutor();
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();
-            DOVirtual.DelayedCall(0.8f, () =>
+            DOVirtual.DelayedCall(0.5f, () =>
             {
                 GameManagerNew.Instance.InitStartGame();
             });
-            if (SaveSystem.instance.powerTicket > 0 || SaveSystem.instance.magicTiket > 0)
+            DOVirtual.DelayedCall(0.35f, () =>
             {
-                if (PlayerPrefs.GetInt("HasTransfer") == 0)
+                if (PlayerPrefs.GetInt("FirstStoryBubble") == 0)
                 {
-                    UIManagerNew.Instance.TransferPanel.Appear();
+                    DOVirtual.DelayedCall(1.3f, () =>
+                    {
+                        PlayerPrefs.SetInt("FirstStoryBubble", 1);
+                        GameManagerNew.Instance.conversationController.CanvasGroup.alpha = 0.8f;
+                        GameManagerNew.Instance.conversationController.StartConversation(0,0, "1FirstConver", () =>
+                        {
+                            GameManagerNew.Instance.conversationController.CanvasGroup.alpha = 0.4f;
+                            UIManagerNew.Instance.ButtonMennuManager.Appear();
+                        });
+                    });
                 }
                 else
                 {
-                    DOVirtual.DelayedCall(0.5f, () =>
+                    if (SaveSystem.instance.powerTicket > 0 || SaveSystem.instance.magicTiket > 0)
                     {
-                        UIManagerNew.Instance.ButtonMennuManager.Appear();
-                    });
+                        if (PlayerPrefs.GetInt("HasTransfer") == 0)
+                        {
+                            UIManagerNew.Instance.TransferPanel.Appear();
+                        }
+                        else
+                        {
+                            DOVirtual.DelayedCall(0.5f, () =>
+                            {
+                                UIManagerNew.Instance.ButtonMennuManager.Appear();
+                            });
+                        }
+                    }
+                    else
+                    {
+                        DOVirtual.DelayedCall(0.5f, () =>
+                        {
+                            UIManagerNew.Instance.DailyRWUI.Appear();
+                        });
+                    }
                 }
-            }
-            else
-            {
-                DOVirtual.DelayedCall(0.5f, () =>
-                {
-                    UIManagerNew.Instance.DailyRWUI.Appear();
-                });
-            }
+            });
             DOVirtual.DelayedCall(.7f, () =>
             {
                 GameManagerNew.Instance.isStory = false;
@@ -102,9 +139,9 @@ public class VideoController : MonoBehaviour
         {
             UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
             {
-
                 if (canCreate)
                 {
+                    canSkip = false;
                     if (videoIndex == 0)
                     {
                         GameManagerNew.Instance.InitStartStoryPic(0);
@@ -131,5 +168,15 @@ public class VideoController : MonoBehaviour
             });
         }
 
+    }
+    public void SkipVideo()
+    {
+        if (canSkip && videoIndex != 3)
+        {
+            long videoLength = (long)videoList[videoIndex].frameCount;
+            videoPlayer.frame = videoLength;
+            videoPlayer.loopPointReached += LoadingVideo;
+            canCreate = true;
+        }
     }
 }

@@ -9,7 +9,7 @@ using UnityEngine;
 public class Stage : MonoBehaviour
 {
     public static Stage Instance;
-    public GameObject holeToUnlock;
+    public ExtraHoleButton holeToUnlock;
     public GameObject Square;
     // Start is called before the first frame update
 
@@ -22,7 +22,7 @@ public class Stage : MonoBehaviour
     [SerializeField]
     public int numOfIronPlates;
     [SerializeField]
-    private NailControl curNail;
+    public NailControl curNail;
     [SerializeField]
     private Hole curHole;
     [SerializeField]
@@ -78,6 +78,12 @@ public class Stage : MonoBehaviour
     public bool isWining = false;
     public bool isLosing = false;
     public bool isScaling = false;
+
+    //check for movement
+    public bool isMoving = false;
+    public Tween boosterTween;
+    public Tween boosterTween1;
+
     private void Start()
     {
         Instance = this;
@@ -86,7 +92,10 @@ public class Stage : MonoBehaviour
     }
     private void OnEnable()
     {
-
+        if (!GameManagerNew.Instance.isStory && LevelManagerNew.Instance.stage > 3 && !GameManagerNew.Instance.isMinigame)
+        {
+            StartCoroutine(CheckForClickContinuously());
+        }
         try
         {
             if (GamePlayPanelUIManager.Instance.gameObject.activeSelf == false)
@@ -105,7 +114,7 @@ public class Stage : MonoBehaviour
         //	
         //}
         StartCoroutine(check());
-        InvokeRepeating("Check1", 0f, 1.5f);
+        //InvokeRepeating("Check1", 0f, 1.5f);
     }
     IEnumerator check()
     {
@@ -122,17 +131,17 @@ public class Stage : MonoBehaviour
         gameObject.SetActive(true);
         Vector3 targetSclae = transform.localScale;
         transform.localScale = Vector3.one;
-        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.5f).OnComplete(() =>
+        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
         {
-            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
+            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.3f).OnComplete(() =>
             {
-                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
+                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.4f).OnComplete(() =>
                 {
-
-                    TakeLossyScale();
                     canInteract = true;
-
-                    isScaling = false;
+                    DOVirtual.DelayedCall(0.3f, () =>
+                    {
+                        isScaling = false;
+                    });
                     EverythingStayStill(false);
 
                     if (!GamePlayPanelUIManager.Instance.gameObject.activeSelf)
@@ -150,14 +159,17 @@ public class Stage : MonoBehaviour
         {
             for (int i = 0; i < ironPlates.Length; i++)
             {
-                ironPlates[i].rigidbody2D1.gravityScale = 0;
+                if (ironPlates[i] != null)
+                    ironPlates[i].rigidbody2D1.gravityScale = 0;
             }
         }
         else
         {
             for (int i = 0; i < ironPlates.Length; i++)
             {
-                ironPlates[i].rigidbody2D1.gravityScale = 1;
+                if (ironPlates[i] != null)
+                    ironPlates[i].rigidbody2D1.gravityScale = 1;
+
             }
         }
     }
@@ -169,19 +181,21 @@ public class Stage : MonoBehaviour
         Vector3 targetSclae = transform.localScale;
         transform.localScale = Vector3.one;
         AudioManager.instance.PlaySFX("GamePlayLoading");
-        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.5f).OnComplete(() =>
+        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
         {
-            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
+            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.3f).OnComplete(() =>
             {
-                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
+                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.4f).OnComplete(() =>
                 {
 
-                    isScaling = false;
+                    DOVirtual.DelayedCall(0.3f, () =>
+                    {
+                        isScaling = false;
+                    });
                     EverythingStayStill(false);
 
-                    TakeLossyScale();
                     canInteract = true;
-                    TutorLevel1();
+
                 });
             });
         });
@@ -194,14 +208,17 @@ public class Stage : MonoBehaviour
         gameObject.SetActive(true);
         Vector3 targetSclae = transform.localScale;
         transform.localScale = Vector3.one;
-        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.5f).OnComplete(() =>
+        transform.DOScale(GameManagerNew.Instance.TargetScale + new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
         {
-            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.4f).OnComplete(() =>
+            transform.DOScale(GameManagerNew.Instance.TargetScale - new Vector3(0.1f, 0.1f, 0), 0.3f).OnComplete(() =>
             {
-                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.5f).OnComplete(() =>
+                transform.DOScale(GameManagerNew.Instance.TargetScale, 0.4f).OnComplete(() =>
                 {
 
-                    isScaling = false;
+                    DOVirtual.DelayedCall(0.3f, () =>
+                    {
+                        isScaling = false;
+                    });
                     EverythingStayStill(false);
 
                     canInteract = true;
@@ -218,6 +235,7 @@ public class Stage : MonoBehaviour
     {
         EverythingStayStill(true);
         canInteract = false;
+        isScaling = true;
         transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
         {
             if (isDes)
@@ -232,24 +250,18 @@ public class Stage : MonoBehaviour
 
     }
 
-    //public void ChangeSize(Sprite sprite)
-    //{
-    //	Vector2 sizeSprite = sprite.rect.size;
-
-    //	float sWidth = sizeSprite.x / 500f;
-    //	float sHeight = sizeSprite.y / 500f;
-
-    //	sprRenderItem.transform.localScale = Vector2.one * (1 / Mathf.Max(sWidth, sHeight));
-    //	sprRenderItem.sprite = sprite;
-    //}
-
     private void Update()
     {
         if (canInteract)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                StartCoroutine(check());
+                if (!GameManagerNew.Instance.isStory && !GameManagerNew.Instance.isMinigame)
+                {
+                    isMoving = true;
+                    SetDefaultBoosterAim();
+                }
+                //booster anim
                 if (!isTutor)
                 {
 
@@ -257,13 +269,13 @@ public class Stage : MonoBehaviour
                     {
                         GamePlayPanelUIManager.Instance.ButtonOff();
                         selectDeteleNail();
-                        
+
                     }
                     else
                     {
-                       
+
                         Click();
-                        
+
                     }
                 }
             }
@@ -272,7 +284,7 @@ public class Stage : MonoBehaviour
         //Hack();
         if (isWining)
         {
-           
+
             if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
             {
                 UIManagerNew.Instance.GamePlayPanel.Close();
@@ -285,7 +297,7 @@ public class Stage : MonoBehaviour
 
         Vector2 posMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(posMouse, 0.5f, Vector3.forward, Mathf.Infinity);
+        RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(posMouse, 0.8f, Vector3.forward, Mathf.Infinity);
 
         if (!nailDetectors.IsNullOrEmpty())
         {
@@ -315,7 +327,7 @@ public class Stage : MonoBehaviour
                     curNail = curHole.getNail();
                     Debug.Log("Lấy đinh");
                     curNail.check();
-                    curNail.PickUp(curHole.transform.position);
+                    curNail.PickUp(curHole.getNail());
                     if (isLvTutor)
                     {
                         pointerTutor.SetPos(1);
@@ -366,7 +378,7 @@ public class Stage : MonoBehaviour
                     preHole = curHole;
                     curNail = curHole.getNail();
                     curNail.check();
-                    curNail.PickUp(curHole.transform.position);
+                    curNail.PickUp(curHole.getNail());
                     var clickeffect = Instantiate(ParticlesManager.instance.pickUpStartParticle, curHole.transform.position, Quaternion.identity);
                     Destroy(clickeffect, 0.4f);
                     Debug.Log("chạy qua chọn đinh mới bth");
@@ -410,6 +422,10 @@ public class Stage : MonoBehaviour
                         {
                             Debug.Log("chạy vào tutor");
                             isLvTutor = false;
+                            if (Stage.Instance.pointerTutor != null)
+                            {
+                                Stage.Instance.pointerTutor.gameObject.SetActive(false);
+                            }
                             pointerTutor.DisablePointer();
                         }
                         Debug.Log("chạy qua click mới bth");
@@ -466,7 +482,7 @@ public class Stage : MonoBehaviour
     {
         if (numOfIronPlates <= 0)
         {
-            if (GameManagerNew.Instance.isStory)
+            if (GameManagerNew.Instance.isStory && !GameManagerNew.Instance.isMinigame)
             {
                 //code phần complete khi hoàn thành màn story
                 int videoIndex = PlayerPrefs.GetInt("videoIndex");
@@ -487,19 +503,53 @@ public class Stage : MonoBehaviour
                     Debug.Log("chay vào đây khi hết thanh gỗ");
                     if (!UIManagerNew.Instance.PausePanel.gameObject.activeSelf && !UIManagerNew.Instance.UndoPanel.gameObject.activeSelf && !UIManagerNew.Instance.DeteleNailPanel.gameObject.activeSelf && !UIManagerNew.Instance.ExtralHolePanel.gameObject.activeSelf)
                     {
-                        AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_win, () =>
+                        if (LevelManagerNew.Instance.stage == 0 || LevelManagerNew.Instance.stage == 1)
                         {
                             AdsControl.Instance.ActiveBlockFaAds(false);
                             Debug.Log("sau khi show ads");
-                            //UIManagerNew.Instance.GamePlayPanel.Close();
-                            LevelManagerNew.Instance.NextStage();
                             DOVirtual.DelayedCall(0.3f, () =>
                             {
                                 AudioManager.instance.PlaySFX("CompletePanel");
-                                UIManagerNew.Instance.CompleteUI.Appear();
-                                canInteract = false;
+                                if (LevelManagerNew.Instance.stage == 0)
+                                {
+                                    DOVirtual.DelayedCall(0.3f, () =>
+                                    {
+                                        UIManagerNew.Instance.CompleteUI.Appear();
+                                        canInteract = false;
+                                    });
+                                }
+                                else
+                                {
+                                    UIManagerNew.Instance.CompleteUI.Appear();
+                                    canInteract = false;
+                                }
                             });
-                        }, null);
+                        }
+                        else
+                        {
+                            AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_win, () =>
+                            {
+                                AdsControl.Instance.ActiveBlockFaAds(false);
+                                Debug.Log("sau khi show ads");
+                                DOVirtual.DelayedCall(0.3f, () =>
+                                {
+                                    AudioManager.instance.PlaySFX("CompletePanel");
+                                    if (LevelManagerNew.Instance.stage == 0)
+                                    {
+                                        DOVirtual.DelayedCall(0.3f, () =>
+                                        {
+                                            UIManagerNew.Instance.CompleteUI.Appear();
+                                            canInteract = false;
+                                        });
+                                    }
+                                    else
+                                    {
+                                        UIManagerNew.Instance.CompleteUI.Appear();
+                                        canInteract = false;
+                                    }
+                                });
+                            }, null);
+                        }
                     }
                     else
                     {
@@ -549,7 +599,17 @@ public class Stage : MonoBehaviour
                         nailToDetele.gameObject.SetActive(false);
                         setDeteleting(false);
                         hasDelete = true;
-                        GamePlayPanelUIManager.Instance.showPointer(false);
+                        UIManagerNew.Instance.GamePlayPanel.ShowUnscrewEffect(holeToDetele.transform, null);
+                        if (LevelManagerNew.Instance.stage == 3)
+                        {
+                            if (UIManagerNew.Instance.DeteleNailPanel.hasUseTutor == true)
+                            {
+                                UIManagerNew.Instance.DeteleNailPanel.hasUseTutor = false;
+                                UIManagerNew.Instance.GamePlayPanel.boosterBar.freeUnscrewImg.gameObject.SetActive(false);
+                                UIManagerNew.Instance.GamePlayPanel.boosterBar.unscrewNumImg.gameObject.SetActive(true);
+                                FirebaseAnalyticsControl.Instance.LogEventTutorialStatus(LevelManagerNew.Instance.stage, TutorialStatus.tut_unscrew_done);
+                            }
+                        }
                     }
                     //var Destroyeffect1 = Instantiate(destroyNailEffect, nailToDetele.transform.position, quaternion.identity);
                     //Destroy(Destroyeffect1, 0.5f);
@@ -592,7 +652,7 @@ public class Stage : MonoBehaviour
 
         }
         hasSave = true;
-        if (LevelManagerNew.Instance.stage >= 3 && !GameManagerNew.Instance.isStory)
+        if (LevelManagerNew.Instance.stage >= 3 && !GameManagerNew.Instance.isStory && !GameManagerNew.Instance.isMinigame)
         {
             if (!hasUndo)
             {
@@ -772,7 +832,7 @@ public class Stage : MonoBehaviour
             Debug.Log("chạy qua Clear");
 
             hasSave = false;
-            if (!GameManagerNew.Instance.isStory)
+            if (!GameManagerNew.Instance.isStory && !GameManagerNew.Instance.isMinigame)
             {
 
                 Debug.Log("chạy vào GamePlayPanelUIManager");
@@ -811,51 +871,32 @@ public class Stage : MonoBehaviour
         UIManagerNew.Instance.UndoPanel.numOfUsed = 1;
         //UIManagerNew.Instance.RePlayPanel.numOfUsed = 1;
         UIManagerNew.Instance.LosePanel.hasUse = false;
-        UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(true);
         TutorUnscrew();
-        TutorLevel1();
         DeactiveDeleting();
 
 
     }
     private void TutorUnscrew()
     {
-        if (LevelManagerNew.Instance.stage == 3 && !GameManagerNew.Instance.isStory)
+        if (LevelManagerNew.Instance.stage == 3 && !GameManagerNew.Instance.isStory && GamePlayPanelUIManager.Instance.gameObject.activeSelf)
         {
-            //tuto undo 
+            //tuto unscrew
             isTutor = true;
-            GamePlayPanelUIManager.Instance.ActiveBlackPic(true);
-            UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(false);
-
-            //anim unlock
-            //var x = Instantiate(ParticlesManager.instance.StarParticleObject, GamePlayPanelUIManager.Instance.DeteleButton.transform.position, Quaternion.identity, this.transform);
-            //ParticleSystem particle = x.transform.GetChild(0).GetComponent<ParticleSystem>();
-            //var shape = particle.shape;
-            //         shape.sprite = GamePlayPanelUIManager.Instance.DeteleButton.image.sprite;
-            //         Destroy(x, 1f);
-            Invoke("showUnscrewTuTor", 1.3f);
-
-        }
-        else if (LevelManagerNew.Instance.stage > 3)
-        {
-            UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(false);
-            GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
-        }
-        else if (LevelManagerNew.Instance.stage < 3)
-        {
-            UIManagerNew.Instance.DeteleNailPanel.LockOrUnlock(true);
-            GamePlayPanelUIManager.Instance.boosterBar.UninteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
+            Invoke("showUnscrewTuTor", 0.5f);
         }
     }
-    private void TutorLevel1()
+    public void TutorLevel1()
     {
         if (LevelManagerNew.Instance.stage == 0 && pointerTutor != null || GameManagerNew.Instance.isStory && pointerTutor != null)
         {
-            //tuto undo 
+            FirebaseAnalyticsControl.Instance.LogEventTutorialStatus(LevelManagerNew.Instance.stage, TutorialStatus.startTutor_1);
             isLvTutor = true;
             if (pointerTutor.gameObject.activeSelf == false)
             {
-                Invoke("showLevel1Tutor", 1f);
+                DOVirtual.DelayedCall(0.3f, () =>
+                {
+                    pointerTutor.gameObject.SetActive(true);
+                });
             }
 
         }
@@ -872,12 +913,12 @@ public class Stage : MonoBehaviour
     }
     public void check1()
     {
-        if (!GameManagerNew.Instance.isStory)
+        if (!GameManagerNew.Instance.isStory && !GameManagerNew.Instance.isMinigame)
         {
             if (holes.Length != 0 && numOfHoleNotAvailable.Count == holes.Length)
             {
 
-                if (checked1 == false)
+                if (checked1 == false && !isScaling)
                 {
                     checked1 = true;
                     Invoke("ShowNotice", 1f);
@@ -934,12 +975,18 @@ public class Stage : MonoBehaviour
         if (SaveSystem.instance.unscrewPoint == 0)
         {
             SaveSystem.instance.unscrewPoint = 1;
+            UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
         }
-        GamePlayPanelUIManager.Instance.boosterBar.disableDeteleWatchAdsBT();
-        GamePlayPanelUIManager.Instance.boosterBar.SetPoiterPos(0);
-        GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.deteleBT);
-        GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
+        UIManagerNew.Instance.NewBooster.SetValue(1);
+        DOVirtual.DelayedCall(0.5f, () => {
+            if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+            {
+                Stage.Instance.canInteract = false;
+            }
+            UIManagerNew.Instance.NewBooster.Appear();
+        });
     }
+
     public void showLevel1Tutor()
     {
         pointerTutor.gameObject.SetActive(true);
@@ -960,21 +1007,67 @@ public class Stage : MonoBehaviour
     //    GamePlayPanelUIManager.Instance.boosterBar.InteractableBT(GamePlayPanelUIManager.Instance.boosterBar.UndoBT);
     //    GamePlayPanelUIManager.Instance.boosterBar.ShowPointer(true);
     //}
-    public void TakeLossyScale()
+    IEnumerator CheckForClickContinuously()
     {
-        //if (ironPlates[0] != null)
-        //{
-        //    float lossyScale = ironPlates[0].holes[0].transform.lossyScale.x;
-        //    float Radius = ironPlates[0].holes[0].GetComponent<CircleCollider2D>().radius;
-        //    Debug.Log("lossyScale " +lossyScale);
-        //    Debug.Log("Radius " + Radius);
+        while (true)
+        {
+            if (!GameManagerNew.Instance.isStory && !GameManagerNew.Instance.isMinigame)
+            {
+                isMoving = false;
+                float timer = 5f;
+                while (timer > 0)
+                {
+                    timer -= Time.deltaTime; // Giảm thời gian theo thời gian thực
+                    yield return null; // Đợi khung hình tiếp theo
+                }
+                if (isMoving)
+                {
+                    // Thực hiện hành động khi người chơi bấm vào màn hình
+                    SetDefaultBoosterAim();
+                    yield return null; // Đợi khung hình tiếp theo
+                }
+                else
+                {
+                    LauchBoosterAim();
+                }
+                // Đợi 5 giây trước khi kiểm tra lại
+                yield return new WaitForSeconds(5f);
+            }
+        }
+    }
 
-        //    float normalScale = lossyScale;
-        //    float normalRadius = Radius;
-        //    for (int i = 1; i < holes.Length; i++) {
-        //        holes[i].GetComponent<CircleCollider2D>().radius = normalRadius * (this.transform.localScale.x / normalScale);
-        //    }
-        //    Debug.Log("lo "+normalRadius * (this.transform.localScale.x / normalScale) * holes[0].transform.localScale.x);
-        //}
+    private void SetDefaultBoosterAim()
+    {
+        //holeToUnlock.myAnimator.enabled = false;
+        if (holeToUnlock.addImage.gameObject.activeSelf)
+        {
+            //this.holeToUnlock.addImage.transform.localScale = holeToUnlock.myScale;
+        }
+        GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, false);
+        GamePlayPanelUIManager.Instance.DeteleButton.transform.DOScale(1.05f, 0.05f);
+        GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);
+        GamePlayPanelUIManager.Instance.UndoButton.transform.DOScale(1.05f, 0.05f);
+        if (boosterTween != null)
+            DOTween.Kill(boosterTween);
+        if (boosterTween1 != null)
+            DOTween.Kill(boosterTween1);
+    }
+
+    private void LauchBoosterAim()
+    {
+        // Thực hiện hành động khi người chơi không bấm vào màn hình
+        GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, true);
+        boosterTween = DOVirtual.DelayedCall(3f, () =>
+        {
+            GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, false);
+            GamePlayPanelUIManager.Instance.DeteleButton.transform.localScale = new Vector3(1.05f, 1.05f, 1);
+            GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, true);
+            boosterTween1 = DOVirtual.DelayedCall(3f, () =>
+            {
+                GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);
+                GamePlayPanelUIManager.Instance.UndoButton.transform.localScale = new Vector3(1.05f, 1.05f, 1);
+                //this.holeToUnlock.myAnimator.enabled = false;
+            });
+        });
     }
 }

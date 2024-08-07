@@ -79,7 +79,7 @@ public class NotEnoughStar : MonoBehaviour
         {
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();
-			DOVirtual.DelayedCall(0.7f, () =>
+            DOVirtual.DelayedCall(0.7f, () =>
             {
                 UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
                 if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
@@ -92,6 +92,23 @@ public class NotEnoughStar : MonoBehaviour
                     GameManagerNew.Instance.CreateLevel(level);
                 }
             });
+            if (LevelManagerNew.Instance.stage == 1)
+            {
+                //tuto undo 
+                if (SaveSystem.instance.extraHolePoint == 0)
+                {
+                    SaveSystem.instance.extraHolePoint = 1;
+                    UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
+                }
+                DOVirtual.DelayedCall(1.7f, () => { 
+                if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+                {
+                    Stage.Instance.canInteract = false;
+                }
+                    UIManagerNew.Instance.NewBooster.SetValue(0);
+                    UIManagerNew.Instance.NewBooster.Appear();
+                });
+            }
             CloseForPlay();
         }
     }

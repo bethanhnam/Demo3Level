@@ -49,28 +49,22 @@ public class DailyPanel : MonoBehaviour
 		//enable / disable claim button
 		if (DateTime.Today > lastclaimTime)
 		{
-            if (SaveSystem.instance.days < 7)
+			if (lastDate < dayRewards.Length)
 			{
-				result = true;
-				dayRewards[SaveSystem.instance.days].isActive = true;
-				//claim.interactable = true;
-				//claim.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = Color.white;
-				claimX2.interactable = true;
+				if (SaveSystem.instance.days < 7)
+				{
+					result = true;
+					dayRewards[SaveSystem.instance.days].isActive = true;
+					claimX2.interactable = true;
+				}
+				else
+				{
+					claimX2.interactable = false;
+				}
 			}
-			else
-			{
-				//claim.interactable = false;
-				//Color color = new Color(140f / 255f, 140f / 255f, 140f / 255f);
-				//claim.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = color;
-				claimX2.interactable = false;
-			}
-			
 		}
 		else
 		{
-			//claim.interactable = false;
-			//Color color = new Color(140f / 255f, 140f / 255f, 140f / 255f);
-			//claim.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = color;
 			claimX2.interactable = false;
 		}
 		return result;
@@ -90,7 +84,6 @@ public class DailyPanel : MonoBehaviour
 	public void OnClaimButtinPressed()
 	{
 		PlayerPrefs.SetString("LastClaimTime", DateTime.Now.ToString("yyyy-MM-dd"));
-        Debug.Log(DateTime.Now.ToString());
         isClaim = true;
 		reciveRewardPanel.Open();
 		Claim();
@@ -166,13 +159,22 @@ public class DailyPanel : MonoBehaviour
 	}
 	public void CheckForClose()
 	{
-		if (!dayRewards[lastDate].isClaim && checkDay())
-		{
-			OnClaimButtinPressed();
+		if (lastDate < dayRewards.Length) {
+			if (dayRewards[lastDate] != null)
+			{
+				if (!dayRewards[lastDate].isClaim && checkDay())
+				{
+					OnClaimButtinPressed();
+				}
+				else
+				{
+
+					UIManagerNew.Instance.ButtonMennuManager.DisappearDailyRW();
+				}
+			}
 		}
 		else
 		{
-
 			UIManagerNew.Instance.ButtonMennuManager.DisappearDailyRW();
 		}
 	}

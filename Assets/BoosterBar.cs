@@ -15,50 +15,43 @@ public class BoosterBar : MonoBehaviour
     public Image unscrewNumImg;
     public Image undoNumImg;
 
+    public Image freeUnscrewImg;
+
     public TextMeshProUGUI unscrewNumText;
     public TextMeshProUGUI undoNumText;
 
     public DeteleNailPanel deteleNailPanel;
     public UndoPanel undoPanel;
-    public Image pointer;
     public Transform[] transforms;
-    
-    public void InteractableBT(Button button)
+
+    private void Start()
     {
-        button.interactable = true;
-    }
-    public void UninteractableBT(Button button)
-    {
-        button.interactable = false;
-    }
-    public void ShowPointer(bool status)
-    {
-        pointer.gameObject.SetActive(status);
-    }
-    public void SetPoiterPos(int i)
-    {
-        pointer.gameObject.transform.position = transforms[i].position;
-    }
-    public void disableDeteleWatchAdsBT()
-    {
-        deteleNailPanel.watchAdButton.GetComponent<Button>().interactable = false;
-    }
-    public void disableUndoWatchAdsBT()
-    {
-        undoPanel.watchAdButton.GetComponent<Button>().interactable = false;
-    }
-    private void Update()
-    {
-        if(SaveSystem.instance.unscrewPoint > 0)
+        if(LevelManagerNew.Instance.stage == 3 && UIManagerNew.Instance.DeteleNailPanel.hasUseTutor == false)
         {
-            unscrewAddImg.gameObject.SetActive(false);
-            unscrewNumImg.gameObject.SetActive(true);
-            unscrewNumText.text = SaveSystem.instance.unscrewPoint.ToString();
+            freeUnscrewImg.gameObject.SetActive(true);
+            unscrewNumImg.gameObject.SetActive(false);
         }
         else
         {
-            unscrewAddImg.gameObject.SetActive(true);
-            unscrewNumImg.gameObject.SetActive(false);
+            freeUnscrewImg.gameObject.SetActive(false);
+            unscrewNumImg.gameObject.SetActive(true);
+        }
+    }
+    private void Update()
+    {
+        if (!freeUnscrewImg.gameObject.activeSelf)
+        {
+            if (SaveSystem.instance.unscrewPoint > 0)
+            {
+                unscrewAddImg.gameObject.SetActive(false);
+                unscrewNumImg.gameObject.SetActive(true);
+                unscrewNumText.text = SaveSystem.instance.unscrewPoint.ToString();
+            }
+            else
+            {
+                unscrewAddImg.gameObject.SetActive(true);
+                unscrewNumImg.gameObject.SetActive(false);
+            }
         }
         if (SaveSystem.instance.undoPoint > 0)
         {

@@ -1,4 +1,4 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using Sirenix.OdinInspector;
 using Spine.Unity;
 using System;
@@ -30,6 +30,7 @@ public class PictureUIManager : MonoBehaviour
 
     //bool
     public bool hasWindow = false;
+    public GameObject LevelButton;
 
     //tutor pic
     public PicTutor picTutor;
@@ -65,6 +66,7 @@ public class PictureUIManager : MonoBehaviour
         level = _level;
         if (level >= DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
         {
+            Debug.LogWarning("level "+ level);
             level = 0;
         }
 
@@ -213,20 +215,36 @@ public class PictureUIManager : MonoBehaviour
             }
         }
         SetStarText();
+        Debug.Log("chạy xong setStarText");
         CheckForWindow();
+        Debug.Log("chạy xong checkForWindow");
 
     }
     public void CheckForWindow()
     {
-
-        if (windowObj.gameObject != null && windowObj.gameObject.activeSelf)
+        Debug.Log("LevelManagerNew.Instance.LevelBase.Level " + LevelManagerNew.Instance.LevelBase.Level);
+        if (LevelManagerNew.Instance.LevelBase !=null && LevelManagerNew.Instance.LevelBase.Level != null)
         {
-            hasWindow = true;
-        }
-        else
-        {
-            PlayerPrefs.SetInt("windowFixed", 1);
-            hasWindow = false;
+            if (LevelManagerNew.Instance.LevelBase.Level == 0)
+            {
+                if (windowObj.gameObject != null && windowObj.gameObject.activeSelf)
+                {
+                    hasWindow = true;
+                    Debug.Log("chạy qua has window true");
+                }
+                else
+                {
+                    PlayerPrefs.SetInt("windowFixed", 1);
+                    hasWindow = false;
+                    Debug.Log("chạy qua has window fal trong true");
+                }
+            }
+            else
+            {
+                PlayerPrefs.SetInt("windowFixed", 1);
+                hasWindow = false;
+                Debug.Log("chạy qua has window fal");
+            }
         }
     }
     public void ChangeReaction(float time, string t, bool loop, bool hasWindow)
@@ -361,36 +379,12 @@ public class PictureUIManager : MonoBehaviour
                         }
                     }
                 }
+                Debug.Log("chạy xong đổi các item stage trước");
             }
             else
             {
                 if (i == DataLevelManager.Instance.DataLevel.Data[level].IndexStage)
                 {
-                    //for (int j = 0; j < stage[i].listObjLock.Count; j++)
-                    //{
-                    //    for (int k = 0; k < stage[i].listObjLock[j].objBtn.Count; k++)
-                    //    {
-                    //        if (DataLevelManager.Instance.DataLevel.Data[level].Stage[i].DataItmeLevel[j].IsUnlock)
-                    //        {
-                    //            if (stage[i].listObjLock[j].objBtn[k].activeSelf)
-                    //            {
-                    //                stage[i].listObjLock[j].objBtn[k].SetActive(false);
-
-                    //            }
-                    //            PlayerPrefs.SetInt("lastLevelActived", level);
-                    //            PlayerPrefs.SetInt("lastLevelStageActived", DataLevelManager.Instance.DataLevel.Data[level].IndexStage);
-                    //        }
-                    //        else
-                    //        {
-                    //            if (!stage[i].listObjLock[j].objBtn[k].activeSelf)
-                    //            {
-                    //                stage[i].listObjLock[j].objBtn[k].SetActive(true);
-                    //            }
-
-                    //        }
-                    //    }
-
-                    //}
                     for (int j = 0; j < stage[i].listObjLock.Count; j++)
                     {
                         if (DataLevelManager.Instance.DataLevel.Data[level].Stage[i].DataItmeLevel[j].IsUnlock)
@@ -441,6 +435,7 @@ public class PictureUIManager : MonoBehaviour
 
                         }
                     }
+                    Debug.Log("chạy xong đúng stage");
                 }
                 else
                 {
@@ -468,10 +463,12 @@ public class PictureUIManager : MonoBehaviour
                             }
                         }
                     }
+                    Debug.Log("chạy xong đóng hết item");
                 }
             }
         }
         HiddenButton();
+        Debug.Log("chạy xong changeitemonly");
         StartCoroutine(NormalInit(showBT));
     }
     IEnumerator NormalInit(bool showBT)
@@ -480,6 +477,7 @@ public class PictureUIManager : MonoBehaviour
         Init(level);
         if (showBT)
         {
+            Debug.Log("chạy xong showBT");
             DisplayButton();
         }
         //if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
@@ -488,13 +486,19 @@ public class PictureUIManager : MonoBehaviour
         //}
         if (!GameManagerNew.Instance.CheckSliderValueAndDisplay())
         {
+            Debug.Log("chạy vào trong normalInit");
             UIManagerNew.Instance.ButtonMennuManager.ActiveCVGroup();
         }
+        Debug.Log("chạy xong normalInit");
     }
 
     public Vector3 GetCurrentPosItem()
     {
         return stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock[GameManagerNew.Instance.Level].objunLock[0].transform.position;
+    }
+    public GameObject GetcurrentLevelButton()
+    {
+        return stage[DataLevelManager.Instance.DataLevel.Data[LevelManagerNew.Instance.LevelBase.Level].IndexStage].listObjLock[GameManagerNew.Instance.Level].objBtn[0];
     }
     public void DisableCharacter()
     {

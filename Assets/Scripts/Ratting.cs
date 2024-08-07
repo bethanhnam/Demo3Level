@@ -97,9 +97,22 @@ public class Ratting : MonoBehaviour
 		{
 			if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
 			{
-				GameManagerNew.Instance.CompleteLevelAfterReward();
-				PlayerPrefs.SetInt("windowFixed", 0);
-				PlayerPrefs.SetInt("HasRecieveRW", 0);
+				if (LevelManagerNew.Instance.LevelBase.Level == 0)
+				{
+                    //GameManagerNew.Instance.conversationController.StartConversation(1, 11, "8FirstMap2", () =>
+                    //{
+                        GameManagerNew.Instance.CompleteLevelAfterReward();
+                        PlayerPrefs.SetInt("windowFixed", 0);
+                        PlayerPrefs.SetInt("HasRecieveRW", 0);
+                    //});
+                }
+				else
+				{
+                    GameManagerNew.Instance.CompleteLevelAfterReward();
+                    PlayerPrefs.SetInt("windowFixed", 0);
+                    PlayerPrefs.SetInt("HasRecieveRW", 0);
+                }
+				
 			}
 			else
 			{
@@ -108,7 +121,7 @@ public class Ratting : MonoBehaviour
                 {
                     character.transform.SetParent(GameManagerNew.Instance.PictureUIManager.transform);
                 }
-                GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
+                GameManagerNew.Instance.PictureUIManager.ChangeReaction(0.5f, "idle_happy", true, GameManagerNew.Instance.PictureUIManager.hasWindow);
 				UIManagerNew.Instance.CompleteImg.Disablepic();
 				if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
 				{

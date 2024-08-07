@@ -17,6 +17,7 @@ public class MyNotification
     private const string channelDes = "Generic notifications";
     private const string smallIcon = "smallicon";
     private const string largeIcon = "largeicon";
+    private const string banner = "banner";
 
     private bool isInit = false;
 

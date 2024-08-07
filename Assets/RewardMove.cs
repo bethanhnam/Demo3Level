@@ -124,7 +124,7 @@ public class RewardMove : MonoBehaviour
                         coinImgDes.gameObject.transform.DOScale(.7f, 0.02f);
                     });
                     var x = list[i];
-                    DOVirtual.DelayedCall(0.03f, () =>
+                    DOVirtual.DelayedCall(0.01f, () =>
                     {
                         x.gameObject.SetActive(false);
                     });

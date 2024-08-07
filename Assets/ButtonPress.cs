@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class ButtonPress : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private Button btn;
-    [SerializeField][Range(0, 1)] private float scaleRate = 0.8f;
+    private float scaleRate = 0.8f;
 
     private Vector3 _scaleDefault;
 
@@ -35,9 +35,9 @@ public class ButtonPress : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (btn != null && btn.interactable)
         {
             var minScale = _scaleDefault * scaleRate;
-            transform.DOScale(minScale, .2f).SetEase(Ease.Linear).OnComplete(() =>
-            {
-            });
+            transform.DOScale(minScale, .2f).SetEase(Ease.Linear);
+            if(GameManagerNew.Instance)
+            GameManagerNew.Instance.hapticSouce.Play();
         }
     }
 

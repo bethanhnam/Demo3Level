@@ -59,8 +59,20 @@ public class UIManagerNew : MonoBehaviour
     private TransferPanel transferPanel;
     [SerializeField]
     private videoLoading videoLoaingPanel;
-
-
+    [SerializeField]
+    private NewBooster newBooster;
+    [SerializeField]
+    private ThresholeController thresholeController;
+    [SerializeField]
+    private MiniGamePlay miniGamePlay;
+    [SerializeField]
+    private WelcomePresent welcomePresent;
+    [SerializeField]
+    private StartMiniGamePanel startMiniGamePanel;
+    [SerializeField]
+    private WinMiniGamePanel winMiniGamePanel;
+    [SerializeField]
+    private SkipPanel skipPanel;
 
     public TextMeshProUGUI[] DrillTexts;
     public TextMeshProUGUI[] UnscrewTexts;
@@ -113,6 +125,13 @@ public class UIManagerNew : MonoBehaviour
     public videoLoading VideoLoaingPanel { get => videoLoaingPanel; set => videoLoaingPanel = value; }
     public GameObject HighCanvas { get => highCanvas; set => highCanvas = value; }
     public StoryItem StoryItem { get => storyItem; set => storyItem = value; }
+    public NewBooster NewBooster { get => newBooster; set => newBooster = value; }
+    public ThresholeController ThresholeController { get => thresholeController; set => thresholeController = value; }
+    public MiniGamePlay MiniGamePlay { get => miniGamePlay; set => miniGamePlay = value; }
+    public WelcomePresent WelcomePresent { get => welcomePresent; set => welcomePresent = value; }
+    public StartMiniGamePanel StartMiniGamePanel { get => startMiniGamePanel; set => startMiniGamePanel = value; }
+    public WinMiniGamePanel WinMiniGamePanel { get => winMiniGamePanel; set => winMiniGamePanel = value; }
+    public SkipPanel SkipPanel { get => skipPanel; set => skipPanel = value; }
 
     private void Awake()
     {

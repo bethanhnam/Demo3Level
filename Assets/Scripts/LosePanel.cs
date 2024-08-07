@@ -14,8 +14,11 @@ public class LosePanel : MonoBehaviour
 	public CanvasGroup canvasGroup;
 	public bool hasUse = false;
 	public Button watchAdButton;
-	// Start is called before the first frame update
-	void Start()
+
+	public Sprite bttn_green;
+	public Sprite bttn_gray;
+    // Start is called before the first frame update
+    void Start()
     {
 		watchAdButton.interactable = true;
 	}
@@ -30,7 +33,7 @@ public class LosePanel : MonoBehaviour
 		else
 		{
 			watchAdButton.interactable = true;
-			watchAdButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/win/bttn_green");
+			watchAdButton.GetComponent<Image>().sprite = bttn_green;
 		}
     }
     public void WatchAd()
@@ -47,7 +50,7 @@ public class LosePanel : MonoBehaviour
 				GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
 				hasUse = true;
 				watchAdButton.interactable = false;
-				watchAdButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UI Nut/export/win/bttn_grey");
+				watchAdButton.GetComponent<Image>().sprite = bttn_gray;
                 Stage.Instance.CheckDoneLevel();
                 FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.revive);
             });
@@ -57,11 +60,13 @@ public class LosePanel : MonoBehaviour
 	}
 	public void Replay()
     {
-		// load ad 
-		AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_lose, () =>
+        // load ad 
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+        AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_lose, () =>
 		{
 			Close();
-			GameManagerNew.Instance.Retry();
+            ConversationController.instance.Disappear();
+            GameManagerNew.Instance.Retry();
 			hasUse = false;
 		}, null);
 	}

@@ -15,43 +15,69 @@ public class ButtonMennuManager : MonoBehaviour
     private RewardMove rewardMove;
     [SerializeField]
     public StarMove starMove;
+    public GameObject[] noticeButtons;
+    public int levelMinigame;
 
-    //pointer
-    public GameObject playBTPoinnter;
+    public GameObject playButton;
+    public MiniGamePlayButton MiniGamePlayButton;
 
     private int appearButton = Animator.StringToHash("appear");
     private int disappearButton = Animator.StringToHash("disappear");
 
+    private void Awake()
+    {
+        // datatest
+        PlayerPrefs.SetInt("GiveAwayBooster", 1);
+    }
     public void Appear()
     {
-        if (GameManagerNew.Instance.PictureUIManager.gameObject.activeSelf == false)
+        if (GameManagerNew.Instance.PictureUIManager != null)
         {
-            GameManagerNew.Instance.PictureUIManager.Open();
-        }
-        if (!gameObject.activeSelf)
-        {
-            gameObject.SetActive(true);
-        }
-        cvButton.blocksRaycasts = false;
-        animButton.Play(appearButton, 0, 0);
-        SaveSystem.instance.LoadData();
-        DOVirtual.DelayedCall(1f, () =>
-        {
-            if (LevelManagerNew.Instance.stage == 0)
+            if (GameManagerNew.Instance.PictureUIManager.gameObject.activeSelf == false)
             {
-                DisplayPointer();
+                GameManagerNew.Instance.PictureUIManager.Open();
+            }
+            if (!gameObject.activeSelf)
+            {
+                gameObject.SetActive(true);
+            }
+            cvButton.blocksRaycasts = false;
+            animButton.Play(appearButton, 0, 0);
+            SaveSystem.instance.LoadData();
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                if (LevelManagerNew.Instance.stage == 0)
+                {
+                    ShowPointer();
+                }
+                else
+                {
+                    UIManagerNew.Instance.ButtonMennuManager.playButton.gameObject.SetActive(true);
+                }
+            });
+            if (LevelManagerNew.Instance.stage == 1 && PlayerPrefs.GetInt("Hasfixed") == 0)
+            {
+                GameManagerNew.Instance.conversationController.StartConversation(1, 2, "3FirstFix", () =>
+                {
+                    GameManagerNew.Instance.CheckForTutorFix();
+                });
+            }
+            CheckDailyNotice();
+            if (LevelManagerNew.Instance.stage <= 3)
+            {
+                noticeButtons[0].gameObject.SetActive(false);
             }
             else
             {
-                DisablePointer();
+                noticeButtons[0].gameObject.SetActive(true);
             }
-        });
+            CheckForMinigame();
+        }
     }
     public void Close()
     {
         cvButton.blocksRaycasts = false;
         animButton.Play(disappearButton);
-        DisablePointer();
     }
 
     public void Deactive()
@@ -164,6 +190,12 @@ public class ButtonMennuManager : MonoBehaviour
         UIManagerNew.Instance.DailyRWUI.Close();
     }
 
+    public void OpenStartMinigame()
+    {
+        Close();
+        UIManagerNew.Instance.StartMiniGamePanel.Appear();
+    }
+
     public void DisplayWin()
     {
         UIManagerNew.Instance.CompleteImg.gameObject.SetActive(true);
@@ -172,7 +204,6 @@ public class ButtonMennuManager : MonoBehaviour
     {
         int level = LevelManagerNew.Instance.GetStage();
         //GameManagerNew.Instance.CreateLevel(level);
-        DisablePointer();
         if (GameManagerNew.Instance.CheckLevelStage())
         {
             UIManagerNew.Instance.ButtonMennuManager.OpenCompletePanel();
@@ -191,12 +222,65 @@ public class ButtonMennuManager : MonoBehaviour
                 }
                 else
                 {
+                    DOVirtual.DelayedCall(.95f, () =>
+                    {
+                        if (LevelManagerNew.Instance.stage == 0)
+                        {
+                            GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
+                            //tuto undo 
+                            GameManagerNew.Instance.conversationController.StartConversation(1, 1, "2SecondConver", () =>
+                            {
+                                Stage.Instance.TutorLevel1();
+                            }, true);
+                        }
+                        if (LevelManagerNew.Instance.stage == 1)
+                        {
+                            GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
+                            //tuto undo 
+                            if (SaveSystem.instance.extraHolePoint == 0)
+                            {
+                                SaveSystem.instance.extraHolePoint = 1;
+                                UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
+                            }
+                            UIManagerNew.Instance.NewBooster.SetValue(0);
+                            DOVirtual.DelayedCall(0.5f, () =>
+                            {
+                                if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+                                {
+                                    Stage.Instance.canInteract = false;
+                                }
+                                UIManagerNew.Instance.NewBooster.Appear();
+                            });
+                        }
+                    });
                     GameManagerNew.Instance.CreateLevel(level);
                 }
             });
             Close();
         }
     }
+    public void PlayMiniGame()
+    {
+        DOVirtual.DelayedCall(1, () =>
+        {
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+            UIManagerNew.Instance.GamePlayLoading.appear();
+                DOVirtual.DelayedCall(.5f, () =>
+                    {
+                        if (LevelManagerNew.Instance.stage == 4)
+                        {
+                            this.levelMinigame = 0;
+                        }
+                        if (LevelManagerNew.Instance.stage == 7)
+                        {
+                            this.levelMinigame = 1;
+                        }
+                        GameManagerNew.Instance.CreateMiniGame(levelMinigame);
+                    });
+            Close();
+        });
+    }
+
     public void DisPlayPresent()
     {
         Vector3 startPos = UIManagerNew.Instance.ChestSLider.present.transform.position;
@@ -209,19 +293,6 @@ public class ButtonMennuManager : MonoBehaviour
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
             });
         });
-    }
-    public void DisplayReward()
-    {
-
-    }
-
-    public void DisplayPointer()
-    {
-        playBTPoinnter.gameObject.SetActive(true);
-    }
-    public void DisablePointer()
-    {
-        playBTPoinnter.gameObject.SetActive(false);
     }
     public void DisplayLevelText()
     {
@@ -238,6 +309,83 @@ public class ButtonMennuManager : MonoBehaviour
             else
             {
                 UIManagerNew.Instance.playBTLevelTexts.text = (LevelManagerNew.Instance.stage).ToString();
+            }
+        }
+    }
+    public void ShowPointer()
+    {
+        if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
+        {
+            UIManagerNew.Instance.GamePlayPanel.DeactiveTime();
+        }
+        if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
+        {
+            Stage.Instance.canInteract = false;
+        }
+        UIManagerNew.Instance.ThresholeController.showThreshole("playButton", UIManagerNew.Instance.ButtonMennuManager.playButton.transform.localScale, UIManagerNew.Instance.ButtonMennuManager.playButton.transform);
+    }
+    public void activePlayButton()
+    {
+        UIManagerNew.Instance.ButtonMennuManager.playButton.gameObject.SetActive(true);
+    }
+    public void ShowNoticeIcon(int i, bool status)
+    {
+        noticeButtons[i].transform.GetChild(0).gameObject.SetActive(status);
+    }
+    public void CheckDailyNotice()
+    {
+        string lastClaimTime = PlayerPrefs.GetString("LastClaimTime", string.Empty);
+        string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+        if (lastClaimTime.Equals(currentDate))
+        {
+            ShowNoticeIcon(0, false);
+        }
+        else
+        {
+            ShowNoticeIcon(0, true);
+        }
+    }
+    public void CheckForMinigame()
+    {
+        if (LevelManagerNew.Instance.stage == 4 && PlayerPrefs.GetInt("GiveAwayBooster") == 1)
+        {
+            if (!UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[0].hasDone)
+            {
+                UIManagerNew.Instance.StartMiniGamePanel.SetProperties(50, 0);
+                MiniGamePlayButton.SetQuestButton(0, "Help me");
+                ConversationController.instance.StartConversation(0, 6, "minigame1", () =>
+                {
+                    UIManagerNew.Instance.StartMiniGamePanel.ChangeText("PLAY");
+                    UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(PlayMiniGame);
+                    UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(UIManagerNew.Instance.StartMiniGamePanel.Close);
+                });
+            }
+            else
+            {
+                GameManagerNew.Instance.isMinigame = false;
+                MiniGamePlayButton.SetToPlayButton();
+            }
+        }
+        else
+        {
+            if (LevelManagerNew.Instance.stage == 7)
+            {
+                if (!UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[1].hasDone)
+                {
+                    UIManagerNew.Instance.StartMiniGamePanel.SetProperties(50, 1);
+                    MiniGamePlayButton.SetQuestButton(1, "Help me");
+                    ConversationController.instance.StartConversation(0, 8, "minigame2", () =>
+                    {
+                        UIManagerNew.Instance.StartMiniGamePanel.ChangeText("PLAY");
+                        UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(PlayMiniGame);
+                        UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(UIManagerNew.Instance.StartMiniGamePanel.Close);
+                    });
+                }
+                else
+                {
+                    GameManagerNew.Instance.isMinigame = false;
+                    MiniGamePlayButton.SetToPlayButton();
+                }
             }
         }
     }

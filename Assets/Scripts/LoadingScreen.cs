@@ -1,4 +1,6 @@
 ﻿using DG.Tweening;
+using Firebase;
+using Firebase.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -7,6 +9,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using static UnityEngine.Rendering.HDROutputUtils;
 
 public class LoadingScreen : MonoBehaviour
@@ -18,6 +21,9 @@ public class LoadingScreen : MonoBehaviour
 
     [SerializeField]
     public CanvasGroup cv;
+
+    // firebase
+    public bool isFirebaseInitialized;
     public void LoadingScene(int sceneId)
     {
         StartCoroutine(LoadingSceneAsync(sceneId));
@@ -29,27 +35,25 @@ public class LoadingScreen : MonoBehaviour
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
         operation.allowSceneActivation = false;
         loadingScreen.SetActive(true);
-        
         while (sliders[0].value <= 0.9f && !operation.isDone)
         {
             if (sliders[0].value <= 0.9f)
             {
-                sliders[0].value += 0.015f;
+                sliders[0].value += 0.01f;
             }
-            if (operation.progress >= 0.9f && sliders[0].value == 0.9f)
+            if (operation.progress >= 0.9f && sliders[0].value == 0.9f && isFirebaseInitialized)
             {
                 operation.allowSceneActivation = true;
                 RemoteConfigController.instance.Init();
-                yield return new WaitForSecondsRealtime(0.2f);
+                yield return new WaitForSecondsRealtime(0.5f);
                 if (!HasFinishedStory())
                 {
-                    GameManagerNew.Instance.PlayVideo();
+                    GameManagerNew.Instance.videoController.gameObject.SetActive(true);
+                    GameManagerNew.Instance.videoController.videoPlayer.Prepare();
+                    yield return new WaitUntil(() => GameManagerNew.Instance.videoController.videoPlayer.isPrepared);
                     AudioManager.instance.PlayMusic("story");
-                    Destroy(this.gameObject,1f);
-
-                    ////test 
-                    //normalInitGame();
-
+                    GameManagerNew.Instance.PlayVideo();
+                    Destroy(this.gameObject, 1f);
                 }
                 else
                 {
@@ -61,6 +65,17 @@ public class LoadingScreen : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
     }
 
+    //private IEnumerator WaitForVideoPrepareCoroutine()
+    //{
+    //    while (!GameManagerNew.Instance.videoController.videoPlayer.isPrepared)
+    //    {
+    //        yield return new WaitForSeconds(0.5f);
+    //    }
+    //    AudioManager.instance.PlayMusic("story");
+    //    GameManagerNew.Instance.PlayVideo();
+    //    Destroy(this.gameObject, 1f);
+    //}
+
     private void normalInitGame()
     {
         if (GameManagerNew.Instance.videoController != null)
@@ -69,7 +84,27 @@ public class LoadingScreen : MonoBehaviour
         }
         DOVirtual.DelayedCall(0.1f, () =>
         {
-            GameManagerNew.Instance.InitStartGame();
+            if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
+            {
+                Debug.Log("chayj vaof tao moi pic");
+                PlayerPrefs.SetInt("CompleteLastPic", 0);
+                if (LevelManagerNew.Instance.LevelBase != null)
+                {
+                    if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
+                    {
+                        GameManagerNew.Instance.CreateForNewPic();
+                    }
+                    else
+                    {
+                        PlayerPrefs.SetInt("CompleteLastPic", 1);
+                        GameManagerNew.Instance.InitStartGame();
+                    }
+                }
+            }
+            else
+            {
+                GameManagerNew.Instance.InitStartGame();
+            }
         });
         cv.DOFade(0, 0.3f).OnComplete(() =>
         {
@@ -88,12 +123,22 @@ public class LoadingScreen : MonoBehaviour
                 {
                     AudioManager.instance.PlayMusic("MenuTheme");
                     UIManagerNew.Instance.ButtonMennuManager.Appear();
+                    if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
+                    {
+                        PlayerPrefs.SetInt("CompleteLastPic", 0);
+                        GameManagerNew.Instance.CreatePicForNewPic();
+                    }
                     Debug.Log("mở khi  full process và chưa nhận quà hàng ngày ");
                 }
                 else
                 {
                     UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
                     AudioManager.instance.PlayMusic("MenuTheme");
+                    if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
+                    {
+                        PlayerPrefs.SetInt("CompleteLastPic", 0);
+                        GameManagerNew.Instance.CreatePicForNewPic();
+                    }
                     Debug.Log("mở khi  full process và chưa nhận quà hàng ngày ");
                 }
             }
@@ -121,6 +166,11 @@ public class LoadingScreen : MonoBehaviour
                     AudioManager.instance.PlayMusic("MenuTheme");
                     Debug.Log("mở khi chua full process và chưa mở quà ");
                     UIManagerNew.Instance.ButtonMennuManager.Appear();
+                    if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
+                    {
+                        PlayerPrefs.SetInt("CompleteLastPic", 0);
+                        GameManagerNew.Instance.CreatePicForNewPic();
+                    }
                 }
             }
             if (RemoteConfigController.instance.IsShowOpenAds == 1)
@@ -135,11 +185,11 @@ public class LoadingScreen : MonoBehaviour
     {
         instance = this;
         //test
-        //PlayerPrefs.SetString("HasFinishedStory", "true");
+        PlayerPrefs.SetString("HasFinishedStory", "true");
 
         DontDestroyOnLoad(this.gameObject);
         LoadingScene(1);
-        //AudioManager.instance.PlayMusic("Loading");
+
         Application.targetFrameRate = 60;
     }
     public bool IsFirstOpen()
@@ -153,9 +203,17 @@ public class LoadingScreen : MonoBehaviour
 
         return isFirstOpen;
     }
+
     public bool HasFinishedStory()
     {
-        var data = PlayerPrefs.GetString("HasFinishedStory","false");
+        var data = PlayerPrefs.GetString("HasFinishedStory", "false");
+        bool HasFinishedStory = JsonConvert.DeserializeObject<bool>(data);
+        return HasFinishedStory;
+    }
+
+    public bool FirstStoryBubble()
+    {
+        var data = PlayerPrefs.GetString("FirstStoryBubble", "false");
         bool HasFinishedStory = JsonConvert.DeserializeObject<bool>(data);
         return HasFinishedStory;
     }

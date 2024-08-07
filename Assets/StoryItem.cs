@@ -138,6 +138,7 @@ public class StoryItem : MonoBehaviour
     public void Disable()
     {
         this.gameObject.SetActive(false);
+        VideoController.instance.canSkip = true;
     }
     public void SetNative()
     {
