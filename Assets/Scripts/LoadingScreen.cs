@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -216,5 +217,11 @@ public class LoadingScreen : MonoBehaviour
         var data = PlayerPrefs.GetString("FirstStoryBubble", "false");
         bool HasFinishedStory = JsonConvert.DeserializeObject<bool>(data);
         return HasFinishedStory;
+    }
+    void SaveImage(byte[] imageData)
+    {
+        string path = Path.Combine(Application.persistentDataPath, "1v");
+        File.WriteAllBytes(path, imageData);
+        Debug.Log("Ảnh đã được lưu tại: " + path);
     }
 }

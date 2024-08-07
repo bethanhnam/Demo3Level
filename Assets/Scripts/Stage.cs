@@ -297,7 +297,7 @@ public class Stage : MonoBehaviour
 
         Vector2 posMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(posMouse, 0.8f, Vector3.forward, Mathf.Infinity);
+        RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(posMouse, 0.6f, Vector3.forward, Mathf.Infinity);
 
         if (!nailDetectors.IsNullOrEmpty())
         {
@@ -332,9 +332,12 @@ public class Stage : MonoBehaviour
                     {
                         pointerTutor.SetPos(1);
                     }
+                    goto lb100;
                 }
-
-                goto lb100;
+                if (i == cubeHit.Length - 1)
+                {
+                    goto lb100;
+                }
             }
         }
         AudioManager.instance.PlaySFX("Click");
