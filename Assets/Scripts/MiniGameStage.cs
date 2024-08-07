@@ -275,7 +275,7 @@ public class MiniGameStage : MonoBehaviour
                     curNail = curHole.getNail();
                     Debug.Log("Lấy đinh");
                     curNail.check();
-                    curNail.PickUp(curHole.transform.position);
+                    curNail.PickUp(curHole.getNail());
                 }
 
                 goto lb100;
@@ -322,7 +322,7 @@ public class MiniGameStage : MonoBehaviour
                     preHole = curHole;
                     curNail = curHole.getNail();
                     curNail.check();
-                    curNail.PickUp(curHole.transform.position);
+                    curNail.PickUp(curHole.getNail());
                     var clickeffect = Instantiate(ParticlesManager.instance.pickUpStartParticle, curHole.transform.position, Quaternion.identity);
                     Destroy(clickeffect, 0.4f);
                     Debug.Log("chạy qua chọn đinh mới bth");

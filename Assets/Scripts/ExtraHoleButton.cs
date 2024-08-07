@@ -20,7 +20,10 @@ public class ExtraHoleButton : MonoBehaviour
 
 	public void MyFunction()
 	{
-		GamePlayPanelUIManager.Instance.OpenExtraHolePanel();
+		try { 
+			GamePlayPanelUIManager.Instance.OpenExtraHolePanel();
+		}
+		catch { }
 	}
 	public void ScaleUp()
 	{

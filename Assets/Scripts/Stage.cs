@@ -250,17 +250,6 @@ public class Stage : MonoBehaviour
 
     }
 
-    //public void ChangeSize(Sprite sprite)
-    //{
-    //	Vector2 sizeSprite = sprite.rect.size;
-
-    //	float sWidth = sizeSprite.x / 500f;
-    //	float sHeight = sizeSprite.y / 500f;
-
-    //	sprRenderItem.transform.localScale = Vector2.one * (1 / Mathf.Max(sWidth, sHeight));
-    //	sprRenderItem.sprite = sprite;
-    //}
-
     private void Update()
     {
         if (canInteract)
@@ -338,7 +327,7 @@ public class Stage : MonoBehaviour
                     curNail = curHole.getNail();
                     Debug.Log("Lấy đinh");
                     curNail.check();
-                    curNail.PickUp(curHole.transform.position);
+                    curNail.PickUp(curHole.getNail());
                     if (isLvTutor)
                     {
                         pointerTutor.SetPos(1);
@@ -389,7 +378,7 @@ public class Stage : MonoBehaviour
                     preHole = curHole;
                     curNail = curHole.getNail();
                     curNail.check();
-                    curNail.PickUp(curHole.transform.position);
+                    curNail.PickUp(curHole.getNail());
                     var clickeffect = Instantiate(ParticlesManager.instance.pickUpStartParticle, curHole.transform.position, Quaternion.identity);
                     Destroy(clickeffect, 0.4f);
                     Debug.Log("chạy qua chọn đinh mới bth");

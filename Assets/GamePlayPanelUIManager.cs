@@ -166,7 +166,6 @@ public class GamePlayPanelUIManager : MonoBehaviour
     }
     public void OpenExtraHolePanel()
     {
-
         DeactiveTime();
         Close();
         GameManagerNew.Instance.CloseLevel(false);

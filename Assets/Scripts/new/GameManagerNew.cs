@@ -112,7 +112,7 @@ public class GameManagerNew : MonoBehaviour
     }
     public void ScaleForDevices(GameObject obj)
     {
-        float targetAspect = 9.0f / 17.0f;
+        float targetAspect = 9.0f / 18.0f;
         float windowAspect = (float)Screen.width / (float)Screen.height;
 
         if (windowAspect < targetAspect)
