@@ -296,7 +296,7 @@ public class MiniGameStage : MonoBehaviour
                 curHole = null;
                 if (curNail != null)
                 {
-                    curNail.Unselect();
+                    curNail.Unselect(curNail);
                     AudioManager.instance.PlaySFX("PushNail");
                     curNail = null;
                 }
@@ -317,7 +317,7 @@ public class MiniGameStage : MonoBehaviour
                     //}
                     if (preHole.getNail() != null)
                     {
-                        preHole.getNail().Unselect();
+                        preHole.getNail().Unselect(preHole.getNail());
                     }
                     preHole = curHole;
                     curNail = curHole.getNail();

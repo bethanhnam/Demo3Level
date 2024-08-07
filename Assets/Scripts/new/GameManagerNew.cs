@@ -112,7 +112,7 @@ public class GameManagerNew : MonoBehaviour
     }
     public void ScaleForDevices(GameObject obj)
     {
-        float targetAspect = 9.0f / 18.0f;
+        float targetAspect = 9.0f / 17.0f;
         float windowAspect = (float)Screen.width / (float)Screen.height;
 
         if (windowAspect < targetAspect)
@@ -132,7 +132,7 @@ public class GameManagerNew : MonoBehaviour
             });
             DOVirtual.DelayedCall(1f, () =>
             {
-                CurrentLevel = Instantiate(LevelManagerNew.Instance.testingStageList[testingStage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
+                CurrentLevel = Instantiate(LevelManagerNew.Instance.testingStageList[testingStage], new Vector2(0.1f, 1), Quaternion.identity, GamePlayPanel);
                 ScaleForDevices(CurrentLevel.transform.gameObject);
                 SetTargetScale(currentLevel.gameObject);
                 CurrentLevel.Init(level);
@@ -152,7 +152,7 @@ public class GameManagerNew : MonoBehaviour
                 });
                 DOVirtual.DelayedCall(1f, () =>
                 {
-                    CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
+                    CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[_level], new Vector2(0.1f, 1), Quaternion.identity, GamePlayPanel);
                     ScaleForDevices(CurrentLevel.transform.gameObject);
                     SetTargetScale(currentLevel.gameObject);
                     CurrentLevel.Init(level);
@@ -189,7 +189,7 @@ public class GameManagerNew : MonoBehaviour
             FirebaseAnalyticsControl.Instance.LogEventLevelStory(_level);
             DOVirtual.DelayedCall(1f, () =>
             {
-                CurrentLevel = Instantiate(StoryGamePlayLevel.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity);
+                CurrentLevel = Instantiate(StoryGamePlayLevel.Instance.stageList[_level], new Vector2(0.1f, 1), Quaternion.identity);
                 ScaleForDevices(CurrentLevel.transform.gameObject);
                 SetTargetScale(currentLevel.gameObject);
                 CurrentLevel.InitForStory(_level);
@@ -209,7 +209,7 @@ public class GameManagerNew : MonoBehaviour
         });
         DOVirtual.DelayedCall(.5f, () =>
         {
-            CurrentMiniGameStage = Instantiate(LevelManagerNew.Instance.miniStageList[level], new Vector2(0, -2.51f), Quaternion.identity);
+            CurrentMiniGameStage = Instantiate(LevelManagerNew.Instance.miniStageList[level], new Vector2(0.1f, -2.51f), Quaternion.identity);
             ScaleForDevices(CurrentMiniGameStage.transform.gameObject);
             if (!UIManagerNew.Instance.MiniGamePlay.gameObject.activeSelf)
             {
@@ -243,7 +243,7 @@ public class GameManagerNew : MonoBehaviour
         });
         DOVirtual.DelayedCall(1f, () =>
         {
-            CurrentMiniGameStage = Instantiate(LevelManagerNew.Instance.miniStageList[level], new Vector2(0, -2.51f), Quaternion.identity);
+            CurrentMiniGameStage = Instantiate(LevelManagerNew.Instance.miniStageList[level], new Vector2(0.1f, -2.51f), Quaternion.identity);
             ScaleForDevices(CurrentMiniGameStage.transform.gameObject);
 
             UIManagerNew.Instance.MiniGamePlay.Appear(() =>
@@ -830,7 +830,6 @@ public class GameManagerNew : MonoBehaviour
     {
         videoController.CheckStartVideo();
     }
-    [Button("testvibration")]
     public void Vibration()
     {
         hapticSouce.Play();

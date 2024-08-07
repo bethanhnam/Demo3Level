@@ -69,6 +69,11 @@ public class SkipPanel : MonoBehaviour
             level = 1;
         }
         UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].hasDone = true;
+        UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].gameObject.SetActive(false);
+        if (UIManagerNew.Instance.MiniGamePlay.gameObject.activeSelf)
+        {
+            UIManagerNew.Instance.MiniGamePlay.gameObject.SetActive(false);
+        }
         if (UIManagerNew.Instance.StartMiniGamePanel.gameObject.activeSelf)
         {
             UIManagerNew.Instance.StartMiniGamePanel.Close();

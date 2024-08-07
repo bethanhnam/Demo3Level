@@ -51,7 +51,10 @@ public class MiniGamePlay : MonoBehaviour
     public void SetItem(int miniGameMapIndex, int Maxcollectvalue)
     {
         selectedMinimap = miniGameMapIndex;
-        MiniGameMaps[selectedMinimap].ghostSkeleton.skeletonGraphic.gameObject.SetActive(false);
+        if (selectedMinimap == 0)
+        {
+            MiniGameMaps[selectedMinimap].ghostSkeleton.skeletonGraphic.gameObject.SetActive(false);
+        }
         collectValue = 0;
         MiniGameMaps[selectedMinimap].collectSlider.value = collectValue;
         SetMaxValue(Maxcollectvalue);
@@ -77,7 +80,6 @@ public class MiniGamePlay : MonoBehaviour
                 DOVirtual.DelayedCall(0.3f, () =>
                 {
                     MiniGameMaps[selectedMinimap].characterStepBack.StartTimer();
-                    
                     MiniGameMaps[selectedMinimap].ghostSkeleton.StartTimer();
                 });
             }

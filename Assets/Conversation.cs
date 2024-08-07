@@ -54,11 +54,15 @@ public class Conversation : MonoBehaviour
     }
     public void StartDialogue(int index, Action action, string line)
     {
-        indexLine = line;
-        endOfConversation = false;
-        this.index = index;
-        StartCoroutine(TypeLine(line));
-        CheckNextLine(action, line);
+        try
+        {
+            indexLine = line;
+            endOfConversation = false;
+            this.index = index;
+            StartCoroutine(TypeLine(line));
+            CheckNextLine(action, line);
+        }
+        catch (Exception e) { }
     }
 
     IEnumerator TypeLine(String line)

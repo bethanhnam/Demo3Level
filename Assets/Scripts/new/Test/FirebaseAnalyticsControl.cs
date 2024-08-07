@@ -144,6 +144,13 @@ public class FirebaseAnalyticsControl : MonoBehaviour
         FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
         FirebaseAnalytics.LogEvent("Map_"+map+"_fix_done_stage_" + (stageIndext + 1));
     }
+    // mini_done_x
+    public void LogEventMini_Done(int mini_done_Level)
+    {
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
+        FirebaseAnalytics.LogEvent("Mini_done_" + mini_done_Level);
+    }
+
     //Shop 
     public void visit_session()
     {

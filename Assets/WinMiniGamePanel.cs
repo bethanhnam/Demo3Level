@@ -71,12 +71,13 @@ public class WinMiniGamePanel : MonoBehaviour
                 {
                     if (MiniGamePlay.instance.selectedMinimap == 0)
                     {
-                        ConversationController.instance.StartConversation(1, 7, "AfterMinigame1", () =>
-                        {
-                            ConversationController.instance.StartConversation(1, 9, "AfterMinigame2", () => { 
-                            });
-                        });
+                        FirebaseAnalyticsControl.Instance.LogEventMini_Done(1);
+                        ConversationController.instance.StartConversation(1, 7, "AfterMinigame1",null);
                     }
+                    if (MiniGamePlay.instance.selectedMinimap == 1)
+                    {
+                        FirebaseAnalyticsControl.Instance.LogEventMini_Done(2);
+                    }   
                 });
             });
         });
