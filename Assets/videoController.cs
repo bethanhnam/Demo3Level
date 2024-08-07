@@ -46,8 +46,8 @@ public class VideoController : MonoBehaviour
     }
     private void Update()
     {
-        if (canSkip && PlayerPrefs.GetString("HasFinishedStory")=="false") 
-        {
+        if (canSkip && (PlayerPrefs.GetString("HasFinishedStory", "false") == "false") && this.videoIndex != videoList.Count - 1)
+            {
             skipButton.gameObject.SetActive(true);
         }
         else

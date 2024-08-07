@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class ButtonPress : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private Button btn;
-    private float scaleRate = 0.93f;
+    private float scaleRate = 0.7f;
 
     private Vector3 _scaleDefault;
 

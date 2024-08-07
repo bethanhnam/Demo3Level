@@ -59,10 +59,12 @@ public class NewBooster : MonoBehaviour
         }
         if (LevelManagerNew.Instance.stage == 1)
         {
+            FirebaseAnalyticsControl.Instance.LogEventTutorialStatus(LevelManagerNew.Instance.stage, TutorialStatus.tut_drill_start);
             UIManagerNew.Instance.ThresholeController.showThreshole("extrahole", Stage.Instance.holeToUnlock.transform.localScale, Stage.Instance.holeToUnlock.transform);
         }
         if (LevelManagerNew.Instance.stage == 3)
         {
+            FirebaseAnalyticsControl.Instance.LogEventTutorialStatus(LevelManagerNew.Instance.stage, TutorialStatus.tut_unscrew_start);
             UIManagerNew.Instance.ThresholeController.showThreshole("unscrew", GamePlayPanelUIManager.Instance.boosterBar.deteleBT.transform.localScale, GamePlayPanelUIManager.Instance.boosterBar.deteleBT.transform);
         }
 

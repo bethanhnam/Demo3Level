@@ -618,7 +618,7 @@ public class Stage : MonoBehaviour
                                 UIManagerNew.Instance.DeteleNailPanel.hasUseTutor = false;
                                 UIManagerNew.Instance.GamePlayPanel.boosterBar.freeUnscrewImg.gameObject.SetActive(false);
                                 UIManagerNew.Instance.GamePlayPanel.boosterBar.unscrewNumImg.gameObject.SetActive(true);
-
+                                FirebaseAnalyticsControl.Instance.LogEventTutorialStatus(LevelManagerNew.Instance.stage, TutorialStatus.tut_unscrew_done);
                             }
                         }
                     }
@@ -900,6 +900,7 @@ public class Stage : MonoBehaviour
     {
         if (LevelManagerNew.Instance.stage == 0 && pointerTutor != null || GameManagerNew.Instance.isStory && pointerTutor != null)
         {
+            FirebaseAnalyticsControl.Instance.LogEventTutorialStatus(LevelManagerNew.Instance.stage, TutorialStatus.startTutor_1);
             isLvTutor = true;
             if (pointerTutor.gameObject.activeSelf == false)
             {

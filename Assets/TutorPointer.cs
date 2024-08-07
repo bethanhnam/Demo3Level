@@ -21,6 +21,7 @@ public class TutorPointer : MonoBehaviour
         this.gameObject.SetActive(false);
         if (!GameManagerNew.Instance.isStory)
         {
+            FirebaseAnalyticsControl.Instance.LogEventTutorialStatus(LevelManagerNew.Instance.stage, TutorialStatus.completeTutor_1);
             GamePlayPanelUIManager.Instance.goodJob.gameObject.SetActive(true);
             GamePlayPanelUIManager.Instance.goodJob.transform.DOMoveY(GamePlayPanelUIManager.Instance.goodJob.transform.position.y + 2, 1.3f);
             DOVirtual.DelayedCall(2f, () =>

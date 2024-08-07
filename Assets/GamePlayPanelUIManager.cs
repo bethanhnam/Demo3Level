@@ -281,6 +281,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
         AudioManager.instance.PlaySFX("ExtraHole");
         DOVirtual.DelayedCall(1.5f, () =>
         {
+            FirebaseAnalyticsControl.Instance.LogEventTutorialStatus(LevelManagerNew.Instance.stage, TutorialStatus.tut_drill_done);
             Stage.Instance.holeToUnlock.shinningParticle.gameObject.SetActive(true);
             drillEffect.gameObject.SetActive(false);
             Stage.Instance.canInteract = true;

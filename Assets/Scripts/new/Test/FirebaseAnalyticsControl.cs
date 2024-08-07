@@ -16,6 +16,15 @@ public enum LevelStatus : short
     retry = 4,
     revive = 5,
 }
+public enum TutorialStatus : short
+{
+    startTutor_1 = 0,
+    completeTutor_1 = 1,
+    tut_unscrew_start = 2,
+    tut_unscrew_done = 3,
+    tut_drill_start = 4,
+    tut_drill_done = 5,
+}
 public enum LevelItem: short
 {
     unscrew = 0,
@@ -40,11 +49,13 @@ public class FirebaseAnalyticsControl : MonoBehaviour
     //Screen_Home
     public void Screen_Home()
     {
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
         FirebaseAnalytics.LogEvent("return_home");
     }
     
     public void click_dailyRw()
     {
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
         FirebaseAnalytics.LogEvent("click_dailyRw");
     }
 
@@ -84,6 +95,17 @@ public class FirebaseAnalyticsControl : MonoBehaviour
             new Parameter(FireBaseEventName.Status, status.ToString()),
         });
     }
+    // tutorial status
+    public void LogEventTutorialStatus(int level, TutorialStatus status)
+    {
+        //if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
+        //    return;
+        FirebaseAnalytics.LogEvent(FireBaseEventName.Tutorial, new Parameter[]
+        {
+            new Parameter(FireBaseEventName.level, level+1),
+            new Parameter(FireBaseEventName.Tutorial_Status, status.ToString()),
+        });
+    }
     //LevelItem
     public void LogEventLevelItem(int level, LevelItem status)
     {
@@ -105,25 +127,32 @@ public class FirebaseAnalyticsControl : MonoBehaviour
     private void OnApplicationQuit()
     {
         if (GamePlayPanelUIManager.Instance.gameObject.activeSelf)
+        {
+            FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
             LogEventLevelStatus(LevelManagerNew.Instance.stage, LevelStatus.Break);
+        }
     }
 
     // Map 1
     public void LogEventFixItem(int itemIndext) {
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
         FirebaseAnalytics.LogEvent("Map_1_fix_done_" + itemIndext+1);
     }
     // Map 2 - Map 3 
     public void LogEventFixStageMap(int map,int stageIndext)
     {
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
         FirebaseAnalytics.LogEvent("Map_"+map+"_fix_done_stage_" + (stageIndext + 1));
     }
     //Shop 
     public void visit_session()
     {
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
         FirebaseAnalytics.LogEvent("visit_session");
     }
     public void visit_total()
     {
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
         FirebaseAnalytics.SetUserProperty("visit_total", PlayerPrefs.GetInt("visit_total").ToString());
     }
     public void BuyByAds(int packId )
@@ -155,21 +184,24 @@ public class FirebaseAnalyticsControl : MonoBehaviour
     //Offer
     public void impr_session_noads_1()
     {
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
         FirebaseAnalytics.LogEvent("impr_session_noads_1");
     }
     public void impr_total_noads_1()
     {
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
         FirebaseAnalytics.SetUserProperty("impr_total_noads_1", PlayerPrefs.GetInt("impr_total_noads_1").ToString());
     }
-
     //Tutorial
     public void startTutor()
     {
-        FirebaseAnalytics.LogEvent("startTutor");
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
+        FirebaseAnalytics.LogEvent("startTutorVideo");
     }
     public void completeTutor()
     {
-        FirebaseAnalytics.LogEvent("completeTutor");
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
+        FirebaseAnalytics.LogEvent("completeTutorVideo");
     }
 
     //////////////////////////////////// New Tracking ///////////////////////////
@@ -192,11 +224,14 @@ public class FirebaseAnalyticsControl : MonoBehaviour
 }
 public class FireBaseEventName
 {
+    //name
+    public static string Level;
     // key
     public static string Status = "Status";
     public static string LevelItem = "LevelItem";
     public static string fix_done = "Fix_Done_";
     public static string fix_done_stage = "fix_done_stage_";
+    public static string Tutorial_Status = "tutorial_status";
 
     //event
     public static string Screen_Home = "Screen_Home";
@@ -223,6 +258,15 @@ public class FireBaseEventName
     public static string fail = "fail";
     public static string Break = "break";
     public static string retry = "retry";
+
+    //tutorial_status
+    public static string startTutor_1 = "startTutor_1";
+    public static string completeTutor_1 = "completeTutor_1";
+    public static string tut_unscrew_start = "tut_unscrew_start";
+    public static string tut_unscrew_done = "tut_unscrew_done";
+    public static string tut_drill_start = "tut_drill_start";
+    public static string tut_drill_done = "tut_drill_done";
+
 
     //LevelItem
     public static string unscrew = "unscrew";
