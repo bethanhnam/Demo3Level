@@ -13,14 +13,18 @@ public class StartMiniGamePanel : MonoBehaviour
     [SerializeField]
     private CanvasGroup cvButton;
 
+    public Sprite[] panelSprites;
+
     public Sprite[] bannerSprites;
     public Image bannerImage;
+    public Image panelImage;
 
     public int reward;
     public TextMeshProUGUI rewardText;
 
     public Button playButton;
     public Button skipButton;
+    public Button CloseButton;
 
     private int appearButton = Animator.StringToHash("MinigameAppear");
     private int disappearButton = Animator.StringToHash("MinigameDisappear");
@@ -76,8 +80,14 @@ public class StartMiniGamePanel : MonoBehaviour
         UIManagerNew.Instance.SkipPanel.rewardText.text = "x" + reward.ToString() ;
         UIManagerNew.Instance.SkipPanel.Appear();
     }
-    public void ChangeText(string text)
+    public void ShowPlay()
     {
-        playButton.GetComponentInChildren<TextMeshProUGUI>().text = text;
+        playButton.GetComponentInChildren<TextMeshProUGUI>().text = "PLAY";
+        CloseButton.gameObject.SetActive(true);
+    }
+    public void ShowRetry()
+    {
+        playButton.GetComponentInChildren<TextMeshProUGUI>().text = "RETRY";
+        CloseButton.gameObject.SetActive(false);
     }
 }

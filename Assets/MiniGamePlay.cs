@@ -21,6 +21,9 @@ public class MiniGamePlay : MonoBehaviour
     public float collectValue;
     public float heartValue;
 
+    public Notice notice;
+    public Button replayButton;
+
     public CanvasGroup canvasGroup;
 
     // Start is called before the first frame update
@@ -48,11 +51,27 @@ public class MiniGamePlay : MonoBehaviour
             action();
         });
     }
+
+    public void ShowNotice(bool status)
+    {
+        if (status)
+        {
+            notice.canAppear = true;
+            notice.NoticeAppear();
+        }
+        else
+        {
+            notice.canAppear = false;
+            notice.NoticeDisappear();
+        }
+    }
+
     public void SetItem(int miniGameMapIndex, int Maxcollectvalue)
     {
         selectedMinimap = miniGameMapIndex;
         if (selectedMinimap == 0)
         {
+            MiniGameMaps[selectedMinimap].ghostSkeleton.dark.gameObject.SetActive(false);
             MiniGameMaps[selectedMinimap].ghostSkeleton.skeletonGraphic.gameObject.SetActive(false);
         }
         collectValue = 0;
@@ -107,7 +126,8 @@ public class MiniGamePlay : MonoBehaviour
     {
         AudioManager.instance.PlaySFX("FillUpSlider");
         MiniGameMaps[selectedMinimap].collectSlider.value = collectValue;
-        MiniGameMaps[selectedMinimap].collectSlider.DOValue(MiniGameMaps[selectedMinimap].collectSlider.value + 1, 0.3f).OnComplete(() =>
+        MiniGameMaps[selectedMinimap].collectText.text = collectValue.ToString();
+        MiniGameMaps[selectedMinimap].collectSlider.DOValue(MiniGameMaps[selectedMinimap].collectSlider.value + 1, 0.15f).OnComplete(() =>
         {
             if (selectedMinimap == 1)
             {
@@ -155,6 +175,7 @@ public class MiniGamePlay : MonoBehaviour
                     {
                         UIManagerNew.Instance.WinMiniGamePanel.Appear();
                     });
+                    MiniGameMaps[selectedMinimap].ghostSkeleton.MoveGhost(false);
                     MiniGameMaps[selectedMinimap].ghostSkeleton.gameObject.SetActive(false);
                 }
             }

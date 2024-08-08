@@ -236,7 +236,7 @@ public class Stage : MonoBehaviour
         EverythingStayStill(true);
         canInteract = false;
         isScaling = true;
-        transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
+        transform.DOScale(Vector3.one, 0.5f).OnComplete(() =>
         {
             if (isDes)
             {

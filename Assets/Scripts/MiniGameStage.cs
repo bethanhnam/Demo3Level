@@ -85,6 +85,15 @@ public class MiniGameStage : MonoBehaviour
     {
         Instance = this;
         resetData();
+        StartCoroutine(check());
+    }
+    IEnumerator check()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1.5f);
+            check1();
+        }
     }
     public void Init(int level)
     {
@@ -657,6 +666,51 @@ public class MiniGameStage : MonoBehaviour
                     numOfHoleNotAvailable.Remove(hole);
                 }
             }
+        }
+    }
+    public void check1()
+    {
+        try
+        {
+            if (!GameManagerNew.Instance.isStory)
+            {
+                if (holes.Length != 0 && numOfHoleNotAvailable.Count == holes.Length)
+                {
+                    if (checked1 == false && !isScaling)
+                    {
+                        checked1 = true;
+                        Invoke("ShowNotice", 1f);
+                    }
+
+                }
+                else
+                {
+                    UIManagerNew.Instance.MiniGamePlay.replayButton.gameObject.SetActive(false);
+                    UIManagerNew.Instance.MiniGamePlay.ShowNotice(false);
+                    checked1 = false;
+                }
+            }
+        }
+        catch (Exception ex) { }
+    }
+    private void ShowNotice()
+    {
+        if (numOfHoleNotAvailable.Count == holes.Length)
+        {
+            UIManagerNew.Instance.MiniGamePlay.replayButton.gameObject.SetActive(true);
+            UIManagerNew.Instance.MiniGamePlay.ShowNotice(true);
+
+        }
+    }
+    public void changePosForDevices()
+    {
+        float targetAspect = 9.0f / 16.0f;
+        float windowAspect = (float)Screen.width / (float)Screen.height;
+
+        if (windowAspect < targetAspect)
+        {
+            this.transform.position = new Vector3(transform.position.x,transform.position.y  / (targetAspect / windowAspect),1);
+            Debug.Log(transform.position.y / (targetAspect / windowAspect));
         }
     }
 }

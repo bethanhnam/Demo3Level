@@ -6,48 +6,57 @@ using Unity.Notifications.Android;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class SaveImage : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
-        ShowNotification();
+        StartCoroutine(CopyImageToPersistentDataPathAndShowNotification("1v.jpg"));
     }
 
-    private void ShowNotification()
-    {// Get the path to the image in StreamingAssets
-        string streamingAssetsPath = "jar:file://" + Application.dataPath + "!/assets/1v.jpg";
+    private IEnumerator CopyImageToPersistentDataPathAndShowNotification(string fileName)
+    {
+        string streamingAssetsPath = Path.Combine(Application.streamingAssetsPath, fileName);
+        string persistentDataPath = Path.Combine(Application.persistentDataPath, fileName);
 
-        if (!File.Exists(streamingAssetsPath))
+        if (System.IO.File.Exists(persistentDataPath))
         {
-            Debug.LogError("Image not found in StreamingAssets: " + streamingAssetsPath);
-            return;
+            ShowNoti(persistentDataPath);
         }
-
-        // Read the image file from StreamingAssets
-        byte[] bytes = File.ReadAllBytes(streamingAssetsPath);
-
-        // Save the image to Application.persistentDataPath
-        string imagePath = Path.Combine(Application.persistentDataPath, "1v.jpg");
-        File.WriteAllBytes(imagePath, bytes);
-
-        // Debug the path where the image is saved
-        Debug.Log("Image saved to: " + imagePath);
-
-        // Create and show notification
-        var notification = new AndroidNotification
+        else
         {
-            Title = "Image Notification",
-            Text = "Using image from StreamingAssets",
-            FireTime = System.DateTime.Now.AddMinutes(1),
-            LargeIcon = imagePath,
-            BigPicture = new BigPictureStyle
+            Debug.LogError("Image not found at path: " + persistentDataPath);
+            // Sử dụng UnityWebRequest để sao chép ảnh từ StreamingAssets
+            using (UnityWebRequest uwr = UnityWebRequest.Get(streamingAssetsPath))
             {
-                Picture = imagePath
+                yield return uwr.SendWebRequest();
+                if (uwr.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError(uwr.error);
+                    yield break;
+                }
+
+                byte[] data = uwr.downloadHandler.data;
+                System.IO.File.WriteAllBytes(persistentDataPath, data);
             }
+
+            Debug.Log("Ảnh đã được sao chép tới: " + persistentDataPath);
+
+            // Tạo thông báo
+            ShowNoti(persistentDataPath);
+        }
+    }
+
+    private static void ShowNoti(string persistentDataPath)
+    {
+        var notification = new AndroidNotification("Help her fix the house!", "Complete challenges to receive special rewards!", DateTime.Now.AddMinutes(1));
+        notification.BigPicture = new BigPictureStyle
+        {
+            Picture = persistentDataPath,
         };
         AndroidNotificationCenter.SendNotification(notification, "d0");
     }
 }
-    
+
 

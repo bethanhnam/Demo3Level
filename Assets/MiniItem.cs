@@ -1,4 +1,4 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,11 +12,29 @@ public class MiniItem : MonoBehaviour
 
     public void MoveItem()
     {
-        this.transform.DOMove(UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[UIManagerNew.Instance.MiniGamePlay.selectedMinimap].itemImage.transform.position, 0.5f).OnComplete(() => {
-            animator.enabled = false;
-            this.gameObject.SetActive(false);
-            MiniGamePlay.instance.ChangeCollectSliderValue();
-        });
+        
+        if (UIManagerNew.Instance.MiniGamePlay.selectedMinimap == 0)
+        {
+            var target = UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[UIManagerNew.Instance.MiniGamePlay.selectedMinimap].collectTargetPos.position;
+            Vector3 worldPosition = new Vector3(target.x, target.y-1, 1);
+            this.transform.DOMove(worldPosition, 0.3f).OnComplete(() =>
+            {
+                animator.enabled = false;
+                this.gameObject.SetActive(false);
+                MiniGamePlay.instance.ChangeCollectSliderValue();
+            });
+        }
+        else
+        {
+            var target = UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[UIManagerNew.Instance.MiniGamePlay.selectedMinimap].collectTargetPos.position;
+            Vector3 worldPosition = new Vector3(target.x, target.y - 1, 1);
+            this.transform.DOMove(worldPosition, 0.3f).OnComplete(() =>
+            {
+                animator.enabled = false;
+                this.gameObject.SetActive(false);
+                MiniGamePlay.instance.ChangeCollectSliderValue();
+            });
+        }
     }
     public void SetImage(Sprite sprite)
     {

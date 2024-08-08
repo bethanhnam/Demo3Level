@@ -355,7 +355,7 @@ public class ButtonMennuManager : MonoBehaviour
                 MiniGamePlayButton.SetQuestButton(0, "Help me");
                 ConversationController.instance.StartConversation(0, 6, "minigame1", () =>
                 {
-                    UIManagerNew.Instance.StartMiniGamePanel.ChangeText("PLAY");
+                    UIManagerNew.Instance.StartMiniGamePanel.ShowPlay();
                     UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(PlayMiniGame);
                     UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(UIManagerNew.Instance.StartMiniGamePanel.Close);
                 });
@@ -376,7 +376,7 @@ public class ButtonMennuManager : MonoBehaviour
                     MiniGamePlayButton.SetQuestButton(1, "Help me");
                     ConversationController.instance.StartConversation(0, 8, "minigame2", () =>
                     {
-                        UIManagerNew.Instance.StartMiniGamePanel.ChangeText("PLAY");
+                        UIManagerNew.Instance.StartMiniGamePanel.ShowPlay();
                         UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(PlayMiniGame);
                         UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(UIManagerNew.Instance.StartMiniGamePanel.Close);
                     });

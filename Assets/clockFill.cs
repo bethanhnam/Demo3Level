@@ -54,7 +54,7 @@ public class clockFill : MonoBehaviour
             int seconds = Mathf.FloorToInt(time % 60);
             timeText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
             UIManagerNew.Instance.StartMiniGamePanel.Appear();
-            UIManagerNew.Instance.StartMiniGamePanel.ChangeText("RETRY");
+            UIManagerNew.Instance.StartMiniGamePanel.ShowRetry();
             UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(UIManagerNew.Instance.MiniGamePlay.ReplayMinigame);
         }
     } 

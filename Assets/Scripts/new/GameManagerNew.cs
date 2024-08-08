@@ -36,7 +36,8 @@ public class GameManagerNew : MonoBehaviour
     [SerializeField]
     private ItemMoveControl itemMoveControl;
 
-    public GameObject Bg;
+    public Sprite[] sprites;
+    public SpriteRenderer Bg;
 
     [SerializeField]
     private Vector3 targetScale;
@@ -124,6 +125,7 @@ public class GameManagerNew : MonoBehaviour
     }
     public void CreateLevel(int _level)
     {
+        Bg.sprite = sprites[0];
         if (isTestingLevel)
         {
             GamePlayPanelUIManager.Instance.setText(_level + 1);
@@ -203,6 +205,7 @@ public class GameManagerNew : MonoBehaviour
     public void CreateMiniGame(int level)
     {
         //GamePlayPanelUIManager.Instance.setText(level + 1);
+        Bg.sprite = sprites[1];
         isMinigame = true;
         DOVirtual.DelayedCall(1f, () =>
         {
@@ -212,14 +215,13 @@ public class GameManagerNew : MonoBehaviour
         {
             CurrentMiniGameStage = Instantiate(LevelManagerNew.Instance.miniStageList[level], new Vector2(0.1f, -2.51f), Quaternion.identity);
             ScaleForDevices(CurrentMiniGameStage.transform.gameObject);
-            if (!UIManagerNew.Instance.MiniGamePlay.gameObject.activeSelf)
-            {
-                UIManagerNew.Instance.MiniGamePlay.Appear(() =>
-                    {
-                        UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].gameObject.SetActive(true);
-                        UIManagerNew.Instance.MiniGamePlay.SetItem(level, currentMiniGameStage.numOfIronPlates);
-                    });
-            }
+            currentMiniGameStage.changePosForDevices();
+
+            UIManagerNew.Instance.MiniGamePlay.Appear(() =>
+                {
+                    UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].gameObject.SetActive(true);
+                    UIManagerNew.Instance.MiniGamePlay.SetItem(level, currentMiniGameStage.numOfIronPlates);
+                });
             SetTargetScale(CurrentMiniGameStage.gameObject);
             CurrentMiniGameStage.InitForMinigame(level);
             AudioManager.instance.PlayMusic("GamePlayTheme");

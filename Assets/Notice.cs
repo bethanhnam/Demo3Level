@@ -75,7 +75,14 @@ public class Notice : MonoBehaviour
             this.gameObject.SetActive(false);
             this.gameObject.transform.localPosition = defaultPos.transform.position;
 
-            Stage.Instance.checked1 = false;
+            if (GameManagerNew.Instance.isMinigame)
+            {
+                MiniGameStage.Instance.checked1 = false;
+            }
+            else
+            {
+                Stage.Instance.checked1 = false;
+            }
             canAppear = true;
         }
         catch { };
@@ -85,6 +92,13 @@ public class Notice : MonoBehaviour
         this.gameObject.SetActive(false);
         noticeImg.SetActive(false);
         canAppear = true;
-        Stage.Instance.numOfHoleNotAvailable.Clear();
+        if (GameManagerNew.Instance.isMinigame)
+        {
+            MiniGameStage.Instance.numOfHoleNotAvailable.Clear();
+        }
+        else
+        {
+            Stage.Instance.numOfHoleNotAvailable.Clear();
+        }
     }
 }

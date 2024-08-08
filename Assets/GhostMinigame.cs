@@ -5,13 +5,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GhostMinigame : MonoBehaviour
 {
     public SkeletonGraphic skeletonGraphic;
     public Transform targetTransform;
     public Transform defaultTransform;
+    public Transform darkdDefaultTransform;
     public Transform reachTransform;
+
+    public SpriteRenderer dark;
 
     public float distance;
 
@@ -24,9 +28,11 @@ public class GhostMinigame : MonoBehaviour
     public bool hasReached = false;
 
     Tween runTween;
+    Tween runTween1;
     private void Start()
     {
         time = timeLimit;
+        dark.transform.position = darkdDefaultTransform.position;
         skeletonGraphic.transform.position = defaultTransform.position;
         startTimer = false;
         hasReached = false;
@@ -35,6 +41,7 @@ public class GhostMinigame : MonoBehaviour
     [Button("startTimer")]
     public void StartTimer()
     {
+        dark.gameObject.SetActive(true);
         skeletonGraphic.gameObject.SetActive(true);
         startTimer = true;
     }
@@ -45,7 +52,7 @@ public class GhostMinigame : MonoBehaviour
             if(runTween != null)
             {
                 MoveGhost(false);
-            }
+            }   
             return;
         }
 
@@ -80,6 +87,7 @@ public class GhostMinigame : MonoBehaviour
             runTween.Kill();
         }
         time = timeLimit;
+        dark.transform.position = darkdDefaultTransform.position;
         skeletonGraphic.transform.position = defaultTransform.position;
         distance = Vector2.Distance(new Vector2(targetTransform.position.x, 0), new Vector2(skeletonGraphic.transform.position.x, 0));
         startTimer = false;
@@ -90,6 +98,7 @@ public class GhostMinigame : MonoBehaviour
         {
             isRunning = true;
             runTween = skeletonGraphic.transform.DOMoveX(targetTransform.position.x, time);
+            runTween1 = dark.transform.DOMoveX(targetTransform.position.x, time);
         }
         else
         {
@@ -98,6 +107,8 @@ public class GhostMinigame : MonoBehaviour
                 isRunning = false;
                 if (runTween != null)
                     runTween.Pause();
+                if (runTween1 != null)
+                    runTween1.Pause();
             }
         }
     }
