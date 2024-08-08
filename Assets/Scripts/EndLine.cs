@@ -36,7 +36,6 @@ public class EndLine : MonoBehaviour
                 collision.gameObject.SetActive(false);
                 MiniGameStage.Instance.numOfIronPlates -= 1;
                 //AudioManager.instance.PlaySFX("DropIron");
-                GameManagerNew.Instance.hapticSouce.Play();
                 Debug.Log("numOfIronPlates" + MiniGameStage.Instance.numOfIronPlates);
                 UIManagerNew.Instance.MiniGamePlay.miniItem[MiniGameStage.Instance.numOfIronPlates].gameObject.gameObject.SetActive(true);
                 UIManagerNew.Instance.MiniGamePlay.miniItem[MiniGameStage.Instance.numOfIronPlates].gameObject.transform.position = new Vector3(collision.transform.position.x,MiniItemEndLine.instance.transform.position.y,1);
@@ -50,7 +49,6 @@ public class EndLine : MonoBehaviour
 				collision.gameObject.SetActive(false);
 				Stage.Instance.numOfIronPlates -= 1;
                 //AudioManager.instance.PlaySFX("DropIron");
-                GameManagerNew.Instance.hapticSouce.Play();
                 Debug.Log("numOfIronPlates" + Stage.Instance.numOfIronPlates);
 				Stage.Instance.CheckDoneLevel();
 				var partical1 = Instantiate(partical, collision.transform.position, Quaternion.identity);

@@ -297,7 +297,7 @@ public class Stage : MonoBehaviour
 
         Vector2 posMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(posMouse, 0.6f, Vector3.forward, Mathf.Infinity);
+        RaycastHit2D[] cubeHit = Physics2D.CircleCastAll(posMouse, 0.8f, Vector3.forward, Mathf.Infinity);
 
         if (!nailDetectors.IsNullOrEmpty())
         {
@@ -320,22 +320,42 @@ public class Stage : MonoBehaviour
         {
             if (cubeHit[i].transform.gameObject.tag == "Hole")
             {
-                curHole = cubeHit[i].collider.gameObject.GetComponent<Hole>();
-                setHoleInIron(curHole.transform.position);
-                if (curHole.CheckNail() && curNail != curHole.getNail())
+                if (curNail == null)
                 {
-                    curNail = curHole.getNail();
-                    Debug.Log("Lấy đinh");
-                    curNail.check();
-                    curNail.PickUp(curHole.getNail());
-                    if (isLvTutor)
+                    curHole = cubeHit[i].collider.gameObject.GetComponent<Hole>();
+                    setHoleInIron(curHole.transform.position);
+                    if (curHole.CheckNail() && curNail != curHole.getNail())
                     {
-                        pointerTutor.SetPos(1);
+                        curNail = curHole.getNail();
+                        Debug.Log("Lấy đinh");
+                        curNail.check();
+                        curNail.PickUp(curHole.getNail());
+                        if (isLvTutor)
+                        {
+                            pointerTutor.SetPos(1);
+                        }
+                        goto lb100;
                     }
-                    goto lb100;
+                    if (i == cubeHit.Length - 1)
+                    {
+                        goto lb100;
+                    }
                 }
-                if (i == cubeHit.Length - 1)
+                else
                 {
+                    curHole = cubeHit[i].collider.gameObject.GetComponent<Hole>();
+                    setHoleInIron(curHole.transform.position);
+                    if (curHole.CheckNail() && curNail != curHole.getNail())
+                    {
+                        curNail = curHole.getNail();
+                        Debug.Log("Lấy đinh");
+                        curNail.check();
+                        curNail.PickUp(curHole.getNail());
+                        if (isLvTutor)
+                        {
+                            pointerTutor.SetPos(1);
+                        }
+                    }
                     goto lb100;
                 }
             }
@@ -981,7 +1001,8 @@ public class Stage : MonoBehaviour
             UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
         }
         UIManagerNew.Instance.NewBooster.SetValue(1);
-        DOVirtual.DelayedCall(0.5f, () => {
+        DOVirtual.DelayedCall(0.5f, () =>
+        {
             if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
             {
                 Stage.Instance.canInteract = false;

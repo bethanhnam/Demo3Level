@@ -37,7 +37,7 @@ public class ButtonPress : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             var minScale = _scaleDefault * scaleRate;
             transform.DOScale(minScale, .2f).SetEase(Ease.Linear);
             if(GameManagerNew.Instance)
-            GameManagerNew.Instance.hapticSouce.Play();
+                GameManagerNew.Instance.Vibration(GameManagerNew.Instance.hapticClips[0]);
         }
     }
 

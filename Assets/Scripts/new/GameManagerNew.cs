@@ -55,6 +55,7 @@ public class GameManagerNew : MonoBehaviour
     public bool isMinigame;
 
     // vabration
+    public HapticClip[] hapticClips;
     public HapticSource hapticSouce;
 
     //conversation
@@ -830,8 +831,9 @@ public class GameManagerNew : MonoBehaviour
     {
         videoController.CheckStartVideo();
     }
-    public void Vibration()
+    public void Vibration(HapticClip hapticClip)
     {
+        hapticSouce.clip = hapticClip;
         hapticSouce.Play();
     }
     public void CheckForTutorFix()

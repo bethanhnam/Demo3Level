@@ -35,7 +35,7 @@ public class NailControl : MonoBehaviour
     public void PickUp(NailControl nail)
     {
         AudioManager.instance.PlaySFX("PushNail");
-        GameManagerNew.Instance.hapticSouce.Play();
+        GameManagerNew.Instance.Vibration(GameManagerNew.Instance.hapticClips[0]);
         //AudioManager.instance.PlaySFX("PickUpScrew");
         nailSprite.enabled = false;
         anim.Play(pickUp, 0, 0);
