@@ -39,6 +39,8 @@ public class MiniGameMap : MonoBehaviour
     public ParticleSystem UIParticle;
     [ShowIf("IsBabyCold")]
     public Image itemImage1;
+    [ShowIf("IsBabyCold")]
+    public ParticleSystem snowParticle;
 
     // Phương thức kiểm tra điều kiện hiển thị
     private bool IsScaryHouse()

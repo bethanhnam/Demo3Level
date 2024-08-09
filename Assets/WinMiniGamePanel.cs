@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class WinMiniGamePanel : MonoBehaviour
@@ -53,6 +54,10 @@ public class WinMiniGamePanel : MonoBehaviour
     }
     public void BackToMenu()
     {
+        if (MiniGamePlay.instance.MiniGameMaps[MiniGamePlay.instance.selectedMinimap].minigame1 == MiniGameMap.Minigame.Babycold)
+        {
+            MiniGamePlay.instance.MiniGameMaps[MiniGamePlay.instance.selectedMinimap].snowParticle.gameObject.SetActive(false);
+        }
         SaveSystem.instance.addCoin(UIManagerNew.Instance.StartMiniGamePanel.reward);
         SaveSystem.instance.SaveData();
         this.Close();
@@ -77,7 +82,9 @@ public class WinMiniGamePanel : MonoBehaviour
                     if (MiniGamePlay.instance.selectedMinimap == 1)
                     {
                         FirebaseAnalyticsControl.Instance.LogEventMini_Done(2);
-                    }   
+                    }
+
+                    
                 });
             });
         });

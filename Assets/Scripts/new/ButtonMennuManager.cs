@@ -353,7 +353,7 @@ public class ButtonMennuManager : MonoBehaviour
             {
                 UIManagerNew.Instance.StartMiniGamePanel.SetProperties(50, 0);
                 MiniGamePlayButton.SetQuestButton(0, "Help me");
-                ConversationController.instance.StartConversation(0, 6, "minigame1", () =>
+                ConversationController.instance.StartConversation(1, 6, "minigame1", () =>
                 {
                     UIManagerNew.Instance.StartMiniGamePanel.ShowPlay();
                     UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(PlayMiniGame);

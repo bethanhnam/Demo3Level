@@ -19,8 +19,6 @@ public class VideoController : MonoBehaviour
     public bool canCreate = true;
     public bool canSkip = true;
 
-    public Button skipButton;
-
     public List<VideoClip> videoList;
     //public List<VideoClip> videoActionList;
 
@@ -35,25 +33,9 @@ public class VideoController : MonoBehaviour
         var x = PlayerPrefs.GetInt("videoIndex");
         videoPlayer.clip = videoList[x];
         videoPlayer.Prepare();
-        if (!LoadingScreen.instance.HasFinishedStory())
-        {
-            skipButton.gameObject.SetActive(true);
-        }
-        else
-        {
-            skipButton.gameObject.SetActive(false);
-        }
     }
     private void Update()
     {
-        if (canSkip && (PlayerPrefs.GetString("HasFinishedStory", "false") == "false") && this.videoIndex != videoList.Count - 1)
-            {
-            skipButton.gameObject.SetActive(true);
-        }
-        else
-        {
-            skipButton.gameObject.SetActive(false);
-        }
     }
     public void CheckStartVideo()
     {
@@ -81,7 +63,6 @@ public class VideoController : MonoBehaviour
         if (this.videoIndex == videoList.Count - 1)
         {
             PlayerPrefs.SetString("HasFinishedStory", "true");
-            skipButton.gameObject.SetActive(false);
             FirebaseAnalyticsControl.Instance.completeTutor();
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();

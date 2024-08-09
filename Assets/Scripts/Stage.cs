@@ -109,10 +109,6 @@ public class Stage : MonoBehaviour
         }
         Instance = this;
         resetData();
-        //if(GamePlayPanelUIManager.Instance.gameObject.activeSelf == false)
-        //{
-        //	
-        //}
         StartCoroutine(check());
         //InvokeRepeating("Check1", 0f, 1.5f);
     }
@@ -411,13 +407,8 @@ public class Stage : MonoBehaviour
                     if (curNail != null && curHole.isOsccupied == false && CheckHoleIsAvailable())
                     {
                         hasUndo = false;
-                        Debug.Log("Đẩy được đinh vào");
-                        // continue code
                         SaveGameObject();
-                        Debug.Log("chạy qua save object bth");
-                        //curNail.SetTrigger();
                         curNail.SetNewPos(curHole.transform.position);
-                        Debug.Log("chạy qua set new pos bth");
                         if (!nailDetectors.IsNullOrEmpty())
                         {
                             foreach (var nail in nailDetectors)
@@ -445,9 +436,9 @@ public class Stage : MonoBehaviour
                         {
                             Debug.Log("chạy vào tutor");
                             isLvTutor = false;
-                            if (Stage.Instance.pointerTutor != null)
+                            if (pointerTutor != null)
                             {
-                                Stage.Instance.pointerTutor.gameObject.SetActive(false);
+                                pointerTutor.gameObject.SetActive(false);
                             }
                             pointerTutor.DisablePointer();
                         }

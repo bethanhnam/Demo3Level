@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -69,7 +69,7 @@ public class MiniGamePlay : MonoBehaviour
     public void SetItem(int miniGameMapIndex, int Maxcollectvalue)
     {
         selectedMinimap = miniGameMapIndex;
-        if (selectedMinimap == 0)
+        if (MiniGameMaps[selectedMinimap].minigame1 == MiniGameMap.Minigame.ScaryHouse)
         {
             MiniGameMaps[selectedMinimap].ghostSkeleton.dark.gameObject.SetActive(false);
             MiniGameMaps[selectedMinimap].ghostSkeleton.skeletonGraphic.gameObject.SetActive(false);
@@ -85,7 +85,7 @@ public class MiniGamePlay : MonoBehaviour
         DOVirtual.DelayedCall(0.5f, () =>
         {
             MiniGameMaps[selectedMinimap].collectText.text = collectValue.ToString();
-            if (selectedMinimap == 0)
+            if (MiniGameMaps[selectedMinimap].minigame1 == MiniGameMap.Minigame.ScaryHouse)
             {
                 MiniGameMaps[selectedMinimap].ghostSkeleton.gameObject.SetActive(true);
                 MiniGameMaps[selectedMinimap].ghostSkeleton.RestartTimer();
@@ -102,7 +102,7 @@ public class MiniGamePlay : MonoBehaviour
                     MiniGameMaps[selectedMinimap].ghostSkeleton.StartTimer();
                 });
             }
-            if (selectedMinimap == 1)
+            if (MiniGameMaps[selectedMinimap].minigame1 == MiniGameMap.Minigame.Babycold)
             {
                 var particleSystem = MiniGameMaps[selectedMinimap].UIParticle;
                 if (particleSystem != null)
@@ -115,6 +115,7 @@ public class MiniGamePlay : MonoBehaviour
 
                 DOVirtual.DelayedCall(0.3f, () =>
                 {
+                    MiniGameMaps[selectedMinimap].snowParticle.gameObject.SetActive(true);  
                     MiniGameMaps[selectedMinimap].HeartSlider.StartTimer();
                 });
             }
@@ -125,11 +126,14 @@ public class MiniGamePlay : MonoBehaviour
     public void ChangeCollectSliderValue()
     {
         AudioManager.instance.PlaySFX("FillUpSlider");
-        MiniGameMaps[selectedMinimap].collectSlider.value = collectValue;
-        MiniGameMaps[selectedMinimap].collectText.text = collectValue.ToString();
+        if (collectValue < MiniGameMaps[selectedMinimap].collectSlider.maxValue - 1)
+        {
+            MiniGameMaps[selectedMinimap].collectSlider.value = collectValue;
+            MiniGameMaps[selectedMinimap].collectText.text = collectValue.ToString();
+        }
         MiniGameMaps[selectedMinimap].collectSlider.DOValue(MiniGameMaps[selectedMinimap].collectSlider.value + 1, 0.15f).OnComplete(() =>
         {
-            if (selectedMinimap == 1)
+            if (MiniGameMaps[selectedMinimap].minigame1 == MiniGameMap.Minigame.Babycold)
             {
                 // Tăng kích thước hạt
                 var particleSystem = MiniGameMaps[selectedMinimap].UIParticle;
@@ -150,17 +154,17 @@ public class MiniGamePlay : MonoBehaviour
                 //win minigame
                 MiniGameMaps[selectedMinimap].hasDone = true;
                 MiniGameMaps[selectedMinimap].clockFill.StopTimer();
-                if (selectedMinimap == 0)
+                if (MiniGameMaps[selectedMinimap].minigame1 == MiniGameMap.Minigame.ScaryHouse)
                 {
                     MiniGameMaps[selectedMinimap].itemImage.gameObject.SetActive(false);
                     MiniGameMaps[selectedMinimap].ghostSkeleton.StopTimer();
                 }
-                if (selectedMinimap == 1)
+                if (MiniGameMaps[selectedMinimap].minigame1 == MiniGameMap.Minigame.Babycold)
                 {
                     MiniGameMaps[selectedMinimap].HeartSlider.StopTimer();
                 }
                 Debug.Log("win minigames");
-                if (selectedMinimap == 1)
+                if (MiniGameMaps[selectedMinimap].minigame1 == MiniGameMap.Minigame.Babycold)
                 {
                     MiniGameMaps[selectedMinimap].skeleton.AnimationState.SetAnimation(0, "happy", false);
                     DOVirtual.DelayedCall(0.3f, () =>
@@ -169,7 +173,7 @@ public class MiniGamePlay : MonoBehaviour
                         UIManagerNew.Instance.WinMiniGamePanel.Appear();
                     });
                 }
-                if (selectedMinimap == 0)
+                if (MiniGameMaps[selectedMinimap].minigame1 == MiniGameMap.Minigame.ScaryHouse)
                 {
                     MiniGameMaps[selectedMinimap].characterStepBack.GoToWin(() =>
                     {

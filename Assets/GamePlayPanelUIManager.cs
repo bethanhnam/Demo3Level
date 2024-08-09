@@ -290,11 +290,12 @@ public class GamePlayPanelUIManager : MonoBehaviour
     public void ShowUnscrewEffect(Transform transform ,Action action)
     {
         Stage.Instance.canInteract = false;
-        unscrewEffect.transform.GetChild(1).transform.position = transform.position;
+        unscrewEffect.transform.GetChild(1).transform.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, "break", false);
         unscrewEffect.gameObject.SetActive(true);
         AudioManager.instance.PlaySFX("HeartBreak");
         DOVirtual.DelayedCall(2f, () =>
         {
+            unscrewEffect.transform.GetChild(1).transform.GetComponent<SkeletonGraphic>().AnimationState.ClearTrack(0);
             unscrewEffect.gameObject.SetActive(false);
             Stage.Instance.canInteract = true;
             if(action != null) action();

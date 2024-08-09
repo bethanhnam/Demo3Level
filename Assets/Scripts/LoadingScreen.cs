@@ -46,7 +46,7 @@ public class LoadingScreen : MonoBehaviour
             {
                 operation.allowSceneActivation = true;
                 RemoteConfigController.instance.Init();
-                yield return new WaitForSecondsRealtime(0.5f);
+                yield return new WaitForSecondsRealtime(1f);
                 if (!HasFinishedStory())
                 {
                     GameManagerNew.Instance.videoController.gameObject.SetActive(true);
@@ -186,7 +186,7 @@ public class LoadingScreen : MonoBehaviour
     {
         instance = this;
         //test
-        PlayerPrefs.SetString("HasFinishedStory", "true");
+        //PlayerPrefs.SetString("HasFinishedStory", "true");
 
         DontDestroyOnLoad(this.gameObject);
         LoadingScene(1);
