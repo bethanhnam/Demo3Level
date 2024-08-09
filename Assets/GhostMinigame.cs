@@ -44,6 +44,12 @@ public class GhostMinigame : MonoBehaviour
         dark.gameObject.SetActive(true);
         skeletonGraphic.gameObject.SetActive(true);
         startTimer = true;
+        AudioManager.instance.PlaySFX("GhostAppear");
+        skeletonGraphic.AnimationState.SetAnimation(0, "attack", false);
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            skeletonGraphic.AnimationState.SetAnimation(0, "move", true);
+        });
     }
     private void Update()
     {
@@ -114,8 +120,9 @@ public class GhostMinigame : MonoBehaviour
     }
     public void CheckReachPoint()
     {
-        if (time <= 35 && hasReached == false)
+        if (time <= 30 && hasReached == false)
         {
+            AudioManager.instance.PlaySFX("GhostAppear");
             hasReached = true;
             skeletonGraphic.AnimationState.SetAnimation(0, "attack", false);
             DOVirtual.DelayedCall(1f, () =>

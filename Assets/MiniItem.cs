@@ -12,29 +12,18 @@ public class MiniItem : MonoBehaviour
 
     public void MoveItem()
     {
-        
-        if (UIManagerNew.Instance.MiniGamePlay.selectedMinimap == 0)
+        var target = UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[UIManagerNew.Instance.MiniGamePlay.selectedMinimap].collectTargetPos.position;
+        Vector3 worldPosition = new Vector3(target.x, target.y - 1, 1);
+        this.transform.DOMove(worldPosition, 0.3f).OnComplete(() =>
         {
-            var target = UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[UIManagerNew.Instance.MiniGamePlay.selectedMinimap].collectTargetPos.position;
-            Vector3 worldPosition = new Vector3(target.x, target.y-1, 1);
-            this.transform.DOMove(worldPosition, 0.3f).OnComplete(() =>
+            animator.enabled = false;
+            this.gameObject.SetActive(false);
+            if (UIManagerNew.Instance.MiniGamePlay.selectedMinimap == 1)
             {
-                animator.enabled = false;
-                this.gameObject.SetActive(false);
-                MiniGamePlay.instance.ChangeCollectSliderValue();
-            });
-        }
-        else
-        {
-            var target = UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[UIManagerNew.Instance.MiniGamePlay.selectedMinimap].collectTargetPos.position;
-            Vector3 worldPosition = new Vector3(target.x, target.y - 1, 1);
-            this.transform.DOMove(worldPosition, 0.3f).OnComplete(() =>
-            {
-                animator.enabled = false;
-                this.gameObject.SetActive(false);
-                MiniGamePlay.instance.ChangeCollectSliderValue();
-            });
-        }
+                AudioManager.instance.PlaySFX("FastFlame");
+            }
+            MiniGamePlay.instance.ChangeCollectSliderValue();
+        });
     }
     public void SetImage(Sprite sprite)
     {

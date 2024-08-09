@@ -135,7 +135,7 @@ public class GameManagerNew : MonoBehaviour
             });
             DOVirtual.DelayedCall(1f, () =>
             {
-                CurrentLevel = Instantiate(LevelManagerNew.Instance.testingStageList[testingStage], new Vector2(0.1f, 1), Quaternion.identity, GamePlayPanel);
+                CurrentLevel = Instantiate(LevelManagerNew.Instance.testingStageList[testingStage], new Vector2(0.1f, 0.5f), Quaternion.identity, GamePlayPanel);
                 ScaleForDevices(CurrentLevel.transform.gameObject);
                 SetTargetScale(currentLevel.gameObject);
                 CurrentLevel.Init(level);
@@ -155,7 +155,7 @@ public class GameManagerNew : MonoBehaviour
                 });
                 DOVirtual.DelayedCall(1f, () =>
                 {
-                    CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[_level], new Vector2(0.1f, 1), Quaternion.identity, GamePlayPanel);
+                    CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[_level], new Vector2(0.1f, 0.5f), Quaternion.identity, GamePlayPanel);
                     ScaleForDevices(CurrentLevel.transform.gameObject);
                     SetTargetScale(currentLevel.gameObject);
                     CurrentLevel.Init(level);
@@ -256,7 +256,6 @@ public class GameManagerNew : MonoBehaviour
             });
             SetTargetScale(CurrentMiniGameStage.gameObject);
             CurrentMiniGameStage.InitForMinigame(level);
-            AudioManager.instance.PlayMusic("GamePlayTheme");
         });
     }
     public bool CheckLevelStage()

@@ -3,7 +3,6 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class WinMiniGamePanel : MonoBehaviour
@@ -77,7 +76,6 @@ public class WinMiniGamePanel : MonoBehaviour
                     if (MiniGamePlay.instance.selectedMinimap == 0)
                     {
                         FirebaseAnalyticsControl.Instance.LogEventMini_Done(1);
-                        ConversationController.instance.StartConversation(1, 7, "AfterMinigame1",null);
                     }
                     if (MiniGamePlay.instance.selectedMinimap == 1)
                     {

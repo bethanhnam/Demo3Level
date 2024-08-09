@@ -69,19 +69,47 @@ public class SkipPanel : MonoBehaviour
             level = 1;
         }
         UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].hasDone = true;
-        UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].gameObject.SetActive(false);
         if (UIManagerNew.Instance.MiniGamePlay.gameObject.activeSelf)
         {
+            UIManagerNew.Instance.GamePlayLoading.appear();
+
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].gameObject.SetActive(false);
+                if (MiniGameStage.Instance != null && MiniGameStage.Instance.gameObject.activeSelf)
+                {
+                    MiniGameStage.Instance.Close(true);
+                }
+                if (UIManagerNew.Instance.StartMiniGamePanel.gameObject.activeSelf)
+                {
+                    UIManagerNew.Instance.StartMiniGamePanel.Close();
+                }
+                UIManagerNew.Instance.MiniGamePlay.gameObject.SetActive(false);
+                this.Close();
+                DOVirtual.DelayedCall(0.3f, () =>
+                {
+                    UIManagerNew.Instance.ButtonMennuManager.Appear();
+                });
+            });
+        }
+        else
+        {
+            UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].gameObject.SetActive(false);
+            if (MiniGameStage.Instance != null && MiniGameStage.Instance.gameObject.activeSelf)
+            {
+                MiniGameStage.Instance.Close(true);
+            }
+            if (UIManagerNew.Instance.StartMiniGamePanel.gameObject.activeSelf)
+            {
+                UIManagerNew.Instance.StartMiniGamePanel.Close();
+            }
+            this.Close();
             UIManagerNew.Instance.MiniGamePlay.gameObject.SetActive(false);
+            DOVirtual.DelayedCall(0.3f, () =>
+            {
+                UIManagerNew.Instance.ButtonMennuManager.Appear();
+            });
         }
-        if (UIManagerNew.Instance.StartMiniGamePanel.gameObject.activeSelf)
-        {
-            UIManagerNew.Instance.StartMiniGamePanel.Close();
-        }
-        this.Close();
-        DOVirtual.DelayedCall(0.3f, () =>
-        {
-            UIManagerNew.Instance.ButtonMennuManager.Appear();
-        });
+
     }
 }

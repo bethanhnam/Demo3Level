@@ -201,7 +201,7 @@ public class conversationScripable : ScriptableObject
         Vector3 SpawnPos = new Vector3(ConversationController.instance.Conversations[indexCharacter].transform.position.x, 3 - indexChat * 3, ConversationController.instance.Conversations[indexCharacter].transform.position.z);
         var character = GameObject.Instantiate(ConversationController.instance.Conversations[indexCharacter], SpawnPos, Quaternion.identity, ConversationController.instance.transform);
         ConversationController.instance.listCharacters.Add(character);
-        character.ChangeEmo(indexCharacter);
+        character.ChangeEmo(indexCharacterEmo);
         character.gameObject.SetActive(true);
         character.animator.enabled = true;
     }

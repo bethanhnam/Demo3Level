@@ -32,6 +32,8 @@ public class MiniGameMap : MonoBehaviour
     public Transform darkDefaultPos;
     [ShowIf("IsScaryHouse")]
     public SpriteRenderer itemImage;
+    [ShowIf("IsScaryHouse")]
+    public Image gateImage;
 
     [ShowIf("IsBabyCold")]
     public HeartSlider HeartSlider;

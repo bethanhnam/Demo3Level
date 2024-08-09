@@ -45,17 +45,30 @@ public class clockFill : MonoBehaviour
             timeText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
 
             clockSlider.fillAmount = time * multiplierFactor;
+            
+            if(time <= 15)
+            {
+                UIManagerNew.Instance.MiniGamePlay.alertImage.ShowAlert();
+            }
         }
         else
         {
+            UIManagerNew.Instance.MiniGamePlay.alertImage.DisableAlert();
             startTimer = false;
             time = 0;
             int minutes = Mathf.FloorToInt(time / 60);
             int seconds = Mathf.FloorToInt(time % 60);
             timeText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
-            UIManagerNew.Instance.StartMiniGamePanel.Appear();
-            UIManagerNew.Instance.StartMiniGamePanel.ShowRetry();
-            UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(UIManagerNew.Instance.MiniGamePlay.ReplayMinigame);
+            //lose minigame
+            AudioManager.instance.Stop();
+            AudioManager.instance.PlaySFX("LosePop");
+            UIManagerNew.Instance.MiniGamePlay.StopAllActionInMiniGame();
+            UIManagerNew.Instance.MiniGamePlay.FailMiniGame.Appear(() =>
+            {
+                UIManagerNew.Instance.StartMiniGamePanel.Appear();
+                UIManagerNew.Instance.StartMiniGamePanel.ShowRetry();
+                UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(UIManagerNew.Instance.MiniGamePlay.ReplayMinigame);
+            });
         }
     } 
     public void StopTimer()

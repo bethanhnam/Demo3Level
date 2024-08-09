@@ -9,6 +9,7 @@ public class PausePanel : MonoBehaviour
 {
     public bool isdeleting;
     public bool isdeletingIron;
+    public GameObject panel;
     public CanvasGroup canvasGroup;
     public void Home()
     {
@@ -43,14 +44,9 @@ public class PausePanel : MonoBehaviour
             {
                 isdeleting = true;
             }
-            //if (Stage.Instance.deletingIron)
-            //{
-            //	isdeletingIron = true;
-            //}
-            //UIManager.instance.DeactiveTime();
             canvasGroup.alpha = 0;
             canvasGroup.DOFade(1, 0.1f);
-            this.GetComponent<RectTransform>().DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
+            panel.transform.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() =>
             {
                 ActiveCVGroup();
             });
@@ -63,14 +59,11 @@ public class PausePanel : MonoBehaviour
         {
             this.GetComponent<CanvasGroup>().DOFade(0, 0.1f);
             GamePlayPanelUIManager.Instance.AppearForReOpen();
-            this.GetComponent<RectTransform>().DOScale(new Vector3(.8f, .8f, 1), 0.1f).OnComplete(() =>
+            panel.transform.DOScale(new Vector3(.8f, .8f, 1), 0.1f).OnComplete(() =>
             {
                 canvasGroup.DOFade(0, .2f);
                 this.gameObject.SetActive(false);
                 GamePlayPanelUIManager.Instance.ActiveTime();
-                //UIManager.instance.ActiveTime();
-                //UIManager.instance.gamePlayPanel.backFrom
-                //= true;
                 if (Stage.Instance.isWining)
                 {
                     Stage.Instance.ScaleUpStage();
