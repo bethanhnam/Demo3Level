@@ -71,21 +71,6 @@ public class FixItemUI : MonoBehaviour
                     {
                         GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, "tremble_happy", false, GameManagerNew.Instance.PictureUIManager.hasWindow);
                         AudioManager.instance.PlaySFX("Laugh");
-                        if (LevelManagerNew.Instance.LevelBase.Level == 0)
-                        {
-                            GameManagerNew.Instance.conversationController.StartConversation(1, 3, "4AafterFirstFix", () =>
-                            {
-                                if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
-                                {
-                                    UIManagerNew.Instance.GamePlayPanel.DeactiveTime();
-                                }
-                                if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
-                                {
-                                    Stage.Instance.canInteract = false;
-                                }
-                                UIManagerNew.Instance.ThresholeController.showThreshole("playButtonLevel2", UIManagerNew.Instance.ButtonMennuManager.playButton.transform.localScale, UIManagerNew.Instance.ButtonMennuManager.playButton.transform);
-                            });
-                        }
                     }
                 }
             }

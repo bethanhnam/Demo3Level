@@ -33,10 +33,7 @@ public class SaveSystem : MonoBehaviour
     }
     private void Start()
     {
-        if (nonAds > 0)
-        {
-            AdsManager.instance.isRemoveAds = true;
-        }
+        
     }
     private void Update()
     {
@@ -89,6 +86,12 @@ public class SaveSystem : MonoBehaviour
         extraHolePoint = PlayerPrefs.GetInt("extraHolePoint");
         visit_total = PlayerPrefs.GetInt("visit_total");
         impr_total_noads_1 = PlayerPrefs.GetInt("impr_total_noads_1");
+
+
+        if (nonAds > 0)
+        {
+            AdsManager.instance.isRemoveAds = true;
+        }
     }
     public int GetmagicTiket()
     {

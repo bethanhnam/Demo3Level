@@ -1,9 +1,10 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ButtonMennuManager : MonoBehaviour
 {
@@ -14,7 +15,14 @@ public class ButtonMennuManager : MonoBehaviour
     [SerializeField]
     private RewardMove rewardMove;
     [SerializeField]
+
     public StarMove starMove;
+
+    public GameObject starBar;
+    public GameObject sliderBar;
+
+    public Canvas starCanvas;
+
     public GameObject[] noticeButtons;
     public int levelMinigame;
 
@@ -26,8 +34,8 @@ public class ButtonMennuManager : MonoBehaviour
 
     private void Awake()
     {
-        // datatest
-        PlayerPrefs.SetInt("GiveAwayBooster", 1);
+        //// datatest
+        //PlayerPrefs.SetInt("GiveAwayBooster", 1);
     }
     public void Appear()
     {
@@ -46,14 +54,7 @@ public class ButtonMennuManager : MonoBehaviour
             SaveSystem.instance.LoadData();
             DOVirtual.DelayedCall(1f, () =>
             {
-                if (LevelManagerNew.Instance.stage == 0)
-                {
-                    ShowPointer();
-                }
-                else
-                {
-                    UIManagerNew.Instance.ButtonMennuManager.playButton.gameObject.SetActive(true);
-                }
+                UIManagerNew.Instance.ButtonMennuManager.playButton.gameObject.SetActive(true);
             });
             if (LevelManagerNew.Instance.stage == 1 && PlayerPrefs.GetInt("Hasfixed") == 0)
             {
@@ -184,9 +185,9 @@ public class ButtonMennuManager : MonoBehaviour
     public void DisappearDailyRW()
     {
         Appear();
-        Debug.Log("thông qua dailyRW");
+        Debug.Log("thÃ´ng qua dailyRW");
         GameManagerNew.Instance.SetCompleteStory();
-        Debug.Log("thông qua SetCompleteStory");
+        Debug.Log("thÃ´ng qua SetCompleteStory");
         UIManagerNew.Instance.DailyRWUI.Close();
     }
 
@@ -194,6 +195,10 @@ public class ButtonMennuManager : MonoBehaviour
     {
         Close();
         UIManagerNew.Instance.StartMiniGamePanel.Appear();
+        if (UIManagerNew.Instance != null)
+        {
+            UIManagerNew.Instance.ButtonMennuManager.CheckForMinigame();
+        }
     }
 
     public void DisplayWin()
@@ -212,7 +217,7 @@ public class ButtonMennuManager : MonoBehaviour
         {
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();
-            DOVirtual.DelayedCall(.7f, () =>
+            DOVirtual.DelayedCall(.8f, () =>
             {
                 UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
                 if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
@@ -224,32 +229,16 @@ public class ButtonMennuManager : MonoBehaviour
                 {
                     DOVirtual.DelayedCall(.95f, () =>
                     {
-                        if (LevelManagerNew.Instance.stage == 0)
-                        {
-                            GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
-                            //tuto undo 
-                            GameManagerNew.Instance.conversationController.StartConversation(1, 1, "2SecondConver", () =>
-                            {
-                                Stage.Instance.TutorLevel1();
-                            }, true);
-                        }
                         if (LevelManagerNew.Instance.stage == 1)
                         {
                             GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
                             //tuto undo 
-                            if (SaveSystem.instance.extraHolePoint == 0)
-                            {
-                                SaveSystem.instance.extraHolePoint = 1;
-                                UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
-                            }
-                            UIManagerNew.Instance.NewBooster.SetValue(0);
                             DOVirtual.DelayedCall(0.5f, () =>
                             {
                                 if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
                                 {
                                     Stage.Instance.canInteract = false;
                                 }
-                                UIManagerNew.Instance.NewBooster.Appear();
                             });
                         }
                     });
@@ -265,18 +254,18 @@ public class ButtonMennuManager : MonoBehaviour
         {
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();
-                DOVirtual.DelayedCall(.5f, () =>
+            DOVirtual.DelayedCall(.5f, () =>
+                {
+                    if (LevelManagerNew.Instance.stage == 3)
                     {
-                        if (LevelManagerNew.Instance.stage == 4)
-                        {
-                            this.levelMinigame = 0;
-                        }
-                        if (LevelManagerNew.Instance.stage == 7)
-                        {
-                            this.levelMinigame = 1;
-                        }
-                        GameManagerNew.Instance.CreateMiniGame(levelMinigame);
-                    });
+                        this.levelMinigame = 0;
+                    }
+                    if (LevelManagerNew.Instance.stage == 6)
+                    {
+                        this.levelMinigame = 1;
+                    }
+                    GameManagerNew.Instance.CreateMiniGame(levelMinigame);
+                });
             Close();
         });
     }
@@ -347,18 +336,19 @@ public class ButtonMennuManager : MonoBehaviour
     }
     public void CheckForMinigame()
     {
-        if (LevelManagerNew.Instance.stage == 4 && PlayerPrefs.GetInt("GiveAwayBooster") == 1)
+        if (LevelManagerNew.Instance.stage == 3)
         {
-            if (!UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[0].hasDone)
+            GameManagerNew.Instance.isMinigame = true;
+            if (!UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[0].hasDone && PlayerPrefs.GetInt("DoneMini1") == 0)
             {
                 UIManagerNew.Instance.StartMiniGamePanel.SetProperties(50, 0);
                 MiniGamePlayButton.SetQuestButton(0, "Help me");
-                ConversationController.instance.StartConversation(0, 6, "minigame1", () =>
-                {
-                    UIManagerNew.Instance.StartMiniGamePanel.ChangeText("PLAY");
-                    UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(PlayMiniGame);
-                    UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(UIManagerNew.Instance.StartMiniGamePanel.Close);
-                });
+
+                UIManagerNew.Instance.StartMiniGamePanel.ShowPlay();
+                UIManagerNew.Instance.MiniGamePlay.isReplay = false;
+
+                UIManagerNew.Instance.StartMiniGamePanel.AddPlay();
+
             }
             else
             {
@@ -366,27 +356,37 @@ public class ButtonMennuManager : MonoBehaviour
                 MiniGamePlayButton.SetToPlayButton();
             }
         }
-        else
+        if (LevelManagerNew.Instance.stage == 6)
         {
-            if (LevelManagerNew.Instance.stage == 7)
+            GameManagerNew.Instance.isMinigame = true;
+            if (!UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[1].hasDone && PlayerPrefs.GetInt("DoneMini2") == 0)
             {
-                if (!UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[1].hasDone)
-                {
-                    UIManagerNew.Instance.StartMiniGamePanel.SetProperties(50, 1);
-                    MiniGamePlayButton.SetQuestButton(1, "Help me");
-                    ConversationController.instance.StartConversation(0, 8, "minigame2", () =>
-                    {
-                        UIManagerNew.Instance.StartMiniGamePanel.ChangeText("PLAY");
-                        UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(PlayMiniGame);
-                        UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.AddListener(UIManagerNew.Instance.StartMiniGamePanel.Close);
-                    });
-                }
-                else
-                {
-                    GameManagerNew.Instance.isMinigame = false;
-                    MiniGamePlayButton.SetToPlayButton();
-                }
+                UIManagerNew.Instance.StartMiniGamePanel.SetProperties(50, 1);
+                MiniGamePlayButton.SetQuestButton(1, "Help me");
+                UIManagerNew.Instance.StartMiniGamePanel.ShowPlay();
+                UIManagerNew.Instance.MiniGamePlay.isReplay = false;
+
+                UIManagerNew.Instance.StartMiniGamePanel.AddPlay();
             }
+            else
+            {
+                GameManagerNew.Instance.isMinigame = false;
+                MiniGamePlayButton.SetToPlayButton();
+            }
+        }
+    }
+    public void HideAllUI()
+    {
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            this.transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+    public void ShowAllUI()
+    {
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            this.transform.GetChild(i).gameObject.SetActive(true);
         }
     }
 }

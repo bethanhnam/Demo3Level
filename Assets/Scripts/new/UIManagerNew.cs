@@ -66,13 +66,20 @@ public class UIManagerNew : MonoBehaviour
     [SerializeField]
     private MiniGamePlay miniGamePlay;
     [SerializeField]
-    private WelcomePresent welcomePresent;
-    [SerializeField]
     private StartMiniGamePanel startMiniGamePanel;
     [SerializeField]
     private WinMiniGamePanel winMiniGamePanel;
     [SerializeField]
     private SkipPanel skipPanel;
+    [SerializeField]
+    private GameObject PointerObject;
+
+    // weekly event
+    [SerializeField]
+    private TreasureClimbPanel treasureClimbPanel;
+    [SerializeField]
+    private WeeklyEventPanel weeklyEventPanel;
+
 
     public TextMeshProUGUI[] DrillTexts;
     public TextMeshProUGUI[] UnscrewTexts;
@@ -96,6 +103,11 @@ public class UIManagerNew : MonoBehaviour
     [SerializeField]
     private StoryItem storyItem;
 
+    [SerializeField]
+    private BackGroundFooter backGroundFooter;
+
+    [SerializeField]
+    private Material highLightObj;
 
     public ButtonMennuManager ButtonMennuManager { get => buttonMennuManager; }
     public DailyRWUI DailyRWUI { get => dailyRWUI; }
@@ -128,10 +140,15 @@ public class UIManagerNew : MonoBehaviour
     public NewBooster NewBooster { get => newBooster; set => newBooster = value; }
     public ThresholeController ThresholeController { get => thresholeController; set => thresholeController = value; }
     public MiniGamePlay MiniGamePlay { get => miniGamePlay; set => miniGamePlay = value; }
-    public WelcomePresent WelcomePresent { get => welcomePresent; set => welcomePresent = value; }
     public StartMiniGamePanel StartMiniGamePanel { get => startMiniGamePanel; set => startMiniGamePanel = value; }
     public WinMiniGamePanel WinMiniGamePanel { get => winMiniGamePanel; set => winMiniGamePanel = value; }
     public SkipPanel SkipPanel { get => skipPanel; set => skipPanel = value; }
+    public GameObject PointerObject1 { get => PointerObject; set => PointerObject = value; }
+    public BackGroundFooter BackGroundFooter { get => backGroundFooter; set => backGroundFooter = value; }
+    public Material HighLightObj { get => highLightObj; set => highLightObj = value; }
+
+    public TreasureClimbPanel TreasureClimbPanel { get => treasureClimbPanel; set => treasureClimbPanel = value; }
+    public WeeklyEventPanel WeeklyEventPanel { get => weeklyEventPanel; set => weeklyEventPanel = value; }
 
     private void Awake()
     {
@@ -169,5 +186,15 @@ public class UIManagerNew : MonoBehaviour
         {
             onjBlockAds.SetActive(value);
         }
+    }
+
+    public void ShowPoiner(Transform targetTransform)
+    {
+        PointerObject.gameObject.SetActive(true);
+        PointerObject.transform.position = new Vector3(targetTransform.position.x - 1, targetTransform.position.y - 1, 1);
+    }
+    public void DisablePointer()
+    {
+        PointerObject.gameObject.SetActive(false);
     }
 }

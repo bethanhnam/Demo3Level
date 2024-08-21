@@ -75,6 +75,11 @@ public class MiniGameStage : MonoBehaviour
     public bool isLosing = false;
     public bool isScaling = false;
 
+    //check for movement
+    public bool isMoving = false;
+    public Tween boosterTween;
+    public Tween boosterTween1;
+
     private void Start()
     {
         Instance = this;
@@ -85,6 +90,16 @@ public class MiniGameStage : MonoBehaviour
     {
         Instance = this;
         resetData();
+        StartCoroutine(check());
+        StartCoroutine(CheckForClickContinuously());
+    }
+    IEnumerator check()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1.5f);
+            check1();
+        }
     }
     public void Init(int level)
     {
@@ -113,7 +128,7 @@ public class MiniGameStage : MonoBehaviour
         GamePlayPanelUIManager.Instance.ShowNotice(false);
     }
 
-    public void InitForMinigame(int level)
+    public void InitForMinigame(int level,bool isReplay)
     {
         isScaling = true;
         canInteract = false;
@@ -126,9 +141,10 @@ public class MiniGameStage : MonoBehaviour
             {
                 transform.DOScale(GameManagerNew.Instance.TargetScale, 0.4f).OnComplete(() =>
                 {
-
-                    canInteract = true;
-
+                    if (isReplay || level == 1)
+                    {
+                        canInteract = true;
+                    }
                     DOVirtual.DelayedCall(0.3f, () =>
                     {
                         isScaling = false;
@@ -224,8 +240,8 @@ public class MiniGameStage : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-              
-                        Click();
+
+                Click();
             }
         }
         CheckHoleAvailable();
@@ -296,7 +312,7 @@ public class MiniGameStage : MonoBehaviour
                 curHole = null;
                 if (curNail != null)
                 {
-                    curNail.Unselect();
+                    curNail.Unselect(curNail);
                     AudioManager.instance.PlaySFX("PushNail");
                     curNail = null;
                 }
@@ -317,7 +333,7 @@ public class MiniGameStage : MonoBehaviour
                     //}
                     if (preHole.getNail() != null)
                     {
-                        preHole.getNail().Unselect();
+                        preHole.getNail().Unselect(preHole.getNail());
                     }
                     preHole = curHole;
                     curNail = curHole.getNail();
@@ -444,7 +460,8 @@ public class MiniGameStage : MonoBehaviour
                             DOVirtual.DelayedCall(0.3f, () =>
                             {
                                 AudioManager.instance.PlaySFX("CompletePanel");
-                                if (LevelManagerNew.Instance.stage == 0) {
+                                if (LevelManagerNew.Instance.stage == 0)
+                                {
                                     DOVirtual.DelayedCall(0.3f, () =>
                                     {
                                         UIManagerNew.Instance.CompleteUI.Appear();
@@ -657,6 +674,79 @@ public class MiniGameStage : MonoBehaviour
                     numOfHoleNotAvailable.Remove(hole);
                 }
             }
+        }
+    }
+    public void check1()
+    {
+        try
+        {
+            if (!GameManagerNew.Instance.isStory)
+            {
+                if (holes.Length != 0 && numOfHoleNotAvailable.Count == holes.Length)
+                {
+                    if (checked1 == false && !isScaling)
+                    {
+                        checked1 = true;
+                        Invoke("ShowNotice", 1f);
+                    }
+
+                }
+                else
+                {
+                    UIManagerNew.Instance.MiniGamePlay.replayButton.gameObject.SetActive(false);
+                    UIManagerNew.Instance.MiniGamePlay.ShowNotice(false);
+                    checked1 = false;
+                }
+            }
+        }
+        catch (Exception ex) { }
+    }
+    private void ShowNotice()
+    {
+        if (numOfHoleNotAvailable.Count == holes.Length)
+        {
+            UIManagerNew.Instance.MiniGamePlay.replayButton.gameObject.SetActive(true);
+            UIManagerNew.Instance.MiniGamePlay.ShowNotice(true);
+
+        }
+    }
+    public void changePosForDevices()
+    {
+        float targetAspect = 9.0f / 16.0f;
+        float windowAspect = (float)Screen.width / (float)Screen.height;
+
+        if (windowAspect < targetAspect)
+        {
+            this.transform.position = new Vector3(transform.position.x, transform.position.y / (targetAspect / windowAspect), 1);
+            Debug.Log(transform.position.y / (targetAspect / windowAspect));
+        }
+    }
+
+    IEnumerator CheckForClickContinuously()
+    {
+        while (true)
+        {
+            isMoving = false;
+            float timer = 10f;
+            while (timer > 0)
+            {
+                timer -= Time.deltaTime; // Giảm thời gian theo thời gian thực
+                yield return null; // Đợi khung hình tiếp theo
+            }
+            if (isMoving)
+            {
+                // Thực hiện hành động khi người chơi bấm vào màn hình
+                yield return null; // Đợi khung hình tiếp theo
+            }
+            else
+            {
+                if (UIManagerNew.Instance.MiniGamePlay.gameObject.activeSelf)
+                {
+                    UIManagerNew.Instance.MiniGamePlay.ChangeForNotAction();
+                }
+            }
+            // Đợi 5 giây trước khi kiểm tra lại
+            yield return new WaitForSeconds(10f);
         }
     }
 }

@@ -25,7 +25,7 @@ public enum TutorialStatus : short
     tut_drill_start = 4,
     tut_drill_done = 5,
 }
-public enum LevelItem: short
+public enum LevelItem : short
 {
     unscrew = 0,
     undo = 1,
@@ -52,7 +52,7 @@ public class FirebaseAnalyticsControl : MonoBehaviour
         FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
         FirebaseAnalytics.LogEvent("return_home");
     }
-    
+
     public void click_dailyRw()
     {
         FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
@@ -75,7 +75,6 @@ public class FirebaseAnalyticsControl : MonoBehaviour
             }
         });
     }
-
     void InitializeFirebase()
     {
         // Các hàm khởi tạo Firebase
@@ -126,24 +125,30 @@ public class FirebaseAnalyticsControl : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        if (GamePlayPanelUIManager.Instance.gameObject.activeSelf)
-        {
-            FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
-            LogEventLevelStatus(LevelManagerNew.Instance.stage, LevelStatus.Break);
-        }
+
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
+        LogEventLevelStatus(LevelManagerNew.Instance.stage, LevelStatus.Break);
     }
 
     // Map 1
-    public void LogEventFixItem(int itemIndext) {
-        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
-        FirebaseAnalytics.LogEvent("Map_1_fix_done_" + itemIndext+1);
-    }
-    // Map 2 - Map 3 
-    public void LogEventFixStageMap(int map,int stageIndext)
+    public void LogEventFixItem(int itemIndext)
     {
         FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
-        FirebaseAnalytics.LogEvent("Map_"+map+"_fix_done_stage_" + (stageIndext + 1));
+        FirebaseAnalytics.LogEvent("Map_1_fix_done_" + itemIndext + 1);
     }
+    // Map 2 - Map 3 
+    public void LogEventFixStageMap(int map, int stageIndext)
+    {
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
+        FirebaseAnalytics.LogEvent("Map_" + map + "_fix_done_stage_" + (stageIndext + 1));
+    }
+    // mini_done_x
+    public void LogEventMini_Done(int mini_done_Level)
+    {
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
+        FirebaseAnalytics.LogEvent("Mini_done_" + mini_done_Level);
+    }
+
     //Shop 
     public void visit_session()
     {
@@ -155,14 +160,14 @@ public class FirebaseAnalyticsControl : MonoBehaviour
         FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
         FirebaseAnalytics.SetUserProperty("visit_total", PlayerPrefs.GetInt("visit_total").ToString());
     }
-    public void BuyByAds(int packId )
+    public void BuyByAds(int packId)
     {
         string packName = "";
         switch (packId)
         {
             case 1:
                 packName = "buy_combo1";
-            break;
+                break;
             case 2:
                 packName = "buy_combo2";
                 break;
@@ -367,7 +372,7 @@ public class FireBaseEventName
     //    }
     //}
     #endregion
-
+            
     //#region Ads_impress_value
     //private string nameEventAdsImprss = "ad_impression_value";
     //public void LogEvenAdsImpresssion(Parameter[] p)

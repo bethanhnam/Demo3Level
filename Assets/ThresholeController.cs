@@ -69,7 +69,6 @@ public class ThresholeController : MonoBehaviour
             this.gameObject.SetActive(false);
         });
     }
-    [Button("TestThreshole")]
     public void showThreshole(string thresholeName, Vector3 scale, Transform transform = null)
     {
         if (transform != null)

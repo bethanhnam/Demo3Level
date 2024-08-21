@@ -14,6 +14,7 @@ public class WelcomePresent : MonoBehaviour
 
     public void Appear()
     {
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         if (!gameObject.activeSelf)
         {
             gameObject.SetActive(true);
@@ -25,6 +26,7 @@ public class WelcomePresent : MonoBehaviour
     }
     public void Close()
     {
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         cvButton.blocksRaycasts = false;
         animButton.Play(disappearButton);
     }
@@ -35,6 +37,7 @@ public class WelcomePresent : MonoBehaviour
             gameObject.SetActive(false);
         }
         UIManagerNew.Instance.ButtonMennuManager.CheckForMinigame();
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
     }
     public void ActiveCVGroup()
     {
@@ -42,6 +45,7 @@ public class WelcomePresent : MonoBehaviour
         {
             cvButton.blocksRaycasts = true;
         }
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
     }
     public void DiactiveCVGroup()
     {

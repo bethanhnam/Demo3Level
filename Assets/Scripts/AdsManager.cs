@@ -104,12 +104,11 @@ public class AdsManager : MonoBehaviour
 	public void StartInit(string data, string strucAds)
 	{
 		AdsControl.Instance.Init(data);
-		InitDataShow(strucAds);
 		LogEventScreen("Splash");
+		InitDataShow(strucAds);
 		StartCoroutine(ShowBannerIE());
 	}
-
-	private IEnumerator ShowBannerIE()
+    private IEnumerator ShowBannerIE()
 	{
 		//Debug.Log("1111111" + AdsControl.Instance.isCanShowBanner);
 		while (!AdsControl.Instance.isCanShowBanner)
@@ -117,15 +116,19 @@ public class AdsManager : MonoBehaviour
 			yield return null;
 		}
 		//Debug.Log("22222222" + AdsControl.Instance.isCanShowBanner);
-		ShowBanner();
+		if (PlayerPrefs.GetInt("NonADS") == 0)
+		{
+			ShowBanner();
+		}
 	}
 
 	private Action closeAction;
 
 	public void ShowInterstial(AdsManager.PositionAds p, Action actionDone, Action _actionClose)
 	{
-		if (isRemoveAds)
-		{
+        if (isRemoveAds || PlayerPrefs.GetInt("NonADS") == 1)
+        {
+			Debug.Log("chạy vào khi remove ads");
 			if (actionDone != null)
 			{
 				actionDone();
@@ -134,23 +137,15 @@ public class AdsManager : MonoBehaviour
 			{
 				_actionClose();
 			}
-
 			return;
 		}
 
 		closeAction = _actionClose;
 		if(closeAction != null)
 		{
-			Debug.Log("co close1");
+			Debug.Log("co close");
 		}
 		Debug.Log("inter ads: " + p.ToString());
-
-		//if (actionDone != null)
-		//{
-		//	actionDone();
-		//}
-
-
 		if (StructAds.StructAds.ContainsKey(p.ToString()))
 		{
 			Debug.Log("inter ads: " + p.ToString());
@@ -263,14 +258,7 @@ public class AdsManager : MonoBehaviour
 		Debug.Log("Pause");
 		if (!pauseStatus)
 		{
-			if (RemoteConfigController.instance != null)
-			{
-				if (RemoteConfigController.instance.IsShowOpenAds == 1)
-				{
-                    AdsControl.Instance.ActiveBlockFaAds(false);
-                    AdsControl.Instance.ShowOpenAds();
-				}
-			}
+			return;
 		}
 	}
 

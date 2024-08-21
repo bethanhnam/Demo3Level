@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using com.adjust.sdk;
+using DG.Tweening;
 using Unity.Advertisement.IosSupport;
 using UnityEngine;
 
@@ -33,14 +34,7 @@ public class MaxMediation : MonoBehaviour
             initMax = true;
             MaxSdkCallbacks.OnSdkInitializedEvent += sdkConfiguration =>
             {
-                InitOpenAds();
-                InitializeInterstitialAds();
-                InitializeRewardedAds();
-                if (AdsControl.Instance.Banner_type == 0)
-                {
-                    InitializeBannerAds();
-                    AdsControl.Instance.isCanShowBanner = true;
-                }
+
 #if UNITY_IOS
 
             // check with iOS to see if the user has accepted or declined tracking
@@ -55,8 +49,48 @@ public class MaxMediation : MonoBehaviour
 #endif
             };
 
+            if (VideoController.instance != null)
+            {
+                if (VideoController.instance.videoIndex == 0)
+                {
+                    DOVirtual.DelayedCall(3, () =>
+                    {
+                        LoadAdsNew();
+
+                    });
+                }
+                else
+                {
+                    LoadAdsNew();
+                }
+            }
+            else
+            {
+                DOVirtual.DelayedCall(3, () =>
+                {
+                    LoadAdsNew();
+                });
+            }
+
             MaxSdk.SetSdkKey(maxSDK);
             MaxSdk.InitializeSdk();
+
+        }
+
+    }
+    private void LoadAdsNew()
+    {
+        Debug.Log("loadAdsNew success");
+        InitializeRewardedAds();
+        if (PlayerPrefs.GetInt("NonADS") == 0)
+        {
+            InitOpenAds();
+            InitializeInterstitialAds();
+            if (AdsControl.Instance.Banner_type == 0)
+            {
+                InitializeBannerAds();
+                AdsControl.Instance.isCanShowBanner = true;
+            }
         }
     }
     #region Open Ads ----------------------------------------------------

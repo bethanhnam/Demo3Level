@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+
 #if UNITY_ANDROID
 using Unity.Notifications.Android;
 #endif
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class NotificationControl : MonoBehaviour
 {
@@ -126,4 +129,43 @@ public class NotificationControl : MonoBehaviour
         int a26 = Random.Range(0, txtDes.Length);
         PusNoti(txtTitle[a26], txtDes[a26], d.AddDays(60.5), "d60-2");
     }
+    //IEnumerator LoadAndShowNotificationFromStreamingAssets()
+    //{
+    //    string path = Path.Combine(Application.streamingAssetsPath, "1v");
+    //    string savePath = Path.Combine(Application.persistentDataPath, "1v");
+
+    //    if (Application.platform == RuntimePlatform.Android)
+    //    {
+    //        UnityWebRequest uwr = UnityWebRequest.Get(path);
+    //        yield return uwr.SendWebRequest();
+
+    //        if (uwr.result != UnityWebRequest.Result.Success)
+    //        {
+    //            Debug.LogError(uwr.error);
+    //            yield break;
+    //        }
+
+    //        byte[] imageData = uwr.downloadHandler.data;
+    //        File.WriteAllBytes(savePath, imageData);
+    //    }
+    //    else
+    //    {
+    //        if (!File.Exists(path))
+    //        {
+    //            Debug.LogError("File not found at: " + path);
+    //            yield break;
+    //        }
+
+    //        byte[] imageData = File.ReadAllBytes(path);
+    //        File.WriteAllBytes(savePath, imageData);
+    //    }
+
+    //    var notification = new AndroidNotification("Image", "Downloaded image",System.DateTime.Now.AddMinutes(1));
+    //    notification.BigPicture = new BigPictureStyle()
+    //    {
+    //        Picture = savePath,
+    //    };
+    //    AndroidNotificationCenter.SendNotification(notification, "d0");
+    //    Debug.Log("Notification with image sent.");
+    //}
 }

@@ -62,8 +62,6 @@ public class StarReward : MonoBehaviour
 
     public void MoveToFix(StarReward star, Vector3 pos, Vector3 targetAnchor, Vector3 scaleTarget, Action action)
     {
-        Debug.Log("targetAnchor " + targetAnchor);
-
         if (!star.gameObject.activeSelf)
         {
             star.gameObject.SetActive(true);

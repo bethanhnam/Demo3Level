@@ -25,7 +25,8 @@ public class conversationScripable : ScriptableObject
     {
         Mom,
         Child,
-        Mom2
+        Mom2,
+        BigMom
     }
 
     public int ChangeToInt()
@@ -42,6 +43,9 @@ public class conversationScripable : ScriptableObject
             case MyCharacter.Mom2:
                 x = 2;
                 return 2;
+            case MyCharacter.BigMom:
+                x = 3;
+                return 3;
         }
         return x;
     }
@@ -80,7 +84,7 @@ public class conversationScripable : ScriptableObject
                 ConversationController.instance.Conversations[i].StartDialogue(ConversationController.instance.Conversations[i].index, () =>
                 {
                     indexChat++;
-                    CreateLineForSingle(indexCharacterEmo, ChangeToInt(), isconnectLine, action);
+                    CreateLineForSingle(indexCharacterEmo, ChangeToInt(), isconnectLine, action,setPos);
                 }, character1Lines[indexChat]);
             });
         }
@@ -182,7 +186,14 @@ public class conversationScripable : ScriptableObject
         }
         else
         {
-            ConversationController.instance.Conversations[indexCharacter].transform.position = new Vector3(ConversationController.instance.Conversations[indexCharacter].transform.position.x,1,1);
+            if (selectedCharacter == MyCharacter.BigMom)
+            {
+                
+            }
+            else
+            {
+                ConversationController.instance.Conversations[indexCharacter].transform.position = new Vector3(ConversationController.instance.Conversations[indexCharacter].transform.position.x, 1, 1);
+            }
         }
         ConversationController.instance.Conversations[indexCharacter].ChangeEmo(indexCharacterEmo);
         ConversationController.instance.Conversations[indexCharacter].gameObject.SetActive(true);
@@ -201,7 +212,7 @@ public class conversationScripable : ScriptableObject
         Vector3 SpawnPos = new Vector3(ConversationController.instance.Conversations[indexCharacter].transform.position.x, 3 - indexChat * 3, ConversationController.instance.Conversations[indexCharacter].transform.position.z);
         var character = GameObject.Instantiate(ConversationController.instance.Conversations[indexCharacter], SpawnPos, Quaternion.identity, ConversationController.instance.transform);
         ConversationController.instance.listCharacters.Add(character);
-        character.ChangeEmo(indexCharacter);
+        character.ChangeEmo(indexCharacterEmo);
         character.gameObject.SetActive(true);
         character.animator.enabled = true;
     }

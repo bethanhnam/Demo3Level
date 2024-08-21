@@ -1,5 +1,6 @@
 ﻿using com.adjust.sdk;
 using DG.Tweening;
+using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,8 +20,6 @@ public class VideoController : MonoBehaviour
     public bool canCreate = true;
     public bool canSkip = true;
 
-    public Button skipButton;
-
     public List<VideoClip> videoList;
     //public List<VideoClip> videoActionList;
 
@@ -35,29 +34,13 @@ public class VideoController : MonoBehaviour
         var x = PlayerPrefs.GetInt("videoIndex");
         videoPlayer.clip = videoList[x];
         videoPlayer.Prepare();
-        if (!LoadingScreen.instance.HasFinishedStory())
-        {
-            skipButton.gameObject.SetActive(true);
-        }
-        else
-        {
-            skipButton.gameObject.SetActive(false);
-        }
     }
     private void Update()
     {
-        if (canSkip && (PlayerPrefs.GetString("HasFinishedStory", "false") == "false") && this.videoIndex != videoList.Count - 1)
-            {
-            skipButton.gameObject.SetActive(true);
-        }
-        else
-        {
-            skipButton.gameObject.SetActive(false);
-        }
     }
     public void CheckStartVideo()
     {
-        //PlayerPrefs.SetInt("videoIndex", 3);
+        PlayerPrefs.SetInt("videoIndex", 3);
         var x = PlayerPrefs.GetInt("videoIndex");
         if (x == 0)
         {
@@ -81,26 +64,44 @@ public class VideoController : MonoBehaviour
         if (this.videoIndex == videoList.Count - 1)
         {
             PlayerPrefs.SetString("HasFinishedStory", "true");
-            skipButton.gameObject.SetActive(false);
             FirebaseAnalyticsControl.Instance.completeTutor();
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             UIManagerNew.Instance.GamePlayLoading.appear();
-            DOVirtual.DelayedCall(0.5f, () =>
+            DOVirtual.DelayedCall(0.65f, () =>
             {
                 GameManagerNew.Instance.InitStartGame();
             });
             DOVirtual.DelayedCall(0.35f, () =>
             {
-                if (PlayerPrefs.GetInt("FirstStoryBubble") == 0)
+                if (PlayerPrefs.GetInt("FirstStoryBubble") == 0 && LevelManagerNew.Instance.stage == 0)
                 {
-                    DOVirtual.DelayedCall(1.3f, () =>
+                    DOVirtual.DelayedCall(2f, () =>
                     {
                         PlayerPrefs.SetInt("FirstStoryBubble", 1);
                         GameManagerNew.Instance.conversationController.CanvasGroup.alpha = 0.8f;
+                        UIManagerNew.Instance.BackGroundFooter.ShowBackGroundFooter(true);
                         GameManagerNew.Instance.conversationController.StartConversation(0,0, "1FirstConver", () =>
                         {
-                            GameManagerNew.Instance.conversationController.CanvasGroup.alpha = 0.4f;
+                            UIManagerNew.Instance.BackGroundFooter.DisappearBackGroundFooter();
+                            UIManagerNew.Instance.ButtonMennuManager.HideAllUI();
+                            UIManagerNew.Instance.ButtonMennuManager.starBar.gameObject.SetActive(true);
+                            UIManagerNew.Instance.ButtonMennuManager.sliderBar.gameObject.SetActive(true);
+                            UIManagerNew.Instance.ButtonMennuManager.starCanvas.gameObject.SetActive(true);
                             UIManagerNew.Instance.ButtonMennuManager.Appear();
+                            AudioManager.instance.PlayMusic("MenuTheme");
+                            if (PlayerPrefs.GetInt("Hasfixed") == 0 && LevelManagerNew.Instance.LevelBase.Level == 0)
+                            {
+                                if(SaveSystem.instance.star == 0) { 
+                                SaveSystem.instance.addStar(1);
+                                }
+                                GameManagerNew.Instance.PictureUIManager.windowObj.GetComponent<SkeletonGraphic>().material = UIManagerNew.Instance.HighLightObj;
+                                GameManagerNew.Instance.PictureUIManager.windowBtnObj.transform.localScale = Vector3.zero;
+                                GameManagerNew.Instance.PictureUIManager.windowBtnObj.SetActive(true);
+                                GameManagerNew.Instance.PictureUIManager.windowBtnObj.transform.DOScale(Vector3.one, 0.5f).OnComplete(() =>
+                                {
+                                    UIManagerNew.Instance.ShowPoiner(GameManagerNew.Instance.PictureUIManager.windowBtnObj.transform);
+                                });
+                            }
                         });
                     });
                 }
@@ -110,12 +111,14 @@ public class VideoController : MonoBehaviour
                     {
                         if (PlayerPrefs.GetInt("HasTransfer") == 0)
                         {
+                            AudioManager.instance.PlayMusic("MenuTheme");
                             UIManagerNew.Instance.TransferPanel.Appear();
                         }
                         else
                         {
                             DOVirtual.DelayedCall(0.5f, () =>
                             {
+                                AudioManager.instance.PlayMusic("MenuTheme");
                                 UIManagerNew.Instance.ButtonMennuManager.Appear();
                             });
                         }
@@ -124,6 +127,7 @@ public class VideoController : MonoBehaviour
                     {
                         DOVirtual.DelayedCall(0.5f, () =>
                         {
+                            AudioManager.instance.PlayMusic("MenuTheme");
                             UIManagerNew.Instance.DailyRWUI.Appear();
                         });
                     }
@@ -164,7 +168,6 @@ public class VideoController : MonoBehaviour
                         canCreate = false;
                     }
                 }
-                //PlayerPrefs.SetString("HasFinishedStory","true");
             });
         }
 

@@ -12,7 +12,8 @@ public class GamePlayLoading : MonoBehaviour
     public Image Image;
     public void appear()
     {
-        
+        AudioManager.instance.musicSource.Stop();
+        AudioManager.instance.sfxSource.Stop();
         Image.transform.localScale = Vector3.zero;
         this.gameObject.SetActive(true);
     }

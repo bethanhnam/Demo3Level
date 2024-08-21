@@ -48,8 +48,8 @@ public class EndLine : MonoBehaviour
 			{
 				collision.gameObject.SetActive(false);
 				Stage.Instance.numOfIronPlates -= 1;
-				//AudioManager.instance.PlaySFX("DropIron");
-				Debug.Log("numOfIronPlates" + Stage.Instance.numOfIronPlates);
+                //AudioManager.instance.PlaySFX("DropIron");
+                Debug.Log("numOfIronPlates" + Stage.Instance.numOfIronPlates);
 				Stage.Instance.CheckDoneLevel();
 				var partical1 = Instantiate(partical, collision.transform.position, Quaternion.identity);
 				Destroy(partical1, 1f);

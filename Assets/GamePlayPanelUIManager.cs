@@ -45,7 +45,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
 
     //blackPic
     public Image blackPic;
-    public Image blockPic;
+    //public Image blockPic;
 
     //pointer
     public GameObject goodJob;
@@ -54,6 +54,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
     //Booster Effect
     public GameObject unscrewEffect;
     public GameObject drillEffect;
+
     private void Awake()
     {
         Instance = this;
@@ -81,6 +82,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
         if (LevelManagerNew.Instance.stage >= 3)
         {
             boosterBar.gameObject.SetActive(true);
+           
         }
         else
         {
@@ -107,7 +109,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
         {
             DOVirtual.DelayedCall(1f, () =>
             {
-                if (LevelManagerNew.Instance.stage != 0 && LevelManagerNew.Instance.stage != 3)
+                if (LevelManagerNew.Instance.stage != 3)
                 {
                     ActiveTime();
                 }
@@ -158,11 +160,17 @@ public class GamePlayPanelUIManager : MonoBehaviour
     }
     public void OpenDetelePanel()
     {
-
         DeactiveTime();
-        GameManagerNew.Instance.CloseLevel(false);
-        Close();
-        UIManagerNew.Instance.DeteleNailPanel.Open();
+        if (LevelManagerNew.Instance.stage != 3)
+        {
+            GameManagerNew.Instance.CloseLevel(false);
+            Close();
+            UIManagerNew.Instance.DeteleNailPanel.Open();
+        }
+        else
+        {
+            UIManagerNew.Instance.DeteleNailPanel.UseTicket();
+        }
     }
     public void OpenExtraHolePanel()
     {
@@ -173,7 +181,6 @@ public class GamePlayPanelUIManager : MonoBehaviour
     }
     public void OpenUndoPanel()
     {
-
         DeactiveTime();
         Close();
         GameManagerNew.Instance.CloseLevel(false);
@@ -242,12 +249,12 @@ public class GamePlayPanelUIManager : MonoBehaviour
     }
     public void DeactiveTime()
     {
-        blockPic.gameObject.SetActive(true);
+        //blockPic.gameObject.SetActive(true);
         timer.TimerOn = false;
     }
     public void ActiveTime()
     {
-        blockPic.gameObject.SetActive(false);
+        //blockPic.gameObject.SetActive(false);
         timer.TimerOn = true;
     }
     public void ShowNotice(bool status)
@@ -273,6 +280,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
     }
     public void ShowDrillEffect(Action action)
     {
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         Stage.Instance.canInteract = false;
         drillEffect.transform.GetChild(1).transform.position = new Vector3(Stage.Instance.holeToUnlock.transform.position.x, Stage.Instance.holeToUnlock.transform.position.y, Stage.Instance.holeToUnlock.transform.position.z);
         drillEffect.transform.GetChild(1).transform.localScale = Stage.Instance.holeToUnlock.transform.localScale * 2;
@@ -284,20 +292,31 @@ public class GamePlayPanelUIManager : MonoBehaviour
             Stage.Instance.holeToUnlock.shinningParticle.gameObject.SetActive(true);
             drillEffect.gameObject.SetActive(false);
             Stage.Instance.canInteract = true;
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
             action();
         });
     }
-    public void ShowUnscrewEffect(Transform transform ,Action action)
+    public void ShowUnscrewEffect(Transform transform, Action action)
     {
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         Stage.Instance.canInteract = false;
-        unscrewEffect.transform.GetChild(1).transform.position = transform.position;
+        unscrewEffect.transform.GetChild(1).transform.position = new Vector3(transform.position.x - 0.2f, transform.position.y, 1);
+        unscrewEffect.transform.GetChild(1).transform.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, "break", false);
         unscrewEffect.gameObject.SetActive(true);
         AudioManager.instance.PlaySFX("HeartBreak");
         DOVirtual.DelayedCall(2f, () =>
         {
+            unscrewEffect.transform.GetChild(1).transform.GetComponent<SkeletonGraphic>().AnimationState.ClearTrack(0);
             unscrewEffect.gameObject.SetActive(false);
             Stage.Instance.canInteract = true;
-            if(action != null) action();
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+            if (action != null) action();
         });
+    }
+
+    public void DeactiveBoosterEffect()
+    {
+        unscrewEffect.gameObject.SetActive(false);
+        drillEffect.gameObject.SetActive(false);
     }
 }

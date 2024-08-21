@@ -29,14 +29,15 @@ public class UndoPanel : MonoBehaviour
     {
         if (SaveSystem.instance.undoPoint >= numOfUsed)
         {
-            if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf) {
+            if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
+            {
                 UIManagerNew.Instance.ThresholeController.Disable();
             }
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             numOfUse++;
             //FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.undo);
             SetMinusText('-', numOfUsed);
-            SaveSystem.instance.AddBooster(0, -numOfUsed,0);
+            SaveSystem.instance.AddBooster(0, -numOfUsed, 0);
             SaveSystem.instance.SaveData();
             numOfUsed++;
             Stage.Instance.Undo();
@@ -117,7 +118,7 @@ public class UndoPanel : MonoBehaviour
             {
                 AudioManager.instance.PlaySFX("ClosePopUp");
                 GamePlayPanelUIManager.Instance.ActiveTime();
-                if (Stage.Instance.isWining && Stage.Instance.numOfIronPlates <=0)
+                if (Stage.Instance.isWining && Stage.Instance.numOfIronPlates <= 0)
                 {
                     Stage.Instance.ScaleUpStage();
                 }

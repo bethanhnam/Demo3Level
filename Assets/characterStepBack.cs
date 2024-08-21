@@ -11,18 +11,18 @@ public class characterStepBack : MonoBehaviour
     public SkeletonGraphic skeletonGraphic;
     public Transform targetTransform;
     public Transform defaultTransform;
-    public Transform winTargetTransform;
+    public Vector3 winTargetTransform;
 
     public float distance;
 
-    public float timeLimit = 10f;
+    public float timeLimit = 5f;
 
     public float time;
     bool startTimer;
 
     bool isRunning = false;
 
-    Tween runTween;
+    Tween runTween2;
     private void Start()
     {
         time = timeLimit;
@@ -41,7 +41,7 @@ public class characterStepBack : MonoBehaviour
     {
         if (!startTimer)
         {
-            if (runTween != null)
+            if (runTween2 != null)
             {
                 MoveCharacter(false);
             }
@@ -52,7 +52,6 @@ public class characterStepBack : MonoBehaviour
         {
             time -= Time.deltaTime;
             MoveCharacter(true);
-            changeEmo();
         }
         else
         {
@@ -84,34 +83,45 @@ public class characterStepBack : MonoBehaviour
         if (run && isRunning == false)
         {
             isRunning = true;
-            runTween = skeletonGraphic.transform.DOMoveX(targetTransform.position.x, time);
+            runTween2 = skeletonGraphic.transform.DOMoveX(targetTransform.position.x, time).OnComplete(() =>
+            {
+                skeletonGraphic.AnimationState.SetAnimation(0, "idle", true);
+                if (runTween2 != null)
+                {
+                    runTween2.Kill();
+                }
+            });
         }
         else
         {
             if (run == false)
             {
                 isRunning = false;
-                if (runTween != null)
-                    runTween.Pause();
+                if (runTween2 != null)
+                    runTween2.Pause();
             }
         }
     }
     public void changeEmo()
     {
-        if (skeletonGraphic.transform.position.x == targetTransform.position.x) {
+        if (Vector2.Distance(skeletonGraphic.transform.position,targetTransform.position) < 0.5f){
             skeletonGraphic.AnimationState.SetAnimation(0, "Idle", true);
-            if(runTween != null)
+            if(runTween2 != null)
             {
-                runTween.Kill();
+                runTween2.Kill();
             }
         }
     }
     public void GoToWin(Action action)
     {
         skeletonGraphic.AnimationState.SetAnimation(0, "move", true);
-        skeletonGraphic.transform.DOMoveX(winTargetTransform.position.x, 3f).OnComplete(() =>
+        skeletonGraphic.transform.DOMoveX(winTargetTransform.x, 3f).OnComplete(() =>
         {
             action();
         });
+    }
+    public void GotCatched()
+    {
+        skeletonGraphic.AnimationState.SetAnimation(0, "lose2", false);
     }
 }

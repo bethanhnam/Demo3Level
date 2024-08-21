@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using Lofelt.NiceVibrations;
+using MoreMountains.Tools;
 
 public class GameManagerNew : MonoBehaviour
 {
@@ -36,7 +37,8 @@ public class GameManagerNew : MonoBehaviour
     [SerializeField]
     private ItemMoveControl itemMoveControl;
 
-    public GameObject Bg;
+    public Sprite[] sprites;
+    public SpriteRenderer Bg;
 
     [SerializeField]
     private Vector3 targetScale;
@@ -55,6 +57,7 @@ public class GameManagerNew : MonoBehaviour
     public bool isMinigame;
 
     // vabration
+    public HapticClip[] hapticClips;
     public HapticSource hapticSouce;
 
     //conversation
@@ -80,13 +83,24 @@ public class GameManagerNew : MonoBehaviour
     private void Start()
     {
         Application.targetFrameRate = 60;
+        if (LevelManagerNew.Instance.stage >= 1)
+        {
+            PlayerPrefs.SetInt("Hasfixed", 1);
+        }
     }
     public void InitStartGame()
     {
         PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
         ScalePicForDevices(PictureUIManager.transform.gameObject);
         PictureUIManager.SetHasWindowFirstTime();
-        PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
+        if (PlayerPrefs.GetInt("windowFixed") == 0 && LevelManagerNew.Instance.stage == 0)
+        {
+            PictureUIManager.ShowButtonOnly(LevelManagerNew.Instance.LevelBase.Level);
+        }
+        else
+        {
+            PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
+        }
         //UIManagerNew.Instance.ButtonMennuManager.Appear();
         UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
         UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
@@ -112,7 +126,7 @@ public class GameManagerNew : MonoBehaviour
     }
     public void ScaleForDevices(GameObject obj)
     {
-        float targetAspect = 9.0f / 18.0f;
+        float targetAspect = 9.0f / 17.0f;
         float windowAspect = (float)Screen.width / (float)Screen.height;
 
         if (windowAspect < targetAspect)
@@ -123,6 +137,7 @@ public class GameManagerNew : MonoBehaviour
     }
     public void CreateLevel(int _level)
     {
+        Bg.sprite = sprites[0];
         if (isTestingLevel)
         {
             GamePlayPanelUIManager.Instance.setText(_level + 1);
@@ -132,7 +147,7 @@ public class GameManagerNew : MonoBehaviour
             });
             DOVirtual.DelayedCall(1f, () =>
             {
-                CurrentLevel = Instantiate(LevelManagerNew.Instance.testingStageList[testingStage], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
+                CurrentLevel = Instantiate(LevelManagerNew.Instance.testingStageList[testingStage], new Vector2(0.1f, 1.2f), Quaternion.identity, GamePlayPanel);
                 ScaleForDevices(CurrentLevel.transform.gameObject);
                 SetTargetScale(currentLevel.gameObject);
                 CurrentLevel.Init(level);
@@ -152,7 +167,8 @@ public class GameManagerNew : MonoBehaviour
                 });
                 DOVirtual.DelayedCall(1f, () =>
                 {
-                    CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity, GamePlayPanel);
+                    CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[_level], new Vector2(0.1f, 1.2f), Quaternion.identity, GamePlayPanel);
+                    CurrentLevel.setDeteleting(false);
                     ScaleForDevices(CurrentLevel.transform.gameObject);
                     SetTargetScale(currentLevel.gameObject);
                     CurrentLevel.Init(level);
@@ -189,7 +205,7 @@ public class GameManagerNew : MonoBehaviour
             FirebaseAnalyticsControl.Instance.LogEventLevelStory(_level);
             DOVirtual.DelayedCall(1f, () =>
             {
-                CurrentLevel = Instantiate(StoryGamePlayLevel.Instance.stageList[_level], new Vector2(0, 1), Quaternion.identity);
+                CurrentLevel = Instantiate(StoryGamePlayLevel.Instance.stageList[_level], new Vector2(0.1f, 1), Quaternion.identity);
                 ScaleForDevices(CurrentLevel.transform.gameObject);
                 SetTargetScale(currentLevel.gameObject);
                 CurrentLevel.InitForStory(_level);
@@ -202,26 +218,31 @@ public class GameManagerNew : MonoBehaviour
     public void CreateMiniGame(int level)
     {
         //GamePlayPanelUIManager.Instance.setText(level + 1);
+        Bg.sprite = sprites[1];
         isMinigame = true;
         DOVirtual.DelayedCall(1f, () =>
         {
             PictureUIManager.Close();
         });
+        if (CurrentMiniGameStage != null)
+        {
+            CurrentMiniGameStage.Close(true);
+        }
         DOVirtual.DelayedCall(.5f, () =>
         {
-            CurrentMiniGameStage = Instantiate(LevelManagerNew.Instance.miniStageList[level], new Vector2(0, -2.51f), Quaternion.identity);
+            CurrentMiniGameStage = Instantiate(LevelManagerNew.Instance.miniStageList[level], new Vector2(0.1f, -2.51f), Quaternion.identity);
             ScaleForDevices(CurrentMiniGameStage.transform.gameObject);
-            if (!UIManagerNew.Instance.MiniGamePlay.gameObject.activeSelf)
+            currentMiniGameStage.changePosForDevices();
+
+            UIManagerNew.Instance.MiniGamePlay.notice.noticeDes.transform.position = new Vector3(0, UIManagerNew.Instance.MiniGamePlay.noticeImage.transform.position.y, 1);
+
+            UIManagerNew.Instance.MiniGamePlay.Appear(() =>
             {
-                UIManagerNew.Instance.MiniGamePlay.Appear(() =>
-                    {
-                        UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].gameObject.SetActive(true);
-                        UIManagerNew.Instance.MiniGamePlay.SetItem(level, currentMiniGameStage.numOfIronPlates);
-                    });
-            }
+                UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].gameObject.SetActive(true);
+                UIManagerNew.Instance.MiniGamePlay.SetItem(level, currentMiniGameStage.numOfIronPlates);
+            });
             SetTargetScale(CurrentMiniGameStage.gameObject);
-            CurrentMiniGameStage.InitForMinigame(level);
-            AudioManager.instance.PlayMusic("GamePlayTheme");
+            CurrentMiniGameStage.InitForMinigame(level,false);
         });
     }
 
@@ -234,16 +255,14 @@ public class GameManagerNew : MonoBehaviour
         {
             PictureUIManager.Close();
         });
-        DOVirtual.DelayedCall(.5f, () =>
+
+        if (CurrentMiniGameStage != null)
         {
-            if (CurrentMiniGameStage != null)
-            {
-                CurrentMiniGameStage.Close(true);
-            }
-        });
-        DOVirtual.DelayedCall(1f, () =>
+            CurrentMiniGameStage.Close(true);
+        }
+        DOVirtual.DelayedCall(0.5f, () =>
         {
-            CurrentMiniGameStage = Instantiate(LevelManagerNew.Instance.miniStageList[level], new Vector2(0, -2.51f), Quaternion.identity);
+            CurrentMiniGameStage = Instantiate(LevelManagerNew.Instance.miniStageList[level], new Vector2(0.1f, -2.51f), Quaternion.identity);
             ScaleForDevices(CurrentMiniGameStage.transform.gameObject);
 
             UIManagerNew.Instance.MiniGamePlay.Appear(() =>
@@ -252,8 +271,7 @@ public class GameManagerNew : MonoBehaviour
                 UIManagerNew.Instance.MiniGamePlay.SetItem(level, currentMiniGameStage.numOfIronPlates);
             });
             SetTargetScale(CurrentMiniGameStage.gameObject);
-            CurrentMiniGameStage.InitForMinigame(level);
-            AudioManager.instance.PlayMusic("GamePlayTheme");
+            CurrentMiniGameStage.InitForMinigame(level,true);
         });
     }
     public bool CheckLevelStage()
@@ -605,17 +623,15 @@ public class GameManagerNew : MonoBehaviour
             {
                 if (LevelManagerNew.Instance.LevelBase.Level + 1 < DataLevelManager.Instance.DatatPictureScriptTableObjects.Length)
                 {
-                    conversationController.StartConversation(1, 11, "8FirstMap2", () =>
-                    {
-                        UIManagerNew.Instance.ButtonMennuManager.Appear();
-                        UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
-                        UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
-                        UIManagerNew.Instance.ChestSLider.CreateMarker();
-                        SetCompletImg();
-                        SetCompleteStory();
-                        //UIManagerNew.Instance.CongratPanel.takeRewardData();
-                        Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
-                    });
+
+                    UIManagerNew.Instance.ButtonMennuManager.Appear();
+                    UIManagerNew.Instance.ChestSLider.SetMaxValue(PictureUIManager);
+                    UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
+                    UIManagerNew.Instance.ChestSLider.CreateMarker();
+                    SetCompletImg();
+                    SetCompleteStory();
+                    //UIManagerNew.Instance.CongratPanel.takeRewardData();
+                    Debug.Log(LevelManagerNew.Instance.LevelBase.CountLevelWin);
                     Debug.Log("tạo tranh mới");
                     CompleteLevelAfterReward();
                     PlayerPrefs.SetInt("windowFixed", 0);
@@ -806,7 +822,7 @@ public class GameManagerNew : MonoBehaviour
     {
         if (SaveSystem.instance.star - numOfStar >= 0)
         {
-            if (LevelManagerNew.Instance.LevelBase.Level == 0)
+            if (LevelManagerNew.Instance.stage == 0)
             {
                 FirebaseAnalyticsControl.Instance.LogEventFixItem(levelButton.level);
             }
@@ -830,9 +846,9 @@ public class GameManagerNew : MonoBehaviour
     {
         videoController.CheckStartVideo();
     }
-    [Button("testvibration")]
-    public void Vibration()
+    public void Vibration(HapticClip hapticClip)
     {
+        hapticSouce.clip = hapticClip;
         hapticSouce.Play();
     }
     public void CheckForTutorFix()
@@ -844,10 +860,6 @@ public class GameManagerNew : MonoBehaviour
         if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
         {
             Stage.Instance.canInteract = false;
-        }
-        if (PlayerPrefs.GetInt("Hasfixed") == 0 && LevelManagerNew.Instance.LevelBase.Level == 0)
-        {
-            UIManagerNew.Instance.ThresholeController.showThreshole("fixFirstItem", pictureUIManager.transform.localScale, pictureUIManager.Stage[0].listObjLock[0].objBtn[0].transform.GetChild(1).transform);
         }
     }
 }

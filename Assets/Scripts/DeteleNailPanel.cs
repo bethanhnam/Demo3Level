@@ -33,47 +33,68 @@ public class DeteleNailPanel : MonoBehaviour
     }
     public void UseTicket()
     {
-        if (SaveSystem.instance.unscrewPoint >= numOfUsed)
+        if ((LevelManagerNew.Instance.stage == 3))
         {
-            if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
-            {
-                UIManagerNew.Instance.ThresholeController.Disable();
-            }
-            if (canInteract)
-            {
-                if(LevelManagerNew.Instance.stage == 3 && numOfUsed == 1)
-                {
-                    hasUseTutor = true;
-                }
-                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-                canInteract = false;
-                numOfUse++;
-                //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
-                Stage.Instance.DeactiveTutor();
-                SetMinusText('-', numOfUsed);
-                SaveSystem.instance.AddBooster(-numOfUsed, 0, 0);
-                SaveSystem.instance.SaveData();
-                //hasUse = true;
-                numOfUsed++;
-                CheckNumOfUse();
-                Stage.Instance.setDeteleting(true);
-                //UIManager.instance.gamePlayPanel.ButtonOff();
-                DOVirtual.DelayedCall(1f, () =>
-                {
-                    this.Close();
-                    UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
-                });
-            }
-            else
-            {
-                this.Close();
-            }
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+
+            Stage.Instance.DeactiveTutor();
+
+            numOfUsed++;
+
+            hasUseTutor = true;
+
+            CheckNumOfUse();
+
+            Stage.Instance.setDeteleting(true);
+
+            DOVirtual.DelayedCall(1f, () =>
+            {;
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+            });
         }
         else
         {
-            notEnoughpanel.ShowDialog();
+            if (SaveSystem.instance.unscrewPoint >= numOfUsed)
+            {
+                if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
+                {
+                    UIManagerNew.Instance.ThresholeController.Disable();
+                }
+                if (canInteract)
+                {
+                    if (LevelManagerNew.Instance.stage == 3 && numOfUsed == 1)
+                    {
+                        hasUseTutor = true;
+                    }
+                    UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+                    canInteract = false;
+                    numOfUse++;
+                    //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
+                    Stage.Instance.DeactiveTutor();
+                    SetMinusText('-', numOfUsed);
+                    SaveSystem.instance.AddBooster(-numOfUsed, 0, 0);
+                    SaveSystem.instance.SaveData();
+                    //hasUse = true;
+                    numOfUsed++;
+                    CheckNumOfUse();
+                    Stage.Instance.setDeteleting(true);
+                    //UIManager.instance.gamePlayPanel.ButtonOff();
+                    DOVirtual.DelayedCall(1f, () =>
+                    {
+                        this.Close();
+                        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+                    });
+                }
+                else
+                {
+                    this.Close();
+                }
+            }
+            else
+            {
+                notEnoughpanel.ShowDialog();
+            }
         }
-
     }
     public void WatchAd()
     {
@@ -157,10 +178,6 @@ public class DeteleNailPanel : MonoBehaviour
             {
                 if (LevelManagerNew.Instance.stage == 3 && hasUseTutor)
                 {
-                    GameManagerNew.Instance.conversationController.StartConversation(1, 12, "UnscrewTutor", () =>
-                    {
-                        GamePlayPanelUIManager.Instance.ActiveTime();
-                    },false);
                     AudioManager.instance.PlaySFX("ClosePopUp");
 
                     if (Stage.Instance.isWining)
@@ -193,8 +210,6 @@ public class DeteleNailPanel : MonoBehaviour
                         GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
                     }
                     ActiveCVGroup();
-                    canInteract = true;
-
                     Stage.Instance.checked1 = false;
                     this.gameObject.SetActive(false);
                     Stage.Instance.AfterPanel();

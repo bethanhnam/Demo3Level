@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class StartMiniGamePanel : MonoBehaviour
@@ -13,14 +14,19 @@ public class StartMiniGamePanel : MonoBehaviour
     [SerializeField]
     private CanvasGroup cvButton;
 
+    public Sprite[] panelSprites;
+
     public Sprite[] bannerSprites;
     public Image bannerImage;
+    public Image panelImage;
 
     public int reward;
     public TextMeshProUGUI rewardText;
 
     public Button playButton;
     public Button skipButton;
+    public Button CloseButton;
+
 
     private int appearButton = Animator.StringToHash("MinigameAppear");
     private int disappearButton = Animator.StringToHash("MinigameDisappear");
@@ -51,9 +57,9 @@ public class StartMiniGamePanel : MonoBehaviour
             gameObject.SetActive(false);
         }
         UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
-        playButton.onClick.RemoveListener(UIManagerNew.Instance.ButtonMennuManager.PlayMiniGame);
+        playButton.onClick.RemoveAllListeners();
         playButton.onClick.RemoveListener(UIManagerNew.Instance.MiniGamePlay.ReplayMinigame);
-        UIManagerNew.Instance.StartMiniGamePanel.playButton.onClick.RemoveListener(UIManagerNew.Instance.StartMiniGamePanel.Close);
+        playButton.onClick.RemoveListener(UIManagerNew.Instance.StartMiniGamePanel.Close);
     }
 
     public void ActiveCVGroup()
@@ -64,7 +70,7 @@ public class StartMiniGamePanel : MonoBehaviour
             cvButton.blocksRaycasts = true;
         }
     }
-    public void SetProperties(int reward,int indexBanner)
+    public void SetProperties(int reward, int indexBanner)
     {
         this.reward = reward;
         rewardText.text = reward.ToString();
@@ -73,11 +79,37 @@ public class StartMiniGamePanel : MonoBehaviour
     public void SkipMinigame()
     {
         this.Close();
-        UIManagerNew.Instance.SkipPanel.rewardText.text = "x" + reward.ToString() ;
+        UIManagerNew.Instance.SkipPanel.rewardText.text = "x" + reward.ToString();
         UIManagerNew.Instance.SkipPanel.Appear();
     }
-    public void ChangeText(string text)
+    public void ShowPlay()
     {
-        playButton.GetComponentInChildren<TextMeshProUGUI>().text = text;
+        panelImage.sprite = panelSprites[0];
+        playButton.GetComponentInChildren<TextMeshProUGUI>().text = "PLAY";
+        CloseButton.gameObject.SetActive(true);
+    }
+    public void ShowRetry()
+    {
+        panelImage.sprite = panelSprites[1];
+        playButton.GetComponentInChildren<TextMeshProUGUI>().text = "RETRY";
+        CloseButton.gameObject.SetActive(false);
+    }
+    public void AddReplay()
+    {
+        playButton.onClick.RemoveAllListeners();
+        DOVirtual.DelayedCall(0.3f, () =>
+        {
+            playButton.onClick.AddListener(UIManagerNew.Instance.MiniGamePlay.ReplayMinigame);
+            playButton.onClick.AddListener(UIManagerNew.Instance.StartMiniGamePanel.Close);
+        });
+    }
+    public void AddPlay()
+    {
+        playButton.onClick.RemoveAllListeners();
+        DOVirtual.DelayedCall(0.3f, () =>
+        {
+            playButton.onClick.AddListener(UIManagerNew.Instance.ButtonMennuManager.PlayMiniGame);
+            playButton.onClick.AddListener(UIManagerNew.Instance.StartMiniGamePanel.Close);
+        });
     }
 }

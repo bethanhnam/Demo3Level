@@ -60,23 +60,58 @@ public class SkipPanel : MonoBehaviour
     public void SkipMinigame()
     {
         var level = 0;
-        if (LevelManagerNew.Instance.stage == 4)
+        if (LevelManagerNew.Instance.stage == 3)
         {
             level = 0;
+            PlayerPrefs.SetInt("DoneMini1", 1);
         }
-        if (LevelManagerNew.Instance.stage == 7)
+        if (LevelManagerNew.Instance.stage == 6)
         {
             level = 1;
+            PlayerPrefs.SetInt("DoneMini2", 1);
         }
         UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].hasDone = true;
-        if (UIManagerNew.Instance.StartMiniGamePanel.gameObject.activeSelf)
+        if (UIManagerNew.Instance.MiniGamePlay.gameObject.activeSelf)
         {
-            UIManagerNew.Instance.StartMiniGamePanel.Close();
+            UIManagerNew.Instance.GamePlayLoading.appear();
+
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].gameObject.SetActive(false);
+                if (MiniGameStage.Instance != null && MiniGameStage.Instance.gameObject.activeSelf)
+                {
+                    MiniGameStage.Instance.Close(true);
+                }
+                if (UIManagerNew.Instance.StartMiniGamePanel.gameObject.activeSelf)
+                {
+                    UIManagerNew.Instance.StartMiniGamePanel.Close();
+                }
+                UIManagerNew.Instance.MiniGamePlay.gameObject.SetActive(false);
+                this.Close();
+                DOVirtual.DelayedCall(0.3f, () =>
+                {
+                    UIManagerNew.Instance.ButtonMennuManager.Appear();
+                });
+            });
         }
-        this.Close();
-        DOVirtual.DelayedCall(0.3f, () =>
+        else
         {
-            UIManagerNew.Instance.ButtonMennuManager.Appear();
-        });
+            UIManagerNew.Instance.MiniGamePlay.MiniGameMaps[level].gameObject.SetActive(false);
+            if (MiniGameStage.Instance != null && MiniGameStage.Instance.gameObject.activeSelf)
+            {
+                MiniGameStage.Instance.Close(true);
+            }
+            if (UIManagerNew.Instance.StartMiniGamePanel.gameObject.activeSelf)
+            {
+                UIManagerNew.Instance.StartMiniGamePanel.Close();
+            }
+            this.Close();
+            UIManagerNew.Instance.MiniGamePlay.gameObject.SetActive(false);
+            DOVirtual.DelayedCall(0.3f, () =>
+            {
+                UIManagerNew.Instance.ButtonMennuManager.Appear();
+            });
+        }
+
     }
 }

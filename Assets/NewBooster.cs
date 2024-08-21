@@ -16,36 +16,36 @@ public class NewBooster : MonoBehaviour
 
     //properties
     public Image Image;
-    public TextMeshProUGUI description;
+    public CoinReward ImageMove;
     public TextMeshProUGUI itemName;
+
+    public Transform defaultPos;
 
     public CanvasGroup canvasGroup;
     public Animator animator;
+    private void Start()
+    {
+    }
     public void Appear()
     {
-        AudioManager.instance.PlaySFX("ItemAppear");
+        Image.transform.position = defaultPos.position;
+        AudioManager.instance.PlaySFX("ItemAppear"); 
         this.gameObject.SetActive(true);
         canvasGroup.enabled = true;
-        DOVirtual.DelayedCall(0.5f, () =>
+        animator.enabled = true;
+        if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
         {
-            animator.enabled = true;
-        });
-        canvasGroup.DOFade(1, 1).OnComplete(() =>
-        {
-            if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
-            {
-                Stage.Instance.canInteract = false;
-            }
-        });
+            Stage.Instance.canInteract = false;
+        }
     }
     public void Disappear()
     {
-        canvasGroup.DOFade(0, 1).OnComplete(() =>
-        {
-            canvasGroup.enabled = false;
-            animator.Play("NewBoosterDisappear");
-            this.gameObject.SetActive(false);
-        });
+        canvasGroup.enabled = false;
+        animator.Play("NewBoosterDisappear");
+    }
+    public void Deactive()
+    {
+        this.gameObject.SetActive(false);
     }
     public void ShowThreshole()
     {
@@ -53,26 +53,81 @@ public class NewBooster : MonoBehaviour
         {
             UIManagerNew.Instance.GamePlayPanel.DeactiveTime();
         }
-        if(Stage.Instance !=null && Stage.Instance.gameObject.activeSelf)
+        if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
         {
             Stage.Instance.canInteract = false;
-        }
-        if (LevelManagerNew.Instance.stage == 1)
-        {
-            FirebaseAnalyticsControl.Instance.LogEventTutorialStatus(LevelManagerNew.Instance.stage, TutorialStatus.tut_drill_start);
-            UIManagerNew.Instance.ThresholeController.showThreshole("extrahole", Stage.Instance.holeToUnlock.transform.localScale, Stage.Instance.holeToUnlock.transform);
         }
         if (LevelManagerNew.Instance.stage == 3)
         {
             FirebaseAnalyticsControl.Instance.LogEventTutorialStatus(LevelManagerNew.Instance.stage, TutorialStatus.tut_unscrew_start);
-            UIManagerNew.Instance.ThresholeController.showThreshole("unscrew", GamePlayPanelUIManager.Instance.boosterBar.deteleBT.transform.localScale, GamePlayPanelUIManager.Instance.boosterBar.deteleBT.transform);
-        }
+            GameManagerNew.Instance.conversationController.SetInteractable(false);
+            DOVirtual.DelayedCall(0.6f, () =>
+            {
+                UIManagerNew.Instance.ThresholeController.showThreshole("unscrew", GamePlayPanelUIManager.Instance.boosterBar.deteleBT.transform.localScale, GamePlayPanelUIManager.Instance.boosterBar.deteleBT.transform);
+            });
+            GameManagerNew.Instance.conversationController.StartConversation(1, 12, "UnscrewTutor", () =>
+            {
 
+            }, false);
+        }
+    }
+
+    public void ShowGiveAwayItem()
+    {
+        animator.enabled = false;
+        if (LevelManagerNew.Instance.stage == 3)
+        {
+            UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+            ImageMove.MoveToFix(ImageMove, Image.transform.position, UIManagerNew.Instance.GamePlayPanel.boosterBar.deteleBT.transform.position, Vector3.one, -1, new Vector3(-8, -2, 0), () =>
+            {
+                AudioManager.instance.PlaySFX("Coins");
+                UIManagerNew.Instance.GamePlayPanel.boosterBar.freeUnscrewImg.gameObject.SetActive(true);
+                Deactive();
+                var x = UIManagerNew.Instance.GamePlayPanel.boosterBar.deteleBT.transform.localScale;
+                UIManagerNew.Instance.GamePlayPanel.boosterBar.deteleBT.transform.DOScale(x + new Vector3(0.1f, 0.1f, 1), 0.5f).OnComplete(() =>
+                {
+                    UIManagerNew.Instance.GamePlayPanel.boosterBar.deteleBT.transform.DOScale(x, 0.3f).OnComplete(() =>
+                    {
+                        if (PlayerPrefs.GetInt("GiveAwayUnscrew") == 0)
+                        {
+                            PlayerPrefs.SetInt("GiveAwayUnscrew", 1);
+                            SaveSystem.instance.AddBooster(2, 0, 0);
+                            SaveSystem.instance.SaveData();
+                        }
+                        ShowThreshole();
+                    });
+                });
+            }, -1);
+        }
+        if (LevelManagerNew.Instance.stage == 4)
+        {
+            ImageMove.MoveToFix(ImageMove, Image.transform.position, UIManagerNew.Instance.GamePlayPanel.boosterBar.UndoBT.transform.position, Vector3.one, -1, new Vector3(-8, -2, 0), () =>
+            {
+                Stage.Instance.canInteract = true;
+                AudioManager.instance.PlaySFX("Coins");
+                UIManagerNew.Instance.GamePlayPanel.boosterBar.blockUndoImage.gameObject.SetActive(false);
+                UIManagerNew.Instance.GamePlayPanel.boosterBar.undoNumImg.gameObject.SetActive(true);
+                UIManagerNew.Instance.GamePlayPanel.boosterBar.undoNumText.text = "2";
+                Deactive();
+                var x = UIManagerNew.Instance.GamePlayPanel.boosterBar.UndoBT.transform.localScale;
+                UIManagerNew.Instance.GamePlayPanel.boosterBar.UndoBT.transform.DOScale(x + new Vector3(0.1f, 0.1f, 1), 0.5f).OnComplete(() =>
+                {
+                    UIManagerNew.Instance.GamePlayPanel.boosterBar.UndoBT.transform.DOScale(x, 0.3f).OnComplete(() =>
+                    {
+                        if (PlayerPrefs.GetInt("GiveAwayUndo") == 0)
+                        {
+                            PlayerPrefs.SetInt("GiveAwayUndo", 1);
+                            SaveSystem.instance.AddBooster(0, 2, 0);
+                            SaveSystem.instance.SaveData();
+                        }
+                    });
+                });
+            }, -1);
+        }
     }
     public void SetValue(int indexSprite)
     {
         Image.sprite = sprites[indexSprite];
-        description.text = descriptions[indexSprite];
         itemName.text = itemNames[indexSprite];
     }
 }

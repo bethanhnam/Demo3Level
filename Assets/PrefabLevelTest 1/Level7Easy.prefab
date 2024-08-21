@@ -258,7 +258,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bfff0fc1d398bce4ca8606174b7afb3f, type: 2}
+  - {fileID: 2100000, guid: 602a821953f3ecc47af98f88a9d5c1e2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -385,7 +385,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 1
   m_GravityScale: 2
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -459,6 +459,7 @@ MonoBehaviour:
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
+  NotRotate: 0
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &4620068466198017475
 HingeJoint2D:
@@ -994,7 +995,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -1.8900001, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.575, y: 0.92, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6102065450844498802}
@@ -1046,7 +1047,7 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 1
+  m_DrawMode: 0
   m_Size: {x: 1.28, y: 0.432}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
@@ -1069,7 +1070,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 1
   m_GravityScale: 2
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1095,7 +1096,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: 0.3000003, y: -0.0000009536743}
+  m_Anchor: {x: 0.5217396, y: -0.0000008101827}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_UseMotor: 0
   m_Motor:
@@ -1156,17 +1157,37 @@ PolygonCollider2D:
     oldSize: {x: 2.2260869, y: 0.4695652}
     newSize: {x: 1.28, y: 0.432}
     adaptiveTilingThreshold: 0.5
-    drawMode: 1
+    drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.62125, y: 0.216}
-      - {x: -0.64125, y: 0.192}
-      - {x: -0.64125, y: -0.216}
-      - {x: 0.64125, y: -0.216}
-      - {x: 0.64125, y: 0.212}
-      - {x: 0.63375, y: 0.216}
+    - - {x: 1.0869565, y: -0.19565217}
+      - {x: 1.0999999, y: -0.17391303}
+      - {x: 1.1086956, y: -0.1521739}
+      - {x: 1.1086956, y: 0.1521739}
+      - {x: 1.0999999, y: 0.17391303}
+      - {x: 1.0869565, y: 0.19565217}
+      - {x: 1.0695652, y: 0.21304347}
+      - {x: 1.0565217, y: 0.22173911}
+      - {x: 1.0304347, y: 0.23478259}
+      - {x: -1.0304347, y: 0.23043478}
+      - {x: -1.0521739, y: 0.22608694}
+      - {x: -1.0695652, y: 0.2173913}
+      - {x: -1.0826087, y: 0.20434782}
+      - {x: -1.0956521, y: 0.18695651}
+      - {x: -1.1043478, y: 0.17391303}
+      - {x: -1.1130434, y: 0.1521739}
+      - {x: -1.1130434, y: -0.14782608}
+      - {x: -1.1043478, y: -0.16956522}
+      - {x: -1.0956521, y: -0.18695651}
+      - {x: -1.0826087, y: -0.20434782}
+      - {x: -1.0673913, y: -0.21956521}
+      - {x: -1.047826, y: -0.23043478}
+      - {x: -1.0217391, y: -0.23043478}
+      - {x: 1.0304347, y: -0.23043478}
+      - {x: 1.0565217, y: -0.22173911}
+      - {x: 1.0782608, y: -0.20434782}
   m_UseDelaunayMesh: 0
 --- !u!114 &896618869314447467
 MonoBehaviour:
@@ -1194,6 +1215,7 @@ MonoBehaviour:
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
+  NotRotate: 0
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &989623477169053119
 HingeJoint2D:
@@ -1210,7 +1232,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: -0.30000028, y: -0.0000009536743}
+  m_Anchor: {x: -0.52173954, y: -0.0000008101827}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_UseMotor: 0
   m_Motor:
@@ -1326,7 +1348,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 1
   m_GravityScale: 2
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1435,6 +1457,7 @@ MonoBehaviour:
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
+  NotRotate: 0
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!1 &7520217997756529578
 GameObject:
@@ -1496,7 +1519,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bfff0fc1d398bce4ca8606174b7afb3f, type: 2}
+  - {fileID: 2100000, guid: 602a821953f3ecc47af98f88a9d5c1e2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1623,7 +1646,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 1
   m_GravityScale: 2
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8d53a886335847b1a3c2f1888e0d685e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1697,6 +1720,7 @@ MonoBehaviour:
   joints: []
   nailControls: []
   rigidbody2D1: {fileID: 0}
+  NotRotate: 0
   centerOfMass: {x: -0.00177252, y: -0.001291171, z: 0}
 --- !u!233 &8593187511261304014
 HingeJoint2D:
@@ -2331,11 +2355,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.28481463
+      value: 0.49532986
       objectReference: {fileID: 0}
     - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.28481457
+      value: 0.30958107
       objectReference: {fileID: 0}
     - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
       propertyPath: m_LocalScale.z
@@ -2343,11 +2367,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.30000028
+      value: -0.5217397
       objectReference: {fileID: 0}
     - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000009536743
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3448,11 +3472,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.28481463
+      value: 0.49532986
       objectReference: {fileID: 0}
     - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.28481457
+      value: 0.30958107
       objectReference: {fileID: 0}
     - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
       propertyPath: m_LocalScale.z
@@ -3460,11 +3484,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.3000003
+      value: 0.5217398
       objectReference: {fileID: 0}
     - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000009536743
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1845381314816839500, guid: 349089cd15e0a1f43ad59339214027a5, type: 3}
       propertyPath: m_LocalPosition.z

@@ -24,12 +24,11 @@ public class ItemShop : MonoBehaviour
            
             SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint, this.extraHolePoint);
             SaveSystem.instance.addCoin(this.gold);
-            SaveSystem.instance.SaveData();
             if (nonADS)
             {
                 SaveSystem.instance.nonAds = 1;
-                SaveSystem.instance.SaveData();
             }
+            SaveSystem.instance.SaveData();
             
         }); 
     }
@@ -40,8 +39,8 @@ public class ItemShop : MonoBehaviour
             if (nonADS)
             {
                 SaveSystem.instance.nonAds = 1;
-                SaveSystem.instance.SaveData();
             }
+                SaveSystem.instance.SaveData();
 
 
     }

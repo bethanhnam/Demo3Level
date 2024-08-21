@@ -138,7 +138,7 @@ public class WinUI : MonoBehaviour
         if (i < list.Count)
         {
             float time = .7f / list.Count;
-            list[i].MoveToFix(list[i], list[i].transform.position, coinIconDes.transform.position, Vector3.one, () =>
+            list[i].MoveToFix(list[i], list[i].transform.position, coinIconDes.transform.position, Vector3.one, 1, new Vector3(-1, 3, 0), () =>
             {
                 coinImgDes.gameObject.transform.DOScale(1.1f, 0.15f).OnComplete(() =>
                 {
@@ -170,29 +170,21 @@ public class WinUI : MonoBehaviour
                         UIManagerNew.Instance.CompleteUI.Deactive();
                         AudioManager.instance.PlayMusic("MenuTheme");
                         // code can thiet ( sau move reward )
+                        if (LevelManagerNew.Instance.stage >= 1)
+                        {
+                            UIManagerNew.Instance.ButtonMennuManager.ShowAllUI();
+                        }
                         if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
                         {
                             UIManagerNew.Instance.ButtonMennuManager.Appear();
-                            
                         }
-                        DOVirtual.DelayedCall(.5f, () => {
-                            if (LevelManagerNew.Instance.stage == 4)
+                        DOVirtual.DelayedCall(.5f, () =>
+                        {
+
+                            if (LevelManagerNew.Instance.stage == 3)
                             {
-                               if(PlayerPrefs.GetInt("GiveAwayBooster") == 0)
-                                {
-                                    PlayerPrefs.SetInt("GiveAwayBooster", 1);
-                                    GameManagerNew.Instance.conversationController.StartConversation(1, 14, "WelcomePresent", () =>
-                                    {
-                                        UIManagerNew.Instance.WelcomePresent.Appear();
-                                    });
-                                }
-                            }
-                            if (LevelManagerNew.Instance.stage == 8)
-                            {
-                                GameManagerNew.Instance.conversationController.StartConversation(1, 10, "7AfterLevel9",() =>
-                                {
-                                    
-                                });
+                                UIManagerNew.Instance.StartMiniGamePanel.SetProperties(50, 0);
+                                UIManagerNew.Instance.ButtonMennuManager.MiniGamePlayButton.SetQuestButton(0, "Help me");
                             }
                         });
                     });
@@ -213,11 +205,8 @@ public class WinUI : MonoBehaviour
                 });
         SpawnCoin(0);
         AudioManager.instance.PlaySFX("StarRecieve");
-        Debug.Log("StarImgDes " + StarImgDes.transform.position);
         list.MoveToFix(list, list.transform.position, new Vector3(StarImgDes.transform.position.x, StarImgDes.transform.position.y, 0), new Vector3(.3f, .3f, 1f), () =>
             {
-                Debug.Log("list " + list.transform.position);
-                Debug.Log("Đã đến nơi ");
                 StarImgDes.gameObject.transform.DOScale(1.2f, 0.15f).OnComplete(() =>
                 {
                     StarImgDes.gameObject.transform.DOScale(1f, 0.02f);

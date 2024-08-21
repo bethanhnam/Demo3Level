@@ -17,6 +17,8 @@ public class BoosterBar : MonoBehaviour
 
     public Image freeUnscrewImg;
 
+    public Image blockUndoImage;
+
     public TextMeshProUGUI unscrewNumText;
     public TextMeshProUGUI undoNumText;
 
@@ -26,9 +28,9 @@ public class BoosterBar : MonoBehaviour
 
     private void Start()
     {
-        if(LevelManagerNew.Instance.stage == 3 && UIManagerNew.Instance.DeteleNailPanel.hasUseTutor == false)
+        if (LevelManagerNew.Instance.stage == 3)
         {
-            freeUnscrewImg.gameObject.SetActive(true);
+            freeUnscrewImg.gameObject.SetActive(false);
             unscrewNumImg.gameObject.SetActive(false);
         }
         else
@@ -36,11 +38,22 @@ public class BoosterBar : MonoBehaviour
             freeUnscrewImg.gameObject.SetActive(false);
             unscrewNumImg.gameObject.SetActive(true);
         }
+        if (LevelManagerNew.Instance.stage <= 4)
+        {
+            blockUndoImage.gameObject.SetActive(true);
+            undoAddImg.gameObject.SetActive(false);
+        }
     }
     private void Update()
     {
-        if (!freeUnscrewImg.gameObject.activeSelf)
+        if (LevelManagerNew.Instance.stage == 3)
         {
+            unscrewAddImg.gameObject.SetActive(false);
+            unscrewNumImg.gameObject.SetActive(false);
+        }
+        else
+        {
+            freeUnscrewImg.gameObject.SetActive(false);
             if (SaveSystem.instance.unscrewPoint > 0)
             {
                 unscrewAddImg.gameObject.SetActive(false);
@@ -53,16 +66,19 @@ public class BoosterBar : MonoBehaviour
                 unscrewNumImg.gameObject.SetActive(false);
             }
         }
-        if (SaveSystem.instance.undoPoint > 0)
+        if (LevelManagerNew.Instance.stage > 4)
         {
-            undoAddImg.gameObject.SetActive(false);
-            undoNumImg.gameObject.SetActive(true);
-            undoNumText.text = SaveSystem.instance.undoPoint.ToString();
-        }
-        else
-        {
-            undoAddImg.gameObject.SetActive(true);
-            undoNumImg.gameObject.SetActive(false);
+            if (SaveSystem.instance.undoPoint > 0)
+            {
+                undoAddImg.gameObject.SetActive(false);
+                undoNumImg.gameObject.SetActive(true);
+                undoNumText.text = SaveSystem.instance.undoPoint.ToString();
+            }
+            else
+            {
+                undoAddImg.gameObject.SetActive(true);
+                undoNumImg.gameObject.SetActive(false);
+            }
         }
     }
 }

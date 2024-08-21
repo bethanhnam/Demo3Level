@@ -39,6 +39,8 @@ public class Conversation : MonoBehaviour
         {
             if (action1 != null && readyForNextAction == true)
             {
+                AudioManager.instance.sfxSource.Stop();
+                AudioManager.instance.sfxSource.loop = false;
                 textSpeed = 0.05f;
                 nextLine.gameObject.SetActive(false);
                 readyForNextAction = false;
@@ -54,15 +56,21 @@ public class Conversation : MonoBehaviour
     }
     public void StartDialogue(int index, Action action, string line)
     {
-        indexLine = line;
-        endOfConversation = false;
-        this.index = index;
-        StartCoroutine(TypeLine(line));
-        CheckNextLine(action, line);
+        try
+        {
+            indexLine = line;
+            endOfConversation = false;
+            this.index = index;
+            StartCoroutine(TypeLine(line));
+            CheckNextLine(action, line);
+        }
+        catch (Exception e) { }
     }
 
     IEnumerator TypeLine(String line)
     {
+        AudioManager.instance.PlaySFX("Typing");
+        AudioManager.instance.sfxSource.loop = true;
         nextLine.gameObject.SetActive(false);
         textBox.text = string.Empty;
         readyForNextAction = false;
@@ -80,8 +88,17 @@ public class Conversation : MonoBehaviour
         }
         if (textBox.text == line)
         {
+            AudioManager.instance.sfxSource.Stop();
+            AudioManager.instance.sfxSource.loop =false;
             nextLine.gameObject.SetActive(true);
-            readyForNextAction = true;
+            if (conversationController.canInteract == true)
+            {
+                readyForNextAction = true;
+            }
+            else
+            {
+
+            }
         }
         else
         {
@@ -97,8 +114,17 @@ public class Conversation : MonoBehaviour
         if (index < line.Length)
         {
             yield return new WaitUntil(() => textBox.text == line);
+            AudioManager.instance.sfxSource.Stop();
+            AudioManager.instance.sfxSource.loop = false;
             nextLine.gameObject.SetActive(true);
-            readyForNextAction = true;
+            if (conversationController.canInteract == true)
+            {
+                readyForNextAction = true;
+            }
+            else
+            {
+
+            }
         }
     }
     public void ChangeEmo(int indexEmo)

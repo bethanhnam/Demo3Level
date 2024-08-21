@@ -48,12 +48,15 @@ public class AdmobAutoFloorManager : MonoBehaviour
             {
                 //Debug.LogError("mobileads");
                 isInit = true;
-                CallLoadFA();
                 CallLoadRW();
-                if (AdsControl.Instance.Banner_type == 0)
+                if (PlayerPrefs.GetInt("NonADS") == 0)
                 {
-                    AdsControl.Instance.AdmobBanner.LoadBannerAdMob();
-                    AdsControl.Instance.isCanShowBanner = true;
+                    CallLoadFA();
+                    if (AdsControl.Instance.Banner_type == 0)
+                    {
+                        AdsControl.Instance.AdmobBanner.LoadBannerAdMob();
+                        AdsControl.Instance.isCanShowBanner = true;
+                    }
                 }
             });
         }

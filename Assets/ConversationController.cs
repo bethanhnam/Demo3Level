@@ -10,6 +10,8 @@ public class ConversationController : MonoBehaviour
     public static ConversationController instance;
     public Conversation[] Conversations;
 
+    public bool canInteract = true;
+
     public List<conversationScripable> conversationScripables;
     public int conversationScripableIndex;
 
@@ -84,10 +86,6 @@ public class ConversationController : MonoBehaviour
         {
             DOVirtual.DelayedCall(0.25f, () =>
             {
-                if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
-                {
-                    Stage.Instance.canInteract = true;
-                }
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
             });
             CanvasGroup.interactable = false;
@@ -143,6 +141,42 @@ public class ConversationController : MonoBehaviour
             Conversations[j].index = 0;
         }
     }
+
+    public void SetInteractable(bool status)
+    {
+        GameManagerNew.Instance.conversationController.canInteract = status;
+    }
+    //public void StartConversationNoBackGround(int alphaBackground,int indexCharacterEmo, int indexConversationScripable, String name, Action action, bool setpos = false)
+    //{
+    //    if (UIManagerNew.Instance.GamePlayPanel != null)
+    //    {
+    //        UIManagerNew.Instance.GamePlayPanel.DeactiveTime();
+    //    }
+    //    if (Stage.Instance != null)
+    //    {
+    //        Stage.Instance.canInteract = false;
+    //    }
+    //    this.gameObject.SetActive(true);
+    //    CanvasGroup.interactable = true;
+    //    CanvasGroup.blocksRaycasts = true;
+    //    conversationScripableIndex = indexConversationScripable;
+    //    Appear();
+    //    ResetData();
+    //    DOVirtual.DelayedCall(0.8f, () =>
+    //    {
+    //        DOVirtual.DelayedCall(0.3f, () =>
+    //        {
+    //            if (Stage.Instance != null)
+    //            {
+    //                Stage.Instance.canInteract = false;
+    //            }
+    //        });
+    //        conversationScripables[indexConversationScripable].StartConversation(indexCharacterEmo, conversationScripables[indexConversationScripable].isconnectLine, action, setpos);
+    //    });
+    //}
+
+
+
 }
 public enum ConversationType
 {

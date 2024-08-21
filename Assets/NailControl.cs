@@ -14,6 +14,9 @@ public class NailControl : MonoBehaviour
     public SpriteRenderer nailSprite;
     [SerializeField]
     public SpriteRenderer redNailSprite;
+
+    public SpriteRenderer headNailSprite;
+
     [SerializeField]
     public List<HingeJoint2D> hingeJoint2Ds = new List<HingeJoint2D>();
     public List<NailDetector> holeInIronControllers = new List<NailDetector>();
@@ -35,6 +38,7 @@ public class NailControl : MonoBehaviour
     public void PickUp(NailControl nail)
     {
         AudioManager.instance.PlaySFX("PushNail");
+        GameManagerNew.Instance.Vibration(GameManagerNew.Instance.hapticClips[0]);
         //AudioManager.instance.PlaySFX("PickUpScrew");
         nailSprite.enabled = false;
         anim.Play(pickUp, 0, 0);
@@ -44,34 +48,28 @@ public class NailControl : MonoBehaviour
 
     public void SetNewPos(Vector3 pos)
     {
+        GameManagerNew.Instance.Vibration(GameManagerNew.Instance.hapticClips[0]);
         if (GameManagerNew.Instance.isMinigame)
         {
-            MiniGameStage.Instance.curNail.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 22;
+            MiniGameStage.Instance.curNail.headNailSprite.sortingOrder = 22;
             AudioManager.instance.PlaySFX("PushNail");
             transform.position = pos;
             anim.Play(unSelect, 0, 0);
         }
         else
         {
-            Stage.Instance.curNail.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 22;
+            Stage.Instance.curNail.headNailSprite.sortingOrder = 22;
             AudioManager.instance.PlaySFX("PushNail");
             transform.position = pos;
             anim.Play(unSelect, 0, 0);
         }
     }
 
-    public void Unselect()
+    public void Unselect(NailControl nail)
     {
-        if (GameManagerNew.Instance.isMinigame)
-        {
-            MiniGameStage.Instance.curNail.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 22;
-            anim.Play(unSelect, 0, 0);
-        }
-        else
-        {
-            Stage.Instance.curNail.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 22;
-            anim.Play(unSelect, 0, 0);
-        }
+        GameManagerNew.Instance.Vibration(GameManagerNew.Instance.hapticClips[0]);
+        nail.headNailSprite.sortingOrder = 22;
+        anim.Play(unSelect, 0, 0);
     }
     public void SetHole(Hole _hole)
     {

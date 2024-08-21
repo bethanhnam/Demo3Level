@@ -6,6 +6,7 @@ using GoogleMobileAds.Api;
 using System;
 using Unity.Advertisement.IosSupport.Components;
 using Unity.Advertisement.IosSupport;
+using DG.Tweening;
 
 public class AdmobVsMaxMediationManager : MonoBehaviour
 {
@@ -40,15 +41,6 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
             initMax = true;
             MaxSdkCallbacks.OnSdkInitializedEvent += sdkConfiguration =>
             {
-                InitOpenAds();
-                InitializeInterstitialAds();
-                InitializeRewardedAds();
-                if (AdsControl.Instance.Banner_type == 0)
-                {
-                    InitializeBannerAds();
-                    AdsControl.Instance.isCanShowBanner = true;
-                }
-
 #if UNITY_IOS
             //call ATT
             ATTrackingStatusBinding.RequestAuthorizationTracking();
@@ -63,6 +55,30 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                 Debug.Log("Unity iOS Support: App Tracking Transparency status not checked, because the platform is not iOS.");
 #endif
             };
+
+
+            if (VideoController.instance != null)
+            {
+                if (VideoController.instance.videoIndex == 0)
+                {
+                    DOVirtual.DelayedCall(3, () =>
+                    {
+                        LoadAdsNew();
+
+                    });
+                }
+                else
+                {
+                    LoadAdsNew();
+                }
+            }
+            else
+            {
+                DOVirtual.DelayedCall(3, () =>
+                {
+                    LoadAdsNew();
+                });
+            }
             MaxSdk.SetSdkKey(maxSDK);
             MaxSdk.InitializeSdk();
         }
@@ -99,6 +115,22 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
         InitAdmobSDK();
     }
 
+    private void LoadAdsNew()
+    {
+        Debug.Log("loadAdsNew success");
+        InitializeRewardedAds();
+        if (PlayerPrefs.GetInt("NonADS") == 0)
+        {
+            InitOpenAds();
+            InitializeInterstitialAds();
+            if (AdsControl.Instance.Banner_type == 0)
+            {
+                InitializeBannerAds();
+                AdsControl.Instance.isCanShowBanner = true;
+            }
+        }
+    }
+
     private void InitAdmobSDK()
     {
         if (!initAdmob)
@@ -108,10 +140,13 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
             {
                 //Debug.LogError("mobileads");
                 isInit = true;
-                if (AdsControl.Instance.Banner_type == 1)
+                if (PlayerPrefs.GetInt("NonADS") == 0)
                 {
-                    AdsControl.Instance.AdmobBanner.LoadBannerAdMob();
-                    AdsControl.Instance.isCanShowBanner = true;
+                    if (AdsControl.Instance.Banner_type == 1)
+                    {
+                        AdsControl.Instance.AdmobBanner.LoadBannerAdMob();
+                        AdsControl.Instance.isCanShowBanner = true;
+                    }
                 }
             });
         }
@@ -641,7 +676,7 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
                         {
                             AdsControl.Instance.isGetReward = true;
                         });
-                    });         
+                    });
                 }
             }
         }

@@ -47,6 +47,17 @@ public class NotEnoughStar : MonoBehaviour
             canvasGroup.alpha = 1;
             canvasGroup.DOFade(0, .3f).OnComplete(() =>
             {
+                if(LevelManagerNew.Instance.stage < 1)
+                {
+                    UIManagerNew.Instance.ButtonMennuManager.HideAllUI();
+                    UIManagerNew.Instance.ButtonMennuManager.starBar.gameObject.SetActive(true);
+                    UIManagerNew.Instance.ButtonMennuManager.sliderBar.gameObject.SetActive(true);
+                    UIManagerNew.Instance.ButtonMennuManager.starCanvas.gameObject.SetActive(true);
+                }
+                else
+                {
+                    UIManagerNew.Instance.ButtonMennuManager.ShowAllUI();
+                }
                 UIManagerNew.Instance.ButtonMennuManager.Appear();
                 this.gameObject.SetActive(false);
                 AudioManager.instance.PlaySFX("ClosePopUp");
@@ -69,47 +80,42 @@ public class NotEnoughStar : MonoBehaviour
     }
     public void PlayGameViaButton()
     {
-        int level = LevelManagerNew.Instance.GetStage();
-        //GameManagerNew.Instance.CreateLevel(level);
-        if (GameManagerNew.Instance.CheckLevelStage())
+        if (GameManagerNew.Instance.isMinigame)
         {
-            UIManagerNew.Instance.ButtonMennuManager.OpenCompletePanel();
+            this.Close();
+            UIManagerNew.Instance.StartMiniGamePanel.Appear();
+            if (UIManagerNew.Instance != null)
+            {
+                UIManagerNew.Instance.ButtonMennuManager.CheckForMinigame();
+            }
         }
         else
         {
-            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-            UIManagerNew.Instance.GamePlayLoading.appear();
-            DOVirtual.DelayedCall(0.7f, () =>
+            int level = LevelManagerNew.Instance.GetStage();
+            //GameManagerNew.Instance.CreateLevel(level);
+            if (GameManagerNew.Instance.CheckLevelStage())
             {
-                UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
-                if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
-                {
-                    int replayLevel = UnityEngine.Random.Range(5, 29);
-                    GameManagerNew.Instance.CreateLevel(replayLevel);
-                }
-                else
-                {
-                    GameManagerNew.Instance.CreateLevel(level);
-                }
-            });
-            if (LevelManagerNew.Instance.stage == 1)
-            {
-                //tuto undo 
-                if (SaveSystem.instance.extraHolePoint == 0)
-                {
-                    SaveSystem.instance.extraHolePoint = 1;
-                    UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
-                }
-                DOVirtual.DelayedCall(1.7f, () => { 
-                if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
-                {
-                    Stage.Instance.canInteract = false;
-                }
-                    UIManagerNew.Instance.NewBooster.SetValue(0);
-                    UIManagerNew.Instance.NewBooster.Appear();
-                });
+                UIManagerNew.Instance.ButtonMennuManager.OpenCompletePanel();
             }
-            CloseForPlay();
+            else
+            {
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+                UIManagerNew.Instance.GamePlayLoading.appear();
+                DOVirtual.DelayedCall(0.7f, () =>
+                {
+                    UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
+                    if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
+                    {
+                        int replayLevel = UnityEngine.Random.Range(5, 29);
+                        GameManagerNew.Instance.CreateLevel(replayLevel);
+                    }
+                    else
+                    {
+                        GameManagerNew.Instance.CreateLevel(level);
+                    }
+                });
+                CloseForPlay();
+            }
         }
     }
 }

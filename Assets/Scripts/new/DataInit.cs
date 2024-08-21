@@ -4,22 +4,36 @@ using UnityEngine;
 
 public class DataInit : MonoBehaviour
 {
-	public static DataInit instance;
-	[SerializeField]
-	public DataLevelManager dataLevelManager;
-	[SerializeField]
-	public LevelManagerNew levelManagerNew;
+    public static DataInit instance;
+    [SerializeField]
+    public DataLevelManager dataLevelManager;
+    [SerializeField]
+    public LevelManagerNew levelManagerNew;
 
-	private void Awake()
-	{
-		DontDestroyOnLoad(this.gameObject);
-		
-		levelManagerNew.Init();
-		dataLevelManager.Init();
+    private string firstOpenDate = "firstOpenDate";
 
-		if(instance == null)
-		{
-			instance = this;
-		}
-	}
+
+    private string isBuyRemoveAds = "isBuyRemoveAds";
+    private string isBuyRemoveAdsPack = "isBuyRemoveAdsPack";
+
+    public string FirstOpenDate { get => firstOpenDate; }
+    public string IsBuyRemoveAds { get => isBuyRemoveAds; }
+    public string IsBuyRemoveAdsPack { get => isBuyRemoveAdsPack; }
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+
+        levelManagerNew.Init();
+        dataLevelManager.Init();
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        if (string.IsNullOrEmpty(PlayerPrefs.GetString("firstOpenDate")))
+        {
+            PlayerPrefs.SetString("firstOpenDate", System.DateTime.Now.Date.Ticks.ToString());
+        }
+    }
 }
