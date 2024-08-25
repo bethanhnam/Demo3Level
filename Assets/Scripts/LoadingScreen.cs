@@ -119,7 +119,7 @@ public class LoadingScreen : MonoBehaviour
                     GameManagerNew.Instance.conversationController.StartConversation(0, 0, "1FirstConver", () =>
                     {
                         UIManagerNew.Instance.BackGroundFooter.DisappearBackGroundFooter();
-                        //UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = true;
+                        UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = true;
                         UIManagerNew.Instance.ButtonMennuManager.HideAllUI();
                         UIManagerNew.Instance.ButtonMennuManager.starBar.gameObject.SetActive(true);
                         UIManagerNew.Instance.ButtonMennuManager.sliderBar.gameObject.SetActive(true);
@@ -143,7 +143,7 @@ public class LoadingScreen : MonoBehaviour
                 }
                 else if(PlayerPrefs.GetInt("Hasfixed") == 1 && LevelManagerNew.Instance.stage == 0)
                 {
-                    //UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = true;
+                    UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = true;
                     UIManagerNew.Instance.ButtonMennuManager.HideAllUI();
                     UIManagerNew.Instance.ButtonMennuManager.starBar.gameObject.SetActive(true);
                     UIManagerNew.Instance.ButtonMennuManager.sliderBar.gameObject.SetActive(true);

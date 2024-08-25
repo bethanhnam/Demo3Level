@@ -263,6 +263,7 @@ public class EventController : MonoBehaviour
             {
                 //NextStageWeeklyEvent();
             }
+            NextStageWeeklyEvent(1);
             //RandomItemColor();
             //UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
         }
@@ -330,7 +331,7 @@ public class EventController : MonoBehaviour
                 UIManagerNew.Instance.WeeklyEventPanel.collectSlider.maxValue = weeklyEvent.numToLevelUp;
                 UIManagerNew.Instance.WeeklyEventPanel.collectSlider.value = weeklyEvent.numOfCollection;
 
-                SaveData("WeeklyEvent", weeklyEvent);
+
             }
             else
             {
@@ -346,7 +347,6 @@ public class EventController : MonoBehaviour
                     UIManagerNew.Instance.WeeklyEventPanel.collectSlider.maxValue = weeklyEvent.numToLevelUp;
                     UIManagerNew.Instance.WeeklyEventPanel.collectSlider.value = weeklyEvent.numOfCollection;
 
-                    SaveData("WeeklyEvent", weeklyEvent);
                 }
             }
         }
@@ -361,7 +361,6 @@ public class EventController : MonoBehaviour
                 UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.RewardClaim(weeklyEventControllers[0].weeklyEventPack.Count);
                 SaveSystem.instance.SaveData();
 
-                SaveData("WeeklyEvent", weeklyEvent);
             }
             else
             {
@@ -375,10 +374,10 @@ public class EventController : MonoBehaviour
                     UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.RewardClaim(weeklyEventControllers[0].weeklyEventPack.Count);
                     SaveSystem.instance.SaveData();
 
-                    SaveData("WeeklyEvent", weeklyEvent);
                 }
             }
         }
+        SaveData("WeeklyEvent", weeklyEvent);
     }
 
     public void RandomItemColor()

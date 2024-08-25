@@ -43,11 +43,15 @@ public class ButtonMennuManager : MonoBehaviour
     public TextMeshProUGUI timeRemaining;
     public Slider weeklyEventSlider;
     public Image rewardImage;
+    public Image collectImage;
 
     private void Awake()
     {
         //// datatest
         //PlayerPrefs.SetInt("GiveAwayBooster", 1);
+    }
+    private void Update()
+    {
     }
     public void Appear()
     {
@@ -68,15 +72,19 @@ public class ButtonMennuManager : MonoBehaviour
             {
                 UIManagerNew.Instance.ButtonMennuManager.playButton.gameObject.SetActive(true);
             });
-
+            // new ui
             if (!isShowingFixing && LevelManagerNew.Instance.stage >=8)
             {
+                LoadSliderValue();
                 weeklyEventSlider.gameObject.SetActive(true);
+                sliderBar.gameObject.SetActive(false);
             }
             else
             {
                 weeklyEventSlider.gameObject.SetActive(false);
+                sliderBar.gameObject.SetActive(true);
             }
+
             if (LevelManagerNew.Instance.stage == 1 && PlayerPrefs.GetInt("Hasfixed") == 0)
             {
                 GameManagerNew.Instance.conversationController.StartConversation(1, 2, "3FirstFix", () =>
@@ -439,11 +447,43 @@ public class ButtonMennuManager : MonoBehaviour
                 GameManagerNew.Instance.PictureUIManager.HiddenButton();
             }
         }
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
     }
     public void showFixing()
     {
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         isShowingFixing = true;
+        if (!isShowingFixing && LevelManagerNew.Instance.stage >= 8)
+        {
+            LoadSliderValue();
+            weeklyEventSlider.gameObject.SetActive(true);
+            sliderBar.gameObject.SetActive(false);
+        }
+        else
+        {
+            weeklyEventSlider.gameObject.SetActive(false);
+            sliderBar.gameObject.SetActive(true);
+        }
         animButton.Play("ShowFixingUI");
+    }
+
+    public void HideFixing()
+    {
+        isShowingFixing = false;
+        showFixingUI();
+        if (!isShowingFixing && LevelManagerNew.Instance.stage >= 8)
+        {
+            LoadSliderValue();
+            weeklyEventSlider.gameObject.SetActive(true);
+            sliderBar.gameObject.SetActive(false);
+        }
+        else
+        {
+            weeklyEventSlider.gameObject.SetActive(false);
+            sliderBar.gameObject.SetActive(true);
+        }
+        animButton.Play(appearButton);
+
     }
 
     public void LoadSliderValue()
@@ -457,10 +497,11 @@ public class ButtonMennuManager : MonoBehaviour
                     weeklyEventSlider.maxValue = EventController.instance.weeklyEvent.numToLevelUp;
                     weeklyEventSlider.value = EventController.instance.weeklyEvent.numOfCollection;
                     NumOfCollect.text = EventController.instance.weeklyEvent.numOfCollection.ToString() + "/" + EventController.instance.weeklyEvent.numToLevelUp;
-                    rewardImage.sprite = UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].rewardImg.sprite;
+                    rewardImage.sprite = UIManagerNew.Instance.WeeklyEventPanel.rewardImage.sprite;
                     rewardText.text = UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].numOfReward.text;
+                    collectImage.sprite = UIManagerNew.Instance.WeeklyEventPanel.ItemToCollect.sprite;
                     timeRemaining.text = UIManagerNew.Instance.WeeklyEventPanel.CauculateTimeRemaining();
-                    UIManagerNew.Instance.WeeklyEventPanel.ChangeRewardImage();
+                    ChangeRewardImage();
                     UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CompleteEvent();
                 }
                 else
@@ -468,13 +509,34 @@ public class ButtonMennuManager : MonoBehaviour
                     weeklyEventSlider.maxValue = EventController.instance.weeklyEvent.numToLevelUp;
                     weeklyEventSlider.value = EventController.instance.weeklyEvent.numOfCollection;
                     NumOfCollect.text = EventController.instance.weeklyEvent.numOfCollection.ToString() + "/" + EventController.instance.weeklyEvent.numToLevelUp;
-                    rewardImage.sprite = UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].rewardImg.sprite;
+                    rewardImage.sprite = UIManagerNew.Instance.WeeklyEventPanel.rewardImage.sprite;
                     rewardText.text = UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].numOfReward.text;
+                    collectImage.sprite = UIManagerNew.Instance.WeeklyEventPanel.ItemToCollect.sprite;
                     timeRemaining.text = UIManagerNew.Instance.WeeklyEventPanel.CauculateTimeRemaining();
-                    UIManagerNew.Instance.WeeklyEventPanel.ChangeRewardImage();
+                    ChangeRewardImage();
                     UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.UpdateData();
                 }
             }
+        }
+    }
+
+    public void ChangeRewardImage()
+    {
+        if (UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].rewardType1 == weeklyReward.rewardType.gold)
+        {
+            rewardImage.sprite = UIManagerNew.Instance.WeeklyEventPanel.rewardSprites[0];
+        }
+        if (UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].rewardType1 == weeklyReward.rewardType.unscrew)
+        {
+            rewardImage.sprite = UIManagerNew.Instance.WeeklyEventPanel.rewardSprites[1];
+        }
+        if (UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].rewardType1 == weeklyReward.rewardType.undo)
+        {
+            rewardImage.sprite = UIManagerNew.Instance.WeeklyEventPanel.rewardSprites[2];
+        }
+        if (UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].rewardType1 == weeklyReward.rewardType.drill)
+        {
+            rewardImage.sprite = UIManagerNew.Instance.WeeklyEventPanel.rewardSprites[3];
         }
     }
 

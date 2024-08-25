@@ -69,6 +69,8 @@ public class NotEnoughStar : MonoBehaviour
     }
     public void CloseForPlay()
     {
+
+        UIManagerNew.Instance.ButtonMennuManager.Close();
         if (this.gameObject.activeSelf)
         {
             canvasGroup.alpha = 1;

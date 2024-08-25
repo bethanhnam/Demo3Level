@@ -62,13 +62,13 @@ public class FixItemUI : MonoBehaviour
         Deactive();
         GameManagerNew.Instance.ItemMoveControl.MoveToFix(imgPic.transform.position, GameManagerNew.Instance.PictureUIManager.GetCurrentPosItem(), imgPic.sprite, () =>
         {
-            
             if (GameManagerNew.Instance.PictureUIManager.hasWindow )
             {
                 if (GameManagerNew.Instance.PictureUIManager.LevelButton != null)
                 {
                     if(GameManagerNew.Instance.PictureUIManager.GetcurrentLevelButton() == GameManagerNew.Instance.PictureUIManager.LevelButton)
                     {
+                        UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = true;
                         GameManagerNew.Instance.PictureUIManager.ChangeReaction(0, "tremble_happy", false, GameManagerNew.Instance.PictureUIManager.hasWindow);
                         AudioManager.instance.PlaySFX("Laugh");
                     }

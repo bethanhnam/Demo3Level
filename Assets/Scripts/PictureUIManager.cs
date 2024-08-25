@@ -470,19 +470,18 @@ public class PictureUIManager : MonoBehaviour
         if (showBT)
         {
             Debug.Log("chạy xong showBT");
-            //if (UIManagerNew.Instance.ButtonMennuManager.isShowingFixing)
-            //{
-            //    GameManagerNew.Instance.PictureUIManager.DisplayButton();
-            //}
-            //else
-            //{
-            //    GameManagerNew.Instance.PictureUIManager.HiddenButton();
-            //}
         }
-        //if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
-        //{
-        //	UIManagerNew.Instance.ButtonMennuManager.Appear();
-        //}
+        if (GameManagerNew.Instance.PictureUIManager != null)
+        {
+            if (UIManagerNew.Instance.ButtonMennuManager.isShowingFixing)
+            {
+                GameManagerNew.Instance.PictureUIManager.DisplayButton();
+            }
+            else
+            {
+                GameManagerNew.Instance.PictureUIManager.HiddenButton();
+            }
+        }
         if (!GameManagerNew.Instance.CheckSliderValueAndDisplay())
         {
             Debug.Log("chạy vào trong normalInit");

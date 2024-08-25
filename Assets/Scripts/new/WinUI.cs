@@ -158,7 +158,7 @@ public class WinUI : MonoBehaviour
                     UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
                     UIManagerNew.Instance.GamePlayLoading.appear();
                     UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
-                    DOVirtual.DelayedCall(2f, () =>
+                    DOVirtual.DelayedCall(1f, () =>
                     {
                         if (EventController.instance != null && EventController.instance.weeklyEvent != null) {
                             EventController.instance.NextStageWeeklyEvent(Stage.Instance.numOfEventItem);
