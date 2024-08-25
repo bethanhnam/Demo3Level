@@ -1,11 +1,14 @@
+﻿using DG.Tweening;
 using Facebook.Unity;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEditor;
 using UnityEngine;
+using static WeeklyEventController;
 
 public class EventController : MonoBehaviour
 {
@@ -14,10 +17,16 @@ public class EventController : MonoBehaviour
 
     public WeeklyEventController weeklyEventTreasureClimb;
     public WeeklyEventController weeklyEventHauntedTreasure;
+
     public WeeklyEventController weeklyEvent;
+    public Sprite weeklyEventItemSprite;
 
     public WeeklyEventPrefab[] WeeklyEventPrefabs;
     public WeeklyEventPrefab currentWeeklyEventPrefab;
+
+    public List<int> weeklyEventItemColors = new List<int>();
+    public int selectedColorIndex = 0;
+
     private void Start()
     {
         instance = this;
@@ -56,26 +65,84 @@ public class EventController : MonoBehaviour
         // weekly event
         if (LevelManagerNew.Instance.stage >= 8)
         {
+            UIManagerNew.Instance.WeeklyEventPanel.WeeklyEventButton.gameObject.SetActive(true);
             if (weeklyEvent != null)
             {
-                if (weeklyEventTreasureClimb.eventStaus == WeeklyEventController.EventStaus.running)
+                weeklyEventItemSprite = weeklyEventControllers[0].weeklyEventItemColor[weeklyEvent.colorIndex].weeklyEventBarColor;
+                if (weeklyEvent.eventStaus == WeeklyEventController.EventStaus.running)
                 {
-                    CheckForEndTime("WeeklyEvent", weeklyEvent, weeklyEventControllers[2]);
+                    DateTime startDate = DateTime.Parse(weeklyEvent.startEventDate);
+                    if (DateTime.Now.Date.Subtract(startDate).TotalDays >= 7)
+                    {
+                        weeklyEvent.eventStaus = EventStaus.running;
+                        PlayerPrefs.SetString("FirstWeeklyEvent", "false");
+                        UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
+                        weeklyEvent.ResetData();
+                        UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(true);
+                        UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CreateRewardList();
+                        UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.AddData();
+                        UIManagerNew.Instance.WeeklyEventPanel.LoadData();
+                        RandomItemColor();
+                        UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
+                        UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
+                    }
+                    else
+                    {
+                        PlayerPrefs.GetString("FirstWeeklyEvent", "true");
+                        if (weeklyEvent.levelIndex == weeklyEventControllers[0].weeklyEventPack.Count && weeklyEvent.numOfCollection == weeklyEvent.numToLevelUp)
+                        {
+                            UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = true;
+                            weeklyEvent.eventStaus = EventStaus.end;
+                            UIManagerNew.Instance.WeeklyEventPanel.collectSlider.value = UIManagerNew.Instance.WeeklyEventPanel.collectSlider.maxValue;
+                            UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
+                            UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(true);
+                            UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CreateRewardList();
+                            UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.AddData();
+                            UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
+                            UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
+                        }
+                    }
                 }
                 else
-                if (CheckForDate("WeeklyEvent", weeklyEvent, weeklyEventControllers[2]))
                 {
-                    weeklyEvent.ResetData();
-                    weeklyEvent.eventStaus = WeeklyEventController.EventStaus.running;
-                    CretaWeeklyEvent(weeklyEvent);
+                    DateTime startDate = DateTime.Parse(weeklyEvent.startEventDate);
+                    if (DateTime.Now.Date.Subtract(startDate).TotalDays >= 7)
+                    {
+                        weeklyEvent.eventStaus = EventStaus.running;
+                        PlayerPrefs.SetString("FirstWeeklyEvent", "false");
+                        UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
+                        weeklyEvent.ResetData();
+                        UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(true);
+                        UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CreateRewardList();
+                        UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.AddData();
+                        UIManagerNew.Instance.WeeklyEventPanel.LoadData();
+                        RandomItemColor();
+                        UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
+                        UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
+                    }
                 }
             }
             else
             {
+                PlayerPrefs.GetString("FirstWeeklyEvent", "true");
+
                 SetNewData("WeeklyEvent", weeklyEvent);
-                CretaWeeklyEvent(weeklyEvent);
+                UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
+                UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CreateRewardList();
+                UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.AddData();
+                RandomItemColor();
+                UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
+                UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                 SaveData("WeeklyEvent", weeklyEvent);
             }
+        }
+        else
+        {
+            UIManagerNew.Instance.WeeklyEventPanel.WeeklyEventButton.gameObject.SetActive(false);
         }
 
         //treasure Haunt
@@ -140,8 +207,10 @@ public class EventController : MonoBehaviour
         string dataString2 = PlayerPrefs.GetString("WeeklyEvent");
 
         weeklyEventTreasureClimb = JsonConvert.DeserializeObject<WeeklyEventController>(dataString);
-        weeklyEventHauntedTreasure = JsonConvert.DeserializeObject<WeeklyEventController>("HauntedTreasure");
-        weeklyEvent = JsonConvert.DeserializeObject<WeeklyEventController>("WeeklyEvent");
+        weeklyEventHauntedTreasure = JsonConvert.DeserializeObject<WeeklyEventController>(dataString1);
+        weeklyEvent = JsonConvert.DeserializeObject<WeeklyEventController>(dataString2);
+
+        weeklyEventItemColors = LoadList("weeklyEventItemColors");
 
         Debug.Log("weeklyEventTreasureClimb " + weeklyEventTreasureClimb);
         Debug.Log("weeklyEventHauntedTreasure " + weeklyEventHauntedTreasure);
@@ -155,8 +224,8 @@ public class EventController : MonoBehaviour
     [Button("CretaWeeklyEvent")]
     public void CretaWeeklyEvent(WeeklyEventController weeklyEventController)
     {
-        UIManagerNew.Instance.TreasureClimbPanel.TresureClimbButton.gameObject.SetActive(true);
-        currentWeeklyEventPrefab.SetValue(weeklyEventController);
+        //UIManagerNew.Instance.TreasureClimbPanel.TresureClimbButton.gameObject.SetActive(true);
+        //currentWeeklyEventPrefab.SetValue(weeklyEventController);
     }
     public void CheckForEndTime(String eventName, WeeklyEventController weeklyEventController, WeeklyEventController targetWeeklyEventController)
     {
@@ -188,7 +257,24 @@ public class EventController : MonoBehaviour
             currentWeeklyEventPrefab.ChangeData("TreasureClimb", weeklyEventTreasureClimb);
             SaveData("TreasureClimb", weeklyEventTreasureClimb);
         }
+        if (weeklyEvent != null)
+        {
+            if (weeklyEvent.levelIndex < weeklyEventControllers[0].weeklyEventPack.Count)
+            {
+                //NextStageWeeklyEvent();
+            }
+            //RandomItemColor();
+            //UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
+        }
     }
+    [Button("TestChangeData1")]
+    public void TestChangeData1()
+    {
+        weeklyEvent.numOfCollection = weeklyEvent.numToLevelUp;
+        //NextStageWeeklyEvent();
+    }
+
+
     public void SetNewData(string EventName, WeeklyEventController targetWeeklyEventController)
     {
         if (EventName == WeeklyEventController.EventType.TreasureClimb.ToString())
@@ -215,7 +301,136 @@ public class EventController : MonoBehaviour
             targetWeeklyEventController.eventType1 = WeeklyEventController.EventType.WeeklyEvent;
             targetWeeklyEventController.SetAllData(targetWeeklyEventController);
             targetWeeklyEventController.eventStaus = WeeklyEventController.EventStaus.running;
-            weeklyEventHauntedTreasure = targetWeeklyEventController;
+            weeklyEvent = targetWeeklyEventController;
         }
+    }
+
+    public void ChangeCollectSlider(int addnum)
+    {
+        if (weeklyEvent.numOfCollection < weeklyEvent.numToLevelUp)
+        {
+            weeklyEvent.numOfCollection += addnum;
+            //UIManagerNew.Instance.WeeklyEventPanel.collectSlider.DOValue(weeklyEvent.numOfCollection, 0.3f);
+            //SaveData("WeeklyEvent", weeklyEvent);
+        }
+    }
+
+    public void NextStageWeeklyEvent(int addnum = 0)
+    {
+        if (weeklyEvent.levelIndex < weeklyEventControllers[0].weeklyEventPack.Count - 1)
+        {
+            if (weeklyEvent.numOfCollection + addnum >= weeklyEvent.numToLevelUp)
+            {
+                UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.RewardClaim(weeklyEvent.levelIndex);
+                SaveSystem.instance.SaveData();
+
+                weeklyEvent.levelIndex++;
+                weeklyEvent.numOfCollection = weeklyEvent.numOfCollection + addnum - weeklyEvent.numToLevelUp;
+                weeklyEvent.numToLevelUp = weeklyEventControllers[0].weeklyEventPack[weeklyEvent.levelIndex].numToUpLevel;
+                UIManagerNew.Instance.WeeklyEventPanel.collectSlider.maxValue = weeklyEvent.numToLevelUp;
+                UIManagerNew.Instance.WeeklyEventPanel.collectSlider.value = weeklyEvent.numOfCollection;
+
+                SaveData("WeeklyEvent", weeklyEvent);
+            }
+            else
+            {
+                ChangeCollectSlider(addnum);
+                if (weeklyEvent.numOfCollection == weeklyEvent.numToLevelUp)
+                {
+                    UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.RewardClaim(weeklyEvent.levelIndex);
+                    SaveSystem.instance.SaveData();
+
+                    weeklyEvent.levelIndex++;
+                    weeklyEvent.numOfCollection = weeklyEvent.numOfCollection + addnum - weeklyEvent.numToLevelUp;
+                    weeklyEvent.numToLevelUp = weeklyEventControllers[0].weeklyEventPack[weeklyEvent.levelIndex].numToUpLevel;
+                    UIManagerNew.Instance.WeeklyEventPanel.collectSlider.maxValue = weeklyEvent.numToLevelUp;
+                    UIManagerNew.Instance.WeeklyEventPanel.collectSlider.value = weeklyEvent.numOfCollection;
+
+                    SaveData("WeeklyEvent", weeklyEvent);
+                }
+            }
+        }
+        else
+        {
+            if (weeklyEvent.numOfCollection + addnum >= weeklyEvent.numToLevelUp)
+            {
+                weeklyEvent.numOfCollection = weeklyEvent.numToLevelUp;
+                UIManagerNew.Instance.WeeklyEventPanel.collectSlider.value = UIManagerNew.Instance.WeeklyEventPanel.collectSlider.maxValue;
+                UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = true;
+                weeklyEvent.eventStaus = EventStaus.end;
+                UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.RewardClaim(weeklyEventControllers[0].weeklyEventPack.Count);
+                SaveSystem.instance.SaveData();
+
+                SaveData("WeeklyEvent", weeklyEvent);
+            }
+            else
+            {
+                ChangeCollectSlider(addnum);
+                if (weeklyEvent.numOfCollection + addnum >= weeklyEvent.numToLevelUp)
+                {
+                    weeklyEvent.numOfCollection = weeklyEvent.numToLevelUp;
+                    UIManagerNew.Instance.WeeklyEventPanel.collectSlider.value = UIManagerNew.Instance.WeeklyEventPanel.collectSlider.maxValue;
+                    UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = true;
+                    weeklyEvent.eventStaus = EventStaus.end;
+                    UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.RewardClaim(weeklyEventControllers[0].weeklyEventPack.Count);
+                    SaveSystem.instance.SaveData();
+
+                    SaveData("WeeklyEvent", weeklyEvent);
+                }
+            }
+        }
+    }
+
+    public void RandomItemColor()
+    {
+        var x = UnityEngine.Random.Range(0, weeklyEventControllers[0].weeklyEventItemColor.Count);
+        {
+            if (weeklyEventItemColors.Count != 7)
+            {
+                if (!weeklyEventItemColors.Contains(x))
+                {
+                    SaveList("weeklyEventItemColors", weeklyEventItemColors);
+                    weeklyEventItemColors.Add(x);
+                    weeklyEvent.colorIndex = x;
+                    selectedColorIndex = x;
+                    weeklyEventItemSprite = weeklyEventControllers[0].weeklyEventItemColor[x].weeklyEventBarColor;
+                }
+                else
+                {
+                    RandomItemColor();
+                }
+            }
+            else
+            {
+                weeklyEventItemColors.Clear();
+                SaveList("weeklyEventItemColors", weeklyEventItemColors);
+                RandomItemColor();
+            }
+        }
+    }
+
+    public void SaveList(string key, List<int> list)
+    {
+        string json = JsonConvert.SerializeObject(list);
+        PlayerPrefs.SetString(key, json);
+        PlayerPrefs.Save();
+    }
+
+    // Tải danh sách
+    public List<int> LoadList(string key)
+    {
+        string json = PlayerPrefs.GetString(key, string.Empty);
+        if (!string.IsNullOrEmpty(json))
+        {
+            return JsonConvert.DeserializeObject<List<int>>(json);
+        }
+        return new List<int>();
+    }
+
+    public bool FirstWeeklyEvent()
+    {
+        var data = PlayerPrefs.GetString("FirstWeeklyEvent", "false");
+        bool HasFinishedStory = JsonConvert.DeserializeObject<bool>(data);
+        return HasFinishedStory;
     }
 }

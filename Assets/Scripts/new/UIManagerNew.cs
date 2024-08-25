@@ -73,6 +73,8 @@ public class UIManagerNew : MonoBehaviour
     private SkipPanel skipPanel;
     [SerializeField]
     private GameObject PointerObject;
+    [SerializeField]
+    private StartWeeklyEvent startWeeklyEvent;
 
     // weekly event
     [SerializeField]
@@ -149,6 +151,7 @@ public class UIManagerNew : MonoBehaviour
 
     public TreasureClimbPanel TreasureClimbPanel { get => treasureClimbPanel; set => treasureClimbPanel = value; }
     public WeeklyEventPanel WeeklyEventPanel { get => weeklyEventPanel; set => weeklyEventPanel = value; }
+    public StartWeeklyEvent StartWeeklyEvent { get => startWeeklyEvent; set => startWeeklyEvent = value; }
 
     private void Awake()
     {

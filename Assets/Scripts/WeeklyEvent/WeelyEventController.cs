@@ -30,9 +30,9 @@ public class WeeklyEventController : ScriptableObject
     [ShowIf("IsTreasureClimb")]
     public TreasureClimbPack[] treasureClimbPacks;
     [ShowIf("IsTreasureClimb")]
-    public int numOfChances = 3;
+    public int numOfChances;
     [ShowIf("IsTreasureClimb")]
-    public int numOfStage = 10;
+    public int numOfStage;
     [ShowIf("IsTreasureClimb")]
     public int numOfWinStage;
     [ShowIf("IsTreasureClimb")]
@@ -47,12 +47,19 @@ public class WeeklyEventController : ScriptableObject
 
 
     [ShowIf("IsWeeklyEvent")]
-    public TreasureClimbPack[] weeklyEventPack;
+    public List<WeeklyEventPack> weeklyEventPack;
     [ShowIf("IsWeeklyEvent")]
     public int levelIndex;
     [ShowIf("IsWeeklyEvent")]
-    public int Itemuplv;
-
+    public int numToLevelUp;
+    [ShowIf("IsWeeklyEvent")]
+    public int numOfCollection;
+    [ShowIf("IsWeeklyEvent")]
+    public Sprite[] weeklyEventPacksprite;
+    [ShowIf("IsWeeklyEvent")]
+    public List<WeeklyEventItemColor> weeklyEventItemColor;
+    [ShowIf("IsWeeklyEvent")]
+    public int colorIndex;
 
 
     // Phương thức kiểm tra điều kiện hiển thị
@@ -81,6 +88,7 @@ public class WeeklyEventController : ScriptableObject
         if (eventType1 == EventType.TreasureClimb)
         {
             numOfChances = 3;
+            numOfStage = 10;
             numOfWinStage = 0;
             topIndex = 0;
             numberOfDaysExistence = 5;
@@ -100,12 +108,14 @@ public class WeeklyEventController : ScriptableObject
         }
         if (eventType1 == EventType.WeeklyEvent)
         {
+            numOfCollection = 0;
             levelIndex = 0;
-            Itemuplv = 2;
+            numToLevelUp = 2;
             numberOfDaysExistence = 7;
             eventStaus = EventStaus.NotEnable;
-            startEventDate = null;
-            endEventDate = null;
+            startEventDate = GetMondayDate().ToString();
+            endEventDate = GetSundayDate().ToString();
+            colorIndex = 0;
         }
     }
 
@@ -115,6 +125,7 @@ public class WeeklyEventController : ScriptableObject
         if (weeklyEventController.eventType1 == EventType.TreasureClimb)
         {
             weeklyEventController.numOfChances = numOfChances;
+            weeklyEventController.numOfStage = numOfStage;
             weeklyEventController.numOfWinStage = numOfWinStage;
             weeklyEventController.topIndex = topIndex;
             weeklyEventController.numberOfDaysExistence = numberOfDaysExistence;
@@ -152,27 +163,41 @@ public class WeeklyEventController : ScriptableObject
         }
         if (weeklyEventController.eventType1 == EventType.WeeklyEvent)
         {
+            weeklyEventController.colorIndex = colorIndex;
             weeklyEventController.levelIndex = levelIndex;
-            weeklyEventController.Itemuplv = Itemuplv;
+            weeklyEventController.numToLevelUp = numToLevelUp;
+            weeklyEventController.numOfCollection = numOfCollection;
 
             weeklyEventController.startEventDate = GetMondayDate().ToString();
 
-            weeklyEventController.endEventDate = weeklyEventController.startEventDate + weeklyEventController.numberOfDaysExistence;
+            weeklyEventController.endEventDate = GetSundayDate().ToString();
         }
     }
 
     public DateTime GetMondayDate()
     {
+        DateTime currentDate = DateTime.Now;
+
+        // Nếu hôm nay là Chủ nhật, lùi về thứ Hai của tuần trước, ngược lại lấy thứ Hai của tuần này
+        int daysToSubtract = (currentDate.DayOfWeek == DayOfWeek.Sunday) ? 6 : (int)currentDate.DayOfWeek - 1;
+
+        DateTime mondayDate = currentDate.AddDays(-daysToSubtract);
+
+        return mondayDate;
+    }
+
+    public DateTime GetSundayDate()
+    {
         // Lấy ngày hiện tại
         DateTime currentDate = DateTime.Now;
 
-        // Tính khoảng cách từ thứ Hai (Monday) gần nhất
-        int daysUntilMonday = ((int)DayOfWeek.Monday - (int)currentDate.DayOfWeek + 7) % 7;
+        // Tính khoảng cách từ Chủ nhật gần nhất
+        int daysUntilSunday = ((int)DayOfWeek.Sunday - (int)currentDate.DayOfWeek + 7) % 7;
 
-        // Nếu hôm nay là thứ Hai, trả về ngày hôm nay, nếu không thì tìm ngày thứ Hai gần nhất
-        DateTime mondayDate = currentDate.AddDays(-((int)currentDate.DayOfWeek - (int)DayOfWeek.Monday));
+        // Thêm số ngày để đạt tới Chủ nhật
+        DateTime sundayDate = currentDate.AddDays(daysUntilSunday);
 
-        return mondayDate;
+        return sundayDate;
     }
 
 
@@ -194,5 +219,21 @@ public class WeeklyEventController : ScriptableObject
         public int numOfDrill;
     }
 
+    [System.Serializable]
+    public class WeeklyEventPack
+    {
+        public int numOfGold;
+        public int numOfUnscrew;
+        public int numOfUndo;
+        public int numOfDrill;
 
+        public int numToUpLevel;
+    }
+
+    [System.Serializable]
+    public class WeeklyEventItemColor
+    {
+        public Sprite weeklyEventBarColor;
+        public bool hasSelected;
+    }
 }

@@ -3,8 +3,10 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class ButtonMennuManager : MonoBehaviour
 {
@@ -32,6 +34,16 @@ public class ButtonMennuManager : MonoBehaviour
     private int appearButton = Animator.StringToHash("appear");
     private int disappearButton = Animator.StringToHash("disappear");
 
+    public bool isShowingFixing = false;
+
+
+    //weeklyevent
+    public TextMeshProUGUI NumOfCollect;
+    public TextMeshProUGUI rewardText;
+    public TextMeshProUGUI timeRemaining;
+    public Slider weeklyEventSlider;
+    public Image rewardImage;
+
     private void Awake()
     {
         //// datatest
@@ -56,12 +68,26 @@ public class ButtonMennuManager : MonoBehaviour
             {
                 UIManagerNew.Instance.ButtonMennuManager.playButton.gameObject.SetActive(true);
             });
+
+            if (!isShowingFixing && LevelManagerNew.Instance.stage >=8)
+            {
+                weeklyEventSlider.gameObject.SetActive(true);
+            }
+            else
+            {
+                weeklyEventSlider.gameObject.SetActive(false);
+            }
             if (LevelManagerNew.Instance.stage == 1 && PlayerPrefs.GetInt("Hasfixed") == 0)
             {
                 GameManagerNew.Instance.conversationController.StartConversation(1, 2, "3FirstFix", () =>
                 {
                     GameManagerNew.Instance.CheckForTutorFix();
                 });
+            }
+            if (LevelManagerNew.Instance.stage >= 1 && PlayerPrefs.GetInt("Hasfixed") == 1)
+            {
+                isShowingFixing = false;
+                GameManagerNew.Instance.PictureUIManager.HiddenButton();
             }
             CheckDailyNotice();
             if (LevelManagerNew.Instance.stage <= 3)
@@ -119,7 +145,6 @@ public class ButtonMennuManager : MonoBehaviour
     }
     public void OpenNotEnoughStar()
     {
-        Close();
         UIManagerNew.Instance.NotEnoughStarPanel.Open();
     }
     public void OpenDailyRW()
@@ -195,6 +220,17 @@ public class ButtonMennuManager : MonoBehaviour
     {
         Close();
         UIManagerNew.Instance.StartMiniGamePanel.Appear();
+        DOVirtual.DelayedCall(1, () =>
+        {
+            if (LevelManagerNew.Instance.stage >= 8)
+            {
+                if (!EventController.instance.FirstWeeklyEvent())
+                {
+                    UIManagerNew.Instance.StartWeeklyEvent.Appear();
+                    PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                }
+            }
+        });
         if (UIManagerNew.Instance != null)
         {
             UIManagerNew.Instance.ButtonMennuManager.CheckForMinigame();
@@ -389,4 +425,57 @@ public class ButtonMennuManager : MonoBehaviour
             this.transform.GetChild(i).gameObject.SetActive(true);
         }
     }
+
+    public void showFixingUI()
+    {
+        if (GameManagerNew.Instance.PictureUIManager != null)
+        {
+            if (UIManagerNew.Instance.ButtonMennuManager.isShowingFixing)
+            {
+                GameManagerNew.Instance.PictureUIManager.DisplayButton();
+            }
+            else
+            {
+                GameManagerNew.Instance.PictureUIManager.HiddenButton();
+            }
+        }
+    }
+    public void showFixing()
+    {
+        isShowingFixing = true;
+        animButton.Play("ShowFixingUI");
+    }
+
+    public void LoadSliderValue()
+    {
+        if (EventController.instance != null)
+        {
+            if (EventController.instance.weeklyEvent != null)
+            {
+                if (UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent)
+                {
+                    weeklyEventSlider.maxValue = EventController.instance.weeklyEvent.numToLevelUp;
+                    weeklyEventSlider.value = EventController.instance.weeklyEvent.numOfCollection;
+                    NumOfCollect.text = EventController.instance.weeklyEvent.numOfCollection.ToString() + "/" + EventController.instance.weeklyEvent.numToLevelUp;
+                    rewardImage.sprite = UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].rewardImg.sprite;
+                    rewardText.text = UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].numOfReward.text;
+                    timeRemaining.text = UIManagerNew.Instance.WeeklyEventPanel.CauculateTimeRemaining();
+                    UIManagerNew.Instance.WeeklyEventPanel.ChangeRewardImage();
+                    UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CompleteEvent();
+                }
+                else
+                {
+                    weeklyEventSlider.maxValue = EventController.instance.weeklyEvent.numToLevelUp;
+                    weeklyEventSlider.value = EventController.instance.weeklyEvent.numOfCollection;
+                    NumOfCollect.text = EventController.instance.weeklyEvent.numOfCollection.ToString() + "/" + EventController.instance.weeklyEvent.numToLevelUp;
+                    rewardImage.sprite = UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].rewardImg.sprite;
+                    rewardText.text = UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].numOfReward.text;
+                    timeRemaining.text = UIManagerNew.Instance.WeeklyEventPanel.CauculateTimeRemaining();
+                    UIManagerNew.Instance.WeeklyEventPanel.ChangeRewardImage();
+                    UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.UpdateData();
+                }
+            }
+        }
+    }
+
 }

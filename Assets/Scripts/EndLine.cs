@@ -48,6 +48,13 @@ public class EndLine : MonoBehaviour
 			{
 				collision.gameObject.SetActive(false);
 				Stage.Instance.numOfIronPlates -= 1;
+				if (collision.GetComponent<IronPlate>().isEventItem)
+				{
+					if(EventController.instance != null && EventController.instance.weeklyEvent != null)
+					{
+						Stage.Instance.numOfEventItem++;
+                    }
+				}
                 //AudioManager.instance.PlaySFX("DropIron");
                 Debug.Log("numOfIronPlates" + Stage.Instance.numOfIronPlates);
 				Stage.Instance.CheckDoneLevel();

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,7 +33,28 @@ public class DataInit : MonoBehaviour
         }
         if (string.IsNullOrEmpty(PlayerPrefs.GetString("firstOpenDate")))
         {
-            PlayerPrefs.SetString("firstOpenDate", System.DateTime.Now.Date.Ticks.ToString());
+            PlayerPrefs.SetString("firstOpenDate", System.DateTime.UtcNow.Date.Ticks.ToString());
+        }
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        Debug.Log("chạy vào pause");
+        if (pause)
+        {
+            Debug.Log("chạy vào pause 1");
+            //if (weeklyEvent != null)
+            //{
+            //    SaveData("WeeklyEvent", weeklyEvent);
+            //}
+            //if (weeklyEventTreasureClimb != null)
+            //{
+            //    SaveData("TreasureClimb", weeklyEventTreasureClimb);
+            //}
+            //if (weeklyEventHauntedTreasure != null)
+            //{
+            //    SaveData("HauntedTreasure", weeklyEventHauntedTreasure);
+            //}
         }
     }
 }

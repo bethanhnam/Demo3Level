@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 using static Unity.VisualScripting.Member;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class IronPlate : MonoBehaviour
 {
@@ -34,8 +35,15 @@ public class IronPlate : MonoBehaviour
 
     [SerializeField] private Vector3 centerOfMass = new Vector3(-0.00177252f, -0.001291171f, 0f);
 
+
+    public string layer;
+
+    public bool isEventItem;
+
     private void Start()
     {
+        layer = LayerMask.LayerToName(this.gameObject.layer);
+
         holes = GetAllChildObjects(transform);
         centerPoints = new Vector3[holes.Length];
         hingeJoint2Ds = GetComponents<HingeJoint2D>();

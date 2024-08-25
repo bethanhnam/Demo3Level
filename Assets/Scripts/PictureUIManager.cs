@@ -461,7 +461,6 @@ public class PictureUIManager : MonoBehaviour
             }
         }
         HiddenButton();
-
         StartCoroutine(NormalInit(showBT));
     }
     IEnumerator NormalInit(bool showBT)
@@ -471,7 +470,14 @@ public class PictureUIManager : MonoBehaviour
         if (showBT)
         {
             Debug.Log("chạy xong showBT");
-            DisplayButton();
+            //if (UIManagerNew.Instance.ButtonMennuManager.isShowingFixing)
+            //{
+            //    GameManagerNew.Instance.PictureUIManager.DisplayButton();
+            //}
+            //else
+            //{
+            //    GameManagerNew.Instance.PictureUIManager.HiddenButton();
+            //}
         }
         //if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
         //{

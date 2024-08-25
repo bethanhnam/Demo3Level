@@ -83,6 +83,7 @@ public class VideoController : MonoBehaviour
                         GameManagerNew.Instance.conversationController.StartConversation(0,0, "1FirstConver", () =>
                         {
                             UIManagerNew.Instance.BackGroundFooter.DisappearBackGroundFooter();
+                            //UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = true;
                             UIManagerNew.Instance.ButtonMennuManager.HideAllUI();
                             UIManagerNew.Instance.ButtonMennuManager.starBar.gameObject.SetActive(true);
                             UIManagerNew.Instance.ButtonMennuManager.sliderBar.gameObject.SetActive(true);

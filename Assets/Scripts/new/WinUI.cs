@@ -160,12 +160,21 @@ public class WinUI : MonoBehaviour
                     UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                     DOVirtual.DelayedCall(2f, () =>
                     {
+                        if (EventController.instance != null && EventController.instance.weeklyEvent != null) {
+                            EventController.instance.NextStageWeeklyEvent(Stage.Instance.numOfEventItem);
+                        }
                         Stage.Instance.canInteract = true;
                         Stage.Instance.isWining = false;
                         GameManagerNew.Instance.PictureUIManager.Open();
                         GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level, false);
                         GameManagerNew.Instance.CloseLevel(true);
-                        GameManagerNew.Instance.PictureUIManager.DisplayButton();
+
+                        if (LevelManagerNew.Instance.stage >= 1 && PlayerPrefs.GetInt("Hasfixed") == 1)
+                        {
+                            UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = false;
+                            GameManagerNew.Instance.PictureUIManager.HiddenButton();
+                        }
+
                         Deactive();
                         UIManagerNew.Instance.CompleteUI.Deactive();
                         AudioManager.instance.PlayMusic("MenuTheme");
@@ -180,7 +189,6 @@ public class WinUI : MonoBehaviour
                         }
                         DOVirtual.DelayedCall(.5f, () =>
                         {
-
                             if (LevelManagerNew.Instance.stage == 3)
                             {
                                 UIManagerNew.Instance.StartMiniGamePanel.SetProperties(50, 0);
@@ -238,7 +246,6 @@ public class WinUI : MonoBehaviour
         star.transform.SetParent(this.transform);
         UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
         GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level, false);
-        GameManagerNew.Instance.PictureUIManager.DisplayButton();
         this.gameObject.SetActive(false);
     }
 

@@ -49,6 +49,7 @@ public class NotEnoughStar : MonoBehaviour
             {
                 if(LevelManagerNew.Instance.stage < 1)
                 {
+                    //UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = true;
                     UIManagerNew.Instance.ButtonMennuManager.HideAllUI();
                     UIManagerNew.Instance.ButtonMennuManager.starBar.gameObject.SetActive(true);
                     UIManagerNew.Instance.ButtonMennuManager.sliderBar.gameObject.SetActive(true);
@@ -56,6 +57,7 @@ public class NotEnoughStar : MonoBehaviour
                 }
                 else
                 {
+                    //UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = false;
                     UIManagerNew.Instance.ButtonMennuManager.ShowAllUI();
                 }
                 UIManagerNew.Instance.ButtonMennuManager.Appear();

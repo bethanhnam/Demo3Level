@@ -5,6 +5,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Stage : MonoBehaviour
 {
@@ -84,6 +86,10 @@ public class Stage : MonoBehaviour
     public Tween boosterTween;
     public Tween boosterTween1;
 
+    //weekly event
+    public String eventBarName;
+    public int numOfEventItem = 0;
+
     private void Start()
     {
         Instance = this;
@@ -133,6 +139,7 @@ public class Stage : MonoBehaviour
             {
                 transform.DOScale(GameManagerNew.Instance.TargetScale, 0.4f).OnComplete(() =>
                 {
+                    ChangeBarColor();
                     if (LevelManagerNew.Instance.stage == 3)
                     {
                         if (PlayerPrefs.GetInt("GiveAwayUnscrew") != 0)
@@ -307,7 +314,7 @@ public class Stage : MonoBehaviour
             }
         }
         CheckHoleAvailable();
-        //Hack();
+        Hack();
         if (isWining)
         {
 
@@ -917,6 +924,7 @@ public class Stage : MonoBehaviour
     }
     public void ResetBooster()
     {
+        numOfEventItem = 0;
         UIManagerNew.Instance.DeteleNailPanel.numOfUsed = 1;
         UIManagerNew.Instance.UndoPanel.numOfUsed = 1;
         //UIManagerNew.Instance.RePlayPanel.numOfUsed = 1;
@@ -1143,5 +1151,51 @@ public class Stage : MonoBehaviour
                 //this.holeToUnlock.myAnimator.enabled = false;
             });
         });
+    }
+
+    public void ChangeBarColor()
+    {
+        if (EventController.instance.weeklyEvent != null && EventController.instance.weeklyEvent.eventStaus == WeeklyEventController.EventStaus.running)
+        {
+            if (EventController.instance.weeklyEvent.colorIndex ==  0)
+            {
+                ChangeEachBarColor("IronLayer1", "IronLayer9");
+            }
+            if (EventController.instance.weeklyEvent.colorIndex == 1)
+            {
+                ChangeEachBarColor("IronLayer2", null);
+            }
+            if (EventController.instance.weeklyEvent.colorIndex == 2)
+            {
+                ChangeEachBarColor("IronLayer3", "layer10", "IronLayer8");
+            }
+            if (EventController.instance.weeklyEvent.colorIndex == 3)
+            {
+                ChangeEachBarColor("IronLayer4", null);
+            }
+            if (EventController.instance.weeklyEvent.colorIndex == 4)
+            {
+                ChangeEachBarColor("IronLayer5", "layer11");
+            }
+            if (EventController.instance.weeklyEvent.colorIndex == 5)
+            {
+                ChangeEachBarColor("IronLayer6", "layer12");
+            }
+            if (EventController.instance.weeklyEvent.colorIndex == 6)
+            {
+                ChangeEachBarColor("IronLayer7",null);
+            }
+        }
+
+    }
+    public void ChangeEachBarColor(string layer,string layer2, string layer3 =null)
+    {
+        for (int i = 0; i < ironPlates.Length; i++)
+        {
+            if (ironPlates[i].layer.CompareTo(layer) == 0|| ironPlates[i].layer.CompareTo(layer2) == 0 || ironPlates[i].layer.CompareTo(layer3) == 0)
+            {
+                ironPlates[i].isEventItem = true;   
+            }
+        }
     }
 }

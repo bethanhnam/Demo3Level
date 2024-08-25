@@ -119,6 +119,7 @@ public class LoadingScreen : MonoBehaviour
                     GameManagerNew.Instance.conversationController.StartConversation(0, 0, "1FirstConver", () =>
                     {
                         UIManagerNew.Instance.BackGroundFooter.DisappearBackGroundFooter();
+                        //UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = true;
                         UIManagerNew.Instance.ButtonMennuManager.HideAllUI();
                         UIManagerNew.Instance.ButtonMennuManager.starBar.gameObject.SetActive(true);
                         UIManagerNew.Instance.ButtonMennuManager.sliderBar.gameObject.SetActive(true);
@@ -142,6 +143,7 @@ public class LoadingScreen : MonoBehaviour
                 }
                 else if(PlayerPrefs.GetInt("Hasfixed") == 1 && LevelManagerNew.Instance.stage == 0)
                 {
+                    //UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = true;
                     UIManagerNew.Instance.ButtonMennuManager.HideAllUI();
                     UIManagerNew.Instance.ButtonMennuManager.starBar.gameObject.SetActive(true);
                     UIManagerNew.Instance.ButtonMennuManager.sliderBar.gameObject.SetActive(true);
@@ -166,7 +168,7 @@ public class LoadingScreen : MonoBehaviour
                  if (UIManagerNew.Instance.ChestSLider.currentValue != UIManagerNew.Instance.ChestSLider.maxValue1)
                  {
                      string lastClaimTime = PlayerPrefs.GetString("LastClaimTime", string.Empty);
-                     string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+                     string currentDate = DateTime.UtcNow.ToString("yyyy-MM-dd");
                      if (lastClaimTime.Equals(currentDate))
                      {
                          AudioManager.instance.PlayMusic("MenuTheme");
@@ -195,18 +197,29 @@ public class LoadingScreen : MonoBehaviour
                      if (PlayerPrefs.GetInt("HasRecieveRW") == 1)
                      {
                          string lastClaimTime = PlayerPrefs.GetString("LastClaimTime", string.Empty);
-                         string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+                         string currentDate = DateTime.UtcNow.ToString("yyyy-MM-dd");
                          if (lastClaimTime.Equals(currentDate))
                          {
                              AudioManager.instance.PlayMusic("MenuTheme");
                              UIManagerNew.Instance.ButtonMennuManager.Appear();
+                             DOVirtual.DelayedCall(1, () =>
+                             {
+                                 if (LevelManagerNew.Instance.stage >= 8)
+                                 {
+                                     if (!EventController.instance.FirstWeeklyEvent())
+                                     {
+                                         UIManagerNew.Instance.StartWeeklyEvent.Appear();
+                                         PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                                     }
+                                 }
+                             });
                              Debug.Log("mở khi chua full process và  đã nhận quà hàng ngày ");
                          }
                          else
                          {
                              UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
                              AudioManager.instance.PlayMusic("MenuTheme");
-                             Debug.Log("mở khi chua full process và đã đã nhận quà hàng ngày ");
+                             Debug.Log("mở khi chua full process và chua nhận quà hàng ngày ");
                          }
                      }
                      else
@@ -214,6 +227,17 @@ public class LoadingScreen : MonoBehaviour
                          AudioManager.instance.PlayMusic("MenuTheme");
                          Debug.Log("mở khi chua full process và chưa mở quà ");
                          UIManagerNew.Instance.ButtonMennuManager.Appear();
+                         DOVirtual.DelayedCall(1, () =>
+                         {
+                             if (LevelManagerNew.Instance.stage >= 8)
+                             {
+                                 if (!EventController.instance.FirstWeeklyEvent())
+                                 {
+                                     UIManagerNew.Instance.StartWeeklyEvent.Appear();
+                                     PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                                 }
+                             }
+                         });
                          if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
                          {
                              PlayerPrefs.SetInt("CompleteLastPic", 0);

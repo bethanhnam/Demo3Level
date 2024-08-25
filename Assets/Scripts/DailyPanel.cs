@@ -143,6 +143,17 @@ public class DailyPanel : MonoBehaviour
         if (!UIManagerNew.Instance.ButtonMennuManager.gameObject.activeSelf)
         {
             UIManagerNew.Instance.ButtonMennuManager.Appear();
+            DOVirtual.DelayedCall(1.5f, () =>
+            {
+                if (LevelManagerNew.Instance.stage >= 8)
+                {
+                    if (!EventController.instance.FirstWeeklyEvent())
+                    {
+                        UIManagerNew.Instance.StartWeeklyEvent.Appear();
+                        PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                    }
+                }
+            });
         }
     }
     public void Close()
@@ -171,6 +182,17 @@ public class DailyPanel : MonoBehaviour
                 {
                     UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                     UIManagerNew.Instance.ButtonMennuManager.DisappearDailyRW();
+                    DOVirtual.DelayedCall(1, () =>
+                    {
+                        if (LevelManagerNew.Instance.stage >= 8)
+                        {
+                            if (!EventController.instance.FirstWeeklyEvent())
+                            {
+                                UIManagerNew.Instance.StartWeeklyEvent.Appear();
+                                PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                            }
+                        }
+                    });
                 }
             }
         }
@@ -178,6 +200,17 @@ public class DailyPanel : MonoBehaviour
         {
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
             UIManagerNew.Instance.ButtonMennuManager.DisappearDailyRW();
+            DOVirtual.DelayedCall(1, () =>
+            {
+                if (LevelManagerNew.Instance.stage >= 8)
+                {
+                    if (!EventController.instance.FirstWeeklyEvent())
+                    {
+                        UIManagerNew.Instance.StartWeeklyEvent.Appear();
+                        PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                    }
+                }
+            });
         }
     }
 }

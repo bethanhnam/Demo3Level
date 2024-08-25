@@ -183,7 +183,6 @@ public class RewardMove : MonoBehaviour
         star[0].transform.SetParent(this.transform);
         UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
         GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level, false);
-        GameManagerNew.Instance.PictureUIManager.DisplayButton();
         this.gameObject.SetActive(false);
     }
 }
