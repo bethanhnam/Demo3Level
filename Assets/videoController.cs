@@ -70,6 +70,10 @@ public class VideoController : MonoBehaviour
                 });
             });
         }
+        else
+        {
+            videoPlayer.aspectRatio = VideoAspectRatio.FitOutside;
+        }
 
         videoPlayer.loopPointReached += LoadingVideo;
         canCreate = true;
