@@ -91,24 +91,6 @@ public class reciveRewardPanel : MonoBehaviour
             takeReward();
             AudioManager.instance.PlaySFX("OpenChest");
             RewardAppear(action);
-            //tapToOpen.gameObject.SetActive(false);
-            //rewardLight.gameObject.SetActive(true);
-            //rewardLight.GetComponent<CanvasGroup>().DOFade(1, 0.6f);
-            //rewardLight.DOScale(1.3f, 0.5f).OnComplete(() =>
-            //{
-            //    rewardLight.gameObject.SetActive(false);
-            //    rewardImg.GetComponent<Animator>().enabled = false;
-            //    rewardImg.DOMove(new Vector2(0, -5), 1f);
-            //    rewardImg.DOScale(1f, 1f).OnComplete(() =>
-            //    {
-            //        AudioManager.instance.PlaySFX("OpenChest");
-            //        rewardOpen.transform.position = rewardImg.transform.position;
-            //        rewardOpen.transform.localScale = rewardImg.transform.localScale;
-            //        rewardImg.gameObject.SetActive(false);
-            //        rewardOpen.gameObject.SetActive(true);
-            //        RewardAppear(action);
-            //    });
-            //});
         }, null);
     }
     public void RewardAppear(Action action)

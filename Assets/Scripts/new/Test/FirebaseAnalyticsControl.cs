@@ -142,6 +142,12 @@ public class FirebaseAnalyticsControl : MonoBehaviour
         FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
         FirebaseAnalytics.LogEvent("Map_1_fix_done_" + itemIndext + 1);
     }
+    // Map 2
+    public void LogEventFixItemMap2(int itemIndext)
+    {
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
+        FirebaseAnalytics.LogEvent("Map_2_fix_done_" + itemIndext + 1);
+    }
     // Map 2 - Map 3 
     public void LogEventFixStageMap(int map, int stageIndext)
     {

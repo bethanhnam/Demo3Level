@@ -28,10 +28,10 @@ public class DailyPanel : MonoBehaviour
         lastDate = SaveSystem.instance.days;
     }
 
-    
+
     private void Start()
     {
-        
+
     }
 
     private bool checkDay()
@@ -52,21 +52,16 @@ public class DailyPanel : MonoBehaviour
         // Kiểm tra với thời gian UTC hiện tại
         if (DateTime.Today > lastclaimTime)
         {
+            UIManagerNew.Instance.ButtonMennuManager.ShowNoticeIcon(0, true);
             if (lastDate < dayRewards.Length)
             {
-                if (SaveSystem.instance.days < 7)
-                {
-                    result = true;
-                    dayRewards[SaveSystem.instance.days].isActive = true;
-                    claimX2.interactable = true;
-                }
-                else
-                {
-                    claimX2.interactable = false;
-                }
+                result = true;
+                dayRewards[lastDate].isActive = true;
+                claimX2.interactable = true;
             }
             else
             {
+                claimX2.interactable = false;
                 lastDate = 0;
                 SetupNewWeek();
             }
@@ -74,16 +69,26 @@ public class DailyPanel : MonoBehaviour
         else
         {
             claimX2.interactable = false;
+            UIManagerNew.Instance.ButtonMennuManager.ShowNoticeIcon(0, false);
         }
         return result;
     }
 
     private void OnEnable()
     {
-
-        for (int i = 0; i < SaveSystem.instance.days; i++)
+        if (lastDate < 7)
         {
-            dayRewards[i].isClaim = true;
+            for (int i = 0; i < lastDate; i++)
+            {
+                dayRewards[i].isClaim = true;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                dayRewards[i].isClaim = true;
+            }
         }
         startValue = SaveSystem.instance.coin;
         checkDay();
@@ -91,7 +96,7 @@ public class DailyPanel : MonoBehaviour
 
     public void OnClaimButtinPressed()
     {
-        PlayerPrefs.SetString("LastClaimTime", DateTime.UtcNow.ToString("yyyy-MM-dd"));
+        PlayerPrefs.SetString("LastClaimTime", DateTime.Now.ToString("yyyy-MM-dd"));
         isClaim = true;
         reciveRewardPanel.Open();
         Claim();
@@ -102,7 +107,7 @@ public class DailyPanel : MonoBehaviour
     {
         AdsManager.instance.ShowRewardVideo(() =>
         {
-            PlayerPrefs.SetString("LastClaimTime", DateTime.UtcNow.ToString("yyyy-MM-dd"));
+            PlayerPrefs.SetString("LastClaimTime", DateTime.Now.ToString("yyyy-MM-dd"));
             Debug.Log(DateTime.Now.ToString());
             isClaimX2 = true;
             reciveRewardPanel.Open();

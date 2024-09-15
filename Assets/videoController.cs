@@ -41,7 +41,7 @@ public class VideoController : MonoBehaviour
     }
     public void CheckStartVideo()
     {
-        //PlayerPrefs.SetInt("videoIndex", 4);
+        //PlayerPrefs.SetInt("videoIndex", 3);
 
         var x = PlayerPrefs.GetInt("videoIndex");
         PlayVideo(x, null);
@@ -58,12 +58,16 @@ public class VideoController : MonoBehaviour
         videoPlayer.clip = videoList[videoIndex];
         videoPlayer.Play();
 
-        if (videoIndex == 0) {
-            DOVirtual.DelayedCall(4, () =>
+        if (videoIndex == 0)
+        {
+            DOVirtual.DelayedCall(3.7f, () =>
             {
-                this.videoIndex++;
-                videoPlayer.clip = videoList[this.videoIndex];
-                videoPlayer.Prepare(); // Chuẩn bị sẵn video clip tiếp theo
+                videoPlayer.Pause();
+                UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
+                {
+                    videoPlayer.aspectRatio = VideoAspectRatio.FitOutside;
+                    videoPlayer.Play();
+                });
             });
         }
 
@@ -74,135 +78,120 @@ public class VideoController : MonoBehaviour
     {
         videoPlayer.loopPointReached -= LoadingVideo;
 
-        if (videoIndex == 0)
+        if (this.videoIndex == videoList.Count - 1)
         {
-            UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
+            PlayerPrefs.SetString("HasFinishedStory", "true");
+            FirebaseAnalyticsControl.Instance.completeTutor();
+            facebook.instance.StartFB();
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+            UIManagerNew.Instance.GamePlayLoading.appear();
+            DOVirtual.DelayedCall(0.65f, () =>
             {
-                PlayVideo(videoIndex,null);
+                EventController.instance.LoadData();
+                EventController.instance.CheckForWeeklyEvent();
+                GameManagerNew.Instance.InitStartGame();
             });
-        }
-        else
-        {
-            if (videoIndex >= 1)
+            DOVirtual.DelayedCall(0.35f, () =>
             {
-                videoPlayer.aspectRatio = VideoAspectRatio.FitOutside;
-            }
-            if (this.videoIndex == videoList.Count - 1)
-            {
-                PlayerPrefs.SetString("HasFinishedStory", "true");
-                FirebaseAnalyticsControl.Instance.completeTutor();
-                facebook.instance.StartFB();
-                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-                UIManagerNew.Instance.GamePlayLoading.appear();
-                DOVirtual.DelayedCall(0.65f, () =>
+                if (PlayerPrefs.GetInt("FirstStoryBubble") == 0 && LevelManagerNew.Instance.stage == 0)
                 {
-                    EventController.instance.LoadData();
-                    EventController.instance.CheckForWeeklyEvent();
-                    GameManagerNew.Instance.InitStartGame();
-                });
-                DOVirtual.DelayedCall(0.35f, () =>
-                {
-                    if (PlayerPrefs.GetInt("FirstStoryBubble") == 0 && LevelManagerNew.Instance.stage == 0)
+                    DOVirtual.DelayedCall(2f, () =>
                     {
-                        DOVirtual.DelayedCall(2f, () =>
+                        PlayerPrefs.SetInt("FirstStoryBubble", 1);
+                        GameManagerNew.Instance.conversationController.CanvasGroup.alpha = 0.8f;
+                        UIManagerNew.Instance.BackGroundFooter.ShowBackGroundFooter(true);
+                        GameManagerNew.Instance.conversationController.StartConversation(0, 0, "1FirstConver", () =>
                         {
-                            PlayerPrefs.SetInt("FirstStoryBubble", 1);
-                            GameManagerNew.Instance.conversationController.CanvasGroup.alpha = 0.8f;
-                            UIManagerNew.Instance.BackGroundFooter.ShowBackGroundFooter(true);
-                            GameManagerNew.Instance.conversationController.StartConversation(0, 0, "1FirstConver", () =>
+                            UIManagerNew.Instance.BackGroundFooter.DisappearBackGroundFooter();
+                            //UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = true;
+                            UIManagerNew.Instance.ButtonMennuManager.HideAllUI();
+                            UIManagerNew.Instance.ButtonMennuManager.starBar.gameObject.SetActive(true);
+                            UIManagerNew.Instance.ButtonMennuManager.sliderBar.gameObject.SetActive(true);
+                            UIManagerNew.Instance.ButtonMennuManager.starCanvas.gameObject.SetActive(true);
+                            UIManagerNew.Instance.ButtonMennuManager.Appear();
+                            AudioManager.instance.PlayMusic("MenuTheme");
+                            if (PlayerPrefs.GetInt("Hasfixed") == 0 && LevelManagerNew.Instance.LevelBase.Level == 0)
                             {
-                                UIManagerNew.Instance.BackGroundFooter.DisappearBackGroundFooter();
-                                //UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = true;
-                                UIManagerNew.Instance.ButtonMennuManager.HideAllUI();
-                                UIManagerNew.Instance.ButtonMennuManager.starBar.gameObject.SetActive(true);
-                                UIManagerNew.Instance.ButtonMennuManager.sliderBar.gameObject.SetActive(true);
-                                UIManagerNew.Instance.ButtonMennuManager.starCanvas.gameObject.SetActive(true);
-                                UIManagerNew.Instance.ButtonMennuManager.Appear();
-                                AudioManager.instance.PlayMusic("MenuTheme");
-                                if (PlayerPrefs.GetInt("Hasfixed") == 0 && LevelManagerNew.Instance.LevelBase.Level == 0)
+                                if (SaveSystem.instance.star == 0)
                                 {
-                                    if (SaveSystem.instance.star == 0)
-                                    {
-                                        SaveSystem.instance.addStar(1);
-                                    }
-                                    GameManagerNew.Instance.PictureUIManager.windowObj.GetComponent<SkeletonGraphic>().material = UIManagerNew.Instance.HighLightObj;
-                                    GameManagerNew.Instance.PictureUIManager.windowBtnObj.transform.localScale = Vector3.zero;
-                                    GameManagerNew.Instance.PictureUIManager.windowBtnObj.SetActive(true);
-                                    GameManagerNew.Instance.PictureUIManager.windowBtnObj.transform.DOScale(Vector3.one, 0.5f).OnComplete(() =>
-                                    {
-                                        UIManagerNew.Instance.ShowPoiner(GameManagerNew.Instance.PictureUIManager.windowBtnObj.transform);
-                                    });
+                                    SaveSystem.instance.addStar(1);
                                 }
-                            });
-                        });
-                    }
-                    else
-                    {
-                        if (SaveSystem.instance.powerTicket > 0 || SaveSystem.instance.magicTiket > 0)
-                        {
-                            if (PlayerPrefs.GetInt("HasTransfer") == 0)
-                            {
-                                AudioManager.instance.PlayMusic("MenuTheme");
-                                UIManagerNew.Instance.TransferPanel.Appear();
-                            }
-                            else
-                            {
-                                DOVirtual.DelayedCall(0.5f, () =>
+                                GameManagerNew.Instance.PictureUIManager.windowObj.GetComponent<SkeletonGraphic>().material = UIManagerNew.Instance.HighLightObj;
+                                GameManagerNew.Instance.PictureUIManager.windowBtnObj.transform.localScale = Vector3.zero;
+                                GameManagerNew.Instance.PictureUIManager.windowBtnObj.SetActive(true);
+                                GameManagerNew.Instance.PictureUIManager.windowBtnObj.transform.DOScale(Vector3.one, 0.5f).OnComplete(() =>
                                 {
-                                    AudioManager.instance.PlayMusic("MenuTheme");
-                                    UIManagerNew.Instance.ButtonMennuManager.Appear();
+                                    UIManagerNew.Instance.ShowPoiner(GameManagerNew.Instance.PictureUIManager.windowBtnObj.transform);
                                 });
                             }
+                        });
+                    });
+                }
+                else
+                {
+                    if (SaveSystem.instance.powerTicket > 0 || SaveSystem.instance.magicTiket > 0)
+                    {
+                        if (PlayerPrefs.GetInt("HasTransfer") == 0)
+                        {
+                            AudioManager.instance.PlayMusic("MenuTheme");
+                            UIManagerNew.Instance.TransferPanel.Appear();
                         }
                         else
                         {
                             DOVirtual.DelayedCall(0.5f, () =>
                             {
                                 AudioManager.instance.PlayMusic("MenuTheme");
-                                UIManagerNew.Instance.DailyRWUI.Appear();
+                                UIManagerNew.Instance.ButtonMennuManager.Appear();
                             });
                         }
                     }
-                });
-                DOVirtual.DelayedCall(.7f, () =>
-                {
-                    GameManagerNew.Instance.isStory = false;
-                    this.gameObject.SetActive(false);
-                });
-            }
-            else
-            {
-                UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
-                {
-                    if (canCreate)
+                    else
                     {
-                        canSkip = false;
-                        if (videoIndex == 1)
+                        DOVirtual.DelayedCall(0.5f, () =>
                         {
-                            GameManagerNew.Instance.InitStartStoryPic(0);
-                            UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[0].itemSpite);
-                            UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[0].targetTransform);
-                            canCreate = false;
-                        }
-                        if (videoIndex == 2)
-                        {
-                            GameManagerNew.Instance.InitStartStoryPic(1);
-                            UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[1].itemSpite);
-                            UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[1].targetTransform);
-                            canCreate = false;
-                        }
-                        if (videoIndex == 3)
-                        {
-                            GameManagerNew.Instance.InitStartStoryPic(2);
-                            UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[2].itemSpite);
-                            UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[2].targetTransform);
-                            canCreate = false;
-                        }
+                            AudioManager.instance.PlayMusic("MenuTheme");
+                            UIManagerNew.Instance.DailyRWUI.Appear();
+                        });
                     }
-                });
-            }
+                }
+            });
+            DOVirtual.DelayedCall(.7f, () =>
+            {
+                GameManagerNew.Instance.isStory = false;
+                this.gameObject.SetActive(false);
+            });
         }
-
+        else
+        {
+            UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
+            {
+                if (canCreate)
+                {
+                    canSkip = false;
+                    if (videoIndex == 0)
+                    {
+                        GameManagerNew.Instance.InitStartStoryPic(0);
+                        UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[0].itemSpite);
+                        UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[0].targetTransform);
+                        canCreate = false;
+                    }
+                    if (videoIndex == 1)
+                    {
+                        GameManagerNew.Instance.InitStartStoryPic(1);
+                        UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[1].itemSpite);
+                        UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[1].targetTransform);
+                        canCreate = false;
+                    }
+                    if (videoIndex == 2)
+                    {
+                        GameManagerNew.Instance.InitStartStoryPic(2);
+                        UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[2].itemSpite);
+                        UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[2].targetTransform);
+                        canCreate = false;
+                    }
+                }
+            });
+        }
     }
     public void SkipVideo()
     {

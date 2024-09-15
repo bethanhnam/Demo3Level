@@ -108,7 +108,6 @@ public class ButtonMennuManager : MonoBehaviour
                     GameManagerNew.Instance.CheckForTutorFix();
                 });
             }
-            CheckDailyNotice();
             if (LevelManagerNew.Instance.stage <= 3)
             {
                 noticeButtons[0].gameObject.SetActive(false);
@@ -117,6 +116,7 @@ public class ButtonMennuManager : MonoBehaviour
             {
                 noticeButtons[0].gameObject.SetActive(true);
             }
+            CheckDailyNotice();
             CheckForMinigame();
             if(HasCallTween == false)
             {
@@ -406,15 +406,25 @@ public class ButtonMennuManager : MonoBehaviour
     }
     public void CheckDailyNotice()
     {
-        string lastClaimTime = PlayerPrefs.GetString("LastClaimTime", string.Empty);
-        string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
-        if (lastClaimTime.Equals(currentDate))
+        string lastTime = PlayerPrefs.GetString("LastClaimTime");
+        DateTime lastclaimTime;
+        if (!string.IsNullOrEmpty(lastTime))
         {
-            ShowNoticeIcon(0, false);
+            lastclaimTime = DateTime.Parse(lastTime); // Đảm bảo thời gian UTC
         }
         else
         {
+            lastclaimTime = DateTime.MinValue;
+        }
+
+        // Kiểm tra với thời gian UTC hiện tại
+        if (DateTime.Today > lastclaimTime)
+        {
             ShowNoticeIcon(0, true);
+        }
+        else
+        {
+            ShowNoticeIcon(0, false);
         }
     }
     public void CheckForMinigame()
