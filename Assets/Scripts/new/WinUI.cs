@@ -205,7 +205,7 @@ public class WinUI : MonoBehaviour
 
                         if (LevelManagerNew.Instance.stage == 1 && PlayerPrefs.GetInt("Hasfixed") == 1)
                         {
-                            GameManagerNew.Instance.CreateLevel(2);
+                            GameManagerNew.Instance.CreateLevel(1);
                             Deactive();
                             UIManagerNew.Instance.CompleteUI.Deactive();
                         }

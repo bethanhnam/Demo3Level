@@ -44,7 +44,7 @@ public class StoryItem : MonoBehaviour
         this.gameObject.SetActive(true);
         animator.Play("DisplayItem");
         AudioManager.instance.PlaySFX("GetReward");
-        if (videoIndex == 3)
+        if (videoIndex == 4)
         {
             GameManagerNew.Instance.videoController.PlayVideo(videoIndex, null);
             DOVirtual.DelayedCall(0.5f, () =>
@@ -54,7 +54,7 @@ public class StoryItem : MonoBehaviour
             Destroy(GameManagerNew.Instance.StoryPic.gameObject);
 
         }
-        if (videoIndex == 1)
+        if (videoIndex == 2)
         {
             DOVirtual.DelayedCall(1f, () =>
             {
@@ -73,7 +73,7 @@ public class StoryItem : MonoBehaviour
             });
 
         }
-        if (videoIndex == 2)
+        if (videoIndex == 3)
         {
             DOVirtual.DelayedCall(.5f, () =>
             {

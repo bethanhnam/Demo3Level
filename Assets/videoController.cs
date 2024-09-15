@@ -41,7 +41,7 @@ public class VideoController : MonoBehaviour
     }
     public void CheckStartVideo()
     {
-        //PlayerPrefs.SetInt("videoIndex", 3);
+        //PlayerPrefs.SetInt("videoIndex", 4);
 
         var x = PlayerPrefs.GetInt("videoIndex");
         PlayVideo(x, null);
@@ -58,22 +58,7 @@ public class VideoController : MonoBehaviour
         videoPlayer.clip = videoList[videoIndex];
         videoPlayer.Play();
 
-        if (videoIndex == 0)
-        {
-            DOVirtual.DelayedCall(3.7f, () =>
-            {
-                videoPlayer.Pause();
-                UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
-                {
-                    videoPlayer.aspectRatio = VideoAspectRatio.FitOutside;
-                    videoPlayer.Play();
-                });
-            });
-        }
-        else
-        {
-            videoPlayer.aspectRatio = VideoAspectRatio.FitOutside;
-        }
+        if (videoIndex != 0) { videoPlayer.aspectRatio = VideoAspectRatio.FitOutside; }
 
         videoPlayer.loopPointReached += LoadingVideo;
         canCreate = true;
@@ -167,34 +152,46 @@ public class VideoController : MonoBehaviour
         }
         else
         {
-            UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
+            if (videoIndex == 0)
             {
-                if (canCreate)
+                videoPlayer.Pause();
+                videoPlayer.aspectRatio = VideoAspectRatio.FitOutside;
+                UIManagerNew.Instance.VideoLoaingPanel.appear(() => { });
+                DOVirtual.DelayedCall(0.6f, () => { 
+                PlayVideo(videoIndex + 1, null);
+                });
+            }
+            else
+            {
+                UIManagerNew.Instance.VideoLoaingPanel.appear(() =>
                 {
-                    canSkip = false;
-                    if (videoIndex == 0)
+                    if (canCreate)
                     {
-                        GameManagerNew.Instance.InitStartStoryPic(0);
-                        UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[0].itemSpite);
-                        UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[0].targetTransform);
-                        canCreate = false;
+
+                        if (videoIndex == 1)
+                        {
+                            GameManagerNew.Instance.InitStartStoryPic(0);
+                            UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[0].itemSpite);
+                            UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[0].targetTransform);
+                            canCreate = false;
+                        }
+                        if (videoIndex == 2)
+                        {
+                            GameManagerNew.Instance.InitStartStoryPic(1);
+                            UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[1].itemSpite);
+                            UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[1].targetTransform);
+                            canCreate = false;
+                        }
+                        if (videoIndex == 3)
+                        {
+                            GameManagerNew.Instance.InitStartStoryPic(2);
+                            UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[2].itemSpite);
+                            UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[2].targetTransform);
+                            canCreate = false;
+                        }
                     }
-                    if (videoIndex == 1)
-                    {
-                        GameManagerNew.Instance.InitStartStoryPic(1);
-                        UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[1].itemSpite);
-                        UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[1].targetTransform);
-                        canCreate = false;
-                    }
-                    if (videoIndex == 2)
-                    {
-                        GameManagerNew.Instance.InitStartStoryPic(2);
-                        UIManagerNew.Instance.StoryItem.SetImg(DataLevelStoryPic.instance.listJson[2].itemSpite);
-                        UIManagerNew.Instance.StoryItem.SetTargetPos(DataLevelStoryPic.instance.listJson[2].targetTransform);
-                        canCreate = false;
-                    }
-                }
-            });
+                });
+            }
         }
     }
     public void SkipVideo()
