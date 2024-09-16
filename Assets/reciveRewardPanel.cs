@@ -85,13 +85,13 @@ public class reciveRewardPanel : MonoBehaviour
     }
     public void TakeReward(Action action)
     {
-        AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_bonus, () =>
-        {
+        //AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_bonus, () =>
+        //{
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             takeReward();
             AudioManager.instance.PlaySFX("OpenChest");
             RewardAppear(action);
-        }, null);
+        //}, null);
     }
     public void RewardAppear(Action action)
     {

@@ -185,12 +185,12 @@ public class IapControl : MonoBehaviour, IStoreListener
         builder.AddProduct(NewDataPackName.undo_15.ToString(), ProductType.Consumable);
         builder.AddProduct(NewDataPackName.undo_45.ToString(), ProductType.Consumable);
         builder.AddProduct(NewDataPackName.undo_90.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.combo_1.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.remove_ads_pack.ToString(), ProductType.Consumable);
         builder.AddProduct(NewDataPackName.Drill_10_Sale.ToString(), ProductType.Consumable);
         builder.AddProduct(NewDataPackName.unscrew_10_Sale.ToString(), ProductType.Consumable);
         builder.AddProduct(NewDataPackName.undo_15_Sale.ToString(), ProductType.Consumable);
         builder.AddProduct(NewDataPackName.failOffer.ToString(), ProductType.Consumable);
-        builder.AddProduct(NewDataPackName.combo_1.ToString(), ProductType.Consumable);
-        builder.AddProduct(NewDataPackName.remove_ads_pack.ToString(), ProductType.Consumable);
 
 
         UnityPurchasing.Initialize(this, builder);
@@ -504,11 +504,11 @@ public enum NewDataPackName
     undo_15,
     undo_45,
     undo_90,
+    combo_1,
+    remove_ads_pack,
     Drill_10_Sale,
     unscrew_10_Sale,
     undo_15_Sale, 
-    failOffer,
-    combo_1,
-    remove_ads_pack
+    failOffer
 }
 

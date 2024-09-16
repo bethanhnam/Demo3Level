@@ -122,6 +122,13 @@ public class GamePlayPanelUIManager : MonoBehaviour
                 {
                     ActiveTime();
                 }
+                else
+                {
+                    if (PlayerPrefs.GetInt("GiveAwayUnscrew") != 0)
+                    {
+                        ActiveTime();
+                    }
+                }
             });
             animButton.Play(appearButton, 0, 0);
             ShowCollectionEvent();
