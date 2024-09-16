@@ -96,6 +96,7 @@ public class Stage : MonoBehaviour
         Instance = this;
         ClearData();
         numOfIronPlates = ironPlates.Length;
+
     }
     private void OnEnable()
     {
@@ -142,6 +143,7 @@ public class Stage : MonoBehaviour
                 transform.DOScale(GameManagerNew.Instance.TargetScale, 0.4f).OnComplete(() =>
                 {
                     ChangeBarColor();
+                    UIManagerNew.Instance.PausePanel.SetNumOfCollectItem();
                     if (LevelManagerNew.Instance.stage == 3)
                     {
                         if (PlayerPrefs.GetInt("GiveAwayUnscrew") != 0)
@@ -979,7 +981,6 @@ public class Stage : MonoBehaviour
         UIManagerNew.Instance.UndoPanel.numOfUsed = 1;
         //UIManagerNew.Instance.RePlayPanel.numOfUsed = 1;
         UIManagerNew.Instance.LosePanel.hasUse = false;
-        UIManagerNew.Instance.LosePanel.hasUseCoin = false;
         TutorUnscrew();
         DeactiveDeleting();
 

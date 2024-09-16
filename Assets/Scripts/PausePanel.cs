@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Unity.VisualScripting;
+using UnityEngine.UI;
+using TMPro;
+using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class PausePanel : MonoBehaviour
@@ -18,6 +21,13 @@ public class PausePanel : MonoBehaviour
     public GameObject musicOff;
     public GameObject alertOn;
     public GameObject alertOff;
+
+    public GameObject eventCollectItem;
+    public GameObject starImage;
+    public GameObject coinImage;
+    public TextMeshProUGUI eventCollectItemNum;
+
+    public int numOfItemCollection = 0;
 
     public CanvasGroup firstPanel;
     public CanvasGroup secondPanel;
@@ -51,6 +61,7 @@ public class PausePanel : MonoBehaviour
     {
         if (!this.gameObject.activeSelf)
         {
+            CheckSetSound();
             this.gameObject.SetActive(true);
             canvasGroup.alpha = 1;
             canvasGroup.blocksRaycasts = false;
@@ -89,7 +100,7 @@ public class PausePanel : MonoBehaviour
                 }
                 Stage.Instance.AfterPanel();
                 Stage.Instance.checked1 = false;
-                
+
             });
 
         }
@@ -119,19 +130,66 @@ public class PausePanel : MonoBehaviour
     public void QuitFirstPanel()
     {
         animator.enabled = true;
+        if (EventController.instance.weeklyEvent != null)
+        {
+            eventCollectItem.gameObject.SetActive(true);
+            eventCollectItemNum.text = numOfItemCollection.ToString();
+        }
+        else
+        {
+            eventCollectItem.gameObject.SetActive(false);
+        }
+
         animator.Play("FirstQuit");
     }
-    
+
     public void QuitSecondPanel()
     {
+
         animator.Play("SecondQuit");
+    }
+
+    public void SetImage()
+    {
+        if (EventController.instance.weeklyEvent != null)
+        {
+            starImage.transform.position = new Vector3(0.00f, 1.89f, 89.99f);
+            eventCollectItem.transform.position = new Vector3(-1.88f, 1.82f, 89.99f);
+            coinImage.transform.position = new Vector3(1.84f, 1.82f, 89.99f);
+        }
+        else
+        {
+            starImage.transform.position = new Vector3(-1.26f, 1.89f, 89.99f);
+            eventCollectItem.transform.position = new Vector3(-1.88f, 1.82f, 89.99f);
+            coinImage.transform.position = new Vector3(1.19f, 1.82f, 89.99f);
+        }
+    }
+    [Button("TestAnim")]
+    public void MoveItem()
+    {
+        eventCollectItem.GetComponent<Animator>().Play("EventCollectItem");
+        DOVirtual.DelayedCall(0.2f, () =>
+        {
+            starImage.GetComponent<Animator>().Play("EventCollectItem");
+            DOVirtual.DelayedCall(0.2f, () =>
+            {
+                coinImage.GetComponent<Animator>().Play("EventCollectItem");
+            });
+        });
+    }
+    [Button("showPos")]
+    public void PrintPos()
+    {
+        Debug.Log(starImage.transform.position);
+        Debug.Log(eventCollectItem.transform.position);
+        Debug.Log(coinImage.transform.position);
     }
 
     public void ResetSetting()
     {
         firstPanel.GetComponent<CanvasGroup>().alpha = 1.0f;
         firstPanel.GetComponent<CanvasGroup>().blocksRaycasts = true;
-        firstPanel.transform.GetChild(0).localScale = Vector3.one;
+        firstPanel.transform.GetChild(0).localScale = new Vector3(1.2f,1.2f,1);
         secondPanel.transform.GetChild(0).rotation = Quaternion.Euler(new Vector3(0, 90, 0));
         secondPanel.GetComponent<CanvasGroup>().alpha = 0;
         secondPanel.GetComponent<CanvasGroup>().blocksRaycasts = false;
@@ -179,5 +237,49 @@ public class PausePanel : MonoBehaviour
         GameManagerNew.Instance.hapticSouce.enabled = false;
         alertOn.SetActive(false);
         alertOff.SetActive(true);
+    }
+
+    public void CheckSetSound()
+    {
+        if (AudioManager.instance.sfxSource.enabled == true)
+        {
+            SoundOn();
+        }
+        else
+        {
+            SoundOff();
+        }
+        if(GameManagerNew.Instance.hapticSouce.enabled == true)
+        {
+            AlertOn();
+        }
+        else
+        {
+            AlertOff();
+        }
+        if(AudioManager.instance.musicSource.enabled == true)
+        {
+            MusicOn();
+        }
+        else
+        {
+            MusicOff();
+        }
+    }
+
+    public void SetNumOfCollectItem()
+    {
+        numOfItemCollection = 0;
+        for (int i = 0;i< Stage.Instance.ironPlates.Length; i++)
+        {
+            if (Stage.Instance.ironPlates[i].isEventItem)
+            {
+                numOfItemCollection++;
+            }
+        }
+    }
+    private void OnEnable()
+    {
+        SetImage();
     }
 }

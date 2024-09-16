@@ -34,7 +34,7 @@ public class ButtonMennuManager : MonoBehaviour
     public GameObject fixButton;
     public MiniGamePlayButton MiniGamePlayButton;
 
-    public Image playButtonMaterial;
+    public Image[] playButtonMaterial;
     public bool HasCallTween = false;
 
     private int appearButton = Animator.StringToHash("appear");
@@ -616,12 +616,21 @@ public class ButtonMennuManager : MonoBehaviour
     {
         DOVirtual.Float(0, 1, 2f, (x) =>
         {
-            playButtonMaterial.material.SetFloat("_ShineLocation", x);
+            playButtonMaterial[0].material.SetFloat("_ShineLocation", x);
         }).OnComplete(()=>{
              DOVirtual.DelayedCall(1.5f, () => {
                 PlayButtonShinning();
             });
-        }); 
+        });
+
+        DOVirtual.Float(0, 1, 2f, (x) =>
+        {
+            playButtonMaterial[1].material.SetFloat("_ShineLocation", x);
+        }).OnComplete(() => {
+            DOVirtual.DelayedCall(1.5f, () => {
+                PlayButtonShinning();
+            });
+        });
     }
     private void OnDisable()
     {

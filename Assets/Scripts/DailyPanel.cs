@@ -26,6 +26,7 @@ public class DailyPanel : MonoBehaviour
     private void Awake()
     {
         lastDate = SaveSystem.instance.days;
+        Debug.LogError("lastDate = "+lastDate);
     }
 
 

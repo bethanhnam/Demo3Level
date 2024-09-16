@@ -16,7 +16,6 @@ public class LosePanel : MonoBehaviour
 	public CanvasGroup canvasGroup;
 
 	public bool hasUse = false;
-	public bool hasUseCoin = false;
 
 	public Button spendCoinButton;
 	public Button watchAdButton;
@@ -60,10 +59,9 @@ public class LosePanel : MonoBehaviour
             watchAdButton.GetComponent<Image>().sprite = bttn_orange;
         }
 
-        if (hasUseCoin || SaveSystem.instance.coin < 100)
+        if (SaveSystem.instance.coin < 100)
         {
             spendCoinButton.interactable = false;
-            hasUseCoin = true;
             spendCoinButton.GetComponent<Image>().sprite = bttn_gray;
         }
         else
@@ -89,7 +87,7 @@ public class LosePanel : MonoBehaviour
                 watchAdButtonTexts[i].font = orangeFontAsset;
             }
         }
-        if (hasUseCoin || SaveSystem.instance.coin < 100)
+        if (SaveSystem.instance.coin < 100)
         {
             for (int i = 0; i < spendCoinButtonTexts.Length; i++)
             {
@@ -137,7 +135,6 @@ public class LosePanel : MonoBehaviour
             ConversationController.instance.Disappear();
             GameManagerNew.Instance.Retry();
 			hasUse = false;
-            hasUseCoin = false;
 		}, null);
 	}
 	public void Open()
@@ -178,10 +175,8 @@ public class LosePanel : MonoBehaviour
 
 	public void SpendCoin()
 	{
-		if(SaveSystem.instance.coin >= 100 && hasUseCoin == false)
+		if(SaveSystem.instance.coin >= 100)
 		{
-            hasUseCoin = true;
-
             SaveSystem.instance.coin -= 100;
 			SaveSystem.instance.SaveData();
             Close();
@@ -203,7 +198,6 @@ public class LosePanel : MonoBehaviour
                 {
                     spendCoinButton.transform.DORotate(new Vector3(0, 0, 0), 0.2f).OnComplete(() =>
                     {
-                        hasUseCoin = true;
                         spendCoinButton.interactable = false;
                         spendCoinButton.GetComponent<Image>().sprite = bttn_gray;
                     });
