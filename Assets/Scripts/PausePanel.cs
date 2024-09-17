@@ -153,15 +153,16 @@ public class PausePanel : MonoBehaviour
     {
         if (EventController.instance.weeklyEvent != null)
         {
-            starImage.transform.position = new Vector3(0.00f, 1.89f, 89.99f);
-            eventCollectItem.transform.position = new Vector3(-1.88f, 1.82f, 89.99f);
-            coinImage.transform.position = new Vector3(1.84f, 1.82f, 89.99f);
+            starImage.transform.position = new Vector3(0.00f, starImage.transform.position.y, 89.99f);
+            eventCollectItem.transform.position = new Vector3(-1.88f, eventCollectItem.transform.position.y, 89.99f);
+            coinImage.transform.position = new Vector3(1.84f, coinImage.transform.position.y, 89.99f);
         }
         else
         {
-            starImage.transform.position = new Vector3(-1.26f, 1.89f, 89.99f);
-            eventCollectItem.transform.position = new Vector3(-1.88f, 1.82f, 89.99f);
-            coinImage.transform.position = new Vector3(1.19f, 1.82f, 89.99f);
+            eventCollectItem.gameObject.SetActive(false);
+            starImage.transform.position = new Vector3(-1.26f, starImage.transform.position.y, 89.99f);
+            eventCollectItem.transform.position = new Vector3(-1.88f, eventCollectItem.transform.position.y, 89.99f);
+            coinImage.transform.position = new Vector3(1.19f, eventCollectItem.transform.position.y, 89.99f);
         }
     }
     [Button("TestAnim")]
@@ -280,6 +281,14 @@ public class PausePanel : MonoBehaviour
     }
     private void OnEnable()
     {
+        try
+        {
+            eventCollectItem.transform.GetChild(0).GetComponent<Image>().sprite = EventController.instance.weeklyEventItemSprite;
+        }
+        catch
+        {
+
+        }
         SetImage();
     }
 }

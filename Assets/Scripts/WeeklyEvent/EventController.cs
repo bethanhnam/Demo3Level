@@ -66,13 +66,28 @@ public class EventController : MonoBehaviour
         {
             if (weeklyEvent != null)
             {
+                Debug.LogError("chaay vao weeklyEvent != null");
+
                 weeklyEventItemSprite = weeklyEventControllers[0].weeklyEventItemColor[weeklyEvent.colorIndex].weeklyEventBarColor;
+                Debug.LogError("gan xong sprite");
                 if (weeklyEvent.eventStaus == WeeklyEventController.EventStaus.running)
                 {
+                    Debug.LogError("dang running");
                     FirebaseAnalyticsControl.Instance.LogEventevent_weekly();
-                    DateTime endTime = DateTime.Parse(weeklyEvent.endEventDate);
+                    Debug.LogError("chay qua ban firebase");
+                    DateTime endTime;
+                    try
+                    {
+                        endTime = new DateTime(long.Parse(weeklyEvent.endEventDate));
+                        Debug.LogError("end " + endTime);
+                    }
+                    catch (Exception ex) {
+                        endTime = CauculateEndTime();
+                    }
+                    Debug.LogError("chuyen doi duoc time cua weeklyEvent");
                     if (HasTimeExpired(endTime))
                     {
+                        Debug.LogError("het time");
                         weeklyEvent.eventStaus = EventStaus.running;
                         PlayerPrefs.SetString("FirstWeeklyEvent", "false");
                         UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
@@ -85,13 +100,16 @@ public class EventController : MonoBehaviour
                         RandomItemColor();
                         UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
                         UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
+                        SaveData("WeeklyEvent", weeklyEvent);
                     }
                     else
                     {
+                        Debug.LogError("chua het time");
                         FirebaseAnalyticsControl.Instance.LogEventevent_weekly();
                         PlayerPrefs.GetString("FirstWeeklyEvent", "true");
                         if (weeklyEvent.levelIndex == weeklyEventControllers[0].weeklyEventPack.Count -1 && weeklyEvent.numOfCollection == weeklyEvent.numToLevelUp)
                         {
+                            Debug.LogError("pack cuoi ");
                             UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = true;
                             weeklyEvent.eventStaus = EventStaus.end;
                             UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CreateRewardList();
@@ -101,9 +119,11 @@ public class EventController : MonoBehaviour
                             UIManagerNew.Instance.WeeklyEventPanel.collectSlider.value = UIManagerNew.Instance.WeeklyEventPanel.collectSlider.maxValue;
                             UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(false);
                             UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(false);
+                            SaveData("WeeklyEvent", weeklyEvent);
                         }
                         else
                         {
+                            Debug.LogError("chua phai pack cuoi");
                             UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
                             UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(true);
                             UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(true);
@@ -111,16 +131,19 @@ public class EventController : MonoBehaviour
                             UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.AddData();
                             UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
                             UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
+                            SaveData("WeeklyEvent", weeklyEvent);
                         }
                     }
                 }
                 else
                  if (weeklyEvent.eventStaus == WeeklyEventController.EventStaus.end)
                 {
+                    Debug.LogError("dang end");
                     FirebaseAnalyticsControl.Instance.LogEventevent_weekly();
                     DateTime endTime = DateTime.Parse(weeklyEvent.endEventDate);
                     if (HasTimeExpired(endTime))
                     {
+                        Debug.LogError(" het time dang end");
                         weeklyEvent.eventStaus = EventStaus.running;
                         PlayerPrefs.SetString("FirstWeeklyEvent", "false");
                         UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
@@ -133,11 +156,13 @@ public class EventController : MonoBehaviour
                         RandomItemColor();
                         UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);  
                         UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
+                        SaveData("WeeklyEvent", weeklyEvent);
                     }
                     else
                     {
                         if (weeklyEvent.levelIndex == weeklyEventControllers[0].weeklyEventPack.Count - 1 && weeklyEvent.numOfCollection == weeklyEvent.numToLevelUp)
                         {
+                            Debug.LogError("pack cuoi dang end");
                             UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = true;
                             weeklyEvent.eventStaus = EventStaus.end;
                             UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CreateRewardList();
@@ -147,12 +172,14 @@ public class EventController : MonoBehaviour
                             UIManagerNew.Instance.WeeklyEventPanel.collectSlider.value = UIManagerNew.Instance.WeeklyEventPanel.collectSlider.maxValue;
                             UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(false);
                             UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(false);
+                            SaveData("WeeklyEvent", weeklyEvent);
                         }
                     }
                 }
                 else
                 if (weeklyEvent.eventStaus == WeeklyEventController.EventStaus.NotEnable)
                 {
+                    Debug.LogError("dang NotEnable");
                     PlayerPrefs.GetString("FirstWeeklyEvent", "true");
                     FirebaseAnalyticsControl.Instance.LogEventevent_weekly();
                     SetNewData("WeeklyEvent", weeklyEvent);
@@ -167,6 +194,7 @@ public class EventController : MonoBehaviour
             }
             else
             {
+                Debug.LogError("tao moi");
                 PlayerPrefs.GetString("FirstWeeklyEvent", "true");
                 FirebaseAnalyticsControl.Instance.LogEventevent_weekly();
                 SetNewData("WeeklyEvent", weeklyEvent);
@@ -179,6 +207,7 @@ public class EventController : MonoBehaviour
                 SaveData("WeeklyEvent", weeklyEvent);
             }
         }
+
 
         //treasure Haunt
         //if (DateTime.Now.Date.Subtract(new DateTime(long.Parse(PlayerPrefs.GetString(DataInit.instance.FirstOpenDate)))).TotalDays >= 2)
@@ -423,7 +452,7 @@ public class EventController : MonoBehaviour
     {
         if (weeklyEventItemColors.IsNullOrEmpty())
         {
-            var x = 1;
+            var x = 2;
             weeklyEventItemColors.Add(x);
             weeklyEvent.colorIndex = x;
             selectedColorIndex = x;
@@ -464,6 +493,13 @@ public class EventController : MonoBehaviour
         string json = JsonConvert.SerializeObject(list);
         PlayerPrefs.SetString(key, json);
         PlayerPrefs.Save();
+    }
+
+    public DateTime CauculateEndTime()
+    {
+        DateTime dateTime = new DateTime(long.Parse(weeklyEvent.startEventDate));
+        dateTime = dateTime.AddDays(7); // Gán lại giá trị sau khi cộng
+        return dateTime;
     }
 
     // Tải danh sách

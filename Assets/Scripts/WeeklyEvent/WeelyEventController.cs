@@ -168,9 +168,8 @@ public class WeeklyEventController : ScriptableObject
             weeklyEventController.numToLevelUp = numToLevelUp;
             weeklyEventController.numOfCollection = numOfCollection;
 
-            weeklyEventController.startEventDate = GetMondayDate().ToString();
-
-            weeklyEventController.endEventDate = GetSundayDate().ToString();
+            weeklyEventController.startEventDate = GetMondayDate().Date.Ticks.ToString();
+            weeklyEventController.endEventDate = GetSundayDate().Date.Ticks.ToString();
         }
     }
 

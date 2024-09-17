@@ -13,19 +13,19 @@ using TMPro;
 [RequireComponent(typeof(CanvasGroup))]
 public class LosePanel : MonoBehaviour
 {
-	public CanvasGroup canvasGroup;
+    public CanvasGroup canvasGroup;
 
-	public bool hasUse = false;
+    public bool hasUse = false;
 
-	public Button spendCoinButton;
-	public Button watchAdButton;
+    public Button spendCoinButton;
+    public Button watchAdButton;
 
-	public Sprite bttn_green;
-	public Sprite bttn_orange;
-	public Sprite bttn_gray;
+    public Sprite bttn_green;
+    public Sprite bttn_orange;
+    public Sprite bttn_gray;
 
-	public Image titleImage;
-	public FailOffScroll FailOffScroll;
+    public Image titleImage;
+    public FailOffScroll FailOffScroll;
 
     public TextMeshProUGUI[] spendCoinButtonTexts;
     public TextMeshProUGUI[] watchAdButtonTexts;
@@ -37,15 +37,15 @@ public class LosePanel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-		watchAdButton.interactable = true;
-		SetTitlePost();
-		SetScrollPost();
+        watchAdButton.interactable = true;
+        SetTitlePost();
+        SetScrollPost();
     }
 
     // Update is called once per frame
     void Update()
     {
-		
+
     }
     private void OnEnable()
     {
@@ -74,7 +74,8 @@ public class LosePanel : MonoBehaviour
 
     public void SetTextStroke()
     {
-        if (hasUse) {
+        if (hasUse)
+        {
             for (int i = 0; i < watchAdButtonTexts.Length; i++)
             {
                 watchAdButtonTexts[i].font = grayFontAsset;
@@ -105,48 +106,57 @@ public class LosePanel : MonoBehaviour
 
     public void WatchAd()
     {
-		// load ad 
-		if (!hasUse)
-		{
-			AdsManager.instance.ShowRewardVideo(() =>
-			{
-				Close();
-				GamePlayPanelUIManager.Instance.timer.SetTimer(61f);
-				GamePlayPanelUIManager.Instance.ActiveTime();
-				GamePlayPanelUIManager.Instance.Appear();
-				GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-				hasUse = true;
-				watchAdButton.interactable = false;
-				watchAdButton.GetComponent<Image>().sprite = bttn_gray;
+        // load ad 
+        if (!hasUse)
+        {
+            AdsManager.instance.ShowRewardVideo(() =>
+            {
+                Close();
+
+                GamePlayPanelUIManager.Instance.timer.SetTimer(61f);
+                GamePlayPanelUIManager.Instance.ActiveTime();
+                GamePlayPanelUIManager.Instance.Appear();
+                GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                hasUse = true;
+                watchAdButton.interactable = false;
+                watchAdButton.GetComponent<Image>().sprite = bttn_gray;
                 Stage.Instance.CheckDoneLevel();
-                FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.revive);
+                DOVirtual.DelayedCall(1.3f, () =>
+                {
+                    UIManagerNew.Instance.GamePlayPanel.timer.TimerText.transform.DOScale(1.2f, 0.3f).OnComplete(() =>
+                    {
+                        UIManagerNew.Instance.GamePlayPanel.timer.TimerText.transform.DOScale(1f, 0.2f);
+                    });
+                });
+                FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage, LevelStatus.revive);
+
             });
-			
-		}
-		
-	}
-	public void Replay()
+
+        }
+
+    }
+    public void Replay()
     {
         // load ad 
         UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_lose, () =>
-		{
-			Close();
+        {
+            Close();
             ConversationController.instance.Disappear();
             GameManagerNew.Instance.Retry();
-			hasUse = false;
-		}, null);
-	}
-	public void Open()
-	{
-		//neu da win thi khong mo lose
-		if(Stage.Instance.numOfIronPlates <= 0)
-		{
-			return;
-		}
-		else
-		{
-            FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.fail);
+            hasUse = false;
+        }, null);
+    }
+    public void Open()
+    {
+        //neu da win thi khong mo lose
+        if (Stage.Instance.numOfIronPlates <= 0)
+        {
+            return;
+        }
+        else
+        {
+            FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage, LevelStatus.fail);
             if (!this.gameObject.activeSelf)
             {
                 this.gameObject.SetActive(true);
@@ -158,28 +168,29 @@ public class LosePanel : MonoBehaviour
                 });
             }
         }
-	}
-	public void Close()
-	{
-		if (this.gameObject.activeSelf)
-		{
-			canvasGroup.alpha = 1;
-			canvasGroup.DOFade(0, .3f).OnComplete(() =>
-			{
-				this.gameObject.SetActive(false);
-				AudioManager.instance.PlaySFX("ClosePopUp");
+    }
+    public void Close()
+    {
+        if (this.gameObject.activeSelf)
+        {
+            canvasGroup.alpha = 1;
+            canvasGroup.DOFade(0, .3f).OnComplete(() =>
+            {
+                this.gameObject.SetActive(false);
+                AudioManager.instance.PlaySFX("ClosePopUp");
                 Stage.Instance.checked1 = false;
             });
-		}
-	}
+        }
+    }
 
-	public void SpendCoin()
-	{
-		if(SaveSystem.instance.coin >= 100)
-		{
-            SaveSystem.instance.coin -= 100;
-			SaveSystem.instance.SaveData();
+    public void SpendCoin()
+    {
+        if (SaveSystem.instance.coin >= 100)
+        {
+            SaveSystem.instance.addCoin(-100);
+            SaveSystem.instance.SaveData();
             Close();
+
             GamePlayPanelUIManager.Instance.timer.SetTimer(45f);
             GamePlayPanelUIManager.Instance.ActiveTime();
             GamePlayPanelUIManager.Instance.Appear();
@@ -188,6 +199,13 @@ public class LosePanel : MonoBehaviour
             spendCoinButton.interactable = false;
             spendCoinButton.GetComponent<Image>().sprite = bttn_gray;
             Stage.Instance.CheckDoneLevel();
+            DOVirtual.DelayedCall(1.3f, () =>
+            {
+                UIManagerNew.Instance.GamePlayPanel.timer.TimerText.transform.DOScale(1.2f, 0.3f).OnComplete(() =>
+            {
+                UIManagerNew.Instance.GamePlayPanel.timer.TimerText.transform.DOScale(1f, 0.2f);
+            });
+            });
             FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage, LevelStatus.revive);
         }
         else
@@ -204,7 +222,7 @@ public class LosePanel : MonoBehaviour
                 });
             });
         }
-	}
+    }
     public void SetTitlePost()
     {
         RectTransform rectTransform = titleImage.GetComponent<RectTransform>();
@@ -227,9 +245,9 @@ public class LosePanel : MonoBehaviour
         // Đặt vị trí của titleImage dựa trên reference image
         rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, targetYPosition);
     }
-	public void BackToHome()
-	{
-		Close();
+    public void BackToHome()
+    {
+        Close();
         UIManagerNew.Instance.GamePlayLoading.appear();
         DOVirtual.DelayedCall(.7f, () =>
         {
