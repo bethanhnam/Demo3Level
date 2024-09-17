@@ -617,17 +617,9 @@ public class ButtonMennuManager : MonoBehaviour
         DOVirtual.Float(0, 1, 2f, (x) =>
         {
             playButtonMaterial[0].material.SetFloat("_ShineLocation", x);
+            playButtonMaterial[1].material.SetFloat("_ShineLocation", x);
         }).OnComplete(()=>{
              DOVirtual.DelayedCall(1.5f, () => {
-                PlayButtonShinning();
-            });
-        });
-
-        DOVirtual.Float(0, 1, 2f, (x) =>
-        {
-            playButtonMaterial[1].material.SetFloat("_ShineLocation", x);
-        }).OnComplete(() => {
-            DOVirtual.DelayedCall(1.5f, () => {
                 PlayButtonShinning();
             });
         });
