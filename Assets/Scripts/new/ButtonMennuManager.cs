@@ -91,7 +91,7 @@ public class ButtonMennuManager : MonoBehaviour
                 UIManagerNew.Instance.ButtonMennuManager.playButton.gameObject.SetActive(true);
             });
 
-            EventController.instance.CheckForWeeklyEvent();
+            //EventController.instance.CheckForWeeklyEvent();
             // new ui
 
             if (LevelManagerNew.Instance.stage >= 1 && PlayerPrefs.GetInt("Hasfixed") == 1)
@@ -134,6 +134,7 @@ public class ButtonMennuManager : MonoBehaviour
             LoadSliderValue();
             weeklyEventSlider.gameObject.SetActive(true);
             sliderBar.gameObject.SetActive(false);
+            collectImage.sprite = EventController.instance.weeklyEventItemSprite;
         }
         else
         {

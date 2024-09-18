@@ -111,29 +111,28 @@ public class LoadingManager : MonoBehaviour
         {
             if (PlayerPrefs.GetInt("HasTransfer") == 0)
             {
-                Debug.LogError("chạy vào transfer");
+
                 UIManagerNew.Instance.TransferPanel.Appear();
             }
         }
 
         if (PlayerPrefs.GetInt("Hasfixed") == 1 && LevelManagerNew.Instance.stage != 0)
         {
-            Debug.LogError("chạy vào HandleHasFixedState");
+
             HandleHasFixedState();
         }
 
         if (RemoteConfigController.instance.IsShowOpenAds == 1)
         {
-            Debug.LogError("chạy vào ShowOpenAds");
+
             AdsControl.Instance.ShowOpenAds();
         }
 
-        Debug.LogError("chạy vào LoadData");
+
         EventController.instance.LoadData();
-        Debug.LogError("chạy xong LoadData");
-        Debug.LogError("chạy vào CheckForWeeklyEvent");
+
         EventController.instance.CheckForWeeklyEvent();
-        Debug.LogError("chạy xong CheckForWeeklyEvent");
+
         Destroy(LoadingScreen.instance.gameObject);
     }
 

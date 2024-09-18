@@ -28,7 +28,7 @@ public class WeeklyItemCollect : MonoBehaviour
     [Button("test move item")]
     public void MoveCollectItem(int i)
     {
-        
+
         SetItemImage();
         if (i < weeklyEventItems.Count)
         {
@@ -65,6 +65,7 @@ public class WeeklyItemCollect : MonoBehaviour
                     numOfCollection = 0;
                     DOVirtual.DelayedCall(0.3f, () =>
                     {
+
                         UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
                     });
                 });
@@ -140,7 +141,7 @@ public class WeeklyItemCollect : MonoBehaviour
                     });
                 }
                 else
-                if (UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].rewardType1 == weeklyReward.rewardType.unscrew || UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].rewardType1 == weeklyReward.rewardType.undo || UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].rewardType1 == weeklyReward.rewardType.drill)
+                    if (UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].rewardType1 == weeklyReward.rewardType.unscrew || UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].rewardType1 == weeklyReward.rewardType.undo || UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.weeklyRewardList[EventController.instance.weeklyEvent.levelIndex].rewardType1 == weeklyReward.rewardType.drill)
                 {
                     EventController.instance.NextStageWeeklyEvent(numOfCollection, checkAgain);
                     UIManagerNew.Instance.ButtonMennuManager.rewardImage.transform.DOMove(UIManagerNew.Instance.ButtonMennuManager.playButton.transform.position, 1).OnComplete(() =>
@@ -195,7 +196,7 @@ public class WeeklyItemCollect : MonoBehaviour
 
     public void MoveItem(Image image, int i, Action action = null)
     {
-        image.transform.DOMove(targetTransform.position, 1f + 0.1f*i).OnComplete(() =>
+        image.transform.DOMove(targetTransform.position, 1f + 0.1f * i).OnComplete(() =>
         {
             action();
         });

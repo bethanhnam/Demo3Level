@@ -167,5 +167,6 @@ public class WeeklyEventPanel : MonoBehaviour
     {
         barCollectImage.sprite = sprite;
         ItemToCollect.sprite = sprite;
+        //UIManagerNew.Instance.ButtonMennuManager.collectImage.sprite = sprite;
     }
 }

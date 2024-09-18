@@ -40,7 +40,7 @@ public class DataInit : MonoBehaviour
             PlayerPrefs.SetString("firstOpenDate", System.DateTime.UtcNow.Date.Ticks.ToString());
         }
 
-        DOVirtual.DelayedCall(3, () => {
+        DOVirtual.DelayedCall(2, () => {
             dataLevelManager.Init();
         });
 

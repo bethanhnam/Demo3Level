@@ -69,6 +69,7 @@ public class EventController : MonoBehaviour
                 Debug.LogError("chaay vao weeklyEvent != null");
 
                 weeklyEventItemSprite = weeklyEventControllers[0].weeklyEventItemColor[weeklyEvent.colorIndex].weeklyEventBarColor;
+                UIManagerNew.Instance.ButtonMennuManager.collectImage.sprite = weeklyEventItemSprite;
                 Debug.LogError("gan xong sprite");
                 if (weeklyEvent.eventStaus == WeeklyEventController.EventStaus.running)
                 {
@@ -445,7 +446,7 @@ public class EventController : MonoBehaviour
                 }
             }
         }
-        SaveData("WeeklyEvent", weeklyEvent);
+        EventController.instance.SaveData("WeeklyEvent", weeklyEvent);
     }
 
     public void RandomItemColor()
