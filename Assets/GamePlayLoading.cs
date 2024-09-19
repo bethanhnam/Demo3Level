@@ -27,9 +27,9 @@ public class GamePlayLoading : MonoBehaviour
             {
                 Image.transform.DOScale(.7f, 0.2f).OnComplete(() =>
                 {
-                    DOVirtual.DelayedCall(0.3f, () =>
+                    DOVirtual.DelayedCall(0.2f, () =>
                     {
-                        Image.transform.DOScale(0, 0.4f);
+                        Image.transform.DOScale(0, 0.2f);
                         DOVirtual.DelayedCall(0.2f, () =>
                         {
                             Disapper();

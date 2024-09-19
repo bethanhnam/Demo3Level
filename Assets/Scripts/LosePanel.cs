@@ -59,15 +59,20 @@ public class LosePanel : MonoBehaviour
             watchAdButton.GetComponent<Image>().sprite = bttn_orange;
         }
 
+        spendCoinButton.interactable = true;
+        spendCoinButton.GetComponent<Image>().sprite = bttn_green;
+
         if (SaveSystem.instance.coin < 100)
         {
-            spendCoinButton.interactable = false;
-            spendCoinButton.GetComponent<Image>().sprite = bttn_gray;
+            //spendCoinButton.interactable = false;
+            //spendCoinButton.GetComponent<Image>().sprite = bttn_gray;
+            spendCoinButton.onClick.RemoveAllListeners();
+            spendCoinButton.onClick.AddListener(UIManagerNew.Instance.ShopPanel.Open);
         }
         else
         {
-            spendCoinButton.interactable = true;
-            spendCoinButton.GetComponent<Image>().sprite = bttn_green;
+            spendCoinButton.onClick.RemoveAllListeners();
+            spendCoinButton.onClick.AddListener(SpendCoin);
         }
         SetTextStroke();
     }
@@ -88,20 +93,20 @@ public class LosePanel : MonoBehaviour
                 watchAdButtonTexts[i].font = orangeFontAsset;
             }
         }
-        if (SaveSystem.instance.coin < 100)
-        {
-            for (int i = 0; i < spendCoinButtonTexts.Length; i++)
-            {
-                spendCoinButtonTexts[i].font = grayFontAsset;
-            }
-        }
-        else
-        {
-            for (int i = 0; i < spendCoinButtonTexts.Length; i++)
-            {
-                spendCoinButtonTexts[i].font = greenFontAsset;
-            }
-        }
+        //if (SaveSystem.instance.coin < 100)
+        //{
+        //    for (int i = 0; i < spendCoinButtonTexts.Length; i++)
+        //    {
+        //        spendCoinButtonTexts[i].font = grayFontAsset;
+        //    }
+        //}
+        //else
+        //{
+        //    for (int i = 0; i < spendCoinButtonTexts.Length; i++)
+        //    {
+        //        spendCoinButtonTexts[i].font = greenFontAsset;
+        //    }
+        //}
     }
 
     public void WatchAd()
@@ -196,8 +201,8 @@ public class LosePanel : MonoBehaviour
             GamePlayPanelUIManager.Instance.Appear();
             GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
 
-            spendCoinButton.interactable = false;
-            spendCoinButton.GetComponent<Image>().sprite = bttn_gray;
+            //spendCoinButton.interactable = false;
+            //spendCoinButton.GetComponent<Image>().sprite = bttn_gray;
             Stage.Instance.CheckDoneLevel();
             DOVirtual.DelayedCall(1.1f, () =>
             {
@@ -216,8 +221,8 @@ public class LosePanel : MonoBehaviour
                 {
                     spendCoinButton.transform.DORotate(new Vector3(0, 0, 0), 0.2f).OnComplete(() =>
                     {
-                        spendCoinButton.interactable = false;
-                        spendCoinButton.GetComponent<Image>().sprite = bttn_gray;
+                        //spendCoinButton.interactable = false;
+                        //spendCoinButton.GetComponent<Image>().sprite = bttn_gray;
                     });
                 });
             });

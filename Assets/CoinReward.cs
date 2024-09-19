@@ -19,25 +19,29 @@ public class CoinReward : MonoBehaviour
     {
 
     }
-    public void MoveToDes(typeOfReward typeOfReward,Transform startPoint,Transform endPoint, float duration, float targetScale, Action action)
+    public void MoveToDes(typeOfReward typeOfReward,Transform startPoint,Vector3 endPoint, float duration, float targetScale, Action action)
     {
         // Vẽ đường cong bằng LineRenderer
         bezierCurve = new BezierCurve();
         if (typeOfReward == typeOfReward.WinUI)
         {
-            bezierCurve.SetPosForWinUI(startPoint.position, endPoint.position);
+            bezierCurve.SetPosForWinUI(startPoint.position, endPoint);
+        }
+        if (typeOfReward == typeOfReward.StarWinUI)
+        {
+            bezierCurve.SetPosForStarWinUI(startPoint.position, endPoint);
         }
         if (typeOfReward == typeOfReward.DailyRewardGold)
         {
-            bezierCurve.SetPosForDailyRewardGold(startPoint.position, endPoint.position);
+            bezierCurve.SetPosForDailyRewardGold(startPoint.position, endPoint);
         }
         if (typeOfReward == typeOfReward.DailyRewardBooster)
         {
-            bezierCurve.SetPosForDailyRewardBooster(startPoint.position, endPoint.position);
+            bezierCurve.SetPosForDailyRewardBooster(startPoint.position, endPoint);
         }
         if (typeOfReward == typeOfReward.GiveAwayItem)
         {
-            bezierCurve.SetPosForGiveAwayItem(startPoint.position, endPoint.position);
+            bezierCurve.SetPosForGiveAwayItem(startPoint.position, endPoint);
         }
         MoveObjectAlongCurve(targetScale, duration, action);
     }
@@ -46,7 +50,7 @@ public class CoinReward : MonoBehaviour
     public void MoveObjectAlongCurve(float targetScale, float duration, Action onCompleteAction)
     {
         Sequence moveSequence = DOTween.Sequence();
-        this.transform.DOScale(targetScale, duration);
+        this.transform.DOScale(targetScale, duration+1);
         // Lấy các điểm dọc theo đường cong
         Vector3[] points = bezierCurve.GetSegments(50);
 

@@ -48,7 +48,7 @@ public class PausePanel : MonoBehaviour
                 this.gameObject.SetActive(false);
                 Stage.Instance.ResetBooster();
                 UIManagerNew.Instance.ButtonMennuManager.Appear();
-                canvasGroup.DOFade(0, 0.5f).OnComplete(() =>
+                canvasGroup.DOFade(0, 0.8f).OnComplete(() =>
                 {
                     GameManagerNew.Instance.Bg.gameObject.SetActive(false);
                     Destroy(GameManagerNew.Instance.CurrentLevel.gameObject);

@@ -118,7 +118,7 @@ public class ButtonMennuManager : MonoBehaviour
             }
             CheckDailyNotice();
             CheckForMinigame();
-            if(HasCallTween == false)
+            if (HasCallTween == false)
             {
                 HasCallTween = true;
                 PlayButtonShinning();
@@ -147,7 +147,7 @@ public class ButtonMennuManager : MonoBehaviour
         }
         else
         {
-            unlockAtLevel.gameObject.SetActive(false) ;
+            unlockAtLevel.gameObject.SetActive(false);
         }
     }
 
@@ -189,14 +189,14 @@ public class ButtonMennuManager : MonoBehaviour
 
     public void CheckForEvent()
     {
-        if(UIManagerNew.Instance.WeeklyEventPanel.WeeklyItemCollect.numOfCollection > 0)
+        if (UIManagerNew.Instance.WeeklyEventPanel.WeeklyItemCollect.numOfCollection > 0)
         {
             UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
         }
     }
     public void DiactiveCVGroup()
     {
-       cvButton.blocksRaycasts = false;
+        cvButton.blocksRaycasts = false;
     }
     public void OpenNotEnoughStar()
     {
@@ -298,39 +298,37 @@ public class ButtonMennuManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("HasCompleteLastLevel", 1);
         }
-       
-            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-            UIManagerNew.Instance.GamePlayLoading.appear();
-            DOVirtual.DelayedCall(.8f, () =>
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+        UIManagerNew.Instance.GamePlayLoading.appear();
+        DOVirtual.DelayedCall(.6f, () =>
+        {
+            UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
+            if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
             {
-                UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
-                if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
+                int replayLevel = UnityEngine.Random.Range(10, LevelManagerNew.Instance.stageList.Count - 1);
+                GameManagerNew.Instance.CreateLevel(replayLevel);
+            }
+            else
+            {
+                DOVirtual.DelayedCall(.95f, () =>
                 {
-                    int replayLevel = UnityEngine.Random.Range(10, LevelManagerNew.Instance.stageList.Count-1);
-                    GameManagerNew.Instance.CreateLevel(replayLevel);
-                }
-                else
-                {
-                    DOVirtual.DelayedCall(.95f, () =>
+                    if (LevelManagerNew.Instance.stage == 1)
                     {
-                        if (LevelManagerNew.Instance.stage == 1)
+                        GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
+                        //tuto undo 
+                        DOVirtual.DelayedCall(0.5f, () =>
                         {
-                            GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
-                            //tuto undo 
-                            DOVirtual.DelayedCall(0.5f, () =>
+                            if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
                             {
-                                if (Stage.Instance != null && Stage.Instance.gameObject.activeSelf)
-                                {
-                                    Stage.Instance.canInteract = false;
-                                }
-                            });
-                        }
-                    });
-                    GameManagerNew.Instance.CreateLevel(level);
-                }
-            });
-            Close();
-        
+                                Stage.Instance.canInteract = false;
+                            }
+                        });
+                    }
+                });
+                GameManagerNew.Instance.CreateLevel(level);
+            }
+        });
+        Close();
     }
     public void PlayMiniGame()
     {
@@ -371,7 +369,7 @@ public class ButtonMennuManager : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
         {
-            UIManagerNew.Instance.playBTLevelTexts.text = "Level " + (LevelManagerNew.Instance.displayLevel +1).ToString();
+            UIManagerNew.Instance.playBTLevelTexts.text = "Level " + (LevelManagerNew.Instance.displayLevel + 1).ToString();
         }
         else
         {
@@ -506,7 +504,7 @@ public class ButtonMennuManager : MonoBehaviour
         if (!isShowingFixing && LevelManagerNew.Instance.stage >= 8)
         {
             LoadSliderValue();
-            
+
         }
         else
         {
@@ -619,14 +617,16 @@ public class ButtonMennuManager : MonoBehaviour
         {
             playButtonMaterial[0].material.SetFloat("_ShineLocation", x);
             playButtonMaterial[1].material.SetFloat("_ShineLocation", x);
-        }).OnComplete(()=>{
-             DOVirtual.DelayedCall(1.5f, () => {
+        }).OnComplete(() =>
+        {
+            DOVirtual.DelayedCall(1.5f, () =>
+            {
                 PlayButtonShinning();
             });
         });
     }
     private void OnDisable()
     {
-        
+
     }
 }

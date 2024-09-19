@@ -37,10 +37,16 @@ public class ShopPanel : MonoBehaviour
 	}
 	public void Close()
 	{
-		if (GameManagerNew.Instance.CurrentLevel != null)
+        if (UIManagerNew.Instance.LosePanel.gameObject.activeSelf)
+        {
+            BackToWinPanel();
+            return;
+        }
+        if (GameManagerNew.Instance.CurrentLevel != null)
 		{
             Stage.Instance.checked1 = false;
             BackToGame();
+			return;
 		}
 		else
 		{
@@ -82,6 +88,17 @@ public class ShopPanel : MonoBehaviour
 			
 		}
 	}
+
+	public void BackToWinPanel()
+	{
+        canvasGroup.alpha = 1;
+        canvasGroup.DOFade(0, .3f).OnComplete(() =>
+        {
+            this.gameObject.SetActive(false);
+            AudioManager.instance.PlaySFX("ClosePopUp");
+
+        });
+    }
 	public void ExchangeTicket()
 	{
 		if(SaveSystem.instance.powerTicket >= 2)

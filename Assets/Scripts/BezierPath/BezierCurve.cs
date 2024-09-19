@@ -31,6 +31,27 @@ public class BezierCurve
         Points[3] = endPoint;
     }
 
+    public void SetPosForStarWinUI(Vector3 startPoint, Vector3 endPoint)
+    {
+        // Điểm đầu
+        Points[0] = startPoint;
+
+        Points[1] = new Vector3(
+            startPoint.x - (startPoint.x - endPoint.x) * 4f / 5f,
+            startPoint.y + (endPoint.y - startPoint.y) * (-3f / 5f)
+        );
+
+        // Điểm thứ hai cách startPosition 4.5/5 quãng đường và độ cao 4/5 của endPosition
+        Points[2] = new Vector3(
+            startPoint.x - (startPoint.x - endPoint.x) * 5 / 5f,
+            startPoint.y + (endPoint.y - startPoint.y) * 4f / 5f
+        );
+
+
+        // Điểm cuối
+        Points[3] = endPoint;
+    }
+
     public void SetPosForDailyRewardGold(Vector3 startPoint, Vector3 endPoint)
     {
         // Điểm đầu

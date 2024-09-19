@@ -149,7 +149,7 @@ public class reciveRewardDaily : MonoBehaviour
         }
         for (int i = 0; i < this.unscrew; i++)
         {
-            var unscrew = unscrewList[i];
+            var unscrew = unscrewList[unscrewList.Count -1 -i];
             unscrew.transform.position = SpawnPoint.transform.position;
 
             var unscrewIndex = unscrew;
@@ -173,7 +173,7 @@ public class reciveRewardDaily : MonoBehaviour
         }
         for (int i = 0; i < this.undo; i++)
         {
-            var undo = undoList[i];
+            var undo = undoList[undoList.Count - 1 - i];
             undo.transform.position = SpawnPoint.transform.position;
 
             var undoIndex = undo;
@@ -209,7 +209,7 @@ public class reciveRewardDaily : MonoBehaviour
                         test(list, i - 1,value-1);
                 }
             });
-            list[i].MoveToDes(CoinReward.typeOfReward.DailyRewardGold, list[i].transform, coinDes.transform, 1f, 0.8f,() =>
+            list[i].MoveToDes(CoinReward.typeOfReward.DailyRewardGold, list[i].transform, coinDes.transform.position, 1f, 0.8f,() =>
             {
                 coinDes.gameObject.transform.DOScale(.8f, 0.15f).OnComplete(() =>
                 {
@@ -236,7 +236,7 @@ public class reciveRewardDaily : MonoBehaviour
             });
             list[i].MoveToFix(list[i], list[i].transform.position, posDes.transform.position, new Vector3(0.8f, 0.8f, 1), 1, new Vector3(-1, 3, 0), () =>
             {
-                posDes.gameObject.transform.DOScale(1.3f, 0.15f).OnComplete(() =>
+                posDes.gameObject.transform.DOScale(.95f, 0.15f).OnComplete(() =>
                 {
                     AudioManager.instance.PlaySFX("AddCoin");
                     posDes.gameObject.transform.DOScale(1f, 0.02f);
