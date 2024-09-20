@@ -12,13 +12,14 @@ public class GamePlayPanelUIManager : MonoBehaviour
 {
     public static GamePlayPanelUIManager Instance;
     [SerializeField]
-    private Animator animButton;
+    public Animator animButton;
     [SerializeField]
     private CanvasGroup cvButton;
 
-    private int appearButton1 = Animator.StringToHash("await");
-    private int appearButton = Animator.StringToHash("appear");
-    private int disappearButton = Animator.StringToHash("disappear");
+    public int appearButton1 = Animator.StringToHash("await");
+    public int appearButton = Animator.StringToHash("appear");
+    public int disappearButton = Animator.StringToHash("disappear");
+    public int disappearButtonForBooster = Animator.StringToHash("disappearForBooster");
 
     //PopUp Button
     public Button ReplayButton;

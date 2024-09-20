@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using static MoreMountains.Tools.MMInput;
 
 public class Stage : MonoBehaviour
 {
@@ -719,6 +720,11 @@ public class Stage : MonoBehaviour
                                 FirebaseAnalyticsControl.Instance.LogEventTutorialStatus(LevelManagerNew.Instance.stage, TutorialStatus.tut_unscrew_done);
                             }
                         }
+                        UIManagerNew.Instance.GamePlayPanel.animButton.Play(UIManagerNew.Instance.GamePlayPanel.appearButton, 0, 0);
+                        if (holeToUnlock != null)
+                        {
+                            holeToUnlock.myButton.gameObject.SetActive(true);
+                        }
                     }
                     //var Destroyeffect1 = Instantiate(destroyNailEffect, nailToDetele.transform.position, quaternion.identity);
                     //Destroy(Destroyeffect1, 0.5f);
@@ -1270,6 +1276,15 @@ public class Stage : MonoBehaviour
                     ironPlates[i].shiningParticle = y;
                 }
             }
+        }
+    }
+
+    public void SetDefaultBeforeUnscrew()
+    {
+        if(curNail != null)
+        {
+            curNail.Unselect(curNail);
+            curNail = null;
         }
     }
 }

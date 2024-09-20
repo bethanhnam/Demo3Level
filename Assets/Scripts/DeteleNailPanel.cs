@@ -211,6 +211,49 @@ public class DeteleNailPanel : MonoBehaviour
             });
         }
     }
+    public void NewWayUse()
+    {
+        Stage.Instance.SetDefaultBeforeUnscrew();
+        UIManagerNew.Instance.GamePlayPanel.animButton.Play(UIManagerNew.Instance.GamePlayPanel.disappearButtonForBooster);
+        if (Stage.Instance.holeToUnlock != null)
+        {
+            Stage.Instance.holeToUnlock.myButton.gameObject.SetActive(false);
+        }
+        if ((LevelManagerNew.Instance.stage == 3))
+        {
+            Stage.Instance.DeactiveTutor();
+            hasUseTutor = true;
+            Stage.Instance.setDeteleting(true);
+        }
+        else
+        if (SaveSystem.instance.unscrewPoint >= 1)
+        {
+            if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
+            {
+                UIManagerNew.Instance.ThresholeController.Disable();
+            }
+            if (LevelManagerNew.Instance.stage == 3 && numOfUsed == 1)
+            {
+                hasUseTutor = true;
+            }
+            //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
+            Stage.Instance.DeactiveTutor();
+            SetMinusText('-', 1);
+            SaveSystem.instance.AddBooster(-1, 0, 0);
+            SaveSystem.instance.SaveData();
+            Stage.Instance.setDeteleting(true);
+        }
+        else
+        {
+            AdsManager.instance.ShowRewardVideo(() =>
+            {
+                //xem qu?ng cáo 
+                FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.unscrew);
+                Stage.Instance.setDeteleting(true);
+            });
+        }
+    }
+
     public void ActiveCVGroup()
     {
         if (!canvasGroup.blocksRaycasts)
