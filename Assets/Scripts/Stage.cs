@@ -1187,10 +1187,10 @@ public class Stage : MonoBehaviour
     private void SetDefaultBoosterAim()
     {
         //holeToUnlock.myAnimator.enabled = false;
-        if (holeToUnlock.addImage.gameObject.activeSelf)
-        {
-            //this.holeToUnlock.addImage.transform.localScale = holeToUnlock.myScale;
-        }
+        //if (holeToUnlock.addImage.gameObject.activeSelf)
+        //{
+        //    //this.holeToUnlock.addImage.transform.localScale = holeToUnlock.myScale;
+        //}
         GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, false);
         GamePlayPanelUIManager.Instance.DeteleButton.transform.DOScale(1.05f, 0.05f);
         GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);

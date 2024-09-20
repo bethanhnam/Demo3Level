@@ -87,6 +87,34 @@ public class UndoPanel : MonoBehaviour
     {
         watchAdButton.GetComponent<Button>().interactable = true;
     }
+
+    public void NewWayUse()
+    {
+        Stage.Instance.SetDefaultBeforeUnscrew();
+        if (SaveSystem.instance.undoPoint >= 1)
+        {
+            if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
+            {
+                UIManagerNew.Instance.ThresholeController.Disable();
+            }
+            //FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.undo);
+            //SetMinusText('-', numOfUsed);
+            SaveSystem.instance.AddBooster(0, -1, 0);
+            SaveSystem.instance.SaveData();
+            Stage.Instance.Undo();
+        }
+        else
+        {
+            AdsManager.instance.ShowRewardVideo(() =>
+            {
+                //xem qu?ng cáo 
+                FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.undo);
+
+                Stage.Instance.Undo();
+            });
+        }
+    }
+
     public void Open()
     {
         if (!this.gameObject.activeSelf)

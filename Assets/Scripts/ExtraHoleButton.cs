@@ -1,40 +1,74 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ExtraHoleButton : MonoBehaviour
 {
-	// Thêm một biến public để kéo và thả nút vào trong Inspector
-	public GameObject extraHole;
-	public Button myButton;
-	public Animator myAnimator;
-	public Vector3 myScale;
-	public Image addImage;
-	public ParticleSystem shinningParticle;
-	void Start()
-	{
-		myScale = addImage.transform.localScale + new Vector3(0.1f,0.1f,0.1f);
-	}
+    // Thêm một biến public để kéo và thả nút vào trong Inspector
+    public GameObject extraHole;
+    public Button myButton;
+    public Animator myAnimator;
+    public Vector3 myScale;
+    public Image addImage;
+    public ParticleSystem shinningParticle;
+    void Start()
+    {
+        //myScale = addImage.transform.localScale + new Vector3(0.1f, 0.1f, 0.1f);
+    }
 
-	public void MyFunction()
-	{
-		try { 
-			GamePlayPanelUIManager.Instance.OpenExtraHolePanel();
-		}
-		catch { }
-	}
-	public void ScaleUp()
-	{
+    public void MyFunction()
+    {
+        if (SaveSystem.instance.extraHolePoint >= 1)
+        {
+            if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
+            {
+                UIManagerNew.Instance.ThresholeController.Disable();
+            }
+            FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.drill);
+            SaveSystem.instance.AddBooster(0, 0, -1);
+            SaveSystem.instance.SaveData();
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+            DOVirtual.DelayedCall(1.3f, () =>
+            {
+                Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
+                Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
+                UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
+                {
+                    Stage.Instance.ChangeLayer();
+                });
+            });
+
+        }
+        else
+        {
+            AdsManager.instance.ShowRewardVideo(() =>
+            {
+                // load ad 
+                Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
+                Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+                UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
+                {
+                    UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+                    Stage.Instance.ChangeLayer();
+                });
+            });
+
+        }
+    }
+    public void ScaleUp()
+    {
         var scaleUp = myScale + new Vector3(0.1f, 0.1f, 0.1f);
         addImage.transform.DOScale(scaleUp, 0.5f);
     }
     public void ScaleDown()
     {
-		var scaleDown = myScale - new Vector3(0.1f, 0.1f, 0.1f);
+        var scaleDown = myScale - new Vector3(0.1f, 0.1f, 0.1f);
         addImage.transform.DOScale(scaleDown, 0.5f).OnComplete(() =>
-		{
+        {
             //shinningParticle.Play();
         });
     }
