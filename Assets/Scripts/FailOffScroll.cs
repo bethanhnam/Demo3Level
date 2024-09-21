@@ -10,74 +10,70 @@ using UnityEngine.UI;
 
 public class FailOffScroll : MonoBehaviour, IDragHandler, IEndDragHandler
 {
-    public ScrollRect content;
+    public ScrollRect scrollRect;
+    public RectTransform content;
+    public List<GameObject> items;
 
-    public Image[] Dots;
-    public int selectedPack = 0;
+    public Image[] dots;
 
-    public RectTransform viewPortTransform;
-    public RectTransform contentPanelTransform;
-    public GridLayoutGroup horizontalLayoutGroup;
+    public Color grayColor;
+
+    public GridLayoutGroup layoutGroup;
 
     private Vector2 startDragPosition;
 
-    public RectTransform[] itemLists;
+    private void Start()
+    {
+        SetActivate(dots[0]);
+        SetDeactivate(dots[1]);
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
-        // Lấy vị trí bắt đầu của lần vuốt
-        if (eventData.pressPosition != null)
-        {
-            startDragPosition = eventData.pressPosition;
-        }
+        // Lấy vị trí bắt đầu khi vuốt
+        startDragPosition = eventData.pressPosition;
     }
 
-    private void Start()
+    public void SetActivate(Image dot)
     {
-        ActiveColor(Dots[0]);
-
-        int itemToAdd = Mathf.CeilToInt(viewPortTransform.rect.width / (itemLists[0].rect.width + 50));
-        for (int i = 0; i < itemToAdd; i++)
-        {
-            RectTransform RT = Instantiate(itemLists[i % itemLists.Length], contentPanelTransform);
-            RT.SetAsLastSibling();
-        }
-
-
-
+        dot.color = Color.white;
+        dot.transform.DOScale(.6f, 0.4f);
     }
-
-    public void ActiveColor(Image image)
+    public void SetDeactivate(Image dot)
     {
-        image.color = Color.white;
-    }
-    public void DiactiveColor(Image image)
-    {
-        image.color = new Color(101, 101, 101, 100);
+        dot.color = grayColor;
+        dot.transform.DOScale(.5f, 0.4f);
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-        // Lấy vị trí kết thúc của lần vuốt
+        // Lấy vị trí kết thúc khi vuốt
         Vector2 endDragPosition = eventData.position;
 
-        // Tính toán hướng vuốt (trái hoặc phải)
+        // Vuốt sang phải -> Cuộn về cuối
         if (startDragPosition.x > endDragPosition.x)
         {
-            content.DOHorizontalNormalizedPos(1f, 0.5f).SetEase(Ease.OutCubic);
-            selectedPack = 1;
-            ActiveColor(Dots[1]);
-            DiactiveColor(Dots[0]);
-
+            SetActivate(dots[1]);
+            SetDeactivate(dots[0]);
+            // Cuộn mượt sang vị trí cuối
+            scrollRect.DOHorizontalNormalizedPos(1f, 0.5f).OnComplete(() =>
+            {
+                // Chuyển item đầu tiên xuống cuối để tạo hiệu ứng lặp
+                layoutGroup.childAlignment = TextAnchor.MiddleRight;
+                
+            });
         }
+        // Vuốt sang trái -> Cuộn về đầu
         else if (startDragPosition.x < endDragPosition.x)
         {
-
-            // Vuốt sang trái -> Cuộn về đầu
-            content.DOHorizontalNormalizedPos(0f, 0.5f).SetEase(Ease.OutCubic);
-            selectedPack = 0;
-            ActiveColor(Dots[0]);
-            DiactiveColor(Dots[1]);
-
+            SetActivate(dots[0]);
+            SetDeactivate(dots[1]);
+            // Cuộn mượt về đầu
+            scrollRect.DOHorizontalNormalizedPos(0f, 0.5f).OnComplete(() =>
+            {
+                // Chuyển item cuối lên đầu để tạo hiệu ứng lặp
+                layoutGroup.childAlignment = TextAnchor.MiddleLeft;
+                
+            });
         }
     }
 }
