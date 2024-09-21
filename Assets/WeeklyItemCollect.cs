@@ -146,6 +146,20 @@ public class WeeklyItemCollect : MonoBehaviour
                     EventController.instance.NextStageWeeklyEvent(numOfCollection, checkAgain);
                     UIManagerNew.Instance.ButtonMennuManager.rewardImage.transform.DOMove(UIManagerNew.Instance.ButtonMennuManager.playButton.transform.position, 1).OnComplete(() =>
                     {
+                        if (UIManagerNew.Instance.ButtonMennuManager.MiniGamePlayButton.gameObject.activeSelf)
+                        {
+                            UIManagerNew.Instance.ButtonMennuManager.MiniGamePlayButton.transform.DOScale(1.1f, 0.2f).OnComplete(() =>
+                            {
+                                UIManagerNew.Instance.ButtonMennuManager.MiniGamePlayButton.transform.DOScale(1f, 0.1f);
+                            });
+                        }
+                        else
+                        {
+                            UIManagerNew.Instance.ButtonMennuManager.playButton.transform.DOScale(1.1f, 0.2f).OnComplete(() =>
+                            {
+                                UIManagerNew.Instance.ButtonMennuManager.playButton.transform.DOScale(1f, 0.1f);
+                            });
+                        }
                         AudioManager.instance.PlaySFX("Coins");
 
                         if (EventController.instance.weeklyEvent.levelIndex != EventController.instance.weeklyEventControllers[0].weeklyEventPack.Count - 1)
