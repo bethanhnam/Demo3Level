@@ -31,14 +31,13 @@ public class ExtraHoleButton : MonoBehaviour
             SaveSystem.instance.AddBooster(0, 0, -1);
             SaveSystem.instance.SaveData();
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-            DOVirtual.DelayedCall(1.3f, () =>
+
+            Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
+            Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
+            UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
             {
-                Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
-                Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
-                UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
-                {
-                    Stage.Instance.ChangeLayer();
-                });
+                Stage.Instance.ChangeLayer();
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
             });
 
         }

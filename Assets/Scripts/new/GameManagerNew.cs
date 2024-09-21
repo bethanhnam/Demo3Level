@@ -82,7 +82,7 @@ public class GameManagerNew : MonoBehaviour
     }
     private void Start()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 90;
         if (LevelManagerNew.Instance.stage >= 1)
         {
             PlayerPrefs.SetInt("Hasfixed", 1);

@@ -15,13 +15,8 @@ public class FailOffScroll : MonoBehaviour, IDragHandler, IEndDragHandler
     public Image[] Dots;
     public int selectedPack = 0;
 
-    public RectTransform viewPortTransform;
-    public RectTransform contentPanelTransform;
-    public GridLayoutGroup horizontalLayoutGroup;
-
     private Vector2 startDragPosition;
 
-    public RectTransform[] itemLists;
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -35,16 +30,6 @@ public class FailOffScroll : MonoBehaviour, IDragHandler, IEndDragHandler
     private void Start()
     {
         ActiveColor(Dots[0]);
-
-        int itemToAdd = Mathf.CeilToInt(viewPortTransform.rect.width / (itemLists[0].rect.width + 50));
-        for (int i = 0; i < itemToAdd; i++)
-        {
-            RectTransform RT = Instantiate(itemLists[i % itemLists.Length], contentPanelTransform);
-            RT.SetAsLastSibling();
-        }
-
-
-
     }
 
     public void ActiveColor(Image image)
@@ -63,7 +48,6 @@ public class FailOffScroll : MonoBehaviour, IDragHandler, IEndDragHandler
         // Tính toán hướng vuốt (trái hoặc phải)
         if (startDragPosition.x > endDragPosition.x)
         {
-            content.DOHorizontalNormalizedPos(1f, 0.5f).SetEase(Ease.OutCubic);
             selectedPack = 1;
             ActiveColor(Dots[1]);
             DiactiveColor(Dots[0]);
@@ -73,7 +57,6 @@ public class FailOffScroll : MonoBehaviour, IDragHandler, IEndDragHandler
         {
 
             // Vuốt sang trái -> Cuộn về đầu
-            content.DOHorizontalNormalizedPos(0f, 0.5f).SetEase(Ease.OutCubic);
             selectedPack = 0;
             ActiveColor(Dots[0]);
             DiactiveColor(Dots[1]);

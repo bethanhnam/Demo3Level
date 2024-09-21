@@ -17,8 +17,8 @@ public class BezierCurve
         Points[0] = startPoint;
 
         Points[1] = new Vector3(
-            startPoint.x + (endPoint.x - startPoint.x) * 9f / 5f,
-            startPoint.y + (endPoint.y - startPoint.y) * (-1f / 5f)
+            startPoint.x + (endPoint.x - startPoint.x) * 12f / 5f,
+            startPoint.y + (endPoint.y - startPoint.y) * (-2f / 5f)
         );
 
         // Điểm thứ hai cách startPosition 4.5/5 quãng đường và độ cao 4/5 của endPosition
@@ -37,8 +37,8 @@ public class BezierCurve
         Points[0] = startPoint;
 
         Points[1] = new Vector3(
-            startPoint.x - (startPoint.x - endPoint.x) * 4f / 5f,
-            startPoint.y + (endPoint.y - startPoint.y) * (-3f / 5f)
+            startPoint.x - (startPoint.x - endPoint.x) * 5f / 5f,
+            startPoint.y + (endPoint.y - startPoint.y) * (-5f / 5f)
         );
 
         // Điểm thứ hai cách startPosition 4.5/5 quãng đường và độ cao 4/5 của endPosition
@@ -58,8 +58,8 @@ public class BezierCurve
         Points[0] = startPoint;
 
         Points[1] = new Vector3(
-            startPoint.x + 4,
-            startPoint.y + (endPoint.y - startPoint.y) * (-2f / 5f)
+            startPoint.x + 4.2f,
+            startPoint.y + (endPoint.y - startPoint.y) * (-1f / 5f)
         );
 
         // Điểm thứ hai cách startPosition 4.5/5 quãng đường và độ cao 4/5 của endPosition
