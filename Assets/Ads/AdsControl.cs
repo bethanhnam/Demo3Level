@@ -550,3 +550,16 @@ public class StructID : IComparable<StructID>
         }
     }
 }
+
+public enum AddType
+{
+    Pause_retry,
+    Pause_BackToMainMenu,
+    Booster_Boom,
+    Booster_Drill,
+    Booster_Unscrew,
+    Booster_Undo,
+    EndGame_ReviveByAds,
+    Shop_BuyByAds,
+    DailyPanelX2,
+}

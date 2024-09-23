@@ -36,7 +36,7 @@ public class BoomNail : MonoBehaviour
 	}
 	public void WatchAd()
 	{
-		AdsManager.instance.ShowRewardVideo(() =>
+		AdsManager.instance.ShowRewardVideo(AddType.Booster_Boom,null, () =>
 		{
 			//xem qu?ng cáo 
 

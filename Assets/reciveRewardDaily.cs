@@ -201,7 +201,7 @@ public class reciveRewardDaily : MonoBehaviour
         if (value > 0)
         {
             float time = .7f / value;
-            DOVirtual.DelayedCall(0.15f, () =>
+            DOVirtual.DelayedCall(0.05f, () =>
             {
                 if (i - 1 >= 0)
                 {
@@ -209,7 +209,7 @@ public class reciveRewardDaily : MonoBehaviour
                         test(list, i - 1,value-1);
                 }
             });
-            list[i].MoveToDes(CoinReward.typeOfReward.DailyRewardGold, list[i].transform, coinDes.transform.position, 1f, 0.8f,() =>
+            list[i].MoveToDes(CoinReward.typeOfReward.DailyRewardGold, list[i].transform, coinDes.transform.position, .8f, 0.8f,() =>
             {
                 coinDes.gameObject.transform.DOScale(.8f, 0.15f).OnComplete(() =>
                 {

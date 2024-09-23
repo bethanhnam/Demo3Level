@@ -106,7 +106,7 @@ public class DailyPanel : MonoBehaviour
 
     public void OnClaimButtinPressedX2()
     {
-        AdsManager.instance.ShowRewardVideo(() =>
+        AdsManager.instance.ShowRewardVideo(AddType.DailyPanelX2, null, () =>
         {
             PlayerPrefs.SetString("LastClaimTime", DateTime.Now.ToString("yyyy-MM-dd"));
             Debug.Log(DateTime.Now.ToString());

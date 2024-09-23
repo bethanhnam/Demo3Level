@@ -41,7 +41,7 @@ public class RePlayPanel : MonoBehaviour
 	public void WatchAd()
 	{
 		// load ad 
-		AdsManager.instance.ShowRewardVideo(() =>
+		AdsManager.instance.ShowRewardVideo(AddType.Pause_retry, null, () =>
 		{
 			UIManagerNew.Instance.UndoPanel.numOfUseByAds++;
 

@@ -138,7 +138,7 @@ public class WinUI : MonoBehaviour
         if (i < list.Count)
         {
             float time = .7f / list.Count;
-            list[i].MoveToDes(CoinReward.typeOfReward.WinUI,list[i].transform, coinIconDes.transform.position, 1f,1, () =>
+            list[i].MoveToDes(CoinReward.typeOfReward.WinUI,list[i].transform, coinIconDes.transform.position, 1f,.8f, () =>
             {
                 coinImgDes.gameObject.transform.DOScale(1.1f, 0.15f).OnComplete(() =>
                 {
@@ -233,7 +233,7 @@ public class WinUI : MonoBehaviour
     {
         float time = .3f;
         Vector3 rotationAngles = new Vector3(0, 0, 360);
-        star.transform.DORotate(rotationAngles, 1f, RotateMode.FastBeyond360
+        star.transform.DORotate(rotationAngles, 1.2f, RotateMode.FastBeyond360
                 //.SetLoops(-1, LoopType.Incremental)
                 /*.SetEase(Ease.InOutBack*/).OnComplete(() =>
                 {
@@ -241,7 +241,7 @@ public class WinUI : MonoBehaviour
                 });
         SpawnCoin(0);
         AudioManager.instance.PlaySFX("StarRecieve");
-        list.MoveToDes(CoinReward.typeOfReward.StarWinUI, list.transform, new Vector3(StarImgDes.transform.position.x, StarImgDes.transform.position.y+0.1f,1), 1f, 0.3f, () =>
+        list.MoveToDes(CoinReward.typeOfReward.StarWinUI, list.transform, new Vector3(StarImgDes.transform.position.x, StarImgDes.transform.position.y+0.1f,1), 1f, .1f, () =>
             {
                 StarImgDes.gameObject.transform.DOScale(1.2f, 0.15f).OnComplete(() =>
                 {

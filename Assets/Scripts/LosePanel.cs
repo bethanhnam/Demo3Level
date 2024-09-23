@@ -9,6 +9,8 @@ using System.Timers;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Sirenix.OdinInspector;
 using TMPro;
+using static FireBaseEventName;
+using static FirebaseAnalyticsControl;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class LosePanel : MonoBehaviour
@@ -114,7 +116,7 @@ public class LosePanel : MonoBehaviour
         // load ad 
         if (!hasUse)
         {
-            AdsManager.instance.ShowRewardVideo(() =>
+            AdsManager.instance.ShowRewardVideo(AddType.EndGame_ReviveByAds, null, () =>
             {
                 Close();
 
@@ -133,10 +135,7 @@ public class LosePanel : MonoBehaviour
                         UIManagerNew.Instance.GamePlayPanel.timer.TimerText.transform.DOScale(1f, 0.2f);
                     });
                 });
-                FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage, LevelStatus.revive);
-
             });
-
         }
 
     }
@@ -207,11 +206,11 @@ public class LosePanel : MonoBehaviour
             DOVirtual.DelayedCall(1.1f, () =>
             {
                 UIManagerNew.Instance.GamePlayPanel.timer.TimerText.transform.DOScale(1.2f, 0.3f).OnComplete(() =>
-            {
-                UIManagerNew.Instance.GamePlayPanel.timer.TimerText.transform.DOScale(1f, 0.2f);
+                {
+                    UIManagerNew.Instance.GamePlayPanel.timer.TimerText.transform.DOScale(1f, 0.2f);
+                });
             });
-            });
-            FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage, LevelStatus.revive);
+            FirebaseAnalyticsControl.Instance.LogEvenGoldStatus(GoldStatus.success, GoldType.EndGame_ReviveByGold.ToString());
         }
         else
         {

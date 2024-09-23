@@ -44,18 +44,7 @@ public class ExtraHoleButton : MonoBehaviour
         }
         else
         {
-            AdsManager.instance.ShowRewardVideo(() =>
-            {
-                // load ad 
-                Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
-                Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
-                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-                UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
-                {
-                    UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
-                    Stage.Instance.ChangeLayer();
-                });
-            });
+            UIManagerNew.Instance.GamePlayPanel.OpenExtraHolePanel();
 
         }
     }

@@ -816,6 +816,10 @@ public class GameManagerNew : MonoBehaviour
             {
                 FirebaseAnalyticsControl.Instance.LogEventFixItemMap2(levelButton.level);
             }
+            if (LevelManagerNew.Instance.LevelBase.Level == 3)
+            {
+                FirebaseAnalyticsControl.Instance.LogEventFixItemMap3(levelButton.level);
+            }
             UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
             SaveSystem.instance.addStar(-numOfStar);
             UIManagerNew.Instance.ButtonMennuManager.starMove.CreateStar(des, (() =>

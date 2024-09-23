@@ -64,10 +64,12 @@ public class LoadingScreen : MonoBehaviour
                 if (!HasFinishedStory())
                 {
                     LoadingManager.instance.PlayVideo();
+                    this.gameObject.SetActive(false);
                 }
                 else
                 {
                     LoadingManager.instance.NormalInitGame();
+                    this.gameObject.SetActive(false);
                 }
             });
         });
@@ -77,7 +79,7 @@ public class LoadingScreen : MonoBehaviour
     {
         instance = this;
         //test
-        PlayerPrefs.SetString("HasFinishedStory", "true");
+        //PlayerPrefs.SetString("HasFinishedStory", "true");
 
         loadingScreen.SetActive(true);
 

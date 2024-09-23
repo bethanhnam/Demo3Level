@@ -10,6 +10,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static FirebaseAnalyticsControl;
 
 public class BuyInGame : MonoBehaviour
 {
@@ -44,6 +45,21 @@ public class BuyInGame : MonoBehaviour
                   
                     AddBoosterByads(gold);
                 }, 5);
+                String packname = null;
+                if (myitem.id == 4)
+                {
+                    packname = "dill";
+                }
+                else if (myitem.id == 5)
+                {
+                    packname = "unscrew";
+                }
+                else if (myitem.id == 6)
+                {
+                    packname = "undo";
+                }
+
+                FirebaseAnalyticsControl.Instance.LogEvenGoldStatus(GoldStatus.success, GoldType.Shop_BuyByGold.ToString() + packname.ToString());
             }
             else
             {
@@ -60,6 +76,21 @@ public class BuyInGame : MonoBehaviour
                     startPos.GetComponent<Image>().sprite = ticketBarNor;
 
                 });
+                String packname = null;
+                if(myitem.id == 4)
+                {
+                    packname = "dill";
+                }
+                else if(myitem.id == 5)
+                {
+                    packname = "unscrew";
+                }
+                else if (myitem.id == 6)
+                {
+                    packname = "undo";
+                }
+
+                FirebaseAnalyticsControl.Instance.LogEvenGoldStatus(GoldStatus.fail, GoldType.Shop_BuyByGold.ToString() + packname.ToString());
             }
             PlayerPrefs.SetString("ClaimTime", DateTime.Today.ToString());
         }
@@ -90,7 +121,7 @@ public class BuyInGame : MonoBehaviour
     {
         if (myitem.CheckNumOfUse())
         {
-            AdsManager.instance.ShowRewardVideo(() =>
+            AdsManager.instance.ShowRewardVideo(AddType.Shop_BuyByAds, "Gold", () =>
             {
                 char t = '+';
                 SetMinusText(t,20);
@@ -113,7 +144,7 @@ public class BuyInGame : MonoBehaviour
     {
         if (myitem.CheckNumOfUse())
         {
-            AdsManager.instance.ShowRewardVideo(() =>
+            AdsManager.instance.ShowRewardVideo(AddType.Shop_BuyByAds, myitem.id.ToString(), () =>
             {
                 FirebaseAnalyticsControl.Instance.BuyByAds(myitem.id);
                 SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint, this.extraHolePoint);

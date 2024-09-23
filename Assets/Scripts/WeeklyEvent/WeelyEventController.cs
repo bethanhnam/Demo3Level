@@ -113,8 +113,8 @@ public class WeeklyEventController : ScriptableObject
             numToLevelUp = 2;
             numberOfDaysExistence = 7;
             eventStaus = EventStaus.NotEnable;
-            startEventDate = GetMondayDate().ToString();
-            endEventDate = GetSundayDate().ToString();
+            startEventDate = GetMondayDate().Ticks.ToString();
+            endEventDate = GetSundayDate().Ticks.ToString();
             colorIndex = 0;
         }
     }
@@ -180,7 +180,7 @@ public class WeeklyEventController : ScriptableObject
         DateTime lastSunday = currentDate.AddDays(-daysToSubtract);
 
         // Trả về giá trị 12h đêm (00:00:00) của chủ nhật tuần trước
-        return new DateTime(lastSunday.Year, lastSunday.Month, lastSunday.Day, 23, 59, 59, DateTimeKind.Utc);
+        return new DateTime(lastSunday.Year, lastSunday.Month, lastSunday.Day, 0, 0, 0, DateTimeKind.Utc);
     }
 
     public DateTime GetSundayDate()
@@ -188,7 +188,7 @@ public class WeeklyEventController : ScriptableObject
         DateTime currentDate = DateTime.Now;
         int daysUntilSunday = ((int)DayOfWeek.Sunday - (int)currentDate.DayOfWeek + 7) % 7;
         DateTime sundayDate = currentDate.AddDays(daysUntilSunday);
-        return new DateTime(sundayDate.Year, sundayDate.Month, sundayDate.Day, 23, 59, 59);
+        return new DateTime(sundayDate.Year, sundayDate.Month, sundayDate.Day, 0, 0, 0, DateTimeKind.Utc);
     }
 
 

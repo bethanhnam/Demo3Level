@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using Firebase.Analytics;
 using DG.Tweening;
 using GoogleMobileAds.Api;
+using static FirebaseAnalyticsControl;
 
 public class AdsManager : MonoBehaviour
 {
@@ -137,7 +138,8 @@ public class AdsManager : MonoBehaviour
 			{
 				_actionClose();
 			}
-			return;
+            FirebaseAnalyticsControl.Instance.LogEvenAdsStatus(AdsType.force_ads, AdsStatus.success, p.ToString(), AdsRemoveStatus.yes, true);
+            return;
 		}
 
 		closeAction = _actionClose;
@@ -158,14 +160,16 @@ public class AdsManager : MonoBehaviour
 					AdsControl.Instance.ShowFAAds(actionDone);
                     Debug.Log("Chạy vào action");
                     lastTime = Time.time;
-				}
+                    FirebaseAnalyticsControl.Instance.LogEvenAdsStatus(AdsType.force_ads, AdsStatus.success, p.ToString(), AdsRemoveStatus.no, true);
+                }
 				else
 				{
 					if (actionDone != null)
 					{
 						actionDone();
 						Debug.Log("chạy actiondone1");
-					}
+                        FirebaseAnalyticsControl.Instance.LogEvenAdsStatus(AdsType.force_ads, AdsStatus.fail, p.ToString(), AdsRemoveStatus.no, true);
+                    }
 					if (closeAction != null)
 					{
 						closeAction();
@@ -178,6 +182,7 @@ public class AdsManager : MonoBehaviour
 				{
 					actionDone();
                     Debug.Log("chạy actiondone2");
+                    FirebaseAnalyticsControl.Instance.LogEvenAdsStatus(AdsType.force_ads, AdsStatus.fail, p.ToString(), AdsRemoveStatus.no, true);
                 }
 			}
 		}
@@ -186,6 +191,7 @@ public class AdsManager : MonoBehaviour
             {
                 actionDone();
                 Debug.Log("chạy actiondone3");
+                FirebaseAnalyticsControl.Instance.LogEvenAdsStatus(AdsType.force_ads, AdsStatus.fail, p.ToString(), AdsRemoveStatus.no, true);
             }
         }
 	}
@@ -200,16 +206,18 @@ public class AdsManager : MonoBehaviour
 		}
 	}
 
-	public void ShowRewardVideo(Action actionDone)
+	public void ShowRewardVideo(AddType addType,string id,  Action actionDone)
 	{
 		if (AdsControl.Instance.CheckRW())
 		{
 			AdsControl.Instance.ShowReward(actionDone);
-		}
+            FirebaseAnalyticsControl.Instance.LogEvenAdsStatus(AdsType.rewarded, AdsStatus.success, addType.ToString(),id, true);
+        }
 		else
 		{
 			OpenBlockAds();
-		}
+            FirebaseAnalyticsControl.Instance.LogEvenAdsStatus(AdsType.rewarded, AdsStatus.fail, addType.ToString(),id, false);
+        }
 	}
 
 	public void OpenBlockAds()

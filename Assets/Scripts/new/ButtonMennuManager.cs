@@ -94,10 +94,20 @@ public class ButtonMennuManager : MonoBehaviour
             //EventController.instance.CheckForWeeklyEvent();
             // new ui
 
-            if (LevelManagerNew.Instance.stage >= 1 && PlayerPrefs.GetInt("Hasfixed") == 1)
+            if (LevelManagerNew.Instance.stage < 2 && PlayerPrefs.GetInt("Hasfixed") == 1)
             {
-                isShowingFixing = false;
-                GameManagerNew.Instance.PictureUIManager.HiddenButton();
+                UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = true;
+                UIManagerNew.Instance.ButtonMennuManager.HideAllUI();
+                UIManagerNew.Instance.ButtonMennuManager.starBar.gameObject.SetActive(true);
+                UIManagerNew.Instance.ButtonMennuManager.sliderBar.gameObject.SetActive(true);
+                UIManagerNew.Instance.ButtonMennuManager.starCanvas.gameObject.SetActive(true);
+                GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
+
+                DOVirtual.DelayedCall(2f, () =>
+                {
+                    UIManagerNew.Instance.ThresholeController.SetSecondItemButton();
+                });
+
             }
             CheckForWeeklyEventMenu();
 

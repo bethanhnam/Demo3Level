@@ -14,7 +14,6 @@ public enum LevelStatus : short
     fail = 2,
     Break = 3,
     retry = 4,
-    revive = 5,
 }
 public enum TutorialStatus : short
 {
@@ -106,8 +105,9 @@ public class FirebaseAnalyticsControl : MonoBehaviour
     //Weekly event 
     public void LogEventevent_weekly()
     {
-        if (EventController.instance.weeklyEvent != null) {
-            FirebaseAnalytics.SetUserProperty(FireBaseEventName.level_weekly, (EventController.instance.weeklyEvent.levelIndex +1).ToString());
+        if (EventController.instance.weeklyEvent != null)
+        {
+            FirebaseAnalytics.SetUserProperty(FireBaseEventName.level_weekly, (EventController.instance.weeklyEvent.levelIndex + 1).ToString());
             FirebaseAnalytics.LogEvent(FireBaseEventName.level_weekly + (EventController.instance.weeklyEvent.levelIndex + 1).ToString());
         }
     }
@@ -148,6 +148,12 @@ public class FirebaseAnalyticsControl : MonoBehaviour
         FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
         FirebaseAnalytics.LogEvent("Map_2_fix_done_" + itemIndext + 1);
     }
+    // Map 3
+    public void LogEventFixItemMap3(int itemIndext)
+    {
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
+        FirebaseAnalytics.LogEvent("Map_3_fix_done_" + itemIndext + 1);
+    }
     // Map 2 - Map 3 
     public void LogEventFixStageMap(int map, int stageIndext)
     {
@@ -159,6 +165,12 @@ public class FirebaseAnalyticsControl : MonoBehaviour
     {
         FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
         FirebaseAnalytics.LogEvent("Mini_done_" + mini_done_Level);
+    }
+
+    public void Pack_click(NewDataPackName newDataPackName)
+    {
+        FirebaseAnalytics.SetUserProperty(FireBaseEventName.level, LevelManagerNew.Instance.stage.ToString());
+        FirebaseAnalytics.LogEvent("Pack_"+newDataPackName.ToString());
     }
 
     //Shop 
@@ -222,6 +234,105 @@ public class FirebaseAnalyticsControl : MonoBehaviour
     }
 
     //////////////////////////////////// New Tracking ///////////////////////////
+
+    #region ads_status
+    private string event_ads_status = "ad_status1";
+
+    public enum AdsStatusParam
+    {
+        ads_type,
+        ads_status,
+        ads_pos,
+        remove_ads,
+        internet
+    }
+
+    public enum AdsType
+    {
+        rewarded,
+        force_ads
+    }
+
+    public enum AdsStatus
+    {
+        success,
+        fail
+    }
+
+    public enum AdsPos
+    {
+
+    }
+
+    public enum AdsRemoveStatus
+    {
+        yes,
+        no
+    }
+
+    public void LogEvenAdsStatus(AdsType adsType, AdsStatus adsStatus, string adsPos, AdsRemoveStatus adsRemoveStatus, bool isInternet)
+    {
+        FirebaseAnalytics.LogEvent(event_ads_status, new Parameter[] {
+            new Parameter(AdsStatusParam.ads_type.ToString(),adsType.ToString()),
+            new Parameter(AdsStatusParam.ads_status.ToString(),adsStatus.ToString()),
+            new Parameter(AdsStatusParam.ads_pos.ToString(),adsPos),
+            new Parameter(AdsStatusParam.remove_ads.ToString(),adsRemoveStatus.ToString()),
+            new Parameter(AdsStatusParam.internet.ToString(),isInternet.ToString()),
+        });
+    }
+
+    public void LogEvenAdsStatus(AdsType adsType, AdsStatus adsStatus, string adsPos, string id, bool isInternet)
+    {
+        FirebaseAnalytics.LogEvent(event_ads_status, new Parameter[] {
+            new Parameter(AdsStatusParam.ads_type.ToString(),adsType.ToString()),
+            new Parameter(AdsStatusParam.ads_status.ToString(),adsStatus.ToString()),
+            new Parameter(AdsStatusParam.ads_pos.ToString(),adsPos + id),
+            new Parameter(AdsStatusParam.internet.ToString(),isInternet.ToString()),
+        });
+    }
+    #endregion
+
+    #region gold_status
+    private string event_gold_status = "gold_status1";
+
+    public enum GoldType
+    {
+        EndGame_ReviveByGold,
+        Shop_BuyByGold,
+    }
+
+
+    public enum GoldStatusParam
+    {
+        gold_status,
+        gold_pos
+    }
+    public enum GoldStatus
+    {
+        success,
+        fail
+    }
+
+    public enum GoldPos
+    {
+
+    }
+    public void LogEvenGoldStatus(GoldStatus adsStatus, string adsPos)
+    {
+        FirebaseAnalytics.LogEvent(event_ads_status, new Parameter[] {
+            new Parameter(GoldStatusParam.gold_status.ToString(),adsStatus.ToString()),
+            new Parameter(GoldStatusParam.gold_pos.ToString(),adsPos)
+    });
+    }
+
+    public void LogEvenGoldStatus(GoldStatus adsStatus, string adsPos, string id)
+    {
+        FirebaseAnalytics.LogEvent(event_ads_status, new Parameter[] {
+            new Parameter(GoldStatusParam.gold_status.ToString(),adsStatus.ToString()),
+            new Parameter(GoldStatusParam.gold_pos.ToString(),adsPos + id),
+        });
+    }
+    #endregion
 
 
     public void LogEventFirebase(string str)
@@ -386,7 +497,7 @@ public class FireBaseEventName
     //    }
     //}
     #endregion
-            
+
     //#region Ads_impress_value
     //private string nameEventAdsImprss = "ad_impression_value";
     //public void LogEvenAdsImpresssion(Parameter[] p)
@@ -401,4 +512,3 @@ public class FireBaseEventName
     //}
     //#endregion
 }
-
