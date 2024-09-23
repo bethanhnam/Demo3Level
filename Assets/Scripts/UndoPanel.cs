@@ -11,15 +11,15 @@ public class UndoPanel : MonoBehaviour
     public RectTransform closeButton;
     public RectTransform panel;
     public rankpanel notEnoughpanel;
+
     public int numOfUsed = 1;
-    public int numOfUse = 0;
+
     public int numOfUseByAds = 0;
     public RectTransform watchAdButton;
     public TextMeshProUGUI numOfUsedText;
+
     public CanvasGroup canvasGroup;
 
-    //text 
-    public TextMeshProUGUI minusText;
     private void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -34,9 +34,8 @@ public class UndoPanel : MonoBehaviour
                 UIManagerNew.Instance.ThresholeController.Disable();
             }
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-            numOfUse++;
             //FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.undo);
-            SetMinusText('-', numOfUsed);
+
             SaveSystem.instance.AddBooster(0, -numOfUsed, 0);
             SaveSystem.instance.SaveData();
             numOfUsed++;
@@ -54,10 +53,9 @@ public class UndoPanel : MonoBehaviour
     }
     public void WatchAd()
     {
-        AdsManager.instance.ShowRewardVideo(() =>
+        AdsManager.instance.ShowRewardVideo(AddType.Booster_Undo, null, () =>
         {
             //xem qu?ng cáo 
-            numOfUse++;
             FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.undo);
 
             Stage.Instance.Undo();
@@ -69,15 +67,6 @@ public class UndoPanel : MonoBehaviour
     }
     public void CheckNumOfUse()
     {
-        numOfUsedText.text = ("X" + (numOfUsed).ToString());
-        if (numOfUsed == 1)
-        {
-            Interactable();
-        }
-        else
-        {
-            Uniteractable();
-        }
     }
     public void Uniteractable()
     {
@@ -105,13 +94,7 @@ public class UndoPanel : MonoBehaviour
         }
         else
         {
-            AdsManager.instance.ShowRewardVideo(() =>
-            {
-                //xem qu?ng cáo 
-                FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.undo);
-
-                Stage.Instance.Undo();
-            });
+          UIManagerNew.Instance.GamePlayPanel.OpenUndoPanel();
         }
     }
 
@@ -163,22 +146,33 @@ public class UndoPanel : MonoBehaviour
             });
         }
     }
+    public void SpendCoin()
+    {
+        if (SaveSystem.instance.coin >= 30)
+        {
+            if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
+            {
+                UIManagerNew.Instance.ThresholeController.Disable();
+            }
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+            //FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.undo);
+
+            SaveSystem.instance.addCoin(-30);
+            SaveSystem.instance.SaveData();
+            Stage.Instance.Undo();
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+                this.Close();
+            });
+        }
+    }
+
     public void ActiveCVGroup()
     {
         if (!canvasGroup.blocksRaycasts)
         {
             canvasGroup.blocksRaycasts = true;
         }
-    }
-    public void SetMinusText(char t, int value)
-    {
-        minusText.gameObject.SetActive(true);
-        minusText.text = t + value.ToString();
-        StartCoroutine(DisableText());
-    }
-    IEnumerator DisableText()
-    {
-        yield return new WaitForSeconds(0.8f);
-        minusText.gameObject.SetActive(false);
     }
 }

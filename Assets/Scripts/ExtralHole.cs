@@ -35,7 +35,6 @@ public class ExtralHole : MonoBehaviour
             }
             FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.drill);
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-            SetMinusText('-', 1);
             SaveSystem.instance.AddBooster(0, 0, -1);
             SaveSystem.instance.SaveData();
             DOVirtual.DelayedCall(1f, () =>
@@ -61,7 +60,7 @@ public class ExtralHole : MonoBehaviour
     }
     public void WatchAd()
     {
-        AdsManager.instance.ShowRewardVideo(() =>
+        AdsManager.instance.ShowRewardVideo(AddType.Booster_Drill, null, () =>
         {
             // load ad 
             this.Close();
@@ -144,22 +143,43 @@ public class ExtralHole : MonoBehaviour
         }
     }
 
+    public void SpendCoin()
+    {
+        if (SaveSystem.instance.coin >= 50)
+        {
+
+            if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
+            {
+                UIManagerNew.Instance.ThresholeController.Disable();
+            }
+            FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.drill);
+            UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+
+            SaveSystem.instance.addCoin(-50);
+            SaveSystem.instance.SaveData();
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+                this.Close();
+                DOVirtual.DelayedCall(1.3f, () =>
+                {
+                    Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
+                    Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
+                    UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
+                    {
+                        Stage.Instance.ChangeLayer();
+                    });
+                });
+            });
+        }
+    }
+
+
     public void ActiveCVGroup()
     {
         if (!canvasGroup.blocksRaycasts)
         {
             canvasGroup.blocksRaycasts = true;
         }
-    }
-    public void SetMinusText(char t, int value)
-    {
-        minusText.gameObject.SetActive(true);
-        minusText.text = t + value.ToString();
-        StartCoroutine(DisableText());
-    }
-    IEnumerator DisableText()
-    {
-        yield return new WaitForSeconds(0.8f);
-        minusText.gameObject.SetActive(false);
     }
 }

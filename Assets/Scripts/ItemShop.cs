@@ -22,7 +22,7 @@ public class ItemShop : MonoBehaviour
     {
         IapControl.Instance.BuyProductID(namePack, () =>
         {
-           
+            FirebaseAnalyticsControl.Instance.Pack_click(namePack);
             SaveSystem.instance.AddBooster(this.unscrewPoint, this.undoPoint, this.extraHolePoint);
             SaveSystem.instance.addCoin(this.gold);
             if (nonADS)

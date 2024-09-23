@@ -114,7 +114,7 @@ public class RewardMove : MonoBehaviour
         if (i < list.Count)
         {
             float time = .7f / list.Count;
-                list[i].MoveToDes(CoinReward.typeOfReward.WinUI,list[i].transform, coinImgDes.transform.position, 1f, 1, () =>
+                list[i].MoveToDes(CoinReward.typeOfReward.WinUI,list[i].transform, coinImgDes.transform.position, 1f, .8f, () =>
                 {
                    
                     coinImgDes.gameObject.transform.DOScale(.8f, 0.15f).OnComplete(() =>

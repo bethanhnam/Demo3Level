@@ -131,7 +131,7 @@ public class WeeklyItemCollect : MonoBehaviour
                             {
                                 UIManagerNew.Instance.ButtonMennuManager.weeklyEventSlider.DOValue(x, 0.5f).OnComplete(() =>
                                 {
-                                    if (x >= EventController.instance.weeklyEventControllers[0].weeklyEventPack[EventController.instance.weeklyEvent.levelIndex + 1].numToUpLevel)
+                                    if (x >= EventController.instance.weeklyEventControllers[0].weeklyEventPack[EventController.instance.weeklyEvent.levelIndex].numToUpLevel)
                                     {
                                         CheckForFullSlider((int)x, true);
                                     }
@@ -185,7 +185,7 @@ public class WeeklyItemCollect : MonoBehaviour
                             {
                                 UIManagerNew.Instance.ButtonMennuManager.weeklyEventSlider.DOValue(x, 0.5f).OnComplete(() =>
                                 {
-                                    if (x >= EventController.instance.weeklyEventControllers[0].weeklyEventPack[EventController.instance.weeklyEvent.levelIndex + 1].numToUpLevel)
+                                    if (x >= EventController.instance.weeklyEventControllers[0].weeklyEventPack[EventController.instance.weeklyEvent.levelIndex].numToUpLevel)
                                     {
                                         CheckForFullSlider((int)x, true);
                                     }

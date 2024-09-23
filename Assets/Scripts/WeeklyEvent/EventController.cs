@@ -89,6 +89,7 @@ public class EventController : MonoBehaviour
                     catch (Exception ex) {
                         endTime = CauculateEndTime();
                     }
+                    Debug.LogError("end " + endTime);
                     Debug.LogError("chuyen doi duoc time cua weeklyEvent");
                     if (HasTimeExpired(endTime))
                     {
@@ -525,23 +526,17 @@ public class EventController : MonoBehaviour
 
     public DateTime CauculateEndTime()
     {
-        //try
-        //{
-        //    endTime = new DateTime(long.Parse(weeklyEvent.endEventDate));
-        //    //endTime.AddDays(1);
-        //    Debug.LogError("end " + endTime);
-        //    DateTime startTime = new DateTime(long.Parse(weeklyEvent.startEventDate));
-        //    startTime = new DateTime(startTime.Year, startTime.Month, startTime.Day, 0, 0, 0);
-        //    Debug.Log("start : " + startTime);
-        //}
-        //catch (Exception ex)
-        //{
-        //    endTime = CauculateEndTime();
-        //}
-
-
-        DateTime dateTime = new DateTime(long.Parse(weeklyEvent.startEventDate));
-        dateTime = dateTime.AddDays(8); // Gán lại giá trị sau khi cộng
+        DateTime dateTime;
+        try
+        {
+            dateTime = new DateTime(long.Parse(weeklyEvent.startEventDate));
+            dateTime = dateTime.AddDays(8); // Gán lại giá trị sau khi cộng
+            return dateTime;
+        }
+        catch (Exception ex)
+        {
+            dateTime = DateTime.Today;
+        }
         return dateTime;
     }
 

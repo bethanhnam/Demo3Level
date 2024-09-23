@@ -152,7 +152,7 @@ public class LoadingManager : MonoBehaviour
     private void HandleDailyReward()
     {
         string lastClaimTime = PlayerPrefs.GetString("LastClaimTime", string.Empty);
-        string currentDate = DateTime.UtcNow.ToString("yyyy-MM-dd");
+        string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
 
         if (lastClaimTime.Equals(currentDate))
         {
@@ -184,7 +184,7 @@ public class LoadingManager : MonoBehaviour
         if (PlayerPrefs.GetInt("HasRecieveRW") == 1)
         {
             string lastClaimTime = PlayerPrefs.GetString("LastClaimTime", string.Empty);
-            string currentDate = DateTime.UtcNow.ToString("yyyy-MM-dd");
+            string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
 
             if (lastClaimTime.Equals(currentDate))
             {

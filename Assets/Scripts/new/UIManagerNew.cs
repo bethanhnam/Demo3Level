@@ -80,10 +80,6 @@ public class UIManagerNew : MonoBehaviour
     [SerializeField]
     private WeeklyEventPanel weeklyEventPanel;
 
-
-    public TextMeshProUGUI[] DrillTexts;
-    public TextMeshProUGUI[] UnscrewTexts;
-    public TextMeshProUGUI[] UndoTexts;
     public TextMeshProUGUI[] coinTexts;
     public TextMeshProUGUI[] starTexts;
     public TextMeshProUGUI playBTLevelTexts;
@@ -164,12 +160,6 @@ public class UIManagerNew : MonoBehaviour
     }
     public void LoadData(int unscrew, int undo,int drill,  int coin, int star)
     {
-        for (int i = 0; i < UnscrewTexts.Length; i++)
-        {
-            UnscrewTexts[i].SetText(unscrew.ToString());
-            UndoTexts[i].SetText(undo.ToString());
-            DrillTexts[i].SetText(drill.ToString());
-        }
         for (int j = 0; j < coinTexts.Length; j++)
         {
             coinTexts[j].SetText(coin.ToString());

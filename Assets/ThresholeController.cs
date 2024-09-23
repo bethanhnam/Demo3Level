@@ -43,10 +43,10 @@ public class ThresholeController : MonoBehaviour
     }
     public void Disable()
     {
-        if(hinddenTransform != null)
+        if (hinddenTransform != null)
         {
             hinddenTransform.gameObject.SetActive(true);
-            hinddenTransform = null; 
+            hinddenTransform = null;
         }
         if (this.thresholeName != null)
         {
@@ -93,7 +93,7 @@ public class ThresholeController : MonoBehaviour
     }
     public void showNextThreshole(string thresholeName)
     {
-        if(hinddenTransform != null)
+        if (hinddenTransform != null)
         {
             hinddenTransform.gameObject.SetActive(true);
         }
@@ -118,7 +118,7 @@ public class ThresholeController : MonoBehaviour
         Appear();
     }
 
-    public void SetPos(string thresholeName,Transform transform,Vector3 scale)
+    public void SetPos(string thresholeName, Transform transform, Vector3 scale)
     {
         if (transform != null)
         {
@@ -129,7 +129,7 @@ public class ThresholeController : MonoBehaviour
             if (thresholeDictionary.TryGetValue(thresholeName, out GameObject go))
             {
                 go.transform.GetChild(1).transform.position = transform.position;
-               
+
             }
             if (scale != null)
             {
@@ -139,11 +139,23 @@ public class ThresholeController : MonoBehaviour
                 }
             }
         }
-        
+
     }
     public void ActiveBlock()
     {
         UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+    }
+
+    public void SetSecondItemButton()
+    {
+        if (LevelManagerNew.Instance.LevelBase.Level == 0 && GameManagerNew.Instance.PictureUIManager.Stage[0].listObjLock[1].objunLock[0] != null && GameManagerNew.Instance.PictureUIManager.Stage[0].listObjLock[1].objunLock[0].activeSelf == true)
+        {
+            if (LevelManagerNew.Instance.stage < 2)
+                GameManagerNew.Instance.PictureUIManager.Stage[0].listObjLock[1].objunLock[0].transform.GetChild(2).gameObject.SetActive(true);
+            else
+                GameManagerNew.Instance.PictureUIManager.Stage[0].listObjLock[1].objunLock[0].transform.GetChild(2).gameObject.SetActive(false);
+        }
+
     }
 }
 [System.Serializable]

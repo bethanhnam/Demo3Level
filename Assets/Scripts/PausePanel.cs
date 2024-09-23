@@ -37,7 +37,7 @@ public class PausePanel : MonoBehaviour
 
     public void Home()
     {
-        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+        //UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         AdsManager.instance.ShowInterstial(AdsManager.PositionAds.ingame_pause, () =>
         {
             //this.gameObject.SetActive(false);

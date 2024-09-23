@@ -37,13 +37,12 @@ public class DataInit : MonoBehaviour
         }
         if (string.IsNullOrEmpty(PlayerPrefs.GetString("firstOpenDate")))
         {
-            PlayerPrefs.SetString("firstOpenDate", System.DateTime.UtcNow.Date.Ticks.ToString());
+            PlayerPrefs.SetString("firstOpenDate", System.DateTime.Now.Date.Ticks.ToString());
         }
 
-        DOVirtual.DelayedCall(2, () => {
+        DOVirtual.DelayedCall(5, () => { 
             dataLevelManager.Init();
         });
-
         LoadingScreen.instance.LoadSceneDone();
     }
     private void OnApplicationPause(bool pause)

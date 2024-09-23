@@ -11,18 +11,16 @@ public class DeteleNailPanel : MonoBehaviour
 {
     public RectTransform closeButton;
     public RectTransform panel;
-    public rankpanel notEnoughpanel;
+
     public int numOfUsed = 1;
     public RectTransform watchAdButton;
-    public TextMeshProUGUI numOfUsedText;
+
     public CanvasGroup canvasGroup;
     public int numOfUse = 0;
     public GameObject pointer;
 
     public bool hasUseTutor;
 
-    //text 
-    public TextMeshProUGUI minusText;
 
     private void Start()
     {
@@ -48,7 +46,6 @@ public class DeteleNailPanel : MonoBehaviour
 
             DOVirtual.DelayedCall(1f, () =>
             {
-                ;
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
             });
         }
@@ -66,10 +63,8 @@ public class DeteleNailPanel : MonoBehaviour
                     hasUseTutor = true;
                 }
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-                numOfUse++;
                 //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
                 Stage.Instance.DeactiveTutor();
-                SetMinusText('-', numOfUsed);
                 SaveSystem.instance.AddBooster(-numOfUsed, 0, 0);
                 SaveSystem.instance.SaveData();
                 //hasUse = true;
@@ -86,17 +81,15 @@ public class DeteleNailPanel : MonoBehaviour
 
             else
             {
-                notEnoughpanel.ShowDialog();
+
             }
         }
     }
     public void WatchAd()
     {
-        AdsManager.instance.ShowRewardVideo(() =>
+        AdsManager.instance.ShowRewardVideo(AddType.Booster_Unscrew, null, () =>
         {
-
             //xem qu?ng cáo 
-            numOfUse++;
             FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.unscrew);
 
             //xoá nail(Đồng hồ đếm giờ dừng lại)
@@ -108,7 +101,25 @@ public class DeteleNailPanel : MonoBehaviour
             this.Close();
 
         });
-
+    }
+    public void SpendCoin()
+    {
+        if (SaveSystem.instance.coin >= 50)
+        {
+            if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
+            {
+                UIManagerNew.Instance.ThresholeController.Disable();
+            }
+            if (LevelManagerNew.Instance.stage == 3 && numOfUsed == 1)
+            {
+                hasUseTutor = true;
+            }
+            //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
+            Stage.Instance.DeactiveTutor();
+            SaveSystem.instance.addCoin(-50);
+            SaveSystem.instance.SaveData();
+            Stage.Instance.setDeteleting(true);
+        }
     }
     private void Update()
     {
@@ -116,15 +127,6 @@ public class DeteleNailPanel : MonoBehaviour
     }
     public void CheckNumOfUse()
     {
-        numOfUsedText.text = ("X" + (numOfUsed).ToString());
-        if (numOfUsed == 1)
-        {
-            Interactable();
-        }
-        else
-        {
-            Uniteractable();
-        }
 
     }
     public void Uniteractable()
@@ -238,19 +240,13 @@ public class DeteleNailPanel : MonoBehaviour
             }
             //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
             Stage.Instance.DeactiveTutor();
-            SetMinusText('-', 1);
             SaveSystem.instance.AddBooster(-1, 0, 0);
             SaveSystem.instance.SaveData();
             Stage.Instance.setDeteleting(true);
         }
         else
         {
-            AdsManager.instance.ShowRewardVideo(() =>
-            {
-                //xem qu?ng cáo 
-                FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.unscrew);
-                Stage.Instance.setDeteleting(true);
-            });
+            UIManagerNew.Instance.GamePlayPanel.OpenDetelePanel();
         }
     }
 
@@ -260,16 +256,5 @@ public class DeteleNailPanel : MonoBehaviour
         {
             canvasGroup.blocksRaycasts = true;
         }
-    }
-    public void SetMinusText(char t, int value)
-    {
-        minusText.gameObject.SetActive(true);
-        minusText.text = t + value.ToString();
-        StartCoroutine(DisableText());
-    }
-    IEnumerator DisableText()
-    {
-        yield return new WaitForSeconds(0.8f);
-        minusText.gameObject.SetActive(false);
     }
 }
