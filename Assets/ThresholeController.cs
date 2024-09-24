@@ -148,12 +148,15 @@ public class ThresholeController : MonoBehaviour
 
     public void SetSecondItemButton()
     {
-        if (LevelManagerNew.Instance.LevelBase.Level == 0 && GameManagerNew.Instance.PictureUIManager.Stage[0].listObjLock[1].objunLock[0] != null && GameManagerNew.Instance.PictureUIManager.Stage[0].listObjLock[1].objunLock[0].activeSelf == true)
+        if (LevelManagerNew.Instance.LevelBase.Level == 0 && GameManagerNew.Instance.PictureUIManager.Stage[0].listObjLock[1].objBtn[0] != null)
         {
             if (LevelManagerNew.Instance.stage < 2)
-                GameManagerNew.Instance.PictureUIManager.Stage[0].listObjLock[1].objunLock[0].transform.GetChild(2).gameObject.SetActive(true);
+                DOVirtual.DelayedCall(1f, () =>
+                {
+                    GameManagerNew.Instance.PictureUIManager.Stage[0].listObjLock[2].objBtn[0].transform.GetChild(2).gameObject.SetActive(true);
+                });
             else
-                GameManagerNew.Instance.PictureUIManager.Stage[0].listObjLock[1].objunLock[0].transform.GetChild(2).gameObject.SetActive(false);
+                GameManagerNew.Instance.PictureUIManager.Stage[0].listObjLock[2].objBtn[0].transform.GetChild(2).gameObject.SetActive(false);
         }
 
     }

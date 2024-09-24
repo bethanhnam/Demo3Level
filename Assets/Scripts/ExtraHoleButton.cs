@@ -21,6 +21,7 @@ public class ExtraHoleButton : MonoBehaviour
 
     public void MyFunction()
     {
+        Stage.Instance.SetDefaultBeforeUnscrew();
         if (SaveSystem.instance.extraHolePoint >= 1)
         {
             if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)

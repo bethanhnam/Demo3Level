@@ -193,10 +193,11 @@ public class GamePlayPanelUIManager : MonoBehaviour
         DeactiveTime();
         if (LevelManagerNew.Instance.stage != 3)
         {
-            GameManagerNew.Instance.CloseLevel(false);
+            //GameManagerNew.Instance.CloseLevel(false);
             Close();
             DOVirtual.DelayedCall(0.4f, () =>
             {
+                UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
                 UIManagerNew.Instance.DeteleNailPanel.Open();
             });
         }
@@ -209,9 +210,10 @@ public class GamePlayPanelUIManager : MonoBehaviour
     {
         DeactiveTime();
         Close();
-        GameManagerNew.Instance.CloseLevel(false);
+        //GameManagerNew.Instance.CloseLevel(false);
         DOVirtual.DelayedCall(0.4f, () =>
         {
+            UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
             UIManagerNew.Instance.ExtralHolePanel.Open();
         });
     }
@@ -219,9 +221,10 @@ public class GamePlayPanelUIManager : MonoBehaviour
     {
         DeactiveTime();
         Close();
-        GameManagerNew.Instance.CloseLevel(false);
+        //GameManagerNew.Instance.CloseLevel(false);
         DOVirtual.DelayedCall(0.4f, () =>
         {
+            UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
             UIManagerNew.Instance.UndoPanel.Open();
         });
 
@@ -245,6 +248,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
         GameManagerNew.Instance.CloseLevel(false);
         DOVirtual.DelayedCall(0.4f, () =>
         {
+            UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
             UIManagerNew.Instance.LosePanel.Open();
         });
     }
@@ -367,7 +371,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
 
     public void ShowCollectionEvent()
     {
-        if (EventController.instance != null && EventController.instance.weeklyEvent != null)
+        if (EventController.instance != null && EventController.instance.weeklyEvent != null && LevelManagerNew.Instance.stage >=8)
         {
             weeklyEventImg.gameObject.SetActive(true);
             weeklyEventImg.sprite = UIManagerNew.Instance.WeeklyEventPanel.ItemToCollect.sprite;

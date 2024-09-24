@@ -66,7 +66,7 @@ public class BoosterBar : MonoBehaviour
                 unscrewNumImg.gameObject.SetActive(false);
             }
         }
-        if (LevelManagerNew.Instance.stage > 4)
+        if (LevelManagerNew.Instance.stage >= 4)
         {
             if (SaveSystem.instance.undoPoint > 0)
             {

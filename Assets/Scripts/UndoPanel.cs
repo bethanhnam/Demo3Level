@@ -129,15 +129,16 @@ public class UndoPanel : MonoBehaviour
             {
                 AudioManager.instance.PlaySFX("ClosePopUp");
                 GamePlayPanelUIManager.Instance.ActiveTime();
-                if (Stage.Instance.isWining && Stage.Instance.numOfIronPlates <= 0)
-                {
-                    Stage.Instance.ScaleUpStage();
-                }
-                else
-                {
-                    GamePlayPanelUIManager.Instance.Appear();
-                    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-                }
+                //if (Stage.Instance.isWining && Stage.Instance.numOfIronPlates <= 0)
+                //{
+                //    Stage.Instance.ScaleUpStage();
+                //}
+                //else
+                //{
+                //    GamePlayPanelUIManager.Instance.Appear();
+                //    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                //}
+                GamePlayPanelUIManager.Instance.Appear();
                 Stage.Instance.checked1 = false;
 
                 ActiveCVGroup();
@@ -165,6 +166,10 @@ public class UndoPanel : MonoBehaviour
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                 this.Close();
             });
+        }
+        else
+        {
+            UIManagerNew.Instance.ShopPanel.Open();
         }
     }
 

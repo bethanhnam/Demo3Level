@@ -34,6 +34,10 @@ public class RemoteConfigController : MonoBehaviour
     private string ads_config_new;
     [SerializeField]
     private int isShowOpenAds;
+    [SerializeField]
+    private string level_config;
+    // Level_config
+    
 
     //[SerializeField]
     //private string data_config;
@@ -90,16 +94,19 @@ public class RemoteConfigController : MonoBehaviour
 	public string DataNetwork { get => dataNetwork; set => dataNetwork = value; }
 	public string Ads_config_new { get => ads_config_new; set => ads_config_new = value; }
 	public int IsShowOpenAds { get => isShowOpenAds; set => isShowOpenAds = value; }
+    public string Level_config { get => level_config; set => level_config = value; }
 
-	//public static RemoteConfigController GetInstance()
- //   {
- //       if (instance == null)
- //       {
- //           GameObject obj = new GameObject();
- //           instance = obj.AddComponent<RemoteConfigController>();
- //       }
- //       return instance;
- //   }
+    //Level Config
+
+    //public static RemoteConfigController GetInstance()
+    //   {
+    //       if (instance == null)
+    //       {
+    //           GameObject obj = new GameObject();
+    //           instance = obj.AddComponent<RemoteConfigController>();
+    //       }
+    //       return instance;
+    //   }
 
     private void Awake()
     {
@@ -185,10 +192,15 @@ public class RemoteConfigController : MonoBehaviour
 		catch { }
 		try { ads_config_new = (string.IsNullOrEmpty(GetValue("ads_config_new").StringValue) ? ads_config_new : GetValue("ads_config_new").StringValue); }
 		catch { }
-		try { isShowOpenAds = (int)GetValue("isShowOpenAds").DoubleValue; }
+        
+        try { isShowOpenAds = (int)GetValue("isShowOpenAds").DoubleValue; }
 		catch { }
 
-		SaveValue();
+        try { level_config = (string.IsNullOrEmpty(GetValue("level_config").StringValue) ? level_config : GetValue("level_config").StringValue); }
+        catch { }
+        Debug.Log("data: " + level_config);
+
+        SaveValue();
         isInit = true;
 
 		GetComponent<AdsManager>().StartInit(dataNetwork, ads_config_new);
@@ -228,7 +240,11 @@ public class RemoteConfigController : MonoBehaviour
 		{
 			PlayerPrefs.SetString("ads_config_new", ads_config_new);
 		}
-		if (PlayerPrefs.HasKey("isShowOpenAds"))
+        if(PlayerPrefs.HasKey("level_config"))
+        {
+            PlayerPrefs.SetString("level_config", level_config);
+        }
+        if (PlayerPrefs.HasKey("isShowOpenAds"))
         {
             PlayerPrefs.SetInt("isShowOpenAds", isShowOpenAds);
         }
@@ -245,7 +261,7 @@ public class RemoteConfigController : MonoBehaviour
         dataNetwork = PlayerPrefs.GetString("dataNetwork", dataNetwork);
 		ads_config_new = PlayerPrefs.GetString("ads_config_new", ads_config_new);
 		isShowOpenAds = PlayerPrefs.GetInt("isShowOpenAds", isShowOpenAds);
-
+        level_config = PlayerPrefs.GetString("level_config", level_config);
     }
 
     private void SaveValue()
@@ -259,6 +275,7 @@ public class RemoteConfigController : MonoBehaviour
         PlayerPrefs.SetString("dataNetwork", dataNetwork);
 		PlayerPrefs.SetString("ads_config_new", ads_config_new);
 		PlayerPrefs.SetInt("isShowOpenAds", isShowOpenAds);
+        PlayerPrefs.SetString("level_config", level_config);
         PlayerPrefs.Save();
     }
 }

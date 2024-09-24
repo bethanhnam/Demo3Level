@@ -102,13 +102,8 @@ public class ButtonMennuManager : MonoBehaviour
                 UIManagerNew.Instance.ButtonMennuManager.sliderBar.gameObject.SetActive(true);
                 UIManagerNew.Instance.ButtonMennuManager.starCanvas.gameObject.SetActive(true);
                 GameManagerNew.Instance.PictureUIManager.ChangeItemOnly(LevelManagerNew.Instance.LevelBase.Level);
-
-                DOVirtual.DelayedCall(2f, () =>
-                {
-                    UIManagerNew.Instance.ThresholeController.SetSecondItemButton();
-                });
-
             }
+            UIManagerNew.Instance.ThresholeController.SetSecondItemButton();
             CheckForWeeklyEventMenu();
 
             if (LevelManagerNew.Instance.stage == 1 && PlayerPrefs.GetInt("Hasfixed") == 0)

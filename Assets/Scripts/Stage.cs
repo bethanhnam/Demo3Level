@@ -721,7 +721,7 @@ public class Stage : MonoBehaviour
                             }
                         }
                         UIManagerNew.Instance.GamePlayPanel.animButton.Play(UIManagerNew.Instance.GamePlayPanel.appearButton, 0, 0);
-                        if (holeToUnlock != null)
+                        if (holeToUnlock.GetComponent<Hole>().extraHole == true)
                         {
                             holeToUnlock.myButton.gameObject.SetActive(true);
                         }

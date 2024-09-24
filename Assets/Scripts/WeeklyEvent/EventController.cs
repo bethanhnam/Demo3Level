@@ -85,8 +85,9 @@ public class EventController : MonoBehaviour
                         DateTime startTime = new DateTime(long.Parse(weeklyEvent.startEventDate));
                         startTime = new DateTime(startTime.Year, startTime.Month, startTime.Day, 0, 0, 0);
                         Debug.Log("start : " + startTime);
-                            }
-                    catch (Exception ex) {
+                    }
+                    catch (Exception ex)
+                    {
                         endTime = CauculateEndTime();
                     }
                     Debug.LogError("end " + endTime);
@@ -115,7 +116,7 @@ public class EventController : MonoBehaviour
                         Debug.LogError("chua het time");
                         FirebaseAnalyticsControl.Instance.LogEventevent_weekly();
                         PlayerPrefs.GetString("FirstWeeklyEvent", "true");
-                        if (weeklyEvent.levelIndex == weeklyEventControllers[0].weeklyEventPack.Count -1 && weeklyEvent.numOfCollection == weeklyEvent.numToLevelUp)
+                        if (weeklyEvent.levelIndex == weeklyEventControllers[0].weeklyEventPack.Count - 1 && weeklyEvent.numOfCollection == weeklyEvent.numToLevelUp)
                         {
                             Debug.LogError("pack cuoi ");
                             UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = true;
@@ -164,7 +165,7 @@ public class EventController : MonoBehaviour
                         UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.AddData();
                         UIManagerNew.Instance.WeeklyEventPanel.LoadData();
                         RandomItemColor();
-                        UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);  
+                        UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
                         UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                         SaveData("WeeklyEvent", weeklyEvent);
                         UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
@@ -234,6 +235,14 @@ public class EventController : MonoBehaviour
                 UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                 SaveData("WeeklyEvent", weeklyEvent);
                 UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
+            }
+        }
+        else
+        {
+            if (weeklyEvent != null)
+            {
+                weeklyEvent = null;
+                SaveData("WeeklyEvent", weeklyEvent);
             }
         }
 

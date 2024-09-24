@@ -233,7 +233,7 @@ public class LosePanel : MonoBehaviour
         RectTransform referenceRect = this.GetComponent<RectTransform>();
 
         // Tính toán vị trí 2/3 chiều cao của reference image
-        float targetYPosition = referenceRect.rect.height * (2f / 5.0f);
+        float targetYPosition = referenceRect.rect.height * (1.8f / 5.0f);
 
         // Đặt vị trí của titleImage dựa trên reference image
         rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, targetYPosition);

@@ -33,12 +33,13 @@ public class LevelManagerNew : MonoBehaviour
 		Instance = this;
 		stage = PlayerPrefs.GetInt("stage");
 		displayLevel = PlayerPrefs.GetInt("displayLevel");
+		Debug.LogError("stage " + stage);
 		if(displayLevel < stage)
 		{
 			displayLevel = stage;
 		}
 		//test
-		//stage = 2;
+		//stage = 4;
 	}
 
 	public void Init()

@@ -119,6 +119,11 @@ public class DeteleNailPanel : MonoBehaviour
             SaveSystem.instance.addCoin(-50);
             SaveSystem.instance.SaveData();
             Stage.Instance.setDeteleting(true);
+            this.Close();
+        }
+        else
+        {
+            UIManagerNew.Instance.ShopPanel.Open();
         }
     }
     private void Update()
@@ -142,7 +147,7 @@ public class DeteleNailPanel : MonoBehaviour
         if (!this.gameObject.activeSelf)
         {
             this.gameObject.SetActive(true);
-            GameManagerNew.Instance.CloseLevel(false);
+            //GameManagerNew.Instance.CloseLevel(false);
             canvasGroup.blocksRaycasts = false;
             AudioManager.instance.PlaySFX("OpenPopUp");
             panel.localScale = new Vector3(.8f, .8f, 1f);
@@ -176,15 +181,16 @@ public class DeteleNailPanel : MonoBehaviour
                 {
                     AudioManager.instance.PlaySFX("ClosePopUp");
 
-                    if (Stage.Instance.isWining)
-                    {
-                        Stage.Instance.ScaleUpStage();
-                    }
-                    else
-                    {
-                        GamePlayPanelUIManager.Instance.Appear();
-                        GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-                    }
+                    //if (Stage.Instance.isWining)
+                    //{
+                    //    Stage.Instance.ScaleUpStage();
+                    //}
+                    //else
+                    //{
+                    //    GamePlayPanelUIManager.Instance.Appear();
+                    //    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                    //}
+                    GamePlayPanelUIManager.Instance.Appear();
                     ActiveCVGroup();
                     Stage.Instance.checked1 = false;
                     this.gameObject.SetActive(false);
@@ -195,15 +201,16 @@ public class DeteleNailPanel : MonoBehaviour
                     AudioManager.instance.PlaySFX("ClosePopUp");
                     GamePlayPanelUIManager.Instance.ActiveTime();
 
-                    if (Stage.Instance.isWining)
-                    {
-                        Stage.Instance.ScaleUpStage();
-                    }
-                    else
-                    {
-                        GamePlayPanelUIManager.Instance.Appear();
-                        GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-                    }
+                    //if (Stage.Instance.isWining)
+                    //{
+                    //    Stage.Instance.ScaleUpStage();
+                    //}
+                    //else
+                    //{
+                    //    GamePlayPanelUIManager.Instance.Appear();
+                    //    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                    //}
+                    GamePlayPanelUIManager.Instance.Appear();
                     ActiveCVGroup();
                     Stage.Instance.checked1 = false;
                     this.gameObject.SetActive(false);

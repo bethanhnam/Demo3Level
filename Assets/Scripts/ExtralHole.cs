@@ -107,15 +107,16 @@ public class ExtralHole : MonoBehaviour
                 if (LevelManagerNew.Instance.stage == 1)
                 {
                     AudioManager.instance.PlaySFX("ClosePopUp");
-                    if (Stage.Instance.isWining)
-                    {
-                        Stage.Instance.ScaleUpStage();
-                    }
-                    else
-                    {
-                        GamePlayPanelUIManager.Instance.Appear();
-                        GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-                    }
+                    //if (Stage.Instance.isWining)
+                    //{
+                    //    Stage.Instance.ScaleUpStage();
+                    //}
+                    //else
+                    //{
+                    //    GamePlayPanelUIManager.Instance.Appear();
+                    //    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                    //}
+                    GamePlayPanelUIManager.Instance.Appear();
                     Stage.Instance.checked1 = false;
                     ActiveCVGroup();
                     this.gameObject.SetActive(false);
@@ -125,15 +126,16 @@ public class ExtralHole : MonoBehaviour
                 {
                     AudioManager.instance.PlaySFX("ClosePopUp");
                     GamePlayPanelUIManager.Instance.ActiveTime();
-                    if (Stage.Instance.isWining)
-                    {
-                        Stage.Instance.ScaleUpStage();
-                    }
-                    else
-                    {
-                        GamePlayPanelUIManager.Instance.Appear();
-                        GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-                    }
+                    //if (Stage.Instance.isWining)
+                    //{
+                    //    Stage.Instance.ScaleUpStage();
+                    //}
+                    //else
+                    //{
+                    //    GamePlayPanelUIManager.Instance.Appear();
+                    //    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                    //}
+                    GamePlayPanelUIManager.Instance.Appear();
                     Stage.Instance.checked1 = false;
                     ActiveCVGroup();
                     this.gameObject.SetActive(false);
@@ -161,16 +163,20 @@ public class ExtralHole : MonoBehaviour
             {
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                 this.Close();
-                DOVirtual.DelayedCall(1.3f, () =>
-                {
+                //DOVirtual.DelayedCall(1.3f, () =>
+                //{
                     Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
                     Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
                     UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
                     {
                         Stage.Instance.ChangeLayer();
                     });
-                });
+                //});
             });
+        }
+        else
+        {
+            UIManagerNew.Instance.ShopPanel.Open();
         }
     }
 

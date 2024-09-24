@@ -25,4 +25,8 @@ public class LevelButton : MonoBehaviour
 		this.star = star;
 		itemStar.text = star.ToString();
 	}
+	public void ActiveSecondPointer()
+	{
+		UIManagerNew.Instance.ThresholeController.SetSecondItemButton();
+	}
 }

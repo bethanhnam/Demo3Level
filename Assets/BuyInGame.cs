@@ -36,7 +36,7 @@ public class BuyInGame : MonoBehaviour
             if (SaveSystem.instance.coin - gold >= 0)
             {
                 char t = '-';
-                SetMinusText(t,gold);
+                SetMinusText(t,gold,true);
                 LoadData(-gold);
                 CreateStar(this.transform.position,startPos.position, () =>
                 {
@@ -96,9 +96,17 @@ public class BuyInGame : MonoBehaviour
         }
 
     }
-    public void SetMinusText(char t,int value)
+    public void SetMinusText(char t,int value,bool spend)
     {
         minusCoinText.gameObject.SetActive(true);
+        if (spend)
+        {
+            minusCoinText.color = Color.red;
+        }
+        else
+        {
+            minusCoinText.color = Color.green;
+        }
         minusCoinText.text = t + value.ToString();
         StartCoroutine(DisableText());
     }
@@ -124,7 +132,7 @@ public class BuyInGame : MonoBehaviour
             AdsManager.instance.ShowRewardVideo(AddType.Shop_BuyByAds, "Gold", () =>
             {
                 char t = '+';
-                SetMinusText(t,20);
+                SetMinusText(t,20,false);
                 DOVirtual.DelayedCall(0.3f, () =>
                 {
                     LoadData(20);
