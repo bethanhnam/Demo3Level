@@ -720,7 +720,7 @@ public class Stage : MonoBehaviour
                                 FirebaseAnalyticsControl.Instance.LogEventTutorialStatus(LevelManagerNew.Instance.stage, TutorialStatus.tut_unscrew_done);
                             }
                         }
-                        UIManagerNew.Instance.GamePlayPanel.animButton.Play(UIManagerNew.Instance.GamePlayPanel.appearButton, 0, 0);
+                        //UIManagerNew.Instance.GamePlayPanel.animButton.Play(UIManagerNew.Instance.GamePlayPanel.appearButton, 0, 0);
                         if (holeToUnlock.GetComponent<Hole>().extraHole == true)
                         {
                             holeToUnlock.myButton.gameObject.SetActive(true);
@@ -1285,6 +1285,7 @@ public class Stage : MonoBehaviour
         {
             curNail.Unselect(curNail);
             curNail = null;
+            curHole = null;
         }
     }
 }

@@ -80,6 +80,7 @@ public class UndoPanel : MonoBehaviour
     public void NewWayUse()
     {
         Stage.Instance.SetDefaultBeforeUnscrew();
+        
         if (SaveSystem.instance.undoPoint >= 1)
         {
             if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
@@ -90,11 +91,15 @@ public class UndoPanel : MonoBehaviour
             //SetMinusText('-', numOfUsed);
             SaveSystem.instance.AddBooster(0, -1, 0);
             SaveSystem.instance.SaveData();
-            Stage.Instance.Undo();
+            DOVirtual.DelayedCall(0.3f, () =>
+            {
+                Stage.Instance.Undo();
+            });
         }
         else
         {
-          UIManagerNew.Instance.GamePlayPanel.OpenUndoPanel();
+            Stage.Instance.canInteract = false;
+            UIManagerNew.Instance.GamePlayPanel.OpenUndoPanel();
         }
     }
 
@@ -140,6 +145,10 @@ public class UndoPanel : MonoBehaviour
                 //}
                 GamePlayPanelUIManager.Instance.Appear();
                 Stage.Instance.checked1 = false;
+
+                DOVirtual.DelayedCall(0.3f, () => {
+                    Stage.Instance.canInteract = true;
+                });
 
                 ActiveCVGroup();
                 this.gameObject.SetActive(false);

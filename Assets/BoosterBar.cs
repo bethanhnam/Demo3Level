@@ -80,16 +80,5 @@ public class BoosterBar : MonoBehaviour
                 undoNumImg.gameObject.SetActive(false);
             }
         }
-        if(Stage.Instance != null && Stage.Instance.holeToUnlock != null)
-        {
-            if(SaveSystem.instance.extraHolePoint >= 1)
-            {
-                Stage.Instance.holeToUnlock.addImage.gameObject.SetActive(false);
-            }
-            else
-            {
-                Stage.Instance.holeToUnlock.addImage.gameObject.SetActive(true);
-            }
-        }
     }
 }

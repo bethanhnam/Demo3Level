@@ -190,6 +190,10 @@ public class DeteleNailPanel : MonoBehaviour
                     //    GamePlayPanelUIManager.Instance.Appear();
                     //    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
                     //}
+                    if (Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole == true)
+                    {
+                        Stage.Instance.holeToUnlock.myButton.gameObject.SetActive(true);
+                    }
                     GamePlayPanelUIManager.Instance.Appear();
                     ActiveCVGroup();
                     Stage.Instance.checked1 = false;
@@ -210,6 +214,10 @@ public class DeteleNailPanel : MonoBehaviour
                     //    GamePlayPanelUIManager.Instance.Appear();
                     //    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
                     //}
+                    if (Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole == true)
+                    {
+                        Stage.Instance.holeToUnlock.myButton.gameObject.SetActive(true);
+                    }
                     GamePlayPanelUIManager.Instance.Appear();
                     ActiveCVGroup();
                     Stage.Instance.checked1 = false;
@@ -218,11 +226,16 @@ public class DeteleNailPanel : MonoBehaviour
                 }
 
             });
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                Stage.Instance.canInteract = true;
+            });
         }
     }
     public void NewWayUse()
     {
         Stage.Instance.SetDefaultBeforeUnscrew();
+        Stage.Instance.canInteract = false;
         UIManagerNew.Instance.GamePlayPanel.animButton.Play(UIManagerNew.Instance.GamePlayPanel.disappearButtonForBooster);
         if (Stage.Instance.holeToUnlock != null)
         {
@@ -232,7 +245,13 @@ public class DeteleNailPanel : MonoBehaviour
         {
             Stage.Instance.DeactiveTutor();
             hasUseTutor = true;
-            Stage.Instance.setDeteleting(true);
+            GamePlayPanelUIManager.Instance.Appear();
+            DOVirtual.DelayedCall(0.3f, () =>
+            {
+                Stage.Instance.canInteract = true;
+                Stage.Instance.setDeteleting(true);
+            });
+
         }
         else
         if (SaveSystem.instance.unscrewPoint >= 1)
@@ -249,11 +268,17 @@ public class DeteleNailPanel : MonoBehaviour
             Stage.Instance.DeactiveTutor();
             SaveSystem.instance.AddBooster(-1, 0, 0);
             SaveSystem.instance.SaveData();
-            Stage.Instance.setDeteleting(true);
+            GamePlayPanelUIManager.Instance.Appear();
+            DOVirtual.DelayedCall(0.3f, () =>
+            {
+                Stage.Instance.canInteract = true;
+                Stage.Instance.setDeteleting(true);
+            });
         }
         else
         {
             UIManagerNew.Instance.GamePlayPanel.OpenDetelePanel();
+            
         }
     }
 

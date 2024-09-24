@@ -32,7 +32,7 @@ public class ExtraHoleButton : MonoBehaviour
             SaveSystem.instance.AddBooster(0, 0, -1);
             SaveSystem.instance.SaveData();
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
-            DOVirtual.DelayedCall(1.3f, () =>
+            DOVirtual.DelayedCall(.5f, () =>
             {
                 Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
                 Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
