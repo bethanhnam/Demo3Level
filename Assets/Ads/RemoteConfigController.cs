@@ -36,8 +36,10 @@ public class RemoteConfigController : MonoBehaviour
     private int isShowOpenAds;
     [SerializeField]
     private string level_config;
+    [SerializeField]
+    public string WeeklyEvent;
     // Level_config
-    
+
 
     //[SerializeField]
     //private string data_config;
@@ -95,6 +97,7 @@ public class RemoteConfigController : MonoBehaviour
 	public string Ads_config_new { get => ads_config_new; set => ads_config_new = value; }
 	public int IsShowOpenAds { get => isShowOpenAds; set => isShowOpenAds = value; }
     public string Level_config { get => level_config; set => level_config = value; }
+    public string Weekly_Event { get => WeeklyEvent; set => WeeklyEvent = value; }
 
     //Level Config
 
@@ -198,7 +201,12 @@ public class RemoteConfigController : MonoBehaviour
 
         try { level_config = (string.IsNullOrEmpty(GetValue("level_config").StringValue) ? level_config : GetValue("level_config").StringValue); }
         catch { }
+        
+        try { WeeklyEvent = (string.IsNullOrEmpty(GetValue("WeeklyEvent").StringValue) ? WeeklyEvent : GetValue("WeeklyEvent").StringValue); }
+        catch { }
+
         Debug.Log("data: " + level_config);
+        Debug.Log("data Weekly Event: " + WeeklyEvent.ToString());
 
         SaveValue();
         isInit = true;
@@ -244,6 +252,10 @@ public class RemoteConfigController : MonoBehaviour
         {
             PlayerPrefs.SetString("level_config", level_config);
         }
+        if(PlayerPrefs.HasKey("WeeklyEvent"))
+        {
+            PlayerPrefs.SetString("WeeklyEvent", WeeklyEvent);
+        }
         if (PlayerPrefs.HasKey("isShowOpenAds"))
         {
             PlayerPrefs.SetInt("isShowOpenAds", isShowOpenAds);
@@ -262,6 +274,7 @@ public class RemoteConfigController : MonoBehaviour
 		ads_config_new = PlayerPrefs.GetString("ads_config_new", ads_config_new);
 		isShowOpenAds = PlayerPrefs.GetInt("isShowOpenAds", isShowOpenAds);
         level_config = PlayerPrefs.GetString("level_config", level_config);
+        WeeklyEvent = PlayerPrefs.GetString("WeeklyEvent", WeeklyEvent);
     }
 
     private void SaveValue()
@@ -276,6 +289,7 @@ public class RemoteConfigController : MonoBehaviour
 		PlayerPrefs.SetString("ads_config_new", ads_config_new);
 		PlayerPrefs.SetInt("isShowOpenAds", isShowOpenAds);
         PlayerPrefs.SetString("level_config", level_config);
+        PlayerPrefs.SetString("WeeklyEvent", WeeklyEvent);
         PlayerPrefs.Save();
     }
 }

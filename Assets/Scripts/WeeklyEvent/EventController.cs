@@ -6,9 +6,11 @@ using Sirenix.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using UnityEditor;
 using UnityEngine;
+using static EventController;
 using static WeeklyEventController;
 
 public class EventController : MonoBehaviour
@@ -28,9 +30,12 @@ public class EventController : MonoBehaviour
     public List<int> weeklyEventItemColors = new List<int>();
     public int selectedColorIndex = 0;
 
+
+    public WeeklyEventDataConfig weeklyEventDataConfig;
+
     private void Start()
     {
-        instance = this; 
+        instance = this;
     }
     [Button("CheckForWeeklyEvent")]
     public void CheckForWeeklyEvent()
@@ -304,6 +309,8 @@ public class EventController : MonoBehaviour
     [Button("LoadData")]
     public void LoadData()
     {
+        ConvertData();
+
         string dataString = PlayerPrefs.GetString("TreasureClimb");
         string dataString1 = PlayerPrefs.GetString("HauntedTreasure");
         string dataString2 = PlayerPrefs.GetString("WeeklyEvent");
@@ -323,60 +330,6 @@ public class EventController : MonoBehaviour
         Debug.Log(PlayerPrefs.GetString(dataString2));
 
     }
-    [Button("CretaWeeklyEvent")]
-    public void CretaWeeklyEvent(WeeklyEventController weeklyEventController)
-    {
-        //UIManagerNew.Instance.TreasureClimbPanel.TresureClimbButton.gameObject.SetActive(true);
-        //currentWeeklyEventPrefab.SetValue(weeklyEventController);
-    }
-    public void CheckForEndTime(String eventName, WeeklyEventController weeklyEventController, WeeklyEventController targetWeeklyEventController)
-    {
-        if (DateTime.Now.Date.Subtract(new DateTime(long.Parse(weeklyEventController.startEventDate))).TotalDays >= targetWeeklyEventController.numberOfDaysExistence)
-        {
-            //if (eventName == "TreasureClimb")
-            //{
-            //    UIManagerNew.Instance.TreasureClimbPanel.TresureClimbButton.gameObject.SetActive(false);
-            //    weeklyEventController.eventStaus = WeeklyEventController.EventStaus.end;
-            //    SaveData(weeklyEventController.eventType1.ToString(), weeklyEventController);
-            //}
-            //if (eventName == "HauntedTreasure")
-            //{
-            //    UIManagerNew.Instance.TreasureClimbPanel.TresureClimbButton.gameObject.SetActive(false);
-            //    weeklyEventController.eventStaus = WeeklyEventController.EventStaus.end;
-            //    SaveData(weeklyEventController.eventType1.ToString(), weeklyEventController);
-            //}
-        }
-        else
-        {
-            CretaWeeklyEvent(weeklyEventController);
-        }
-    }
-    [Button("TestChangeData")]
-    public void TestChangeData()
-    {
-        if (currentWeeklyEventPrefab != null)
-        {
-            currentWeeklyEventPrefab.ChangeData("TreasureClimb", weeklyEventTreasureClimb);
-            SaveData("TreasureClimb", weeklyEventTreasureClimb);
-        }
-        if (weeklyEvent != null)
-        {
-            if (weeklyEvent.levelIndex < weeklyEventControllers[0].weeklyEventPack.Count)
-            {
-                //NextStageWeeklyEvent();
-            }
-            NextStageWeeklyEvent(1);
-            //RandomItemColor();
-            //UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
-        }
-    }
-    [Button("TestChangeData1")]
-    public void TestChangeData1()
-    {
-        weeklyEvent.numOfCollection = weeklyEvent.numToLevelUp;
-        //NextStageWeeklyEvent();
-    }
-
 
     public void SetNewData(string EventName, WeeklyEventController targetWeeklyEventController)
     {
@@ -418,7 +371,7 @@ public class EventController : MonoBehaviour
         }
     }
 
-    public void NextStageWeeklyEvent(int addnum = 0,bool checkAgain = false)
+    public void NextStageWeeklyEvent(int addnum = 0, bool checkAgain = false)
     {
         if (weeklyEvent.levelIndex < weeklyEventControllers[0].weeklyEventPack.Count - 1)
         {
@@ -464,7 +417,7 @@ public class EventController : MonoBehaviour
                 UIManagerNew.Instance.WeeklyEventPanel.collectSlider.value = UIManagerNew.Instance.WeeklyEventPanel.collectSlider.maxValue;
                 UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = true;
                 weeklyEvent.eventStaus = EventStaus.end;
-                UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.RewardClaim(weeklyEventControllers[0].weeklyEventPack.Count-1);
+                UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.RewardClaim(weeklyEventControllers[0].weeklyEventPack.Count - 1);
                 SaveSystem.instance.SaveData();
 
             }
@@ -477,7 +430,7 @@ public class EventController : MonoBehaviour
                     UIManagerNew.Instance.WeeklyEventPanel.collectSlider.value = UIManagerNew.Instance.WeeklyEventPanel.collectSlider.maxValue;
                     UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = true;
                     weeklyEvent.eventStaus = EventStaus.end;
-                    UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.RewardClaim(weeklyEventControllers[0].weeklyEventPack.Count-1);
+                    UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.RewardClaim(weeklyEventControllers[0].weeklyEventPack.Count - 1);
                     SaveSystem.instance.SaveData();
 
                 }
@@ -574,4 +527,43 @@ public class EventController : MonoBehaviour
 
         return DateTime.Now.Subtract(sunday).TotalHours >= 24;
     }
+
+    // data config weekly event
+    public void ConvertData()
+    {
+        try
+        {
+            weeklyEventDataConfig = JsonConvert.DeserializeObject<WeeklyEventDataConfig>(RemoteConfigController.instance.WeeklyEvent);
+            DateTime dateTime = DateTime.Parse(weeklyEventDataConfig.StartTime.ToString());
+            Debug.Log("data Weekly Event: " + RemoteConfigController.instance.WeeklyEvent.ToString());
+            Debug.LogWarning(" keo duoc time weekly event");
+        }
+        catch
+        {
+            weeklyEventDataConfig = null;
+            Debug.LogWarning("khong keo duoc time weekly event");
+        }
+    }
+
+    [System.Serializable]
+    public class WeeklyEventDataConfig
+    {
+        [JsonProperty("NameEvent")]
+        public string NameEvent;
+
+        [JsonProperty("TimeStart")]
+        public DateTime StartTime;
+
+        [JsonProperty("TimeEnd")]
+        public DateTime EndTime;
+
+        public WeeklyEventDataConfig(string nameEvent, DateTime startTime, DateTime endTime)
+        {
+            NameEvent = nameEvent;
+            StartTime = startTime;
+            EndTime = endTime;
+        }
+    }
 }
+
+
