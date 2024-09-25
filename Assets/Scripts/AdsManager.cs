@@ -158,9 +158,9 @@ public class AdsManager : MonoBehaviour
 				{
 					Debug.Log("inter ads: " + p.ToString());
 					AdsControl.Instance.ShowFAAds(actionDone);
-                    Debug.Log("Chạy vào action");
                     lastTime = Time.time;
                     FirebaseAnalyticsControl.Instance.LogEvenAdsStatus(AdsType.force_ads, AdsStatus.success, p.ToString(), AdsRemoveStatus.no, true);
+                    Debug.Log("Chạy vào action");
                 }
 				else
 				{
@@ -181,8 +181,8 @@ public class AdsManager : MonoBehaviour
 				if (actionDone != null)
 				{
 					actionDone();
-                    Debug.Log("chạy actiondone2");
                     FirebaseAnalyticsControl.Instance.LogEvenAdsStatus(AdsType.force_ads, AdsStatus.fail, p.ToString(), AdsRemoveStatus.no, true);
+                    Debug.Log("chạy actiondone2");
                 }
 			}
 		}
@@ -190,8 +190,8 @@ public class AdsManager : MonoBehaviour
             if (actionDone != null)
             {
                 actionDone();
-                Debug.Log("chạy actiondone3");
                 FirebaseAnalyticsControl.Instance.LogEvenAdsStatus(AdsType.force_ads, AdsStatus.fail, p.ToString(), AdsRemoveStatus.no, true);
+                Debug.Log("chạy actiondone3");
             }
         }
 	}

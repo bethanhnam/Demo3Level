@@ -380,7 +380,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
         DOVirtual.DelayedCall(1f, () =>
         {
             undoEffect.transform.GetComponent<Animator>().Play("Undo");
-            DOVirtual.DelayedCall(2.2f, () =>
+            DOVirtual.DelayedCall(1f, () =>
             {
                 undoEffect.gameObject.SetActive(false);
                 Stage.Instance.canInteract = true;
