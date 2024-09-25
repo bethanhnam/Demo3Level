@@ -43,6 +43,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
 
     //boosterbar
     public BoosterBar boosterBar;
+    public GameObject tapToCancel;
 
     //blackPic
     public Image blackPic;
@@ -55,6 +56,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
     //Booster Effect
     public GameObject unscrewEffect;
     public GameObject drillEffect;
+    public GameObject undoEffect;
 
     //weekly event
     public Image weeklyEventImg;
@@ -104,6 +106,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
         cvButton.blocksRaycasts = false;
         ActiveTime();
         animButton.Play(appearButton, 0, 0);
+        SetTapToCancel();
         ShowCollectionEvent();
     }
     public void AppearForCreateLevel()
@@ -195,6 +198,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
         {
             //GameManagerNew.Instance.CloseLevel(false);
             Close();
+            UIManagerNew.Instance.hasUI = true;
             DOVirtual.DelayedCall(0.4f, () =>
             {
                 UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
@@ -211,6 +215,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
         DeactiveTime();
         Close();
         //GameManagerNew.Instance.CloseLevel(false);
+        UIManagerNew.Instance.hasUI = true;
         DOVirtual.DelayedCall(0.4f, () =>
         {
             UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
@@ -221,6 +226,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
     {
         DeactiveTime();
         Close();
+        UIManagerNew.Instance.hasUI = true;
         //GameManagerNew.Instance.CloseLevel(false);
         DOVirtual.DelayedCall(0.4f, () =>
         {
@@ -234,6 +240,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
 
         DeactiveTime();
         Close();
+        UIManagerNew.Instance.hasUI = true;
         GameManagerNew.Instance.CloseLevel(false);
 
         DOVirtual.DelayedCall(0.4f, () =>
@@ -245,6 +252,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
     {
         DeactiveTime();
         Close();
+        UIManagerNew.Instance.hasUI = true;
         GameManagerNew.Instance.CloseLevel(false);
         DOVirtual.DelayedCall(0.4f, () =>
         {
@@ -268,7 +276,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
             UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
             if (PlayerPrefs.GetInt("HasCompleteLastLevel") == 1)
             {
-                int replayLevel = UnityEngine.Random.Range(10,LevelManagerNew.Instance.stageList.Count-1);
+                int replayLevel = UnityEngine.Random.Range(10, LevelManagerNew.Instance.stageList.Count - 1);
                 GameManagerNew.Instance.CreateLevel(replayLevel);
             }
             else
@@ -363,15 +371,66 @@ public class GamePlayPanelUIManager : MonoBehaviour
         });
     }
 
+    public void ShowUndoEffect(Action action)
+    {
+        UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
+        Stage.Instance.canInteract = false;
+        undoEffect.gameObject.SetActive(true);
+        AudioManager.instance.PlaySFX("HeartBreak");
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            undoEffect.transform.GetComponent<Animator>().Play("Undo");
+            DOVirtual.DelayedCall(2.2f, () =>
+            {
+                undoEffect.gameObject.SetActive(false);
+                Stage.Instance.canInteract = true;
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+                if (action != null) action();
+            });
+        });
+    }
     public void DeactiveBoosterEffect()
     {
         unscrewEffect.gameObject.SetActive(false);
         drillEffect.gameObject.SetActive(false);
+        undoEffect.gameObject.SetActive(false);
+    }
+
+    public void CancelUnscrew()
+    {
+        if (Stage.Instance.isDeteleting)
+        {
+            Stage.Instance.setDeteleting(false);
+            Stage.Instance.DisplayUnscrew(false);
+            if (LevelManagerNew.Instance.stage != 3)
+            {
+                SaveSystem.instance.AddBooster(1, 0, 0);
+                SaveSystem.instance.SaveData();
+            }
+            Stage.Instance.canInteract = true;
+        }
+    }
+    public void SetTapToCancel()
+    {
+        if (LevelManagerNew.Instance.stage >= 3)
+        {
+            if (Stage.Instance != null)
+            {
+                if (Stage.Instance.isDeteleting)
+                {
+                    Stage.Instance.DisplayUnscrew(true);
+                }
+                else
+                {
+                    Stage.Instance.DisplayUnscrew(false);
+                }
+            }
+        }
     }
 
     public void ShowCollectionEvent()
     {
-        if (EventController.instance != null && EventController.instance.weeklyEvent != null && LevelManagerNew.Instance.stage >=8)
+        if (EventController.instance != null && EventController.instance.weeklyEvent != null && LevelManagerNew.Instance.stage >= 8)
         {
             weeklyEventImg.gameObject.SetActive(true);
             weeklyEventImg.sprite = UIManagerNew.Instance.WeeklyEventPanel.ItemToCollect.sprite;

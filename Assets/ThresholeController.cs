@@ -151,7 +151,7 @@ public class ThresholeController : MonoBehaviour
         if (LevelManagerNew.Instance.LevelBase.Level == 0 && GameManagerNew.Instance.PictureUIManager.Stage[0].listObjLock[1].objBtn[0] != null)
         {
             if (LevelManagerNew.Instance.stage < 2)
-                DOVirtual.DelayedCall(1f, () =>
+                DOVirtual.DelayedCall(2.5f, () =>
                 {
                     GameManagerNew.Instance.PictureUIManager.Stage[0].listObjLock[2].objBtn[0].transform.GetChild(2).gameObject.SetActive(true);
                 });

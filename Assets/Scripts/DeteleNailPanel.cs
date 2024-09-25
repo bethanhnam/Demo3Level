@@ -42,7 +42,21 @@ public class DeteleNailPanel : MonoBehaviour
 
             CheckNumOfUse();
 
-            Stage.Instance.setDeteleting(true);
+            Stage.Instance.isDeteleting = true;
+            Stage.Instance.DisplayUnscrew(true);
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                if (!Stage.Instance.isWining)
+                {
+                    Stage.Instance.setDeteleting(true);
+                }
+                else
+                {
+                    Stage.Instance.isDeteleting = false;
+                    Stage.Instance.DisplayUnscrew(false);
+                }
+                Stage.Instance.canInteract = true;
+            });
 
             DOVirtual.DelayedCall(1f, () =>
             {
@@ -70,7 +84,21 @@ public class DeteleNailPanel : MonoBehaviour
                 //hasUse = true;
                 numOfUsed++;
                 CheckNumOfUse();
-                Stage.Instance.setDeteleting(true);
+                Stage.Instance.isDeteleting = true;
+                Stage.Instance.DisplayUnscrew(true);
+                DOVirtual.DelayedCall(0.5f, () =>
+                {
+                    if (!Stage.Instance.isWining)
+                    {
+                        Stage.Instance.setDeteleting(true);
+                    }
+                    else
+                    {
+                        Stage.Instance.isDeteleting = false;
+                        Stage.Instance.DisplayUnscrew(false);
+                    }
+                    Stage.Instance.canInteract = true;
+                });
                 //UIManager.instance.gamePlayPanel.ButtonOff();
                 DOVirtual.DelayedCall(1f, () =>
                 {
@@ -89,15 +117,29 @@ public class DeteleNailPanel : MonoBehaviour
     {
         AdsManager.instance.ShowRewardVideo(AddType.Booster_Unscrew, null, () =>
         {
+            
             //xem qu?ng cáo 
             FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.unscrew);
 
             //xoá nail(Đồng hồ đếm giờ dừng lại)
-            Stage.Instance.setDeteleting(true);
             //UIManager.instance.gamePlayPanel.ButtonOff();
             numOfUsed++;
             CheckNumOfUse();
-
+            Stage.Instance.isDeteleting = true;
+            Stage.Instance.DisplayUnscrew(true);
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                if (!Stage.Instance.isWining)
+                {
+                    Stage.Instance.setDeteleting(true);
+                }
+                else
+                {
+                    Stage.Instance.isDeteleting = false;
+                    Stage.Instance.DisplayUnscrew(false);
+                }
+                Stage.Instance.canInteract = true;
+            });
             this.Close();
 
         });
@@ -114,11 +156,26 @@ public class DeteleNailPanel : MonoBehaviour
             {
                 hasUseTutor = true;
             }
+           
             //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
             Stage.Instance.DeactiveTutor();
             SaveSystem.instance.addCoin(-50);
             SaveSystem.instance.SaveData();
-            Stage.Instance.setDeteleting(true);
+            Stage.Instance.isDeteleting = true;
+            Stage.Instance.DisplayUnscrew(true);
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                if (!Stage.Instance.isWining)
+                {
+                    Stage.Instance.setDeteleting(true);
+                }
+                else
+                {
+                    Stage.Instance.isDeteleting = false;
+                    Stage.Instance.DisplayUnscrew(false);
+                }
+                Stage.Instance.canInteract = true;
+            });
             this.Close();
         }
         else
@@ -177,19 +234,10 @@ public class DeteleNailPanel : MonoBehaviour
             canvasGroup.DOFade(0, 0.1f);
             panel.DOScale(new Vector3(0.8f, 0.8f, 0), 0.1f).OnComplete(() =>
             {
+                UIManagerNew.Instance.hasUI = false;
                 if (LevelManagerNew.Instance.stage == 3 && hasUseTutor)
                 {
                     AudioManager.instance.PlaySFX("ClosePopUp");
-
-                    //if (Stage.Instance.isWining)
-                    //{
-                    //    Stage.Instance.ScaleUpStage();
-                    //}
-                    //else
-                    //{
-                    //    GamePlayPanelUIManager.Instance.Appear();
-                    //    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-                    //}
                     if (Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole == true)
                     {
                         Stage.Instance.holeToUnlock.myButton.gameObject.SetActive(true);
@@ -205,15 +253,6 @@ public class DeteleNailPanel : MonoBehaviour
                     AudioManager.instance.PlaySFX("ClosePopUp");
                     GamePlayPanelUIManager.Instance.ActiveTime();
 
-                    //if (Stage.Instance.isWining)
-                    //{
-                    //    Stage.Instance.ScaleUpStage();
-                    //}
-                    //else
-                    //{
-                    //    GamePlayPanelUIManager.Instance.Appear();
-                    //    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-                    //}
                     if (Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole == true)
                     {
                         Stage.Instance.holeToUnlock.myButton.gameObject.SetActive(true);
@@ -246,12 +285,21 @@ public class DeteleNailPanel : MonoBehaviour
             Stage.Instance.DeactiveTutor();
             hasUseTutor = true;
             GamePlayPanelUIManager.Instance.Appear();
-            DOVirtual.DelayedCall(0.3f, () =>
+            Stage.Instance.isDeteleting = true;
+            Stage.Instance.DisplayUnscrew(true);
+            DOVirtual.DelayedCall(0.5f, () =>
             {
+                if (!Stage.Instance.isWining)
+                {
+                    Stage.Instance.setDeteleting(true);
+                }
+                else
+                {
+                    Stage.Instance.isDeteleting = false;
+                    Stage.Instance.DisplayUnscrew(false);
+                }
                 Stage.Instance.canInteract = true;
-                Stage.Instance.setDeteleting(true);
             });
-
         }
         else
         if (SaveSystem.instance.unscrewPoint >= 1)
@@ -266,13 +314,23 @@ public class DeteleNailPanel : MonoBehaviour
             }
             //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
             Stage.Instance.DeactiveTutor();
+           
             SaveSystem.instance.AddBooster(-1, 0, 0);
-            SaveSystem.instance.SaveData();
             GamePlayPanelUIManager.Instance.Appear();
-            DOVirtual.DelayedCall(0.3f, () =>
+            Stage.Instance.isDeteleting = true;
+            Stage.Instance.DisplayUnscrew(true);
+            DOVirtual.DelayedCall(0.5f, () =>
             {
+                if (!Stage.Instance.isWining)
+                {
+                    Stage.Instance.setDeteleting(true);
+                }
+                else
+                {
+                    Stage.Instance.isDeteleting = false;
+                    Stage.Instance.DisplayUnscrew(false);
+                }
                 Stage.Instance.canInteract = true;
-                Stage.Instance.setDeteleting(true);
             });
         }
         else

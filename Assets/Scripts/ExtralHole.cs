@@ -41,14 +41,17 @@ public class ExtralHole : MonoBehaviour
             {
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                 this.Close();
-                DOVirtual.DelayedCall(1.3f, () =>
+                DOVirtual.DelayedCall(0.5f, () =>
                 {
-                    Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
-                    Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
-                    UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
+                    if (!Stage.Instance.isWining)
                     {
-                        Stage.Instance.ChangeLayer();
-                    });
+                        Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
+                        Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
+                        UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
+                        {
+                            Stage.Instance.ChangeLayer();
+                        });
+                    }
                 });
             });
 
@@ -64,14 +67,17 @@ public class ExtralHole : MonoBehaviour
         {
             // load ad 
             this.Close();
-            DOVirtual.DelayedCall(1.3f, () =>
+            DOVirtual.DelayedCall(0.5f, () =>
             {
-                Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
-                Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
-                UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
+                if (!Stage.Instance.isWining)
                 {
-                    Stage.Instance.ChangeLayer();
-                });
+                    Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
+                    Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
+                    UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
+                    {
+                        Stage.Instance.ChangeLayer();
+                    });
+                }
             });
         });
 
@@ -104,6 +110,7 @@ public class ExtralHole : MonoBehaviour
             canvasGroup.DOFade(0, 0.1f);
             panel.DOScale(new Vector3(0.8f, 0.8f, 0), 0.1f).OnComplete(() =>
             {
+                UIManagerNew.Instance.hasUI = false;
                 if (LevelManagerNew.Instance.stage == 1)
                 {
                     AudioManager.instance.PlaySFX("ClosePopUp");
@@ -163,15 +170,18 @@ public class ExtralHole : MonoBehaviour
             {
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                 this.Close();
-                //DOVirtual.DelayedCall(1.3f, () =>
-                //{
-                    Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
-                    Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
-                    UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
+                DOVirtual.DelayedCall(0.5f, () =>
+                {
+                    if (!Stage.Instance.isWining)
                     {
-                        Stage.Instance.ChangeLayer();
-                    });
-                //});
+                        Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole = false;
+                        Stage.Instance.holeToUnlock.GetComponent<ExtraHoleButton>().myButton.gameObject.SetActive(false);
+                        UIManagerNew.Instance.GamePlayPanel.ShowDrillEffect(() =>
+                        {
+                            Stage.Instance.ChangeLayer();
+                        });
+                    }
+                });
             });
         }
         else

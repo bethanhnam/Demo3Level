@@ -21,8 +21,10 @@ public class GameManagerNew : MonoBehaviour
 
     [SerializeField]
     public Transform parPic;
+
     [SerializeField]
     private Transform gamePlayPanel;
+
     [SerializeField]
     private Stage currentLevel;
     private MiniGameStage currentMiniGameStage;
@@ -168,6 +170,7 @@ public class GameManagerNew : MonoBehaviour
                 DOVirtual.DelayedCall(1f, () =>
                 {
                     CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[_level], new Vector2(0.1f, 1.2f), Quaternion.identity, GamePlayPanel);
+                    Stage.Instance.DisplayUnscrew(false);
                     CurrentLevel.setDeteleting(false);
                     ScaleForDevices(CurrentLevel.transform.gameObject);
                     SetTargetScale(currentLevel.gameObject);

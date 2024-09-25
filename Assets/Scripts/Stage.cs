@@ -566,16 +566,14 @@ public class Stage : MonoBehaviour
             {
                 if (numOfIronPlates <= 0)
                 {
-                    isWining = true; 
+                    isWining = true;
                     UIManagerNew.Instance.GamePlayPanel.DeactiveCVGroup();
 
-                    if (isDeteleting)
-                    {
-                        isDeteleting = false;
-                        TurnRed(false);
-                    }
+                    isDeteleting = false;
+                    TurnRed(false);
+
                     UIManagerNew.Instance.GamePlayPanel.DeactiveBoosterEffect();
-                    if (!UIManagerNew.Instance.PausePanel.gameObject.activeSelf && !UIManagerNew.Instance.UndoPanel.gameObject.activeSelf && !UIManagerNew.Instance.DeteleNailPanel.gameObject.activeSelf && !UIManagerNew.Instance.ExtralHolePanel.gameObject.activeSelf)
+                    if (!UIManagerNew.Instance.hasUI)
                     {
                         if (LevelManagerNew.Instance.stage == 0 || LevelManagerNew.Instance.stage == 1)
                         {
@@ -588,13 +586,14 @@ public class Stage : MonoBehaviour
                                 {
                                     DOVirtual.DelayedCall(0.3f, () =>
                                     {
+                                        UIManagerNew.Instance.GamePlayPanel.Close();
                                         UIManagerNew.Instance.CompleteUI.Appear();
                                         canInteract = false;
                                     });
                                 }
                                 else
                                 {
-
+                                    UIManagerNew.Instance.GamePlayPanel.Close();
                                     UIManagerNew.Instance.CompleteUI.Appear();
                                     canInteract = false;
                                 }
@@ -618,6 +617,8 @@ public class Stage : MonoBehaviour
                                             {
                                                 DOVirtual.DelayedCall(0.3f, () =>
                                                 {
+
+                                                    UIManagerNew.Instance.GamePlayPanel.Close();
                                                     UIManagerNew.Instance.CompleteUI.Appear();
                                                     canInteract = false;
                                                 });
@@ -625,8 +626,8 @@ public class Stage : MonoBehaviour
                                             else
                                             {
 
+                                                UIManagerNew.Instance.GamePlayPanel.Close();
                                                 UIManagerNew.Instance.CompleteUI.Appear();
-
                                                 canInteract = false;
                                             }
                                         });
@@ -647,6 +648,7 @@ public class Stage : MonoBehaviour
                                         {
                                             DOVirtual.DelayedCall(0.3f, () =>
                                             {
+                                                UIManagerNew.Instance.GamePlayPanel.Close();
                                                 UIManagerNew.Instance.CompleteUI.Appear();
                                                 canInteract = false;
                                             });
@@ -654,8 +656,8 @@ public class Stage : MonoBehaviour
                                         else
                                         {
 
+                                            UIManagerNew.Instance.GamePlayPanel.Close();
                                             UIManagerNew.Instance.CompleteUI.Appear();
-
                                             canInteract = false;
                                         }
                                     });
@@ -710,6 +712,9 @@ public class Stage : MonoBehaviour
                         nailToDetele.RemoveHinge();
                         nailToDetele.gameObject.SetActive(false);
                         setDeteleting(false);
+                        DisplayUnscrew(false);
+                        canInteract = true;
+                        SaveSystem.instance.SaveData();
                         hasDelete = true;
                         UIManagerNew.Instance.GamePlayPanel.ShowUnscrewEffect(holeToDetele.transform, null);
                         if (LevelManagerNew.Instance.stage == 3)
@@ -742,17 +747,30 @@ public class Stage : MonoBehaviour
     }
     public void setDeteleting(bool status)
     {
-        if (status == true)
-        {
-            GamePlayPanelUIManager.Instance.ButtonOff();
-        }
-        else
-        {
-            GamePlayPanelUIManager.Instance.ButtonOn();
-        }
+        //splayUnscrew(status);
         isDeteleting = status;
         TurnRed(status);
     }
+
+    public void DisplayUnscrew(bool status)
+    {
+        if (LevelManagerNew.Instance.stage >= 3)
+        {
+            if (status == true)
+            {
+                GamePlayPanelUIManager.Instance.ButtonOff();
+                GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
+                GamePlayPanelUIManager.Instance.tapToCancel.gameObject.SetActive(true);
+            }
+            else
+            {
+                GamePlayPanelUIManager.Instance.ButtonOn();
+                GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(true);
+                GamePlayPanelUIManager.Instance.tapToCancel.gameObject.SetActive(false);
+            }
+        }
+    }
+
     public void SaveGameObject()
     {
 
@@ -1043,10 +1061,10 @@ public class Stage : MonoBehaviour
     }
     public void Hack()
     {
-            foreach (var nail in nailControls)
-            {
-                Destroy(nail.gameObject);
-            }
+        foreach (var nail in nailControls)
+        {
+            Destroy(nail.gameObject);
+        }
     }
 
     public void Hack1()
@@ -1281,7 +1299,7 @@ public class Stage : MonoBehaviour
 
     public void SetDefaultBeforeUnscrew()
     {
-        if(curNail != null)
+        if (curNail != null)
         {
             curNail.Unselect(curNail);
             curNail = null;

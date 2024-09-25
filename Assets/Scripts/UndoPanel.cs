@@ -39,7 +39,16 @@ public class UndoPanel : MonoBehaviour
             SaveSystem.instance.AddBooster(0, -numOfUsed, 0);
             SaveSystem.instance.SaveData();
             numOfUsed++;
-            Stage.Instance.Undo();
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                if (!Stage.Instance.isWining)
+                {
+                    UIManagerNew.Instance.GamePlayPanel.ShowUndoEffect(() =>
+                    {
+                        Stage.Instance.Undo();
+                    });
+                }
+            });
             DOVirtual.DelayedCall(1f, () =>
             {
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
@@ -58,7 +67,16 @@ public class UndoPanel : MonoBehaviour
             //xem qu?ng cáo 
             FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.undo);
 
-            Stage.Instance.Undo();
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                if (!Stage.Instance.isWining)
+                {
+                    UIManagerNew.Instance.GamePlayPanel.ShowUndoEffect(() =>
+                    {
+                        Stage.Instance.Undo();
+                    });
+                }
+            });
             numOfUsed++;
             this.Close();
 
@@ -91,9 +109,15 @@ public class UndoPanel : MonoBehaviour
             //SetMinusText('-', numOfUsed);
             SaveSystem.instance.AddBooster(0, -1, 0);
             SaveSystem.instance.SaveData();
-            DOVirtual.DelayedCall(0.3f, () =>
+            DOVirtual.DelayedCall(0.5f, () =>
             {
-                Stage.Instance.Undo();
+                if (!Stage.Instance.isWining)
+                {
+                    UIManagerNew.Instance.GamePlayPanel.ShowUndoEffect(() =>
+                    {
+                        Stage.Instance.Undo();
+                    });
+                }
             });
         }
         else
@@ -149,7 +173,7 @@ public class UndoPanel : MonoBehaviour
                 DOVirtual.DelayedCall(0.3f, () => {
                     Stage.Instance.canInteract = true;
                 });
-
+                UIManagerNew.Instance.hasUI = false;
                 ActiveCVGroup();
                 this.gameObject.SetActive(false);
                 Stage.Instance.AfterPanel();
@@ -169,7 +193,16 @@ public class UndoPanel : MonoBehaviour
 
             SaveSystem.instance.addCoin(-30);
             SaveSystem.instance.SaveData();
-            Stage.Instance.Undo();
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                if (!Stage.Instance.isWining)
+                {
+                    UIManagerNew.Instance.GamePlayPanel.ShowUndoEffect(() =>
+                    {
+                        Stage.Instance.Undo();
+                    });
+                }
+            });
             DOVirtual.DelayedCall(1f, () =>
             {
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);

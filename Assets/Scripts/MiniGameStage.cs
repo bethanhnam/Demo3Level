@@ -464,12 +464,14 @@ public class MiniGameStage : MonoBehaviour
                                     {
                                         DOVirtual.DelayedCall(0.3f, () =>
                                         {
+                                            UIManagerNew.Instance.GamePlayPanel.Close();
                                             UIManagerNew.Instance.CompleteUI.Appear();
                                             canInteract = false;
                                         });
                                     }
                                     else
                                     {
+                                        UIManagerNew.Instance.GamePlayPanel.Close();
                                         UIManagerNew.Instance.CompleteUI.Appear();
                                         canInteract = false;
                                     }

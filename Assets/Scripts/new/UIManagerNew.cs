@@ -33,8 +33,11 @@ public class UIManagerNew : MonoBehaviour
     private ShopPanel shopPanel;
     [SerializeField]
     private LosePanel losePanel;
+
     [SerializeField]
     private GamePlayPanelUIManager gamePlayPanel;
+    public bool hasUI;
+
     [SerializeField]
     private RestorePanel restorePanel;
     [SerializeField]
