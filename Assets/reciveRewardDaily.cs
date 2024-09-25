@@ -209,7 +209,7 @@ public class reciveRewardDaily : MonoBehaviour
                         test(list, i - 1,value-1);
                 }
             });
-            list[i].MoveToDes(CoinReward.typeOfReward.DailyRewardGold, list[i].transform, coinDes.transform.position, .8f, 0.8f,() =>
+            list[i].MoveToDes(CoinReward.typeOfReward.DailyRewardGold, list[i].transform, coinDes.transform.position, .8f, 0.7f,() =>
             {
                 coinDes.gameObject.transform.DOScale(.8f, 0.15f).OnComplete(() =>
                 {

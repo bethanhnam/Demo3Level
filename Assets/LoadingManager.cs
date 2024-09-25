@@ -168,7 +168,14 @@ public class LoadingManager : MonoBehaviour
         }
         else
         {
-            UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
+            if (LevelManagerNew.Instance.stage >= 4)
+            {
+                UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
+            }
+            else
+            {
+                UIManagerNew.Instance.ButtonMennuManager.Appear();
+            }
             AudioManager.instance.PlayMusic("MenuTheme");
             if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
             {
@@ -205,7 +212,14 @@ public class LoadingManager : MonoBehaviour
             }
             else
             {
-                UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
+                if (LevelManagerNew.Instance.stage >= 4)
+                {
+                    UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
+                }
+                else
+                {
+                    UIManagerNew.Instance.ButtonMennuManager.Appear();
+                }
                 AudioManager.instance.PlayMusic("MenuTheme");
                 Debug.Log("Incomplete process and daily reward not claimed.");
             }

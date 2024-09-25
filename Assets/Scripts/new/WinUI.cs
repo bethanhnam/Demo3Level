@@ -138,7 +138,7 @@ public class WinUI : MonoBehaviour
         if (i < list.Count)
         {
             float time = .7f / list.Count;
-            list[i].MoveToDes(CoinReward.typeOfReward.WinUI,list[i].transform, coinIconDes.transform.position, 1f,.8f, () =>
+            list[i].MoveToDes(CoinReward.typeOfReward.WinUI,list[i].transform, coinIconDes.transform.position, 1f,.7f, () =>
             {
                 coinImgDes.gameObject.transform.DOScale(1.1f, 0.15f).OnComplete(() =>
                 {

@@ -41,7 +41,7 @@ public class VideoController : MonoBehaviour
     }
     public void CheckStartVideo()
     {
-        //PlayerPrefs.SetInt("videoIndex", 3);
+        PlayerPrefs.SetInt("videoIndex", 3);
 
         var x = PlayerPrefs.GetInt("videoIndex");
         PlayVideo(x, null);
@@ -139,7 +139,14 @@ public class VideoController : MonoBehaviour
                         DOVirtual.DelayedCall(0.5f, () =>
                         {
                             AudioManager.instance.PlayMusic("MenuTheme");
-                            UIManagerNew.Instance.DailyRWUI.Appear();
+                            if (LevelManagerNew.Instance.stage >= 4)
+                            {
+                                UIManagerNew.Instance.ButtonMennuManager.OpenDailyRW();
+                            }
+                            else
+                            {
+                                UIManagerNew.Instance.ButtonMennuManager.Appear();
+                            }
                         });
                     }
                 }

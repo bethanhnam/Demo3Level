@@ -78,8 +78,9 @@ public class NewBooster : MonoBehaviour
         if (LevelManagerNew.Instance.stage == 3)
         {
             UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
-            ImageMove.MoveToDes(CoinReward.typeOfReward.GiveAwayItem, Image.transform, UIManagerNew.Instance.GamePlayPanel.boosterBar.deteleBT.transform.position,0.7f,1,() =>
+            ImageMove.MoveToDes(CoinReward.typeOfReward.GiveAwayItem, Image.transform, UIManagerNew.Instance.GamePlayPanel.boosterBar.deteleBT.transform.position,0.7f,.7f,() =>
             {
+                SaveSystem.instance.AddBooster(2, 0, 0);
                 AudioManager.instance.PlaySFX("Coins");
                 UIManagerNew.Instance.GamePlayPanel.boosterBar.freeUnscrewImg.gameObject.SetActive(true);
                 Deactive();
@@ -91,7 +92,6 @@ public class NewBooster : MonoBehaviour
                         if (PlayerPrefs.GetInt("GiveAwayUnscrew") == 0)
                         {
                             PlayerPrefs.SetInt("GiveAwayUnscrew", 1);
-                            SaveSystem.instance.AddBooster(2, 0, 0);
                             SaveSystem.instance.SaveData();
                         }
                         ShowThreshole();
@@ -101,8 +101,9 @@ public class NewBooster : MonoBehaviour
         }
         if (LevelManagerNew.Instance.stage == 4)
         {
-            ImageMove.MoveToDes(CoinReward.typeOfReward.GiveAwayItem,Image.transform, UIManagerNew.Instance.GamePlayPanel.boosterBar.UndoBT.transform.position,0.7f, 1, () =>
+            ImageMove.MoveToDes(CoinReward.typeOfReward.GiveAwayItem,Image.transform, UIManagerNew.Instance.GamePlayPanel.boosterBar.UndoBT.transform.position,0.7f, .7f, () =>
             {
+                SaveSystem.instance.AddBooster(0, 2, 0);
                 Stage.Instance.canInteract = true;
                 AudioManager.instance.PlaySFX("Coins");
                 UIManagerNew.Instance.GamePlayPanel.boosterBar.blockUndoImage.gameObject.SetActive(false);
@@ -117,7 +118,6 @@ public class NewBooster : MonoBehaviour
                         if (PlayerPrefs.GetInt("GiveAwayUndo") == 0)
                         {
                             PlayerPrefs.SetInt("GiveAwayUndo", 1);
-                            SaveSystem.instance.AddBooster(0, 2, 0);
                             SaveSystem.instance.SaveData();
                         }
                     });
