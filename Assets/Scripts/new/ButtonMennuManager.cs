@@ -50,7 +50,10 @@ public class ButtonMennuManager : MonoBehaviour
     public TextMeshProUGUI timeRemaining;
     public Slider weeklyEventSlider;
 
+
+    //unlock Image
     public Image unlockAtLevel;
+    public TextMeshProUGUI unlockTitle;
 
     public Image rewardImage;
     public Transform rewardDefautTransform;
@@ -151,11 +154,23 @@ public class ButtonMennuManager : MonoBehaviour
         }
         if (LevelManagerNew.Instance.stage >= 2 && LevelManagerNew.Instance.stage < 8)
         {
+            unlockTitle.text = "Unlock at level 8";
             unlockAtLevel.gameObject.SetActive(true);
         }
         else
         {
+            unlockTitle.text = "Unlock at level 8";
             unlockAtLevel.gameObject.SetActive(false);
+        }
+        if (EventController.instance.weeklyEvent != null)
+        {
+            if(!EventController.instance.CheckForNextEvent())
+            {
+                unlockTitle.text = "Unlock at level 8";
+            }
+        }
+        {
+
         }
     }
 
@@ -509,7 +524,7 @@ public class ButtonMennuManager : MonoBehaviour
     {
         UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
         isShowingFixing = true;
-        if (!isShowingFixing && LevelManagerNew.Instance.stage >= 8)
+        if (!isShowingFixing && LevelManagerNew.Instance.stage >= 8 && EventController.instance.weeklyEvent != null)
         {
             LoadSliderValue();
 

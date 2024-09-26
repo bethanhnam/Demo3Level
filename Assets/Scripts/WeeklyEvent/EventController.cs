@@ -565,7 +565,7 @@ public class EventController : MonoBehaviour
         return status;
     }
 
-    private bool CheckForNextEvent()
+    public bool CheckForNextEvent()
     {
         bool status;
         if (DateTime.Now.Date.Subtract(new DateTime(long.Parse(weeklyEventDataConfig.NextEvent.Ticks.ToString()))).TotalDays <= 0)
@@ -575,10 +575,34 @@ public class EventController : MonoBehaviour
         }
         else
         {
+            Debug.Log("weeklyEventDataConfig chưa đến next event");
             status = false;
         }
 
         return status;
+    }
+
+    public DateTime CauculateTimeToNextEvent()
+    {
+        DateTime now = DateTime.UtcNow;
+        DateTime nextEvent = weeklyEventDataConfig.NextEvent;
+
+        try
+        {
+            DateTime remainTime = new DateTime(long.Parse(nextEvent.Subtract(now).Ticks.ToString()));
+        }
+        catch (Exception ex) { 
+            
+        }
+
+        TimeSpan timeUntilNextEvent = nextEvent - now;
+
+        int days = (int)timeUntilNextEvent.TotalDays;
+        int hours = timeUntilNextEvent.Hours;
+
+        return 
+
+        Debug.Log($"Next event {days}D and {hours}H");
     }
 
     [System.Serializable]
