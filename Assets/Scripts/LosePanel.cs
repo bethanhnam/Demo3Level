@@ -157,6 +157,7 @@ public class LosePanel : MonoBehaviour
         if (Stage.Instance.numOfIronPlates <= 0)
         {
             return;
+            Stage.Instance.CheckDoneLevel();
         }
         else
         {

@@ -262,9 +262,8 @@ public class GamePlayPanelUIManager : MonoBehaviour
         {
             Stage.Instance.isLosing = true;
         }
-        UIManagerNew.Instance.hasUI = true;
-        Debug.LogError("has UI OpenLosePanel");
-        GameManagerNew.Instance.CloseLevel(false);
+        Debug.LogError("has OpenLosePanel");
+        //GameManagerNew.Instance.CloseLevel(false);
         DOVirtual.DelayedCall(0.4f, () =>
         {
             UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);

@@ -685,7 +685,7 @@ public class Stage : MonoBehaviour
                             isLosing = false;
                             UIManagerNew.Instance.LosePanel.Close();
                         }
-                            CheckDoneLevel();
+                        CheckDoneLevel();
                     }
                 }
                 else
@@ -1257,7 +1257,8 @@ public class Stage : MonoBehaviour
         {
             GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, false);
             GamePlayPanelUIManager.Instance.DeteleButton.transform.localScale = new Vector3(1.05f, 1.05f, 1);
-            if (GamePlayPanelUIManager.Instance.UndoButton.interactable == true) {
+            if (GamePlayPanelUIManager.Instance.UndoButton.interactable == true)
+            {
                 GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, true);
                 boosterTween1 = DOVirtual.DelayedCall(3f, () =>
                 {
