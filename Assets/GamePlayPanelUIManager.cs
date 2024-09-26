@@ -44,6 +44,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
     //boosterbar
     public BoosterBar boosterBar;
     public GameObject tapToCancel;
+    public GameObject cancelImage;
 
     //blackPic
     public Image blackPic;
@@ -398,16 +399,23 @@ public class GamePlayPanelUIManager : MonoBehaviour
 
     public void CancelUnscrew()
     {
-        if (Stage.Instance.isDeteleting)
+        if (Stage.Instance != null)
         {
-            Stage.Instance.setDeteleting(false);
-            Stage.Instance.DisplayUnscrew(false);
-            if (LevelManagerNew.Instance.stage != 3)
+            if (Stage.Instance.isDeteleting)
             {
-                SaveSystem.instance.AddBooster(1, 0, 0);
-                SaveSystem.instance.SaveData();
+                Stage.Instance.setDeteleting(false);
+                Stage.Instance.DisplayUnscrew(false);
+                if (LevelManagerNew.Instance.stage != 3)
+                {
+                    SaveSystem.instance.AddBooster(1, 0, 0);
+                    SaveSystem.instance.SaveData();
+                }
+                Stage.Instance.canInteract = true;
             }
-            Stage.Instance.canInteract = true;
+            if (Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole == true)
+            {
+                Stage.Instance.holeToUnlock.myButton.gameObject.SetActive(true);
+            }
         }
     }
     public void SetTapToCancel()
@@ -424,6 +432,13 @@ public class GamePlayPanelUIManager : MonoBehaviour
                 {
                     Stage.Instance.DisplayUnscrew(false);
                 }
+            }
+        }
+        if (Stage.Instance != null)
+        {
+            if (Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole == true)
+            {
+                Stage.Instance.holeToUnlock.myButton.gameObject.SetActive(true);
             }
         }
     }

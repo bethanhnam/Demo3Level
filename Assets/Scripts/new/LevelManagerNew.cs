@@ -39,7 +39,7 @@ public class LevelManagerNew : MonoBehaviour
 			displayLevel = stage;
 		}
 		//test
-		stage = 4;
+		//stage = 4;
 	}
 
 	public void Init()

@@ -761,12 +761,14 @@ public class Stage : MonoBehaviour
                 GamePlayPanelUIManager.Instance.ButtonOff();
                 GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(false);
                 GamePlayPanelUIManager.Instance.tapToCancel.gameObject.SetActive(true);
+                GamePlayPanelUIManager.Instance.cancelImage.gameObject.SetActive(true);
             }
             else
             {
                 GamePlayPanelUIManager.Instance.ButtonOn();
                 GamePlayPanelUIManager.Instance.boosterBar.gameObject.SetActive(true);
                 GamePlayPanelUIManager.Instance.tapToCancel.gameObject.SetActive(false);
+                GamePlayPanelUIManager.Instance.cancelImage.gameObject.SetActive(false);
             }
         }
     }

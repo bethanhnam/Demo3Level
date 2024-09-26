@@ -213,7 +213,7 @@ public class WinUI : MonoBehaviour
                         {
                             if (LevelManagerNew.Instance.stage == 2)
                             {
-                                DOVirtual.DelayedCall(2, () => { 
+                                DOVirtual.DelayedCall(1.5f, () => { 
                                 UIManagerNew.Instance.ThresholeController.showThreshole("TutorFixButton", UIManagerNew.Instance.ButtonMennuManager.fixButton.transform.localScale, UIManagerNew.Instance.ButtonMennuManager.fixButton.transform);
                                 });
                             }

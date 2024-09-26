@@ -78,7 +78,7 @@ public class NewBooster : MonoBehaviour
         if (LevelManagerNew.Instance.stage == 3)
         {
             UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
-            ImageMove.MoveToDes(CoinReward.typeOfReward.GiveAwayItem, Image.transform, UIManagerNew.Instance.GamePlayPanel.boosterBar.deteleBT.transform.position,0.7f,.7f,() =>
+            ImageMove.MoveToDes(CoinReward.typeOfReward.GiveAwayItem, Image.transform, UIManagerNew.Instance.GamePlayPanel.boosterBar.deteleBT.transform.position,0.7f,.5f,() =>
             {
                 SaveSystem.instance.AddBooster(2, 0, 0);
                 AudioManager.instance.PlaySFX("Coins");
@@ -101,7 +101,7 @@ public class NewBooster : MonoBehaviour
         }
         if (LevelManagerNew.Instance.stage == 4)
         {
-            ImageMove.MoveToDes(CoinReward.typeOfReward.GiveAwayItem,Image.transform, UIManagerNew.Instance.GamePlayPanel.boosterBar.UndoBT.transform.position,0.7f, .7f, () =>
+            ImageMove.MoveToDes(CoinReward.typeOfReward.GiveAwayItem,Image.transform, UIManagerNew.Instance.GamePlayPanel.boosterBar.UndoBT.transform.position,0.7f, .5f, () =>
             {
                 SaveSystem.instance.AddBooster(0, 2, 0);
                 Stage.Instance.canInteract = true;
