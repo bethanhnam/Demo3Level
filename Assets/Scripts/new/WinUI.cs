@@ -43,6 +43,7 @@ public class WinUI : MonoBehaviour
         animButton.enabled = true;
         cvButton.blocksRaycasts = false;
         animButton.Play(appearButton, 0, 0);
+        FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage, LevelStatus.win);
     }
 
     public void Close()

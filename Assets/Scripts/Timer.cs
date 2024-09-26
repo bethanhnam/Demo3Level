@@ -66,10 +66,9 @@ public class Timer : MonoBehaviour
 				TimerOn = false;
 				Debug.Log("Time is Up !");
 				// hien pop lose
-				
-				GamePlayPanelUIManager.Instance.OpenLosePanel();
 				TimeLeft = 0;
 				TimerText.color = Color.red;
+				GamePlayPanelUIManager.Instance.OpenLosePanel();
 			}
 			int minutes = Mathf.FloorToInt(TimeLeft / 60);
 			int seconds = Mathf.FloorToInt(TimeLeft % 60);

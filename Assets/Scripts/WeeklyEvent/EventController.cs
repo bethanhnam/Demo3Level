@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using static EventController;
@@ -553,8 +554,6 @@ public class EventController : MonoBehaviour
             {
                 Debug.Log("weeklyEventDataConfig hết time");
                 status = CheckForNextEvent();
-
-                status = false;
             }
             else
             {
@@ -582,27 +581,25 @@ public class EventController : MonoBehaviour
         return status;
     }
 
+    [Button("CauculateTimeToNextEvent")]
     public DateTime CauculateTimeToNextEvent()
     {
         DateTime now = DateTime.UtcNow;
         DateTime nextEvent = weeklyEventDataConfig.NextEvent;
 
-        try
-        {
-            DateTime remainTime = new DateTime(long.Parse(nextEvent.Subtract(now).Ticks.ToString()));
-        }
-        catch (Exception ex) { 
-            
-        }
+        Debug.LogError("next event : " + weeklyEventDataConfig.NextEvent);
 
         TimeSpan timeUntilNextEvent = nextEvent - now;
+
+        // Convert the TimeSpan to a DateTime starting from a baseline
+        DateTime timeUntilNextEventAsDateTime = DateTime.MinValue.Add(timeUntilNextEvent);
 
         int days = (int)timeUntilNextEvent.TotalDays;
         int hours = timeUntilNextEvent.Hours;
 
-        return 
+        Debug.Log($"Next event: {days} days {hours} hours");
 
-        Debug.Log($"Next event {days}D and {hours}H");
+        return timeUntilNextEventAsDateTime;
     }
 
     [System.Serializable]
