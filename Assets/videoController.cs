@@ -41,7 +41,7 @@ public class VideoController : MonoBehaviour
     }
     public void CheckStartVideo()
     {
-        //PlayerPrefs.SetInt("videoIndex", 3);
+        PlayerPrefs.SetInt("videoIndex", 3);
 
         var x = PlayerPrefs.GetInt("videoIndex");
         PlayVideo(x, null);

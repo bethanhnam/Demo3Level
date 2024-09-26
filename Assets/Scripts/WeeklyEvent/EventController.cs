@@ -67,7 +67,7 @@ public class EventController : MonoBehaviour
         //}
 
         // weekly event
-        if (LevelManagerNew.Instance.stage >= 8)
+        if (LevelManagerNew.Instance.stage >= 8 && CheckTimeDataConfig())
         {
             if (weeklyEvent != null)
             {
@@ -311,23 +311,22 @@ public class EventController : MonoBehaviour
     {
         ConvertData();
 
-        string dataString = PlayerPrefs.GetString("TreasureClimb");
-        string dataString1 = PlayerPrefs.GetString("HauntedTreasure");
-        string dataString2 = PlayerPrefs.GetString("WeeklyEvent");
+        if (CheckTimeDataConfig())
+        {
+            string dataString = PlayerPrefs.GetString("TreasureClimb");
+            string dataString1 = PlayerPrefs.GetString("HauntedTreasure");
+            string dataString2 = PlayerPrefs.GetString("WeeklyEvent");
 
-        weeklyEventTreasureClimb = JsonConvert.DeserializeObject<WeeklyEventController>(dataString);
-        weeklyEventHauntedTreasure = JsonConvert.DeserializeObject<WeeklyEventController>(dataString1);
-        weeklyEvent = JsonConvert.DeserializeObject<WeeklyEventController>(dataString2);
+            weeklyEventTreasureClimb = JsonConvert.DeserializeObject<WeeklyEventController>(dataString);
+            weeklyEventHauntedTreasure = JsonConvert.DeserializeObject<WeeklyEventController>(dataString1);
+            weeklyEvent = JsonConvert.DeserializeObject<WeeklyEventController>(dataString2);
 
-        weeklyEventItemColors = LoadList("weeklyEventItemColors");
+            weeklyEventItemColors = LoadList("weeklyEventItemColors");
 
-        Debug.Log("weeklyEventTreasureClimb " + weeklyEventTreasureClimb);
-        Debug.Log("weeklyEventHauntedTreasure " + weeklyEventHauntedTreasure);
-        Debug.Log("WeeklyEvent " + weeklyEvent);
-
-        Debug.Log(PlayerPrefs.GetString(dataString));
-        Debug.Log(PlayerPrefs.GetString(dataString1));
-        Debug.Log(PlayerPrefs.GetString(dataString2));
+            Debug.Log("weeklyEventTreasureClimb " + weeklyEventTreasureClimb);
+            Debug.Log("weeklyEventHauntedTreasure " + weeklyEventHauntedTreasure);
+            Debug.Log("WeeklyEvent " + weeklyEvent);
+        }
 
     }
 
@@ -534,7 +533,7 @@ public class EventController : MonoBehaviour
         try
         {
             weeklyEventDataConfig = JsonConvert.DeserializeObject<WeeklyEventDataConfig>(RemoteConfigController.instance.WeeklyEvent);
-            DateTime dateTime = DateTime.Parse(weeklyEventDataConfig.StartTime.ToString());
+            DateTime dateTime = new DateTime(long.Parse(weeklyEventDataConfig.EndTime.Ticks.ToString()));
             Debug.Log("data Weekly Event: " + RemoteConfigController.instance.WeeklyEvent.ToString());
             Debug.LogWarning(" keo duoc time weekly event");
         }
@@ -543,6 +542,43 @@ public class EventController : MonoBehaviour
             weeklyEventDataConfig = null;
             Debug.LogWarning("khong keo duoc time weekly event");
         }
+    }
+
+    private bool CheckTimeDataConfig()
+    {
+        bool status = false;
+        if (weeklyEventDataConfig != null)
+        {
+            if (DateTime.Now.Date.Subtract(new DateTime(long.Parse(weeklyEventDataConfig.EndTime.Ticks.ToString()))).TotalDays < 0)
+            {
+                Debug.Log("weeklyEventDataConfig hết time");
+                status = CheckForNextEvent();
+
+                status = false;
+            }
+            else
+            {
+                Debug.Log("weeklyEventDataConfig chưa hết time");
+                status = true;
+            }
+        }
+        return status;
+    }
+
+    private bool CheckForNextEvent()
+    {
+        bool status;
+        if (DateTime.Now.Date.Subtract(new DateTime(long.Parse(weeklyEventDataConfig.NextEvent.Ticks.ToString()))).TotalDays <= 0)
+        {
+            Debug.Log("weeklyEventDataConfig đến next event");
+            status = true;
+        }
+        else
+        {
+            status = false;
+        }
+
+        return status;
     }
 
     [System.Serializable]
@@ -556,12 +592,16 @@ public class EventController : MonoBehaviour
 
         [JsonProperty("TimeEnd")]
         public DateTime EndTime;
+        
+        [JsonProperty("NextEvent")]
+        public DateTime NextEvent;
 
-        public WeeklyEventDataConfig(string nameEvent, DateTime startTime, DateTime endTime)
+        public WeeklyEventDataConfig(string nameEvent, DateTime startTime, DateTime endTime, DateTime nextEvent)
         {
             NameEvent = nameEvent;
             StartTime = startTime;
             EndTime = endTime;
+            NextEvent = nextEvent;
         }
     }
 }

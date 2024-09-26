@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Newtonsoft.Json;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ public class LevelManagerNew : MonoBehaviour
 			displayLevel = stage;
 		}
 		//test
-		stage = 5;
+		stage = 8;
 	}
 
 	public void Init()

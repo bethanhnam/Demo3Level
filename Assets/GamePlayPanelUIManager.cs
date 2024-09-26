@@ -430,7 +430,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
 
     public void ShowCollectionEvent()
     {
-        if (EventController.instance != null && EventController.instance.weeklyEvent != null && LevelManagerNew.Instance.stage >= 8)
+        if (EventController.instance != null && EventController.instance.weeklyEvent != null && LevelManagerNew.Instance.stage >= 8 )
         {
             weeklyEventImg.gameObject.SetActive(true);
             weeklyEventImg.sprite = UIManagerNew.Instance.WeeklyEventPanel.ItemToCollect.sprite;

@@ -136,10 +136,13 @@ public class ButtonMennuManager : MonoBehaviour
     {
         if (!isShowingFixing && LevelManagerNew.Instance.stage >= 8)
         {
-            LoadSliderValue();
-            weeklyEventSlider.gameObject.SetActive(true);
-            sliderBar.gameObject.SetActive(false);
-            collectImage.sprite = EventController.instance.weeklyEventItemSprite;
+            if (EventController.instance.weeklyEvent != null)
+            {
+                LoadSliderValue();
+                weeklyEventSlider.gameObject.SetActive(true);
+                sliderBar.gameObject.SetActive(false);
+                collectImage.sprite = EventController.instance.weeklyEventItemSprite;
+            }
         }
         else
         {
