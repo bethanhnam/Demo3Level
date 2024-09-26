@@ -241,10 +241,10 @@ public class ButtonMennuManager : MonoBehaviour
     public void OpenShopPanel()
     {
         //GameManagerNew.Instance.ClosePicture(false);
-        if (GameManagerNew.Instance.CurrentLevel != null)
-        {
-            GameManagerNew.Instance.CloseLevel(false);
-        }
+        //if (GameManagerNew.Instance.CurrentLevel != null)
+        //{
+        //    GameManagerNew.Instance.CloseLevel(false);
+        //}
         Close();
         UIManagerNew.Instance.ShopPanel.Open();
     }

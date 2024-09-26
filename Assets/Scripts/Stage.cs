@@ -552,6 +552,7 @@ public class Stage : MonoBehaviour
         {
             if (GameManagerNew.Instance.isStory && !GameManagerNew.Instance.isMinigame)
             {
+                Debug.LogError("Hết gỗ + chạy vào minigame hoặc story");
                 //code phần complete khi hoàn thành màn story
                 int videoIndex = PlayerPrefs.GetInt("videoIndex");
                 PlayerPrefs.SetInt("videoIndex", VideoController.instance.videoIndex + 1);
@@ -560,12 +561,14 @@ public class Stage : MonoBehaviour
                 {
                     UIManagerNew.Instance.StoryItem.Disable();
                 });
+                Debug.LogError("Hết gỗ + chạy xong minigame hoặc story");
 
             }
             else
             {
                 if (numOfIronPlates <= 0)
                 {
+                    Debug.LogError("Hết gỗ + ko chạy vào minigame hoặc story");
                     isWining = true;
                     UIManagerNew.Instance.GamePlayPanel.DeactiveCVGroup();
 
@@ -575,6 +578,7 @@ public class Stage : MonoBehaviour
                     UIManagerNew.Instance.GamePlayPanel.DeactiveBoosterEffect();
                     if (!UIManagerNew.Instance.hasUI)
                     {
+                        Debug.LogError("Hết gỗ + ko UI");
                         if (LevelManagerNew.Instance.stage == 0 || LevelManagerNew.Instance.stage == 1)
                         {
                             AdsControl.Instance.ActiveBlockFaAds(false);
@@ -589,6 +593,7 @@ public class Stage : MonoBehaviour
                                         UIManagerNew.Instance.GamePlayPanel.Close();
                                         UIManagerNew.Instance.CompleteUI.Appear();
                                         canInteract = false;
+                                        Debug.LogError("Hết gỗ + chạy vào CompleteUI, stage = 0");
                                     });
                                 }
                                 else
@@ -596,6 +601,7 @@ public class Stage : MonoBehaviour
                                     UIManagerNew.Instance.GamePlayPanel.Close();
                                     UIManagerNew.Instance.CompleteUI.Appear();
                                     canInteract = false;
+                                    Debug.LogError("Hết gỗ + chạy vào CompleteUI");
                                 }
                             });
                         }
@@ -603,13 +609,14 @@ public class Stage : MonoBehaviour
                         {
                             if (EventController.instance != null && EventController.instance.weeklyEvent != null && EventController.instance.weeklyEvent.eventStaus == WeeklyEventController.EventStaus.running)
                             {
+                                Debug.LogError("Hết gỗ + chạy vào EventController tồn tại");
                                 DOVirtual.DelayedCall(1.1f, () =>
                                 {
-                                    Debug.Log("trước khi show ads");
+                                    Debug.Log("trước khi show ads  + chạy vào EventController tồn tại");
                                     AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_win, () =>
                                     {
                                         AdsControl.Instance.ActiveBlockFaAds(false);
-                                        Debug.Log("sau khi show ads");
+                                        Debug.Log("sau khi show ads + chạy vào EventController tồn tại");
                                         DOVirtual.DelayedCall(0.3f, () =>
                                         {
                                             AudioManager.instance.PlaySFX("CompletePanel");
@@ -621,6 +628,7 @@ public class Stage : MonoBehaviour
                                                     UIManagerNew.Instance.GamePlayPanel.Close();
                                                     UIManagerNew.Instance.CompleteUI.Appear();
                                                     canInteract = false;
+                                                    Debug.LogError("Hết gỗ + chạy vào CompleteUI, stage = 0  + chạy vào EventController tồn tại");
                                                 });
                                             }
                                             else
@@ -629,6 +637,7 @@ public class Stage : MonoBehaviour
                                                 UIManagerNew.Instance.GamePlayPanel.Close();
                                                 UIManagerNew.Instance.CompleteUI.Appear();
                                                 canInteract = false;
+                                                Debug.LogError("Hết gỗ + chạy vào CompleteUI, stage = 0  + chạy vào EventController tồn tại");
                                             }
                                         });
                                     }, null);
@@ -636,11 +645,11 @@ public class Stage : MonoBehaviour
                             }
                             else
                             {
-                                Debug.Log("trước khi show ads");
+                                Debug.Log("trước khi show ads  + chạy vào EventController không tồn tại");
                                 AdsManager.instance.ShowInterstial(AdsManager.PositionAds.endgame_win, () =>
                                 {
                                     AdsControl.Instance.ActiveBlockFaAds(false);
-                                    Debug.Log("sau khi show ads");
+                                    Debug.Log("sau khi show ads + chạy vào EventController không tồn tại");
                                     DOVirtual.DelayedCall(0.3f, () =>
                                     {
                                         AudioManager.instance.PlaySFX("CompletePanel");
@@ -651,6 +660,7 @@ public class Stage : MonoBehaviour
                                                 UIManagerNew.Instance.GamePlayPanel.Close();
                                                 UIManagerNew.Instance.CompleteUI.Appear();
                                                 canInteract = false;
+                                                Debug.LogError("Hết gỗ + chạy vào CompleteUI, stage = 0  + chạy vào EventController không tồn tại");
                                             });
                                         }
                                         else
@@ -659,6 +669,7 @@ public class Stage : MonoBehaviour
                                             UIManagerNew.Instance.GamePlayPanel.Close();
                                             UIManagerNew.Instance.CompleteUI.Appear();
                                             canInteract = false;
+                                            Debug.LogError("Hết gỗ + chạy vào CompleteUI, stage = 0  + chạy vào EventController không tồn tại");
                                         }
                                     });
                                 }, null);
@@ -668,13 +679,15 @@ public class Stage : MonoBehaviour
                 }
                 else
                 {
-                    return;
+                    isWining = false;
+                    Debug.LogError("ko hết gỗ 1");
                 }
             }
         }
         else
         {
             isWining = false;
+            Debug.LogError("ko hết gỗ 2");
         }
     }
     public void AfterPanel()

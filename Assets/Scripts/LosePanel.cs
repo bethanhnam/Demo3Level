@@ -120,7 +120,7 @@ public class LosePanel : MonoBehaviour
             {
                 Close();
 
-                GamePlayPanelUIManager.Instance.timer.SetTimer(61f);
+                GamePlayPanelUIManager.Instance.timer.SetTimer(46f);
                 GamePlayPanelUIManager.Instance.ActiveTime();
                 GamePlayPanelUIManager.Instance.Appear();
                 GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
@@ -195,7 +195,7 @@ public class LosePanel : MonoBehaviour
             SaveSystem.instance.SaveData();
             Close();
 
-            GamePlayPanelUIManager.Instance.timer.SetTimer(45f);
+            GamePlayPanelUIManager.Instance.timer.SetTimer(61f);
             GamePlayPanelUIManager.Instance.ActiveTime();
             GamePlayPanelUIManager.Instance.Appear();
             GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
