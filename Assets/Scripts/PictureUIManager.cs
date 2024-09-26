@@ -310,7 +310,7 @@ public class PictureUIManager : MonoBehaviour
         {
             characters[i].gameObject.SetActive(false);
         }
-        CanvasGroup.DOFade(0, 0.3f).OnComplete(() =>
+        CanvasGroup.DOFade(0, 0.1f).OnComplete(() =>
         {
             gameObject.SetActive(false);
         });

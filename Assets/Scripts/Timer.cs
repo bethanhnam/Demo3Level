@@ -32,7 +32,7 @@ public class Timer : MonoBehaviour
 	{
 		if (TimerOn)
 		{
-			if(TimeLeft > 0)
+			if(TimeLeft > 0.1f)
 			{
 				TimeLeft -= Time.deltaTime;
 				TimerText.color = Color.white;
@@ -65,17 +65,17 @@ public class Timer : MonoBehaviour
 			{
 				TimerOn = false;
 				Debug.Log("Time is Up !");
-				// hien pop lose
+                // hien pop lose
 
-				DOVirtual.DelayedCall(0.7f, () =>
+                TimeLeft = 0;
+                TimerText.color = Color.red;
+                DOVirtual.DelayedCall(0.7f, () =>
 				{
 					if(Stage.Instance != null)
 					{
 						if (!Stage.Instance.isWining)
 						{
                             GamePlayPanelUIManager.Instance.OpenLosePanel();
-                            TimeLeft = 0;
-                            TimerText.color = Color.red;
                         }
 					}	
 				});

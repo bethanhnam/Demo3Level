@@ -143,19 +143,19 @@ public class GameManagerNew : MonoBehaviour
         if (isTestingLevel)
         {
             GamePlayPanelUIManager.Instance.setText(LevelManagerNew.Instance.displayLevel + 1);
-            DOVirtual.DelayedCall(1f, () =>
-            {
+            //DOVirtual.DelayedCall(.5f, () =>
+            //{
                 PictureUIManager.Close();
-            });
-            DOVirtual.DelayedCall(1f, () =>
-            {
+            //});
+            //DOVirtual.DelayedCall(1f, () =>
+            //{
                 CurrentLevel = Instantiate(LevelManagerNew.Instance.testingStageList[testingStage], new Vector2(0.1f, 1.2f), Quaternion.identity, GamePlayPanel);
                 ScaleForDevices(CurrentLevel.transform.gameObject);
                 SetTargetScale(currentLevel.gameObject);
                 CurrentLevel.Init(level);
                 CurrentLevel.ResetBooster();
                 AudioManager.instance.PlayMusic("GamePlayTheme");
-            });
+            //});
         }
         else
         {
@@ -163,11 +163,11 @@ public class GameManagerNew : MonoBehaviour
             {
                 //UIManagerNew.Instance.GamePlayPanel.AppearForCreateLevel();
                 GamePlayPanelUIManager.Instance.setText(LevelManagerNew.Instance.displayLevel + 1);
-                DOVirtual.DelayedCall(1f, () =>
+                DOVirtual.DelayedCall(.5f, () =>
                 {
                     PictureUIManager.Close();
                 });
-                DOVirtual.DelayedCall(1f, () =>
+                DOVirtual.DelayedCall(.5f, () =>
                 {
                     CurrentLevel = Instantiate(LevelManagerNew.Instance.stageList[_level], new Vector2(0.1f, 1.2f), Quaternion.identity, GamePlayPanel);
                     Stage.Instance.DisplayUnscrew(false);
