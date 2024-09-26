@@ -571,11 +571,12 @@ public class Stage : MonoBehaviour
                     Debug.LogError("Hết gỗ + ko chạy vào minigame hoặc story");
                     isWining = true;
                     UIManagerNew.Instance.GamePlayPanel.DeactiveCVGroup();
-
+                    Debug.LogError("Hết gỗ + ko chạy vào minigame hoặc story + chạy qua deactiveCVGroup");
                     isDeteleting = false;
                     TurnRed(false);
-
+                    Debug.LogError("Hết gỗ + ko chạy vào minigame hoặc story + chạy qua turn red");
                     UIManagerNew.Instance.GamePlayPanel.DeactiveBoosterEffect();
+                    Debug.LogError("Hết gỗ + ko chạy vào minigame hoặc story + chạy qua deactiveBoosterEffect");
                     if (!UIManagerNew.Instance.hasUI)
                     {
                         Debug.LogError("Hết gỗ + ko UI");
@@ -676,6 +677,16 @@ public class Stage : MonoBehaviour
                             }
                         }
                     }
+                    else
+                    {
+                        Debug.LogError(" chạy vào có UI");
+                        if (isLosing == true)
+                        {
+                            isLosing = false;
+                            UIManagerNew.Instance.LosePanel.Close();
+                        }
+                            CheckDoneLevel();
+                    }
                 }
                 else
                 {
@@ -755,7 +766,11 @@ public class Stage : MonoBehaviour
     {
         for (int i = 0; i < nailControls.Length; i++)
         {
-            nailControls[i].redNailSprite.enabled = status;
+            try
+            {
+                nailControls[i].redNailSprite.enabled = status;
+            }
+            catch { }
         }
     }
     public void setDeteleting(bool status)
@@ -1242,13 +1257,15 @@ public class Stage : MonoBehaviour
         {
             GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.DeteleButtonAim, false);
             GamePlayPanelUIManager.Instance.DeteleButton.transform.localScale = new Vector3(1.05f, 1.05f, 1);
-            GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, true);
-            boosterTween1 = DOVirtual.DelayedCall(3f, () =>
-            {
-                GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);
-                GamePlayPanelUIManager.Instance.UndoButton.transform.localScale = new Vector3(1.05f, 1.05f, 1);
-                //this.holeToUnlock.myAnimator.enabled = false;
-            });
+            if (GamePlayPanelUIManager.Instance.UndoButton.interactable == true) {
+                GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, true);
+                boosterTween1 = DOVirtual.DelayedCall(3f, () =>
+                {
+                    GamePlayPanelUIManager.Instance.activeAnimation(GamePlayPanelUIManager.Instance.UndoButtonAim, false);
+                    GamePlayPanelUIManager.Instance.UndoButton.transform.localScale = new Vector3(1.05f, 1.05f, 1);
+                    //this.holeToUnlock.myAnimator.enabled = false;
+                });
+            }
         });
     }
 

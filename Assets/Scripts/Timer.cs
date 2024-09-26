@@ -66,10 +66,19 @@ public class Timer : MonoBehaviour
 				TimerOn = false;
 				Debug.Log("Time is Up !");
 				// hien pop lose
-				
-				GamePlayPanelUIManager.Instance.OpenLosePanel();
-				TimeLeft = 0;
-				TimerText.color = Color.red;
+
+				DOVirtual.DelayedCall(0.7f, () =>
+				{
+					if(Stage.Instance != null)
+					{
+						if (!Stage.Instance.isWining)
+						{
+                            GamePlayPanelUIManager.Instance.OpenLosePanel();
+                            TimeLeft = 0;
+                            TimerText.color = Color.red;
+                        }
+					}	
+				});
 			}
 			int minutes = Mathf.FloorToInt(TimeLeft / 60);
 			int seconds = Mathf.FloorToInt(TimeLeft % 60);

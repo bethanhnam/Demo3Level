@@ -312,11 +312,11 @@ public class AdmobVsMaxMediationManager : MonoBehaviour
 
     public void ShowForceAds()
     {
-        if (AdsControl.Instance.isShowingAds)
-        {
-            Debug.Log("Chạy vào case 1 khong show");
-            return;
-        }
+        //if (AdsControl.Instance.isShowingAds)
+        //{
+        //    Debug.Log("Chạy vào case 1 khong show");
+        //    return;
+        //}
 
         if ((initMax && MaxSdk.IsInterstitialReady(idFAMax)) && (interstitialAd != null && interstitialAd.CanShowAd()))
         {

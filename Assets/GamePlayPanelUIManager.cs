@@ -3,6 +3,7 @@ using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -200,6 +201,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
             //GameManagerNew.Instance.CloseLevel(false);
             Close();
             UIManagerNew.Instance.hasUI = true;
+            Debug.LogError("has UI OpenDetelePanel");
             DOVirtual.DelayedCall(0.4f, () =>
             {
                 UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
@@ -217,6 +219,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
         Close();
         //GameManagerNew.Instance.CloseLevel(false);
         UIManagerNew.Instance.hasUI = true;
+        Debug.LogError("has UI OpenExtraHolePanel");
         DOVirtual.DelayedCall(0.4f, () =>
         {
             UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
@@ -228,6 +231,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
         DeactiveTime();
         Close();
         UIManagerNew.Instance.hasUI = true;
+        Debug.LogError("has UI OpenUndoPanel");
         //GameManagerNew.Instance.CloseLevel(false);
         DOVirtual.DelayedCall(0.4f, () =>
         {
@@ -242,6 +246,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
         DeactiveTime();
         Close();
         UIManagerNew.Instance.hasUI = true;
+        Debug.LogError("has UI OpenPausePanel");
         GameManagerNew.Instance.CloseLevel(false);
 
         DOVirtual.DelayedCall(0.4f, () =>
@@ -253,7 +258,12 @@ public class GamePlayPanelUIManager : MonoBehaviour
     {
         DeactiveTime();
         Close();
+        if (Stage.Instance != null)
+        {
+            Stage.Instance.isLosing = true;
+        }
         UIManagerNew.Instance.hasUI = true;
+        Debug.LogError("has UI OpenLosePanel");
         GameManagerNew.Instance.CloseLevel(false);
         DOVirtual.DelayedCall(0.4f, () =>
         {

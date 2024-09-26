@@ -181,6 +181,7 @@ public class LosePanel : MonoBehaviour
             canvasGroup.DOFade(0, .3f).OnComplete(() =>
             {
                 this.gameObject.SetActive(false);
+                UIManagerNew.Instance.hasUI = false;
                 AudioManager.instance.PlaySFX("ClosePopUp");
                 Stage.Instance.checked1 = false;
             });
