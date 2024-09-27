@@ -130,7 +130,6 @@ public class LosePanel : MonoBehaviour
                 GamePlayPanelUIManager.Instance.Appear();
                 GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
                 hasWatchAds = true;
-                numOfUsed += 1;
                 watchAdButton.interactable = false;
                 watchAdButton.GetComponent<Image>().sprite = bttn_gray;
                 Stage.Instance.CheckDoneLevel();
@@ -199,8 +198,8 @@ public class LosePanel : MonoBehaviour
     {
         if (SaveSystem.instance.coin >= 100 * numOfUsed)
         {
-            numOfUsed += 1;
             SaveSystem.instance.addCoin(-100 * numOfUsed);
+            numOfUsed += 1;
             SaveSystem.instance.SaveData();
             Close();
             if (Stage.Instance != null)

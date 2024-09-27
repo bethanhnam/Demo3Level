@@ -157,10 +157,10 @@ public class DeteleNailPanel : MonoBehaviour
             {
                 hasUseTutor = true;
             }
-           
             //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
             Stage.Instance.DeactiveTutor();
-            SaveSystem.instance.addCoin(-50 * numOfUsed);
+            SaveSystem.instance.addCoin(-(50 * numOfUsed));
+            numOfUsed += 1;
             SaveSystem.instance.SaveData();
             Stage.Instance.isDeteleting = true;
             Stage.Instance.DisplayUnscrew(true);

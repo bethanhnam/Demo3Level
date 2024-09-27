@@ -193,8 +193,8 @@ public class UndoPanel : MonoBehaviour
             }
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             //FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.undo);
-
             SaveSystem.instance.addCoin(-30 * numOfUsed);
+            numOfUsed += 1;
             SaveSystem.instance.SaveData();
             DOVirtual.DelayedCall(.8f, () =>
             {

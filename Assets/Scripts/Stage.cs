@@ -685,7 +685,13 @@ public class Stage : MonoBehaviour
                             isLosing = false;
                             UIManagerNew.Instance.LosePanel.Close();
                         }
-                        CheckDoneLevel();
+                        if(UIManagerNew.Instance.UndoPanel.gameObject.activeSelf || UIManagerNew.Instance.DeteleNailPanel.gameObject.activeSelf || UIManagerNew.Instance.ExtralHolePanel.gameObject.activeSelf && UIManagerNew.Instance.PausePanel.gameObject.activeSelf)
+                        {
+                            UIManagerNew.Instance.UndoPanel.Close();
+                            UIManagerNew.Instance.DeteleNailPanel.Close();
+                            UIManagerNew.Instance.ExtralHolePanel.Close();
+                            UIManagerNew.Instance.PausePanel.Close();
+                        }
                     }
                 }
                 else
@@ -736,7 +742,6 @@ public class Stage : MonoBehaviour
                         nailToDetele.RemoveHinge();
                         nailToDetele.gameObject.SetActive(false);
                         setDeteleting(false);
-                        UIManagerNew.Instance.DeteleNailPanel.numOfUsed += 1;
                         DisplayUnscrew(false);
                         canInteract = true;
                         SaveSystem.instance.SaveData();
@@ -925,7 +930,6 @@ public class Stage : MonoBehaviour
                     HingeJointBeforeRemove[i].autoConfigureConnectedAnchor = true;
                     HingeJointBeforeRemove[i].autoConfigureConnectedAnchor = false;
                 }
-                UIManagerNew.Instance.UndoPanel.numOfUsed += 1;
                 hasUndo = true;
                 hasDelete = false;
                 Continute();
