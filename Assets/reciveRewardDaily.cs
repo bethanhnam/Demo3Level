@@ -234,7 +234,7 @@ public class reciveRewardDaily : MonoBehaviour
                 if(i - 1 >= 0)
                 test1(list, i - 1, value - 1);
             });
-            list[i].MoveToDes(CoinReward.typeOfReward.DailyRewardBooster, list[i].transform, posDes.transform, 1f,0.8f,() =>
+            list[i].MoveToFix(list[i], list[i].transform.position, posDes.transform.position, new Vector3(0.8f, 0.8f, 1), 1, new Vector3(-1, 3, 0), () =>
             {
                 posDes.gameObject.transform.DOScale(1.3f, 0.15f).OnComplete(() =>
                 {
