@@ -318,7 +318,7 @@ public class Stage : MonoBehaviour
             }
         }
         CheckHoleAvailable();
-        Hack1();
+        //Hack1();
         if (isWining && checkForWinning == false)
         {
             checkForWinning = true;

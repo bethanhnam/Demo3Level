@@ -162,7 +162,7 @@ public class reciveRewardDaily : MonoBehaviour
             // Tạo một vị trí mới cho object con
             Vector3 randomPosition = new Vector3(randomX,0, 1f);
 
-            //unscrewIndex.gameObject.SetActive(true);
+            unscrewIndex.gameObject.SetActive(true);
             unscrewIndex.transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
             {
                 float randomSpeed = UnityEngine.Random.Range(0.5f, 2f);
@@ -185,7 +185,7 @@ public class reciveRewardDaily : MonoBehaviour
             // Tạo một vị trí mới cho object con
             Vector3 randomPosition = new Vector3(randomX, 0, 1f);
 
-            //undoIndex.gameObject.SetActive(true);
+            undoIndex.gameObject.SetActive(true);
             undoIndex.transform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
             {
                 float randomSpeed = UnityEngine.Random.Range(0.5f, 2f);
@@ -201,7 +201,7 @@ public class reciveRewardDaily : MonoBehaviour
         if (value > 0)
         {
             float time = .7f / value;
-            DOVirtual.DelayedCall(0.1f, () =>
+            DOVirtual.DelayedCall(0.15f, () =>
             {
                 if (i - 1 >= 0)
                 {
@@ -209,11 +209,10 @@ public class reciveRewardDaily : MonoBehaviour
                         test(list, i - 1,value-1);
                 }
             });
-            list[i].MoveToFix(list[i], list[i].transform.position, coinDes.transform.position, new Vector3(0.8f, 0.8f, 1),1, new Vector3(-1, 3, 0), () =>
+            list[i].MoveToDes(CoinReward.typeOfReward.DailyRewardGold, list[i].transform, coinDes.transform, 1f, 0.8f,() =>
             {
                 coinDes.gameObject.transform.DOScale(.8f, 0.15f).OnComplete(() =>
                 {
-
                     AudioManager.instance.PlaySFX("AddCoin");
                     coinDes.gameObject.transform.DOScale(.7f, 0.02f);
                 });
@@ -230,16 +229,15 @@ public class reciveRewardDaily : MonoBehaviour
         if (value > 0)
         {
             float time = .7f / value;
-            DOVirtual.DelayedCall(0.1f, () =>
+            DOVirtual.DelayedCall(0.15f, () =>
             {
                 if(i - 1 >= 0)
                 test1(list, i - 1, value - 1);
             });
-            list[i].MoveToFix(list[i], list[i].transform.position, posDes.transform.position, new Vector3(0.8f, 0.8f, 1), 1, new Vector3(-1, 3, 0), () =>
+            list[i].MoveToDes(CoinReward.typeOfReward.DailyRewardBooster, list[i].transform, posDes.transform, 1f,0.8f,() =>
             {
-                posDes.gameObject.transform.DOScale(1.1f, 0.15f).OnComplete(() =>
+                posDes.gameObject.transform.DOScale(1.3f, 0.15f).OnComplete(() =>
                 {
-
                     AudioManager.instance.PlaySFX("AddCoin");
                     posDes.gameObject.transform.DOScale(1f, 0.02f);
                 });
@@ -281,7 +279,7 @@ public class reciveRewardDaily : MonoBehaviour
     }
     IEnumerator Close()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(3.5f);
         this.gameObject.SetActive(false);
         if(gold > 0)
         {

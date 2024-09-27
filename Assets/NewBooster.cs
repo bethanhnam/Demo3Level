@@ -78,7 +78,7 @@ public class NewBooster : MonoBehaviour
         if (LevelManagerNew.Instance.stage == 3)
         {
             UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
-            ImageMove.MoveToFix(ImageMove, Image.transform.position, UIManagerNew.Instance.GamePlayPanel.boosterBar.deteleBT.transform.position, Vector3.one, -1, new Vector3(-8, -2, 0), () =>
+            ImageMove.MoveToDes(CoinReward.typeOfReward.GiveAwayItem, Image.transform, UIManagerNew.Instance.GamePlayPanel.boosterBar.deteleBT.transform,0.7f,1,() =>
             {
                 AudioManager.instance.PlaySFX("Coins");
                 UIManagerNew.Instance.GamePlayPanel.boosterBar.freeUnscrewImg.gameObject.SetActive(true);
@@ -97,11 +97,11 @@ public class NewBooster : MonoBehaviour
                         ShowThreshole();
                     });
                 });
-            }, -1);
+            });
         }
         if (LevelManagerNew.Instance.stage == 4)
         {
-            ImageMove.MoveToFix(ImageMove, Image.transform.position, UIManagerNew.Instance.GamePlayPanel.boosterBar.UndoBT.transform.position, Vector3.one, -1, new Vector3(-8, -5, 0), () =>
+            ImageMove.MoveToDes(CoinReward.typeOfReward.GiveAwayItem,Image.transform, UIManagerNew.Instance.GamePlayPanel.boosterBar.UndoBT.transform,0.7f, 1, () =>
             {
                 Stage.Instance.canInteract = true;
                 AudioManager.instance.PlaySFX("Coins");
@@ -122,7 +122,7 @@ public class NewBooster : MonoBehaviour
                         }
                     });
                 });
-            }, -1);
+            });
         }
     }
     public void SetValue(int indexSprite)

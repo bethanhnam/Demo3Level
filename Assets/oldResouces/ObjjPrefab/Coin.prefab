@@ -4853,6 +4853,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6987020862541212751}
   - component: {fileID: 436090744668789616}
+  - component: {fileID: 2529311937156885913}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Untagged
@@ -4894,39 +4895,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d237273ff0660e46b7e3ba1edd0aee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curveScale:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: -1.1996641
-      outSlope: -1.1996641
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.23372284
-    - serializedVersion: 3
-      time: 0.33750612
-      value: -0.17521888
-      inSlope: -0.014505345
-      outSlope: -0.014505345
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.12711658
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2.0578527
-      outSlope: 2.0578527
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.07393292
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  bezierCurve:
+    Points:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
   curveMove:
     serializedVersion: 2
     m_Curve:
@@ -4951,10 +4925,52 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  startTime: 0
-  timeMove: 0
-  baseTimeMove: 0.2
-  SmoothingLength: 20
+  startPoint: {fileID: 6987020862541212751}
+  endPoint: {fileID: 6987020862541212751}
+  hasComplete: 0
+--- !u!114 &2529311937156885913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508514215580626960}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd8b0ec10b874f478d239eb891b6268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bezierCurve:
+    Points: []
+  curveMove:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.008333334
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.0023584906
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  startPoint: {fileID: 0}
+  endPoint: {fileID: 0}
+  duration: 0
+  targetScale: 0
+  hasComplete: 0
 --- !u!1 &3485730613645476981
 GameObject:
   m_ObjectHideFlags: 0

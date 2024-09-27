@@ -1,4 +1,4 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,94 +6,67 @@ using UnityEngine;
 
 public class CoinReward : MonoBehaviour
 {
-    [SerializeField]
-    private AnimationCurve curveScale;
+    public BezierCurve bezierCurve;
     [SerializeField]
     private AnimationCurve curveMove;
-    private Vector3 startPos;
-    private Vector3 endPos;
-    private Vector3 stepPos;
 
-    [SerializeField]
-    private float startTime;
-    [SerializeField]
-    private float timeMove;
-    [SerializeField]
-    private float baseTimeMove;
+    public Transform startPoint;
+    public Transform endPoint;
 
-    private bool isMove;
-    private Action a;
+    public bool hasComplete;
 
-    private void Update()
+    void Start()
     {
-        if (isMove)
+
+    }
+    public void MoveToDes(typeOfReward typeOfReward,Transform startPoint,Transform endPoint, float duration, float targetScale, Action action)
+    {
+        // Vẽ đường cong bằng LineRenderer
+        bezierCurve = new BezierCurve();
+        if (typeOfReward == typeOfReward.WinUI)
         {
-            this.transform.DOMove(SmoothPath(startPos, stepPos, endPos, (Time.time - startTime) / timeMove), 0.05f).SetEase(curveMove);
-            if (Time.time >= startTime + timeMove)
-            {
-                isMove = false;
-                if (a != null)
-                {
-                    a();
-                    a = null;
-                }
-            }
+            bezierCurve.SetPosForWinUI(startPoint.position, endPoint.position);
         }
+        if (typeOfReward == typeOfReward.DailyRewardGold)
+        {
+            bezierCurve.SetPosForDailyRewardGold(startPoint.position, endPoint.position);
+        }
+        if (typeOfReward == typeOfReward.DailyRewardBooster)
+        {
+            bezierCurve.SetPosForDailyRewardBooster(startPoint.position, endPoint.position);
+        }
+        if (typeOfReward == typeOfReward.GiveAwayItem)
+        {
+            bezierCurve.SetPosForGiveAwayItem(startPoint.position, endPoint.position);
+        }
+        MoveObjectAlongCurve(targetScale, duration, action);
     }
 
-    public void MoveToFix(CoinReward star, Vector3 pos, Vector3 targetAnchor, Vector3 scaleTarget, int curveDirection, Vector3 curve, Action action, int direction = 1)
+    //public void SetFor
+    public void MoveObjectAlongCurve(float targetScale, float duration, Action onCompleteAction)
     {
+        Sequence moveSequence = DOTween.Sequence();
+        this.transform.DOScale(targetScale, duration);
+        // Lấy các điểm dọc theo đường cong
+        Vector3[] points = bezierCurve.GetSegments(50);
 
-        if (!star.gameObject.activeSelf)
+        for (int i = 0; i < points.Length; i++)
         {
-            star.gameObject.SetActive(true);
-        }
-        star.transform.position = pos;
-
-        Vector3 _direction;
-        if (direction > 0)
-        {
-            _direction = -(pos - targetAnchor).normalized;
-        }
-        else
-        {
-            _direction = (pos - targetAnchor).normalized;
-        }
-        float _distance = Vector2.Distance(targetAnchor, pos);
-        if (_distance < 4)
-        {
-            _distance = 4;
+            moveSequence.Append(this.transform.DOMove(points[i], duration / points.Length).SetEase(Ease.Linear));
         }
 
-        //timeMove = baseTimeMove * _distance;
-        timeMove = 0.8f;
+        // Thực hiện hành động khi di chuyển hoàn thành
+        moveSequence.OnComplete(() => onCompleteAction?.Invoke());
 
-        star.transform.DOScale(scaleTarget, 0.25f);
-
-        Vector3 p1 = pos + _direction * (_distance / 3f);
-        Vector3 centrPos = (pos + targetAnchor) / 2f;
-        Vector3 d2 = Vector3.Cross(_direction, Vector3.forward);
-        //Vector3 stepPos = pos + new Vector3(1, 1,pos.z);
-        if (curveDirection > 0)
-        {
-            stepPos = p1 + d2 * (_distance / 2f) - curve;
-        }
-        else
-        {
-            stepPos = p1 + d2 * (_distance / 2f) + curve;
-        }
-        startPos = pos;
-        endPos = targetAnchor;
-
-        startTime = Time.time;
-        a = action;
-        isMove = true;
+        moveSequence.Play();
     }
 
-    [SerializeField]
-    private int SmoothingLength;
-    private Vector3 SmoothPath(Vector3 v, Vector3 v1, Vector3 v2, float _deltaTime)
+    public enum typeOfReward
     {
-        return v1 + Mathf.Pow((1 - _deltaTime), 2) * (v - v1) + (_deltaTime * _deltaTime) * (v2 - v1);
+        WinUI,
+        StarWinUI,
+        DailyRewardGold,
+        DailyRewardBooster,
+        GiveAwayItem
     }
 }

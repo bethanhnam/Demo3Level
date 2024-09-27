@@ -199,7 +199,7 @@ public class LosePanel : MonoBehaviour
             spendCoinButton.interactable = false;
             spendCoinButton.GetComponent<Image>().sprite = bttn_gray;
             Stage.Instance.CheckDoneLevel();
-            DOVirtual.DelayedCall(1.3f, () =>
+            DOVirtual.DelayedCall(1.1f, () =>
             {
                 UIManagerNew.Instance.GamePlayPanel.timer.TimerText.transform.DOScale(1.2f, 0.3f).OnComplete(() =>
             {

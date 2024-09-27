@@ -153,16 +153,16 @@ public class PausePanel : MonoBehaviour
     {
         if (EventController.instance.weeklyEvent != null)
         {
-            starImage.transform.position = new Vector3(0.00f, starImage.transform.position.y, 89.99f);
-            eventCollectItem.transform.position = new Vector3(-1.88f, eventCollectItem.transform.position.y, 89.99f);
-            coinImage.transform.position = new Vector3(1.84f, coinImage.transform.position.y, 89.99f);
+            starImage.transform.DOMove(new Vector3(0.00f, starImage.transform.position.y, 89.99f),0.2f);
+            eventCollectItem.transform.DOMove(new Vector3(-1.88f, eventCollectItem.transform.position.y, 89.99f),0.2f);
+            coinImage.transform.DOMove(new Vector3(1.84f, coinImage.transform.position.y, 89.99f), 0.2f);
         }
         else
         {
             eventCollectItem.gameObject.SetActive(false);
-            starImage.transform.position = new Vector3(-1.26f, starImage.transform.position.y, 89.99f);
-            eventCollectItem.transform.position = new Vector3(-1.88f, eventCollectItem.transform.position.y, 89.99f);
-            coinImage.transform.position = new Vector3(1.19f, eventCollectItem.transform.position.y, 89.99f);
+            starImage.transform.DOMove(new Vector3(-1.26f, starImage.transform.position.y, 89.99f), 0.2f);
+            eventCollectItem.transform.DOMove(new Vector3(-1.88f, eventCollectItem.transform.position.y, 89.99f), 0.2f);
+            coinImage.transform.DOMove(new Vector3(1.19f, eventCollectItem.transform.position.y, 89.99f), 0.2f);
         }
     }
     [Button("TestAnim")]
@@ -289,6 +289,6 @@ public class PausePanel : MonoBehaviour
         {
 
         }
-        SetImage();
+        //SetImage();
     }
 }
