@@ -12,7 +12,10 @@ public class UndoPanel : MonoBehaviour
     public RectTransform panel;
     public rankpanel notEnoughpanel;
 
+    public TextMeshProUGUI priceText;
     public int numOfUsed = 1;
+    public bool hasWatchAd = false;
+
 
     public int numOfUseByAds = 0;
     public RectTransform watchAdButton;
@@ -37,8 +40,7 @@ public class UndoPanel : MonoBehaviour
             //FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.undo);
 
             SaveSystem.instance.AddBooster(0, -numOfUsed, 0);
-            SaveSystem.instance.SaveData();
-            numOfUsed++;
+            SaveSystem.instance.SaveData();;
             DOVirtual.DelayedCall(0.5f, () =>
             {
                 if (!Stage.Instance.isWining)
@@ -66,7 +68,7 @@ public class UndoPanel : MonoBehaviour
         {
             //xem qu?ng cáo 
             FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.undo);
-
+            hasWatchAd = true;
             DOVirtual.DelayedCall(0.5f, () =>
             {
                 if (!Stage.Instance.isWining)
@@ -77,7 +79,6 @@ public class UndoPanel : MonoBehaviour
                     });
                 }
             });
-            numOfUsed++;
             this.Close();
 
         });
@@ -86,7 +87,7 @@ public class UndoPanel : MonoBehaviour
     public void CheckNumOfUse()
     {
     }
-    public void Uniteractable()
+    public void Uninteractable()
     {
         watchAdButton.GetComponent<Button>().interactable = false;
     }
@@ -134,6 +135,8 @@ public class UndoPanel : MonoBehaviour
             this.gameObject.SetActive(true);
             AudioManager.instance.PlaySFX("OpenPopUp");
             canvasGroup.blocksRaycasts = false;
+            SetActiveWatchButton();
+            priceText.text = (30 * numOfUsed).ToString();
             panel.localScale = new Vector3(.8f, .8f, 1f);
             canvasGroup.alpha = 0;
             canvasGroup.DOFade(1, 0.1f);
@@ -182,7 +185,7 @@ public class UndoPanel : MonoBehaviour
     }
     public void SpendCoin()
     {
-        if (SaveSystem.instance.coin >= 30)
+        if (SaveSystem.instance.coin >= 30 * numOfUsed)
         {
             if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
             {
@@ -191,9 +194,14 @@ public class UndoPanel : MonoBehaviour
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             //FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.undo);
 
-            SaveSystem.instance.addCoin(-30);
+            SaveSystem.instance.addCoin(-30 * numOfUsed);
             SaveSystem.instance.SaveData();
-            DOVirtual.DelayedCall(0.5f, () =>
+            DOVirtual.DelayedCall(.8f, () =>
+            {
+                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
+                this.Close();
+            });
+            DOVirtual.DelayedCall(1f, () =>
             {
                 if (!Stage.Instance.isWining)
                 {
@@ -203,15 +211,22 @@ public class UndoPanel : MonoBehaviour
                     });
                 }
             });
-            DOVirtual.DelayedCall(1f, () =>
-            {
-                UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
-                this.Close();
-            });
         }
         else
         {
             UIManagerNew.Instance.ShopPanel.Open();
+        }
+    }
+
+    public void SetActiveWatchButton()
+    {
+        if (!hasWatchAd)
+        {
+            Interactable();
+        }
+        else
+        {
+            Uninteractable();
         }
     }
 

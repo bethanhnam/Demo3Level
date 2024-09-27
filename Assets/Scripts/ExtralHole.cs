@@ -14,7 +14,6 @@ public class ExtralHole : MonoBehaviour
     public rankpanel notEnoughpanel;
     public CanvasGroup canvasGroup;
 
-
     //text 
     public TextMeshProUGUI minusText;
 

@@ -736,6 +736,7 @@ public class Stage : MonoBehaviour
                         nailToDetele.RemoveHinge();
                         nailToDetele.gameObject.SetActive(false);
                         setDeteleting(false);
+                        UIManagerNew.Instance.DeteleNailPanel.numOfUsed += 1;
                         DisplayUnscrew(false);
                         canInteract = true;
                         SaveSystem.instance.SaveData();
@@ -924,6 +925,7 @@ public class Stage : MonoBehaviour
                     HingeJointBeforeRemove[i].autoConfigureConnectedAnchor = true;
                     HingeJointBeforeRemove[i].autoConfigureConnectedAnchor = false;
                 }
+                UIManagerNew.Instance.UndoPanel.numOfUsed += 1;
                 hasUndo = true;
                 hasDelete = false;
                 Continute();
@@ -1032,9 +1034,12 @@ public class Stage : MonoBehaviour
     {
         numOfEventItem = 0;
         UIManagerNew.Instance.DeteleNailPanel.numOfUsed = 1;
+        UIManagerNew.Instance.DeteleNailPanel.hasWatchAd = false;
         UIManagerNew.Instance.UndoPanel.numOfUsed = 1;
+        UIManagerNew.Instance.UndoPanel.hasWatchAd = false;
         //UIManagerNew.Instance.RePlayPanel.numOfUsed = 1;
-        UIManagerNew.Instance.LosePanel.hasUse = false;
+        UIManagerNew.Instance.LosePanel.numOfUsed = 1;
+        UIManagerNew.Instance.LosePanel.hasWatchAds = false;
         TutorUnscrew();
         DeactiveDeleting();
 

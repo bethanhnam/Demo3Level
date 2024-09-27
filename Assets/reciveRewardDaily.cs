@@ -201,7 +201,7 @@ public class reciveRewardDaily : MonoBehaviour
         if (value > 0)
         {
             float time = .7f / value;
-            DOVirtual.DelayedCall(0.05f, () =>
+            DOVirtual.DelayedCall(0.15f, () =>
             {
                 if (i - 1 >= 0)
                 {

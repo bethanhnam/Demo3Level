@@ -12,7 +12,10 @@ public class DeteleNailPanel : MonoBehaviour
     public RectTransform closeButton;
     public RectTransform panel;
 
+    public TextMeshProUGUI priceText;
+
     public int numOfUsed = 1;
+    public bool hasWatchAd = false;
     public RectTransform watchAdButton;
 
     public CanvasGroup canvasGroup;
@@ -35,8 +38,6 @@ public class DeteleNailPanel : MonoBehaviour
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
 
             Stage.Instance.DeactiveTutor();
-
-            numOfUsed++;
 
             hasUseTutor = true;
 
@@ -81,8 +82,7 @@ public class DeteleNailPanel : MonoBehaviour
                 Stage.Instance.DeactiveTutor();
                 SaveSystem.instance.AddBooster(-numOfUsed, 0, 0);
                 SaveSystem.instance.SaveData();
-                //hasUse = true;
-                numOfUsed++;
+
                 CheckNumOfUse();
                 Stage.Instance.isDeteleting = true;
                 Stage.Instance.DisplayUnscrew(true);
@@ -123,7 +123,8 @@ public class DeteleNailPanel : MonoBehaviour
 
             //xoá nail(Đồng hồ đếm giờ dừng lại)
             //UIManager.instance.gamePlayPanel.ButtonOff();
-            numOfUsed++;
+            hasWatchAd = true;
+
             CheckNumOfUse();
             Stage.Instance.isDeteleting = true;
             Stage.Instance.DisplayUnscrew(true);
@@ -146,7 +147,7 @@ public class DeteleNailPanel : MonoBehaviour
     }
     public void SpendCoin()
     {
-        if (SaveSystem.instance.coin >= 50)
+        if (SaveSystem.instance.coin >= 50 * numOfUsed)
         {
             if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
             {
@@ -159,7 +160,7 @@ public class DeteleNailPanel : MonoBehaviour
            
             //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
             Stage.Instance.DeactiveTutor();
-            SaveSystem.instance.addCoin(-50);
+            SaveSystem.instance.addCoin(-50 * numOfUsed);
             SaveSystem.instance.SaveData();
             Stage.Instance.isDeteleting = true;
             Stage.Instance.DisplayUnscrew(true);
@@ -191,7 +192,7 @@ public class DeteleNailPanel : MonoBehaviour
     {
 
     }
-    public void Uniteractable()
+    public void Uninteractable()
     {
         watchAdButton.GetComponent<Button>().interactable = false;
     }
@@ -203,6 +204,10 @@ public class DeteleNailPanel : MonoBehaviour
     {
         if (!this.gameObject.activeSelf)
         {
+            SetActiveWatchButton();
+
+            priceText.text = (50 * numOfUsed).ToString();
+
             this.gameObject.SetActive(true);
             //GameManagerNew.Instance.CloseLevel(false);
             canvasGroup.blocksRaycasts = false;
@@ -219,7 +224,7 @@ public class DeteleNailPanel : MonoBehaviour
                     ActiveCVGroup();
                     if (Stage.Instance.isTutor && LevelManagerNew.Instance.stage == 3)
                     {
-                        Uniteractable();
+                        Uninteractable();
                     }
                 });
             });
@@ -282,6 +287,7 @@ public class DeteleNailPanel : MonoBehaviour
         }
         if ((LevelManagerNew.Instance.stage == 3))
         {
+
             Stage.Instance.DeactiveTutor();
             hasUseTutor = true;
             GamePlayPanelUIManager.Instance.Appear();
@@ -314,7 +320,7 @@ public class DeteleNailPanel : MonoBehaviour
             }
             //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
             Stage.Instance.DeactiveTutor();
-           
+
             SaveSystem.instance.AddBooster(-1, 0, 0);
             GamePlayPanelUIManager.Instance.Appear();
             Stage.Instance.isDeteleting = true;
@@ -340,6 +346,18 @@ public class DeteleNailPanel : MonoBehaviour
         }
     }
 
+
+    public void SetActiveWatchButton()
+    {
+        if(!hasWatchAd)
+        {
+            Interactable();
+        }
+        else
+        {
+            Uninteractable();
+        }
+    }
     public void ActiveCVGroup()
     {
         if (!canvasGroup.blocksRaycasts)

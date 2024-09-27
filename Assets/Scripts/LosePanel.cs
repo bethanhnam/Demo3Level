@@ -17,7 +17,8 @@ public class LosePanel : MonoBehaviour
 {
     public CanvasGroup canvasGroup;
 
-    public bool hasUse = false;
+    public int numOfUsed = 1;
+    public bool hasWatchAds = false;
 
     public Button spendCoinButton;
     public Button watchAdButton;
@@ -51,7 +52,7 @@ public class LosePanel : MonoBehaviour
     }
     private void OnEnable()
     {
-        if (hasUse)
+        if (numOfUsed >1)
         {
             watchAdButton.interactable = false;
         }
@@ -64,7 +65,8 @@ public class LosePanel : MonoBehaviour
         spendCoinButton.interactable = true;
         spendCoinButton.GetComponent<Image>().sprite = bttn_green;
 
-        if (SaveSystem.instance.coin < 100)
+        spendCoinButtonTexts[2].text = (100*numOfUsed).ToString();
+        if (SaveSystem.instance.coin < 100 * numOfUsed)
         {
             //spendCoinButton.interactable = false;
             //spendCoinButton.GetComponent<Image>().sprite = bttn_gray;
@@ -81,7 +83,7 @@ public class LosePanel : MonoBehaviour
 
     public void SetTextStroke()
     {
-        if (hasUse)
+        if (hasWatchAds)
         {
             for (int i = 0; i < watchAdButtonTexts.Length; i++)
             {
@@ -114,17 +116,21 @@ public class LosePanel : MonoBehaviour
     public void WatchAd()
     {
         // load ad 
-        if (!hasUse)
+        if (numOfUsed <=1)
         {
             AdsManager.instance.ShowRewardVideo(AddType.EndGame_ReviveByAds, null, () =>
             {
                 Close();
-
+                if(Stage.Instance != null)
+                {
+                    Stage.Instance.SetDefaultBeforeUnscrew();
+                }
                 GamePlayPanelUIManager.Instance.timer.SetTimer(46f);
                 GamePlayPanelUIManager.Instance.ActiveTime();
                 GamePlayPanelUIManager.Instance.Appear();
                 GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-                hasUse = true;
+                hasWatchAds = true;
+                numOfUsed += 1;
                 watchAdButton.interactable = false;
                 watchAdButton.GetComponent<Image>().sprite = bttn_gray;
                 Stage.Instance.CheckDoneLevel();
@@ -148,7 +154,7 @@ public class LosePanel : MonoBehaviour
             Close();
             ConversationController.instance.Disappear();
             GameManagerNew.Instance.Retry();
-            hasUse = false;
+            numOfUsed = 1;
         }, null);
     }
     public void Open()
@@ -157,7 +163,7 @@ public class LosePanel : MonoBehaviour
         if (Stage.Instance.numOfIronPlates <= 0)
         {
             return;
-            Stage.Instance.CheckDoneLevel();
+            //Stage.Instance.CheckDoneLevel();
         }
         else
         {
@@ -191,12 +197,16 @@ public class LosePanel : MonoBehaviour
 
     public void SpendCoin()
     {
-        if (SaveSystem.instance.coin >= 100)
+        if (SaveSystem.instance.coin >= 100 * numOfUsed)
         {
-            SaveSystem.instance.addCoin(-100);
+            numOfUsed += 1;
+            SaveSystem.instance.addCoin(-100 * numOfUsed);
             SaveSystem.instance.SaveData();
             Close();
-
+            if (Stage.Instance != null)
+            {
+                Stage.Instance.SetDefaultBeforeUnscrew();
+            }
             GamePlayPanelUIManager.Instance.timer.SetTimer(61f);
             GamePlayPanelUIManager.Instance.ActiveTime();
             GamePlayPanelUIManager.Instance.Appear();
