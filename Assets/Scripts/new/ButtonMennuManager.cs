@@ -163,14 +163,14 @@ public class ButtonMennuManager : MonoBehaviour
             unlockAtLevel.gameObject.SetActive(false);
         }
 
-        if (EventController.instance.CheckForNextEvent())
+        if (!EventController.instance.CheckForNextEvent())
         {
             unlockTitle.text = "Unlock at level 8";
         }
         else
         {
-            DateTime timeUntilNextEvent = EventController.instance.CauculateTimeToNextEvent();
-            unlockTitle.text = "Next event : " + timeUntilNextEvent.Day + "D " + timeUntilNextEvent.Hour + "H";
+            //DateTime timeUntilNextEvent = EventController.instance.CauculateTimeToNextEvent();
+            unlockTitle.text = EventController.instance.CauculateTimeToNextEvent();
             unlockAtLevel.gameObject.SetActive(true);
         }
     }
