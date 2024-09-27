@@ -17,12 +17,12 @@ public class reciveRewardDaily : MonoBehaviour
     public GameObject coinDes;
 
     public List<CoinReward> coinList = new List<CoinReward>();
-    public List<CoinReward> unscrewList = new List<CoinReward>();
-    public List<CoinReward> undoList = new List<CoinReward>();
+    public List<ObjectMoverAlongCurve> unscrewList = new List<ObjectMoverAlongCurve>();
+    public List<ObjectMoverAlongCurve> undoList = new List<ObjectMoverAlongCurve>();
 
     public CoinReward coinPrefab;
-    public CoinReward unscrewprefab;
-    public CoinReward undoprefab;
+    public ObjectMoverAlongCurve unscrewprefab;
+    public ObjectMoverAlongCurve undoprefab;
 
     public Canvas spawnCanvas;
     public Image backgroundImg;
@@ -224,7 +224,7 @@ public class reciveRewardDaily : MonoBehaviour
             });
         }
     }
-    public void test1(List<CoinReward> list, int i,int value)
+    public void test1(List<ObjectMoverAlongCurve> list, int i,int value)
     {
         if (value > 0)
         {
