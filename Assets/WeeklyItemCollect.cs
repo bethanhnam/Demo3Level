@@ -110,17 +110,17 @@ public class WeeklyItemCollect : MonoBehaviour
                     {
                         AudioManager.instance.PlaySFX("Coins");
 
-                        if (EventController.instance.weeklyEvent.levelIndex != EventController.instance.weeklyEventControllers[0].weeklyEventPack.Count - 1)
+                        if (EventController.instance.weeklyEvent.levelIndex != EventController.instance.weeklyEventControllers[0].WeeklyEventController.weeklyEventPack.Count - 1)
                         {
                             UIManagerNew.Instance.ButtonMennuManager.rewardImage.transform.localScale = Vector3.zero;
                             UIManagerNew.Instance.ButtonMennuManager.rewardImage.transform.position = UIManagerNew.Instance.ButtonMennuManager.rewardDefautTransform.position;
                         }
-                        if (EventController.instance.weeklyEvent.levelIndex >= EventController.instance.weeklyEventControllers[0].weeklyEventPack.Count - 1)
+                        if (EventController.instance.weeklyEvent.levelIndex >= EventController.instance.weeklyEventControllers[0].WeeklyEventController.weeklyEventPack.Count - 1)
                         {
                             UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(false);
                         }
 
-                        if (EventController.instance.weeklyEvent.levelIndex < EventController.instance.weeklyEventControllers[0].weeklyEventPack.Count - 1)
+                        if (EventController.instance.weeklyEvent.levelIndex < EventController.instance.weeklyEventControllers[0].WeeklyEventController.weeklyEventPack.Count - 1)
                         {
 
                             UIManagerNew.Instance.ButtonMennuManager.ChangeRewardImage();
@@ -131,7 +131,7 @@ public class WeeklyItemCollect : MonoBehaviour
                             {
                                 UIManagerNew.Instance.ButtonMennuManager.weeklyEventSlider.DOValue(x, 0.5f).OnComplete(() =>
                                 {
-                                    if (x >= EventController.instance.weeklyEventControllers[0].weeklyEventPack[EventController.instance.weeklyEvent.levelIndex].numToUpLevel)
+                                    if (x >= EventController.instance.weeklyEventControllers[0].WeeklyEventController.weeklyEventPack[EventController.instance.weeklyEvent.levelIndex].numToUpLevel)
                                     {
                                         CheckForFullSlider((int)x, true);
                                     }
@@ -165,17 +165,17 @@ public class WeeklyItemCollect : MonoBehaviour
                         }
                         AudioManager.instance.PlaySFX("Coins");
 
-                        if (EventController.instance.weeklyEvent.levelIndex != EventController.instance.weeklyEventControllers[0].weeklyEventPack.Count - 1)
+                        if (EventController.instance.weeklyEvent.levelIndex != EventController.instance.weeklyEventControllers[0].WeeklyEventController.weeklyEventPack.Count - 1)
                         {
                             UIManagerNew.Instance.ButtonMennuManager.rewardImage.transform.localScale = Vector3.zero;
                             UIManagerNew.Instance.ButtonMennuManager.rewardImage.transform.position = UIManagerNew.Instance.ButtonMennuManager.rewardDefautTransform.position;
                         }
-                        if (EventController.instance.weeklyEvent.levelIndex >= EventController.instance.weeklyEventControllers[0].weeklyEventPack.Count - 1)
+                        if (EventController.instance.weeklyEvent.levelIndex >= EventController.instance.weeklyEventControllers[0].WeeklyEventController.weeklyEventPack.Count - 1)
                         {
                             UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(false);
                         }
                         //EventController.instance.NextStageWeeklyEvent(numOfCollection);
-                        if (EventController.instance.weeklyEvent.levelIndex < EventController.instance.weeklyEventControllers[0].weeklyEventPack.Count - 1)
+                        if (EventController.instance.weeklyEvent.levelIndex < EventController.instance.weeklyEventControllers[0].WeeklyEventController.weeklyEventPack.Count - 1)
                         {
                             UIManagerNew.Instance.ButtonMennuManager.ChangeRewardImage();
                             UIManagerNew.Instance.ButtonMennuManager.weeklyEventSlider.value = 0;
@@ -185,7 +185,7 @@ public class WeeklyItemCollect : MonoBehaviour
                             {
                                 UIManagerNew.Instance.ButtonMennuManager.weeklyEventSlider.DOValue(x, 0.5f).OnComplete(() =>
                                 {
-                                    if (x >= EventController.instance.weeklyEventControllers[0].weeklyEventPack[EventController.instance.weeklyEvent.levelIndex].numToUpLevel)
+                                    if (x >= EventController.instance.weeklyEventControllers[0].WeeklyEventController.weeklyEventPack[EventController.instance.weeklyEvent.levelIndex].numToUpLevel)
                                     {
                                         CheckForFullSlider((int)x, true);
                                     }

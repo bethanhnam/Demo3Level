@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "WeelyEventData", menuName = "ScriptableObjects/WeelyEvent", order = 1)]
+[Serializable]
 public class WeeklyEventController : ScriptableObject
 {
 
@@ -79,33 +79,33 @@ public class WeeklyEventController : ScriptableObject
     //properties chung 
     public int numberOfDaysExistence;
     public int numberBeforeStart;
-    public string startEventDate;
-    public string endEventDate;
+    public DateTime startEventDate;
+    public DateTime endEventDate;
 
     [Button("resetData")]
     public void ResetData()
     {
-        if (eventType1 == EventType.TreasureClimb)
-        {
-            numOfChances = 3;
-            numOfStage = 10;
-            numOfWinStage = 0;
-            topIndex = 0;
-            numberOfDaysExistence = 5;
-            numberBeforeStart = 3;
-            eventStaus = EventStaus.NotEnable;
-            startEventDate = null;
-            endEventDate = null;
-        }
-        if (eventType1 == EventType.HauntedTreasure)
-        {
-            packIndex = 0;
-            numberOfDaysExistence = 5;
-            numberBeforeStart = 2;
-            eventStaus = EventStaus.NotEnable;
-            startEventDate = null;
-            endEventDate = null;
-        }
+        //if (eventType1 == EventType.TreasureClimb)
+        //{
+        //    numOfChances = 3;
+        //    numOfStage = 10;
+        //    numOfWinStage = 0;
+        //    topIndex = 0;
+        //    numberOfDaysExistence = 5;
+        //    numberBeforeStart = 3;
+        //    eventStaus = EventStaus.NotEnable;
+        //    startEventDate = null;
+        //    endEventDate = null;
+        //}
+        //if (eventType1 == EventType.HauntedTreasure)
+        //{
+        //    packIndex = 0;
+        //    numberOfDaysExistence = 5;
+        //    numberBeforeStart = 2;
+        //    eventStaus = EventStaus.NotEnable;
+        //    startEventDate = null;
+        //    endEventDate = null;
+        //}
         if (eventType1 == EventType.WeeklyEvent)
         {
             numOfCollection = 0;
@@ -113,8 +113,8 @@ public class WeeklyEventController : ScriptableObject
             numToLevelUp = 2;
             numberOfDaysExistence = 7;
             eventStaus = EventStaus.NotEnable;
-            startEventDate = GetMondayDate().Ticks.ToString();
-            endEventDate = GetSundayDate().Ticks.ToString();
+            startEventDate = GetMondayDate();
+            endEventDate = GetSundayDate();
             colorIndex = 0;
         }
     }
@@ -168,8 +168,8 @@ public class WeeklyEventController : ScriptableObject
             weeklyEventController.numToLevelUp = numToLevelUp;
             weeklyEventController.numOfCollection = numOfCollection;
 
-            weeklyEventController.startEventDate = GetMondayDate().Date.Ticks.ToString();
-            weeklyEventController.endEventDate = GetSundayDate().Date.Ticks.ToString();
+            weeklyEventController.startEventDate = GetMondayDate();
+            weeklyEventController.endEventDate = GetSundayDate();
         }
     }
 
