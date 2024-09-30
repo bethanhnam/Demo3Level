@@ -311,10 +311,15 @@ public class EventController : MonoBehaviour
         string dataString = PlayerPrefs.GetString("TreasureClimb");
         string dataString1 = PlayerPrefs.GetString("HauntedTreasure");
         string dataString2 = PlayerPrefs.GetString("WeeklyEvent");
+        string datastring3 = PlayerPrefs.GetString("weeklyEvent");
 
         weeklyEventTreasureClimb = JsonConvert.DeserializeObject<WeeklyEventController>(dataString);
         weeklyEventHauntedTreasure = JsonConvert.DeserializeObject<WeeklyEventController>(dataString1);
         weeklyEvent = JsonConvert.DeserializeObject<WeeklyEventController>(dataString2);
+
+        weeklyEventConfig weeklyEventConfig = JsonConvert.DeserializeObject<weeklyEventConfig>(datastring3);
+
+        Debug.LogError("data new :" + weeklyEventConfig.startTime);
 
         weeklyEventItemColors = LoadList("weeklyEventItemColors");
 
@@ -581,4 +586,11 @@ public class EventController : MonoBehaviour
 
         return DateTime.Now.Subtract(sunday).TotalHours >= 24;
     }
+}
+public class weeklyEventConfig
+{
+    public string eventName;
+    public DateTime startTime;
+    public DateTime endTime;
+    public DateTime nextTime;
 }
