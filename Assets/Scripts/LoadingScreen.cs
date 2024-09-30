@@ -64,10 +64,12 @@ public class LoadingScreen : MonoBehaviour
                 if (!HasFinishedStory())
                 {
                     LoadingManager.instance.PlayVideo();
+                    this.gameObject.SetActive(false);
                 }
                 else
                 {
                     LoadingManager.instance.NormalInitGame();
+                    this.gameObject.SetActive(false);
                 }
             });
         });

@@ -80,8 +80,12 @@ public class EventController : MonoBehaviour
                     try
                     {
                         endTime = new DateTime(long.Parse(weeklyEvent.endEventDate));
+                        //endTime.AddDays(1);
                         Debug.LogError("end " + endTime);
-                    }
+                        DateTime startTime = new DateTime(long.Parse(weeklyEvent.startEventDate));
+                        startTime = new DateTime(startTime.Year, startTime.Month, startTime.Day, 0, 0, 0);
+                        Debug.Log("start : " + startTime);
+                            }
                     catch (Exception ex) {
                         endTime = CauculateEndTime();
                     }
@@ -89,10 +93,10 @@ public class EventController : MonoBehaviour
                     if (HasTimeExpired(endTime))
                     {
                         Debug.LogError("het time");
-                        weeklyEvent.eventStaus = EventStaus.running;
                         PlayerPrefs.SetString("FirstWeeklyEvent", "false");
                         UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
                         weeklyEvent.ResetData();
+                        weeklyEvent.eventStaus = EventStaus.running;
                         UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(true);
                         UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(true);
                         UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CreateRewardList();
@@ -102,6 +106,8 @@ public class EventController : MonoBehaviour
                         UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
                         UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                         SaveData("WeeklyEvent", weeklyEvent);
+                        UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
+                        //UIManagerNew.Instance.StartWeeklyEvent.Appear();
                     }
                     else
                     {
@@ -121,6 +127,7 @@ public class EventController : MonoBehaviour
                             UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(false);
                             UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(false);
                             SaveData("WeeklyEvent", weeklyEvent);
+                            UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
                         }
                         else
                         {
@@ -133,6 +140,7 @@ public class EventController : MonoBehaviour
                             UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
                             UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                             SaveData("WeeklyEvent", weeklyEvent);
+                            UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
                         }
                     }
                 }
@@ -145,10 +153,10 @@ public class EventController : MonoBehaviour
                     if (HasTimeExpired(endTime))
                     {
                         Debug.LogError(" het time dang end");
-                        weeklyEvent.eventStaus = EventStaus.running;
                         PlayerPrefs.SetString("FirstWeeklyEvent", "false");
                         UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
                         weeklyEvent.ResetData();
+                        weeklyEvent.eventStaus = EventStaus.running;
                         UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(true);
                         UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(true);
                         UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CreateRewardList();
@@ -158,6 +166,8 @@ public class EventController : MonoBehaviour
                         UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);  
                         UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                         SaveData("WeeklyEvent", weeklyEvent);
+                        UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
+                        //UIManagerNew.Instance.StartWeeklyEvent.Appear();
                     }
                     else
                     {
@@ -174,6 +184,20 @@ public class EventController : MonoBehaviour
                             UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(false);
                             UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(false);
                             SaveData("WeeklyEvent", weeklyEvent);
+                            UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
+                        }
+                        else
+                        {
+                            Debug.LogError("chua phai pack cuoi");
+                            UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
+                            UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(true);
+                            UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(true);
+                            UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CreateRewardList();
+                            UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.AddData();
+                            UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
+                            UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
+                            SaveData("WeeklyEvent", weeklyEvent);
+                            UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
                         }
                     }
                 }
@@ -191,6 +215,8 @@ public class EventController : MonoBehaviour
                     UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
                     UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                     SaveData("WeeklyEvent", weeklyEvent);
+                    UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
+                    //UIManagerNew.Instance.StartWeeklyEvent.Appear();
                 }
             }
             else
@@ -206,6 +232,7 @@ public class EventController : MonoBehaviour
                 UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
                 UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                 SaveData("WeeklyEvent", weeklyEvent);
+                UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
             }
         }
 
@@ -498,8 +525,23 @@ public class EventController : MonoBehaviour
 
     public DateTime CauculateEndTime()
     {
+        //try
+        //{
+        //    endTime = new DateTime(long.Parse(weeklyEvent.endEventDate));
+        //    //endTime.AddDays(1);
+        //    Debug.LogError("end " + endTime);
+        //    DateTime startTime = new DateTime(long.Parse(weeklyEvent.startEventDate));
+        //    startTime = new DateTime(startTime.Year, startTime.Month, startTime.Day, 0, 0, 0);
+        //    Debug.Log("start : " + startTime);
+        //}
+        //catch (Exception ex)
+        //{
+        //    endTime = CauculateEndTime();
+        //}
+
+
         DateTime dateTime = new DateTime(long.Parse(weeklyEvent.startEventDate));
-        dateTime = dateTime.AddDays(7); // Gán lại giá trị sau khi cộng
+        dateTime = dateTime.AddDays(8); // Gán lại giá trị sau khi cộng
         return dateTime;
     }
 
@@ -525,6 +567,7 @@ public class EventController : MonoBehaviour
     {
         DateTime today = DateTime.Now;
         // Kiểm tra nếu thời gian hiện tại đã vượt quá thời gian Chủ nhật lúc 12h đêm
-        return today >= sunday;
+
+        return DateTime.Now.Subtract(sunday).TotalHours >= 24;
     }
 }

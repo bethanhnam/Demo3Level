@@ -13,6 +13,8 @@ public class WeeklyItemCollect : MonoBehaviour
     public Transform targetTransform;
 
     public int numOfCollection = 0;
+
+    public ParticleSystem RewardEF;
     // Start is called before the first frame update
     void Start()
     {
@@ -146,6 +148,7 @@ public class WeeklyItemCollect : MonoBehaviour
                     EventController.instance.NextStageWeeklyEvent(numOfCollection, checkAgain);
                     UIManagerNew.Instance.ButtonMennuManager.rewardImage.transform.DOMove(UIManagerNew.Instance.ButtonMennuManager.playButton.transform.position, 1).OnComplete(() =>
                     {
+                        RewardEF.Play();
                         if (UIManagerNew.Instance.ButtonMennuManager.MiniGamePlayButton.gameObject.activeSelf)
                         {
                             UIManagerNew.Instance.ButtonMennuManager.MiniGamePlayButton.transform.DOScale(1.1f, 0.2f).OnComplete(() =>

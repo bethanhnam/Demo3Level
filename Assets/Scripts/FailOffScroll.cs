@@ -12,68 +12,135 @@ public class FailOffScroll : MonoBehaviour, IDragHandler, IEndDragHandler
 {
     public ScrollRect scrollRect;
     public RectTransform content;
-    public List<GameObject> items;
+    public GameObject[] itemPrefab;
+    private Vector2 startDragPosition;
 
     public Image[] dots;
 
-    public Color grayColor;
+    public Color deactiveColor;
 
-    public GridLayoutGroup layoutGroup;
+    public int packIndex = 0;
 
-    private Vector2 startDragPosition;
+    public CanvasGroup canvasGroup;
 
     private void Start()
     {
-        SetActivate(dots[0]);
-        SetDeactivate(dots[1]);
+        ActiveDot(dots[0]);
+        DeactiveDot(dots[1]);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        // Lấy vị trí bắt đầu khi vuốt
         startDragPosition = eventData.pressPosition;
     }
 
-    public void SetActivate(Image dot)
-    {
-        dot.color = Color.white;
-        dot.transform.DOScale(.6f, 0.4f);
-    }
-    public void SetDeactivate(Image dot)
-    {
-        dot.color = grayColor;
-        dot.transform.DOScale(.5f, 0.4f);
-    }
     public void OnEndDrag(PointerEventData eventData)
     {
-        // Lấy vị trí kết thúc khi vuốt
         Vector2 endDragPosition = eventData.position;
 
-        // Vuốt sang phải -> Cuộn về cuối
         if (startDragPosition.x > endDragPosition.x)
         {
-            SetActivate(dots[1]);
-            SetDeactivate(dots[0]);
-            // Cuộn mượt sang vị trí cuối
-            scrollRect.DOHorizontalNormalizedPos(1f, 0.5f).OnComplete(() =>
-            {
-                // Chuyển item đầu tiên xuống cuối để tạo hiệu ứng lặp
-                layoutGroup.childAlignment = TextAnchor.MiddleRight;
-                
-            });
+            AddItemToRight();
+            RemoveItemFromLeft();
         }
-        // Vuốt sang trái -> Cuộn về đầu
         else if (startDragPosition.x < endDragPosition.x)
         {
-            SetActivate(dots[0]);
-            SetDeactivate(dots[1]);
-            // Cuộn mượt về đầu
-            scrollRect.DOHorizontalNormalizedPos(0f, 0.5f).OnComplete(() =>
+            AddItemToLeft();
+            RemoveItemFromRight();
+        }
+    }
+
+    private void AddItemToRight()
+    {
+        canvasGroup.blocksRaycasts = false;
+        float itemWidth = 1080f;
+        GameObject newItem;
+        if (packIndex == 0)
+        {
+            newItem = Instantiate(itemPrefab[0], content);
+            packIndex = 1;
+        }
+        else
+        {
+            packIndex = 0;
+             newItem = Instantiate(itemPrefab[1], content);
+        }
+        newItem.transform.SetAsLastSibling();
+        content.sizeDelta = new Vector2(content.sizeDelta.x + itemWidth, content.sizeDelta.y);
+
+        ActiveDot(dots[1]);
+        DeactiveDot(dots[0]);
+
+        scrollRect.DOHorizontalNormalizedPos(1f, 0.5f).SetEase(Ease.OutCubic).OnComplete(() =>
+        {
+            canvasGroup.blocksRaycasts = true;
+        });
+    }
+
+    private void AddItemToLeft()
+    {
+        canvasGroup.blocksRaycasts = false;
+        float itemWidth = 1080f;
+        GameObject newItem;
+        if (packIndex == 0)
+        {
+            newItem = Instantiate(itemPrefab[0], content);
+            packIndex = 1;
+        }
+        else
+        {
+            packIndex = 0;
+            newItem = Instantiate(itemPrefab[1], content);
+        }
+        newItem.transform.SetAsFirstSibling();
+        content.anchoredPosition = new Vector2(content.anchoredPosition.x - itemWidth, content.anchoredPosition.y);
+        content.sizeDelta = new Vector2(content.sizeDelta.x + itemWidth, content.sizeDelta.y);
+
+        ActiveDot(dots[0]);
+        DeactiveDot(dots[1]);
+
+        scrollRect.DOHorizontalNormalizedPos(0f, 0.5f).SetEase(Ease.OutCubic).OnComplete(() =>
+        {
+            canvasGroup.blocksRaycasts = true;
+        });
+    }
+
+    private void RemoveItemFromLeft()
+    {
+        if (content.childCount > 1)
+        {
+            GameObject firstItem = content.GetChild(0).gameObject;
+            float itemWidth = 1080f;
+            DOVirtual.DelayedCall(0.3f, () =>
             {
-                // Chuyển item cuối lên đầu để tạo hiệu ứng lặp
-                layoutGroup.childAlignment = TextAnchor.MiddleLeft;
-                
+                Destroy(firstItem);
+                content.sizeDelta = new Vector2(content.sizeDelta.x - itemWidth, content.sizeDelta.y);
             });
         }
+    }
+
+    private void RemoveItemFromRight()
+    {
+        if (content.childCount > 1)
+        {
+            GameObject lastItem = content.GetChild(content.childCount - 1).gameObject;
+            float itemWidth = 1080f;
+            DOVirtual.DelayedCall(0.3f, () =>
+            {
+                Destroy(lastItem);
+                content.sizeDelta = new Vector2(content.sizeDelta.x - itemWidth, content.sizeDelta.y);
+            });
+        }
+    }
+
+    public void ActiveDot(Image dot)
+    {
+        dot.color = Color.white;
+        dot.transform.DOScale(0.6f, 0.3f);
+    }
+    public void DeactiveDot(Image dot)
+    {
+        dot.color = deactiveColor;
+        dot.transform.DOScale(0.5f, 0.3f);
     }
 }

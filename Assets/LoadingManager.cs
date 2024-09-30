@@ -251,7 +251,6 @@ public class LoadingManager : MonoBehaviour
             AudioManager.instance.PlayMusic("story");
             GameManagerNew.Instance.videoController.CheckStartVideo();
             Debug.LogError("chạy vào playvideo bth done ");
-            Destroy(LoadingScreen.instance.gameObject, 0.7f);
 
         }
         else
@@ -262,7 +261,6 @@ public class LoadingManager : MonoBehaviour
                         GameManagerNew.Instance.videoController.CheckStartVideo();
                         AudioManager.instance.PlayMusic("story");
                         Debug.LogError("chạy vào playvideo ko bth done");
-                        Destroy(LoadingScreen.instance.gameObject, 0.7f);
                     }));
         }
     }

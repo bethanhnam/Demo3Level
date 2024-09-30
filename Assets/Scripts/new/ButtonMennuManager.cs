@@ -94,7 +94,7 @@ public class ButtonMennuManager : MonoBehaviour
             //EventController.instance.CheckForWeeklyEvent();
             // new ui
 
-            if (LevelManagerNew.Instance.stage >= 1 && PlayerPrefs.GetInt("Hasfixed") == 1)
+            if (LevelManagerNew.Instance.stage <= 2 && PlayerPrefs.GetInt("Hasfixed") == 1)
             {
                 isShowingFixing = false;
                 GameManagerNew.Instance.PictureUIManager.HiddenButton();
