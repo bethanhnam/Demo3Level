@@ -79,10 +79,12 @@ public class EventController : MonoBehaviour
                     DateTime endTime;
                     try
                     {
-                        endTime = new DateTime(long.Parse(weeklyEvent.endEventDate));
+                        var x = JsonConvert.DeserializeObject<long>(weeklyEvent.endEventDate);
+                        endTime = new DateTime(x);
                         //endTime.AddDays(1);
                         Debug.LogError("end " + endTime);
-                        DateTime startTime = new DateTime(long.Parse(weeklyEvent.startEventDate));
+                        var time = JsonConvert.DeserializeObject<long>(weeklyEvent.startEventDate);
+                        DateTime startTime = new DateTime(time);
                         startTime = new DateTime(startTime.Year, startTime.Month, startTime.Day, 0, 0, 0);
                         Debug.Log("start : " + startTime);
                     }
@@ -284,7 +286,9 @@ public class EventController : MonoBehaviour
         }
         else
         {
-            if (DateTime.Now.Date.Subtract(new DateTime(long.Parse(weeklyEventController.startEventDate))).TotalDays >= targetWeeklyEventController.numberOfDaysExistence + targetWeeklyEventController.numberBeforeStart)
+            var time = JsonConvert.DeserializeObject<long>(weeklyEvent.startEventDate);
+            DateTime startTime = new DateTime(time);
+            if (DateTime.Now.Date.Subtract(startTime).TotalDays >= targetWeeklyEventController.numberOfDaysExistence + targetWeeklyEventController.numberBeforeStart)
             {
                 status = true;
             }
@@ -331,7 +335,9 @@ public class EventController : MonoBehaviour
     }
     public void CheckForEndTime(String eventName, WeeklyEventController weeklyEventController, WeeklyEventController targetWeeklyEventController)
     {
-        if (DateTime.Now.Date.Subtract(new DateTime(long.Parse(weeklyEventController.startEventDate))).TotalDays >= targetWeeklyEventController.numberOfDaysExistence)
+        var time = JsonConvert.DeserializeObject<long>(weeklyEvent.startEventDate);
+        DateTime startTime = new DateTime(time);
+        if (DateTime.Now.Date.Subtract(startTime).TotalDays >= targetWeeklyEventController.numberOfDaysExistence)
         {
             //if (eventName == "TreasureClimb")
             //{
@@ -538,7 +544,8 @@ public class EventController : MonoBehaviour
         DateTime dateTime;
         try
         {
-            dateTime = new DateTime(long.Parse(weeklyEvent.startEventDate));
+            var x = JsonConvert.DeserializeObject<long>(weeklyEvent.startEventDate);
+            dateTime = new DateTime(x);
             dateTime = dateTime.AddDays(8); // Gán lại giá trị sau khi cộng
             return dateTime;
         }

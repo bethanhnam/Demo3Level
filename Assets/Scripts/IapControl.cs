@@ -8,6 +8,7 @@ using DG.Tweening;
 using Unity.Burst.Intrinsics;
 using UnityEngine.UI;
 using com.adjust.sdk;
+using Newtonsoft.Json;
 
 public class IapControl : MonoBehaviour, IStoreListener
 {
@@ -380,7 +381,9 @@ public class IapControl : MonoBehaviour, IStoreListener
                     PlayerPrefs.SetInt(DataInit.instance.IsBuyRemoveAds, 1);
                     if (!string.IsNullOrEmpty(PlayerPrefs.GetString(DataInit.instance.FirstOpenDate)))
                     {
-                        if (DateTime.Now.Date.Subtract(new DateTime(long.Parse(PlayerPrefs.GetString(DataInit.instance.FirstOpenDate)))).TotalDays <= 3)
+                        var time = JsonConvert.DeserializeObject<long>(PlayerPrefs.GetString(DataInit.instance.FirstOpenDate));
+                        DateTime startTime = new DateTime(time);
+                        if (DateTime.Now.Date.Subtract(startTime).TotalDays <= 3)
                         {
                             AdjustEvent adjustEvent = new AdjustEvent(tokkenAdjustIAPRemoveAds);
                             Adjust.trackEvent(adjustEvent);
@@ -399,7 +402,9 @@ public class IapControl : MonoBehaviour, IStoreListener
                         PlayerPrefs.SetInt(DataInit.instance.IsBuyRemoveAdsPack, 1);
                         if (!string.IsNullOrEmpty(PlayerPrefs.GetString(DataInit.instance.FirstOpenDate)))
                         {
-                            if (DateTime.Now.Date.Subtract(new DateTime(long.Parse(PlayerPrefs.GetString(DataInit.instance.FirstOpenDate)))).TotalDays <= 3)
+                            var time = JsonConvert.DeserializeObject<long>(PlayerPrefs.GetString(DataInit.instance.FirstOpenDate));
+                            DateTime startTime = new DateTime(time);
+                            if (DateTime.Now.Date.Subtract(startTime).TotalDays <= 3)
                             {
                                 AdjustEvent adjustEvent = new AdjustEvent(tokkenAdjustIAPRemoveAdsPack);
                                 Adjust.trackEvent(adjustEvent);
