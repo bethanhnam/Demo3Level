@@ -89,12 +89,12 @@ public class ChestSLider : MonoBehaviour
         //	markers[i].SetText(currentValue + i);
         //}
         var distance = endPos.position.x - startPos.position.x;
-        for (int i = 1; i < 4; i++)
-        {
-            var marPos = distance / 4 * i;
-            var markerCover = Instantiate(markerCoverPrefab, new Vector2(startPos.position.x + marPos, startPos.position.y), Quaternion.identity, markerCoverPoint.transform);
-            markerCovers.Add(markerCover);
-        }
+        //for (int i = 1; i < 4; i++)
+        //{
+        //    var marPos = distance / 4 * i;
+        //    var markerCover = Instantiate(markerCoverPrefab, new Vector2(startPos.position.x + marPos, startPos.position.y), Quaternion.identity, markerCoverPoint.transform);
+        //    markerCovers.Add(markerCover);
+        //}
         SetSliderValue();
         //ChangeSlider();
         changeMarkerImg((int)mySlider.value);

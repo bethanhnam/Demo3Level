@@ -15,8 +15,8 @@ public class ShopPanel : MonoBehaviour
     public Animator animator;
     public void Open()
     {
-
         this.gameObject.SetActive(true);
+        UIManagerNew.Instance.hasUI = true;
         shopScrollRect.DOVerticalNormalizedPos(1, 1f, false);
         FirebaseAnalyticsControl.Instance.visit_session();
         PlayerPrefs.SetInt("visit_total", SaveSystem.instance.visit_total);
@@ -33,7 +33,6 @@ public class ShopPanel : MonoBehaviour
         }
         AudioManager.instance.PlaySFX("OpenPopUp");
         canvasGroup.alpha = 0;
-        //animator.Play("appear", 0, 0);
         canvasGroup.DOFade(1, .3f).OnComplete(() =>
         {
             UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
@@ -42,6 +41,7 @@ public class ShopPanel : MonoBehaviour
     }
     public void Close()
     {
+        UIManagerNew.Instance.hasUI = false;
         if (UIManagerNew.Instance.LosePanel.gameObject.activeSelf)
         {
             BackToWinPanel();
@@ -89,6 +89,10 @@ public class ShopPanel : MonoBehaviour
             else
             {
                 //do nothing;
+            }
+            if(Stage.Instance != null)
+            {
+                Stage.Instance.AfterPanel();
             }
 
         }

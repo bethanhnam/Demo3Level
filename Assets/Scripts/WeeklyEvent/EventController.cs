@@ -116,6 +116,8 @@ public class EventController : MonoBehaviour
                         endTime = x;
                         Debug.LogError("x " + x);
                         //endTime.AddDays(1);
+                        weeklyEvent.endEventDate = x.Ticks.ToString();
+                        SaveData("WeeklyEvent", weeklyEvent);
                         Debug.LogError("end " + endTime);
                     }
                     Debug.LogError("end " + endTime);
@@ -195,6 +197,8 @@ public class EventController : MonoBehaviour
                         var x = DateTime.Parse(weeklyEvent.endEventDate);
                         endTime = x;
                         Debug.LogError("x " + x);
+                        weeklyEvent.endEventDate = x.Ticks.ToString();
+                        SaveData("WeeklyEvent", weeklyEvent);
                         //endTime.AddDays(1);
                         Debug.LogError("end " + endTime);
                     }
@@ -347,6 +351,8 @@ public class EventController : MonoBehaviour
                 startTime = x;
                 Debug.LogError("x " + x);
                 //endTime.AddDays(1);
+                weeklyEvent.startEventDate = x.Ticks.ToString();
+                SaveData("WeeklyEvent", weeklyEvent);
                 Debug.LogError("start " + startTime);
             }
             if (DateTime.Now.Date.Subtract(startTime).TotalDays >= targetWeeklyEventController.numberOfDaysExistence + targetWeeklyEventController.numberBeforeStart)
@@ -420,6 +426,8 @@ public class EventController : MonoBehaviour
             startTime = x;
             Debug.LogError("x " + x);
             //endTime.AddDays(1);
+            weeklyEvent.startEventDate = x.Ticks.ToString();
+            SaveData("WeeklyEvent", weeklyEvent);
             Debug.LogError("start " + startTime);
         }
         if (DateTime.Now.Date.Subtract(startTime).TotalDays >= targetWeeklyEventController.numberOfDaysExistence)
