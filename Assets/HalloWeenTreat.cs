@@ -280,7 +280,7 @@ public class HalloWeenTreat : MonoBehaviour
         {
             items[index].enabled = true;
             items[index].Play("HalloWeenPackItemClaim");
-            DOVirtual.DelayedCall(1f, () =>
+            DOVirtual.DelayedCall(.8f, () =>
             {
                 index++;
                 
