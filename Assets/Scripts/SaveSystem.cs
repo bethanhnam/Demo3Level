@@ -157,4 +157,14 @@ public class SaveSystem : MonoBehaviour
     //    {
     //    }
     //}
+
+    public void SavePlayerPrefsInt(string dataName, int dataValue)
+    {
+        PlayerPrefs.SetInt(dataName, dataValue);
+    }
+
+    public void SavePlayerPrefsString(string dataName, string dataValue)
+    {
+        PlayerPrefs.SetString(dataName, dataValue);
+    }
 }

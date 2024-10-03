@@ -77,6 +77,9 @@ public class UIManagerNew : MonoBehaviour
     [SerializeField]
     private StartWeeklyEvent startWeeklyEvent;
 
+    [SerializeField]
+    private HalloWeenTreat halloWeenTreat;
+
     // weekly event
     [SerializeField]
     private TreasureClimbPanel treasureClimbPanel;
@@ -107,6 +110,9 @@ public class UIManagerNew : MonoBehaviour
 
     [SerializeField]
     private Material highLightObj;
+
+    [SerializeField]
+    private Image[] shinningButton;
 
     public ButtonMennuManager ButtonMennuManager { get => buttonMennuManager; }
     public DailyRWUI DailyRWUI { get => dailyRWUI; }
@@ -148,6 +154,7 @@ public class UIManagerNew : MonoBehaviour
     public TreasureClimbPanel TreasureClimbPanel { get => treasureClimbPanel; set => treasureClimbPanel = value; }
     public WeeklyEventPanel WeeklyEventPanel { get => weeklyEventPanel; set => weeklyEventPanel = value; }
     public StartWeeklyEvent StartWeeklyEvent { get => startWeeklyEvent; set => startWeeklyEvent = value; }
+    public HalloWeenTreat HalloWeenTreat { get => halloWeenTreat; set => halloWeenTreat = value; }
 
     private void Awake()
     {
@@ -160,7 +167,9 @@ public class UIManagerNew : MonoBehaviour
     private void Start()
     {
         LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint,SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
+        InvokeRepeating("PlayButtonShinning", 0, 3.5f);
     }
+
     public void LoadData(int unscrew, int undo,int drill,  int coin, int star)
     {
         for (int j = 0; j < coinTexts.Length; j++)
@@ -189,5 +198,25 @@ public class UIManagerNew : MonoBehaviour
     public void DisablePointer()
     {
         PointerObject.gameObject.SetActive(false);
+    }
+
+    public void PlayButtonShinning()
+    {
+        DOVirtual.Float(0, 1, 2f, (x) =>
+        {
+            for (int i = 0; i < shinningButton.Length; i++)
+            {
+                if (shinningButton[i].gameObject.activeSelf == true)
+                {
+                    shinningButton[i].material.SetFloat("_ShineLocation", x);
+                }
+            }
+        }).OnComplete(() =>
+        {
+            DOVirtual.DelayedCall(1.5f, () =>
+            {
+                PlayButtonShinning();
+            });
+        });
     }
 }

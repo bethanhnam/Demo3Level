@@ -90,6 +90,7 @@ public class GameManagerNew : MonoBehaviour
             PlayerPrefs.SetInt("Hasfixed", 1);
         }
     }
+
     public void InitStartGame()
     {
         PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
@@ -863,4 +864,5 @@ public class GameManagerNew : MonoBehaviour
             Stage.Instance.canInteract = false;
         }
     }
+
 }

@@ -37,6 +37,37 @@ public class EventController : MonoBehaviour
     {
         instance = this;
     }
+
+    private void Update()
+    {
+        if (UIManagerNew.Instance.HalloWeenTreat.timeOn)
+        {
+            UIManagerNew.Instance.HalloWeenTreat.hasStart = true;
+            if (UIManagerNew.Instance.HalloWeenTreat.timeRemaining > 0)
+            {
+                UIManagerNew.Instance.HalloWeenTreat.timeRemaining -= Time.deltaTime;
+                if (this.gameObject.activeSelf)
+                {
+                    UIManagerNew.Instance.HalloWeenTreat.timeText.text = UIManagerNew.Instance.HalloWeenTreat.SetText(UIManagerNew.Instance.HalloWeenTreat.timeRemaining);
+                }
+            }
+            else
+            {
+                UIManagerNew.Instance.HalloWeenTreat.timeRemaining = 0;
+                UIManagerNew.Instance.HalloWeenTreat.timeOn = false;
+                if (this.gameObject.activeSelf)
+                {
+                    UIManagerNew.Instance.HalloWeenTreat.timeText.text = "claim";
+                }
+                UIManagerNew.Instance.HalloWeenTreat.claimButton.interactable = true;
+                SaveSystem.instance.SavePlayerPrefsString("LastClaimDay", DateTime.Now.ToString("yyyy-MM-dd"));
+            }
+        }
+        else
+        {
+            // do nothing
+        }
+    }
     public void CheckForWeeklyEvent()
     {
 
@@ -734,6 +765,8 @@ public class EventController : MonoBehaviour
             UIManagerNew.Instance.ButtonMennuManager.slideBarImage.sprite = UIManagerNew.Instance.ButtonMennuManager.slideSprites[0];
         }
     }
+
+
 }
 [System.Serializable]
 public class WeeklyEventDataConfig
