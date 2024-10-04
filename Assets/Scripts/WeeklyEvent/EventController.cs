@@ -27,8 +27,8 @@ public class EventController : MonoBehaviour
     public WeeklyEventPrefab currentWeeklyEventPrefab;
 
     // config
-    WeeklyEventDataConfig weeklyEventConfig;
-    public bool needResetData = false;
+    public WeeklyEventDataConfig weeklyEventConfig;
+    public bool isHalloWeen = false;
 
     public List<int> weeklyEventItemColors = new List<int>();
     public int selectedColorIndex = 0;
@@ -37,7 +37,6 @@ public class EventController : MonoBehaviour
     {
         instance = this;
     }
-    [Button("CheckForWeeklyEvent")]
     public void CheckForWeeklyEvent()
     {
 
@@ -71,11 +70,12 @@ public class EventController : MonoBehaviour
         {
             if (weeklyEvent != null)
             {
-                if (needResetData == true)
+                if (isHalloWeen == true && weeklyEvent.startEventDate != weeklyEventConfig.StartTime.Ticks.ToString())
                 {
-                    needResetData = false;
                     UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
                     weeklyEvent.ResetData();
+                    weeklyEvent.startEventDate = weeklyEventConfig.StartTime.Date.Ticks.ToString();
+                    weeklyEvent.endEventDate = weeklyEventConfig.EndTime.Date.Ticks.ToString();
                     weeklyEvent.eventStaus = EventStaus.running;
                     UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(true);
                     UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(true);
@@ -371,36 +371,25 @@ public class EventController : MonoBehaviour
     {
         PlayerPrefs.SetString(eventName, JsonConvert.SerializeObject(weeklyEventController));
         Debug.Log("data " + PlayerPrefs.GetString(eventName));
+        Debug.Log("data time " + weeklyEvent.endEventDate);
     }
     [Button("LoadData")]
     public void LoadData()
     {
-        //LoadConfigDataWeeklyEvent();
-        //if (CheckTimeForWeeklyEvent())
-        //{
+        LoadConfigDataWeeklyEvent();
+        CheckTimeForWeeklyEvent();
+
         //string dataString = PlayerPrefs.GetString("TreasureClimb");
         //string dataString1 = PlayerPrefs.GetString("HauntedTreasure");
         string dataString2 = PlayerPrefs.GetString("WeeklyEvent");
-
 
         //weeklyEventTreasureClimb = JsonConvert.DeserializeObject<WeeklyEventController>(dataString);
         //weeklyEventHauntedTreasure = JsonConvert.DeserializeObject<WeeklyEventController>(dataString1);
         weeklyEvent = JsonConvert.DeserializeObject<WeeklyEventController>(dataString2);
 
         weeklyEventItemColors = LoadList("weeklyEventItemColors");
-
-        //Debug.Log("weeklyEventTreasureClimb " + weeklyEventTreasureClimb);
-        //Debug.Log("weeklyEventHauntedTreasure " + weeklyEventHauntedTreasure);
-        Debug.Log("WeeklyEvent " + weeklyEvent);
-
-        //Debug.Log(PlayerPrefs.GetString(dataString));
-        //Debug.Log(PlayerPrefs.GetString(dataString1));
-        Debug.Log(PlayerPrefs.GetString(dataString2));
+        ChangeUIToHalloWeen();
     }
-    //else
-    //{
-    //    // do nothing
-
     [Button("CretaWeeklyEvent")]
     public void CretaWeeklyEvent(WeeklyEventController weeklyEventController)
     {
@@ -450,7 +439,6 @@ public class EventController : MonoBehaviour
             CretaWeeklyEvent(weeklyEventController);
         }
     }
-    [Button("TestChangeData")]
     public void TestChangeData()
     {
         if (currentWeeklyEventPrefab != null)
@@ -469,7 +457,6 @@ public class EventController : MonoBehaviour
             //UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
         }
     }
-    [Button("TestChangeData1")]
     public void TestChangeData1()
     {
         weeklyEvent.numOfCollection = weeklyEvent.numToLevelUp;
@@ -677,48 +664,75 @@ public class EventController : MonoBehaviour
 
     public void LoadConfigDataWeeklyEvent()
     {
-        string datastring3 = PlayerPrefs.GetString("WeeklyEventConfig");
+        string datastring3 = RemoteConfigController.instance.WeeklyEventConfig1;
         weeklyEventConfig = JsonConvert.DeserializeObject<WeeklyEventDataConfig>(datastring3);
-        Debug.LogError("data new :" + weeklyEventConfig.EndTime);
+        //Debug.LogError("data new :" + weeklyEventConfig.EndTime);
     }
 
     public bool CheckTimeForWeeklyEvent()
     {
         bool result = false;
-        if (weeklyEventConfig != null)
+        if (weeklyEventConfig != null && weeklyEventConfig.NameEvent != null)
         {
             if (weeklyEventConfig.StartTime.Subtract(DateTime.Now).TotalDays > 0)
             {
+                isHalloWeen = false;
                 Debug.Log(" chưa đến weekly event");
                 result = false;
                 return result;
             }
-            else if (weeklyEventConfig.EndTime.Subtract(DateTime.Now).TotalDays < 0)
+            else
             {
-                Debug.Log(" đã hết time weekly event");
-                if (weeklyEventConfig.NextEvent.Subtract(DateTime.Now).TotalDays < 0)
+                if (weeklyEventConfig.EndTime.Subtract(DateTime.Now).TotalDays < 0)
                 {
-                    Debug.Log(weeklyEventConfig.NextEvent.Subtract(DateTime.Now).TotalDays);
-                    Debug.Log(" đã đến next weekly event");
-                    needResetData = true;
-                    result = true;
+                    isHalloWeen = false;
+                    Debug.Log(" đã hết time weekly event");
                     return result;
                 }
                 else
                 {
-                    Debug.Log(" chưa đến next weekly event");
-                    result = false;
+                    isHalloWeen = true;
+                    Debug.Log(" chưa hết time weekly event");
+                    result = true;
                     return result;
                 }
             }
-            else
-            {
-                Debug.Log(" chưa hết time weekly event");
-                result = true;
-                return result;
-            }
         }
         return result;
+    }
+
+    //public TimeSpan CalculateTimeUntilNextEvent()
+    //{
+    //    TimeSpan timeUntilNextEvent = TimeSpan.Zero;
+
+    //    if (weeklyEventConfig != null)
+    //    {
+    //        DateTime now = DateTime.UtcNow;
+    //        DateTime nextEvent = weeklyEventConfig.NextEvent;
+
+    //        Debug.LogError("next event : " + nextEvent);
+
+    //        // Calculate the time span until the next event
+    //        timeUntilNextEvent = nextEvent - now;
+    //    }
+
+    //    return timeUntilNextEvent; // Return the TimeSpan until the next event
+    //}
+
+    public void ChangeUIToHalloWeen()
+    {
+        if (isHalloWeen)
+        {
+            UIManagerNew.Instance.WeeklyEventPanel.panel.sprite = UIManagerNew.Instance.WeeklyEventPanel.panelSprites[1];
+            UIManagerNew.Instance.StartWeeklyEvent.panel.sprite = UIManagerNew.Instance.StartWeeklyEvent.panelSprites[1];
+            UIManagerNew.Instance.ButtonMennuManager.slideBarImage.sprite = UIManagerNew.Instance.ButtonMennuManager.slideSprites[1];
+        }
+        else
+        {
+            UIManagerNew.Instance.WeeklyEventPanel.panel.sprite = UIManagerNew.Instance.WeeklyEventPanel.panelSprites[0];
+            UIManagerNew.Instance.StartWeeklyEvent.panel.sprite = UIManagerNew.Instance.StartWeeklyEvent.panelSprites[0];
+            UIManagerNew.Instance.ButtonMennuManager.slideBarImage.sprite = UIManagerNew.Instance.ButtonMennuManager.slideSprites[0];
+        }
     }
 }
 [System.Serializable]
@@ -733,14 +747,10 @@ public class WeeklyEventDataConfig
     [JsonProperty("TimeEnd")]
     public DateTime EndTime;
 
-    [JsonProperty("NextEvent")]
-    public DateTime NextEvent;
-
-    public WeeklyEventDataConfig(string nameEvent, DateTime startTime, DateTime endTime, DateTime nextEvent)
+    public WeeklyEventDataConfig(string nameEvent, DateTime startTime, DateTime endTime)
     {
         NameEvent = nameEvent;
         StartTime = startTime;
         EndTime = endTime;
-        NextEvent = nextEvent;
     }
 }

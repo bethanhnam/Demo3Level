@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static Unity.Collections.AllocatorManager;
 
 public class ButtonMennuManager : MonoBehaviour
 {
@@ -51,6 +52,7 @@ public class ButtonMennuManager : MonoBehaviour
     public Slider weeklyEventSlider;
 
     public Image unlockAtLevel;
+    public TextMeshProUGUI unLockAtLevelText;
 
     public Image rewardImage;
     public Transform rewardDefautTransform;
@@ -58,6 +60,9 @@ public class ButtonMennuManager : MonoBehaviour
     public Image collectImage;
     public Image fixNoticeImg;
 
+    //HalloWeen
+    public Image slideBarImage;
+    public List<Sprite> slideSprites;
 
     private void Awake()
     {
@@ -66,6 +71,10 @@ public class ButtonMennuManager : MonoBehaviour
     }
     private void Update()
     {
+    }
+    private void Start()
+    {
+        LevelManagerNew.Instance.SetConfigData();
     }
     public void Appear()
     {
@@ -134,9 +143,10 @@ public class ButtonMennuManager : MonoBehaviour
 
     public void CheckForWeeklyEventMenu()
     {
-        if (!isShowingFixing && LevelManagerNew.Instance.stage >= 8)
+        if (!isShowingFixing && LevelManagerNew.Instance.stage >= 8 && EventController.instance.weeklyEvent != null)
         {
             LoadSliderValue();
+            unlockAtLevel.gameObject.SetActive(false);
             weeklyEventSlider.gameObject.SetActive(true);
             sliderBar.gameObject.SetActive(false);
             collectImage.sprite = EventController.instance.weeklyEventItemSprite;
@@ -148,14 +158,11 @@ public class ButtonMennuManager : MonoBehaviour
         }
         if (LevelManagerNew.Instance.stage >= 2 && LevelManagerNew.Instance.stage < 8)
         {
+            unLockAtLevelText.text = "Unlock at level 9";
             unlockAtLevel.gameObject.SetActive(true);
-        }
-        else
-        {
-            unlockAtLevel.gameObject.SetActive(false);
+            weeklyEventSlider.gameObject.SetActive(false);
         }
     }
-
     public void Close()
     {
         cvButton.blocksRaycasts = false;

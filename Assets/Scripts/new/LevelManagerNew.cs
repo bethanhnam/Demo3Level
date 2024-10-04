@@ -1,8 +1,10 @@
 using DG.Tweening;
 using Newtonsoft.Json;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelManagerNew : MonoBehaviour
@@ -21,7 +23,7 @@ public class LevelManagerNew : MonoBehaviour
 
 	public List<Stage> stageList = new List<Stage>();
 
-	public List<LevelStage> stageList1 = new List<LevelStage>();
+	public List<Stage> stageList1 = new List<Stage>();
 
 	public List<Stage> testingStageList = new List<Stage>();
 
@@ -39,7 +41,7 @@ public class LevelManagerNew : MonoBehaviour
 			displayLevel = stage;
 		}
 		//test
-		//stage = 19;
+		stage = 6;
 	}
 
 	public void Init()
@@ -76,7 +78,31 @@ public class LevelManagerNew : MonoBehaviour
 				SaveData();
 			}
 		}
-		hasLoadDone = true;
+        hasLoadDone = true;
+	}
+
+	public void SetConfigData()
+	{
+		if(RemoteConfigController.instance.Level_config != null)
+		{
+			try
+			{
+				//get data
+				string numberSequence = RemoteConfigController.instance.Level_config;
+				LevelConfig configData = JsonConvert.DeserializeObject<LevelConfig>(numberSequence);
+
+
+				for (int i = 0; i < configData.numberSequence.Length; i++)
+				{
+					stageList[i] = stageList1[configData.numberSequence[i] -1];
+				}
+				Debug.Log("thay duoc data cua stagelist");
+            }
+			catch
+			{
+				Debug.Log(" khong thay duoc data cua stagelist");  
+			}
+        }
 	}
 
 	public void SaveData()
@@ -212,6 +238,15 @@ public class LevelManagerNew : MonoBehaviour
         //    });
         //}
     }
+
+	//[Button("TransferData")]
+	//public void TransferData()
+	//{
+	//	for(int i = 0; i < stageList.Count; i++)
+	//	{
+	//		stageList1.Add(stageList[i]);
+	//	}
+	//}
 }
 
 [Serializable]
@@ -236,4 +271,9 @@ public class LevelStage
 
 	public int Level { get => level; set => level = value; }
 	public Stage Stage1 { get => Stage; set => Stage = value; }
+}
+[Serializable]
+public class LevelConfig
+{
+	public int[] numberSequence;
 }

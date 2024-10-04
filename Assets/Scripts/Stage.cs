@@ -321,7 +321,7 @@ public class Stage : MonoBehaviour
             }
         }
         CheckHoleAvailable();
-        //Hack1();
+        Hack1();
         if (isWining && checkForWinning == false)
         {
             checkForWinning = true;
@@ -687,13 +687,13 @@ public class Stage : MonoBehaviour
                             isLosing = false;
                             UIManagerNew.Instance.LosePanel.Close();
                         }
-                        if(UIManagerNew.Instance.UndoPanel.gameObject.activeSelf || UIManagerNew.Instance.DeteleNailPanel.gameObject.activeSelf || UIManagerNew.Instance.ExtralHolePanel.gameObject.activeSelf && UIManagerNew.Instance.PausePanel.gameObject.activeSelf)
-                        {
-                            UIManagerNew.Instance.UndoPanel.Close();
-                            UIManagerNew.Instance.DeteleNailPanel.Close();
-                            UIManagerNew.Instance.ExtralHolePanel.Close();
-                            UIManagerNew.Instance.PausePanel.Close();
-                        }
+
+                        UIManagerNew.Instance.UndoPanel.Close();
+                        UIManagerNew.Instance.DeteleNailPanel.Close();
+                        UIManagerNew.Instance.ExtralHolePanel.Close();
+                        UIManagerNew.Instance.PausePanel.Close();
+                        UIManagerNew.Instance.hasUI = false;
+                        CheckDoneLevel();
                     }
                 }
                 else
@@ -1354,7 +1354,7 @@ public class Stage : MonoBehaviour
 
     public int CountNumOfEventItem()
     {
-        var  numOfItemCollection = 0;
+        var numOfItemCollection = 0;
         for (int i = 0; i < ironPlates.Length; i++)
         {
             if (ironPlates[i].isEventItem && ironPlates[i].gameObject.activeSelf)

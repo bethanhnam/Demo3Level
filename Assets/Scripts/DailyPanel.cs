@@ -28,8 +28,6 @@ public class DailyPanel : MonoBehaviour
         lastDate = SaveSystem.instance.days;
         Debug.LogError("lastDate = "+lastDate);
     }
-
-
     private void Start()
     {
 

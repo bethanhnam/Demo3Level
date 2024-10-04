@@ -21,11 +21,11 @@ public class RemoteConfigController : MonoBehaviour
     [SerializeField]
     private string ads_config_native;
     [SerializeField]
-    private int banner_collab;     
+    private int banner_collab;
     [SerializeField]
-    private int value_super_impression_ads=1;   
+    private int value_super_impression_ads = 1;
     [SerializeField]
-    private int value_impress_ads=1;
+    private int value_impress_ads = 1;
     [SerializeField]
     private int banner_type;
     [SerializeField]
@@ -34,10 +34,16 @@ public class RemoteConfigController : MonoBehaviour
     private string ads_config_new;
     [SerializeField]
     private int isShowOpenAds;
+
+
     [SerializeField]
     private string level_config;
+
+    [SerializeField]
+    private string WeeklyEventConfig;
+
     // Level_config
-    
+
 
     //[SerializeField]
     //private string data_config;
@@ -91,11 +97,12 @@ public class RemoteConfigController : MonoBehaviour
     public string Ads_config_native { get => ads_config_native; set => ads_config_native = value; }
     public int Value_impress_ads { get => value_impress_ads; set => value_impress_ads = value; }
     public int Value_super_impression_ads { get => value_super_impression_ads; set => value_super_impression_ads = value; }
-	public string DataNetwork { get => dataNetwork; set => dataNetwork = value; }
-	public string Ads_config_new { get => ads_config_new; set => ads_config_new = value; }
-	public int IsShowOpenAds { get => isShowOpenAds; set => isShowOpenAds = value; }
+    public string DataNetwork { get => dataNetwork; set => dataNetwork = value; }
+    public string Ads_config_new { get => ads_config_new; set => ads_config_new = value; }
+    public int IsShowOpenAds { get => isShowOpenAds; set => isShowOpenAds = value; }
     public string Level_config { get => level_config; set => level_config = value; }
 
+    public string WeeklyEventConfig1 { get => WeeklyEventConfig; set => WeeklyEventConfig = value; }
     //Level Config
 
     //public static RemoteConfigController GetInstance()
@@ -120,21 +127,21 @@ public class RemoteConfigController : MonoBehaviour
         Debug.Log("Init RemoteConfig");
         isFetching = true;
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
-         {
-             var dependencyStatus = task.Result;
-             if (dependencyStatus == Firebase.DependencyStatus.Available)
-             {
-                 InitData();
-             }
-             else
-             {
-                 LoadDefaultValue();
-                 isInit = true;
-             }
-             //DataUserManager.Instance.LogProperties111();
-             // FirebaseAnalyticsControl.Instance.CallEndSS();
-             isFetching = false;
-         });
+        {
+            var dependencyStatus = task.Result;
+            if (dependencyStatus == Firebase.DependencyStatus.Available)
+            {
+                InitData();
+            }
+            else
+            {
+                LoadDefaultValue();
+                isInit = true;
+            }
+            //DataUserManager.Instance.LogProperties111();
+            // FirebaseAnalyticsControl.Instance.CallEndSS();
+            isFetching = false;
+        });
     }
 
     void InitData()
@@ -180,31 +187,35 @@ public class RemoteConfigController : MonoBehaviour
         try { Ads_config_native = (string.IsNullOrEmpty(GetValue("ads_config_native").StringValue) ? Ads_config_native : GetValue("ads_config_native").StringValue); }
         catch { }
         try { banner_collab = (int)GetValue("banner_collab").DoubleValue; }
-        catch { }  
+        catch { }
         try { value_super_impression_ads = (int)GetValue("value_super_impression_ads").DoubleValue; }
-        catch { }  
+        catch { }
         try { value_impress_ads = (int)GetValue("value_impress_ads").DoubleValue; }
         catch { }
         try { banner_type = (int)GetValue("banner_type").DoubleValue; }
         catch { }
 
-		try { dataNetwork = (string.IsNullOrEmpty(GetValue("dataNetwork").StringValue) ? dataNetwork: GetValue("dataNetwork").StringValue); }
-		catch { }
-		try { ads_config_new = (string.IsNullOrEmpty(GetValue("ads_config_new").StringValue) ? ads_config_new : GetValue("ads_config_new").StringValue); }
-		catch { }
-        
+        try { dataNetwork = (string.IsNullOrEmpty(GetValue("dataNetwork").StringValue) ? dataNetwork : GetValue("dataNetwork").StringValue); }
+        catch { }
+        try { ads_config_new = (string.IsNullOrEmpty(GetValue("ads_config_new").StringValue) ? ads_config_new : GetValue("ads_config_new").StringValue); }
+        catch { }
+
         try { isShowOpenAds = (int)GetValue("isShowOpenAds").DoubleValue; }
-		catch { }
+        catch { }
+
+        try { WeeklyEventConfig1 = (string.IsNullOrEmpty(GetValue("WeeklyEventConfig1").StringValue) ? WeeklyEventConfig1 : GetValue("WeeklyEventConfig1").StringValue); }
+        catch { }
 
         try { level_config = (string.IsNullOrEmpty(GetValue("level_config").StringValue) ? level_config : GetValue("level_config").StringValue); }
         catch { }
         Debug.Log("data: " + level_config);
+        Debug.Log("data: " + WeeklyEventConfig);
 
         SaveValue();
         isInit = true;
 
-		GetComponent<AdsManager>().StartInit(dataNetwork, ads_config_new);
-	}
+        GetComponent<AdsManager>().StartInit(dataNetwork, ads_config_new);
+    }
 
     public void SetDefaultValue()
     {
@@ -219,11 +230,11 @@ public class RemoteConfigController : MonoBehaviour
         if (PlayerPrefs.HasKey("banner_collab"))
         {
             PlayerPrefs.SetInt("banner_collab", banner_collab);
-        } 
+        }
         if (PlayerPrefs.HasKey("value_super_impression_ads"))
         {
             PlayerPrefs.SetInt("value_super_impression_ads", value_super_impression_ads);
-        }  
+        }
         if (PlayerPrefs.HasKey("value_impress_ads"))
         {
             PlayerPrefs.SetInt("value_impress_ads", value_impress_ads);
@@ -232,15 +243,19 @@ public class RemoteConfigController : MonoBehaviour
         {
             PlayerPrefs.SetInt("banner_type", banner_type);
         }
-        if(PlayerPrefs.HasKey("dataNetwork"))
+        if (PlayerPrefs.HasKey("dataNetwork"))
         {
             PlayerPrefs.SetString("dataNetwork", dataNetwork);
         }
-		if (PlayerPrefs.HasKey("ads_config_new"))
-		{
-			PlayerPrefs.SetString("ads_config_new", ads_config_new);
-		}
-        if(PlayerPrefs.HasKey("level_config"))
+        if (PlayerPrefs.HasKey("ads_config_new"))
+        {
+            PlayerPrefs.SetString("ads_config_new", ads_config_new);
+        }
+        if (PlayerPrefs.HasKey("WeeklyEventConfig1"))
+        {
+            PlayerPrefs.SetString("WeeklyEventConfig1", WeeklyEventConfig);
+        }
+        if (PlayerPrefs.HasKey("level_config"))
         {
             PlayerPrefs.SetString("level_config", level_config);
         }
@@ -259,9 +274,10 @@ public class RemoteConfigController : MonoBehaviour
         value_impress_ads = PlayerPrefs.GetInt("value_impress_ads", value_impress_ads);
         banner_type = PlayerPrefs.GetInt("banner_type", banner_type);
         dataNetwork = PlayerPrefs.GetString("dataNetwork", dataNetwork);
-		ads_config_new = PlayerPrefs.GetString("ads_config_new", ads_config_new);
-		isShowOpenAds = PlayerPrefs.GetInt("isShowOpenAds", isShowOpenAds);
+        ads_config_new = PlayerPrefs.GetString("ads_config_new", ads_config_new);
+        isShowOpenAds = PlayerPrefs.GetInt("isShowOpenAds", isShowOpenAds);
         level_config = PlayerPrefs.GetString("level_config", level_config);
+        WeeklyEventConfig = PlayerPrefs.GetString("WeeklyEventConfig1", WeeklyEventConfig);
     }
 
     private void SaveValue()
@@ -273,9 +289,10 @@ public class RemoteConfigController : MonoBehaviour
         PlayerPrefs.SetInt("value_impress_ads", value_impress_ads);
         PlayerPrefs.SetInt("banner_type", banner_type);
         PlayerPrefs.SetString("dataNetwork", dataNetwork);
-		PlayerPrefs.SetString("ads_config_new", ads_config_new);
-		PlayerPrefs.SetInt("isShowOpenAds", isShowOpenAds);
+        PlayerPrefs.SetString("ads_config_new", ads_config_new);
+        PlayerPrefs.SetInt("isShowOpenAds", isShowOpenAds);
         PlayerPrefs.SetString("level_config", level_config);
+        PlayerPrefs.SetString("WeeklyEventConfig1", WeeklyEventConfig);
         PlayerPrefs.Save();
     }
 }

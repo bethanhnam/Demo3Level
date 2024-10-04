@@ -12,6 +12,10 @@ public class StartWeeklyEvent : MonoBehaviour
     public Image smallCollectionImg;
     public Button continueButton;
 
+    // halloween 
+    public Image panel;
+    public List<Sprite> panelSprites;
+
     public void Appear()
     {
         UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
