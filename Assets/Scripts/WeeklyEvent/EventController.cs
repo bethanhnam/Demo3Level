@@ -108,31 +108,92 @@ public class EventController : MonoBehaviour
             ChangeUIToHalloWeen();
             if (weeklyEvent != null)
             {
-                if (isHalloWeen == true)
-                {
-                    UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
-                    weeklyEvent.ResetData();
-                    weeklyEvent.startEventDate = halloWeenEventConfig.StartTime.Date.Ticks.ToString();
-                    weeklyEvent.endEventDate = halloWeenEventConfig.EndTime.Date.Ticks.ToString();
-                    weeklyEvent.eventStaus = EventStaus.running;
-                    UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(true);
-                    UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(true);
-                    UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CreateRewardList();
-                    UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.AddData();
-                    UIManagerNew.Instance.WeeklyEventPanel.LoadData();
-                    RandomItemColor();
-                    UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
-                    UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
-                    SaveData("WeeklyEvent", weeklyEvent);
-                    PlayerPrefs.SetString("FirstWeeklyEvent", "false");
-                    UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
-                    
-                    return;
-                }
                 Debug.LogError("chaay vao weeklyEvent != null");
 
                 weeklyEventItemSprite = weeklyEventControllers[0].weeklyEventItemColor[weeklyEvent.colorIndex].weeklyEventBarColor;
                 UIManagerNew.Instance.ButtonMennuManager.collectImage.sprite = weeklyEventItemSprite;
+                if (isHalloWeen == true)
+                {
+                    DateTime endTime;
+                    try
+                    {
+                        Debug.LogError("weeklyEvent.endEventDate " + weeklyEvent.endEventDate);
+                        var x = JsonConvert.DeserializeObject<long>(weeklyEvent.endEventDate);
+                        Debug.LogError("x " + x);
+                        endTime = new DateTime(x);
+                        //endTime.AddDays(1);
+                        Debug.LogError("end " + endTime);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError("weeklyEvent.endEventDate " + weeklyEvent.endEventDate);
+                        var x = DateTime.Parse(weeklyEvent.endEventDate);
+                        endTime = x;
+                        Debug.LogError("x " + x);
+                        //endTime.AddDays(1);
+                        weeklyEvent.endEventDate = x.Ticks.ToString();
+                        SaveData("WeeklyEvent", weeklyEvent);
+                        Debug.LogError("end " + endTime);
+                    }
+                    Debug.LogError("end " + endTime);
+                    Debug.LogError("chuyen doi duoc time cua weeklyEvent");
+                    if (HasTimeExpired(endTime))
+                    {
+                        UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
+                        weeklyEvent.ResetData();
+                        weeklyEvent.startEventDate = halloWeenEventConfig.StartTime.Date.Ticks.ToString();
+                        weeklyEvent.endEventDate = halloWeenEventConfig.EndTime.Date.Ticks.ToString();
+                        weeklyEvent.eventStaus = EventStaus.running;
+                        UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(true);
+                        UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(true);
+                        UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CreateRewardList();
+                        UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.AddData();
+                        UIManagerNew.Instance.WeeklyEventPanel.LoadData();
+                        RandomItemColor();
+                        UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
+                        UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
+                        SaveData("WeeklyEvent", weeklyEvent);
+                        PlayerPrefs.SetString("FirstWeeklyEvent", "false");
+                        UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
+                    }
+                    else
+                    {
+                        Debug.LogError("chua het time");
+                        FirebaseAnalyticsControl.Instance.LogEventevent_weekly();
+                        PlayerPrefs.GetString("FirstWeeklyEvent", "true");
+                        if (weeklyEvent.levelIndex == weeklyEventControllers[0].weeklyEventPack.Count - 1 && weeklyEvent.numOfCollection == weeklyEvent.numToLevelUp)
+                        {
+                            Debug.LogError("pack cuoi ");
+                            UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = true;
+                            weeklyEvent.eventStaus = EventStaus.end;
+                            UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CreateRewardList();
+                            UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.AddData();
+                            UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
+                            UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
+                            UIManagerNew.Instance.WeeklyEventPanel.collectSlider.value = UIManagerNew.Instance.WeeklyEventPanel.collectSlider.maxValue;
+                            UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(false);
+                            UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(false);
+                            SaveData("WeeklyEvent", weeklyEvent);
+                            UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
+                        }
+                        else
+                        {
+                            Debug.LogError("chua phai pack cuoi");
+                            UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
+                            UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(true);
+                            UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(true);
+                            UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.CreateRewardList();
+                            UIManagerNew.Instance.WeeklyEventPanel.weeklyRewardController.AddData();
+                            UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
+                            UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
+                            SaveData("WeeklyEvent", weeklyEvent);
+                            UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
+                        }
+                    }
+                    return;
+                }
+
+                
                 Debug.LogError("gan xong sprite");
                 if (weeklyEvent.eventStaus == WeeklyEventController.EventStaus.running)
                 {

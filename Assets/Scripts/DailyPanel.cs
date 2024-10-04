@@ -35,6 +35,7 @@ public class DailyPanel : MonoBehaviour
 
     private bool checkDay()
     {
+        lastDate = SaveSystem.instance.days;
         bool result = false;
         // Lấy thời gian lần cuối claim
         string lastTime = PlayerPrefs.GetString("LastClaimTime");
@@ -75,6 +76,7 @@ public class DailyPanel : MonoBehaviour
 
     private void OnEnable()
     {
+        checkDay();
         if (lastDate < 7)
         {
             for (int i = 0; i < lastDate; i++)
@@ -90,7 +92,6 @@ public class DailyPanel : MonoBehaviour
             }
         }
         startValue = SaveSystem.instance.coin;
-        checkDay();
     }
 
     public void OnClaimButtinPressed()
@@ -152,7 +153,7 @@ public class DailyPanel : MonoBehaviour
             {
                 if (LevelManagerNew.Instance.stage >= 8)
                 {
-                    if (!EventController.instance.FirstWeeklyEvent())
+                    if (UIManagerNew.Instance.ButtonMennuManager.CheckForChangeDataWeekly() && !EventController.instance.FirstWeeklyEvent())
                     {
                         UIManagerNew.Instance.StartWeeklyEvent.Appear();
                         PlayerPrefs.SetString("FirstWeeklyEvent", "true");
@@ -191,7 +192,7 @@ public class DailyPanel : MonoBehaviour
                     {
                         if (LevelManagerNew.Instance.stage >= 8)
                         {
-                            if (!EventController.instance.FirstWeeklyEvent())
+                            if (UIManagerNew.Instance.ButtonMennuManager.CheckForChangeDataWeekly() && !EventController.instance.FirstWeeklyEvent())
                             {
                                 UIManagerNew.Instance.StartWeeklyEvent.Appear();
                                 PlayerPrefs.SetString("FirstWeeklyEvent", "true");
@@ -209,7 +210,7 @@ public class DailyPanel : MonoBehaviour
             {
                 if (LevelManagerNew.Instance.stage >= 8)
                 {
-                    if (!EventController.instance.FirstWeeklyEvent())
+                    if (UIManagerNew.Instance.ButtonMennuManager.CheckForChangeDataWeekly() && !EventController.instance.FirstWeeklyEvent())
                     {
                         UIManagerNew.Instance.StartWeeklyEvent.Appear();
                         PlayerPrefs.SetString("FirstWeeklyEvent", "true");
@@ -241,6 +242,7 @@ public class DailyPanel : MonoBehaviour
             dayRewards[i].button.interactable = true;
         }
         SaveSystem.instance.days = 0;
+        lastDate = 0;
         SaveSystem.instance.SaveData();
     }
 

@@ -47,6 +47,12 @@ public class reciveRewardPanel : MonoBehaviour
             //rewardOpen.localScale = Vector3.one;
             //rewardLight.localScale = Vector3.one;
 
+            while (rewards.Count >= 1)
+            {
+                Destroy(rewards[rewards.Count -1].gameObject);
+                rewards.Remove(rewards[rewards.Count -1]);
+            }
+            rewards.Clear();
             if (rewardsDaily[dailyPanel.lastDate].rewardImg.Length == 1)
             {
                 Image x = Instantiate(RWImg, rewardImg.transform.position, Quaternion.identity, transform);
@@ -284,10 +290,10 @@ public class reciveRewardPanel : MonoBehaviour
     }
     public void Close()
     {
-        for (int i = 0; i < rewards.Count; i++)
+       while(rewards.Count >= 1)
         {
-            Destroy(rewards[i]);
-            rewards.Remove(rewards[i]);
+            Destroy(rewards[rewards.Count-1].gameObject);
+            rewards.Remove(rewards[rewards.Count-1]);
         }
         for (int i = 0; i < particleSystems.Length; i++)
         {
