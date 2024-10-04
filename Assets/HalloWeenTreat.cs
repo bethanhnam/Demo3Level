@@ -234,7 +234,7 @@ public class HalloWeenTreat : MonoBehaviour
         if (i < items.Length)
         {
             items[i].enabled = true;
-            //items[i].Play("HalloWeenPackItemClaim");
+            items[i].Play("HalloWeenPackItemClaimed");
             DOVirtual.DelayedCall(0.5f, () =>
             {
                 i++;
@@ -279,14 +279,12 @@ public class HalloWeenTreat : MonoBehaviour
         if (index < items.Length)
         {
             items[index].enabled = true;
+            items[index].Play("HalloWeenPackItemClaim");
             DOVirtual.DelayedCall(1f, () =>
             {
-                items[index].Play("HalloWeenPackItemClaim");
                 index++;
-                DOVirtual.DelayedCall(.9f, () =>
-                {
+                
                     ChangeImageItem(index, action);
-                });
             });
         }
         else
