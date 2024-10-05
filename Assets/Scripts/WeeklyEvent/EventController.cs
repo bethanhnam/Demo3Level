@@ -153,8 +153,8 @@ public class EventController : MonoBehaviour
                         UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
                         UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                         SaveData("WeeklyEvent", weeklyEvent);
-                        
                         UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
+                        PlayerPrefs.SetString("FirstWeeklyEvent", "false");
 
                     }
                     else
@@ -240,6 +240,7 @@ public class EventController : MonoBehaviour
                         UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                         SaveData("WeeklyEvent", weeklyEvent);
                         UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
+                        PlayerPrefs.SetString("FirstWeeklyEvent", "false");
                         //UIManagerNew.Instance.StartWeeklyEvent.Appear();
                     }
                     else
@@ -319,6 +320,7 @@ public class EventController : MonoBehaviour
                         UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                         SaveData("WeeklyEvent", weeklyEvent);
                         UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
+                        PlayerPrefs.SetString("FirstWeeklyEvent", "false");
                     }
                     else
                     {
