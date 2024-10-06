@@ -177,18 +177,6 @@ public class WinUI : MonoBehaviour
                         }
                         AudioManager.instance.PlayMusic("MenuTheme");
                         //check for weekly event 
-                        if (LevelManagerNew.Instance.stage >= 8)
-                        {
-                            if (!EventController.instance.FirstWeeklyEvent())
-                            {
-                                DOVirtual.DelayedCall(0.75f, () =>
-                                {
-                                    UIManagerNew.Instance.StartWeeklyEvent.Appear();
-                                    PlayerPrefs.SetString("FirstWeeklyEvent", "true");
-                                });
-                            }
-                        }
-                        EventController.instance.CheckForWeeklyEvent();
                         if (Stage.Instance.numOfEventItem != 0)
                         {
                             DOVirtual.DelayedCall(1.3f, () =>

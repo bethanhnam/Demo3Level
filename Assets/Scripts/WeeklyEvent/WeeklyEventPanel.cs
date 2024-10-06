@@ -45,7 +45,10 @@ public class WeeklyEventPanel : MonoBehaviour
 
     private void Update()
     {
-        timeRemaining.text = UIManagerNew.Instance.WeeklyEventPanel.CauculateTimeRemaining();
+        if (this.gameObject.activeSelf)
+        {
+            timeRemaining.text = UIManagerNew.Instance.WeeklyEventPanel.CauculateTimeRemaining();
+        }
     }
 
     // Start is called before the first frame update

@@ -41,7 +41,7 @@ public class LevelManagerNew : MonoBehaviour
 			displayLevel = stage;
 		}
 		//test
-		//stage = 8;
+		stage = 126;
 	}
 
 	public void Init()
@@ -91,8 +91,7 @@ public class LevelManagerNew : MonoBehaviour
 				string numberSequence = RemoteConfigController.instance.Level_config;
 				LevelConfig configData = JsonConvert.DeserializeObject<LevelConfig>(numberSequence);
 
-
-				for (int i = 0; i < configData.numberSequence.Length; i++)
+                for (int i = 0; i < configData.numberSequence.Length; i++)
 				{
 					stageList[i] = stageList1[configData.numberSequence[i] -1];
 				}

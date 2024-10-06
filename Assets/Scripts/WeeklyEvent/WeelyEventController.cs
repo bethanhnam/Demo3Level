@@ -187,7 +187,7 @@ public class WeeklyEventController : ScriptableObject
     {
         DateTime currentDate = DateTime.Now;
         int daysUntilSunday = ((int)DayOfWeek.Sunday - (int)currentDate.DayOfWeek + 7) % 7;
-        DateTime sundayDate = currentDate.AddDays(daysUntilSunday);
+        DateTime sundayDate = currentDate.Date.AddDays(daysUntilSunday).AddDays(1).AddSeconds(-1); ;
         return new DateTime(sundayDate.Year, sundayDate.Month, sundayDate.Day, 0, 0, 0, DateTimeKind.Utc);
     }
 

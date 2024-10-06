@@ -710,35 +710,37 @@ public class EventController : MonoBehaviour
 
     public bool CheckTimeForWeeklyEvent()
     {
+        // Default to false
         bool result = false;
+
+        // Ensure configuration is valid
         if (halloWeenEventConfig != null && halloWeenEventConfig.NameEvent != null)
         {
-            if (halloWeenEventConfig.StartTime.Subtract(DateTime.Now).TotalDays > 0)
+            DateTime now = DateTime.Now;
+
+            // Check if the event hasn't started yet
+            if (halloWeenEventConfig.StartTime > now)
             {
                 isHalloWeen = false;
                 Debug.Log(" chưa đến weekly event");
-                result = false;
-                return result;
             }
+            // Check if the event is ongoing
+            else if (halloWeenEventConfig.EndTime >= now)
+            {
+                isHalloWeen = true;
+                Debug.Log(" đang trong weekly event");
+                result = true;
+            }
+            // Event has ended
             else
             {
-                if (halloWeenEventConfig.EndTime.Subtract(DateTime.Now).TotalDays < 0)
-                {
-                    isHalloWeen = false;
-                    Debug.Log(" đã hết time weekly event");
-                    return result;
-                }
-                else
-                {
-                    isHalloWeen = true;
-                    Debug.Log(" chưa hết time weekly event");
-                    result = true;
-                    return result;
-                }
+                isHalloWeen = false;
+                Debug.Log(" đã hết time weekly event");
             }
         }
         return result;
     }
+
     public void ChangeUIToHalloWeen()
     {
         if (isHalloWeen)

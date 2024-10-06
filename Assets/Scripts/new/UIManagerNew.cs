@@ -171,7 +171,7 @@ public class UIManagerNew : MonoBehaviour
     private void Start()
     {
         LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint,SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
-        InvokeRepeating("PlayButtonShinning", 0, 3.5f);
+        PlayButtonShinning();
     }
 
     public void LoadData(int unscrew, int undo,int drill,  int coin, int star)

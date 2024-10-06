@@ -122,6 +122,7 @@ public class HalloWeenTreat : MonoBehaviour
     {
         DeactiveCanvasGroup();
         animator.Play(disappear);
+        UIManagerNew.Instance.ButtonMennuManager.Appear();
     }
 
     private void Update()

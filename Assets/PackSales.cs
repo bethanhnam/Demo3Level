@@ -37,6 +37,7 @@ public class PackSales : MonoBehaviour
     {
         DeactiveCanvasGroup();
         animator.Play(disappear);
+        UIManagerNew.Instance.ButtonMennuManager.Appear();
     }
     public void Deative()
     {
@@ -77,44 +78,33 @@ public class PackSales : MonoBehaviour
         string timeText = string.Empty;
 
         DateTime now = DateTime.Now;
-        DateTime timeRemaining = time;
+        TimeSpan timeUntilNextEvent = time - now;
 
-        TimeSpan timeUntilNextEvent = timeRemaining - now;
-
-        // Convert the TimeSpan to a DateTime starting from a baseline
-        DateTime timeUntilNextEventAsDateTime = DateTime.MinValue.Add(timeUntilNextEvent);
+        // Ensure no negative values are displayed
+        if (timeUntilNextEvent < TimeSpan.Zero)
+        {
+            return "00m00s"; // Default to "00m00s" if time is in the past
+        }
 
         int days = (int)timeUntilNextEvent.TotalDays;
         int hours = timeUntilNextEvent.Hours;
         int minutes = timeUntilNextEvent.Minutes;
         int seconds = timeUntilNextEvent.Seconds;
 
-        if (days < 0 && hours < 0 && minutes < 0 && seconds < 0)
-        {
-            days = 0;
-            hours = 0;
-            minutes = 0;
-            seconds = 0;
-        }
+        // Display days and hours if days are greater than 0
         if (days > 0)
         {
-            timeText = $"{(int)days:D2}d{(int)hours:D2}h";
+            timeText = $"{days:D2}d{hours:D2}h";
+        }
+        else if (hours > 0)
+        {
+            timeText = $"{hours:D2}h{minutes:D2}m";
         }
         else
         {
-            if (hours > 0)
-            {
-                timeText = $"{(int)hours:D2}h{(int)minutes:D2}m";
-            }
-            else
-            {
-                timeText = $"{(int)minutes:D2}m{(int)seconds:D2}";
-                if (seconds < 0)
-                {
-                    return null;
-                }
-            }
+            timeText = $"{minutes:D2}m{seconds:D2}s";
         }
+
         return timeText;
     }
 }

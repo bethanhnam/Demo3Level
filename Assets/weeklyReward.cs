@@ -55,6 +55,7 @@ public class weeklyReward : MonoBehaviour
         numOfReward.ForceMeshUpdate();
 
         numOfReward.gameObject.SetActive(true);
+        claimImage.gameObject.SetActive(false);
     }
     public void SetData(int i,Sprite sprite,int numOfReward1,rewardType rewardType )
     {
