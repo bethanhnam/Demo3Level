@@ -49,6 +49,8 @@ public class Stage : MonoBehaviour
     public List<HingeJoint2D> HingeJointBeforeRemove = new List<HingeJoint2D>();
 
     //undo 
+    [SerializeField] int numOfEventItemBeforeUndo;
+
     [SerializeField] Hole holeToUndo;
     [SerializeField] Hole holeBeforeUndo;
     [SerializeField] NailControl nailToUndo;
@@ -838,6 +840,7 @@ public class Stage : MonoBehaviour
         nailToUndo = curNail;
         holeBeforeUndo = curHole;
         holeToUndo = preHole;
+        numOfEventItemBeforeUndo = numOfEventItem;
         foreach (var iron in ironPlates)
         {
             if (iron.gameObject.activeSelf)
@@ -932,6 +935,14 @@ public class Stage : MonoBehaviour
                 }
                 hasUndo = true;
                 hasDelete = false;
+                try
+                {
+                    numOfEventItem = numOfEventItemBeforeUndo;
+                    UIManagerNew.Instance.GamePlayPanel.numOfCollection.text = numOfEventItemBeforeUndo.ToString();
+                }
+                catch (Exception e)
+                {
+                }
                 Continute();
                 resetData();
             }
@@ -988,6 +999,8 @@ public class Stage : MonoBehaviour
     {
         try
         {
+            numOfEventItemBeforeUndo = 0;
+
             nailObjectsBeforemove.Clear();
             nailObjectsTransformBeforemove.Clear();
             ironObjectsRotationBeforemove.Clear();
@@ -1337,6 +1350,19 @@ public class Stage : MonoBehaviour
                 }
             }
         }
+    }
+
+    public int CountNumOfEventItem()
+    {
+        var  numOfItemCollection = 0;
+        for (int i = 0; i < ironPlates.Length; i++)
+        {
+            if (ironPlates[i].isEventItem && ironPlates[i].gameObject.activeSelf)
+            {
+                numOfItemCollection++;
+            }
+        }
+        return numOfItemCollection;
     }
 
     public void SetDefaultBeforeUnscrew()

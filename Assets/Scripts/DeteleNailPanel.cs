@@ -310,6 +310,7 @@ public class DeteleNailPanel : MonoBehaviour
         else
         if (SaveSystem.instance.unscrewPoint >= 1)
         {
+            
             if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
             {
                 UIManagerNew.Instance.ThresholeController.Disable();
@@ -318,25 +319,27 @@ public class DeteleNailPanel : MonoBehaviour
             {
                 hasUseTutor = true;
             }
+            Stage.Instance.canInteract = false;
             //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
             Stage.Instance.DeactiveTutor();
-
             SaveSystem.instance.AddBooster(-1, 0, 0);
             GamePlayPanelUIManager.Instance.Appear();
-            Stage.Instance.isDeteleting = true;
             Stage.Instance.DisplayUnscrew(true);
             DOVirtual.DelayedCall(0.5f, () =>
             {
-                if (!Stage.Instance.isWining)
+                DOVirtual.DelayedCall(0.5f, () =>
                 {
-                    Stage.Instance.setDeteleting(true);
-                }
-                else
-                {
-                    Stage.Instance.isDeteleting = false;
-                    Stage.Instance.DisplayUnscrew(false);
-                }
-                Stage.Instance.canInteract = true;
+                    if (!Stage.Instance.isWining)
+                    {
+                        Stage.Instance.setDeteleting(true);
+                    }
+                    else
+                    {
+                        Stage.Instance.isDeteleting = false;
+                        Stage.Instance.DisplayUnscrew(false);
+                    }
+                    Stage.Instance.canInteract = true;
+                });
             });
         }
         else
