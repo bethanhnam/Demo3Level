@@ -675,6 +675,7 @@ public class GameManagerNew : MonoBehaviour
         var x = PictureUIManager.gameObject;
         Destroy(x);
         UIManagerNew.Instance.CompleteImg.transform.localScale = Vector3.one;
+        UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = false;
         LevelManagerNew.Instance.NetxtLevel();
         Debug.Log("level tranh tiếp theo " + LevelManagerNew.Instance.LevelBase.Level);
         PictureUIManager = Instantiate(DataLevelManager.Instance.DatatPictureScriptTableObjects[LevelManagerNew.Instance.LevelBase.Level].PictureUIManager, parPic);
