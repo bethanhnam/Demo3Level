@@ -162,6 +162,48 @@ public class LoadingManager : MonoBehaviour
                 PlayerPrefs.SetInt("CompleteLastPic", 0);
                 GameManagerNew.Instance.CreatePicForNewPic();
             }
+            DOVirtual.DelayedCall(1, () =>
+            {
+                if (!EventController.instance.FirstWeeklyEvent())
+                {
+                    if (LevelManagerNew.Instance.stage >= 8)
+                    {
+                        UIManagerNew.Instance.StartWeeklyEvent.Appear();
+                        PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                    }
+                    else
+                    {
+                        if (EventController.instance.isHalloWeen)
+                        {
+                            if (UIManagerNew.Instance.HalloWeenTreat.timeOn != true)
+                            {
+                                UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+                                DOVirtual.DelayedCall(0.7f, () =>
+                                {
+                                    // code mo halloween treat nếu chưa nhận quà 
+                                    UIManagerNew.Instance.ButtonMennuManager.OpenHalloWeenTreat();
+                                });
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (EventController.instance.isHalloWeen)
+                    {
+                        if (UIManagerNew.Instance.HalloWeenTreat.timeOn != true)
+                        {
+                            UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+                            DOVirtual.DelayedCall(0.7f, () =>
+                            {
+                                // code mo halloween treat nếu chưa nhận quà 
+                                UIManagerNew.Instance.ButtonMennuManager.OpenHalloWeenTreat();
+                            });
+                        }
+                    }
+                }
+
+            });
             UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
             Debug.Log("Full process and daily reward claimed.");
         }
@@ -174,6 +216,18 @@ public class LoadingManager : MonoBehaviour
             else
             {
                 UIManagerNew.Instance.ButtonMennuManager.Appear();
+                if (EventController.instance.isHalloWeen)
+                {
+                    if (UIManagerNew.Instance.HalloWeenTreat.timeOn != true)
+                    {
+                        UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+                        DOVirtual.DelayedCall(0.7f, () =>
+                        {
+                            // code mo halloween treat nếu chưa nhận quà 
+                            UIManagerNew.Instance.ButtonMennuManager.OpenHalloWeenTreat();
+                        });
+                    }
+                }
             }
             AudioManager.instance.PlayMusic("MenuTheme");
             if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
@@ -196,6 +250,22 @@ public class LoadingManager : MonoBehaviour
             {
                 AudioManager.instance.PlayMusic("MenuTheme");
                 UIManagerNew.Instance.ButtonMennuManager.Appear();
+
+                if (EventController.instance.FirstWeeklyEvent())
+                {
+                    if (EventController.instance.isHalloWeen)
+                    {
+                        if (UIManagerNew.Instance.HalloWeenTreat.timeOn != true)
+                        {
+                            UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+                            DOVirtual.DelayedCall(0.7f, () =>
+                            {
+                                // code mo halloween treat nếu chưa nhận quà 
+                                UIManagerNew.Instance.ButtonMennuManager.OpenHalloWeenTreat();
+                            });
+                        }
+                    }
+                }
                 Debug.Log("Incomplete process but daily reward claimed.");
             }
             else
@@ -207,6 +277,19 @@ public class LoadingManager : MonoBehaviour
                 else
                 {
                     UIManagerNew.Instance.ButtonMennuManager.Appear();
+                    if (EventController.instance.isHalloWeen)
+                    {
+                        if (UIManagerNew.Instance.HalloWeenTreat.timeOn != true)
+                        {
+                            UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+
+                            DOVirtual.DelayedCall(0.7f, () =>
+                            {
+                                // code mo halloween treat nếu chưa nhận quà 
+                                UIManagerNew.Instance.ButtonMennuManager.OpenHalloWeenTreat();
+                            });
+                        }
+                    }
                 }
                 AudioManager.instance.PlayMusic("MenuTheme");
                 Debug.Log("Incomplete process and daily reward not claimed.");
@@ -219,14 +302,45 @@ public class LoadingManager : MonoBehaviour
             UIManagerNew.Instance.ButtonMennuManager.Appear();
             DOVirtual.DelayedCall(1, () =>
             {
-                if (LevelManagerNew.Instance.stage >= 8)
+                if (!EventController.instance.FirstWeeklyEvent())
                 {
-                    if (!EventController.instance.FirstWeeklyEvent())
+                    if (LevelManagerNew.Instance.stage >= 8)
                     {
                         UIManagerNew.Instance.StartWeeklyEvent.Appear();
                         PlayerPrefs.SetString("FirstWeeklyEvent", "true");
                     }
+                    else
+                    {
+                        if (EventController.instance.isHalloWeen)
+                        {
+                            if (UIManagerNew.Instance.HalloWeenTreat.timeOn != true)
+                            {
+                                UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+                                DOVirtual.DelayedCall(0.7f, () =>
+                                {
+                                    // code mo halloween treat nếu chưa nhận quà 
+                                    UIManagerNew.Instance.ButtonMennuManager.OpenHalloWeenTreat();
+                                });
+                            }
+                        }
+                    }
                 }
+                else
+                {
+                    if (EventController.instance.isHalloWeen)
+                    {
+                        if (UIManagerNew.Instance.HalloWeenTreat.timeOn != true)
+                        {
+                            UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+                            DOVirtual.DelayedCall(0.7f, () =>
+                            {
+                                // code mo halloween treat nếu chưa nhận quà 
+                                UIManagerNew.Instance.ButtonMennuManager.OpenHalloWeenTreat();
+                            });
+                        }
+                    }
+                }
+
             });
             if (PlayerPrefs.GetInt("CompleteLastPic") == 1)
             {
@@ -238,14 +352,14 @@ public class LoadingManager : MonoBehaviour
 
     public void PlayVideo()
     {
-        if (GameManagerNew.Instance != null )
+        if (GameManagerNew.Instance != null)
         {
             Debug.LogError("có GameManagerNew");
         }
-        if(GameManagerNew.Instance.videoController != null)
+        if (GameManagerNew.Instance.videoController != null)
         {
             Debug.LogError("có videoController");
-        }    
+        }
         if (GameManagerNew.Instance != null && GameManagerNew.Instance.videoController != null)
         {
             Debug.LogError("chạy vào playvideo bth");

@@ -41,7 +41,7 @@ public class VideoController : MonoBehaviour
     }
     public void CheckStartVideo()
     {
-        //PlayerPrefs.SetInt("videoIndex", 3);
+        PlayerPrefs.SetInt("videoIndex", 3);
 
         var x = PlayerPrefs.GetInt("videoIndex");
         PlayVideo(x, null);
@@ -146,6 +146,18 @@ public class VideoController : MonoBehaviour
                             else
                             {
                                 UIManagerNew.Instance.ButtonMennuManager.Appear();
+                                if (EventController.instance.isHalloWeen)
+                                {
+                                    if (UIManagerNew.Instance.HalloWeenTreat.timeOn != true)
+                                    {
+                                        UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+                                        DOVirtual.DelayedCall(0.7f, () =>
+                                        {
+                                            // code mo halloween treat nếu chưa nhận quà 
+                                            UIManagerNew.Instance.ButtonMennuManager.OpenHalloWeenTreat();
+                                        });
+                                    }
+                                }
                             }
                         });
                     }

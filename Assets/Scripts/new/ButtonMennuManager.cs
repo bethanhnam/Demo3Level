@@ -89,14 +89,15 @@ public class ButtonMennuManager : MonoBehaviour
                 if (CheckForChangeDataWeekly())
                 {
                     //halloWeen
-                    DOVirtual.DelayedCall(1, () => { 
-                    PlayerPrefs.SetString("FirstWeeklyEvent", "false");
-                    EventController.instance.CheckTimeForWeeklyEvent();
-                    EventController.instance.CheckForWeeklyEvent();
-                    UIManagerNew.Instance.StartWeeklyEvent.Appear();
-                    CheckForHalloWeen();
-                    PlayerPrefs.SetString("FirstWeeklyEvent", "true");
-                    Debug.Log("CheckForHalloWeen update");
+                    DOVirtual.DelayedCall(1, () =>
+                    {
+                        PlayerPrefs.SetString("FirstWeeklyEvent", "false");
+                        EventController.instance.CheckTimeForWeeklyEvent();
+                        EventController.instance.CheckForWeeklyEvent();
+                        UIManagerNew.Instance.StartWeeklyEvent.Appear();
+                        CheckForHalloWeen();
+                        PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                        Debug.Log("CheckForHalloWeen update");
                     });
                 }
             }
@@ -164,7 +165,7 @@ public class ButtonMennuManager : MonoBehaviour
             }
             CheckDailyNotice();
             CheckForMinigame();
-       
+
 
             if (HasCallTween == false)
             {
@@ -249,6 +250,7 @@ public class ButtonMennuManager : MonoBehaviour
     }
     public void OpenDailyRW()
     {
+
         FirebaseAnalyticsControl.Instance.click_dailyRw();
         //GameManagerNew.Instance.ClosePicture(false);
         Close();
@@ -282,6 +284,7 @@ public class ButtonMennuManager : MonoBehaviour
     {
         Close();
         UIManagerNew.Instance.HalloWeenTreat.Appear();
+        UIManagerNew.Instance.BlockPicCanvas.SetActive(false);
     }
     public void OpenHalloWeenPack()
     {

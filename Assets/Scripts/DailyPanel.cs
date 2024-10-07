@@ -26,7 +26,7 @@ public class DailyPanel : MonoBehaviour
     private void Awake()
     {
         lastDate = SaveSystem.instance.days;
-        Debug.LogError("lastDate = "+lastDate);
+        Debug.LogError("lastDate = " + lastDate);
     }
     private void Start()
     {
@@ -151,12 +151,42 @@ public class DailyPanel : MonoBehaviour
             UIManagerNew.Instance.ButtonMennuManager.Appear();
             DOVirtual.DelayedCall(1.5f, () =>
             {
-                if (LevelManagerNew.Instance.stage >= 8)
+                if (!EventController.instance.FirstWeeklyEvent())
                 {
-                    if (!EventController.instance.FirstWeeklyEvent())
+                    if (LevelManagerNew.Instance.stage >= 8)
                     {
                         UIManagerNew.Instance.StartWeeklyEvent.Appear();
                         PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                    }
+                    else
+                    {
+                        if (EventController.instance.isHalloWeen)
+                        {
+                            if (UIManagerNew.Instance.HalloWeenTreat.timeOn != true)
+                            {
+                                UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+                                DOVirtual.DelayedCall(0.7f, () =>
+                                {
+                                    // code mo halloween treat nếu chưa nhận quà 
+                                    UIManagerNew.Instance.ButtonMennuManager.OpenHalloWeenTreat();
+                                });
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (EventController.instance.isHalloWeen)
+                    {
+                        if (UIManagerNew.Instance.HalloWeenTreat.timeOn != true)
+                        {
+                            UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+                            DOVirtual.DelayedCall(0.7f, () =>
+                            {
+                                // code mo halloween treat nếu chưa nhận quà 
+                                UIManagerNew.Instance.ButtonMennuManager.OpenHalloWeenTreat();
+                            });
+                        }
                     }
                 }
             });
@@ -188,17 +218,37 @@ public class DailyPanel : MonoBehaviour
                 {
                     UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
                     UIManagerNew.Instance.ButtonMennuManager.DisappearDailyRW();
-                    DOVirtual.DelayedCall(1, () =>
+
+                    if (EventController.instance.FirstWeeklyEvent())
+                    {
+                        // code mo halloween treat nếu chưa nhận quà 
+                        if (EventController.instance.isHalloWeen)
+                        {
+                            if (UIManagerNew.Instance.HalloWeenTreat.timeOn != true)
+                            {
+                                UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+
+                                DOVirtual.DelayedCall(0.7f, () =>
+                                {
+                                    // code mo halloween treat nếu chưa nhận quà 
+                                    UIManagerNew.Instance.ButtonMennuManager.OpenHalloWeenTreat();
+                                });
+                            }
+                        }
+                    }
+                    else
                     {
                         if (LevelManagerNew.Instance.stage >= 8)
                         {
-                            if (!EventController.instance.FirstWeeklyEvent())
+                            DOVirtual.DelayedCall(0.7f, () =>
                             {
+
                                 UIManagerNew.Instance.StartWeeklyEvent.Appear();
                                 PlayerPrefs.SetString("FirstWeeklyEvent", "true");
-                            }
+                            });
                         }
-                    });
+                    }
+
                 }
             }
         }
@@ -206,17 +256,38 @@ public class DailyPanel : MonoBehaviour
         {
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(false);
             UIManagerNew.Instance.ButtonMennuManager.DisappearDailyRW();
-            DOVirtual.DelayedCall(1, () =>
+
+            if (LevelManagerNew.Instance.stage >= 8)
             {
-                if (LevelManagerNew.Instance.stage >= 8)
+                if (EventController.instance.FirstWeeklyEvent())
                 {
-                    if (!EventController.instance.FirstWeeklyEvent())
+                    // code mo halloween treat nếu chưa nhận quà 
+                    if (EventController.instance.isHalloWeen)
                     {
-                        UIManagerNew.Instance.StartWeeklyEvent.Appear();
-                        PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                        if (UIManagerNew.Instance.HalloWeenTreat.timeOn != true)
+                        {
+                            UIManagerNew.Instance.BlockPicCanvas.SetActive(true);
+                            DOVirtual.DelayedCall(0.7f, () =>
+                            {
+
+                                UIManagerNew.Instance.ButtonMennuManager.OpenHalloWeenTreat();
+                            });
+                        }
                     }
                 }
-            });
+                else
+                {
+                    if (LevelManagerNew.Instance.stage >= 8)
+                    {
+                        DOVirtual.DelayedCall(0.7f, () =>
+                        {
+                            UIManagerNew.Instance.StartWeeklyEvent.Appear();
+                            PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                        });
+
+                    }
+                }
+            }
         }
     }
 
