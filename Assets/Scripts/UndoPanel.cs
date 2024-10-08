@@ -69,6 +69,8 @@ public class UndoPanel : MonoBehaviour
             //xem qu?ng cáo 
             FirebaseAnalyticsControl.Instance.LogEventLevelItem(LevelManagerNew.Instance.stage, LevelItem.undo);
             hasWatchAd = true;
+            SaveSystem.instance.AddBooster(0, 1, 0);
+            SaveSystem.instance.SaveData();
             DOVirtual.DelayedCall(0.5f, () =>
             {
                 if (!Stage.Instance.isWining)
@@ -108,8 +110,6 @@ public class UndoPanel : MonoBehaviour
             }
             //FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.undo);
             //SetMinusText('-', numOfUsed);
-            SaveSystem.instance.AddBooster(0, -1, 0);
-            SaveSystem.instance.SaveData();
             DOVirtual.DelayedCall(0.5f, () =>
             {
                 if (!Stage.Instance.isWining)
@@ -161,16 +161,10 @@ public class UndoPanel : MonoBehaviour
             {
                 AudioManager.instance.PlaySFX("ClosePopUp");
                 GamePlayPanelUIManager.Instance.ActiveTime();
-                //if (Stage.Instance.isWining && Stage.Instance.numOfIronPlates <= 0)
-                //{
-                //    Stage.Instance.ScaleUpStage();
-                //}
-                //else
-                //{
-                //    GamePlayPanelUIManager.Instance.Appear();
-                //    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-                //}
-                GamePlayPanelUIManager.Instance.Appear();
+                if (!UIManagerNew.Instance.CompleteUI.gameObject.activeSelf || !UIManagerNew.Instance.WinUI.gameObject.activeSelf)
+                {
+                    GamePlayPanelUIManager.Instance.Appear();
+                }
                 Stage.Instance.checked1 = false;
 
                 DOVirtual.DelayedCall(0.3f, () => {
@@ -179,7 +173,22 @@ public class UndoPanel : MonoBehaviour
                 UIManagerNew.Instance.hasUI = false;
                 ActiveCVGroup();
                 this.gameObject.SetActive(false);
-                Stage.Instance.AfterPanel();
+            });
+        }
+    }
+
+    public void CloseForWin()
+    {
+        if (this.gameObject.activeSelf)
+        {
+            canvasGroup.blocksRaycasts = false;
+            panel.DOScale(new Vector3(0.8f, 0.8f, 0), 0.1f).OnComplete(() =>
+            {
+                AudioManager.instance.PlaySFX("ClosePopUp");
+                Stage.Instance.checked1 = false;
+                UIManagerNew.Instance.hasUI = false;
+                ActiveCVGroup();
+                this.gameObject.SetActive(false);
             });
         }
     }

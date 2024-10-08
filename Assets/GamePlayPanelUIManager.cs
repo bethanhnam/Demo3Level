@@ -417,11 +417,6 @@ public class GamePlayPanelUIManager : MonoBehaviour
             {
                 Stage.Instance.setDeteleting(false);
                 Stage.Instance.DisplayUnscrew(false);
-                if (LevelManagerNew.Instance.stage != 3)
-                {
-                    SaveSystem.instance.AddBooster(1, 0, 0);
-                    SaveSystem.instance.SaveData();
-                }
                 Stage.Instance.canInteract = true;
             }
             if (Stage.Instance.holeToUnlock.GetComponent<Hole>().extraHole == true)

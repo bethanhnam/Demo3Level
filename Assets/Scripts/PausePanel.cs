@@ -98,10 +98,38 @@ public class PausePanel : MonoBehaviour
                     GamePlayPanelUIManager.Instance.Appear();
                     GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
                 }
-                UIManagerNew.Instance.hasUI = false;
-                Stage.Instance.AfterPanel();
+                UIManagerNew.Instance.hasUI = false;;
                 Stage.Instance.checked1 = false;
 
+            });
+
+        }
+    }
+    public void CloseForWin()
+    {
+        if (this.gameObject.activeSelf)
+        {
+            this.GetComponent<CanvasGroup>().DOFade(0, 0.1f);
+            panel.transform.DOScale(new Vector3(.8f, .8f, 1), 0.1f).OnComplete(() =>
+            {
+                canvasGroup.DOFade(0, .2f);
+                this.gameObject.SetActive(false);
+                if (Stage.Instance.isWining)
+                {
+                    if (!UIManagerNew.Instance.WinUI.gameObject.activeSelf)
+                    {
+                        Stage.Instance.ScaleUpStage();
+                    }
+                }
+                else
+                {
+                    if (!UIManagerNew.Instance.WinUI.gameObject.activeSelf)
+                    {
+                        GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
+                    }
+                }
+                UIManagerNew.Instance.hasUI = false;
+                Stage.Instance.checked1 = false;
             });
 
         }

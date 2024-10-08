@@ -90,11 +90,6 @@ public class ShopPanel : MonoBehaviour
             {
                 //do nothing;
             }
-            if(Stage.Instance != null)
-            {
-                Stage.Instance.AfterPanel();
-            }
-
         }
     }
 

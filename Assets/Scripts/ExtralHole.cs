@@ -113,43 +113,41 @@ public class ExtralHole : MonoBehaviour
                 if (LevelManagerNew.Instance.stage == 1)
                 {
                     AudioManager.instance.PlaySFX("ClosePopUp");
-                    //if (Stage.Instance.isWining)
-                    //{
-                    //    Stage.Instance.ScaleUpStage();
-                    //}
-                    //else
-                    //{
-                    //    GamePlayPanelUIManager.Instance.Appear();
-                    //    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-                    //}
                     GamePlayPanelUIManager.Instance.Appear();
                     Stage.Instance.checked1 = false;
                     ActiveCVGroup();
                     this.gameObject.SetActive(false);
-                    Stage.Instance.AfterPanel();
                 }
                 else
                 {
                     AudioManager.instance.PlaySFX("ClosePopUp");
                     GamePlayPanelUIManager.Instance.ActiveTime();
-                    //if (Stage.Instance.isWining)
-                    //{
-                    //    Stage.Instance.ScaleUpStage();
-                    //}
-                    //else
-                    //{
-                    //    GamePlayPanelUIManager.Instance.Appear();
-                    //    GameManagerNew.Instance.CurrentLevel.Init(GameManagerNew.Instance.Level);
-                    //}
                     GamePlayPanelUIManager.Instance.Appear();
                     Stage.Instance.checked1 = false;
                     ActiveCVGroup();
                     this.gameObject.SetActive(false);
-                    Stage.Instance.AfterPanel();
                 }
             });
         }
     }
+
+    public void CloseForWin()
+    {
+        if (this.gameObject.activeSelf)
+        {
+            canvasGroup.blocksRaycasts = false;
+            canvasGroup.DOFade(0, 0.1f);
+            panel.DOScale(new Vector3(0.8f, 0.8f, 0), 0.1f).OnComplete(() =>
+            {
+                UIManagerNew.Instance.hasUI = false;
+                AudioManager.instance.PlaySFX("ClosePopUp");
+                Stage.Instance.checked1 = false;
+                ActiveCVGroup();
+                this.gameObject.SetActive(false);
+            });
+        }
+    }
+
 
     public void SpendCoin()
     {

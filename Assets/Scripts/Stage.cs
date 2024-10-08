@@ -687,13 +687,16 @@ public class Stage : MonoBehaviour
                             isLosing = false;
                             UIManagerNew.Instance.LosePanel.Close();
                         }
-
-                        UIManagerNew.Instance.UndoPanel.Close();
-                        UIManagerNew.Instance.DeteleNailPanel.Close();
-                        UIManagerNew.Instance.ExtralHolePanel.Close();
-                        UIManagerNew.Instance.PausePanel.Close();
+                        UIManagerNew.Instance.UndoPanel.CloseForWin();
+                        UIManagerNew.Instance.DeteleNailPanel.CloseForWin();
+                        UIManagerNew.Instance.ExtralHolePanel.CloseForWin();
+                        UIManagerNew.Instance.PausePanel.CloseForWin();
+                        UIManagerNew.Instance.ShopPanel.BackToWinPanel();
                         UIManagerNew.Instance.hasUI = false;
-                        CheckDoneLevel();
+                        if (!UIManagerNew.Instance.CompleteUI.gameObject.activeSelf || !UIManagerNew.Instance.WinUI.gameObject.activeSelf)
+                        {
+                            CheckDoneLevel();
+                        }
                     }
                 }
                 else
@@ -746,6 +749,7 @@ public class Stage : MonoBehaviour
                         setDeteleting(false);
                         DisplayUnscrew(false);
                         canInteract = true;
+                        SaveSystem.instance.AddBooster(-1, 0, 0);
                         SaveSystem.instance.SaveData();
                         hasDelete = true;
                         UIManagerNew.Instance.GamePlayPanel.ShowUnscrewEffect(holeToDetele.transform, null);
@@ -943,6 +947,8 @@ public class Stage : MonoBehaviour
                 catch (Exception e)
                 {
                 }
+                SaveSystem.instance.AddBooster(0, -1, 0);
+                SaveSystem.instance.SaveData();
                 Continute();
                 resetData();
             }

@@ -23,8 +23,8 @@ public class CompleteUI : MonoBehaviour
 			gameObject.SetActive(true);
 		}
 		animButton.Play(appearButton, 0, 0);
-
-		closeWindow();
+		CloseForWin();
+        closeWindow();
         FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.win);
     }
 
@@ -60,5 +60,13 @@ public class CompleteUI : MonoBehaviour
 	{
         completeSkeleton.startingAnimation = completeSkeletonStage[0];
     }
-
+	public void CloseForWin()
+	{
+        UIManagerNew.Instance.UndoPanel.CloseForWin();
+        UIManagerNew.Instance.DeteleNailPanel.CloseForWin();
+        UIManagerNew.Instance.ExtralHolePanel.CloseForWin();
+        UIManagerNew.Instance.PausePanel.CloseForWin();
+        UIManagerNew.Instance.ShopPanel.BackToWinPanel();
+        UIManagerNew.Instance.hasUI = false;
+    }
 }
