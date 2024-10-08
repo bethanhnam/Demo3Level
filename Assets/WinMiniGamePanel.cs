@@ -81,6 +81,7 @@ public class WinMiniGamePanel : MonoBehaviour
                     MiniGamePlay.instance.MiniGameMaps[MiniGamePlay.instance.selectedMinimap].ghostSkeleton.gameObject.SetActive(false);
                 }
                 AudioManager.instance.PlayMusic("MenuTheme");
+                UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = false;
                 UIManagerNew.Instance.ButtonMennuManager.Appear();
                 DOVirtual.DelayedCall(0.85f, () =>
                 {
@@ -94,8 +95,6 @@ public class WinMiniGamePanel : MonoBehaviour
                         PlayerPrefs.SetInt("DoneMini2", 1);
                         FirebaseAnalyticsControl.Instance.LogEventMini_Done(2);
                     }
-
-
                 });
             });
         });
