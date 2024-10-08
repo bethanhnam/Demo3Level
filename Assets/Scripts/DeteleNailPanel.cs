@@ -14,7 +14,9 @@ public class DeteleNailPanel : MonoBehaviour
 
     public TextMeshProUGUI priceText;
 
-    public int numOfUsed = 1;
+    public int numOfUsed = 0;
+
+    public int numOfBuy = 0;
     public bool hasWatchAd = false;
     public RectTransform watchAdButton;
 
@@ -28,7 +30,8 @@ public class DeteleNailPanel : MonoBehaviour
     private void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
-        numOfUsed = 1;
+        numOfUsed = 0;
+        numOfBuy = 0;
         CheckNumOfUse();
     }
     public void UseTicket()
@@ -66,22 +69,20 @@ public class DeteleNailPanel : MonoBehaviour
         }
         else
         {
-            if (SaveSystem.instance.unscrewPoint >= numOfUsed)
+            if (SaveSystem.instance.unscrewPoint >= numOfUsed + 1)
             {
                 if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
                 {
                     UIManagerNew.Instance.ThresholeController.Disable();
                 }
 
-                if (LevelManagerNew.Instance.stage == 3 && numOfUsed == 1)
+                if (LevelManagerNew.Instance.stage == 3 && numOfUsed + 1 == 2)
                 {
                     hasUseTutor = true;
                 }
                 UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
                 //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
                 Stage.Instance.DeactiveTutor();
-                SaveSystem.instance.AddBooster(-numOfUsed, 0, 0);
-                SaveSystem.instance.SaveData();
 
                 CheckNumOfUse();
                 Stage.Instance.isDeteleting = true;
@@ -148,20 +149,21 @@ public class DeteleNailPanel : MonoBehaviour
     }
     public void SpendCoin()
     {
-        if (SaveSystem.instance.coin >= 50 * numOfUsed)
+        if (SaveSystem.instance.coin >= 50 * (numOfBuy + 1))
         {
             if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
             {
                 UIManagerNew.Instance.ThresholeController.Disable();
             }
-            if (LevelManagerNew.Instance.stage == 3 && numOfUsed == 1)
+            if (LevelManagerNew.Instance.stage == 3 && numOfUsed + 1 == 2)
             {
                 hasUseTutor = true;
             }
             //FirebaseAnalyticsControl.Instance.Gameplay_Item_Unscrew(numOfUse, LevelManagerNew.Instance.stage);
             Stage.Instance.DeactiveTutor();
-            SaveSystem.instance.addCoin(-(50 * numOfUsed));
-            numOfUsed += 1;
+            SaveSystem.instance.addCoin(-(50 * (numOfBuy + 1)));
+            numOfBuy++;
+            SaveSystem.instance.AddBooster(1, 0, 0);
             SaveSystem.instance.SaveData();
             Stage.Instance.isDeteleting = true;
             Stage.Instance.DisplayUnscrew(true);
@@ -207,7 +209,7 @@ public class DeteleNailPanel : MonoBehaviour
         {
             SetActiveWatchButton();
 
-            priceText.text = (50 * numOfUsed).ToString();
+            priceText.text = (50 * (numOfBuy + 1)).ToString();
 
             this.gameObject.SetActive(true);
             //GameManagerNew.Instance.CloseLevel(false);
@@ -337,7 +339,7 @@ public class DeteleNailPanel : MonoBehaviour
             {
                 UIManagerNew.Instance.ThresholeController.Disable();
             }
-            if (LevelManagerNew.Instance.stage == 3 && numOfUsed == 1)
+            if (LevelManagerNew.Instance.stage == 3 && numOfUsed + 1 == 2)
             {
                 hasUseTutor = true;
             }

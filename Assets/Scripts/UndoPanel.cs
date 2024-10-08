@@ -13,11 +13,14 @@ public class UndoPanel : MonoBehaviour
     public rankpanel notEnoughpanel;
 
     public TextMeshProUGUI priceText;
-    public int numOfUsed = 1;
+    public int numOfUsed = 0;
     public bool hasWatchAd = false;
 
 
     public int numOfUseByAds = 0;
+
+    public int numOfBuy = 0;
+
     public RectTransform watchAdButton;
     public TextMeshProUGUI numOfUsedText;
 
@@ -26,11 +29,12 @@ public class UndoPanel : MonoBehaviour
     private void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
-        numOfUsed = 1;
+        numOfUsed = 0;
+        numOfBuy = 0;
     }
     public void UseTicket()
     {
-        if (SaveSystem.instance.undoPoint >= numOfUsed)
+        if (SaveSystem.instance.undoPoint >= numOfUsed + 1)
         {
             if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
             {
@@ -39,8 +43,8 @@ public class UndoPanel : MonoBehaviour
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             //FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.undo);
 
-            SaveSystem.instance.AddBooster(0, -numOfUsed, 0);
-            SaveSystem.instance.SaveData();;
+            SaveSystem.instance.AddBooster(0, -(numOfUsed + 1), 0);
+            SaveSystem.instance.SaveData(); ;
             DOVirtual.DelayedCall(0.5f, () =>
             {
                 if (!Stage.Instance.isWining)
@@ -101,7 +105,7 @@ public class UndoPanel : MonoBehaviour
     public void NewWayUse()
     {
         Stage.Instance.SetDefaultBeforeUnscrew();
-        
+
         if (SaveSystem.instance.undoPoint >= 1)
         {
             if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
@@ -136,7 +140,7 @@ public class UndoPanel : MonoBehaviour
             AudioManager.instance.PlaySFX("OpenPopUp");
             canvasGroup.blocksRaycasts = false;
             SetActiveWatchButton();
-            priceText.text = (30 * numOfUsed).ToString();
+            priceText.text = (30 * (numOfBuy + 1)).ToString();
             panel.localScale = new Vector3(.8f, .8f, 1f);
             canvasGroup.alpha = 0;
             canvasGroup.DOFade(1, 0.1f);
@@ -194,7 +198,7 @@ public class UndoPanel : MonoBehaviour
     }
     public void SpendCoin()
     {
-        if (SaveSystem.instance.coin >= 30 * numOfUsed)
+        if (SaveSystem.instance.coin >= 30 * (numOfBuy + 1))
         {
             if (UIManagerNew.Instance.ThresholeController.gameObject.activeSelf)
             {
@@ -202,8 +206,9 @@ public class UndoPanel : MonoBehaviour
             }
             UIManagerNew.Instance.BlockPicCanvas.gameObject.SetActive(true);
             //FirebaseAnalyticsControl.Instance.LogEventLevelStatus(LevelManagerNew.Instance.stage,LevelStatus.undo);
-            SaveSystem.instance.addCoin(-30 * numOfUsed);
-            numOfUsed += 1;
+            SaveSystem.instance.addCoin(-30 * (numOfBuy + 1));
+            numOfBuy++;
+            SaveSystem.instance.AddBooster(0, 1, 0);
             SaveSystem.instance.SaveData();
             DOVirtual.DelayedCall(.8f, () =>
             {

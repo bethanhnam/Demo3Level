@@ -341,7 +341,7 @@ public class Stage : MonoBehaviour
 
             }
         }
-        if(isWining || isLosing)
+        if (isWining || isLosing)
         {
             if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
             {
@@ -757,8 +757,19 @@ public class Stage : MonoBehaviour
                         setDeteleting(false);
                         DisplayUnscrew(false);
                         canInteract = true;
-                        SaveSystem.instance.AddBooster(-1, 0, 0);
-                        SaveSystem.instance.SaveData();
+                        UIManagerNew.Instance.DeteleNailPanel.numOfUsed += 1;
+                        if (LevelManagerNew.Instance.stage != 3)
+                        {
+                            SaveSystem.instance.AddBooster(-1, 0, 0);
+                            SaveSystem.instance.SaveData();
+                        }
+                        else
+                        {
+                            if (UIManagerNew.Instance.DeteleNailPanel.numOfUsed + 1 == 1)
+                            {
+                                UIManagerNew.Instance.DeteleNailPanel.numOfUsed = 1;
+                            }
+                        }
                         hasDelete = true;
                         UIManagerNew.Instance.GamePlayPanel.ShowUnscrewEffect(holeToDetele.transform, null);
                         if (LevelManagerNew.Instance.stage == 3)
@@ -955,6 +966,7 @@ public class Stage : MonoBehaviour
                 catch (Exception e)
                 {
                 }
+                UIManagerNew.Instance.UndoPanel.numOfUsed += 1;
                 SaveSystem.instance.AddBooster(0, -1, 0);
                 SaveSystem.instance.SaveData();
                 Continute();
@@ -1064,12 +1076,14 @@ public class Stage : MonoBehaviour
     public void ResetBooster()
     {
         numOfEventItem = 0;
-        UIManagerNew.Instance.DeteleNailPanel.numOfUsed = 1;
+        UIManagerNew.Instance.DeteleNailPanel.numOfUsed = 0;
+        UIManagerNew.Instance.DeteleNailPanel.numOfBuy = 0;
         UIManagerNew.Instance.DeteleNailPanel.hasWatchAd = false;
-        UIManagerNew.Instance.UndoPanel.numOfUsed = 1;
+        UIManagerNew.Instance.UndoPanel.numOfUsed = 0;
+        UIManagerNew.Instance.UndoPanel.numOfBuy = 0;
         UIManagerNew.Instance.UndoPanel.hasWatchAd = false;
         //UIManagerNew.Instance.RePlayPanel.numOfUsed = 1;
-        UIManagerNew.Instance.LosePanel.numOfUsed = 1;
+        UIManagerNew.Instance.LosePanel.numOfUsed = 0;
         UIManagerNew.Instance.LosePanel.hasWatchAds = false;
         TutorUnscrew();
         DeactiveDeleting();
