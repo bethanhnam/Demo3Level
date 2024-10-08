@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class weeklyReward : MonoBehaviour
 {
+    [SerializeField] private RectTransform rectTransform;
+
     public Sprite[] rewardBackGrounds;
     public Sprite[] NumBackGrounds;
 
@@ -20,6 +22,10 @@ public class weeklyReward : MonoBehaviour
     public Image NumBackGround;
 
     public rewardType rewardType1;
+
+    public int Index = 0;
+
+    public RectTransform RectTransform { get => rectTransform; }
 
     private void Start()
     {
@@ -57,8 +63,9 @@ public class weeklyReward : MonoBehaviour
         numOfReward.gameObject.SetActive(true);
         claimImage.gameObject.SetActive(false);
     }
-    public void SetData(int i,Sprite sprite,int numOfReward1,rewardType rewardType )
+    public void SetData(int i, Sprite sprite, int numOfReward1, rewardType rewardType)
     {
+        Index = i;
         number.text = i.ToString();
         rewardImg.sprite = sprite;
         numOfReward.text = numOfReward1.ToString();

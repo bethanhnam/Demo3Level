@@ -3,9 +3,11 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class WeeklyEventPanel : MonoBehaviour
@@ -38,6 +40,9 @@ public class WeeklyEventPanel : MonoBehaviour
 
     public WeeklyItemCollect WeeklyItemCollect;
 
+    [Header("For Scroll")]
+    [SerializeField] private RectTransform rectContent;
+    [SerializeField] private ScrollRect scrollRect;
 
     // halloween 
     public Image panel;
@@ -59,7 +64,11 @@ public class WeeklyEventPanel : MonoBehaviour
         EventController.instance.NextStageWeeklyEvent();
         LoadData();
         animator.enabled = true;
+        SetScroll(1);
         animator.Play("Apear");
+        DOVirtual.DelayedCall(1, () => {
+            SetScroll(EventController.instance.weeklyEvent.levelIndex);
+        });
     }
 
     public void Active()
@@ -115,7 +124,28 @@ public class WeeklyEventPanel : MonoBehaviour
             }
         }
     }
+    private void SetScroll(int level)
+    {
+        DOVirtual.Float(GetValueScroll(1), GetValueScroll(level), 1f, (x) =>
+        {
+            SetScrollValue(x);
+        });
+    }
+    private void SetScrollValue(float value)
+    {
+        scrollRect.verticalNormalizedPosition = value;
+    }
+    private float GetValueScroll(int level)
+    {
+        if (level == 0) return 1f;
 
+        float contentHeight = rectContent.rect.height;
+        float itemPosition = Mathf.Abs(weeklyRewardController.weeklyRewardList.FirstOrDefault(x => x.Index == level).RectTransform.anchoredPosition.y);
+        float viewportHeight = scrollRect.viewport.rect.height;
+        float normalizedPosition = Mathf.Clamp01((itemPosition - viewportHeight / 2) / (contentHeight - viewportHeight));
+
+        return 1 - normalizedPosition;
+    }
 
     public string CauculateTimeRemaining()
     {

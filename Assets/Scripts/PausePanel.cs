@@ -41,6 +41,7 @@ public class PausePanel : MonoBehaviour
         AdsManager.instance.ShowInterstial(AdsManager.PositionAds.ingame_pause, () =>
         {
             //this.gameObject.SetActive(false);
+            UIManagerNew.Instance.ButtonMennuManager.isShowingFixing = false;
             UIManagerNew.Instance.GamePlayLoading.appear();
             DOVirtual.DelayedCall(.7f, () =>
             {

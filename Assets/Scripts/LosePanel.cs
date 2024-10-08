@@ -11,6 +11,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using static FireBaseEventName;
 using static FirebaseAnalyticsControl;
+using System.Runtime.CompilerServices;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class LosePanel : MonoBehaviour
@@ -52,9 +53,10 @@ public class LosePanel : MonoBehaviour
     }
     private void OnEnable()
     {
-        if (numOfUsed >1)
+        if (hasWatchAds)
         {
             watchAdButton.interactable = false;
+            watchAdButton.GetComponent<Image>().sprite = bttn_gray;
         }
         else
         {
@@ -125,6 +127,7 @@ public class LosePanel : MonoBehaviour
                 {
                     Stage.Instance.SetDefaultBeforeUnscrew();
                 }
+                Stage.Instance.isLosing = false;
                 GamePlayPanelUIManager.Instance.timer.SetTimer(46f);
                 GamePlayPanelUIManager.Instance.ActiveTime();
                 GamePlayPanelUIManager.Instance.Appear();
@@ -221,6 +224,7 @@ public class LosePanel : MonoBehaviour
                     UIManagerNew.Instance.GamePlayPanel.timer.TimerText.transform.DOScale(1f, 0.2f);
                 });
             });
+            Stage.Instance.isLosing = false;
             FirebaseAnalyticsControl.Instance.LogEvenGoldStatus(GoldStatus.success, GoldType.EndGame_ReviveByGold.ToString());
         }
         else
@@ -264,10 +268,15 @@ public class LosePanel : MonoBehaviour
     {
         Close();
         UIManagerNew.Instance.GamePlayLoading.appear();
+        if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
+        {
+            UIManagerNew.Instance.GamePlayPanel.Deactive();
+        }
         DOVirtual.DelayedCall(.7f, () =>
         {
             GameManagerNew.Instance.PictureUIManager.Open();
             this.gameObject.SetActive(false);
+            Stage.Instance.isLosing = false;
             Stage.Instance.ResetBooster();
             UIManagerNew.Instance.ButtonMennuManager.Appear();
             canvasGroup.DOFade(0, 0.5f).OnComplete(() =>

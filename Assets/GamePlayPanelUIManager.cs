@@ -196,7 +196,7 @@ public class GamePlayPanelUIManager : MonoBehaviour
     public void OpenDetelePanel()
     {
         DeactiveTime();
-        if (LevelManagerNew.Instance.stage != 3)
+        if (LevelManagerNew.Instance.stage != 3 && !Stage.Instance.isWining)
         {
             //GameManagerNew.Instance.CloseLevel(false);
             Close();
@@ -216,43 +216,52 @@ public class GamePlayPanelUIManager : MonoBehaviour
     public void OpenExtraHolePanel()
     {
         DeactiveTime();
-        Close();
-        //GameManagerNew.Instance.CloseLevel(false);
-        UIManagerNew.Instance.hasUI = true;
-        Debug.LogError("has UI OpenExtraHolePanel");
-        DOVirtual.DelayedCall(0.4f, () =>
+        if (!Stage.Instance.isWining)
         {
-            UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
-            UIManagerNew.Instance.ExtralHolePanel.Open();
-        });
+            Close();
+            //GameManagerNew.Instance.CloseLevel(false);
+            UIManagerNew.Instance.hasUI = true;
+            Debug.LogError("has UI OpenExtraHolePanel");
+            DOVirtual.DelayedCall(0.4f, () =>
+            {
+                UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
+                UIManagerNew.Instance.ExtralHolePanel.Open();
+            });
+        }
     }
     public void OpenUndoPanel()
     {
         DeactiveTime();
-        Close();
-        UIManagerNew.Instance.hasUI = true;
-        Debug.LogError("has UI OpenUndoPanel");
-        //GameManagerNew.Instance.CloseLevel(false);
-        DOVirtual.DelayedCall(0.4f, () =>
+        if (!Stage.Instance.isWining)
         {
-            UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
-            UIManagerNew.Instance.UndoPanel.Open();
-        });
+            Close();
+            UIManagerNew.Instance.hasUI = true;
+            Debug.LogError("has UI OpenUndoPanel");
+            //GameManagerNew.Instance.CloseLevel(false);
+            DOVirtual.DelayedCall(0.4f, () =>
+            {
+                UIManagerNew.Instance.LoadData(SaveSystem.instance.unscrewPoint, SaveSystem.instance.undoPoint, SaveSystem.instance.extraHolePoint, SaveSystem.instance.coin, SaveSystem.instance.star);
+                UIManagerNew.Instance.UndoPanel.Open();
+            });
+        }
 
     }
     public void OpenPausePanel()
     {
 
         DeactiveTime();
-        Close();
-        UIManagerNew.Instance.hasUI = true;
-        Debug.LogError("has UI OpenPausePanel");
-        GameManagerNew.Instance.CloseLevel(false);
-
-        DOVirtual.DelayedCall(0.4f, () =>
+        if (!Stage.Instance.isWining)
         {
-            UIManagerNew.Instance.PausePanel.Open();
-        });
+            Close();
+            UIManagerNew.Instance.hasUI = true;
+            Debug.LogError("has UI OpenPausePanel");
+            GameManagerNew.Instance.CloseLevel(false);
+
+            DOVirtual.DelayedCall(0.4f, () =>
+            {
+                UIManagerNew.Instance.PausePanel.Open();
+            });
+        }
     }
     public void OpenLosePanel()
     {

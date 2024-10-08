@@ -341,6 +341,14 @@ public class Stage : MonoBehaviour
 
             }
         }
+        if(isWining || isLosing)
+        {
+            if (UIManagerNew.Instance.GamePlayPanel.gameObject.activeSelf)
+            {
+                UIManagerNew.Instance.GamePlayPanel.Close();
+            }
+            canInteract = false;
+        }
         //Hack();
     }
 

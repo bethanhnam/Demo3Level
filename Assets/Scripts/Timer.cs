@@ -70,7 +70,10 @@ public class Timer : MonoBehaviour
                 TimeLeft = 0;
                 TimerText.color = Color.red;
 
-                GamePlayPanelUIManager.Instance.OpenLosePanel();
+                if (!UIManagerNew.Instance.LosePanel.gameObject.activeSelf)
+                {
+                    GamePlayPanelUIManager.Instance.OpenLosePanel();
+                }
             }
             int minutes = Mathf.FloorToInt(TimeLeft / 60);
             int seconds = Mathf.FloorToInt(TimeLeft % 60);

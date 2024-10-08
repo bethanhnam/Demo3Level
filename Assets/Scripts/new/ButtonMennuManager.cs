@@ -171,6 +171,7 @@ public class ButtonMennuManager : MonoBehaviour
             {
                 HasCallTween = true;
             }
+            showFixingUI();
             UIManagerNew.Instance.ChestSLider.SetCurrentValue(LevelManagerNew.Instance.LevelBase.CountLevelWin);
         }
     }
