@@ -192,7 +192,7 @@ public class IapControl : MonoBehaviour, IStoreListener
         builder.AddProduct(NewDataPackName.unscrew_10_Sale.ToString(), ProductType.Consumable);
         builder.AddProduct(NewDataPackName.undo_15_Sale.ToString(), ProductType.Consumable);
         builder.AddProduct(NewDataPackName.fail_offer.ToString(), ProductType.Consumable);
-        builder.AddProduct(NewDataPackName.halloween_sale.ToString(), ProductType.Consumable);
+        builder.AddProduct(NewDataPackName.halloween_offer.ToString(), ProductType.Consumable);
 
 
         UnityPurchasing.Initialize(this, builder);
@@ -516,6 +516,6 @@ public enum NewDataPackName
     unscrew_10_Sale,
     undo_15_Sale,
     fail_offer,
-    halloween_sale
+    halloween_offer
 }
 
