@@ -187,8 +187,8 @@ public class WinUI : MonoBehaviour
                                     PlayerPrefs.SetString("FirstWeeklyEvent", "true");
                                 });
                             }
-                            EventController.instance.CheckForWeeklyEvent();
                         }
+                        EventController.instance.CheckForWeeklyEvent();
                         if (Stage.Instance.numOfEventItem != 0)
                         {
                             DOVirtual.DelayedCall(1.3f, () =>

@@ -80,6 +80,9 @@ public class UIManagerNew : MonoBehaviour
     [SerializeField]
     private HalloWeenTreat halloWeenTreat;
 
+    [SerializeField]
+    private PackSales halloWeenPack;
+
     // weekly event
     [SerializeField]
     private TreasureClimbPanel treasureClimbPanel;
@@ -155,6 +158,7 @@ public class UIManagerNew : MonoBehaviour
     public WeeklyEventPanel WeeklyEventPanel { get => weeklyEventPanel; set => weeklyEventPanel = value; }
     public StartWeeklyEvent StartWeeklyEvent { get => startWeeklyEvent; set => startWeeklyEvent = value; }
     public HalloWeenTreat HalloWeenTreat { get => halloWeenTreat; set => halloWeenTreat = value; }
+    public PackSales HalloWeenPack { get => halloWeenPack; set => halloWeenPack = value; }
 
     private void Awake()
     {

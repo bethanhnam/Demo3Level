@@ -43,6 +43,11 @@ public class WeeklyEventPanel : MonoBehaviour
     public Image panel;
     public List<Sprite> panelSprites;
 
+    private void Update()
+    {
+        timeRemaining.text = UIManagerNew.Instance.WeeklyEventPanel.CauculateTimeRemaining();
+    }
+
     // Start is called before the first frame update
     public void Appear()
     {
@@ -111,6 +116,8 @@ public class WeeklyEventPanel : MonoBehaviour
 
     public string CauculateTimeRemaining()
     {
+        string timeText;
+
         DateTime today = DateTime.Now;
         int daysUntilSunday = ((int)DayOfWeek.Sunday - (int)today.DayOfWeek + 7) % 7;
 
@@ -119,11 +126,41 @@ public class WeeklyEventPanel : MonoBehaviour
 
         TimeSpan timeUntilSundayMidnight = sundayMidnight - today;
 
-        int days = timeUntilSundayMidnight.Days;
+        //DateTime timeUntilNextEventAsDateTime = DateTime.MinValue.Add(timeUntilSundayMidnight);
+
+        int days = (int)timeUntilSundayMidnight.Days;
         int hours = timeUntilSundayMidnight.Hours;
         int minutes = timeUntilSundayMidnight.Minutes;
+        int seconds = timeUntilSundayMidnight.Seconds;
 
-        return $"{days}d {hours}h";
+        if (days < 0 && hours < 0 && minutes < 0 && seconds < 0)
+        {
+            days = 0;
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+        }
+        if (days > 0)
+        {
+            timeText = $"{(int)days:D2}d{(int)hours:D2}h";
+        }
+        else
+        {
+            if (hours > 0)
+            {
+                timeText = $"{(int)hours:D2}h{(int)minutes:D2}m";
+            }
+            else
+            {
+                timeText = $"{(int)minutes:D2}m{(int)seconds:D2}";
+                if (seconds < 0)
+                {
+                    return null;
+                }
+            }
+        }
+
+        return timeText;
     }
 
     public void ChangeRewardImage()

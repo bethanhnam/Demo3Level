@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using Facebook.Unity;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -64,6 +65,11 @@ public class ButtonMennuManager : MonoBehaviour
     public Image slideBarImage;
     public List<Sprite> slideSprites;
 
+    public GameObject halloWeenTreat;
+    public GameObject halloWeenPack;
+    public TextMeshProUGUI halloWeenPackTimeText;
+
+
     private void Awake()
     {
         //// datatest
@@ -71,6 +77,25 @@ public class ButtonMennuManager : MonoBehaviour
     }
     private void Update()
     {
+        if (this.gameObject.activeSelf)
+        {
+            if (EventController.instance.isHalloWeen)
+            {
+                halloWeenPackTimeText.text = UIManagerNew.Instance.HalloWeenPack.SetText(EventController.instance.halloWeenEventConfig.EndTime);
+            }
+            if (EventController.instance.weeklyEvent != null)
+            {
+                timeRemaining.text = UIManagerNew.Instance.WeeklyEventPanel.CauculateTimeRemaining();
+                if (CheckForChangeDataWeekly())
+                {
+                    //halloWeen
+                    PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                    EventController.instance.CheckForWeeklyEvent();
+                    CheckForHalloWeen();
+                    UIManagerNew.Instance.StartWeeklyEvent.Appear();
+                }
+            }
+        }
     }
     private void Start()
     {
@@ -114,6 +139,7 @@ public class ButtonMennuManager : MonoBehaviour
             }
             UIManagerNew.Instance.ThresholeController.SetSecondItemButton();
             CheckForWeeklyEventMenu();
+            CheckForHalloWeen();
 
             if (LevelManagerNew.Instance.stage == 1 && PlayerPrefs.GetInt("Hasfixed") == 0)
             {
@@ -132,6 +158,8 @@ public class ButtonMennuManager : MonoBehaviour
             }
             CheckDailyNotice();
             CheckForMinigame();
+       
+
             if (HasCallTween == false)
             {
                 HasCallTween = true;
@@ -245,6 +273,16 @@ public class ButtonMennuManager : MonoBehaviour
         Close();
         UIManagerNew.Instance.NonAdsPanel.Open();
     }
+    public void OpenHalloWeenTreat()
+    {
+        Close();
+        UIManagerNew.Instance.HalloWeenTreat.Appear();
+    }
+    public void OpenHalloWeenPack()
+    {
+        Close();
+        UIManagerNew.Instance.HalloWeenPack.Appear();
+    }
     public void OpenShopPanel()
     {
         //GameManagerNew.Instance.ClosePicture(false);
@@ -281,17 +319,6 @@ public class ButtonMennuManager : MonoBehaviour
     {
         Close();
         UIManagerNew.Instance.StartMiniGamePanel.Appear();
-        DOVirtual.DelayedCall(1, () =>
-        {
-            if (LevelManagerNew.Instance.stage >= 8)
-            {
-                if (!EventController.instance.FirstWeeklyEvent())
-                {
-                    UIManagerNew.Instance.StartWeeklyEvent.Appear();
-                    PlayerPrefs.SetString("FirstWeeklyEvent", "true");
-                }
-            }
-        });
         if (UIManagerNew.Instance != null)
         {
             UIManagerNew.Instance.ButtonMennuManager.CheckForMinigame();
@@ -636,6 +663,49 @@ public class ButtonMennuManager : MonoBehaviour
                 PlayButtonShinning();
             });
         });
+    }
+
+    public void CheckForHalloWeen()
+    {
+        if (EventController.instance.isHalloWeen)
+        {
+            halloWeenPack.gameObject.SetActive(true);
+            halloWeenTreat.gameObject.SetActive(true);
+            halloWeenPackTimeText.text = UIManagerNew.Instance.HalloWeenPack.SetText(EventController.instance.halloWeenEventConfig.EndTime);
+        }
+        else
+        {
+            halloWeenPack.gameObject.SetActive(false);
+            halloWeenTreat.gameObject.SetActive(false);
+            halloWeenPackTimeText.text = UIManagerNew.Instance.HalloWeenPack.SetText(DateTime.Now);
+        }
+    }
+
+    public bool CheckForChangeDataWeekly()
+    {
+        bool result = false;
+        if (EventController.instance.weeklyEvent != null)
+        {
+            DateTime endTime;
+            try
+            {
+                var x = JsonConvert.DeserializeObject<long>(EventController.instance.weeklyEvent.endEventDate);
+                endTime = new DateTime(x);
+            }
+            catch (Exception ex)
+            {
+                var x = DateTime.Parse(EventController.instance.weeklyEvent.endEventDate);
+                endTime = x;
+                EventController.instance.weeklyEvent.endEventDate = x.Ticks.ToString();
+                EventController.instance.SaveData("WeeklyEvent", EventController.instance.weeklyEvent);
+            }
+
+            if (EventController.instance.HasTimeExpired(endTime))
+            {
+                result = true;
+            }
+        }
+        return result;
     }
     private void OnDisable()
     {

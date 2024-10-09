@@ -116,6 +116,10 @@ public class LoadingManager : MonoBehaviour
             }
         }
 
+        EventController.instance.LoadData();
+
+        EventController.instance.CheckForWeeklyEvent();
+
         if (PlayerPrefs.GetInt("Hasfixed") == 1 && LevelManagerNew.Instance.stage != 0)
         {
 
@@ -127,11 +131,6 @@ public class LoadingManager : MonoBehaviour
 
             AdsControl.Instance.ShowOpenAds();
         }
-
-
-        EventController.instance.LoadData();
-
-        EventController.instance.CheckForWeeklyEvent();
 
         Destroy(LoadingScreen.instance.gameObject);
     }

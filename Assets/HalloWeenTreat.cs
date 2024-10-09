@@ -3,11 +3,11 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class HalloWeenTreat : MonoBehaviour
 {
@@ -17,12 +17,11 @@ public class HalloWeenTreat : MonoBehaviour
 
     public Image presentImage;
     public Sprite[] itemSprites;
-    public Sprite[] presentSprites;
     public Sprite[] buttonSprites;
     public TMP_FontAsset[] fontAsset;
 
-    private int appear = Animator.StringToHash("PackSaleHalloWeen");
-    private int disappear = Animator.StringToHash("PackSaleHalloWeenDisappear");
+    private int appear = Animator.StringToHash("Appear");
+    private int disappear = Animator.StringToHash("Disappear");
 
     public bool timeOn;
     public float timeDefault = 300;
@@ -31,6 +30,7 @@ public class HalloWeenTreat : MonoBehaviour
 
     public Button claimButton;
     public TextMeshProUGUI timeText;
+    public TextMeshProUGUI buttonText;
 
     public DateTime claimedDate;
 
@@ -46,17 +46,16 @@ public class HalloWeenTreat : MonoBehaviour
     {
         timeRemaining = timeDefault;
         timeOn = true;
-        claimButton.interactable = false;
+        claimButton.transition = Selectable.Transition.None;
     }
     public void DeactiveObjects()
     {
         timeRemaining = 0;
         timeOn = false;
     }
-    [Button("Appear")]
     public void Appear()
     {
-        if(this.gameObject.activeSelf == false)
+        if (this.gameObject.activeSelf == false)
         {
             this.gameObject.SetActive(true);
         }
@@ -67,6 +66,8 @@ public class HalloWeenTreat : MonoBehaviour
                 SaveSystem.instance.SavePlayerPrefsInt("HasClaimtTreat", 0);
                 StartCountTime();
                 timeText.text = SetText(timeRemaining);
+                buttonText.font = fontAsset[1];
+                claimButton.GetComponent<Image>().sprite = buttonSprites[1];
             }
             else
             {
@@ -78,23 +79,27 @@ public class HalloWeenTreat : MonoBehaviour
             DeactiveObjects();
             if (PlayerPrefs.GetInt("HasClaimtTreat") == 0)
             {
+                UIManagerNew.Instance.HalloWeenTreat.timeText.text = $"The gift will be delivered in <size=55><color=green>{UIManagerNew.Instance.HalloWeenTreat.SetText(UIManagerNew.Instance.HalloWeenTreat.timeRemaining):D2}</color></size>";
                 claimButton.interactable = true;
-                timeText.text = "Claim";
+                buttonText.text = "Claim";
             }
             else
             {
                 hasClaimed = true;
                 DisplayForClaimed();
-                timeText.text = "Next Day";
+                buttonText.text = "Next Day";
             }
-            
+
         }
         animator.Play(appear);
         DOVirtual.DelayedCall(1, () =>
         {
             if (hasClaimed == false)
             {
-                PlayItemIdleAnim(0);
+                for (int i = 0; i <= items.Length; i++)
+                {
+                    PlayItemIdleAnim(1.1f*i+1,i, "HalloWeenPackItem", null);
+                }
                 presentImage.GetComponent<Animator>().enabled = true;
             }
             else
@@ -104,25 +109,24 @@ public class HalloWeenTreat : MonoBehaviour
                 {
                     items[i].enabled = false;
                 }
-                PlayItemIdleClaimed(0);
-                presentImage.GetComponent<Animator>().enabled = false;
+                for (int i = 0; i <= items.Length; i++)
+                {
+                    PlayItemIdleAnim(1.1f * i + 1, i, "HalloWeenPackItemClaimed",null);
+                }
+                presentImage.GetComponent<Animator>().enabled = true;
             }
         });
     }
-    
+
     public void Disappear()
     {
-        for (int i = 0; i < items.Length; i++)
-        {
-            items[i].enabled = false;
-        }
         DeactiveCanvasGroup();
         animator.Play(disappear);
     }
 
     private void Update()
     {
-        
+
     }
     public bool CheckForHalloWeenTreat()
     {
@@ -154,10 +158,12 @@ public class HalloWeenTreat : MonoBehaviour
 
     public void DisplayForClaimed()
     {
+        presentImage.GetComponent<Animator>().enabled = true;
         claimButton.GetComponent<Image>().sprite = buttonSprites[1];
+        UIManagerNew.Instance.HalloWeenTreat.timeText.text = $"The gift will be delivered in <size=55><color=green>Next Day</color></size>";
         timeText.font = fontAsset[1];
+        buttonText.font = fontAsset[1];
         claimButton.interactable = false;
-        presentImage.sprite = presentSprites[1];
         for (int i = 0; i < items.Length; i++)
         {
             items[i].GetComponent<Image>().sprite = itemSprites[1];
@@ -199,107 +205,67 @@ public class HalloWeenTreat : MonoBehaviour
     {
         this.gameObject.SetActive(false);
     }
-    public void PlayItemIdleAnim(int i)
+    public void PlayItemIdleAnim(float delayTime, int i,String t,Action action)
     {
-        if (hasClaimed)
-        {
-            return;
-        }
         if (i < items.Length)
         {
-            items[i].enabled = true;
-            DOVirtual.DelayedCall(0.5f, () =>
+            DOVirtual.DelayedCall(delayTime, () =>
             {
-                if (hasClaimed)
+                items[i].enabled = true;
+                items[i].Play(t);
+            });
+        }
+        else
+        {
+            if (action != null)
+            {
+                DOVirtual.DelayedCall(3, () =>
                 {
-                    return;
-                }
-                //items[i].enabled = false;
-                i++;
-                PlayItemIdleAnim(i);
-            });
-        }
-        else
-        {
-            if (hasClaimed)
-            {
-                return;
+                    action();
+                });
             }
-            i = 0;
-            PlayItemIdleAnim(i);
-        }
-    }
-    public void PlayItemIdleClaimed(int i)
-    {
-        if (i < items.Length)
-        {
-            items[i].enabled = true;
-            items[i].Play("HalloWeenPackItemClaimed");
-            DOVirtual.DelayedCall(0.5f, () =>
-            {
-                i++;
-                PlayItemIdleClaimed(i);
-            });
-        }
-        else
-        {
-            i = 0;
-            PlayItemIdleClaimed(i);
         }
     }
     public void ClaimReward()
     {
-        hasClaimed = true;
-        SaveSystem.instance.addCoin(50);
-        SaveSystem.instance.AddBooster(1, 2, 0);
-        SaveSystem.instance.SaveData();
-        SaveSystem.instance.SavePlayerPrefsInt("HasClaimtTreat", 1);
-        DisplayClaim(() =>
+        if (timeRemaining > 0)
         {
-            Disappear();
-        });
-    }
-    public void DisplayClaim(Action action)
-    {
-        hasClaimed = true;
-        claimButton.interactable = false;
-        presentImage.GetComponent<Animator>().Play("PresentOpen");
-        for (int i = 0; i < items.Length; i++)
-        {
-            items[i].enabled = false;
-        }
-        ChangeImageItem(0, () =>
-        {
-            action();
-        });
-        
-    }
-    public void ChangeImageItem(int index, Action action)
-    {
-        if (index < items.Length)
-        {
-            items[index].enabled = true;
-            items[index].Play("HalloWeenPackItemClaim");
-            DOVirtual.DelayedCall(.8f, () =>
+            timeText.transform.DOScale(1.1f, 0.3f).OnComplete(() =>
             {
-                index++;
-                
-                    ChangeImageItem(index, action);
+                timeText.transform.DOScale(1f, 0.3f);
             });
         }
         else
         {
-            action.Invoke();
+            for (int i = 0; i < items.Length; i++)
+            {
+                items[i].enabled = false;
+            }
+            hasClaimed = true;
+            SaveSystem.instance.addCoin(50);
+            SaveSystem.instance.AddBooster(1, 2, 0);
+            SaveSystem.instance.SaveData();
+            SaveSystem.instance.SavePlayerPrefsInt("HasClaimtTreat", 1);
+            UIManagerNew.Instance.HalloWeenTreat.timeText.text = $"The gift will be delivered in <size=55><color=green>Next Day</color></size>";
+            DisplayClaim(() =>
+            {
+                Disappear();
+            });
         }
     }
-
-    public void ChangePresentSprite()
+    public void DisplayClaim(Action action)
     {
-        presentImage.sprite = presentSprites[1];
-    }
-
-    public void SetDefaultDisplay()
-    {
-
+        claimButton.GetComponent<Image>().sprite = buttonSprites[1];
+        UIManagerNew.Instance.HalloWeenTreat.timeText.text = $"The gift will be delivered in <size=55><color=green>Next Day</color></size>";
+        timeText.font = fontAsset[1];
+        buttonText.font = fontAsset[1];
+        claimButton.interactable = false;
+        for (int i = 0; i <= items.Length; i++)
+        {
+            PlayItemIdleAnim(.8f * i + 1, i, "HalloWeenPackItemClaim", () =>
+            {
+                action();
+            });
+        } 
     }
 }

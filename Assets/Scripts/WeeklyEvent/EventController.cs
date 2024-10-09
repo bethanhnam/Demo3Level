@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Purchasing;
+using UnityEngine.UI;
 using static WeeklyEventController;
 
 public class EventController : MonoBehaviour
@@ -27,8 +29,9 @@ public class EventController : MonoBehaviour
     public WeeklyEventPrefab currentWeeklyEventPrefab;
 
     // config
-    public WeeklyEventDataConfig weeklyEventConfig;
+    public WeeklyEventDataConfig halloWeenEventConfig;
     public bool isHalloWeen = false;
+    public bool canShowNewEvent = false;
 
     public List<int> weeklyEventItemColors = new List<int>();
     public int selectedColorIndex = 0;
@@ -48,7 +51,7 @@ public class EventController : MonoBehaviour
                 UIManagerNew.Instance.HalloWeenTreat.timeRemaining -= Time.deltaTime;
                 if (this.gameObject.activeSelf)
                 {
-                    UIManagerNew.Instance.HalloWeenTreat.timeText.text = UIManagerNew.Instance.HalloWeenTreat.SetText(UIManagerNew.Instance.HalloWeenTreat.timeRemaining);
+                    UIManagerNew.Instance.HalloWeenTreat.timeText.text = $"The gift will be delivered in <size=55><color=green>{UIManagerNew.Instance.HalloWeenTreat.SetText(UIManagerNew.Instance.HalloWeenTreat.timeRemaining):D2}</color></size>";
                 }
             }
             else
@@ -57,7 +60,9 @@ public class EventController : MonoBehaviour
                 UIManagerNew.Instance.HalloWeenTreat.timeOn = false;
                 if (this.gameObject.activeSelf)
                 {
-                    UIManagerNew.Instance.HalloWeenTreat.timeText.text = "claim";
+                    UIManagerNew.Instance.HalloWeenTreat.buttonText.text = "Claim";
+                    UIManagerNew.Instance.HalloWeenTreat.claimButton.GetComponent<Image>().sprite = UIManagerNew.Instance.HalloWeenTreat.buttonSprites[0];
+                    UIManagerNew.Instance.HalloWeenTreat.buttonText.font = UIManagerNew.Instance.HalloWeenTreat.fontAsset[0];
                 }
                 UIManagerNew.Instance.HalloWeenTreat.claimButton.interactable = true;
                 SaveSystem.instance.SavePlayerPrefsString("LastClaimDay", DateTime.Now.ToString("yyyy-MM-dd"));
@@ -99,14 +104,16 @@ public class EventController : MonoBehaviour
         // weekly event
         if (LevelManagerNew.Instance.stage >= 8)
         {
+            CheckTimeForWeeklyEvent();
+            ChangeUIToHalloWeen();
             if (weeklyEvent != null)
             {
-                if (isHalloWeen == true && weeklyEvent.startEventDate != weeklyEventConfig.StartTime.Ticks.ToString())
+                if (isHalloWeen == true)
                 {
                     UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
                     weeklyEvent.ResetData();
-                    weeklyEvent.startEventDate = weeklyEventConfig.StartTime.Date.Ticks.ToString();
-                    weeklyEvent.endEventDate = weeklyEventConfig.EndTime.Date.Ticks.ToString();
+                    weeklyEvent.startEventDate = halloWeenEventConfig.StartTime.Date.Ticks.ToString();
+                    weeklyEvent.endEventDate = halloWeenEventConfig.EndTime.Date.Ticks.ToString();
                     weeklyEvent.eventStaus = EventStaus.running;
                     UIManagerNew.Instance.WeeklyEventPanel.rewardImage.gameObject.SetActive(true);
                     UIManagerNew.Instance.ButtonMennuManager.rewardImage.gameObject.SetActive(true);
@@ -117,7 +124,9 @@ public class EventController : MonoBehaviour
                     UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
                     UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                     SaveData("WeeklyEvent", weeklyEvent);
+                    PlayerPrefs.SetString("FirstWeeklyEvent", "false");
                     UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
+                    
                     return;
                 }
                 Debug.LogError("chaay vao weeklyEvent != null");
@@ -156,6 +165,7 @@ public class EventController : MonoBehaviour
                     if (HasTimeExpired(endTime))
                     {
                         Debug.LogError("het time");
+                        canShowNewEvent =true;
                         PlayerPrefs.SetString("FirstWeeklyEvent", "false");
                         UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
                         weeklyEvent.ResetData();
@@ -236,6 +246,7 @@ public class EventController : MonoBehaviour
                     if (HasTimeExpired(endTime))
                     {
                         Debug.LogError(" het time dang end");
+                        canShowNewEvent = true;
                         PlayerPrefs.SetString("FirstWeeklyEvent", "false");
                         UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
                         weeklyEvent.ResetData();
@@ -250,7 +261,6 @@ public class EventController : MonoBehaviour
                         UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                         SaveData("WeeklyEvent", weeklyEvent);
                         UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
-                        //UIManagerNew.Instance.StartWeeklyEvent.Appear();
                     }
                     else
                     {
@@ -288,7 +298,9 @@ public class EventController : MonoBehaviour
                 if (weeklyEvent.eventStaus == WeeklyEventController.EventStaus.NotEnable)
                 {
                     Debug.LogError("dang NotEnable");
+                    canShowNewEvent = true;
                     PlayerPrefs.GetString("FirstWeeklyEvent", "true");
+                    PlayerPrefs.SetString("FirstWeeklyEvent", "false");
                     FirebaseAnalyticsControl.Instance.LogEventevent_weekly();
                     SetNewData("WeeklyEvent", weeklyEvent);
                     UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
@@ -299,7 +311,6 @@ public class EventController : MonoBehaviour
                     UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                     SaveData("WeeklyEvent", weeklyEvent);
                     UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
-                    //UIManagerNew.Instance.StartWeeklyEvent.Appear();
                 }
             }
             else
@@ -397,14 +408,12 @@ public class EventController : MonoBehaviour
         }
         return status;
     }
-    [Button("SaveData")]
     public void SaveData(string eventName, WeeklyEventController weeklyEventController)
     {
         PlayerPrefs.SetString(eventName, JsonConvert.SerializeObject(weeklyEventController));
         Debug.Log("data " + PlayerPrefs.GetString(eventName));
         Debug.Log("data time " + weeklyEvent.endEventDate);
     }
-    [Button("LoadData")]
     public void LoadData()
     {
         LoadConfigDataWeeklyEvent();
@@ -421,7 +430,6 @@ public class EventController : MonoBehaviour
         weeklyEventItemColors = LoadList("weeklyEventItemColors");
         ChangeUIToHalloWeen();
     }
-    [Button("CretaWeeklyEvent")]
     public void CretaWeeklyEvent(WeeklyEventController weeklyEventController)
     {
         //UIManagerNew.Instance.TreasureClimbPanel.TresureClimbButton.gameObject.SetActive(true);
@@ -696,16 +704,16 @@ public class EventController : MonoBehaviour
     public void LoadConfigDataWeeklyEvent()
     {
         string datastring3 = RemoteConfigController.instance.WeeklyEventConfig1;
-        weeklyEventConfig = JsonConvert.DeserializeObject<WeeklyEventDataConfig>(datastring3);
+        halloWeenEventConfig = JsonConvert.DeserializeObject<WeeklyEventDataConfig>(datastring3);
         //Debug.LogError("data new :" + weeklyEventConfig.EndTime);
     }
 
     public bool CheckTimeForWeeklyEvent()
     {
         bool result = false;
-        if (weeklyEventConfig != null && weeklyEventConfig.NameEvent != null)
+        if (halloWeenEventConfig != null && halloWeenEventConfig.NameEvent != null)
         {
-            if (weeklyEventConfig.StartTime.Subtract(DateTime.Now).TotalDays > 0)
+            if (halloWeenEventConfig.StartTime.Subtract(DateTime.Now).TotalDays > 0)
             {
                 isHalloWeen = false;
                 Debug.Log(" chưa đến weekly event");
@@ -714,7 +722,7 @@ public class EventController : MonoBehaviour
             }
             else
             {
-                if (weeklyEventConfig.EndTime.Subtract(DateTime.Now).TotalDays < 0)
+                if (halloWeenEventConfig.EndTime.Subtract(DateTime.Now).TotalDays < 0)
                 {
                     isHalloWeen = false;
                     Debug.Log(" đã hết time weekly event");
@@ -731,25 +739,6 @@ public class EventController : MonoBehaviour
         }
         return result;
     }
-
-    //public TimeSpan CalculateTimeUntilNextEvent()
-    //{
-    //    TimeSpan timeUntilNextEvent = TimeSpan.Zero;
-
-    //    if (weeklyEventConfig != null)
-    //    {
-    //        DateTime now = DateTime.UtcNow;
-    //        DateTime nextEvent = weeklyEventConfig.NextEvent;
-
-    //        Debug.LogError("next event : " + nextEvent);
-
-    //        // Calculate the time span until the next event
-    //        timeUntilNextEvent = nextEvent - now;
-    //    }
-
-    //    return timeUntilNextEvent; // Return the TimeSpan until the next event
-    //}
-
     public void ChangeUIToHalloWeen()
     {
         if (isHalloWeen)
