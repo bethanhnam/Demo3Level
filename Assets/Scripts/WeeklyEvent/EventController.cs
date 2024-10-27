@@ -752,10 +752,21 @@ public class EventController : MonoBehaviour
 
     public bool HasTimeExpired(DateTime sunday)
     {
+        bool result = false;    
         DateTime today = DateTime.Now;
         // Kiểm tra nếu thời gian hiện tại đã vượt quá thời gian Chủ nhật lúc 12h đêm
-
-        return DateTime.Now.Subtract(sunday).TotalHours >= 24;
+        if( DateTime.Now.Subtract(sunday).TotalDays >= 1)
+        {
+            result = true;
+        }
+        else
+        {
+            if (DateTime.Now.Subtract(sunday).TotalHours >= 24)
+            {
+                result = true;
+            }
+        }
+        return result;
     }
 
     public void LoadConfigDataWeeklyEvent()

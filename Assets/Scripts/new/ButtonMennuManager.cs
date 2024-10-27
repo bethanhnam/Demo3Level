@@ -89,11 +89,15 @@ public class ButtonMennuManager : MonoBehaviour
                 if (CheckForChangeDataWeekly())
                 {
                     //halloWeen
+                    DOVirtual.DelayedCall(1, () => { 
                     PlayerPrefs.SetString("FirstWeeklyEvent", "false");
-                        UIManagerNew.Instance.StartWeeklyEvent.Appear();
+                    EventController.instance.CheckTimeForWeeklyEvent();
                     EventController.instance.CheckForWeeklyEvent();
+                    UIManagerNew.Instance.StartWeeklyEvent.Appear();
                     CheckForHalloWeen();
-                        PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                    PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                    Debug.Log("CheckForHalloWeen update");
+                    });
                 }
             }
         }
