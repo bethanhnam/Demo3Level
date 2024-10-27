@@ -153,14 +153,14 @@ public class EventController : MonoBehaviour
                         UIManagerNew.Instance.WeeklyEventPanel.changeCollectItem(weeklyEventItemSprite);
                         UIManagerNew.Instance.StartWeeklyEvent.SetCollectImg(weeklyEventItemSprite);
                         SaveData("WeeklyEvent", weeklyEvent);
-                        PlayerPrefs.SetString("FirstWeeklyEvent", "false");
+                        
                         UIManagerNew.Instance.ButtonMennuManager.LoadSliderValue();
+
                     }
                     else
                     {
                         Debug.LogError("chua het time");
                         FirebaseAnalyticsControl.Instance.LogEventevent_weekly();
-                        PlayerPrefs.GetString("FirstWeeklyEvent", "true");
                         if (weeklyEvent.levelIndex == weeklyEventControllers[0].weeklyEventPack.Count - 1 && weeklyEvent.numOfCollection == weeklyEvent.numToLevelUp)
                         {
                             Debug.LogError("pack cuoi ");
@@ -227,7 +227,6 @@ public class EventController : MonoBehaviour
                     {
                         Debug.LogError("het time");
                         canShowNewEvent =true;
-                        PlayerPrefs.SetString("FirstWeeklyEvent", "false");
                         UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
                         weeklyEvent.ResetData();
                         weeklyEvent.eventStaus = EventStaus.running;
@@ -247,7 +246,6 @@ public class EventController : MonoBehaviour
                     {
                         Debug.LogError("chua het time");
                         FirebaseAnalyticsControl.Instance.LogEventevent_weekly();
-                        PlayerPrefs.GetString("FirstWeeklyEvent", "true");
                         if (weeklyEvent.levelIndex == weeklyEventControllers[0].weeklyEventPack.Count - 1 && weeklyEvent.numOfCollection == weeklyEvent.numToLevelUp)
                         {
                             Debug.LogError("pack cuoi ");
@@ -308,7 +306,6 @@ public class EventController : MonoBehaviour
                     {
                         Debug.LogError(" het time dang end");
                         canShowNewEvent = true;
-                        PlayerPrefs.SetString("FirstWeeklyEvent", "false");
                         UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
                         weeklyEvent.ResetData();
                         weeklyEvent.eventStaus = EventStaus.running;
@@ -360,8 +357,6 @@ public class EventController : MonoBehaviour
                 {
                     Debug.LogError("dang NotEnable");
                     canShowNewEvent = true;
-                    PlayerPrefs.GetString("FirstWeeklyEvent", "true");
-                    PlayerPrefs.SetString("FirstWeeklyEvent", "false");
                     FirebaseAnalyticsControl.Instance.LogEventevent_weekly();
                     SetNewData("WeeklyEvent", weeklyEvent);
                     UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;
@@ -377,7 +372,6 @@ public class EventController : MonoBehaviour
             else
             {
                 Debug.LogError("tao moi");
-                PlayerPrefs.GetString("FirstWeeklyEvent", "true");
                 FirebaseAnalyticsControl.Instance.LogEventevent_weekly();
                 SetNewData("WeeklyEvent", weeklyEvent);
                 UIManagerNew.Instance.WeeklyEventPanel.hasCompletedEvent = false;

@@ -196,17 +196,6 @@ public class LoadingManager : MonoBehaviour
             {
                 AudioManager.instance.PlayMusic("MenuTheme");
                 UIManagerNew.Instance.ButtonMennuManager.Appear();
-                DOVirtual.DelayedCall(1, () =>
-                {
-                    if (LevelManagerNew.Instance.stage >= 8)
-                    {
-                        if (!EventController.instance.FirstWeeklyEvent())
-                        {
-                            UIManagerNew.Instance.StartWeeklyEvent.Appear();
-                            PlayerPrefs.SetString("FirstWeeklyEvent", "true");
-                        }
-                    }
-                });
                 Debug.Log("Incomplete process but daily reward claimed.");
             }
             else

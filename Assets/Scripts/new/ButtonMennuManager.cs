@@ -89,10 +89,11 @@ public class ButtonMennuManager : MonoBehaviour
                 if (CheckForChangeDataWeekly())
                 {
                     //halloWeen
-                    PlayerPrefs.SetString("FirstWeeklyEvent", "true");
+                    PlayerPrefs.SetString("FirstWeeklyEvent", "false");
                     EventController.instance.CheckForWeeklyEvent();
                     CheckForHalloWeen();
-                    UIManagerNew.Instance.StartWeeklyEvent.Appear();
+                        UIManagerNew.Instance.StartWeeklyEvent.Appear();
+                        PlayerPrefs.SetString("FirstWeeklyEvent", "true");
                 }
             }
         }
