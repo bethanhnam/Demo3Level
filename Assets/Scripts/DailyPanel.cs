@@ -153,7 +153,7 @@ public class DailyPanel : MonoBehaviour
             {
                 if (LevelManagerNew.Instance.stage >= 8)
                 {
-                    if (UIManagerNew.Instance.ButtonMennuManager.CheckForChangeDataWeekly() && !EventController.instance.FirstWeeklyEvent())
+                    if (!EventController.instance.FirstWeeklyEvent())
                     {
                         UIManagerNew.Instance.StartWeeklyEvent.Appear();
                         PlayerPrefs.SetString("FirstWeeklyEvent", "true");
@@ -192,7 +192,7 @@ public class DailyPanel : MonoBehaviour
                     {
                         if (LevelManagerNew.Instance.stage >= 8)
                         {
-                            if (UIManagerNew.Instance.ButtonMennuManager.CheckForChangeDataWeekly() && !EventController.instance.FirstWeeklyEvent())
+                            if (!EventController.instance.FirstWeeklyEvent())
                             {
                                 UIManagerNew.Instance.StartWeeklyEvent.Appear();
                                 PlayerPrefs.SetString("FirstWeeklyEvent", "true");
@@ -210,7 +210,7 @@ public class DailyPanel : MonoBehaviour
             {
                 if (LevelManagerNew.Instance.stage >= 8)
                 {
-                    if (UIManagerNew.Instance.ButtonMennuManager.CheckForChangeDataWeekly() && !EventController.instance.FirstWeeklyEvent())
+                    if (!EventController.instance.FirstWeeklyEvent())
                     {
                         UIManagerNew.Instance.StartWeeklyEvent.Appear();
                         PlayerPrefs.SetString("FirstWeeklyEvent", "true");
